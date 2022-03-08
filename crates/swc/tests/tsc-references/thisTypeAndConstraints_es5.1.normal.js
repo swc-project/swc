@@ -4,14 +4,10 @@ var A = /*#__PURE__*/ function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    swcHelpers.createClass(A, [
-        {
-            key: "self",
-            value: function self() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = A.prototype;
+    _proto.self = function self() {
+        return this;
+    };
     return A;
 }();
 function f(x1) {
@@ -25,19 +21,12 @@ var B = /*#__PURE__*/ function() {
     function B() {
         swcHelpers.classCallCheck(this, B);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "foo",
-            value: function foo(x) {
-                x = x.self();
-            }
-        },
-        {
-            key: "bar",
-            value: function bar(x) {
-                x = x.self();
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.foo = function foo(x) {
+        x = x.self();
+    };
+    _proto.bar = function bar(x) {
+        x = x.self();
+    };
     return B;
 }();

@@ -8,11 +8,7 @@ var D = /*#__PURE__*/ function() {
     function D() {
         swcHelpers.classCallCheck(this, D);
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "f",
-            value: function f() {}
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.f = function f() {};
     return D;
 }();

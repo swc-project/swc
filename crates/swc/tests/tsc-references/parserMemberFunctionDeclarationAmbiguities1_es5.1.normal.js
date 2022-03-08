@@ -4,24 +4,10 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "public",
-            value: function _public() {}
-        },
-        {
-            key: "static",
-            value: function _static() {}
-        }
-    ], [
-        {
-            key: "public",
-            value: function _public() {}
-        },
-        {
-            key: "static",
-            value: function _static() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.public = function _public() {};
+    _proto.static = function static() {};
+    C.public = function _public() {};
+    C.static = function static() {};
     return C;
 }();

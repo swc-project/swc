@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use swc_common::{chain, pass::Optional, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::resolver::ts_resolver;
 use swc_ecma_transforms_compat::{
     es2015::{block_scoping, destructuring, parameters},
     es2017::async_to_generator,
@@ -33,7 +33,7 @@ fn tr_config(
             decorators(decorators_config.unwrap_or_default()),
             has_decorators,
         ),
-        resolver_with_mark(mark),
+        ts_resolver(mark),
         strip_with_config(config, mark),
     )
 }
@@ -4285,6 +4285,19 @@ to!(
     ",
     "
 
+    "
+);
+
+to!(
+    issue_3827,
+    "
+    import { foo } from './foo'
+
+    type A = {
+        get [foo](): number
+    }
+    ",
+    "
     "
 );
 

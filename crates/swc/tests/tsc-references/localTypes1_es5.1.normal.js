@@ -110,22 +110,20 @@ var A = /*#__PURE__*/ function() {
             swcHelpers.classCallCheck(this, C);
         };
     }
+    var _proto = A.prototype;
+    _proto.m = function m() {
+        var E;
+        (function(E) {
+            E[E["A"] = 0] = "A";
+            E[E["B"] = 1] = "B";
+            E[E["C"] = 2] = "C";
+        })(E || (E = {}));
+        var C = function C() {
+            swcHelpers.classCallCheck(this, C);
+        };
+        return new C();
+    };
     swcHelpers.createClass(A, [
-        {
-            key: "m",
-            value: function m() {
-                var E;
-                (function(E) {
-                    E[E["A"] = 0] = "A";
-                    E[E["B"] = 1] = "B";
-                    E[E["C"] = 2] = "C";
-                })(E || (E = {}));
-                var C = function C() {
-                    swcHelpers.classCallCheck(this, C);
-                };
-                return new C();
-            }
-        },
         {
             key: "p",
             get: function get() {

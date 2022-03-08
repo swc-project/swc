@@ -4,14 +4,9 @@ export var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "m",
-            value: function() {
-                return swcHelpers._instanceof(this, D);
-            }
-        }
-    ]), C;
+    return C.prototype.m = function() {
+        return swcHelpers._instanceof(this, D);
+    }, C;
 }();
 var D = function(C) {
     "use strict";

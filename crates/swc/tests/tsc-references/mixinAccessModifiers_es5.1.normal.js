@@ -98,25 +98,17 @@ var C4 = /*#__PURE__*/ function(_superClass) {
         swcHelpers.classCallCheck(this, C4);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C4, [
-        {
-            key: "f",
-            value: function f(c4, c5, c6) {
-                c4.p;
-                c5.p;
-                c6.p;
-            }
-        }
-    ], [
-        {
-            key: "g",
-            value: function g() {
-                C4.s;
-                C5.s;
-                C6.s;
-            }
-        }
-    ]);
+    var _proto = C4.prototype;
+    _proto.f = function f(c4, c5, c6) {
+        c4.p;
+        c5.p;
+        c6.p;
+    };
+    C4.g = function g() {
+        C4.s;
+        C5.s;
+        C6.s;
+    };
     return C4;
 }(Mix(Protected, Protected2));
 var C5 = /*#__PURE__*/ function(_superClass) {
@@ -127,25 +119,17 @@ var C5 = /*#__PURE__*/ function(_superClass) {
         swcHelpers.classCallCheck(this, C5);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C5, [
-        {
-            key: "f",
-            value: function f(c4, c5, c6) {
-                c4.p; // Error, not in class deriving from Protected2
-                c5.p;
-                c6.p;
-            }
-        }
-    ], [
-        {
-            key: "g",
-            value: function g() {
-                C4.s; // Error, not in class deriving from Protected2
-                C5.s;
-                C6.s;
-            }
-        }
-    ]);
+    var _proto = C5.prototype;
+    _proto.f = function f(c4, c5, c6) {
+        c4.p; // Error, not in class deriving from Protected2
+        c5.p;
+        c6.p;
+    };
+    C5.g = function g() {
+        C4.s; // Error, not in class deriving from Protected2
+        C5.s;
+        C6.s;
+    };
     return C5;
 }(Mix(Protected, Public));
 var C6 = /*#__PURE__*/ function(_superClass) {
@@ -156,25 +140,17 @@ var C6 = /*#__PURE__*/ function(_superClass) {
         swcHelpers.classCallCheck(this, C6);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C6, [
-        {
-            key: "f",
-            value: function f(c4, c5, c6) {
-                c4.p; // Error, not in class deriving from Protected2
-                c5.p;
-                c6.p;
-            }
-        }
-    ], [
-        {
-            key: "g",
-            value: function g() {
-                C4.s; // Error, not in class deriving from Protected2
-                C5.s;
-                C6.s;
-            }
-        }
-    ]);
+    var _proto = C6.prototype;
+    _proto.f = function f(c4, c5, c6) {
+        c4.p; // Error, not in class deriving from Protected2
+        c5.p;
+        c6.p;
+    };
+    C6.g = function g() {
+        C4.s; // Error, not in class deriving from Protected2
+        C5.s;
+        C6.s;
+    };
     return C6;
 }(Mix(Public, Public2));
 var ProtectedGeneric = /*#__PURE__*/ function() {
@@ -182,16 +158,9 @@ var ProtectedGeneric = /*#__PURE__*/ function() {
     function ProtectedGeneric() {
         swcHelpers.classCallCheck(this, ProtectedGeneric);
     }
-    swcHelpers.createClass(ProtectedGeneric, [
-        {
-            key: "privateMethod",
-            value: function privateMethod() {}
-        },
-        {
-            key: "protectedMethod",
-            value: function protectedMethod() {}
-        }
-    ]);
+    var _proto = ProtectedGeneric.prototype;
+    _proto.privateMethod = function privateMethod() {};
+    _proto.protectedMethod = function protectedMethod() {};
     return ProtectedGeneric;
 }();
 var ProtectedGeneric2 = /*#__PURE__*/ function() {
@@ -199,16 +168,9 @@ var ProtectedGeneric2 = /*#__PURE__*/ function() {
     function ProtectedGeneric2() {
         swcHelpers.classCallCheck(this, ProtectedGeneric2);
     }
-    swcHelpers.createClass(ProtectedGeneric2, [
-        {
-            key: "privateMethod",
-            value: function privateMethod() {}
-        },
-        {
-            key: "protectedMethod",
-            value: function protectedMethod() {}
-        }
-    ]);
+    var _proto = ProtectedGeneric2.prototype;
+    _proto.privateMethod = function privateMethod() {};
+    _proto.protectedMethod = function protectedMethod() {};
     return ProtectedGeneric2;
 }();
 function f7(x) {

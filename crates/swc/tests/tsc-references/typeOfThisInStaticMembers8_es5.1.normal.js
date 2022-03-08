@@ -15,7 +15,7 @@ C.classExprBoundary = function _class() {
     swcHelpers.classCallCheck(this, _class);
     this.a = this.f + 3;
 };
-C.functionAndClassDeclBoundary = (function() {
+C.functionAndClassDeclBoundary = function() {
     var foo = function foo() {
         return this.f + 4;
     };
@@ -25,14 +25,10 @@ C.functionAndClassDeclBoundary = (function() {
             swcHelpers.classCallCheck(this, CC);
             this.a = this.f + 5;
         }
-        swcHelpers.createClass(CC, [
-            {
-                key: "method",
-                value: function method() {
-                    return this.f + 6;
-                }
-            }
-        ]);
+        var _proto = CC.prototype;
+        _proto.method = function method() {
+            return this.f + 6;
+        };
         return CC;
     }();
-})();
+}();

@@ -198,7 +198,7 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
                 }
                 return self
-                    .parse_class_decl(start, start, decorators)
+                    .parse_class_decl(start, start, decorators, false)
                     .map(Stmt::from);
             }
 
@@ -809,7 +809,8 @@ impl<'a, I: Tokens> Parser<I> {
                 // typescript allows `declare` vars not to have initializers.
                 if self.ctx().in_declare {
                     None
-                } else if kind == VarDeclKind::Const && self.ctx().strict {
+                } else if kind == VarDeclKind::Const && self.ctx().strict && !self.ctx().in_declare
+                {
                     self.emit_err(
                         span!(self, start),
                         SyntaxError::ConstDeclarationsRequireInitialization,

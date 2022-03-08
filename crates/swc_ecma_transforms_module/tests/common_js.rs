@@ -1595,41 +1595,39 @@ var Bar = _interopRequireWildcard(require("bar"));
 
 var _baz = require("baz");
 
-_foo.default = (42, (function() {
+_foo.default = (42, function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
-})());
-Bar = (43, (function() {
+}());
+Bar = (43, function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
-})());
-_baz.Baz = (44, (function() {
+}());
+_baz.Baz = (44, function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
-})());
+}());
 ({ Foo  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
-})()));
+}()));
 ({ Bar  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
-})()));
+}()));
 ({ Baz  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
-})()));
+}()));
 ({ prop: Foo  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
-})()));
+}()));
 ({ prop: Bar  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
-})()));
+}()));
 ({ prop: Baz  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
-})()));
-
-
+}()));
 "#
 );
 
@@ -3840,6 +3838,38 @@ function _test() {
 
 function use() {
   (0, _local).local((0, _externalTest).external(_test().test));
+}
+"#
+);
+
+// lazy_export_named
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Bool(true),
+        ..Default::default()
+    }),
+    lazy_export_named,
+    r#"
+export { named1 } from "external";
+"#,
+    r#"
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "named1", {
+    enumerable: true,
+    get: function() {
+        return _external().named1;
+    }
+});
+function _external() {
+    const data = require("external");
+    _external = function() {
+        return data;
+    };
+    return data;
 }
 "#
 );

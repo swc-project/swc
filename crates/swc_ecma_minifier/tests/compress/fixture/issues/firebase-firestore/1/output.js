@@ -687,19 +687,19 @@
             }
             function xt(t17) {
                 var e10, n3;
-                return "nullValue" in t17 ? "null" : "booleanValue" in t17 ? "" + t17.booleanValue : "integerValue" in t17 ? "" + t17.integerValue : "doubleValue" in t17 ? "" + t17.doubleValue : "timestampValue" in t17 ? (function(t) {
+                return "nullValue" in t17 ? "null" : "booleanValue" in t17 ? "" + t17.booleanValue : "integerValue" in t17 ? "" + t17.integerValue : "doubleValue" in t17 ? "" + t17.doubleValue : "timestampValue" in t17 ? function(t) {
                     const e = gt(t);
                     return `time(${e.seconds},${e.nanos})`;
-                })(t17.timestampValue) : "stringValue" in t17 ? t17.stringValue : "bytesValue" in t17 ? pt(t17.bytesValue).toBase64() : "referenceValue" in t17 ? (n3 = t17.referenceValue, Pt.fromName(n3).toString()) : "geoPointValue" in t17 ? `geo(${(e10 = t17.geoPointValue).latitude},${e10.longitude})` : "arrayValue" in t17 ? (function(t) {
+                }(t17.timestampValue) : "stringValue" in t17 ? t17.stringValue : "bytesValue" in t17 ? pt(t17.bytesValue).toBase64() : "referenceValue" in t17 ? (n3 = t17.referenceValue, Pt.fromName(n3).toString()) : "geoPointValue" in t17 ? `geo(${(e10 = t17.geoPointValue).latitude},${e10.longitude})` : "arrayValue" in t17 ? function(t) {
                     let e = "[", n = !0;
                     for (const s of t.values || [])n ? n = !1 : e += ",", e += xt(s);
                     return e + "]";
-                })(t17.arrayValue) : "mapValue" in t17 ? (function(t) {
+                }(t17.arrayValue) : "mapValue" in t17 ? function(t) {
                     const e = Object.keys(t.fields || {}).sort();
                     let n = "{", s = !0;
                     for (const i of e)s ? s = !1 : n += ",", n += `${i}:${xt(t.fields[i])}`;
                     return n + "}";
-                })(t17.mapValue) : L();
+                }(t17.mapValue) : L();
             }
             function $t(t) {
                 return !!t && "integerValue" in t;
@@ -1118,16 +1118,16 @@
             }
             function Pe(t32, e16) {
                 var t31, e15;
-                return e16.isFoundDocument() && (function(t, e) {
+                return e16.isFoundDocument() && function(t, e) {
                     const n = e.key.path;
                     return null !== t.collectionGroup ? e.key.hasCollectionId(t.collectionGroup) && t.path.isPrefixOf(n) : Pt.isDocumentKey(t.path) ? t.path.isEqual(n) : t.path.isImmediateParentOf(n);
-                })(t32, e16) && (function(t, e) {
+                }(t32, e16) && function(t, e) {
                     for (const n of t.explicitOrderBy)if (!n.field.isKeyField() && null === e.data.field(n.field)) return !1;
                     return !0;
-                })(t32, e16) && (function(t, e) {
+                }(t32, e16) && function(t, e) {
                     for (const n of t.filters)if (!n.matches(e)) return !1;
                     return !0;
-                })(t32, e16) && (t31 = t32, e15 = e16, (!t31.startAt || !!he(t31.startAt, Te(t31), e15)) && !(t31.endAt && he(t31.endAt, Te(t31), e15)));
+                }(t32, e16) && (t31 = t32, e15 = e16, (!t31.startAt || !!he(t31.startAt, Te(t31), e15)) && !(t31.endAt && he(t31.endAt, Te(t31), e15)));
             }
             function ve(t33) {
                 return (e, n)=>{
@@ -1181,7 +1181,7 @@
                 }
             }
             function xe(t35, e18, n8) {
-                return t35 instanceof Oe ? (function(t, e) {
+                return t35 instanceof Oe ? function(t, e) {
                     const n = {
                         fields: {
                             __type__: {
@@ -1198,10 +1198,10 @@
                     return e && (n.fields.__previous_value__ = e), {
                         mapValue: n
                     };
-                })(n8, e18) : t35 instanceof Fe ? Me(t35, e18) : t35 instanceof Le ? Be(t35, e18) : (function(t, e) {
+                }(n8, e18) : t35 instanceof Fe ? Me(t35, e18) : t35 instanceof Le ? Be(t35, e18) : function(t, e) {
                     const n = $e(t, e), s = qe(n) + qe(t.C);
                     return $t(n) && $t(t.C) ? De(s) : Se(t.N, s);
-                })(t35, e18);
+                }(t35, e18);
             }
             function ke(t, e, n) {
                 return t instanceof Fe ? Me(t, e) : t instanceof Le ? Be(t, e) : n;
@@ -1291,28 +1291,28 @@
             class He {
             }
             function Je(t39, e21, n9) {
-                t39 instanceof en ? (function(t, e, n) {
+                t39 instanceof en ? function(t, e, n) {
                     const s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults);
                     s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations();
-                })(t39, e21, n9) : t39 instanceof nn ? (function(t, e, n) {
+                }(t39, e21, n9) : t39 instanceof nn ? function(t, e, n) {
                     if (!ze(t.precondition, e)) return void e.convertToUnknownDocument(n.version);
                     const s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
                     i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
-                })(t39, e21, n9) : (function(t, e, n) {
+                }(t39, e21, n9) : function(t, e, n) {
                     e.convertToNoDocument(n.version).setHasCommittedMutations();
-                })(0, e21, n9);
+                }(0, e21, n9);
             }
             function Ye(t41, e23, n10) {
                 var t40, e22;
-                t41 instanceof en ? (function(t, e, n) {
+                t41 instanceof en ? function(t, e, n) {
                     if (!ze(t.precondition, e)) return;
                     const s = t.value.clone(), i = on(t.fieldTransforms, n, e);
                     s.setAll(i), e.convertToFoundDocument(tn(e), s).setHasLocalMutations();
-                })(t41, e23, n10) : t41 instanceof nn ? (function(t, e, n) {
+                }(t41, e23, n10) : t41 instanceof nn ? function(t, e, n) {
                     if (!ze(t.precondition, e)) return;
                     const s = on(t.fieldTransforms, n, e), i = e.data;
                     i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(tn(e), i).setHasLocalMutations();
-                })(t41, e23, n10) : (t40 = t41, e22 = e23, ze(t40.precondition, e22) && e22.convertToNoDocument(rt.min()));
+                }(t41, e23, n10) : (t40 = t41, e22 = e23, ze(t40.precondition, e22) && e22.convertToNoDocument(rt.min()));
             }
             function Ze(t45, e27) {
                 var t42, e24;
@@ -3671,9 +3671,9 @@
                         getCollectionParents(t, e) {
                             return js.resolve(this.Gt.getEntries(e));
                         }
-                    }, this.He = (function(t, e) {
+                    }, this.He = function(t, e) {
                         return new Vr(t, e);
-                    })(this.Ht, (t)=>this.referenceDelegate.Ps(t)
+                    }(this.Ht, (t)=>this.referenceDelegate.Ps(t)
                     ), this.N = new class {
                         constructor(t){
                             this.Wt = t;
@@ -4354,7 +4354,7 @@
                 }
                 br(t164) {
                     const e96 = {};
-                    e96.database = Yn(this.N), e96.addTarget = (function(t166, e98) {
+                    e96.database = Yn(this.N), e96.addTarget = function(t166, e98) {
                         let n30;
                         const s14 = e98.target;
                         return (n30 = Ht(s14) ? {
@@ -4364,7 +4364,7 @@
                                 ]
                             }
                         } : {
-                            query: (function(t167, e99) {
+                            query: function(t167, e99) {
                                 var t165, e97;
                                 const n = {
                                     structuredQuery: {}
@@ -4440,9 +4440,9 @@
                                     value: e97
                                 });
                                 return null !== o && (n.structuredQuery.limit = o), e99.startAt && (n.structuredQuery.startAt = ls(e99.startAt)), e99.endAt && (n.structuredQuery.endAt = ls(e99.endAt)), n;
-                            })(t166, s14)
+                            }(t166, s14)
                         }).targetId = e98.targetId, e98.resumeToken.approximateByteSize() > 0 ? n30.resumeToken = qn(t166, e98.resumeToken) : e98.snapshotVersion.compareTo(rt.min()) > 0 && (n30.readTime = Un(t166, e98.snapshotVersion.toTimestamp())), n30;
-                    })(this.N, t164);
+                    }(this.N, t164);
                     const n29 = function(t, e100) {
                         const n = function(t, e) {
                             switch(e){
@@ -4733,10 +4733,10 @@
                 e ? (n.Wr.delete(2), await ro(n)) : e || (n.Wr.add(2), await oo(n), n.Hr.set("Unknown"));
             }
             function Co(t184) {
-                return t184.Yr || (t184.Yr = (function(t, e, n) {
+                return t184.Yr || (t184.Yr = function(t, e, n) {
                     const s = q(t);
                     return s.$r(), new to(e, s.sr, s.credentials, s.N, n);
-                })(t184.datastore, t184.asyncQueue, {
+                }(t184.datastore, t184.asyncQueue, {
                     Si: mo.bind(null, t184),
                     Ci: go.bind(null, t184),
                     Rr: yo.bind(null, t184)
@@ -4745,10 +4745,10 @@
                 })), t184.Yr;
             }
             function No(t185) {
-                return t185.Xr || (t185.Xr = (function(t, e, n) {
+                return t185.Xr || (t185.Xr = function(t, e, n) {
                     const s = q(t);
                     return s.$r(), new eo(e, s.sr, s.credentials, s.N, n);
-                })(t185.datastore, t185.asyncQueue, {
+                }(t185.datastore, t185.asyncQueue, {
                     Si: Po.bind(null, t185),
                     Ci: So.bind(null, t185),
                     Cr: vo.bind(null, t185),
@@ -5248,14 +5248,14 @@
                     s20.Oo.forEach((n, s)=>{
                         const i = s.view.io(e120);
                         i.snapshot && t212.push(i.snapshot);
-                    }), (function(t, e) {
+                    }), function(t, e) {
                         const n45 = q(t);
                         n45.onlineState = e;
                         let s = !1;
                         n45.queries.forEach((t, n)=>{
                             for (const t213 of n.listeners)t213.io(e) && (s = !0);
                         }), s && jo(n45);
-                    })(s20.eventManager, e120), t212.length && s20.$o.Rr(t212), s20.onlineState = e120, s20.isPrimaryClient && s20.sharedClientState.setOnlineState(e120);
+                    }(s20.eventManager, e120), t212.length && s20.$o.Rr(t212), s20.onlineState = e120, s20.isPrimaryClient && s20.sharedClientState.setOnlineState(e120);
                 }
             }
             async function ac(t, e, n) {
@@ -5569,9 +5569,9 @@
                         if (-1 !== t232.cacheSizeBytes && t232.cacheSizeBytes < 1048576) throw new j(K.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
                         this.cacheSizeBytes = t232.cacheSizeBytes;
                     }
-                    this.experimentalForceLongPolling = !!t232.experimentalForceLongPolling, this.experimentalAutoDetectLongPolling = !!t232.experimentalAutoDetectLongPolling, this.useFetchStreams = !!t232.useFetchStreams, (function(t, e, n, s) {
+                    this.experimentalForceLongPolling = !!t232.experimentalForceLongPolling, this.experimentalAutoDetectLongPolling = !!t232.experimentalAutoDetectLongPolling, this.useFetchStreams = !!t232.useFetchStreams, function(t, e, n, s) {
                         if (!0 === e && !0 === s) throw new j(K.INVALID_ARGUMENT, `${t} and ${n} cannot be used together.`);
-                    })("experimentalForceLongPolling", t232.experimentalForceLongPolling, "experimentalAutoDetectLongPolling", t232.experimentalAutoDetectLongPolling);
+                    }("experimentalForceLongPolling", t232.experimentalForceLongPolling, "experimentalAutoDetectLongPolling", t232.experimentalAutoDetectLongPolling);
                 }
                 isEqual(t) {
                     return this.host === t.host && this.ssl === t.ssl && this.credentials === t.credentials && this.cacheSizeBytes === t.cacheSizeBytes && this.experimentalForceLongPolling === t.experimentalForceLongPolling && this.experimentalAutoDetectLongPolling === t.experimentalAutoDetectLongPolling && this.ignoreUndefinedProperties === t.ignoreUndefinedProperties && this.useFetchStreams === t.useFetchStreams;
@@ -5579,12 +5579,12 @@
             }
             class Ta {
                 constructor(t233, e){
-                    this._credentials = e, this.type = "firestore-lite", this._persistenceKey = "(lite)", this._settings = new pa({}), this._settingsFrozen = !1, t233 instanceof ha ? this._databaseId = t233 : (this._app = t233, this._databaseId = (function(t) {
+                    this._credentials = e, this.type = "firestore-lite", this._persistenceKey = "(lite)", this._settings = new pa({}), this._settingsFrozen = !1, t233 instanceof ha ? this._databaseId = t233 : (this._app = t233, this._databaseId = function(t) {
                         if (!Object.prototype.hasOwnProperty.apply(t.options, [
                             "projectId"
                         ])) throw new j(K.INVALID_ARGUMENT, "\"projectId\" not provided in firebase.initializeApp.");
                         return new ha(t.options.projectId);
-                    })(t233));
+                    }(t233));
                 }
                 get app() {
                     if (!this._app) throw new j(K.FAILED_PRECONDITION, "Firestore was not initialized using the Firebase SDK. 'app' is not available");
@@ -5598,7 +5598,7 @@
                 }
                 _setSettings(t234) {
                     if (this._settingsFrozen) throw new j(K.FAILED_PRECONDITION, "Firestore has already been started and its settings can no longer be changed. You can only modify settings before calling any other methods on a Firestore object.");
-                    this._settings = new pa(t234), void 0 !== t234.credentials && (this._credentials = (function(t) {
+                    this._settings = new pa(t234), void 0 !== t234.credentials && (this._credentials = function(t) {
                         if (!t) return new G;
                         switch(t.type){
                             case "gapi":
@@ -5609,7 +5609,7 @@
                             default:
                                 throw new j(K.INVALID_ARGUMENT, "makeCredentialsProvider failed due to invalid credential type");
                         }
-                    })(t234.credentials));
+                    }(t234.credentials));
                 }
                 _getSettings() {
                     return this._settings;
@@ -5681,9 +5681,9 @@
                 }
             }
             function ba(t235, e131, ...n50) {
-                if (t235 = (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.m9)(t235), (function(t, e, n) {
+                if (t235 = (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.m9)(t235), function(t, e, n) {
                     if (!n) throw new j(K.INVALID_ARGUMENT, `Function ${t}() cannot be called with an empty ${e}.`);
-                })("collection", "path", e131), t235 instanceof Ta) {
+                }("collection", "path", e131), t235 instanceof Ta) {
                     const s = ht.fromString(e131, ...n50);
                     return _a(s), new Ra(t235, null, s);
                 }
@@ -6083,14 +6083,14 @@
                 }
             }
             function Su(t248, e139) {
-                return "string" == typeof e139 ? (function(t, e, n) {
+                return "string" == typeof e139 ? function(t, e, n) {
                     if (e.search(Au) >= 0) throw bu(`Invalid field path (${e}). Paths must not contain '~', '*', '/', '[', or ']'`, t, !1, void 0, n);
                     try {
                         return new Ja(...e.split("."))._internalPath;
                     } catch (s) {
                         throw bu(`Invalid field path (${e}). Paths must not be empty, begin with '.', end with '.', or contain '..'`, t, !1, void 0, n);
                     }
-                })(t248, e139) : e139 instanceof Ja ? e139._internalPath : e139._delegate._internalPath;
+                }(t248, e139) : e139 instanceof Ja ? e139._internalPath : e139._delegate._internalPath;
             }
             class Du {
                 constructor(t, e){
@@ -6151,7 +6151,7 @@
                 docChanges(t249 = {}) {
                     const e140 = !!t249.includeMetadataChanges;
                     if (e140 && this._snapshot.excludesMetadataChanges) throw new j(K.INVALID_ARGUMENT, "To include metadata changes with your document changes, you must also pass { includeMetadataChanges:true } to onSnapshot().");
-                    return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === e140 || (this._cachedChanges = (function(t250, e141) {
+                    return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === e140 || (this._cachedChanges = function(t250, e141) {
                         if (t250._snapshot.oldDocs.isEmpty()) {
                             let e = 0;
                             return t250._snapshot.docChanges.map((n)=>({
@@ -6176,7 +6176,7 @@
                                 };
                             });
                         }
-                    })(this, e140), this._cachedChangesIncludeMetadataChanges = e140), this._cachedChanges;
+                    }(this, e140), this._cachedChangesIncludeMetadataChanges = e140), this._cachedChanges;
                 }
             }
             function ku(t) {

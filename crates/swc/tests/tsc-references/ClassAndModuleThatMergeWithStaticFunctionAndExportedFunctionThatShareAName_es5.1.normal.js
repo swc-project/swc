@@ -6,17 +6,13 @@ var Point = /*#__PURE__*/ function() {
         this.x = x;
         this.y = y;
     }
-    swcHelpers.createClass(Point, null, [
-        {
-            key: "Origin",
-            value: function Origin() {
-                return {
-                    x: 0,
-                    y: 0
-                };
-            } // unexpected error here bug 840246
-        }
-    ]);
+    Point.Origin // unexpected error here bug 840246
+     = function Origin() {
+        return {
+            x: 0,
+            y: 0
+        };
+    };
     return Point;
 }();
 (function(Point) {
@@ -35,17 +31,13 @@ var A;
             this.x = x;
             this.y = y;
         }
-        swcHelpers.createClass(Point, null, [
-            {
-                key: "Origin",
-                value: function Origin() {
-                    return {
-                        x: 0,
-                        y: 0
-                    };
-                } // unexpected error here bug 840246
-            }
-        ]);
+        Point.Origin // unexpected error here bug 840246
+         = function Origin() {
+            return {
+                x: 0,
+                y: 0
+            };
+        };
         return Point;
     }();
     A1.Point = Point;

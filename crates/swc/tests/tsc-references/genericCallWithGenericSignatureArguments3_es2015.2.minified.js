@@ -13,11 +13,11 @@ foo("", (x)=>""
 , (x)=>""
 ), foo(new Object(), (x)=>""
 , (x)=>""
-), (function(E) {
+), function(E) {
     E[E.A = 0] = "A";
-})(E || (E = {})), (function(F) {
+}(E || (E = {})), function(F) {
     F[F.A = 0] = "A";
-})(F || (F = {})), foo(E.A, (x)=>E.A
+}(F || (F = {})), foo(E.A, (x)=>E.A
 , (x)=>F.A
 ), foo2("", (x)=>""
 , (x)=>null

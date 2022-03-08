@@ -4,23 +4,15 @@ var _iterator = Symbol.iterator, NumberIterator = function() {
     function NumberIterator() {
         swcHelpers.classCallCheck(this, NumberIterator);
     }
-    return swcHelpers.createClass(NumberIterator, [
-        {
-            key: "next",
-            value: function() {
-                return {
-                    value: 0,
-                    done: !1
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function() {
-                return this;
-            }
-        }
-    ]), NumberIterator;
+    var _proto = NumberIterator.prototype;
+    return _proto.next = function() {
+        return {
+            value: 0,
+            done: !1
+        };
+    }, _proto[_iterator] = function() {
+        return this;
+    }, NumberIterator;
 }(), _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
     for(var _step, _iterator1 = (new NumberIterator)[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator1.next()).done); _iteratorNormalCompletion = !0)_step.value;

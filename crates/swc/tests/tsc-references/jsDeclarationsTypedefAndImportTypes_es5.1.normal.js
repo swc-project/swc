@@ -12,12 +12,8 @@ var Conn = // @allowJs: true
         swcHelpers.classCallCheck(this, Conn);
         this.item = 3;
     }
-    swcHelpers.createClass(Conn, [
-        {
-            key: "method",
-            value: function method() {}
-        }
-    ]);
+    var _proto = Conn.prototype;
+    _proto.method = function method() {};
     return Conn;
 }();
 module.exports = Conn;

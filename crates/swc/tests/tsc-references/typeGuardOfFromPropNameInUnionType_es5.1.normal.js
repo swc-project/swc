@@ -85,18 +85,14 @@ var InMemberOfClass = /*#__PURE__*/ function() {
     function InMemberOfClass() {
         swcHelpers.classCallCheck(this, InMemberOfClass);
     }
-    swcHelpers.createClass(InMemberOfClass, [
-        {
-            key: "inThis",
-            value: function inThis() {
-                if ("a" in this.prop) {
-                    var y = this.prop.a;
-                } else {
-                    var z = this.prop.b;
-                }
-            }
+    var _proto = InMemberOfClass.prototype;
+    _proto.inThis = function inThis() {
+        if ("a" in this.prop) {
+            var y = this.prop.a;
+        } else {
+            var z = this.prop.b;
         }
-    ]);
+    };
     return InMemberOfClass;
 }();
 var SelfAssert = // added for completeness
@@ -105,16 +101,12 @@ var SelfAssert = // added for completeness
     function SelfAssert() {
         swcHelpers.classCallCheck(this, SelfAssert);
     }
-    swcHelpers.createClass(SelfAssert, [
-        {
-            key: "inThis",
-            value: function inThis() {
-                if ("a" in this) {
-                    var y = this.a;
-                } else {}
-            }
-        }
-    ]);
+    var _proto = SelfAssert.prototype;
+    _proto.inThis = function inThis() {
+        if ("a" in this) {
+            var y = this.a;
+        } else {}
+    };
     return SelfAssert;
 }();
 function f(i) {

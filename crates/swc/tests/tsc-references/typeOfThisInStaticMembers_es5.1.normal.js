@@ -4,16 +4,11 @@ var C = /*#__PURE__*/ function() {
     function C(x) {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, null, [
-        {
-            key: "bar",
-            value: function bar() {
-                // type of this is the constructor function type
-                var t = this;
-                return this;
-            }
-        }
-    ]);
+    C.bar = function bar() {
+        // type of this is the constructor function type
+        var t = this;
+        return this;
+    };
     return C;
 }();
 var t = C.bar();
@@ -26,16 +21,11 @@ var C2 = /*#__PURE__*/ function() {
     function C2(x) {
         swcHelpers.classCallCheck(this, C2);
     }
-    swcHelpers.createClass(C2, null, [
-        {
-            key: "bar",
-            value: function bar() {
-                // type of this is the constructor function type
-                var t = this;
-                return this;
-            }
-        }
-    ]);
+    C2.bar = function bar() {
+        // type of this is the constructor function type
+        var t = this;
+        return this;
+    };
     return C2;
 }();
 var t2 = C2.bar();

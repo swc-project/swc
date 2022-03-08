@@ -1,6 +1,18 @@
 error: Duplicate binding
   
    |
+56 |     var a = 0;
+   |         ^
+   |
+note: a was declared at here
+  
+   |
+36 | let a; for (let i in {}) { (function() { a; }); a = 1; }
+   |     ^
+
+error: Duplicate binding
+  
+   |
 67 | let { aa, bb: { bb }, cc: [cc], ...ee } = obj;
    |                                    ^^
    |

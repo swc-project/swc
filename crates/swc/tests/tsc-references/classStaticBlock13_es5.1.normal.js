@@ -6,14 +6,10 @@ var C = // @target: esnext, es2022, es2015
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo() {
-                return swcHelpers.classStaticPrivateFieldSpecGet(C, C, _x);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
+        return swcHelpers.classStaticPrivateFieldSpecGet(C, C, _x);
+    };
     return C;
 }();
 var _x = {

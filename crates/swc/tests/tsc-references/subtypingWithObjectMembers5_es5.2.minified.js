@@ -11,7 +11,7 @@ import * as swcHelpers from "@swc/helpers";
         "use strict";
         swcHelpers.classCallCheck(this, B3);
     };
-}(NotOptional || (NotOptional = {})), (function(Optional) {
+}(NotOptional || (NotOptional = {})), function(Optional) {
     var B = function() {
         "use strict";
         swcHelpers.classCallCheck(this, B);
@@ -22,4 +22,4 @@ import * as swcHelpers from "@swc/helpers";
         "use strict";
         swcHelpers.classCallCheck(this, B3);
     };
-})(Optional || (Optional = {}));
+}(Optional || (Optional = {}));

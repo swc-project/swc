@@ -4,16 +4,14 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
+        return null;
+    };
     swcHelpers.createClass(C, [
         {
             key: "X",
             get: function get() {
-                return null;
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
                 return null;
             }
         }
@@ -28,29 +26,24 @@ var D = /*#__PURE__*/ function(C) {
         swcHelpers.classCallCheck(this, D);
         return _super.apply(this, arguments);
     }
+    var _proto = D.prototype;
+    _proto.foo = function foo() {
+        return 1;
+    };
+    D.bar = function bar() {
+        return null;
+    };
     swcHelpers.createClass(D, [
         {
             key: "X",
             get: function get() {
                 return null;
             }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                return 1;
-            }
         }
     ], [
         {
             key: "Y",
             get: function get() {
-                return null;
-            }
-        },
-        {
-            key: "bar",
-            value: function bar() {
                 return null;
             }
         }
@@ -66,18 +59,16 @@ var E = // if D is a valid class definition than E is now not safe tranisitively
         swcHelpers.classCallCheck(this, E);
         return _super.apply(this, arguments);
     }
+    var _proto = E.prototype;
+    _proto.foo = function foo() {
+        return ''; // error
+    };
     swcHelpers.createClass(E, [
         {
             key: "X",
             get: function get() {
                 return '';
             } // error
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                return ''; // error
-            }
         }
     ]);
     return E;

@@ -5,12 +5,8 @@ var C = // all of these valueOf calls should return the type shown in the overri
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "valueOf",
-            value: function valueOf() {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.valueOf = function valueOf() {};
     return C;
 }();
 var c;

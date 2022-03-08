@@ -13,7 +13,7 @@ import * as swcHelpers from "@swc/helpers";
         return D;
     }(a.C);
     B1.D = D;
-}(B || (B = {})), (function(A1) {
+}(B || (B = {})), function(A1) {
     var C = function() {
         "use strict";
         swcHelpers.classCallCheck(this, C);
@@ -21,4 +21,4 @@ import * as swcHelpers from "@swc/helpers";
     A1.C = C;
     var b = B;
     A1.b = b;
-})(A || (A = {})), new B.a.C();
+}(A || (A = {})), new B.a.C();

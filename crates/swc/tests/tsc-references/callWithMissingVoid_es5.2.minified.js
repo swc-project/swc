@@ -4,16 +4,11 @@ var X = function() {
     function X() {
         swcHelpers.classCallCheck(this, X);
     }
-    return swcHelpers.createClass(X, [
-        {
-            key: "f",
-            value: function(t) {
-                return {
-                    a: t
-                };
-            }
-        }
-    ]), X;
+    return X.prototype.f = function(t) {
+        return {
+            a: t
+        };
+    }, X;
 }();
 x.f(), xUnion.f(42), xUnion.f(), xAny.f(), xUnknown.f(), xNever.f();
 var MyPromise = function(executor) {

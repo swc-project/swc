@@ -324,7 +324,7 @@ impl Options {
         // We do this before creating custom passses, so custom passses can use the
         // variable management system based on the syntax contexts.
         if syntax.typescript() {
-            // assumptions.set_class_methods = !transform.use_define_for_class_fields;
+            assumptions.set_class_methods = !transform.use_define_for_class_fields;
             assumptions.set_public_class_fields = !transform.use_define_for_class_fields;
 
             program.visit_mut_with(&mut ts_resolver(top_level_mark));
@@ -887,7 +887,17 @@ impl Config {
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
     pub fn adjust(&mut self, file: &Path) {
-        if let Some(Syntax::Typescript(TsConfig { tsx, .. })) = &mut self.jsc.syntax {
+        if let Some(Syntax::Typescript(TsConfig { tsx, dts, .. })) = &mut self.jsc.syntax {
+            let is_dts = file
+                .file_name()
+                .and_then(|f| f.to_str())
+                .map(|s| s.ends_with(".d.ts"))
+                .unwrap_or(false);
+
+            if is_dts {
+                *dts = true;
+            }
+
             let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
             if is_ts {
                 *tsx = false;
@@ -1054,7 +1064,7 @@ impl Merge for JscExperimental {
 }
 
 /// `paths` section of `tsconfig.json`.
-pub type Paths = AHashMap<String, Vec<String>>;
+pub type Paths = IndexMap<String, Vec<String>, ahash::RandomState>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1555,6 +1565,19 @@ impl Merge for JscConfig {
         self.paths.merge(&from.paths);
         self.minify.merge(&from.minify);
         self.experimental.merge(&from.experimental);
+    }
+}
+
+impl<K, V, S> Merge for IndexMap<K, V, S>
+where
+    K: Clone + Eq + std::hash::Hash,
+    V: Clone,
+    S: Clone + BuildHasher,
+{
+    fn merge(&mut self, from: &Self) {
+        if self.is_empty() {
+            *self = (*from).clone();
+        }
     }
 }
 

@@ -80,7 +80,7 @@ function area(s) {
 }
 function areaWrapped(s) {
     var area2;
-    area2 = (function() {
+    area2 = function() {
         switch(s.kind){
             case "square":
                 return s.size * s.size;
@@ -91,7 +91,7 @@ function areaWrapped(s) {
             case "triangle":
                 return Math.sqrt(3) / 4 * s.side * s.side;
         }
-    })();
+    }();
     return area2;
 }
 var // Repro from #13241

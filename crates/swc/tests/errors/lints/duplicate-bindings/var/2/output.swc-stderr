@@ -1,0 +1,12 @@
+error: Duplicate binding
+ 
+  |
+2 | const foo = 1; // error
+  |       ^^^
+  |
+note: foo was declared at here
+ 
+  |
+1 | function foo() {}
+  |          ^^^
+

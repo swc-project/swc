@@ -678,12 +678,12 @@ impl SourceFile {
         remove_bom(&mut src);
 
         let src_hash = {
-            let mut hasher: StableHasher<u128> = StableHasher::new();
+            let mut hasher: StableHasher = StableHasher::new();
             hasher.write(src.as_bytes());
             hasher.finish()
         };
         let name_hash = {
-            let mut hasher: StableHasher<u128> = StableHasher::new();
+            let mut hasher: StableHasher = StableHasher::new();
             name.hash(&mut hasher);
             hasher.finish()
         };

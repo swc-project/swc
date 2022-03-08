@@ -7,11 +7,8 @@ var C = // @target: es5
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
+    C[tmp] = function() {};
     swcHelpers.createClass(C, null, [
-        {
-            key: tmp,
-            value: function value() {}
-        },
         {
             key: tmp1,
             get: function get() {

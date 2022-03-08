@@ -5,35 +5,18 @@ var num, var1, C1 = function() {
         var var2;
         swcHelpers.classCallCheck(this, C1), num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;
     }
-    return swcHelpers.createClass(C1, [
-        {
-            key: "p1",
-            value: function(param) {
-                var var2;
-                num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;
-            }
-        },
-        {
-            key: "p2",
-            value: function(param) {
-                var var2;
-                num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;
-            }
-        }
-    ], [
-        {
-            key: "s1",
-            value: function(param) {
-                var var2;
-                num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;
-            }
-        },
-        {
-            key: "s2",
-            value: function(param) {
-                var var2;
-                num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;
-            }
-        }
-    ]), C1;
+    var _proto = C1.prototype;
+    return _proto.p1 = function(param) {
+        var var2;
+        num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;
+    }, _proto.p2 = function(param) {
+        var var2;
+        num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;
+    }, C1.s1 = function(param) {
+        var var2;
+        num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;
+    }, C1.s2 = function(param) {
+        var var2;
+        num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;
+    }, C1;
 }();

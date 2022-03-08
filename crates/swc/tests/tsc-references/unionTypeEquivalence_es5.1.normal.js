@@ -11,12 +11,8 @@ var D = /*#__PURE__*/ function(C) {
         swcHelpers.classCallCheck(this, D);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function foo() {}
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.foo = function foo() {};
     return D;
 }(C);
 var x;

@@ -373,7 +373,10 @@ where
                 '['
             }
             _ => {
-                unreachable!();
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'{', '(' or '[' token"),
+                ));
             }
         };
         // Create a simple block with its associated token set to the current input

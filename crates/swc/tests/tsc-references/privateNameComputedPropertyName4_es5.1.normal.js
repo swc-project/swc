@@ -8,12 +8,8 @@ var C1 = // @target: esnext, es2022, es2015
     function C1() {
         swcHelpers.classCallCheck(this, C1);
     }
-    swcHelpers.createClass(C1, [
-        {
-            key: "bar",
-            value: function value() {}
-        }
-    ]);
+    var _proto = C1.prototype;
+    _proto["bar"] = function() {};
     return C1;
 }();
 var _qux = {
@@ -25,12 +21,7 @@ var C2 = /*#__PURE__*/ function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    swcHelpers.createClass(C2, null, [
-        {
-            key: "bar",
-            value: function value() {}
-        }
-    ]);
+    C2["bar"] = function() {};
     return C2;
 }();
 var _qux1 = {

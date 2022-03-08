@@ -16,12 +16,7 @@ var C2 = function(Mixed1) {
         var _this;
         return swcHelpers.classCallCheck(this, C3), (_this = _super.call(this, 42)).a, _this.b, _this.p, _this.f(), _this;
     }
-    return swcHelpers.createClass(C3, [
-        {
-            key: "f",
-            value: function() {
-                return swcHelpers.get(swcHelpers.getPrototypeOf(C3.prototype), "f", this).call(this);
-            }
-        }
-    ]), C3;
+    return C3.prototype.f = function() {
+        return swcHelpers.get(swcHelpers.getPrototypeOf(C3.prototype), "f", this).call(this);
+    }, C3;
 }(Mixed3);

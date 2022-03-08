@@ -4,14 +4,10 @@ var Button = /*#__PURE__*/ function() {
     function Button() {
         swcHelpers.classCallCheck(this, Button);
     }
-    swcHelpers.createClass(Button, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("div", null, "My Button"));
-            }
-        }
-    ]);
+    var _proto = Button.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("div", null, "My Button"));
+    };
     return Button;
 }();
 // OK

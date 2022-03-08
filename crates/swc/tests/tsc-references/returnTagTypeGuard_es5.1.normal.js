@@ -10,17 +10,13 @@ var Entry = // @noEmit: true
         swcHelpers.classCallCheck(this, Entry);
         this.c = 1;
     }
-    swcHelpers.createClass(Entry, [
-        {
-            /**
+    var _proto = Entry.prototype;
+    /**
      * @param {any} x
      * @return {this is Entry}
-     */ key: "isInit",
-            value: function isInit(x) {
-                return true;
-            }
-        }
-    ]);
+     */ _proto.isInit = function isInit(x) {
+        return true;
+    };
     return Entry;
 }();
 var Group = /*#__PURE__*/ function() {
@@ -29,17 +25,13 @@ var Group = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, Group);
         this.d = 'no';
     }
-    swcHelpers.createClass(Group, [
-        {
-            /**
+    var _proto = Group.prototype;
+    /**
      * @param {any} x
      * @return {false}
-     */ key: "isInit",
-            value: function isInit(x) {
-                return false;
-            }
-        }
-    ]);
+     */ _proto.isInit = function isInit(x) {
+        return false;
+    };
     return Group;
 }();
 /** @param {Entry | Group} chunk */ function f(chunk) {

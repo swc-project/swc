@@ -6,19 +6,15 @@ import * as swcHelpers from "@swc/helpers";
         function C(a, b) {
             swcHelpers.classCallCheck(this, C), this.a = a, this.b = b;
         }
-        return swcHelpers.createClass(C, [
+        return C.prototype.fn = function() {
+            return this;
+        }, swcHelpers.createClass(C, [
             {
                 key: "y",
                 get: function() {
                     return 1;
                 },
                 set: function(v) {}
-            },
-            {
-                key: "fn",
-                value: function() {
-                    return this;
-                }
             }
         ]), C;
     }(), D = function(C) {
@@ -31,25 +27,21 @@ import * as swcHelpers from "@swc/helpers";
         return D;
     }(C), d = new D(1, 2), r = d.fn();
     r.x, r.y, r.y = 4, d.y();
-}(NonGeneric || (NonGeneric = {})), (function(Generic) {
+}(NonGeneric || (NonGeneric = {})), function(Generic) {
     var C = function() {
         "use strict";
         function C(a, b) {
             swcHelpers.classCallCheck(this, C), this.a = a, this.b = b;
         }
-        return swcHelpers.createClass(C, [
+        return C.prototype.fn = function() {
+            return this;
+        }, swcHelpers.createClass(C, [
             {
                 key: "y",
                 get: function() {
                     return null;
                 },
                 set: function(v) {}
-            },
-            {
-                key: "fn",
-                value: function() {
-                    return this;
-                }
             }
         ]), C;
     }(), D = function(C) {
@@ -62,4 +54,4 @@ import * as swcHelpers from "@swc/helpers";
         return D;
     }(C), d = new D(1, ""), r = d.fn();
     r.x, r.y, r.y = "", d.y();
-})(Generic || (Generic = {}));
+}(Generic || (Generic = {}));

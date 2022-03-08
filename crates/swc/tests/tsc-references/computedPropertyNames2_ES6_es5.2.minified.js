@@ -4,11 +4,7 @@ var methodName = "method", accessorName = "accessor", _methodName = methodName, 
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: _methodName,
-            value: function() {}
-        },
+    return C.prototype[_methodName] = function() {}, C[_methodName1] = function() {}, swcHelpers.createClass(C, [
         {
             key: _accessorName,
             get: function() {}
@@ -18,10 +14,6 @@ var methodName = "method", accessorName = "accessor", _methodName = methodName, 
             set: function(v) {}
         }
     ], [
-        {
-            key: _methodName1,
-            value: function() {}
-        },
         {
             key: _accessorName2,
             get: function() {}

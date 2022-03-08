@@ -7,13 +7,9 @@ var Test = /*#__PURE__*/ function(Base) {
         swcHelpers.classCallCheck(this, Test);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Test, [
-        {
-            key: "m",
-            value: function m() {
-                this.check(this);
-            }
-        }
-    ]);
+    var _proto = Test.prototype;
+    _proto.m = function m() {
+        this.check(this);
+    };
     return Test;
 }(Base);

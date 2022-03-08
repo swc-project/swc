@@ -4,7 +4,7 @@ var _staticProp = (swcHelpers.classNameTDZError("C"), C).staticProp, _staticProp
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
+    return C.prototype[_staticProp2] = function() {}, swcHelpers.createClass(C, [
         {
             key: _staticProp,
             get: function() {
@@ -14,10 +14,6 @@ var _staticProp = (swcHelpers.classNameTDZError("C"), C).staticProp, _staticProp
         {
             key: _staticProp1,
             set: function(x) {}
-        },
-        {
-            key: _staticProp2,
-            value: function() {}
         }
     ]), C;
 }();

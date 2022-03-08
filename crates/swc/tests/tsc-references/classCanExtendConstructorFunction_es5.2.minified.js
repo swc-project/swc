@@ -17,15 +17,10 @@ var Sql = function(Wagon1) {
         var _this;
         return swcHelpers.classCallCheck(this, Sql), (_this = _super.call(this)).foonly = 12, _this;
     }
-    return swcHelpers.createClass(Sql, [
-        {
-            key: "load",
-            value: function(files, format) {
-                if ("xmlolololol" === format) throw new Error("please do not use XML. It was a joke.");
-                swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "speed", this).call(this), swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "weight", this).call(this);
-            }
-        }
-    ]), Sql;
+    return Sql.prototype.load = function(files, format) {
+        if ("xmlolololol" === format) throw new Error("please do not use XML. It was a joke.");
+        swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "speed", this).call(this), swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "weight", this).call(this);
+    }, Sql;
 }(Wagon), db = new Sql();
 db.numberOxen = db.foonly;
 var Drakkhen = function(Dragon1) {
@@ -56,14 +51,9 @@ var Firedrake = function(Dragon2) {
         var _this;
         return swcHelpers.classCallCheck(this, Conestoga), (_this = _super.call(this, "nope")).drunkOO = drunkOO, _this;
     }
-    return swcHelpers.createClass(Conestoga, null, [
-        {
-            key: "circle",
-            value: function(others) {
-                return others.length;
-            }
-        }
-    ]), Conestoga;
+    return Conestoga.circle = function(others) {
+        return others.length;
+    }, Conestoga;
 }(Wagon), c = new Conestoga(!0);
 function Soup(flavour) {
     this.flavour = flavour;
@@ -76,14 +66,9 @@ var Chowder = function(Soup1) {
     function Chowder() {
         return swcHelpers.classCallCheck(this, Chowder), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Chowder, [
-        {
-            key: "log",
-            value: function() {
-                return this.flavour;
-            }
-        }
-    ]), Chowder;
+    return Chowder.prototype.log = function() {
+        return this.flavour;
+    }, Chowder;
 }(Soup);
 new Soup(1).flavour, new Chowder({
     claim: "ignorant"

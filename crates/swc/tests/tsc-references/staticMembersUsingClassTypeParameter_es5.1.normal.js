@@ -5,12 +5,7 @@ var C = // BUG 745747
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, null, [
-        {
-            key: "f",
-            value: function f(x) {}
-        }
-    ]);
+    C.f = function f(x) {};
     return C;
 }();
 var C2 = /*#__PURE__*/ function() {
@@ -18,12 +13,7 @@ var C2 = /*#__PURE__*/ function() {
     function C2() {
         swcHelpers.classCallCheck(this, C2);
     }
-    swcHelpers.createClass(C2, null, [
-        {
-            key: "f",
-            value: function f(x) {}
-        }
-    ]);
+    C2.f = function f(x) {};
     return C2;
 }();
 var C3 = /*#__PURE__*/ function() {
@@ -31,11 +21,6 @@ var C3 = /*#__PURE__*/ function() {
     function C3() {
         swcHelpers.classCallCheck(this, C3);
     }
-    swcHelpers.createClass(C3, null, [
-        {
-            key: "f",
-            value: function f(x) {}
-        }
-    ]);
+    C3.f = function f(x) {};
     return C3;
 }();

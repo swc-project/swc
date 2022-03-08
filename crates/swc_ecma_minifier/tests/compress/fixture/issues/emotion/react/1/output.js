@@ -795,7 +795,7 @@
             function _slicedToArray(arr1, i1) {
                 return (function(arr) {
                     if (Array.isArray(arr)) return arr;
-                })(arr1) || (function(arr, i) {
+                })(arr1) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
                         for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
@@ -809,9 +809,9 @@
                         }
                     }
                     return _arr;
-                })(arr1, i1) || (function() {
+                }(arr1, i1) || function() {
                     throw new TypeError("Invalid attempt to destructure non-iterable instance");
-                })();
+                }();
             }
             exports.default = void 0;
             var obj, _react = (obj = __webpack_require__(7294)) && obj.__esModule ? obj : {

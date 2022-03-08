@@ -3,7 +3,7 @@ var A, Y;
     var Color;
     let Color;
     (Color = Color || (Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
-}(A || (A = {})), (function(Y1) {
+}(A || (A = {})), function(Y1) {
     var Color;
     class A1 {
     }
@@ -22,4 +22,4 @@ var A, Y;
         id: 2,
         isvalid: !0
     };
-})(Y || (Y = {}));
+}(Y || (Y = {}));

@@ -25,15 +25,11 @@ var C = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, C);
         this.n = this.s;
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "x",
-            value: function x() {
-                var p = this.n;
-                var p;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.x = function x() {
+        var p = this.n;
+        var p;
+    };
     return C;
 }();
 var M3;

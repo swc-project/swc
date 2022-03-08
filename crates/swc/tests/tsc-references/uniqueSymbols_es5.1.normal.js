@@ -320,69 +320,53 @@ var C0 = // property initializers
         this.e = N.s;
         this.f = N["s"];
     }
-    swcHelpers.createClass(C0, [
-        {
-            key: "method1",
-            value: function method1() {
-                return s;
+    var _proto = C0.prototype;
+    _proto.method1 = function method1() {
+        return s;
+    };
+    _proto.method2 = function method2() {
+        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        return _ctx.abrupt("return", s);
+                    case 1:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    };
+    _proto.method3 = function method3() {
+        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return s;
+                    case 2:
+                    case "end":
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }))();
+    };
+    _proto.method4 = regeneratorRuntime.mark(function method4() {
+        return regeneratorRuntime.wrap(function method4$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    _ctx.next = 2;
+                    return s;
+                case 2:
+                case "end":
+                    return _ctx.stop();
             }
-        },
-        {
-            key: "method2",
-            value: function method2() {
-                return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while(1)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                                return _ctx.abrupt("return", s);
-                            case 1:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "method3",
-            value: function method3() {
-                return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
-                    return regeneratorRuntime.wrap(function _callee$(_ctx) {
-                        while(1)switch(_ctx.prev = _ctx.next){
-                            case 0:
-                                _ctx.next = 2;
-                                return s;
-                            case 2:
-                            case "end":
-                                return _ctx.stop();
-                        }
-                    }, _callee);
-                }))();
-            }
-        },
-        {
-            key: "method4",
-            value: regeneratorRuntime.mark(function method4() {
-                return regeneratorRuntime.wrap(function method4$(_ctx) {
-                    while(1)switch(_ctx.prev = _ctx.next){
-                        case 0:
-                            _ctx.next = 2;
-                            return s;
-                        case 2:
-                        case "end":
-                            return _ctx.stop();
-                    }
-                }, method4);
-            })
-        },
-        {
-            key: "method5",
-            value: function method5() {
-                var p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : s;
-                return p;
-            }
-        }
-    ]);
+        }, method4);
+    });
+    _proto.method5 = function method5() {
+        var p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : s;
+        return p;
+    };
     return C0;
 }();
 C0.a = s;
@@ -480,20 +464,13 @@ var ce0 = /*#__PURE__*/ function() {
     function _class() {
         swcHelpers.classCallCheck(this, _class);
     }
-    swcHelpers.createClass(_class, [
-        {
-            key: "method1",
-            value: function method1(p) {
-                return p;
-            }
-        },
-        {
-            key: "method2",
-            value: function method2(p) {
-                return p;
-            }
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.method1 = function method1(p) {
+        return p;
+    };
+    _proto.method2 = function method2(p) {
+        return p;
+    };
     return _class;
 }();
 function funcInferredReturnType(obj) {

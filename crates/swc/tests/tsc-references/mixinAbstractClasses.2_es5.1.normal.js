@@ -9,12 +9,8 @@ function Mixin(baseClass1) {
             swcHelpers.classCallCheck(this, MixinClass);
             return _super.apply(this, arguments);
         }
-        swcHelpers.createClass(MixinClass, [
-            {
-                key: "mixinMethod",
-                value: function mixinMethod() {}
-            }
-        ]);
+        var _proto = MixinClass.prototype;
+        _proto.mixinMethod = function mixinMethod() {};
         return MixinClass;
     }(baseClass1);
     return MixinClass;

@@ -5,14 +5,10 @@ var Base = // @target: es6
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    swcHelpers.createClass(Base, [
-        {
-            key: "bar",
-            value: function bar() {
-                return 0;
-            }
-        }
-    ]);
+    var _proto = Base.prototype;
+    _proto.bar = function bar() {
+        return 0;
+    };
     return Base;
 }();
 var C = /*#__PURE__*/ function(Base) {
@@ -23,14 +19,10 @@ var C = /*#__PURE__*/ function(Base) {
         swcHelpers.classCallCheck(this, C);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo() {
-                var obj = swcHelpers.defineProperty({}, swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "bar", this).call(this), function() {});
-                return 0;
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
+        var obj = swcHelpers.defineProperty({}, swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "bar", this).call(this), function() {});
+        return 0;
+    };
     return C;
 }(Base);

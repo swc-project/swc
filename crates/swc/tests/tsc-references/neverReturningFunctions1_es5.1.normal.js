@@ -57,37 +57,24 @@ var Test = /*#__PURE__*/ function() {
     function Test() {
         swcHelpers.classCallCheck(this, Test);
     }
-    swcHelpers.createClass(Test, [
-        {
-            key: "fail",
-            value: function fail(message) {
-                throw new Error(message);
-            }
-        },
-        {
-            key: "f1",
-            value: function f1(x) {
-                if (x === undefined) this.fail("undefined argument");
-                x.length; // string
-            }
-        },
-        {
-            key: "f2",
-            value: function f2(x) {
-                if (x >= 0) return x;
-                this.fail("negative number");
-                x; // Unreachable
-            }
-        },
-        {
-            key: "f3",
-            value: function f3(x) {
-                x; // string
-                this.fail();
-                x; // Unreachable
-            }
-        }
-    ]);
+    var _proto = Test.prototype;
+    _proto.fail = function fail(message) {
+        throw new Error(message);
+    };
+    _proto.f1 = function f1(x) {
+        if (x === undefined) this.fail("undefined argument");
+        x.length; // string
+    };
+    _proto.f2 = function f2(x) {
+        if (x >= 0) return x;
+        this.fail("negative number");
+        x; // Unreachable
+    };
+    _proto.f3 = function f3(x) {
+        x; // string
+        this.fail();
+        x; // Unreachable
+    };
     return Test;
 }();
 function f30(x) {
@@ -196,14 +183,10 @@ var MyThrowable = // Repro from #36147
     function MyThrowable() {
         swcHelpers.classCallCheck(this, MyThrowable);
     }
-    swcHelpers.createClass(MyThrowable, [
-        {
-            key: "throw",
-            value: function _throw() {
-                throw new Error();
-            }
-        }
-    ]);
+    var _proto = MyThrowable.prototype;
+    _proto.throw = function _throw() {
+        throw new Error();
+    };
     return MyThrowable;
 }();
 var SuperThrowable = /*#__PURE__*/ function(MyThrowable) {
@@ -214,20 +197,13 @@ var SuperThrowable = /*#__PURE__*/ function(MyThrowable) {
         swcHelpers.classCallCheck(this, SuperThrowable);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(SuperThrowable, [
-        {
-            key: "err",
-            value: function err(msg) {
-                swcHelpers.get(swcHelpers.getPrototypeOf(SuperThrowable.prototype), "throw", this).call(this);
-            }
-        },
-        {
-            key: "ok",
-            value: function ok() {
-                this.throw();
-            }
-        }
-    ]);
+    var _proto = SuperThrowable.prototype;
+    _proto.err = function err(msg) {
+        swcHelpers.get(swcHelpers.getPrototypeOf(SuperThrowable.prototype), "throw", this).call(this);
+    };
+    _proto.ok = function ok() {
+        this.throw();
+    };
     return SuperThrowable;
 }(MyThrowable);
 function foo(services, s) {

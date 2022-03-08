@@ -7,32 +7,16 @@ var C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "void1",
-            value: function() {
-                throw new Error();
-            }
-        },
-        {
-            key: "void2",
-            value: function() {
-                for(;;);
-            }
-        },
-        {
-            key: "never1",
-            value: function() {
-                throw new Error();
-            }
-        },
-        {
-            key: "never2",
-            value: function() {
-                for(;;);
-            }
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.void1 = function() {
+        throw new Error();
+    }, _proto.void2 = function() {
+        for(;;);
+    }, _proto.never1 = function() {
+        throw new Error();
+    }, _proto.never2 = function() {
+        for(;;);
+    }, C;
 }();
 function test(cb) {
     return cb();

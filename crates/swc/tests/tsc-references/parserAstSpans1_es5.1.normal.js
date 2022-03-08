@@ -4,24 +4,11 @@ var c1 = /*#__PURE__*/ function() {
     function c1() {
         swcHelpers.classCallCheck(this, c1);
     }
-    swcHelpers.createClass(c1, [
-        {
-            key: "i1_f1",
-            value: function i1_f1() {}
-        },
-        {
-            key: "i1_nc_f1",
-            value: function i1_nc_f1() {}
-        },
-        {
-            key: "f1",
-            value: /** c1_f1*/ function f1() {}
-        },
-        {
-            key: "nc_f1",
-            value: /** c1_nc_f1*/ function nc_f1() {}
-        }
-    ]);
+    var _proto = c1.prototype;
+    _proto.i1_f1 = function i1_f1() {};
+    _proto.i1_nc_f1 = function i1_nc_f1() {};
+    /** c1_f1*/ _proto.f1 = function f1() {};
+    /** c1_nc_f1*/ _proto.nc_f1 = function nc_f1() {};
     return c1;
 }();
 var i1_i;
@@ -58,20 +45,17 @@ var c2 = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, c2);
         this.c2_p1 = a;
     }
+    var _proto = c2.prototype;
+    /** c2 c2_f1*/ _proto.c2_f1 = function c2_f1() {};
+    _proto.c2_nc_f1 = function c2_nc_f1() {};
+    /** c2 f1*/ _proto.f1 = function f1() {};
+    _proto.nc_f1 = function nc_f1() {};
     swcHelpers.createClass(c2, [
-        {
-            key: "c2_f1",
-            value: /** c2 c2_f1*/ function c2_f1() {}
-        },
         {
             key: "c2_prop",
             get: /** c2 c2_prop*/ function get() {
                 return 10;
             }
-        },
-        {
-            key: "c2_nc_f1",
-            value: function c2_nc_f1() {}
         },
         {
             key: "c2_nc_prop",
@@ -80,18 +64,10 @@ var c2 = /*#__PURE__*/ function() {
             }
         },
         {
-            key: "f1",
-            value: /** c2 f1*/ function f1() {}
-        },
-        {
             key: "prop",
             get: /** c2 prop*/ function get() {
                 return 10;
             }
-        },
-        {
-            key: "nc_f1",
-            value: function nc_f1() {}
         },
         {
             key: "nc_prop",
@@ -113,20 +89,15 @@ var c3 = /*#__PURE__*/ function(c2) {
         _this.p1 = swcHelpers.get((swcHelpers.assertThisInitialized(_this), swcHelpers.getPrototypeOf(c3.prototype)), "c2_p1", _this);
         return _this;
     }
+    var _proto = c3.prototype;
+    /** c3 f1*/ _proto.f1 = function f1() {};
+    _proto.nc_f1 = function nc_f1() {};
     swcHelpers.createClass(c3, [
-        {
-            key: "f1",
-            value: /** c3 f1*/ function f1() {}
-        },
         {
             key: "prop",
             get: /** c3 prop*/ function get() {
                 return 10;
             }
-        },
-        {
-            key: "nc_f1",
-            value: function nc_f1() {}
         },
         {
             key: "nc_prop",

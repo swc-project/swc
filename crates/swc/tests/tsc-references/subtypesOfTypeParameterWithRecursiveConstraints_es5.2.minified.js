@@ -80,7 +80,7 @@ var M1, M2, Foo = function() {
         }
         return D9;
     }(Base1);
-}(M1 || (M1 = {})), (function(M2) {
+}(M1 || (M1 = {})), function(M2) {
     var Base21 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, Base21);
@@ -157,4 +157,4 @@ var M1, M2, Foo = function() {
         }
         return D9;
     }(Base21);
-})(M2 || (M2 = {}));
+}(M2 || (M2 = {}));

@@ -13,15 +13,11 @@ var MyComponent = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, MyComponent);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(MyComponent, [
-        {
-            key: "render",
-            value: function render() {
-                var AnyComponent = this.props.AnyComponent;
-                return(/*#__PURE__*/ React.createElement(AnyComponent, null));
-            }
-        }
-    ]);
+    var _proto = MyComponent.prototype;
+    _proto.render = function render() {
+        var AnyComponent = this.props.AnyComponent;
+        return(/*#__PURE__*/ React.createElement(AnyComponent, null));
+    };
     return MyComponent;
 }(React.Component);
 // Stateless Component As Props

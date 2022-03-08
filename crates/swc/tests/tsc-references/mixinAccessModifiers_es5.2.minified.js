@@ -54,21 +54,11 @@ var Private = function() {
     function C4() {
         return swcHelpers.classCallCheck(this, C4), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(C4, [
-        {
-            key: "f",
-            value: function(c4, c5, c6) {
-                c4.p, c5.p, c6.p;
-            }
-        }
-    ], [
-        {
-            key: "g",
-            value: function() {
-                C4.s, C5.s, C6.s;
-            }
-        }
-    ]), C4;
+    return C4.prototype.f = function(c4, c5, c6) {
+        c4.p, c5.p, c6.p;
+    }, C4.g = function() {
+        C4.s, C5.s, C6.s;
+    }, C4;
 }(Mix(Protected, Protected2)), C5 = function(_superClass) {
     "use strict";
     swcHelpers.inherits(C5, _superClass);
@@ -76,21 +66,11 @@ var Private = function() {
     function C5() {
         return swcHelpers.classCallCheck(this, C5), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(C5, [
-        {
-            key: "f",
-            value: function(c4, c5, c6) {
-                c4.p, c5.p, c6.p;
-            }
-        }
-    ], [
-        {
-            key: "g",
-            value: function() {
-                C4.s, C5.s, C6.s;
-            }
-        }
-    ]), C5;
+    return C5.prototype.f = function(c4, c5, c6) {
+        c4.p, c5.p, c6.p;
+    }, C5.g = function() {
+        C4.s, C5.s, C6.s;
+    }, C5;
 }(Mix(Protected, Public)), C6 = function(_superClass) {
     "use strict";
     swcHelpers.inherits(C6, _superClass);
@@ -98,49 +78,23 @@ var Private = function() {
     function C6() {
         return swcHelpers.classCallCheck(this, C6), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(C6, [
-        {
-            key: "f",
-            value: function(c4, c5, c6) {
-                c4.p, c5.p, c6.p;
-            }
-        }
-    ], [
-        {
-            key: "g",
-            value: function() {
-                C4.s, C5.s, C6.s;
-            }
-        }
-    ]), C6;
+    return C6.prototype.f = function(c4, c5, c6) {
+        c4.p, c5.p, c6.p;
+    }, C6.g = function() {
+        C4.s, C5.s, C6.s;
+    }, C6;
 }(Mix(Public, Public2)), ProtectedGeneric = function() {
     "use strict";
     function ProtectedGeneric() {
         swcHelpers.classCallCheck(this, ProtectedGeneric);
     }
-    return swcHelpers.createClass(ProtectedGeneric, [
-        {
-            key: "privateMethod",
-            value: function() {}
-        },
-        {
-            key: "protectedMethod",
-            value: function() {}
-        }
-    ]), ProtectedGeneric;
+    var _proto = ProtectedGeneric.prototype;
+    return _proto.privateMethod = function() {}, _proto.protectedMethod = function() {}, ProtectedGeneric;
 }(), ProtectedGeneric2 = function() {
     "use strict";
     function ProtectedGeneric2() {
         swcHelpers.classCallCheck(this, ProtectedGeneric2);
     }
-    return swcHelpers.createClass(ProtectedGeneric2, [
-        {
-            key: "privateMethod",
-            value: function() {}
-        },
-        {
-            key: "protectedMethod",
-            value: function() {}
-        }
-    ]), ProtectedGeneric2;
+    var _proto = ProtectedGeneric2.prototype;
+    return _proto.privateMethod = function() {}, _proto.protectedMethod = function() {}, ProtectedGeneric2;
 }();

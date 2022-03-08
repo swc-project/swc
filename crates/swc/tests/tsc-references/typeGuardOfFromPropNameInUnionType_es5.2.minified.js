@@ -28,25 +28,15 @@ var A = function() {
     function InMemberOfClass() {
         swcHelpers.classCallCheck(this, InMemberOfClass);
     }
-    return swcHelpers.createClass(InMemberOfClass, [
-        {
-            key: "inThis",
-            value: function() {
-                "a" in this.prop ? this.prop.a : this.prop.b;
-            }
-        }
-    ]), InMemberOfClass;
+    return InMemberOfClass.prototype.inThis = function() {
+        "a" in this.prop ? this.prop.a : this.prop.b;
+    }, InMemberOfClass;
 }(), SelfAssert = function() {
     "use strict";
     function SelfAssert() {
         swcHelpers.classCallCheck(this, SelfAssert);
     }
-    return swcHelpers.createClass(SelfAssert, [
-        {
-            key: "inThis",
-            value: function() {
-                "a" in this && this.a;
-            }
-        }
-    ]), SelfAssert;
+    return SelfAssert.prototype.inThis = function() {
+        "a" in this && this.a;
+    }, SelfAssert;
 }();

@@ -11,12 +11,7 @@ var C = function(_TreeElement) {
     function C() {
         return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "onpopulate",
-            value: function() {
-                this.doesNotExist, this.treeOutline.doesntExistEither();
-            }
-        }
-    ]), C;
+    return C.prototype.onpopulate = function() {
+        this.doesNotExist, this.treeOutline.doesntExistEither();
+    }, C;
 }(UI.TreeElement);

@@ -96,20 +96,12 @@ import * as swcHelpers from "@swc/helpers";
         function ScopeSearchFilter(select, stop) {
             swcHelpers.classCallCheck(this, ScopeSearchFilter), this.select = select, this.stop = stop, this.result = null;
         }
-        return swcHelpers.createClass(ScopeSearchFilter, [
-            {
-                key: "reset",
-                value: function() {
-                    this.result = null;
-                }
-            },
-            {
-                key: "update",
-                value: function(b) {
-                    return this.result = this.select(this.result, b), !!this.result && this.stop(this.result);
-                }
-            }
-        ]), ScopeSearchFilter;
+        var _proto = ScopeSearchFilter.prototype;
+        return _proto.reset = function() {
+            this.result = null;
+        }, _proto.update = function(b) {
+            return this.result = this.select(this.result, b), !!this.result && this.stop(this.result);
+        }, ScopeSearchFilter;
     }();
     TypeScript1.ScopeSearchFilter = ScopeSearchFilter, TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop), TypeScript1.preAssignModuleScopes = preAssignModuleScopes, TypeScript1.preAssignClassScopes = preAssignClassScopes, TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes, TypeScript1.preAssignWithScopes = preAssignWithScopes, TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes, TypeScript1.preAssignCatchScopes = preAssignCatchScopes, TypeScript1.preAssignScopes = preAssignScopes, TypeScript1.postAssignScopes = postAssignScopes;
 }(TypeScript || (TypeScript = {}));

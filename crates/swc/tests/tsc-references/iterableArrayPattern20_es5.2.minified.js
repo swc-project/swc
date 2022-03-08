@@ -15,25 +15,17 @@ var Bar = function() {
     function FooArrayIterator() {
         swcHelpers.classCallCheck(this, FooArrayIterator);
     }
-    return swcHelpers.createClass(FooArrayIterator, [
-        {
-            key: "next",
-            value: function() {
-                return {
-                    value: [
-                        new Foo
-                    ],
-                    done: !1
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function() {
-                return this;
-            }
-        }
-    ]), FooArrayIterator;
+    var _proto = FooArrayIterator.prototype;
+    return _proto.next = function() {
+        return {
+            value: [
+                new Foo
+            ],
+            done: !1
+        };
+    }, _proto[_iterator] = function() {
+        return this;
+    }, FooArrayIterator;
 }();
 (function() {
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++)_tmp[_key] = arguments[_key];

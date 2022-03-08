@@ -15,12 +15,7 @@ var Class, Interface, C = function() {
         function G() {
             swcHelpers.classCallCheck(this, G);
         }
-        return swcHelpers.createClass(G, [
-            {
-                key: "foo",
-                value: function(t, t2) {}
-            }
-        ]), G;
+        return G.prototype.foo = function(t, t2) {}, G;
     }(), c1 = new X(), d1 = new X();
     g.foo(c1, d1), g.foo(c1, c1);
     var G2 = function() {
@@ -28,15 +23,10 @@ var Class, Interface, C = function() {
         function G2() {
             swcHelpers.classCallCheck(this, G2);
         }
-        return swcHelpers.createClass(G2, [
-            {
-                key: "foo2",
-                value: function(t, t2) {}
-            }
-        ]), G2;
+        return G2.prototype.foo2 = function(t, t2) {}, G2;
     }();
     g2.foo2(c1, d1), g2.foo2(c1, c1);
-}(Class || (Class = {})), (function(Interface) {
+}(Class || (Class = {})), function(Interface) {
     var g, g2, c1 = new X(), d1 = new X();
     g.foo(c1, d1), g.foo(c1, c1), g2.foo2(c1, d1), g2.foo2(c1, c1);
-})(Interface || (Interface = {}));
+}(Interface || (Interface = {}));

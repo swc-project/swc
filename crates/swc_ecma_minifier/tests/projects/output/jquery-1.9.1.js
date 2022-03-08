@@ -247,7 +247,7 @@
             try {
                 top = null == window1.frameElement && document1.documentElement;
             } catch (e) {}
-            top && top.doScroll && (function doScrollCheck() {
+            top && top.doScroll && function doScrollCheck() {
                 if (!jQuery.isReady) {
                     try {
                         top.doScroll("left");
@@ -256,7 +256,7 @@
                     }
                     detach(), jQuery.ready();
                 }
-            })();
+            }();
         }
         return readyList.promise(obj);
     }, jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name) {
@@ -386,7 +386,7 @@
             if (length > 1) for(progressValues = new Array(length), progressContexts = new Array(length), resolveContexts = new Array(length); i1 < length; i1++)resolveValues[i1] && jQuery.isFunction(resolveValues[i1].promise) ? resolveValues[i1].promise().done(updateFunc(i1, resolveContexts, resolveValues)).fail(deferred.reject).progress(updateFunc(i1, progressContexts, progressValues)) : --remaining;
             return remaining || deferred.resolveWith(resolveContexts, resolveValues), deferred.promise();
         }
-    }), jQuery.support = (function() {
+    }), jQuery.support = function() {
         var support, all, a, input, select, fragment, opt, eventName, isSupported, i, div = document1.createElement("div");
         if (div.setAttribute("className", "t"), div.innerHTML = "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>", all = div.getElementsByTagName("*"), a = div.getElementsByTagName("a")[0], !all || !a || !all.length) return {};
         opt = (select = document1.createElement("select")).appendChild(document1.createElement("option")), input = div.getElementsByTagName("input")[0], a.style.cssText = "top:1px;float:left;opacity:.5", support = {
@@ -429,7 +429,7 @@
                 width: "4px"
             }).width, (marginDiv = div.appendChild(document1.createElement("div"))).style.cssText = div.style.cssText = divReset, marginDiv.style.marginRight = marginDiv.style.width = "0", div.style.width = "1px", support.reliableMarginRight = !parseFloat((window1.getComputedStyle(marginDiv, null) || {}).marginRight)), typeof div.style.zoom !== core_strundefined && (div.innerHTML = "", div.style.cssText = divReset + "width:1px;padding:1px;display:inline;zoom:1", support.inlineBlockNeedsLayout = 3 === div.offsetWidth, div.style.display = "block", div.innerHTML = "<div></div>", div.firstChild.style.width = "5px", support.shrinkWrapBlocks = 3 !== div.offsetWidth, support.inlineBlockNeedsLayout && (body.style.zoom = 1)), body.removeChild(container), container = div = tds = marginDiv = null);
         }), all = select = fragment = opt = a = input = null, support;
-    })();
+    }();
     var rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, rmultiDash = /([A-Z])/g;
     function internalData(elem, name, data, pvt) {
         if (jQuery.acceptData(elem)) {
@@ -1104,7 +1104,7 @@
             var elem = this[0];
             if (elem) return jQuery.event.trigger(type, data, elem, !0);
         }
-    }), (function(window, undefined) {
+    }), function(window, undefined) {
         var i2, cachedruns, Expr, getText, isXML, compile, hasDuplicate, outermostContext, setDocument, document, docElem, documentIsXML, rbuggyQSA, rbuggyMatches, matches1, contains, sortOrder, expando = "sizzle" + -new Date(), preferredDoc = window.document, support = {}, dirruns = 0, done = 0, classCache = createCache(), tokenCache = createCache(), compilerCache = createCache(), strundefined = "undefined", arr = [], pop = arr.pop, push = arr.push, slice = arr.slice, indexOf = arr.indexOf || function(elem) {
             for(var i = 0, len = this.length; i < len; i++)if (this[i] === elem) return i;
             return -1;
@@ -1689,7 +1689,7 @@
             }
             return cached;
         }, Expr.pseudos.nth = Expr.pseudos.eq, Expr.filters = setFilters.prototype = Expr.pseudos, Expr.setFilters = new setFilters(), setDocument(), Sizzle.attr = jQuery.attr, jQuery.find = Sizzle, jQuery.expr = Sizzle.selectors, jQuery.expr[":"] = jQuery.expr.pseudos, jQuery.unique = Sizzle.uniqueSort, jQuery.text = Sizzle.getText, jQuery.isXMLDoc = Sizzle.isXML, jQuery.contains = Sizzle.contains;
-    })(window1);
+    }(window1);
     var runtil = /Until$/, rparentsprev = /^(?:parents|prev(?:Until|All))/, isSimple = /^.[^:#\[\.,]*$/, rneedsContext = jQuery.expr.match.needsContext, guaranteedUnique = {
         children: !0,
         contents: !0,
@@ -2507,7 +2507,7 @@
             } else done(-1, "No Transport");
             function done(status, nativeStatusText, responses1, headers) {
                 var isSuccess, success, error, response1, modified, statusText = nativeStatusText;
-                2 !== state && (state = 2, timeoutTimer && clearTimeout(timeoutTimer), transport = undefined, responseHeadersString = headers || "", jqXHR1.readyState = status > 0 ? 4 : 0, responses1 && (response1 = (function(s, jqXHR, responses) {
+                2 !== state && (state = 2, timeoutTimer && clearTimeout(timeoutTimer), transport = undefined, responseHeadersString = headers || "", jqXHR1.readyState = status > 0 ? 4 : 0, responses1 && (response1 = function(s, jqXHR, responses) {
                     var firstDataType, ct, finalDataType, type, contents = s.contents, dataTypes = s.dataTypes, responseFields = s.responseFields;
                     for(type in responseFields)type in responses && (jqXHR[responseFields[type]] = responses[type]);
                     for(; "*" === dataTypes[0];)dataTypes.shift(), ct === undefined && (ct = s.mimeType || jqXHR.getResponseHeader("Content-Type"));
@@ -2529,7 +2529,7 @@
                         finalDataType = finalDataType || firstDataType;
                     }
                     if (finalDataType) return finalDataType !== dataTypes[0] && dataTypes.unshift(finalDataType), responses[finalDataType];
-                })(s1, jqXHR1, responses1)), status >= 200 && status < 300 || 304 === status ? (s1.ifModified && ((modified = jqXHR1.getResponseHeader("Last-Modified")) && (jQuery.lastModified[cacheURL] = modified), (modified = jqXHR1.getResponseHeader("etag")) && (jQuery.etag[cacheURL] = modified)), 204 === status ? (isSuccess = !0, statusText = "nocontent") : 304 === status ? (isSuccess = !0, statusText = "notmodified") : (statusText = (isSuccess = (function(s, response) {
+                }(s1, jqXHR1, responses1)), status >= 200 && status < 300 || 304 === status ? (s1.ifModified && ((modified = jqXHR1.getResponseHeader("Last-Modified")) && (jQuery.lastModified[cacheURL] = modified), (modified = jqXHR1.getResponseHeader("etag")) && (jQuery.etag[cacheURL] = modified)), 204 === status ? (isSuccess = !0, statusText = "nocontent") : 304 === status ? (isSuccess = !0, statusText = "notmodified") : (statusText = (isSuccess = function(s, response) {
                     var conv2, current, conv, tmp, converters = {}, i = 0, dataTypes = s.dataTypes.slice(), prev = dataTypes[0];
                     if (s.dataFilter && (response = s.dataFilter(response, s.dataType)), dataTypes[1]) for(conv in s.converters)converters[conv.toLowerCase()] = s.converters[conv];
                     for(; current = dataTypes[++i];)if ("*" !== current) {
@@ -2556,7 +2556,7 @@
                         state: "success",
                         data: response
                     };
-                })(s1, response1)).state, success = isSuccess.data, error = isSuccess.error, isSuccess = !error)) : (error = statusText, (status || !statusText) && (statusText = "error", status < 0 && (status = 0))), jqXHR1.status = status, jqXHR1.statusText = (nativeStatusText || statusText) + "", isSuccess ? deferred.resolveWith(callbackContext, [
+                }(s1, response1)).state, success = isSuccess.data, error = isSuccess.error, isSuccess = !error)) : (error = statusText, (status || !statusText) && (statusText = "error", status < 0 && (status = 0))), jqXHR1.status = status, jqXHR1.statusText = (nativeStatusText || statusText) + "", isSuccess ? deferred.resolveWith(callbackContext, [
                     success,
                     statusText,
                     jqXHR1
@@ -2640,11 +2640,11 @@
         } catch (e) {}
     }
     jQuery.ajaxSettings.xhr = window1.ActiveXObject ? function() {
-        return !this.isLocal && createStandardXHR() || (function() {
+        return !this.isLocal && createStandardXHR() || function() {
             try {
                 return new window1.ActiveXObject("Microsoft.XMLHTTP");
             } catch (e) {}
-        })();
+        }();
     } : createStandardXHR, xhrSupported = jQuery.ajaxSettings.xhr(), jQuery.support.cors = !!xhrSupported && "withCredentials" in xhrSupported, xhrSupported = jQuery.support.ajax = !!xhrSupported, xhrSupported && jQuery.ajaxTransport(function(s) {
         if (!s.crossDomain || jQuery.support.cors) {
             var callback;

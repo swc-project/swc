@@ -6,9 +6,9 @@ var A, D, E;
         }
     }
     A1.Point = Point, A1.Origin = new Point(0, 0);
-}(A || (A = {})), D || (D = {}), new A.Point(1, 1), (function(E1) {
+}(A || (A = {})), D || (D = {}), new A.Point(1, 1), function(E1) {
     var a = A;
     E1.xDist = function(x) {
         return a.Origin.x - x.x;
     };
-})(E || (E = {}));
+}(E || (E = {}));

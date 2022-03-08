@@ -9,7 +9,16 @@ var B = function() {
     function C() {
         return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(C, [
+    var _proto = C.prototype;
+    return _proto.foo = function() {
+        return this.x;
+    }, _proto.bar = function() {
+        return this.foo();
+    }, C.foo = function() {
+        return this.x;
+    }, C.bar = function() {
+        this.foo();
+    }, swcHelpers.createClass(C, [
         {
             key: "y",
             get: function() {
@@ -17,18 +26,6 @@ var B = function() {
             },
             set: function(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function() {
-                return this.x;
-            }
-        },
-        {
-            key: "bar",
-            value: function() {
-                return this.foo();
             }
         }
     ], [
@@ -39,18 +36,6 @@ var B = function() {
             },
             set: function(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function() {
-                return this.x;
-            }
-        },
-        {
-            key: "bar",
-            value: function() {
-                this.foo();
             }
         }
     ]), C;

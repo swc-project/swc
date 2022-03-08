@@ -10,13 +10,9 @@ var Animal = /*#__PURE__*/ function() {
         });
         swcHelpers.classPrivateFieldSet(this, _name, name);
     }
-    swcHelpers.createClass(Animal, [
-        {
-            key: "noise",
-            value: function noise() {
-                return swcHelpers.classPrivateFieldGet(this, _name).toUpperCase();
-            }
-        }
-    ]);
+    var _proto = Animal.prototype;
+    _proto.noise = function noise() {
+        return swcHelpers.classPrivateFieldGet(this, _name).toUpperCase();
+    };
     return Animal;
 }();

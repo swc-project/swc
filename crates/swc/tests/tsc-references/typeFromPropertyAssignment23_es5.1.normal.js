@@ -10,12 +10,8 @@ var B = // @noEmit: true
         swcHelpers.classCallCheck(this, B);
         this.n = 1;
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "foo",
-            value: function foo() {}
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.foo = function foo() {};
     return B;
 }();
 var C = /*#__PURE__*/ function(B) {
@@ -57,19 +53,12 @@ var NormalModule = /*#__PURE__*/ function(Module) {
         swcHelpers.classCallCheck(this, NormalModule);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(NormalModule, [
-        {
-            key: "identifier",
-            value: function identifier() {
-                return 'normal';
-            }
-        },
-        {
-            key: "size",
-            value: function size() {
-                return 0;
-            }
-        }
-    ]);
+    var _proto = NormalModule.prototype;
+    _proto.identifier = function identifier() {
+        return 'normal';
+    };
+    _proto.size = function size() {
+        return 0;
+    };
     return NormalModule;
 }(Module);

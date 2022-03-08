@@ -12,12 +12,8 @@ var D = /*#__PURE__*/ function(C) {
         swcHelpers.classCallCheck(this, D);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "foo1",
-            value: function foo1() {}
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.foo1 = function foo1() {};
     return D;
 }(C);
 var E = /*#__PURE__*/ function(C) {
@@ -28,12 +24,8 @@ var E = /*#__PURE__*/ function(C) {
         swcHelpers.classCallCheck(this, E);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(E, [
-        {
-            key: "foo2",
-            value: function foo2() {}
-        }
-    ]);
+    var _proto = E.prototype;
+    _proto.foo2 = function foo2() {};
     return E;
 }(C);
 var unionDE;

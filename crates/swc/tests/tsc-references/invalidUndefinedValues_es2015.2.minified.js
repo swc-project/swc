@@ -4,6 +4,6 @@ x = 1, x = "", x = !0, x = void 0, x = null, x = class {
     f () {}
 }, x = function(a) {
     x = a;
-}, (function(E) {
+}, function(E) {
     E[E.A = 0] = "A";
-})(E || (E = {})), x = E, x = E.A;
+}(E || (E = {})), x = E, x = E.A;

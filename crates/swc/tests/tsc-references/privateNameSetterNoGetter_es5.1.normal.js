@@ -10,14 +10,10 @@ var C = (_x = new WeakMap(), _class = /*#__PURE__*/ function() {
             set: set_x
         });
     }
-    swcHelpers.createClass(_class1, [
-        {
-            key: "m",
-            value: function m() {
-                swcHelpers.classPrivateFieldSet(this, _x, swcHelpers.classPrivateFieldGet(this, _x) + 2); // Error
-            }
-        }
-    ]);
+    var _proto = _class1.prototype;
+    _proto.m = function m() {
+        swcHelpers.classPrivateFieldSet(this, _x, swcHelpers.classPrivateFieldGet(this, _x) + 2); // Error
+    };
     return _class1;
 }(), _class);
 console.log(new C().m());

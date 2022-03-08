@@ -16,14 +16,10 @@ var BigGreeter = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, BigGreeter);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(BigGreeter, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("div", null));
-            }
-        }
-    ]);
+    var _proto = BigGreeter.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("div", null));
+    };
     return BigGreeter;
 }(React.Component);
 // OK

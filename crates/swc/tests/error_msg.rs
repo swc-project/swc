@@ -62,7 +62,7 @@ fn fixture(input: PathBuf) {
             handler,
             &Options {
                 swcrc: true,
-                is_module: IsModule::Bool(true),
+                is_module: IsModule::Unknown,
 
                 ..Default::default()
             },

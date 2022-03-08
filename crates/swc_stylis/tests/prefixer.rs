@@ -485,6 +485,15 @@ fn error_recovery_1() {
     );
 }
 
+#[test]
+fn image_rendering() {
+    t(
+        "image-rendering: pixelated;",
+        "-ms-interpolation-mode:nearest-neighbor;image-rendering:-webkit-optimize-contrast;\
+         image-rendering:-moz-crisp-edges;image-rendering:-o-pixelated;image-rendering:pixelated;",
+    );
+}
+
 /// Test
 fn t(src: &str, expected: &str) {
     testing::run_test2(false, |cm, handler| {
@@ -583,7 +592,7 @@ fn fixture(input: PathBuf) {
         {
             let mut wr = BasicCssWriter::new(&mut s, BasicCssWriterConfig { indent: "  " });
             let mut gen =
-                swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: true });
+                swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: false });
 
             gen.emit(&ss).unwrap();
         }

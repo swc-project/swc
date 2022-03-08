@@ -7,12 +7,7 @@ var Context = function() {
     function A() {
         swcHelpers.classCallCheck(this, A);
     }
-    return swcHelpers.createClass(A, [
-        {
-            key: "doSomething",
-            value: function() {}
-        }
-    ]), A;
+    return A.prototype.doSomething = function() {}, A;
 }(), B = function(_superClass) {
     "use strict";
     swcHelpers.inherits(B, _superClass);
@@ -20,12 +15,7 @@ var Context = function() {
     function B() {
         return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(B, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ]), B;
+    return B.prototype.foo = function() {}, B;
 }(CreateMixin(Context, A)), C = function(_superClass) {
     "use strict";
     swcHelpers.inherits(C, _superClass);
@@ -33,10 +23,5 @@ var Context = function() {
     function C() {
         return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "doSomethang",
-            value: function() {}
-        }
-    ]), C;
+    return C.prototype.doSomethang = function() {}, C;
 }(CreateMixin(Context, A));

@@ -4,40 +4,25 @@ var A1 = function() {
     function A1() {
         swcHelpers.classCallCheck(this, A1);
     }
-    return swcHelpers.createClass(A1, [
-        {
-            key: "fn",
-            value: function(a) {
-                return null;
-            }
-        }
-    ]), A1;
+    return A1.prototype.fn = function(a) {
+        return null;
+    }, A1;
 }(), B1 = function() {
     "use strict";
     function B1() {
         swcHelpers.classCallCheck(this, B1);
     }
-    return swcHelpers.createClass(B1, [
-        {
-            key: "fn",
-            value: function(b) {
-                return null;
-            }
-        }
-    ]), B1;
+    return B1.prototype.fn = function(b) {
+        return null;
+    }, B1;
 }(), Base = function() {
     "use strict";
     function Base() {
         swcHelpers.classCallCheck(this, Base);
     }
-    return swcHelpers.createClass(Base, [
-        {
-            key: "fn",
-            value: function(b) {
-                return null;
-            }
-        }
-    ]), Base;
+    return Base.prototype.fn = function(b) {
+        return null;
+    }, Base;
 }(), A2 = function(Base) {
     "use strict";
     swcHelpers.inherits(A2, Base);

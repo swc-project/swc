@@ -8,16 +8,9 @@ var B = // @noImplicitOverride: true
     function B() {
         swcHelpers.classCallCheck(this, B);
     }
-    swcHelpers.createClass(B, [
-        {
-            key: "foo",
-            value: function foo(v) {}
-        },
-        {
-            key: "fooo",
-            value: function fooo(v) {}
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.foo = function foo(v) {};
+    _proto.fooo = function fooo(v) {};
     return B;
 }();
 var D = /*#__PURE__*/ function(B) {
@@ -28,20 +21,10 @@ var D = /*#__PURE__*/ function(B) {
         swcHelpers.classCallCheck(this, D);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(D, [
-        {
-            key: "foo",
-            value: function foo(v) {}
-        },
-        {
-            /** @override */ key: "fooo",
-            value: function fooo(v) {}
-        },
-        {
-            /** @override */ key: "bar",
-            value: function bar(v) {}
-        }
-    ]);
+    var _proto = D.prototype;
+    _proto.foo = function foo(v) {};
+    /** @override */ _proto.fooo = function fooo(v) {};
+    /** @override */ _proto.bar = function bar(v) {};
     return D;
 }(B);
 var C = /*#__PURE__*/ function() {
@@ -49,19 +32,9 @@ var C = /*#__PURE__*/ function() {
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
-    swcHelpers.createClass(C, [
-        {
-            key: "foo",
-            value: function foo() {}
-        },
-        {
-            /** @override */ key: "fooo",
-            value: function fooo(v) {}
-        },
-        {
-            /** @override */ key: "bar",
-            value: function bar(v) {}
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.foo = function foo() {};
+    /** @override */ _proto.fooo = function fooo(v) {};
+    /** @override */ _proto.bar = function bar(v) {};
     return C;
 }();

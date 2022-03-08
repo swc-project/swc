@@ -8,14 +8,9 @@ var M1, M3, C = function() {
     function C() {
         swcHelpers.classCallCheck(this, C), this.n = this.s;
     }
-    return swcHelpers.createClass(C, [
-        {
-            key: "x",
-            value: function() {
-                this.n;
-            }
-        }
-    ]), C;
+    return C.prototype.x = function() {
+        this.n;
+    }, C;
 }();
 !function(M3) {
     var M4;

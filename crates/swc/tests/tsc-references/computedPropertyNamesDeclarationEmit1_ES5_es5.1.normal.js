@@ -7,11 +7,9 @@ var C = // @target: es5
     function C() {
         swcHelpers.classCallCheck(this, C);
     }
+    var _proto = C.prototype;
+    _proto[tmp] = function() {};
     swcHelpers.createClass(C, [
-        {
-            key: tmp,
-            value: function value() {}
-        },
         {
             key: tmp1,
             get: function get() {

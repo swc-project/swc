@@ -15,17 +15,12 @@ var Thing = function() {
             m: function(n) {}
         };
     }
-    return swcHelpers.createClass(Thing, [
-        {
-            key: "fail",
-            value: function() {
-                this.s = {
-                    status: "done",
-                    m: function(n) {}
-                };
-            }
-        }
-    ]), Thing;
+    return Thing.prototype.fail = function() {
+        this.s = {
+            status: "done",
+            m: function(n) {}
+        };
+    }, Thing;
 }();
 exports.x = {
     status: "done",

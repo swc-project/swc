@@ -6,15 +6,8 @@ import * as swcHelpers from "@swc/helpers";
         function C() {
             swcHelpers.classCallCheck(this, C);
         }
-        return swcHelpers.createClass(C, [
-            {
-                key: _toPrimitive,
-                value: function(x) {}
-            },
-            {
-                key: _isConcatSpreadable,
-                value: function() {}
-            },
+        var _proto = C.prototype;
+        return _proto[_toPrimitive] = function(x) {}, _proto[_isConcatSpreadable] = function() {}, swcHelpers.createClass(C, [
             {
                 key: _toPrimitive1,
                 get: function() {}

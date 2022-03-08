@@ -13,14 +13,10 @@ var TextComponent = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, TextComponent);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(TextComponent, [
-        {
-            key: "render",
-            value: function render() {
-                return(/*#__PURE__*/ React.createElement("span", null, "Some Text.."));
-            }
-        }
-    ]);
+    var _proto = TextComponent.prototype;
+    _proto.render = function render() {
+        return(/*#__PURE__*/ React.createElement("span", null, "Some Text.."));
+    };
     return TextComponent;
 }(React.Component);
 // OK

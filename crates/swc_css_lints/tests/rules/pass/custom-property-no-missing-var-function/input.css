@@ -1,0 +1,9 @@
+a { color: var(--foo); }
+a { color: calc(var(--foo) + var(--bar)); }
+a { color: var(--foo, red); }
+a { --foo: var(--bar); }
+:root { --foo: red; } a { color: var(--foo); }
+a { color: var(--foo, var(--bar)); }
+@property --foo {} a { color: var(--foo); }
+:--foo {}
+@media(--foo) {}

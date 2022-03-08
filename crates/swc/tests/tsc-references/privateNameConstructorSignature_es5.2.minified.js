@@ -7,12 +7,7 @@ var _x = new WeakMap(), C = function() {
             value: void 0
         });
     }
-    return swcHelpers.createClass(C, null, [
-        {
-            key: "test",
-            value: function() {
-                swcHelpers.classPrivateFieldSet(new C(), _x, 10), new new C()().x = 123;
-            }
-        }
-    ]), C;
+    return C.test = function() {
+        swcHelpers.classPrivateFieldSet(new C(), _x, 10), new new C()().x = 123;
+    }, C;
 }();

@@ -11,14 +11,10 @@ var Alias = // @allowJs: true
     function Alias() {
         swcHelpers.classCallCheck(this, Alias);
     }
-    swcHelpers.createClass(Alias, [
-        {
-            key: "bar",
-            value: function bar() {
-                return 1;
-            }
-        }
-    ]);
+    var _proto = Alias.prototype;
+    _proto.bar = function bar() {
+        return 1;
+    };
     return Alias;
 }();
 module.exports = Alias;

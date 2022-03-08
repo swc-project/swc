@@ -5,12 +5,8 @@ var Parent = //@target: es6
     function Parent() {
         swcHelpers.classCallCheck(this, Parent);
     }
-    swcHelpers.createClass(Parent, [
-        {
-            key: "foo",
-            value: function foo() {}
-        }
-    ]);
+    var _proto = Parent.prototype;
+    _proto.foo = function foo() {};
     return Parent;
 }();
 var Foo = /*#__PURE__*/ function(Parent) {
@@ -21,16 +17,12 @@ var Foo = /*#__PURE__*/ function(Parent) {
         swcHelpers.classCallCheck(this, Foo);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(Foo, [
-        {
-            key: "foo",
-            value: function foo() {
-                var _this = this;
-                var x = function() {
-                    return swcHelpers.get(swcHelpers.getPrototypeOf(Foo.prototype), "foo", _this).call(_this);
-                };
-            }
-        }
-    ]);
+    var _proto = Foo.prototype;
+    _proto.foo = function foo() {
+        var _this = this;
+        var x = function() {
+            return swcHelpers.get(swcHelpers.getPrototypeOf(Foo.prototype), "foo", _this).call(_this);
+        };
+    };
     return Foo;
 }(Parent);

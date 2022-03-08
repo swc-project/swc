@@ -43,14 +43,10 @@ var E = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, E);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(E, [
-        {
-            key: "foo",
-            value: function foo() {
-                return this.t;
-            }
-        }
-    ]);
+    var _proto = E.prototype;
+    _proto.foo = function foo() {
+        return this.t;
+    };
     return E;
 }(A);
 var F = /*#__PURE__*/ function(A) {
@@ -61,12 +57,8 @@ var F = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, F);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(F, [
-        {
-            key: "bar",
-            value: function bar(t) {}
-        }
-    ]);
+    var _proto = F.prototype;
+    _proto.bar = function bar(t) {};
     return F;
 }(A);
 var G = /*#__PURE__*/ function(A) {
@@ -77,17 +69,10 @@ var G = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, G);
         return _super.apply(this, arguments);
     }
-    swcHelpers.createClass(G, [
-        {
-            key: "foo",
-            value: function foo() {
-                return this.t;
-            }
-        },
-        {
-            key: "bar",
-            value: function bar(t) {}
-        }
-    ]);
+    var _proto = G.prototype;
+    _proto.foo = function foo() {
+        return this.t;
+    };
+    _proto.bar = function bar(t) {};
     return G;
 }(A);
