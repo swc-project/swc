@@ -895,6 +895,14 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-shape-image-threshold");
             }
 
+            "object-fit" => {
+                same_content!("-o-object-fit");
+            }
+
+            "object-position" => {
+                same_content!("-o-object-position");
+            }
+
             // TODO add `overscroll-behavior`
             // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
