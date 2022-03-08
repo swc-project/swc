@@ -143,6 +143,8 @@ display: -webkit-flex;
 display: -moz-box;
 display: -ms-flexbox;
 display: flex;
+-webkit-flex-flow: row;
+-ms-flex-flow: row;
 flex-flow: row;
 -webkit-order: 0;
 -ms-flex-order: 0;

@@ -54,15 +54,6 @@ fn mask() {
 }
 
 #[test]
-fn filter() {
-    t(
-        "filter:grayscale(100%);",
-        "-webkit-filter:grayscale(100%);filter:grayscale(100%);",
-    );
-    t("fill:red;", "fill:red;");
-}
-
-#[test]
 fn background() {
     t("background:none;", "background:none;");
     t(

@@ -5,6 +5,8 @@ display: -webkit-flex;
 display: -moz-box;
 display: -ms-flexbox;
 display: flex;
+-webkit-flex-flow: row;
+-ms-flex-flow: row;
 flex-flow: row;
 -webkit-order: 0;
 -ms-flex-order: 0;
@@ -48,6 +50,8 @@ justify-content: flex-start;
 -webkit-box-align: flex-start;
 -ms-flex-align: flex-start;
 align-items: flex-start;
+-webkit-flex-wrap: nowrap;
+-ms-flex-wrap: nowrap;
 flex-wrap: nowrap;
 -webkit-align-content: flex-start;
 -ms-flex-line-pack: flex-start;
@@ -76,6 +80,8 @@ justify-content: flex-end;
 -webkit-box-align: flex-end;
 -ms-flex-align: flex-end;
 align-items: flex-end;
+-webkit-flex-wrap: wrap;
+-ms-flex-wrap: wrap;
 flex-wrap: wrap;
 -webkit-align-content: flex-end;
 -ms-flex-line-pack: flex-end;
@@ -102,6 +108,8 @@ justify-content: center;
 -webkit-box-align: center;
 -ms-flex-align: center;
 align-items: center;
+-webkit-flex-wrap: reverse-wrap;
+-ms-flex-wrap: reverse-wrap;
 flex-wrap: reverse-wrap;
 -webkit-align-content: center;
 -ms-flex-line-pack: center;
@@ -166,9 +174,13 @@ display: flex;
 flex: calc(1em + 1px) 0 0;
 }
 .h {
+-webkit-flex-flow: column wrap;
+-ms-flex-flow: column wrap;
 flex-flow: column wrap;
 }
 .i {
+-webkit-flex-flow: nowrap;
+-ms-flex-flow: nowrap;
 flex-flow: nowrap;
 }
 .inherit {
@@ -203,6 +215,7 @@ flex: inherit;
 .class {
 -webkit-box-flex: 1;
 -webkit-flex-grow: 1;
+-moz-box-flex: 1;
 -ms-flex-positive: 1;
 flex-grow: 1;
 }
