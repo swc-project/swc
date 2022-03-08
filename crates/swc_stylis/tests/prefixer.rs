@@ -226,26 +226,6 @@ fn appearance() {
     );
 }
 
-#[test]
-fn error_recovery_1() {
-    // This behavior is wrong, but it's what `stylis@3` does.
-    t(
-        "__styled-jsx-placeholder__1
-            animation: slide 3s ease infinite;
-        ",
-        "__styled-jsx-placeholder__1
-            animation: slide 3s ease infinite;",
-    );
-
-    t(
-        "animation: slide 3s ease infinite;
-            __styled-jsx-placeholder__1
-        ",
-        "-webkit-animation:slide 3s ease infinite;animation:slide 3s ease \
-         infinite;__styled-jsx-placeholder__1\n        ",
-    );
-}
-
 /// Test
 fn t(src: &str, expected: &str) {
     testing::run_test2(false, |cm, handler| {
