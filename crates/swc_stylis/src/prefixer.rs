@@ -931,41 +931,51 @@ impl VisitMut for Prefixer {
             "object-position" => {
                 same_content!("-o-object-position");
             }
-            
+
             "tab-size" => {
                 same_content!("-moz-tab-size");
                 same_content!("-o-tab-size");
             }
-            
+
             "hyphens" => {
                 same_content!("-webkit-hyphens");
                 same_content!("-moz-hyphens");
                 same_content!("-ms-hyphens");
             }
-            
+
             "border-image" => {
                 same_content!("-webkit-border-image");
                 same_content!("-moz-border-image");
                 same_content!("-o-border-image");
             }
-            
+
             "font-kerning" => {
                 same_content!("-webkit-font-kerning");
             }
-            
+
             "font-feature-settings" => {
                 same_content!("-webkit-font-feature-settings");
                 same_content!("-moz-font-feature-settings");
             }
-            
+
             "font-variant-ligatures" => {
                 same_content!("-webkit-font-variant-ligatures");
                 same_content!("-moz-font-variant-ligatures");
             }
-            
+
             "font-language-override" => {
                 same_content!("-webkit-font-language-override");
                 same_content!("-moz-font-language-override");
+            }
+
+            "background-origin" => {
+                same_content!("-webkit-background-origin");
+                same_content!("-o-background-origin");
+            }
+
+            "background-size" => {
+                same_content!("-webkit-background-size");
+                same_content!("-o-background-size");
             }
 
             // TODO add `overscroll-behavior`
