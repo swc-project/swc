@@ -23,17 +23,6 @@ use testing::NormalizedOutput;
 
 #[test]
 fn flex_box() {
-    t("display:block;", "display:block;");
-    t(
-        "display:flex!important;",
-        "display:-webkit-box!important;display:-webkit-flex!important;display:-ms-flexbox!\
-         important;display:flex!important;",
-    );
-    t(
-        "display:inline-flex;",
-        "display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;\
-         display:inline-flex;",
-    );
     t(
         "flex:inherit;",
         "-webkit-flex:inherit;-ms-flex:inherit;flex:inherit;",

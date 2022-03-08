@@ -104,6 +104,7 @@ transition: opacity 0.5s 2s, transform 0.5s 0.5s;
 button::-webkit-search-cancel-button {
 display: -webkit-box;
 display: -webkit-flex;
+display: -moz-box;
 display: -ms-flexbox;
 display: flex;
 -webkit-transition: color 200ms, -webkit-transform 200ms;
@@ -119,6 +120,7 @@ display: -webkit-box;
 display: -webkit-flex;
 display: -webkit-box;
 display: -webkit-flex;
+display: -moz-box;
 display: -ms-flexbox;
 display: flex;
 -webkit-transition: color 200ms, -webkit-transform 200ms;
@@ -138,6 +140,7 @@ transform: rotate(10deg);
 .a::-webkit-search-cancel-button {
 display: -webkit-box;
 display: -webkit-flex;
+display: -moz-box;
 display: -ms-flexbox;
 display: flex;
 flex-flow: row;

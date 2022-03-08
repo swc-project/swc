@@ -338,12 +338,14 @@ impl VisitMut for Prefixer {
                             "flex" => {
                                 same_name!("-webkit-box");
                                 same_name!("-webkit-flex");
+                                same_name!("-moz-box");
                                 same_name!("-ms-flexbox");
                             }
 
                             "inline-flex" => {
                                 same_name!("-webkit-inline-box");
                                 same_name!("-webkit-inline-flex");
+                                same_name!("-moz-inline-box");
                                 same_name!("-ms-inline-flexbox");
                             }
 
