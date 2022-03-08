@@ -431,6 +431,7 @@ impl VisitMut for Prefixer {
 
             "backface-visibility" => {
                 same_content!("-webkit-backface-visibility");
+                same_content!("-moz-backface-visibility");
             }
 
             "clip-path" => {
