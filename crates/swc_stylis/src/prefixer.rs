@@ -295,6 +295,7 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            // TODO Handle `zoom-in`, `zoom-out` and `grabbing`
             "cursor" => {
                 if !n.value.is_empty() {
                     let new_value = n
