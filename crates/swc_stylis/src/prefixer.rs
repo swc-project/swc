@@ -469,6 +469,7 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-transform");
                 same_content!("-moz-transform");
                 same_content!("-ms-transform");
+                same_content!("-o-transform");
             }
 
             "text-decoration" => {
@@ -542,6 +543,7 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            // TODO improve me for `filter` values https://github.com/postcss/autoprefixer/blob/main/test/cases/transition.css#L6
             "transition" => {
                 let mut value = n.value.clone();
 
@@ -558,6 +560,30 @@ impl VisitMut for Prefixer {
                     value,
                     important: n.important.clone(),
                 });
+            }
+
+            "transition-property" => {
+                same_content!("-webkit-transition-property");
+                same_content!("-moz-transition-timing-function");
+                same_content!("-o-transition-timing-function");
+            }
+
+            "transition-duration" => {
+                same_content!("-webkit-transition-duration");
+                same_content!("-moz-transition-duration");
+                same_content!("-o-transition-duration");
+            }
+
+            "transition-delay" => {
+                same_content!("-webkit-transition-delay");
+                same_content!("-moz-transition-delay");
+                same_content!("-o-transition-delay");
+            }
+
+            "transition-timing-function" => {
+                same_content!("-webkit-transition-timing-function");
+                same_content!("-moz-transition-timing-function");
+                same_content!("-o-transition-timing-function");
             }
 
             "writing-mode" => {

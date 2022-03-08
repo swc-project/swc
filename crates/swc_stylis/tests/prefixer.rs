@@ -110,24 +110,6 @@ fn flex_box() {
 }
 
 #[test]
-fn transform() {
-    t(
-        "transform:rotate(30deg);",
-        "-webkit-transform:rotate(30deg);-moz-transform:rotate(30deg);-ms-transform:rotate(30deg);\
-         transform:rotate(30deg);",
-    );
-}
-
-#[test]
-fn transition() {
-    t(
-        "transition:transform 1s,transform all 400ms,text-transform;",
-        "-webkit-transition:-webkit-transform 1s,-webkit-transform all \
-         400ms,text-transform;transition:transform 1s,transform all 400ms,text-transform;",
-    );
-}
-
-#[test]
 fn writing_mode() {
     t(
         "writing-mode:none;",
