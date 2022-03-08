@@ -16,6 +16,8 @@ struct Prefixer {
 }
 
 impl VisitMut for Prefixer {
+    // TODO handle `:any-link` pseudo
+    
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
 
@@ -805,6 +807,10 @@ impl VisitMut for Prefixer {
                         _ => {}
                     }
                 }
+            }
+            
+            "text-spacing" => {
+                same_content!("-ms-text-spacing");
             }
 
             // TODO add `overscroll-behavior`
