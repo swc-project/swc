@@ -624,13 +624,20 @@ impl Scope {
                     .entry((arg.sym.clone(), arg.span.ctxt()));
 
                 match entry {
-                    Entry::Occupied(entry) => Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: vec![
-                            Box::new(update.into()),
-                            chain_assign!(entry, Box::new(arg.into())),
-                        ],
-                    }),
+                    Entry::Occupied(entry) => {
+                        if update.prefix {
+                            *chain_assign!(entry, Box::new(update.into()))
+                        } else {
+                            // TODO: This assumes `pureGetters=true`
+                            Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: vec![
+                                    Box::new(update.into()),
+                                    chain_assign!(entry, Box::new(arg.into())),
+                                ],
+                            })
+                        }
+                    }
                     _ => update.into(),
                 }
             }

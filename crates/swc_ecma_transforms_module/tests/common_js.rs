@@ -478,7 +478,7 @@ let diffLevel = 0;
 exports.diffLevel = diffLevel;
 
 function diff() {
-  if (!(++diffLevel, exports.diffLevel = diffLevel)) {
+  if (!(exports.diffLevel = ++diffLevel)) {
     console.log("hey");
   }
 }
@@ -2470,7 +2470,7 @@ let diffLevel = 0;
 exports.diffLevel = diffLevel;
 
 function diff() {
-  if (!(--diffLevel, exports.diffLevel = diffLevel)) {
+  if (!(exports.diffLevel = --diffLevel)) {
     console.log("hey");
   }
 }
