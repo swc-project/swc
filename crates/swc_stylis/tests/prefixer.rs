@@ -22,38 +22,6 @@ use swc_stylis::prefixer::prefixer;
 use testing::NormalizedOutput;
 
 #[test]
-fn mask() {
-    t("mask:none;", "-webkit-mask:none;mask:none;");
-    t(
-        "mask-image:none;",
-        "-webkit-mask-image:none;mask-image:none;",
-    );
-    t(
-        "mask-image:linear-gradient(#fff);",
-        "-webkit-mask-image:linear-gradient(#fff);mask-image:linear-gradient(#fff);",
-    );
-    t("mask-mode:none;", "-webkit-mask-mode:none;mask-mode:none;");
-    t("mask-clip:none;", "-webkit-mask-clip:none;mask-clip:none;");
-    t("mask-size:none;", "-webkit-mask-size:none;mask-size:none;");
-    t(
-        "mask-repeat:none;",
-        "-webkit-mask-repeat:none;mask-repeat:none;",
-    );
-    t(
-        "mask-origin:none;",
-        "-webkit-mask-origin:none;mask-origin:none;",
-    );
-    t(
-        "mask-position:none;",
-        "-webkit-mask-position:none;mask-position:none;",
-    );
-    t(
-        "mask-composite:none;",
-        "-webkit-mask-composite:none;mask-composite:none;",
-    );
-}
-
-#[test]
 fn background() {
     t("background:none;", "background:none;");
     t(
