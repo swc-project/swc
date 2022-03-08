@@ -198,7 +198,7 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
                 }
                 return self
-                    .parse_class_decl(start, start, decorators)
+                    .parse_class_decl(start, start, decorators, false)
                     .map(Stmt::from);
             }
 
