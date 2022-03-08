@@ -948,6 +948,10 @@ impl VisitMut for Prefixer {
                 same_content!("-moz-border-image");
                 same_content!("-o-border-image");
             }
+            
+            "font-kerning" => {
+                same_content!("-webkit-font-kerning");
+            }
 
             // TODO add `overscroll-behavior`
             // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
