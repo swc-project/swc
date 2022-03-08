@@ -26,6 +26,9 @@ impl VisitMut for Prefixer {
     // TODO handle `::file-selector-button` pseudo
     // TODO handle `::backdrop` pseudo
     // TODO handle `:fullscreen` pseudo
+    // TODO handle `:placeholder-shown` pseudo
+    // TODO handle `::placeholder` pseudo
+    // TODO handle `::selection` pseudo
 
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
@@ -938,6 +941,12 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-hyphens");
                 same_content!("-moz-hyphens");
                 same_content!("-ms-hyphens");
+            }
+            
+            "border-image" => {
+                same_content!("-webkit-border-image");
+                same_content!("-moz-border-image");
+                same_content!("-o-border-image");
             }
 
             // TODO add `overscroll-behavior`
