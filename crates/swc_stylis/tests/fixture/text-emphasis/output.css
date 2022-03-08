@@ -19,3 +19,19 @@ text-emphasis-style: circle;
 -webkit-text-emphasis-color: red;
 text-emphasis-color: red;
 }
+a {
+-webkit-text-emphasis-position: over left;
+text-emphasis-position: over left;
+}
+em {
+-webkit-text-emphasis-position: under right;
+text-emphasis-position: under right;
+}
+.reverse {
+-webkit-text-emphasis-position: left over;
+text-emphasis-position: left over;
+}
+.wrong {
+-webkit-text-emphasis-position: over;
+text-emphasis-position: over;
+}

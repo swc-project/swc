@@ -465,6 +465,7 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-flex-line-pack");
             }
 
+            // TODO fix me
             "image-rendering" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &**value == "pixelated" {
@@ -752,7 +753,7 @@ impl VisitMut for Prefixer {
                 same_content!("-o-transition-timing-function");
             }
 
-            // TODO fix me, we should look at `direction` property
+            // TODO fix me, we should look at `direction` property https://github.com/postcss/autoprefixer/blob/main/lib/hacks/writing-mode.js
             "writing-mode" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
@@ -981,7 +982,24 @@ impl VisitMut for Prefixer {
                 same_content!("-o-background-size");
             }
 
-            // TODO add `overscroll-behavior`
+            "overscroll-behavior" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "auto" => {
+                            simple!("-ms-scroll-chaining", "chained");
+                        }
+                        "none" | "contain" => {
+                            simple!("-ms-scroll-chaining", "none");
+                        }
+                        _ => {
+                            same_content!("-ms-scroll-chaining");
+                        }
+                    }
+                } else {
+                    same_content!("-ms-scroll-chaining");
+                }
+            }
+
             // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `image-set()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L907
