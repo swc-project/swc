@@ -11,7 +11,7 @@ pub fn prefixer() -> impl VisitMut {
 
 #[derive(Default)]
 struct Prefixer {
-    in_block: bool,
+    in_simple_block: bool,
     added: Vec<Declaration>,
 }
 
@@ -34,7 +34,7 @@ impl VisitMut for Prefixer {
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
 
-        if !self.in_block {
+        if !self.in_simple_block {
             return;
         }
 
@@ -635,8 +635,6 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L135
-            // TODO fix me in `@keyframes`
             "transform" => {
                 same_content!("-webkit-transform");
                 same_content!("-moz-transform");
@@ -1042,11 +1040,16 @@ impl VisitMut for Prefixer {
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/cross-fade.js
+            // TODO handle transform functions https://github.com/postcss/autoprefixer/blob/main/lib/hacks/transform-decl.js
             _ => {}
         }
     }
 
     fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
+        let old_in_simple_block = self.in_simple_block;
+
+        self.in_simple_block = true;
+        
         let mut new = vec![];
 
         for mut n in take(&mut simple_block.value) {
@@ -1062,15 +1065,7 @@ impl VisitMut for Prefixer {
         }
 
         simple_block.value = new;
-    }
 
-    fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
-        let old_in_block = self.in_block;
-
-        self.in_block = true;
-
-        n.visit_mut_children_with(self);
-
-        self.in_block = old_in_block;
+        self.in_simple_block = old_in_simple_block;
     }
 }
