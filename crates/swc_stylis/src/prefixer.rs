@@ -474,40 +474,60 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-backdrop-filter");
             }
 
-            "mask" => {
-                same_content!("-webkit-mask");
+            "mask-clip" => {
+                same_content!("-webkit-mask-clip");
+            }
+
+            "mask-composite" => {
+                same_content!("-webkit-mask-composite");
             }
 
             "mask-image" => {
                 same_content!("-webkit-mask-image");
             }
 
-            "mask-mode" => {
-                same_content!("-webkit-mask-mode");
-            }
-
-            "mask-clip" => {
-                same_content!("-webkit-mask-clip");
-            }
-
-            "mask-size" => {
-                same_content!("-webkit-mask-size");
+            "mask-origin" => {
+                same_content!("-webkit-mask-origin");
             }
 
             "mask-repeat" => {
                 same_content!("-webkit-mask-repeat");
             }
 
-            "mask-origin" => {
-                same_content!("-webkit-mask-origin");
+            "mask-border-repeat" => {
+                same_content!("-webkit-mask-border-repeat");
+            }
+
+            "mask-border-source" => {
+                same_content!("-webkit-mask-border-source");
+            }
+
+            "mask" => {
+                same_content!("-webkit-mask");
             }
 
             "mask-position" => {
                 same_content!("-webkit-mask-position");
             }
 
-            "mask-composite" => {
-                same_content!("-webkit-mask-composite");
+            "mask-size" => {
+                same_content!("-webkit-mask-size");
+            }
+
+            "mask-border" => {
+                same_content!("-webkit-mask-box-image");
+            }
+
+            "mask-border-outset" => {
+                same_content!("-webkit-mask-box-image-outset");
+            }
+
+            "mask-border-width" => {
+                same_content!("-webkit-mask-box-image-width");
+            }
+
+            "mask-border-slice" => {
+                same_content!("-webkit-mask-box-image-slice");
             }
 
             "border-inline-start" => {
