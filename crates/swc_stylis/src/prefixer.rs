@@ -636,11 +636,36 @@ impl VisitMut for Prefixer {
             }
 
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L135
+            // TODO fix me in `@keyframes`
             "transform" => {
                 same_content!("-webkit-transform");
                 same_content!("-moz-transform");
                 same_content!("-ms-transform");
                 same_content!("-o-transform");
+            }
+            
+            "transform-origin" => {
+                same_content!("-webkit-transform-origin");
+                same_content!("-moz-transform-origin");
+                same_content!("-ms-transform-origin");
+                same_content!("-o-transform-origin");
+            }
+            
+            "transform-style" => {
+                same_content!("-webkit-transform-style");
+                same_content!("-moz-transform-style");
+                same_content!("-ms-transform-style");
+                same_content!("-o-transform-style");
+            }
+            
+            "perspective" => {
+                same_content!("-webkit-perspective");
+                same_content!("-moz-perspective");
+            }
+            
+            "perspective-origin" => {
+                same_content!("-webkit-perspective-origin");
+                same_content!("-moz-perspective-origin");
             }
 
             "text-decoration" => {
