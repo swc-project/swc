@@ -18,6 +18,7 @@ struct Prefixer {
 impl VisitMut for Prefixer {
     // TODO handle `resolution` in media/supports at-rules
     // TODO handle `@viewport`
+    // TODO handle `@keyframes`
 
     // TODO handle `:any-link` pseudo
     // TODO handle `:read-only` pseudo
@@ -374,6 +375,7 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            // TODO improve old spec https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L330
             "flex" => {
                 same_content!("-webkit-flex");
                 same_content!("-ms-flex");
@@ -628,6 +630,7 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L135
             "transform" => {
                 same_content!("-webkit-transform");
                 same_content!("-moz-transform");
@@ -981,7 +984,14 @@ impl VisitMut for Prefixer {
             // TODO add `overscroll-behavior`
             // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
-            // TODO handle `image-set` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L907
+            // TODO handle `image-set()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L907
+            // TODO handle `calc()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L395
+            // TODO handle `element()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L269
+            // TODO handle `filter()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L241
+            // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
+            // TODO add `break-before`, `break-after`, `break-inside`
+            // TODO add `box-shadow` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L79
+            // TODO add `border-radius` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L59
             _ => {}
         }
     }
