@@ -16,8 +16,8 @@ struct Prefixer {
 }
 
 impl VisitMut for Prefixer {
-    // TODO handle `resolution` in media/supports at-rules and handle declarations in `@media`/`@support`
-    // TODO handle `@viewport`
+    // TODO handle `resolution` in media/supports at-rules and handle declarations
+    // in `@media`/`@support` TODO handle `@viewport`
     // TODO handle `@keyframes`
 
     // TODO handle `:any-link` pseudo
@@ -470,7 +470,7 @@ impl VisitMut for Prefixer {
             // TODO fix me
             "image-rendering" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    if &**value == "pixelated" {
+                    if &*value.to_lowercase() == "pixelated" {
                         simple!("-ms-interpolation-mode", "nearest-neighbor");
                         same_name!("-webkit-optimize-contrast");
                         same_name!("-moz-crisp-edges");
@@ -479,10 +479,15 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter.js
-            "filter" => {
-                same_content!("-webkit-filter");
-            }
+            "filter" => match &n.value[0] {
+                ComponentValue::Ident(Ident { value, .. })
+                    if value.as_ref().eq_ignore_ascii_case("progid") => {}
+                ComponentValue::Function(Function { name, .. })
+                    if name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
+                _ => {
+                    same_content!("-webkit-filter");
+                }
+            },
 
             "backdrop-filter" => {
                 same_content!("-webkit-backdrop-filter");
@@ -641,24 +646,24 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-transform");
                 same_content!("-o-transform");
             }
-            
+
             "transform-origin" => {
                 same_content!("-webkit-transform-origin");
                 same_content!("-moz-transform-origin");
                 same_content!("-ms-transform-origin");
                 same_content!("-o-transform-origin");
             }
-            
+
             "transform-style" => {
                 same_content!("-webkit-transform-style");
                 same_content!("-moz-transform-style");
             }
-            
+
             "perspective" => {
                 same_content!("-webkit-perspective");
                 same_content!("-moz-perspective");
             }
-            
+
             "perspective-origin" => {
                 same_content!("-webkit-perspective-origin");
                 same_content!("-moz-perspective-origin");
@@ -1049,7 +1054,7 @@ impl VisitMut for Prefixer {
         let old_in_simple_block = self.in_simple_block;
 
         self.in_simple_block = true;
-        
+
         let mut new = vec![];
 
         for mut n in take(&mut simple_block.value) {

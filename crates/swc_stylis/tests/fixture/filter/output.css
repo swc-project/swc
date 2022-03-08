@@ -10,14 +10,11 @@ filter: blur(10px);
 transition: filter 2s;
 }
 div {
--webkit-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
 filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
 }
 b {
--webkit-filter: alpha(opacity=100);
 filter: alpha(opacity=100);
 }
 em {
--webkit-filter: Alpha(opacity=100);
 filter: Alpha(opacity=100);
 }
