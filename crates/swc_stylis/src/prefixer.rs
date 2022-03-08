@@ -133,42 +133,52 @@ impl VisitMut for Prefixer {
 
             "columns" => {
                 same_content!("-webkit-columns");
-            }
-
-            "column-count" => {
-                same_content!("-webkit-column-count");
-            }
-
-            "column-fill" => {
-                same_content!("-webkit-column-fill");
-            }
-
-            "column-gap" => {
-                same_content!("-webkit-column-gap");
-            }
-
-            "column-rule" => {
-                same_content!("-webkit-column-rule");
-            }
-
-            "column-rule-color" => {
-                same_content!("-webkit-column-rule-color");
-            }
-
-            "column-rule-style" => {
-                same_content!("-webkit-column-rule-style");
-            }
-
-            "column-span" => {
-                same_content!("-webkit-column-span");
-            }
-
-            "column-rule-width" => {
-                same_content!("-webkit-column-rule-width");
+                same_content!("-moz-columns");
             }
 
             "column-width" => {
                 same_content!("-webkit-column-width");
+                same_content!("-moz-column-width");
+            }
+
+            "column-gap" => {
+                same_content!("-webkit-column-gap");
+                same_content!("-moz-column-gap");
+            }
+
+            "column-rule" => {
+                same_content!("-webkit-column-rule");
+                same_content!("-moz-column-rule");
+            }
+
+            "column-rule-color" => {
+                same_content!("-webkit-column-rule-color");
+                same_content!("-moz-column-rule-color");
+            }
+
+            "column-rule-width" => {
+                same_content!("-webkit-column-rule-width");
+                same_content!("-moz-column-rule-width");
+            }
+
+            "column-count" => {
+                same_content!("-webkit-column-count");
+                same_content!("-moz-column-count");
+            }
+
+            "column-rule-style" => {
+                same_content!("-webkit-column-rule-style");
+                same_content!("-moz-column-rule-style");
+            }
+
+            "column-span" => {
+                same_content!("-webkit-column-span");
+                same_content!("-moz-column-span");
+            }
+
+            "column-fill" => {
+                same_content!("-webkit-column-fill");
+                same_content!("-moz-column-fill");
             }
 
             "background" => {

@@ -138,47 +138,6 @@ fn writing_mode() {
 }
 
 #[test]
-fn columns() {
-    t("columns:auto;", "-webkit-columns:auto;columns:auto;");
-    t(
-        "column-count:auto;",
-        "-webkit-column-count:auto;column-count:auto;",
-    );
-    t(
-        "column-fill:auto;",
-        "-webkit-column-fill:auto;column-fill:auto;",
-    );
-    t(
-        "column-gap:auto;",
-        "-webkit-column-gap:auto;column-gap:auto;",
-    );
-    t(
-        "column-rule:auto;",
-        "-webkit-column-rule:auto;column-rule:auto;",
-    );
-    t(
-        "column-rule-color:auto;",
-        "-webkit-column-rule-color:auto;column-rule-color:auto;",
-    );
-    t(
-        "column-rule-style:auto;",
-        "-webkit-column-rule-style:auto;column-rule-style:auto;",
-    );
-    t(
-        "column-rule-width:auto;",
-        "-webkit-column-rule-width:auto;column-rule-width:auto;",
-    );
-    t(
-        "column-span:auto;",
-        "-webkit-column-span:auto;column-span:auto;",
-    );
-    t(
-        "column-width:auto;",
-        "-webkit-column-width:auto;column-width:auto;",
-    );
-}
-
-#[test]
 fn mask() {
     t("mask:none;", "-webkit-mask:none;mask:none;");
     t(
