@@ -188,11 +188,6 @@ fn boxed() {
 }
 
 #[test]
-fn zoom() {
-    t("min-zoom:0;", "min-zoom:0;");
-}
-
-#[test]
 fn background() {
     t("background:none;", "background:none;");
     t(
