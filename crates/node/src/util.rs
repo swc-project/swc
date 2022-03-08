@@ -44,13 +44,13 @@ pub fn init_custom_trace_subscriber(
 /// This can be called multiple time, however subsequent calls will be ignored
 /// as tracing_subscriber only allows single global dispatch.
 pub fn init_default_trace_subscriber() {
-    let _unused = tracing_subscriber::FmtSubscriber::builder()
-        .without_time()
-        .with_target(false)
-        .with_ansi(true)
-        .with_env_filter(EnvFilter::from_env("SWC_LOG"))
-        .with_env_filter(EnvFilter::from_default_env().add_directive(tracing::Level::WARN.into()))
-        .try_init();
+    /*let _unused = tracing_subscriber::FmtSubscriber::builder()
+    .without_time()
+    .with_target(false)
+    .with_ansi(true)
+    .with_env_filter(EnvFilter::from_env("SWC_LOG"))
+    .with_env_filter(EnvFilter::from_default_env().add_directive(tracing::Level::WARN.into()))
+    .try_init();*/
 }
 
 #[instrument(level = "trace", skip_all)]
