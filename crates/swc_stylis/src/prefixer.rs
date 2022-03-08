@@ -17,7 +17,9 @@ struct Prefixer {
 
 impl VisitMut for Prefixer {
     // TODO handle `:any-link` pseudo
-    
+    // TODO handle `:read-only` pseudo
+    // TODO handle `:read-write` pseudo
+
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
 
@@ -716,6 +718,7 @@ impl VisitMut for Prefixer {
                 same_content!("-o-transition-timing-function");
             }
 
+            // TODO fix me, we should look at `direction` property
             "writing-mode" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
@@ -808,7 +811,7 @@ impl VisitMut for Prefixer {
                     }
                 }
             }
-            
+
             "text-spacing" => {
                 same_content!("-ms-text-spacing");
             }
@@ -816,22 +819,22 @@ impl VisitMut for Prefixer {
             "text-emphasis" => {
                 same_content!("-webkit-text-spacing");
             }
-            
+
             "text-emphasis-position" => {
                 same_content!("-webkit-text-emphasis-position");
             }
-            
+
             "text-emphasis-style" => {
                 same_content!("-webkit-text-emphasis-style");
             }
-            
+
             "text-emphasis-color" => {
                 same_content!("-webkit-text-emphasis-color");
             }
 
             // TODO add `overscroll-behavior`
             // TODO add `grid` support https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L987
-
+            // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             _ => {}
         }
     }
