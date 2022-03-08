@@ -134,6 +134,11 @@ impl VisitMut for Prefixer {
             "box-decoration-break" => {
                 same_content!("-webkit-box-decoration-break");
             }
+            
+            "box-sizing" => {
+                same_content!("-webkit-box-sizing");
+                same_content!("-moz-box-sizing");
+            }
 
             "color-adjust" => {
                 same_content!("-webkit-print-color-adjust");

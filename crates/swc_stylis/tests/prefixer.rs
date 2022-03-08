@@ -179,15 +179,6 @@ fn filter() {
 }
 
 #[test]
-fn boxed() {
-    t(
-        "box-decoration-break:slice;",
-        "-webkit-box-decoration-break:slice;box-decoration-break:slice;",
-    );
-    t("box-sizing:border-box;", "box-sizing:border-box;");
-}
-
-#[test]
 fn background() {
     t("background:none;", "background:none;");
     t(
