@@ -3,3 +3,14 @@ direction: rtl;
 unicode-bidi: -moz-isolate-override;
 unicode-bidi: isolate-override;
 }
+.bible-quote {
+direction: rtl;
+unicode-bidi: -moz-plaintext;
+unicode-bidi: plaintext;
+}
+.bible-quote {
+direction: rtl;
+unicode-bidi: -webkit-isolate;
+unicode-bidi: -moz-isolate;
+unicode-bidi: isolate;
+}
