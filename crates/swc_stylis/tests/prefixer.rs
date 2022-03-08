@@ -202,18 +202,6 @@ fn background() {
 }
 
 #[test]
-fn margin_inline() {
-    t(
-        "margin-inline-start:20px;",
-        "-webkit-margin-start:20px;margin-inline-start:20px;",
-    );
-    t(
-        "margin-inline-end:20px;",
-        "-webkit-margin-end:20px;margin-inline-end:20px;",
-    );
-}
-
-#[test]
 fn appearance() {
     t(
         "animation:inherit;",
