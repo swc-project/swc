@@ -16,6 +16,9 @@ struct Prefixer {
 }
 
 impl VisitMut for Prefixer {
+    // TODO handle `resolution` in media/supports at-rules
+    // TODO handle `@viewport`
+
     // TODO handle `:any-link` pseudo
     // TODO handle `:read-only` pseudo
     // TODO handle `:read-write` pseudo
@@ -874,6 +877,10 @@ impl VisitMut for Prefixer {
 
             "text-align-last" => {
                 same_content!("-moz-text-align-last");
+            }
+
+            "text-overflow" => {
+                same_content!("-o-text-overflow");
             }
 
             // TODO add `overscroll-behavior`
