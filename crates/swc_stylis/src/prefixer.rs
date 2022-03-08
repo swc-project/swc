@@ -22,6 +22,10 @@ impl VisitMut for Prefixer {
     // TODO handle `:any-link` pseudo
     // TODO handle `:read-only` pseudo
     // TODO handle `:read-write` pseudo
+    // TODO handle `:autofill` pseudo
+    // TODO handle `::file-selector-button` pseudo
+    // TODO handle `::backdrop` pseudo
+    // TODO handle `:fullscreen` pseudo
 
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
@@ -928,6 +932,12 @@ impl VisitMut for Prefixer {
             "tab-size" => {
                 same_content!("-moz-tab-size");
                 same_content!("-o-tab-size");
+            }
+            
+            "hyphens" => {
+                same_content!("-webkit-hyphens");
+                same_content!("-moz-hyphens");
+                same_content!("-ms-hyphens");
             }
 
             // TODO add `overscroll-behavior`
