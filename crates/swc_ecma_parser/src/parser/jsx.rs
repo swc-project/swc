@@ -10,6 +10,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// Parse next token as JSX identifier
     pub(super) fn parse_jsx_ident(&mut self) -> PResult<Ident> {
         debug_assert!(self.input.syntax().jsx());
+        trace_cur!(self, parse_jsx_ident);
 
         let ctx = self.ctx();
         match *cur!(self, true)? {
@@ -28,6 +29,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// Parse namespaced identifier.
     pub(super) fn parse_jsx_namespaced_name(&mut self) -> PResult<JSXAttrName> {
         debug_assert!(self.input.syntax().jsx());
+        trace_cur!(self, parse_jsx_namespaced_name);
 
         let ns = self.parse_jsx_ident()?;
         if !eat!(self, ':') {
@@ -45,6 +47,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// identifier.
     pub(super) fn parse_jsx_element_name(&mut self) -> PResult<JSXElementName> {
         debug_assert!(self.input.syntax().jsx());
+        trace_cur!(self, parse_jsx_element_name);
 
         let mut node = match self.parse_jsx_namespaced_name()? {
             JSXAttrName::Ident(i) => JSXElementName::Ident(i),
@@ -70,6 +73,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// TODO(kdy1): Change return type to JSXAttrValue
     pub(super) fn parse_jsx_attr_value(&mut self) -> PResult<JSXAttrValue> {
         debug_assert!(self.input.syntax().jsx());
+        trace_cur!(self, parse_jsx_attr_value);
 
         let start = cur_pos!(self);
 
