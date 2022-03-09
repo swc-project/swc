@@ -302,16 +302,16 @@ where
 
             Expr::Object(o) => {
                 // We should check properties
-                return o.props.iter().all(|p| match p {
-                    PropOrSpread::Spread(p) => !self.should_preserve_property_access(&p.expr, opts),
+                return o.props.iter().any(|p| match p {
+                    PropOrSpread::Spread(p) => self.should_preserve_property_access(&p.expr, opts),
                     PropOrSpread::Prop(p) => match &**p {
-                        Prop::Assign(_) => false,
-                        Prop::Getter(_) => opts.allow_getter,
-                        Prop::Shorthand(_) => true,
-                        Prop::KeyValue(..) => true,
+                        Prop::Assign(_) => true,
+                        Prop::Getter(_) => !opts.allow_getter,
+                        Prop::Shorthand(_) => false,
+                        Prop::KeyValue(..) => false,
 
-                        Prop::Setter(_) => true,
-                        Prop::Method(_) => true,
+                        Prop::Setter(_) => false,
+                        Prop::Method(_) => false,
                     },
                 });
             }
@@ -365,6 +365,7 @@ where
                         only_ident: false,
                     },
                 ) {
+                    dbg!(&init);
                     return;
                 }
             }
