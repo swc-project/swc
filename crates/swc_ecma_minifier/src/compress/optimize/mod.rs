@@ -26,7 +26,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{contains_leaping_yield, make_number, ModuleItemExt},
+    util::{contains_leaping_yield, make_number, ExprOptExt, ModuleItemExt},
 };
 
 mod arguments;
@@ -751,9 +751,8 @@ where
                             ..
                         }) => {
                             if let PropName::Computed(key) = key {
-                                exprs.extend(
-                                    self.ignore_return_value(key.expr.as_mut()).map(Box::new),
-                                );
+                                exprs
+                                    .extend(self.ignore_return_value(&mut *key.expr).map(Box::new));
                             }
 
                             if *is_static {
@@ -2792,51 +2791,61 @@ where
         for v in vars.iter_mut() {
             if v.init
                 .as_deref()
-                .map(|e| !e.may_have_side_effects())
+                .map(|e| !e.is_ident() && !e.may_have_side_effects())
                 .unwrap_or(true)
             {
-                self.drop_unused_var_declarator(v, true, false);
+                self.drop_unused_var_declarator(v, &mut None, false);
             }
         }
+
+        let mut side_effects = vec![];
 
         for v in vars.iter_mut() {
-            let was_value_none = v.init.is_none();
+            let mut storage = None;
+            self.drop_unused_var_declarator(v, &mut storage, false);
+            side_effects.extend(storage);
 
-            self.drop_unused_var_declarator(v, true, false);
+            // Dropped. Side effects of the initializer is stored in `side_effects`.
             if v.name.is_invalid() {
                 continue;
             }
-            if was_value_none {
+
+            // If initializer is none, we can check next item without thinking about side
+            // effects.
+            if v.init.is_none() {
                 continue;
             }
 
-            break;
+            // We can drop the next variable, as we don't have to worry about the side
+            // effect.
+            if side_effects.is_empty() {
+                continue;
+            }
+
+            // We now have to handle side effects.
+            // We prepend side effects to the initializer.
+
+            let seq = v.init.as_mut().unwrap().force_seq();
+            seq.exprs = side_effects
+                .drain(..)
+                .into_iter()
+                .chain(seq.exprs.take())
+                .collect();
         }
 
-        for v in vars.iter_mut().rev() {
-            let was_value_none = v.init.is_none();
-
-            self.drop_unused_var_declarator(v, false, false);
-            if v.name.is_invalid() {
-                continue;
-            }
-            if was_value_none {
-                continue;
-            }
-
-            break;
-        }
-
-        if vars.len() >= 3 {
-            let len = vars.len();
-            // We don't move initializer yet, but we drops property patterns.
-            for (idx, v) in vars.iter_mut().enumerate() {
-                if idx == 0 || idx == len - 1 {
-                    continue;
-                }
-
-                self.drop_unused_var_declarator(v, false, false);
-            }
+        // We append side effects.
+        if !side_effects.is_empty() {
+            self.append_stmts.push(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: if side_effects.len() == 1 {
+                    side_effects.remove(0)
+                } else {
+                    Box::new(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: side_effects,
+                    }))
+                },
+            }));
         }
 
         vars.retain_mut(|var| {
