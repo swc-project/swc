@@ -351,7 +351,11 @@ where
                     }
 
                     true
-                })
+                });
+
+                if obj.props.is_empty() {
+                    name.take();
+                }
             }
 
             Pat::Rest(_) => {}
