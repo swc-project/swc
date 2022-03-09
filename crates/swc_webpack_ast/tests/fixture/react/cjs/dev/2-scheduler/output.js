@@ -1,8 +1,11 @@
 if (process.env.NODE_ENV !== "production") {
-    var DEFAULT_THREAD_ID;
+    var DEFAULT_THREAD_ID; // Counters used to generate unique IDs.
     var interactionIDCounter;
-    var threadIDCounter;
-    exports.__interactionsRef = null;
+    var threadIDCounter; // Set of currently traced interactions.
+    // Interactions "stack"–
+    // Meaning that newly traced interactions are appended to the previously active set.
+    // When an interaction goes out of scope, the previous set (if any) is restored.
+    exports.__interactionsRef = null; // Listener(s) to notify when interactions begin and end.
     exports.__subscriberRef = null;
     exports.__interactionsRef = null;
     exports.__subscriberRef = null;
@@ -12,7 +15,9 @@ if (process.env.NODE_ENV !== "production") {
     exports.__interactionsRef.current;
     var threadID;
     var interaction;
-    var prevInteractions1 = exports.__interactionsRef.current;
+    var prevInteractions1 = exports.__interactionsRef.current; // Traced interactions should stack/accumulate.
+    // To do that, clone the current interactions.
+    // The previous set will be restored upon completion.
     var interactions;
     exports.__interactionsRef.current = null;
     var subscriber = exports.__subscriberRef.current;

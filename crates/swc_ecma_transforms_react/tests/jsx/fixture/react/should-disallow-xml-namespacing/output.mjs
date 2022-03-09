@@ -1,1 +1,1 @@
-React.createElement("Namespace:Component", null);
+/*#__PURE__*/ React.createElement("Namespace:Component", null);

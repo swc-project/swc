@@ -5,9 +5,12 @@ color: red;
 color: red;
 display: -webkit-box;
 display: -webkit-flex;
+display: -moz-box;
 display: -ms-flexbox;
 display: flex;
 -webkit-animation: foo 1s ease-out;
+-moz-animation: foo 1s ease-out;
+-o-animation: foo 1s ease-out;
 animation: foo 1s ease-out;
 }
 div a {

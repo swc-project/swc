@@ -2182,9 +2182,9 @@ dependencies = [
 
 [[package]]
 name = "regex"
-version = "1.5.4"
+version = "1.5.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d07a8629359eb56f1e2fb1652bb04212c072a87ba68546a04065d525673ac461"
+checksum = "1a11647b6b25ff05a515cb92c365cec08801e83423a235b51e231e1808747286"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -3135,7 +3135,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.92.4"
+version = "0.92.5"
 dependencies = [
  "either",
  "enum_kind",
@@ -3417,7 +3417,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.68.0"
+version = "0.68.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3671,7 +3671,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.94.1"
+version = "0.94.2"
 dependencies = [
  "swc_atoms",
  "swc_common",

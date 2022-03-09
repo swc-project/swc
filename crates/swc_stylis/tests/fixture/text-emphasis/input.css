@@ -1,0 +1,36 @@
+.class {
+    text-emphasis: none;
+}
+
+.class {
+    text-emphasis: filled red;
+    -webkit-text-emphasis: filled red;
+}
+
+.class {
+    text-emphasis-position: left;
+}
+
+.class {
+    text-emphasis-style: circle;
+}
+
+.class {
+    text-emphasis-color: red;
+}
+
+a {
+    text-emphasis-position: over left;
+}
+
+em {
+    text-emphasis-position: under right;
+}
+
+.reverse {
+    text-emphasis-position: left over;
+}
+
+.wrong {
+    text-emphasis-position: over;
+}

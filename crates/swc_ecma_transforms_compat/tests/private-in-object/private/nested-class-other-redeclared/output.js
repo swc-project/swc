@@ -1,5 +1,5 @@
 var _foo = new WeakMap(), _bar = new WeakMap();
-let Foo = function() {
+let Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
         _classCallCheck(this, Foo);
@@ -17,7 +17,7 @@ let Foo = function() {
             key: "test",
             value: function test() {
                 var _bar1 = new WeakMap();
-                let Nested = function() {
+                let Nested = /*#__PURE__*/ function() {
                     function Nested() {
                         _classCallCheck(this, Nested);
                         _classPrivateFieldInit(this, _bar1, {

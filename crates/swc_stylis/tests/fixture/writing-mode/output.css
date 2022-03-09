@@ -1,0 +1,70 @@
+.one {
+-webkit-writing-mode: horizontal-tb;
+-ms-writing-mode: lr;
+writing-mode: horizontal-tb;
+}
+.two {
+-webkit-writing-mode: vertical-rl;
+-ms-writing-mode: tb-rl;
+writing-mode: vertical-rl;
+}
+.three {
+-webkit-writing-mode: vertical-lr;
+-ms-writing-mode: tb;
+writing-mode: vertical-lr;
+}
+.rtl-vertical-rl {
+-webkit-writing-mode: vertical-rl;
+-ms-writing-mode: tb-rl;
+writing-mode: vertical-rl;
+direction: rtl;
+}
+.rtl-vertical-lr {
+-webkit-writing-mode: vertical-lr;
+-ms-writing-mode: tb;
+writing-mode: vertical-lr;
+direction: rtl;
+}
+.rtl-horizontal-tb {
+-webkit-writing-mode: horizontal-tb;
+-ms-writing-mode: lr;
+writing-mode: horizontal-tb;
+direction: rtl;
+}
+.rtl-horizontal-tb-override-direction {
+-webkit-writing-mode: horizontal-tb;
+-ms-writing-mode: lr;
+writing-mode: horizontal-tb;
+direction: rtl;
+direction: ltr;
+}
+.class {
+-webkit-writing-mode: none;
+-ms-writing-mode: none;
+writing-mode: none;
+}
+.class {
+-webkit-writing-mode: vertical-lr;
+-ms-writing-mode: tb;
+writing-mode: vertical-lr;
+}
+.class {
+-webkit-writing-mode: vertical-rl;
+-ms-writing-mode: tb-rl;
+writing-mode: vertical-rl;
+}
+.class {
+-webkit-writing-mode: horizontal-tb;
+-ms-writing-mode: lr;
+writing-mode: horizontal-tb;
+}
+.class {
+-webkit-writing-mode: sideways-rl;
+-ms-writing-mode: tb-rl;
+writing-mode: sideways-rl;
+}
+.class {
+-webkit-writing-mode: sideways-lr;
+-ms-writing-mode: tb;
+writing-mode: sideways-lr;
+}

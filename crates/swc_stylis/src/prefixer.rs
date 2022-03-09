@@ -11,15 +11,35 @@ pub fn prefixer() -> impl VisitMut {
 
 #[derive(Default)]
 struct Prefixer {
-    in_block: bool,
+    in_simple_block: bool,
     added: Vec<Declaration>,
 }
 
 impl VisitMut for Prefixer {
+    // TODO handle `resolution` in media/supports at-rules
+    // TODO handle declarations in `@media`/`@support`
+    // TODO handle `@viewport`
+    // TODO handle `@keyframes`
+
+    // TODO handle `:any-link` pseudo
+    // TODO handle `:read-only` pseudo
+    // TODO handle `:read-write` pseudo
+    // TODO handle `:autofill` pseudo
+    // TODO handle `::file-selector-button` pseudo
+    // TODO handle `::backdrop` pseudo
+    // TODO handle `:fullscreen` pseudo
+    // TODO handle `:placeholder-shown` pseudo
+    // TODO handle `::placeholder` pseudo
+    // TODO handle `::selection` pseudo
+
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
 
-        if !self.in_block {
+        if !self.in_simple_block {
+            return;
+        }
+
+        if n.value.is_empty() {
             return;
         }
 
@@ -86,45 +106,97 @@ impl VisitMut for Prefixer {
         }
 
         let name = match &n.name {
-            DeclarationName::Ident(i) => &*i.value,
+            DeclarationName::Ident(ident) => &ident.value,
             _ => {
                 unreachable!();
             }
         };
 
-        match name {
+        match &*name.to_lowercase() {
             "appearance" => {
                 same_content!("-webkit-appearance");
                 same_content!("-moz-appearance");
                 same_content!("-ms-appearance");
             }
 
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/animation.js
             "animation" => {
                 same_content!("-webkit-animation");
-            }
-
-            "animation-duration" => {
-                same_content!("-webkit-animation-duration");
+                same_content!("-moz-animation");
+                same_content!("-o-animation");
             }
 
             "animation-name" => {
                 same_content!("-webkit-animation-name");
+                same_content!("-moz-animation-name");
+                same_content!("-o-animation-name");
+            }
+
+            "animation-duration" => {
+                same_content!("-webkit-animation-duration");
+                same_content!("-moz-animation-duration");
+                same_content!("-o-animation-duration");
+            }
+
+            "animation-delay" => {
+                same_content!("-webkit-animation-delay");
+                same_content!("-moz-animation-delay");
+                same_content!("-o-animation-delay");
+            }
+
+            "animation-direction" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "alternate-reverse" | "reverse" => {}
+
+                        _ => {
+                            same_content!("-webkit-animation-direction");
+                            same_content!("-moz-animation-direction");
+                            same_content!("-o-animation-direction");
+                        }
+                    }
+                }
+            }
+
+            "animation-fill-mode" => {
+                same_content!("-webkit-animation-fill-mode");
+                same_content!("-moz-animation-fill-mode");
+                same_content!("-o-animation-fill-mode");
             }
 
             "animation-iteration-count" => {
                 same_content!("-webkit-animation-iteration-count");
+                same_content!("-moz-animation-iteration-count");
+                same_content!("-o-animation-iteration-count");
+            }
+
+            "animation-play-state" => {
+                same_content!("-webkit-animation-play-state");
+                same_content!("-moz-animation-play-state");
+                same_content!("-o-animation-play-state");
             }
 
             "animation-timing-function" => {
                 same_content!("-webkit-animation-timing-function");
+                same_content!("-moz-animation-timing-function");
+                same_content!("-o-animation-timing-function");
             }
 
             "background-clip" => {
-                same_content!("-webkit-background-clip");
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    if &*value.to_lowercase() == "text" {
+                        same_content!("-webkit-background-clip");
+                    }
+                }
             }
 
             "box-decoration-break" => {
                 same_content!("-webkit-box-decoration-break");
+            }
+
+            "box-sizing" => {
+                same_content!("-webkit-box-sizing");
+                same_content!("-moz-box-sizing");
             }
 
             "color-adjust" => {
@@ -133,152 +205,173 @@ impl VisitMut for Prefixer {
 
             "columns" => {
                 same_content!("-webkit-columns");
-            }
-
-            "column-count" => {
-                same_content!("-webkit-column-count");
-            }
-
-            "column-fill" => {
-                same_content!("-webkit-column-fill");
-            }
-
-            "column-gap" => {
-                same_content!("-webkit-column-gap");
-            }
-
-            "column-rule" => {
-                same_content!("-webkit-column-rule");
-            }
-
-            "column-rule-color" => {
-                same_content!("-webkit-column-rule-color");
-            }
-
-            "column-rule-style" => {
-                same_content!("-webkit-column-rule-style");
-            }
-
-            "column-span" => {
-                same_content!("-webkit-column-span");
-            }
-
-            "column-rule-width" => {
-                same_content!("-webkit-column-rule-width");
+                same_content!("-moz-columns");
             }
 
             "column-width" => {
                 same_content!("-webkit-column-width");
+                same_content!("-moz-column-width");
+            }
+
+            "column-gap" => {
+                same_content!("-webkit-column-gap");
+                same_content!("-moz-column-gap");
+            }
+
+            "column-rule" => {
+                same_content!("-webkit-column-rule");
+                same_content!("-moz-column-rule");
+            }
+
+            "column-rule-color" => {
+                same_content!("-webkit-column-rule-color");
+                same_content!("-moz-column-rule-color");
+            }
+
+            "column-rule-width" => {
+                same_content!("-webkit-column-rule-width");
+                same_content!("-moz-column-rule-width");
+            }
+
+            "column-count" => {
+                same_content!("-webkit-column-count");
+                same_content!("-moz-column-count");
+            }
+
+            "column-rule-style" => {
+                same_content!("-webkit-column-rule-style");
+                same_content!("-moz-column-rule-style");
+            }
+
+            "column-span" => {
+                same_content!("-webkit-column-span");
+                same_content!("-moz-column-span");
+            }
+
+            "column-fill" => {
+                same_content!("-webkit-column-fill");
+                same_content!("-moz-column-fill");
             }
 
             "background" => {
-                if !n.value.is_empty() {
-                    if let ComponentValue::Function(f) = &n.value[0] {
-                        if &*f.name.value == "image-set" {
-                            let val = ComponentValue::Function(Function {
+                if let ComponentValue::Function(f) = &n.value[0] {
+                    if *f.name.value == "image-set".to_lowercase() {
+                        let val = ComponentValue::Function(Function {
+                            span: DUMMY_SP,
+                            name: Ident {
                                 span: DUMMY_SP,
-                                name: Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-image-set".into(),
-                                    raw: "-webkit-image-set".into(),
-                                },
-                                value: f.value.clone(),
-                            });
-                            self.added.push(Declaration {
-                                span: n.span,
-                                name: n.name.clone(),
-                                value: vec![val],
-                                important: n.important.clone(),
-                            });
-                        }
-                    }
-                }
-            }
-
-            "background-image" => {
-                if !n.value.is_empty() {
-                    if let ComponentValue::Function(f) = &n.value[0] {
-                        if let "image-set" = &*f.name.value {
-                            let val = ComponentValue::Function(Function {
-                                span: DUMMY_SP,
-                                name: Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-image-set".into(),
-                                    raw: "-webkit-image-set".into(),
-                                },
-                                value: f.value.clone(),
-                            });
-                            self.added.push(Declaration {
-                                span: n.span,
-                                name: n.name.clone(),
-                                value: vec![val],
-                                important: n.important.clone(),
-                            });
-                        }
-                    }
-                }
-            }
-
-            "cursor" => {
-                if !n.value.is_empty() {
-                    let new_value = n
-                        .value
-                        .iter()
-                        .map(|node| match node {
-                            ComponentValue::Ident(Ident { value, .. }) => {
-                                if &**value == "grab" {
-                                    ComponentValue::Ident(Ident {
-                                        span: DUMMY_SP,
-                                        value: "-webkit-grab".into(),
-                                        raw: "-webkit-grab".into(),
-                                    })
-                                } else {
-                                    node.clone()
-                                }
-                            }
-                            ComponentValue::Function(Function { name, value, .. }) => {
-                                if &*name.value == "image-set" {
-                                    ComponentValue::Function(Function {
-                                        span: DUMMY_SP,
-                                        name: Ident {
-                                            span: DUMMY_SP,
-                                            value: "-webkit-image-set".into(),
-                                            raw: "-webkit-image-set".into(),
-                                        },
-                                        value: value.clone(),
-                                    })
-                                } else {
-                                    node.clone()
-                                }
-                            }
-                            _ => node.clone(),
-                        })
-                        .collect();
-
-                    if n.value != new_value {
+                                value: "-webkit-image-set".into(),
+                                raw: "-webkit-image-set".into(),
+                            },
+                            value: f.value.clone(),
+                        });
                         self.added.push(Declaration {
                             span: n.span,
                             name: n.name.clone(),
-                            value: new_value,
+                            value: vec![val],
                             important: n.important.clone(),
                         });
                     }
                 }
             }
 
+            "background-image" => {
+                if let ComponentValue::Function(f) = &n.value[0] {
+                    if let "image-set" = &*f.name.value.to_lowercase() {
+                        let val = ComponentValue::Function(Function {
+                            span: DUMMY_SP,
+                            name: Ident {
+                                span: DUMMY_SP,
+                                value: "-webkit-image-set".into(),
+                                raw: "-webkit-image-set".into(),
+                            },
+                            value: f.value.clone(),
+                        });
+                        self.added.push(Declaration {
+                            span: n.span,
+                            name: n.name.clone(),
+                            value: vec![val],
+                            important: n.important.clone(),
+                        });
+                    }
+                }
+            }
+
+            // TODO Handle moz prefix in `zoom-in`, `zoom-out` and `grabbing`
+            "cursor" => {
+                let new_value = n
+                    .value
+                    .iter()
+                    .map(|node| match node {
+                        ComponentValue::Ident(Ident { value, .. }) => {
+                            match &*value.to_lowercase() {
+                                "zoom-in" => ComponentValue::Ident(Ident {
+                                    span: DUMMY_SP,
+                                    value: "-webkit-zoom-in".into(),
+                                    raw: "-webkit-grab".into(),
+                                }),
+                                "zoom-out" => ComponentValue::Ident(Ident {
+                                    span: DUMMY_SP,
+                                    value: "-webkit-zoom-out".into(),
+                                    raw: "-webkit-zoom-out".into(),
+                                }),
+                                "grab" => ComponentValue::Ident(Ident {
+                                    span: DUMMY_SP,
+                                    value: "-webkit-grab".into(),
+                                    raw: "-webkit-grab".into(),
+                                }),
+                                "grabbing" => ComponentValue::Ident(Ident {
+                                    span: DUMMY_SP,
+                                    value: "-webkit-grabbing".into(),
+                                    raw: "-webkit-grabbing".into(),
+                                }),
+                                _ => node.clone(),
+                            }
+                        }
+                        ComponentValue::Function(Function { name, value, .. }) => {
+                            if &*name.value.to_lowercase() == "image-set" {
+                                ComponentValue::Function(Function {
+                                    span: DUMMY_SP,
+                                    name: Ident {
+                                        span: DUMMY_SP,
+                                        value: "-webkit-image-set".into(),
+                                        raw: "-webkit-image-set".into(),
+                                    },
+                                    value: value.clone(),
+                                })
+                            } else {
+                                node.clone()
+                            }
+                        }
+                        _ => node.clone(),
+                    })
+                    .collect();
+
+                if n.value != new_value {
+                    self.added.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: new_value,
+                        important: n.important.clone(),
+                    });
+                }
+            }
+
             "display" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &**value {
+                        match &*value.to_lowercase() {
                             "flex" => {
                                 same_name!("-webkit-box");
                                 same_name!("-webkit-flex");
+                                same_name!("-moz-box");
                                 same_name!("-ms-flexbox");
                             }
 
                             "inline-flex" => {
                                 same_name!("-webkit-inline-box");
                                 same_name!("-webkit-inline-flex");
+                                same_name!("-moz-inline-box");
                                 same_name!("-ms-inline-flexbox");
                             }
 
@@ -288,6 +381,8 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            // TODO improve old spec https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L330
+            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "flex" => {
                 same_content!("-webkit-flex");
                 same_content!("-ms-flex");
@@ -296,6 +391,7 @@ impl VisitMut for Prefixer {
             "flex-grow" => {
                 same_content!("-webkit-box-flex");
                 same_content!("-webkit-flex-grow");
+                same_content!("-moz-box-flex");
                 same_content!("-ms-flex-positive");
             }
 
@@ -309,26 +405,25 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-flex-preferred-size");
             }
 
-            "align-self" => {
-                same_content!("-webkit-align-self");
-                same_content!("-ms-flex-item-align");
+            "flex-direction" => {
+                same_content!("-webkit-flex-direction");
+                same_content!("-ms-flex-direction");
             }
 
-            "align-content" => {
-                same_content!("-webkit-align-content");
-                same_content!("-ms-flex-line-pack");
+            "flex-wrap" => {
+                same_content!("-webkit-flex-wrap");
+                same_content!("-ms-flex-wrap");
             }
 
-            "align-items" => {
-                same_content!("-webkit-align-items");
-                same_content!("-webkit-box-align");
-                same_content!("-ms-flex-align");
+            "flex-flow" => {
+                same_content!("-webkit-flex-flow");
+                same_content!("-ms-flex-flow");
             }
 
             "justify-content" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &**value {
+                        match &*value.to_lowercase() {
                             "flex-end" => {
                                 simple!("-webkit-box-pack", "end");
                                 simple!("-ms-flex-pack", "end");
@@ -361,9 +456,26 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-flex-order");
             }
 
+            "align-items" => {
+                same_content!("-webkit-align-items");
+                same_content!("-webkit-box-align");
+                same_content!("-ms-flex-align");
+            }
+
+            "align-self" => {
+                same_content!("-webkit-align-self");
+                same_content!("-ms-flex-item-align");
+            }
+
+            "align-content" => {
+                same_content!("-webkit-align-content");
+                same_content!("-ms-flex-line-pack");
+            }
+
+            // TODO fix me
             "image-rendering" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    if &**value == "pixelated" {
+                    if &*value.to_lowercase() == "pixelated" {
                         simple!("-ms-interpolation-mode", "nearest-neighbor");
                         same_name!("-webkit-optimize-contrast");
                         same_name!("-moz-crisp-edges");
@@ -372,65 +484,134 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            "flex-direction" => {
-                same_content!("-webkit-flex-direction");
-                same_content!("-ms-flex-direction");
-            }
-
-            "filter" => {
-                same_content!("-webkit-filter");
-            }
+            "filter" => match &n.value[0] {
+                ComponentValue::Ident(Ident { value, .. })
+                    if value.as_ref().eq_ignore_ascii_case("progid") => {}
+                ComponentValue::Function(Function { name, .. })
+                    if name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
+                _ => {
+                    same_content!("-webkit-filter");
+                }
+            },
 
             "backdrop-filter" => {
                 same_content!("-webkit-backdrop-filter");
-            }
-
-            "mask" => {
-                same_content!("-webkit-mask");
-            }
-
-            "mask-image" => {
-                same_content!("-webkit-mask-image");
-            }
-
-            "mask-mode" => {
-                same_content!("-webkit-mask-mode");
             }
 
             "mask-clip" => {
                 same_content!("-webkit-mask-clip");
             }
 
-            "mask-size" => {
-                same_content!("-webkit-mask-size");
+            // Fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/mask-composite.js
+            "mask-composite" => {
+                same_content!("-webkit-mask-composite");
             }
 
-            "mask-repeat" => {
-                same_content!("-webkit-mask-repeat");
+            "mask-image" => {
+                same_content!("-webkit-mask-image");
             }
 
             "mask-origin" => {
                 same_content!("-webkit-mask-origin");
             }
 
+            "mask-repeat" => {
+                same_content!("-webkit-mask-repeat");
+            }
+
+            "mask-border-repeat" => {
+                same_content!("-webkit-mask-border-repeat");
+            }
+
+            "mask-border-source" => {
+                same_content!("-webkit-mask-border-source");
+            }
+
+            "mask" => {
+                same_content!("-webkit-mask");
+            }
+
             "mask-position" => {
                 same_content!("-webkit-mask-position");
             }
 
-            "mask-composite" => {
-                same_content!("-webkit-mask-composite");
+            "mask-size" => {
+                same_content!("-webkit-mask-size");
+            }
+
+            "mask-border" => {
+                same_content!("-webkit-mask-box-image");
+            }
+
+            "mask-border-outset" => {
+                same_content!("-webkit-mask-box-image-outset");
+            }
+
+            "mask-border-width" => {
+                same_content!("-webkit-mask-box-image-width");
+            }
+
+            "mask-border-slice" => {
+                same_content!("-webkit-mask-box-image-slice");
+            }
+
+            "border-inline-start" => {
+                same_content!("-webkit-border-start");
+                same_content!("-moz-border-start");
+            }
+
+            "border-inline-end" => {
+                same_content!("-webkit-border-end");
+                same_content!("-moz-border-end");
             }
 
             "margin-inline-start" => {
                 same_content!("-webkit-margin-start");
+                same_content!("-moz-margin-start");
             }
 
             "margin-inline-end" => {
                 same_content!("-webkit-margin-end");
+                same_content!("-moz-margin-end");
+            }
+
+            "padding-inline-start" => {
+                same_content!("-webkit-padding-start");
+                same_content!("-moz-padding-start");
+            }
+
+            "padding-inline-end" => {
+                same_content!("-webkit-padding-end");
+                same_content!("-moz-padding-end");
+            }
+
+            "border-block-start" => {
+                same_content!("-webkit-border-before");
+            }
+
+            "border-block-end" => {
+                same_content!("-webkit-border-after");
+            }
+
+            "margin-block-start" => {
+                same_content!("-webkit-margin-before");
+            }
+
+            "margin-block-end" => {
+                same_content!("-webkit-margin-after");
+            }
+
+            "padding-block-start" => {
+                same_content!("-webkit-padding-before");
+            }
+
+            "padding-block-end" => {
+                same_content!("-webkit-padding-after");
             }
 
             "backface-visibility" => {
                 same_content!("-webkit-backface-visibility");
+                same_content!("-moz-backface-visibility");
             }
 
             "clip-path" => {
@@ -440,7 +621,7 @@ impl VisitMut for Prefixer {
             "position" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        if &**value == "sticky" {
+                        if &*value.to_lowercase() == "sticky" {
                             same_name!("-webkit-sticky");
                         }
                     }
@@ -452,7 +633,7 @@ impl VisitMut for Prefixer {
                 same_content!("-moz-user-select");
 
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &**value {
+                    match &*value.to_lowercase() {
                         "contain" => {
                             simple!("-ms-user-select", "element");
                         }
@@ -468,13 +649,85 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-transform");
                 same_content!("-moz-transform");
                 same_content!("-ms-transform");
+                same_content!("-o-transform");
+            }
+
+            "transform-origin" => {
+                same_content!("-webkit-transform-origin");
+                same_content!("-moz-transform-origin");
+                same_content!("-ms-transform-origin");
+                same_content!("-o-transform-origin");
+            }
+
+            "transform-style" => {
+                same_content!("-webkit-transform-style");
+                same_content!("-moz-transform-style");
+            }
+
+            "perspective" => {
+                same_content!("-webkit-perspective");
+                same_content!("-moz-perspective");
+            }
+
+            "perspective-origin" => {
+                same_content!("-webkit-perspective-origin");
+                same_content!("-moz-perspective-origin");
             }
 
             "text-decoration" => {
                 if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        if &**value == "none" {
+                    match &n.value[0] {
+                        ComponentValue::Ident(Ident { value, .. })
+                            if matches!(
+                                &*value.to_lowercase(),
+                                "none"
+                                    | "underline"
+                                    | "overline"
+                                    | "line-through"
+                                    | "blink"
+                                    | "inherit"
+                                    | "initial"
+                                    | "revert"
+                                    | "unset"
+                            ) => {}
+                        _ => {
                             same_content!("-webkit-text-decoration");
+                            same_content!("-moz-text-decoration");
+                        }
+                    }
+                } else {
+                    same_content!("-webkit-text-decoration");
+                    same_content!("-moz-text-decoration");
+                }
+            }
+
+            "text-decoration-style" => {
+                same_content!("-webkit-text-decoration-style");
+                same_content!("-moz-text-decoration-style");
+            }
+
+            "text-decoration-color" => {
+                same_content!("-webkit-text-decoration-color");
+                same_content!("-moz-text-decoration-color");
+            }
+
+            "text-decoration-line" => {
+                same_content!("-webkit-text-decoration-line");
+                same_content!("-moz-text-decoration-line");
+            }
+
+            "text-decoration-skip" => {
+                same_content!("-webkit-text-decoration-skip");
+            }
+
+            "text-decoration-skip-ink" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "auto" => {
+                            simple!("-webkit-text-decoration-skip", "ink")
+                        }
+                        _ => {
+                            same_content!("-webkit-text-decoration-skip-ink");
                         }
                     }
                 }
@@ -483,7 +736,7 @@ impl VisitMut for Prefixer {
             "text-size-adjust" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        if &**value == "none" {
+                        if &*value.to_lowercase() == "none" {
                             same_content!("-webkit-text-size-adjust");
                             same_content!("-moz-text-size-adjust");
                             same_content!("-ms-text-size-adjust");
@@ -492,6 +745,7 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            // TODO improve me for `filter` values https://github.com/postcss/autoprefixer/blob/main/test/cases/transition.css#L6
             "transition" => {
                 let mut value = n.value.clone();
 
@@ -510,10 +764,35 @@ impl VisitMut for Prefixer {
                 });
             }
 
+            "transition-property" => {
+                same_content!("-webkit-transition-property");
+                same_content!("-moz-transition-timing-function");
+                same_content!("-o-transition-timing-function");
+            }
+
+            "transition-duration" => {
+                same_content!("-webkit-transition-duration");
+                same_content!("-moz-transition-duration");
+                same_content!("-o-transition-duration");
+            }
+
+            "transition-delay" => {
+                same_content!("-webkit-transition-delay");
+                same_content!("-moz-transition-delay");
+                same_content!("-o-transition-delay");
+            }
+
+            "transition-timing-function" => {
+                same_content!("-webkit-transition-timing-function");
+                same_content!("-moz-transition-timing-function");
+                same_content!("-o-transition-timing-function");
+            }
+
+            // TODO fix me, we should look at `direction` property https://github.com/postcss/autoprefixer/blob/main/lib/hacks/writing-mode.js
             "writing-mode" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &**value {
+                        match &*value.to_lowercase() {
                             "none" => {
                                 same_content!("-webkit-writing-mode");
                                 same_content!("-ms-writing-mode");
@@ -544,7 +823,8 @@ impl VisitMut for Prefixer {
             | "min-block-size" | "min-inline-size" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &**value {
+                        match &*value.to_lowercase() {
+                            // TODO better handle in more properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559
                             "fit-content" => {
                                 same_name!("-webkit-fit-content");
                                 same_name!("-moz-fit-content");
@@ -577,11 +857,209 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            "touch-action" => {
+                same_content!("-ms-touch-action");
+            }
+
+            "text-orientation" => {
+                same_content!("-webkit-text-orientation");
+            }
+
+            "unicode-bidi" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "isolate" => {
+                            same_name!("-webkit-isolate");
+                            same_name!("-moz-isolate");
+                        }
+                        "isolate-override" => {
+                            same_name!("-moz-isolate-override");
+                        }
+                        "plaintext" => {
+                            same_name!("-moz-plaintext");
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
+            "text-spacing" => {
+                same_content!("-ms-text-spacing");
+            }
+
+            "text-emphasis" => {
+                same_content!("-webkit-text-spacing");
+            }
+
+            "text-emphasis-position" => {
+                same_content!("-webkit-text-emphasis-position");
+            }
+
+            "text-emphasis-style" => {
+                same_content!("-webkit-text-emphasis-style");
+            }
+
+            "text-emphasis-color" => {
+                same_content!("-webkit-text-emphasis-color");
+            }
+
+            "flow-into" => {
+                same_content!("-webkit-flow-into");
+                same_content!("-ms-flow-into");
+            }
+
+            "flow-from" => {
+                same_content!("-webkit-flow-from");
+                same_content!("-ms-flow-from");
+            }
+
+            "region-fragment" => {
+                same_content!("-webkit-region-fragment");
+                same_content!("-ms-region-fragment");
+            }
+
+            "scroll-snap-type" => {
+                same_content!("-webkit-scroll-snap-type");
+                same_content!("-ms-scroll-snap-type");
+            }
+
+            "scroll-snap-coordinate" => {
+                same_content!("-webkit-scroll-snap-coordinate");
+                same_content!("-ms-scroll-snap-coordinate");
+            }
+
+            "scroll-snap-destination" => {
+                same_content!("-webkit-scroll-snap-destination");
+                same_content!("-ms-scroll-snap-destination");
+            }
+
+            "scroll-snap-points-x" => {
+                same_content!("-webkit-scroll-snap-points-x");
+                same_content!("-ms-scroll-snap-points-x");
+            }
+
+            "scroll-snap-points-y" => {
+                same_content!("-webkit-scroll-snap-points-y");
+                same_content!("-ms-scroll-snap-points-y");
+            }
+
+            "text-align-last" => {
+                same_content!("-moz-text-align-last");
+            }
+
+            "text-overflow" => {
+                same_content!("-o-text-overflow");
+            }
+
+            "shape-margin" => {
+                same_content!("-webkit-shape-margin");
+            }
+
+            "shape-outside" => {
+                same_content!("-webkit-shape-outside");
+            }
+
+            "shape-image-threshold" => {
+                same_content!("-webkit-shape-image-threshold");
+            }
+
+            "object-fit" => {
+                same_content!("-o-object-fit");
+            }
+
+            "object-position" => {
+                same_content!("-o-object-position");
+            }
+
+            "tab-size" => {
+                same_content!("-moz-tab-size");
+                same_content!("-o-tab-size");
+            }
+
+            "hyphens" => {
+                same_content!("-webkit-hyphens");
+                same_content!("-moz-hyphens");
+                same_content!("-ms-hyphens");
+            }
+
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/border-image.js
+            "border-image" => {
+                same_content!("-webkit-border-image");
+                same_content!("-moz-border-image");
+                same_content!("-o-border-image");
+            }
+
+            "font-kerning" => {
+                same_content!("-webkit-font-kerning");
+            }
+
+            "font-feature-settings" => {
+                same_content!("-webkit-font-feature-settings");
+                same_content!("-moz-font-feature-settings");
+            }
+
+            "font-variant-ligatures" => {
+                same_content!("-webkit-font-variant-ligatures");
+                same_content!("-moz-font-variant-ligatures");
+            }
+
+            "font-language-override" => {
+                same_content!("-webkit-font-language-override");
+                same_content!("-moz-font-language-override");
+            }
+
+            "background-origin" => {
+                same_content!("-webkit-background-origin");
+                same_content!("-o-background-origin");
+            }
+
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/background-size.js
+            "background-size" => {
+                same_content!("-webkit-background-size");
+                same_content!("-o-background-size");
+            }
+
+            "overscroll-behavior" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "auto" => {
+                            simple!("-ms-scroll-chaining", "chained");
+                        }
+                        "none" | "contain" => {
+                            simple!("-ms-scroll-chaining", "none");
+                        }
+                        _ => {
+                            same_content!("-ms-scroll-chaining");
+                        }
+                    }
+                } else {
+                    same_content!("-ms-scroll-chaining");
+                }
+            }
+
+            // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
+            // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
+            // TODO handle `image-set()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L907 and https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
+            // TODO handle `calc()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L395
+            // TODO handle `element()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L269
+            // TODO handle `filter()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L241
+            // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
+            // TODO add `break-before`, `break-after`, `break-inside` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/break-props.js
+            // TODO add `box-shadow` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L79
+            // TODO add `border-radius` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L59
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
+            // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
+            // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/cross-fade.js
+            // TODO handle transform functions https://github.com/postcss/autoprefixer/blob/main/lib/hacks/transform-decl.js
             _ => {}
         }
     }
 
     fn visit_mut_simple_block(&mut self, simple_block: &mut SimpleBlock) {
+        let old_in_simple_block = self.in_simple_block;
+
+        self.in_simple_block = true;
+
         let mut new = vec![];
 
         for mut n in take(&mut simple_block.value) {
@@ -597,15 +1075,7 @@ impl VisitMut for Prefixer {
         }
 
         simple_block.value = new;
-    }
 
-    fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
-        let old_in_block = self.in_block;
-
-        self.in_block = true;
-
-        n.visit_mut_children_with(self);
-
-        self.in_block = old_in_block;
+        self.in_simple_block = old_in_simple_block;
     }
 }
