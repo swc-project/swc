@@ -291,6 +291,13 @@ impl Visit for VarWithOutInitCounter {
         }
     }
 
+    fn visit_module_item(&mut self, s: &ModuleItem) {
+        match s {
+            ModuleItem::Stmt(_) => s.visit_children_with(self),
+            _ => {}
+        }
+    }
+
     fn visit_var_decl_or_pat(&mut self, _: &VarDeclOrPat) {}
 }
 
@@ -313,16 +320,8 @@ impl VisitMut for VarMover {
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
-        s.visit_mut_children_with(self);
-
         match s {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                decl: Decl::Var(d),
-                ..
-            })) if d.decls.is_empty() => {
-                s.take();
-            }
-
+            ModuleItem::Stmt(_) => s.visit_mut_children_with(self),
             _ => {}
         }
     }
