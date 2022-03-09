@@ -35,6 +35,9 @@
 - **(css/prefixer)** Implement more prefixing rules (#3905) ([b25c479](https://github.com/swc-project/swc/commit/b25c47901e69a04079cbb9ce1e76154a8affbd11))
 
 
+- **(css/prefixer)** Handle more properties (#3919) ([c2b9e1c](https://github.com/swc-project/swc/commit/c2b9e1c61aa5f72aa0738349ee330d46b9446ed6))
+
+
 - **(es/compat)** Add tracing support to remaining compat transforms (#3904) ([bd0a921](https://github.com/swc-project/swc/commit/bd0a9214c3a678a65a814517ffef6c59199ac06b))
 
 
