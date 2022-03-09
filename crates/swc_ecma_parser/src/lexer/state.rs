@@ -627,6 +627,15 @@ impl TokenContexts {
             _ => {}
         }
 
+        if had_line_break {
+            if let Some(TokenType::Other {
+                before_expr: false, ..
+            }) = prev
+            {
+                return true;
+            }
+        }
+
         !is_expr_allowed
     }
 
