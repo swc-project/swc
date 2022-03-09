@@ -170,6 +170,7 @@ use crate::config::{
 
 mod builder;
 pub mod config;
+mod dropped_comments_preserver;
 mod plugin;
 pub mod resolver {
     use std::path::PathBuf;

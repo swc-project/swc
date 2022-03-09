@@ -1,5 +1,3 @@
-
-
 use swc_common::{
     comments::{Comment, Comments, SingleThreadedComments},
     BytePos, Span, DUMMY_SP,
@@ -16,7 +14,8 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// directives.
 ///
 /// This transformer shifts orphaned comments to the next closest known span
-/// while making a best-effort to preserve the "general orientation" of comments.
+/// while making a best-effort to preserve the "general orientation" of
+/// comments.
 
 pub fn dropped_comments_preserver(
     comments: Option<&SingleThreadedComments>,
@@ -105,9 +104,7 @@ impl DroppedCommentsPreserver<'_> {
 
             existing_comments.extend(next_byte_positions);
 
-            let collected_comments = comments_to_move
-                .into_iter().flat_map(|(_, c)| c)
-                .collect();
+            let collected_comments = comments_to_move.into_iter().flat_map(|(_, c)| c).collect();
 
             self.comments
                 .add_leading_comments(span.lo, collected_comments)
@@ -128,7 +125,8 @@ impl DroppedCommentsPreserver<'_> {
         self.comments.add_trailing_comments(
             last_trailing.hi,
             remaining_comment_entries
-                .drain(..).flat_map(|(_, c)| c)
+                .drain(..)
+                .flat_map(|(_, c)| c)
                 .collect(),
         );
     }
