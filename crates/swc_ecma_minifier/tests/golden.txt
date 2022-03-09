@@ -300,6 +300,7 @@ defaults/defaults_true_evaluate_false/input.js
 defaults/defaults_undefined/input.js
 destructuring/destructure_empty_array_1/input.js
 destructuring/destructure_empty_array_2/input.js
+destructuring/destructure_empty_array_3/input.js
 destructuring/destructuring_arrays/input.js
 destructuring/destructuring_arrays_holes/input.js
 destructuring/destructuring_assign_of_computed_key/input.js

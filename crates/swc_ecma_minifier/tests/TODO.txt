@@ -133,7 +133,6 @@ dead_code/return_assignment/input.js
 dead_code/unsafe_builtin/input.js
 destructuring/anon_func_with_destructuring_args/input.js
 destructuring/arrow_func_with_destructuring_args/input.js
-destructuring/destructure_empty_array_3/input.js
 destructuring/destructuring_dont_evaluate_with_undefined_as_default_assignment/input.js
 destructuring/export_unreferenced_declarations_2/input.js
 destructuring/issue_3205_2/input.js
