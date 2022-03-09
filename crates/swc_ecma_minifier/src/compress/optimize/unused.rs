@@ -306,7 +306,7 @@ where
                     PropOrSpread::Spread(p) => !self.should_preserve_property_access(&p.expr, opts),
                     PropOrSpread::Prop(p) => match &**p {
                         Prop::Assign(_) => false,
-                        Prop::Getter(_) => !opts.allow_getter,
+                        Prop::Getter(_) => opts.allow_getter,
                         Prop::Shorthand(_) => true,
                         Prop::KeyValue(..) => true,
 
