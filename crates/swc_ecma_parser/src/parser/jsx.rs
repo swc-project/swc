@@ -275,7 +275,10 @@ impl<'a, I: Tokens> Parser<I> {
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
+            let _tracing = debug_tracing!(p, "parse_jsx_element");
+
             let opening_element = p.parse_jsx_opening_element_at(start_pos)?;
+
             let mut children = vec![];
             let mut closing_element = None;
 
