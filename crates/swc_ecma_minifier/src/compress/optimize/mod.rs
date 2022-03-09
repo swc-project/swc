@@ -2794,7 +2794,7 @@ where
                 .map(|e| !e.is_ident() && !e.may_have_side_effects())
                 .unwrap_or(true)
             {
-                self.drop_unused_var_declarator(v, &mut None, false);
+                self.drop_unused_var_declarator(v, &mut None);
             }
         }
 
@@ -2802,7 +2802,7 @@ where
 
         for v in vars.iter_mut() {
             let mut storage = None;
-            self.drop_unused_var_declarator(v, &mut storage, false);
+            self.drop_unused_var_declarator(v, &mut storage);
             side_effects.extend(storage);
 
             // Dropped. Side effects of the initializer is stored in `side_effects`.
