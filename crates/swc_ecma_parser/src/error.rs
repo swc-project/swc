@@ -422,9 +422,11 @@ impl SyntaxError {
             SyntaxError::PropertyNamedConstructor => {
                 "Classes may not have a non-static field named 'constructor'".into()
             }
-            SyntaxError::PrivateNameModifier(modifier) => {
-                format!("'{modifier}' modifier cannot be used with a private identifier").into()
-            }
+            SyntaxError::PrivateNameModifier(modifier) => format!(
+                "'{}' modifier cannot be used with a private identifier",
+                modifier
+            )
+            .into(),
 
             SyntaxError::ReadOnlyMethod => "A method cannot be readonly".into(),
             SyntaxError::TsBindingPatCannotBeOptional => "A binding pattern parameter cannot be \
