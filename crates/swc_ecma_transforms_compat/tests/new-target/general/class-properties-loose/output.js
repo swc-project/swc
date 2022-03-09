@@ -9,18 +9,23 @@ class Foo {
         var _class;
         this.Bar = (_class = class {
             constructor(){
-                this.q = void 0;
+                this.q = void 0 // should not replace
+                ;
             }
         }, _class.p = void 0, _class.p1 = class {
             constructor(){
                 new.target;
             }
-        }, _class.p2 = new function _target() {
+        } // should not replace
+        , _class.p2 = new function _target() {
             this.constructor;
-        }, _class.p3 = function() {
+        } // should not replace
+        , _class.p3 = function() {
             void 0;
-        }, _class.p4 = function _target() {
+        } // should replace
+        , _class.p4 = function _target() {
             this.constructor;
-        }, _class);
+        } // should not replace
+        , _class);
     }
 }

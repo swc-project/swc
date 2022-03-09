@@ -1,4 +1,1 @@
-/** @jsx dom */
-
-/** @jsxFrag DomFrag */
-dom(DomFrag, null);
+/** @jsx dom */ /** @jsxFrag DomFrag */ /*#__PURE__*/ dom(DomFrag, null);

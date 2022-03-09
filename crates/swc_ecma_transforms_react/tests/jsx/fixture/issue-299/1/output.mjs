@@ -1,3 +1,3 @@
-React.createElement(Page, {
+/*#__PURE__*/ React.createElement(Page, {
     num: "\\\\ "
 }, "ABC");
