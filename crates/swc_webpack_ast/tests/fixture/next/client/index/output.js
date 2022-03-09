@@ -40,7 +40,7 @@ const data = null;
 const version = null;
 exports.version = null;
 const looseToArray = null;
-const { props: hydrateProps , err: hydrateErr , page , query , buildId , assetPrefix , runtimeConfig , dynamicIds , isFallback , locale , locales , domainLocales , isPreview , rsc  } = null;
+const { props: hydrateProps , err: hydrateErr , page , query , buildId , assetPrefix , runtimeConfig , dynamicIds , isFallback , locale , locales , domainLocales , isPreview , rsc ,  } = null;
 let { defaultLocale  } = null;
 const prefix = null;
 let asPath;
@@ -51,6 +51,7 @@ if (process.env.__NEXT_I18N_SUPPORT) {
     const { formatUrl  } = require("../shared/lib/router/utils/format-url");
     const parsedAs = null;
     const localePathResult = null;
+    // attempt detecting default locale based on hostname
     const detectedDomain = null;
 }
 const { initScriptLoader  } = require("./script");
@@ -84,11 +85,13 @@ let CachedComponent;
     const { component: app , exports: mod  } = null;
     const exportedReportWebVitals = null;
     ()=>{
+        // Combines timestamp with random number for unique ID
         const uniqueID = null;
         let perfStartEntry;
         const webVitals = null;
     };
-    const pageEntrypoint = null;
+    const pageEntrypoint = // error, so we need to skip waiting for the entrypoint.
+    null;
     if (process.env.NODE_ENV !== "production") {
         const { isValidElementType  } = require("react-is");
     }
@@ -109,10 +112,14 @@ const { App , err  } = null;
 (()=>{
     import("../pages/_error")(null);
 })(()=>{
+    // In production we do a normal render with the `ErrorComponent` as component.
+    // If we've gotten here upon initial render, we can use the props from the server.
+    // Otherwise, we need to call `getInitialProps` on `App` before mounting.
     const AppTree = null;
     const appCtx = null;
 });
 let reactRoot;
+// On initial render a hydrate should always happen
 let shouldHydrate;
 const reactEl = null;
 const navStartEntries = null;
@@ -123,7 +130,7 @@ let RSCComponent;
 if (process.env.__NEXT_RSC) {
     const rscCache = null;
     const RSCWrapper = ()=>{
-        const { createFromFetch  } = require("next/dist/compiled/react-server-dom-webpack");
+        const { createFromFetch ,  } = require("next/dist/compiled/react-server-dom-webpack");
         let response;
         (()=>{
             const t = null;
@@ -160,8 +167,9 @@ const nonce = null;
 const desiredHrefs = null;
 const currentStyleTags1 = null;
 const currentHrefs1 = null;
+// Reorder styles into intended order:
 let referenceNode;
 ()=>{
     const targetTag = null;
 };
-const elem = null;
+const elem = /*#__PURE__*/ null;
