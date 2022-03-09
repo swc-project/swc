@@ -24,7 +24,7 @@ swc_ecma_visit = {version = "0.55.0", path = "../swc_ecma_visit"}
 swc_estree_ast = {version = "0.7.0", path = "../swc_estree_ast"}
 swc_estree_compat = {version = "0.65.0", path = "../swc_estree_compat"}
 swc_timer = {version = "0.4.0", path = "../swc_timer"}
-tracing = "0.1.31"
+tracing = "0.1.32"
 
 [dev-dependencies]
 swc_ecma_transforms_testing = {version = "0.68.0", path = "../swc_ecma_transforms_testing"}

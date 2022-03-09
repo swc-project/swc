@@ -74,7 +74,7 @@ swc_ecmascript = {version = "0.129.0", path = "../swc_ecmascript"}
 swc_node_comments = {version = "0.4.0", path = "../swc_node_comments"}
 swc_plugin_runner = {version = "0.40.0", path = "../swc_plugin_runner", optional = true}
 swc_visit = {version = "0.3.0", path = "../swc_visit"}
-tracing = "0.1.31"
+tracing = "0.1.32"
 
 [dependencies.napi-derive]
 default-features = false
