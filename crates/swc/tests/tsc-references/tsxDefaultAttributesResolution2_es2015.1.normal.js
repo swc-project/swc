@@ -6,7 +6,7 @@
 const React = require('react');
 class Poisoned extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+        return /*#__PURE__*/ React.createElement("div", null, "Hello");
     }
 }
 // OK

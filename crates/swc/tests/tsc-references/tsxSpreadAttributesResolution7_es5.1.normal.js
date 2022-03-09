@@ -15,7 +15,7 @@ var TextComponent = /*#__PURE__*/ function(_Component) {
     }
     var _proto = TextComponent.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("span", null, "Some Text.."));
+        return /*#__PURE__*/ React.createElement("span", null, "Some Text..");
     };
     return TextComponent;
 }(React.Component);

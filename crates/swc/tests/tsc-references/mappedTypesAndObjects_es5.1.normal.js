@@ -14,6 +14,7 @@ function f2(x, y) {
 function f3(x) {
     x = {};
 }
+// Repro from #13747
 var Form = function Form() {
     "use strict";
     swcHelpers.classCallCheck(this, Form);

@@ -6,10 +6,10 @@ exports.default = Foo;
 var swcHelpers = require("@swc/helpers");
 var _react = swcHelpers.interopRequireDefault(require("react"));
 function Foo() {
-    return(/*#__PURE__*/ _react.default.createElement("div", {
+    return /*#__PURE__*/ _react.default.createElement("div", {
         onClick: async (e)=>{
             await doSomething();
         }
-    }));
+    });
 }
 Foo.displayName = "Foo";

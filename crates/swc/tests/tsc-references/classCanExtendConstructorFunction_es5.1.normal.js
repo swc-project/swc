@@ -19,8 +19,8 @@ import * as swcHelpers from "@swc/helpers";
 Wagon.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };
-var Sql = // ok
-/*#__PURE__*/ function(Wagon1) {
+// ok
+var Sql = /*#__PURE__*/ function(Wagon1) {
     "use strict";
     swcHelpers.inherits(Sql, Wagon1);
     var _super = swcHelpers.createSuper(Sql);
@@ -50,8 +50,8 @@ var Sql = // ok
 }(Wagon);
 var db = new Sql();
 db.numberOxen = db.foonly;
-var Drakkhen = // error, can't extend a TS constructor function
-/*#__PURE__*/ function(Dragon1) {
+// error, can't extend a TS constructor function
+var Drakkhen = /*#__PURE__*/ function(Dragon1) {
     "use strict";
     swcHelpers.inherits(Drakkhen, Dragon1);
     var _super = swcHelpers.createSuper(Drakkhen);
@@ -67,8 +67,8 @@ var Drakkhen = // error, can't extend a TS constructor function
  */ function Dragon(numberEaten) {
     this.numberEaten = numberEaten;
 }
-var Firedrake = // error!
-/*#__PURE__*/ function(Dragon2) {
+// error!
+var Firedrake = /*#__PURE__*/ function(Dragon2) {
     "use strict";
     swcHelpers.inherits(Firedrake, Dragon2);
     var _super = swcHelpers.createSuper(Firedrake);
@@ -78,8 +78,8 @@ var Firedrake = // error!
     }
     return Firedrake;
 }(Dragon);
-var Conestoga = // ok
-/*#__PURE__*/ function(Wagon2) {
+// ok
+var Conestoga = /*#__PURE__*/ function(Wagon2) {
     "use strict";
     swcHelpers.inherits(Conestoga, Wagon2);
     var _super = swcHelpers.createSuper(Conestoga);
@@ -106,7 +106,7 @@ c.numberOxen;
  */ function Soup(flavour) {
     this.flavour = flavour;
 }
-var Chowder = /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ /*#__PURE__*/ function(Soup1) {
+/** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ var Chowder = /*#__PURE__*/ function(Soup1) {
     "use strict";
     swcHelpers.inherits(Chowder, Soup1);
     var _super = swcHelpers.createSuper(Chowder);

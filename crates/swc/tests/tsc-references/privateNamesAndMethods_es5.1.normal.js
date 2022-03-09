@@ -1,6 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), __quux = new WeakMap(), _quux = new WeakMap();
+// @target: esnext, es2022
+// @lib: esnext, es2022
+// @useDefineForClassFields: false
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);

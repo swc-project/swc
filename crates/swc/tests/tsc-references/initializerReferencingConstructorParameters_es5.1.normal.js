@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// Initializer expressions for instance member variables are evaluated in the scope of the class constructor body but are not permitted to reference parameters or local variables of the constructor. 
 var C = function C(x1) {
     "use strict";
     swcHelpers.classCallCheck(this, C);

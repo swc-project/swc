@@ -15,7 +15,7 @@ const obj3 = {
 };
 class OverWriteAttr extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+        return /*#__PURE__*/ React.createElement("div", null, "Hello");
     }
 }
 let anyobj;

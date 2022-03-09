@@ -19,8 +19,8 @@ var Base = /*#__PURE__*/ function() {
     ]);
     return Base;
 }();
-var Derived = // error, not a subtype
-/*#__PURE__*/ function(Base) {
+// error, not a subtype
+var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
     swcHelpers.inherits(Derived, Base);
     var _super = swcHelpers.createSuper(Derived);

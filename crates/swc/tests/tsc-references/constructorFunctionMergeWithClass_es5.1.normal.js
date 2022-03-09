@@ -7,6 +7,7 @@ var SomeClass = function SomeClass() {
     this.otherProp = 0;
 };
 new SomeClass();
+// @Filename: file2.js
 var SomeClass = function SomeClass() {
     "use strict";
     swcHelpers.classCallCheck(this, SomeClass);

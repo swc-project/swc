@@ -41,8 +41,8 @@ function B3() {
         return Inner;
     }(A);
 }
-var K = // extends can call B
-/*#__PURE__*/ function(_superClass) {
+// extends can call B
+var K = /*#__PURE__*/ function(_superClass) {
     "use strict";
     swcHelpers.inherits(K, _superClass);
     var _super = swcHelpers.createSuper(K);

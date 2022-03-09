@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// @allowUnreachableCode: true
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

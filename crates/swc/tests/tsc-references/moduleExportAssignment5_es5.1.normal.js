@@ -1,9 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
-var Axios = // @noEmit: true
+// @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @Filename: axios.js
-/*#__PURE__*/ function() {
+var Axios = /*#__PURE__*/ function() {
     "use strict";
     function Axios() {
         swcHelpers.classCallCheck(this, Axios);

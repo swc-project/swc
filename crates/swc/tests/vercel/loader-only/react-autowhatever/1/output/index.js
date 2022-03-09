@@ -28,7 +28,7 @@ var ItemsList = /*#__PURE__*/ function(Component1) {
         var _props = this.props, items = _props.items, itemProps = _props.itemProps, renderItem = _props.renderItem, renderItemData = _props.renderItemData, sectionIndex = _props.sectionIndex, highlightedItemIndex = _props.highlightedItemIndex, getItemId = _props.getItemId, theme = _props.theme, keyPrefix = _props.keyPrefix;
         var sectionPrefix = sectionIndex === null ? keyPrefix : "".concat(keyPrefix, "section-").concat(sectionIndex, "-");
         var isItemPropsFunction = typeof itemProps === 'function';
-        return(/*#__PURE__*/ _jsx("ul", swcHelpers.objectSpread({
+        return /*#__PURE__*/ _jsx("ul", swcHelpers.objectSpread({
             role: "listbox"
         }, theme("".concat(sectionPrefix, "items-list"), 'itemsList'), {
             children: items.map(function(item, itemIndex) {
@@ -47,16 +47,16 @@ var ItemsList = /*#__PURE__*/ function(Component1) {
                     allItemProps.ref = _this.storeHighlightedItemReference;
                 }
                 // `key` is provided by theme()
-                /* eslint-disable react/jsx-key */ return(/*#__PURE__*/ _jsx(Item, swcHelpers.objectSpread({}, allItemProps, {
+                /* eslint-disable react/jsx-key */ return /*#__PURE__*/ _jsx(Item, swcHelpers.objectSpread({}, allItemProps, {
                     sectionIndex: sectionIndex,
                     isHighlighted: isHighlighted,
                     itemIndex: itemIndex,
                     item: item,
                     renderItem: renderItem,
                     renderItemData: renderItemData
-                })));
+                }));
             /* eslint-enable react/jsx-key */ })
-        })));
+        }));
     };
     return ItemsList;
 }(Component);

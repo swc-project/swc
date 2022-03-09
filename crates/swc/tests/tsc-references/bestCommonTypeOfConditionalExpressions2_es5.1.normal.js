@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// conditional expressions return the best common type of the branches plus contextual type (using the first candidate if multiple BCTs exist)
+// these are errors
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

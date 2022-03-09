@@ -34,7 +34,7 @@ class ReusablePayments extends PureComponent {
         if (!stripePaymentSources.length) {
             return null;
         }
-        return(/*#__PURE__*/ React.createElement(DeletePaymentSourceComponent, {
+        return /*#__PURE__*/ React.createElement(DeletePaymentSourceComponent, {
             onCompleted: (param)=>{
                 var deletePaymentSource = param.deletePaymentSource;
                 if (deletePaymentSource.success) {
@@ -53,7 +53,7 @@ class ReusablePayments extends PureComponent {
                 className: styles.selectionList
             }, stripePaymentSources.map((payment)=>{
                 var cardIcon = "brand" in payment.paymentEntity ? payment.paymentEntity.brand === "Visa" ? /*#__PURE__*/ React.createElement(Visa, null) : payment.paymentEntity.brand === "MasterCard" ? /*#__PURE__*/ React.createElement(MasterCard, null) : payment.paymentEntity.brand === "American Express" ? /*#__PURE__*/ React.createElement(AmericanExpress, null) : payment.paymentEntity.brand === "Discover" ? /*#__PURE__*/ React.createElement(Discover, null) : null : null;
-                return(/*#__PURE__*/ React.createElement("div", {
+                return /*#__PURE__*/ React.createElement("div", {
                     key: payment.id,
                     className: classNames(styles.creditCard, {
                         [styles.creditCardChecked]: selectedReusablePayment === payment
@@ -80,9 +80,9 @@ class ReusablePayments extends PureComponent {
                     variant: "secondary-link",
                     type: "button",
                     size: "xsmall"
-                }, "Remove")))));
+                }, "Remove"))));
             }))
-        ));
+        );
     }
     constructor(...args){
         super(...args);

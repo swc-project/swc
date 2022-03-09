@@ -1,5 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 var _f = new WeakMap(), _g = new WeakMap(), _h = new WeakMap(), _i = new WeakMap();
+// @strict: true
+// @target:es2015
+// @declaration: true
+// Properties with non-undefined types require initialization
 var C1 = function C1() {
     "use strict";
     swcHelpers.classCallCheck(this, C1);
@@ -20,11 +24,13 @@ var C1 = function C1() {
         value: void 0
     });
 };
+// No strict initialization checks for static members
 var C3 = function C3() {
     "use strict";
     swcHelpers.classCallCheck(this, C3);
 };
 var _d = new WeakMap(), _e = new WeakMap(), _f1 = new WeakMap();
+// Initializer satisfies strict initialization check
 var C4 = function C4() {
     "use strict";
     swcHelpers.classCallCheck(this, C4);
@@ -45,6 +51,7 @@ var C4 = function C4() {
     });
 };
 var _b = new WeakMap();
+// Assignment in constructor satisfies strict initialization check
 var C5 = function C5() {
     "use strict";
     swcHelpers.classCallCheck(this, C5);
@@ -56,6 +63,7 @@ var C5 = function C5() {
     swcHelpers.classPrivateFieldSet(this, _b, 0);
 };
 var _b1 = new WeakMap();
+// All code paths must contain assignment
 var C6 = function C6(cond) {
     "use strict";
     swcHelpers.classCallCheck(this, C6);
@@ -85,15 +93,19 @@ var C7 = function C7(cond) {
     this.a = 0;
     swcHelpers.classPrivateFieldSet(this, _b2, 1);
 };
+// Properties with string literal names aren't checked
 var C8 = function C8() {
     "use strict";
     swcHelpers.classCallCheck(this, C8);
 };
+// No strict initialization checks for abstract members
 var C9 = function C9() {
     "use strict";
     swcHelpers.classCallCheck(this, C9);
 };
 var _d1 = new WeakMap();
+// Properties with non-undefined types must be assigned before they can be accessed
+// within their constructor
 var C10 = function C10() {
     "use strict";
     swcHelpers.classCallCheck(this, C10);

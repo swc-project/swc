@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// @strictNullChecks: true
+// @declaration: true
 var Shape = function Shape() {
     "use strict";
     swcHelpers.classCallCheck(this, Shape);
@@ -313,8 +315,8 @@ function f92(x, y, z) {
     a = y;
     a = z;
 }
-var Base = // Repros from #12011
-/*#__PURE__*/ function() {
+// Repros from #12011
+var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
         swcHelpers.classCallCheck(this, Base);
@@ -462,6 +464,7 @@ function updateIds2(obj, key, stringMap) {
     var x = obj[key];
     stringMap[x]; // Should be OK.
 }
+// Repro from #13604
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);
@@ -480,8 +483,8 @@ var B = /*#__PURE__*/ function(A) {
     };
     return B;
 }(A);
-var Form = // Repro from #13749
-/*#__PURE__*/ function() {
+// Repro from #13749
+var Form = /*#__PURE__*/ function() {
     "use strict";
     function Form() {
         swcHelpers.classCallCheck(this, Form);
@@ -492,6 +495,7 @@ var Form = // Repro from #13749
     };
     return Form;
 }();
+// Repro from #13787
 var SampleClass = function SampleClass(props) {
     "use strict";
     swcHelpers.classCallCheck(this, SampleClass);
@@ -538,8 +542,8 @@ function fn(o, k) {
     take(o[k]);
     take(o[k]);
 }
-var Unbounded = // Repro from #23133
-/*#__PURE__*/ function() {
+// Repro from #23133
+var Unbounded = /*#__PURE__*/ function() {
     "use strict";
     function Unbounded() {
         swcHelpers.classCallCheck(this, Unbounded);

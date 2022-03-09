@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // @target: es5
-/*#__PURE__*/ function() {
+// @target: es5
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C(name) {
         for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){

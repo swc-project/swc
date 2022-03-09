@@ -3,5 +3,5 @@ function Bar() {
     React.useEffect(()=>{
     // @refresh reset
     });
-    return(/*#__PURE__*/ React.createElement("h1", null, foo, " "));
+    return /*#__PURE__*/ React.createElement("h1", null, foo, " ");
 }

@@ -19,6 +19,7 @@ var a3 = /*#__PURE__*/ React.createElement("div", {
 var e1 = /*#__PURE__*/ React.createElement("imag", {
     src: "bar.jpg"
 });
+// A custom type
 var MyClass = function MyClass() {
     "use strict";
     swcHelpers.classCallCheck(this, MyClass);

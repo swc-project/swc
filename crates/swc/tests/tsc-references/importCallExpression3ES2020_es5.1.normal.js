@@ -24,7 +24,7 @@ function _foo() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    _ctx.t0 = /*#__PURE__*/ function(_B) {
+                    _ctx.t0 = function(_B) {
                         "use strict";
                         swcHelpers.inherits(C, _B);
                         var _super = swcHelpers.createSuper(C);
@@ -38,7 +38,7 @@ function _foo() {
                     return import("./0");
                 case 3:
                     _ctx.t1 = _ctx.sent.B;
-                    C = (0, _ctx.t0)(_ctx.t1);
+                    C = /*#__PURE__*/ (0, _ctx.t0)(_ctx.t1);
                     c = new C();
                     c.print();
                 case 7:

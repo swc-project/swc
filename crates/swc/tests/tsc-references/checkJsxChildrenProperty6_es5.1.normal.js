@@ -15,15 +15,15 @@ var Button = /*#__PURE__*/ function(_Component) {
     }
     var _proto = Button.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "My Button"));
+        return /*#__PURE__*/ React.createElement("div", null, "My Button");
     };
     return Button;
 }(React.Component);
 function AnotherButton(p) {
-    return(/*#__PURE__*/ React.createElement("h1", null, "Just Another Button"));
+    return /*#__PURE__*/ React.createElement("h1", null, "Just Another Button");
 }
 function Comp(p) {
-    return(/*#__PURE__*/ React.createElement("div", null, p.b));
+    return /*#__PURE__*/ React.createElement("div", null, p.b);
 }
 // Ok
 var k1 = /*#__PURE__*/ React.createElement(Comp, {

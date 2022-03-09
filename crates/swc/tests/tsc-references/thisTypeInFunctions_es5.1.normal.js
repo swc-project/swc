@@ -1,5 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 var _this = this;
+// body checking
 var B = function B() {
     "use strict";
     swcHelpers.classCallCheck(this, B);
@@ -189,8 +190,8 @@ c.explicitC = function(m) {
 c.explicitVoid = function(n2) {
     return n2;
 };
-var Base1 = // class-based assignability
-/*#__PURE__*/ function() {
+// class-based assignability
+var Base1 = /*#__PURE__*/ function() {
     "use strict";
     function Base1() {
         swcHelpers.classCallCheck(this, Base1);

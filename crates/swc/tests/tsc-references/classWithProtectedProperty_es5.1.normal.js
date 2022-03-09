@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // accessing any protected outside the class is an error
-/*#__PURE__*/ function() {
+// accessing any protected outside the class is an error
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // type parameters cannot be used as base types
+// type parameters cannot be used as base types
 // these are all errors
-/*#__PURE__*/ function(T) {
+var C = /*#__PURE__*/ function(T) {
     "use strict";
     swcHelpers.inherits(C, T);
     var _super = swcHelpers.createSuper(C);

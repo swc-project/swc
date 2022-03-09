@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var _staticProp = (swcHelpers.classNameTDZError("C"), C).staticProp, _staticProp1 = (swcHelpers.classNameTDZError("C"), C).staticProp, _staticProp2 = (swcHelpers.classNameTDZError("C"), C).staticProp;
-var C = // @target: es6
-/*#__PURE__*/ function() {
+// @target: es6
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

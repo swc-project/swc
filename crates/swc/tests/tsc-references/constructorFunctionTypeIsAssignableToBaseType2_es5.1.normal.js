@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// the constructor function itself does not need to be a subtype of the base type constructor function
 var Base = function Base(x) {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

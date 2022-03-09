@@ -1,7 +1,7 @@
 use std::iter;
 
 use serde::Deserialize;
-use swc_common::{comments::Comments, util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_common::{comments::Comments, util::take::Take, BytePos, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
@@ -232,7 +232,11 @@ where
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Class(e) => {
-                *n = self.fold_class(e.ident.take(), e.class.take());
+                let class = self.fold_class(e.ident.take(), e.class.take());
+                if let Expr::Call(call) = &class {
+                    self.add_pure_comments(call.span.lo)
+                }
+                *n = class;
                 n.visit_mut_children_with(self)
             }
 
@@ -246,14 +250,32 @@ impl<C> Classes<C>
 where
     C: Comments,
 {
+    fn add_pure_comments(&mut self, start: BytePos) {
+        if let Some(comments) = &self.comments {
+            comments.add_pure_comment(start);
+        }
+    }
+
     fn fold_class_as_var_decl(&mut self, ident: Ident, class: Class) -> VarDecl {
-        let rhs = self.fold_class(Some(ident.clone()), class);
+        let span = class.span;
+        let mut rhs = self.fold_class(Some(ident.clone()), class);
+
+        // let VarDecl take every comments except pure
+        if let Expr::Call(call) = &mut rhs {
+            let span = Span {
+                // after class
+                lo: span.hi + BytePos(5),
+                ..span
+            };
+            self.add_pure_comments(span.lo);
+            call.span = span;
+        }
 
         VarDecl {
-            span: DUMMY_SP,
+            span,
             kind: VarDeclKind::Let,
             decls: vec![VarDeclarator {
-                span: DUMMY_SP,
+                span,
                 init: Some(Box::new(rhs)),
                 // Foo in var Foo =
                 name: ident.into(),
@@ -355,6 +377,7 @@ where
                     if let Some(use_strict) = stmts.pop() {
                         prepend(&mut function.body.as_mut().unwrap().stmts, use_strict);
                     }
+                    function.span = span;
                     return Expr::Fn(FnExpr {
                         ident: Some(ident),
                         function,
@@ -370,7 +393,7 @@ where
         };
 
         let call = CallExpr {
-            span: DUMMY_SP,
+            span,
             callee: Expr::Fn(FnExpr {
                 ident: None,
                 function: Function {
@@ -388,9 +411,6 @@ where
             args,
             type_args: Default::default(),
         };
-        if let Some(comments) = &self.comments {
-            comments.add_pure_comment(span.lo);
-        }
 
         Expr::Call(call)
     }

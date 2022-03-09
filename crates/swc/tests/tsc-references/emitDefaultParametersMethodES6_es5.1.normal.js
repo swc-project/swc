@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // @target:es6
-/*#__PURE__*/ function() {
+// @target:es6
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C(t, z, x) {
         var y = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : "hello";

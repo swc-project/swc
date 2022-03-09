@@ -106,8 +106,8 @@ function conditionalSpreadString(st) {
 // any results in any
 var anything;
 var spreadAny = swcHelpers.objectSpread({}, anything);
-var C = // methods are not enumerable
-/*#__PURE__*/ function() {
+// methods are not enumerable
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

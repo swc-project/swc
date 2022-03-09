@@ -3,6 +3,7 @@ import * as swcHelpers from "@swc/helpers";
 import * as types from './b';
 // @Filename: /d.ts
 import types from './c';
+// @Filename: /a.ts
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);

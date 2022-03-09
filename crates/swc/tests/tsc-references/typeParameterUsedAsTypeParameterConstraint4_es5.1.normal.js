@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // Type parameters are in scope in their own and other type parameter lists
+// Type parameters are in scope in their own and other type parameter lists
 // Some negative cases
-/*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

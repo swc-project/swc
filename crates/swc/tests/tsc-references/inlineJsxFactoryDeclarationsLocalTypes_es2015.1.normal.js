@@ -5,7 +5,7 @@ export const MySFC = (props)=>/*#__PURE__*/ predom("p", null, props.x, " + ", pr
 ;
 export class MyClass {
     render() {
-        return(/*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y));
+        return /*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
     }
     constructor(props){
         this.props = props;
@@ -28,7 +28,7 @@ const DOMSFC = (props)=>/*#__PURE__*/ predom("p", null, props.x, " + ", props.y,
 ;
 class DOMClass {
     render() {
-        return(/*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y));
+        return /*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
     }
     constructor(props){
         this.props = props;

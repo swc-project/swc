@@ -14,7 +14,7 @@ export var Text = /*#__PURE__*/ function(_Component) {
     }
     var _proto = Text.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement(this._tagName, null, " Hello world "));
+        return /*#__PURE__*/ React.createElement(this._tagName, null, " Hello world ");
     };
     return Text;
 }(React.Component);

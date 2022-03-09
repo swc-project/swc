@@ -1,8 +1,8 @@
 function VerticalNavMenuItem(prop) {
-    return(/*#__PURE__*/ React.createElement("div", null, "props.primaryText"));
+    return /*#__PURE__*/ React.createElement("div", null, "props.primaryText");
 }
 function VerticalNav() {
-    return(/*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement(VerticalNavMenuItem, {
+    return /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement(VerticalNavMenuItem, {
         primaryText: 2
     }), "  // error", /*#__PURE__*/ React.createElement(VerticalNavMenuItem, {
         justRandomProp: 2,
@@ -10,5 +10,5 @@ function VerticalNav() {
     }), "  // ok", /*#__PURE__*/ React.createElement(VerticalNavMenuItem, {
         justRandomProp1: true,
         primaryText: "hello"
-    }), "  // error"));
+    }), "  // error");
 }

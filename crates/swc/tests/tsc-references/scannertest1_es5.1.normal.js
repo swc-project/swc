@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var CharacterInfo = ///<reference path='References.ts' />
-/*#__PURE__*/ function() {
+///<reference path='References.ts' />
+var CharacterInfo = /*#__PURE__*/ function() {
     "use strict";
     function CharacterInfo() {
         swcHelpers.classCallCheck(this, CharacterInfo);

@@ -28,5 +28,5 @@ export default function Parent() {
     useEffect(function() {
         new Test('name').print('test');
     }, []);
-    return(/*#__PURE__*/ _jsx(_Fragment, {}));
+    return /*#__PURE__*/ _jsx(_Fragment, {});
 };

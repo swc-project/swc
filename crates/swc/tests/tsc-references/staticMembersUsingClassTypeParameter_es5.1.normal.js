@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // BUG 745747
-/*#__PURE__*/ function() {
+// BUG 745747
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

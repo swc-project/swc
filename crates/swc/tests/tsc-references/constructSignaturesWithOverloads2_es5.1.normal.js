@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// No errors expected for basic overloads of construct signatures with merged declarations
+// clodules
 var C = function C(x) {
     "use strict";
     swcHelpers.classCallCheck(this, C);

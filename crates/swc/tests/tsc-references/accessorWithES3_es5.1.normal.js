@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // @target: ES3
+// @target: ES3
 // error to use accessors in ES3 mode
-/*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

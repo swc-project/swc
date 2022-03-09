@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// automatic constructors with a class hieararchy of depth > 2
 var Base = function Base(x) {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

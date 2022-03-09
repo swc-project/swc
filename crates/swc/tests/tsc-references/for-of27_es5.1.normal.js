@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+//@target: ES6
 var StringIterator = function StringIterator() {
     "use strict";
     swcHelpers.classCallCheck(this, StringIterator);

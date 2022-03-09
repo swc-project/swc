@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// checking assignment compat for function types. No errors in this file
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

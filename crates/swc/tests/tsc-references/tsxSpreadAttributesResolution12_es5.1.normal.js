@@ -23,7 +23,7 @@ var OverWriteAttr = /*#__PURE__*/ function(_Component) {
     }
     var _proto = OverWriteAttr.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+        return /*#__PURE__*/ React.createElement("div", null, "Hello");
     };
     return OverWriteAttr;
 }(React.Component);

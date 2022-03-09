@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // @target: ES5
+// @target: ES5
 // no errors
-/*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
@@ -39,8 +39,8 @@ var C = // @target: ES5
     ]);
     return C;
 }();
-var C2 = // added level of function nesting
-/*#__PURE__*/ function() {
+// added level of function nesting
+var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {
         swcHelpers.classCallCheck(this, C2);

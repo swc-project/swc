@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// Basic recursive type
 var List = function List() {
     "use strict";
     swcHelpers.classCallCheck(this, List);

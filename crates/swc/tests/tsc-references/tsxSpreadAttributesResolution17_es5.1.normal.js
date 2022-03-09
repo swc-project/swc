@@ -9,7 +9,7 @@ export var Empty = /*#__PURE__*/ function(_Component) {
     }
     var _proto = Empty.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+        return /*#__PURE__*/ React.createElement("div", null, "Hello");
     };
     return Empty;
 }(React.Component);

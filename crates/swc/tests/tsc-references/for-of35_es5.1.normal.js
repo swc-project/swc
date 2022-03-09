@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 var _iterator = Symbol.iterator;
-var StringIterator = //@target: ES6
+//@target: ES6
 //@noImplicitAny: true
-/*#__PURE__*/ function() {
+var StringIterator = /*#__PURE__*/ function() {
     "use strict";
     function StringIterator() {
         swcHelpers.classCallCheck(this, StringIterator);

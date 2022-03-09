@@ -254,7 +254,7 @@ fn issue_406() {
     let s = file("tests/projects/issue-406/input.js").unwrap();
     println!("{}", s);
 
-    assert!(s.contains("return true"));
+    assert!(s.contains("return("));
 }
 
 #[test]
@@ -291,7 +291,7 @@ fn issue_414() {
 fn issue_415() {
     let s = file("tests/projects/issue-415/input.js").unwrap();
 
-    assert!(s.replace(' ', "").contains("return(/*#__PURE__*/"));
+    assert!(s.replace(' ', "").contains("return/*#__PURE__*/"));
 }
 
 #[test]

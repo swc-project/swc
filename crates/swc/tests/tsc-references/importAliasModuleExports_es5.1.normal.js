@@ -1,12 +1,12 @@
 import * as swcHelpers from "@swc/helpers";
 // @filename: main.js
 import A from './mod1';
-var Alias = // @allowJs: true
+// @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @esModuleInterop: true
 // @filename: mod1.js
-/*#__PURE__*/ function() {
+var Alias = /*#__PURE__*/ function() {
     "use strict";
     function Alias() {
         swcHelpers.classCallCheck(this, Alias);

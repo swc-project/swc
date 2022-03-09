@@ -1,6 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(g);
+//@target: ES6
 var Foo = function Foo() {
     "use strict";
     swcHelpers.classCallCheck(this, Foo);

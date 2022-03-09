@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// public is allowed on a constructor but is not meaningful
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

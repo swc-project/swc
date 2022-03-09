@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var _field = new WeakMap();
-var A = // @target: es2015
-/*#__PURE__*/ function() {
+// @target: es2015
+var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);

@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
-var NoBase = //super property access in constructor of class with no base type
+//super property access in constructor of class with no base type
 //super property access in instance member function of class with no base type
 //super property access in instance member accessor(get and set) of class with no base type
-/*#__PURE__*/ function() {
+var NoBase = /*#__PURE__*/ function() {
     "use strict";
     function NoBase() {
         swcHelpers.classCallCheck(this, NoBase);
@@ -51,11 +51,11 @@ var SomeBase = /*#__PURE__*/ function() {
 }();
 SomeBase.privateStaticMember = 0;
 SomeBase.publicStaticMember = 0;
-var SomeDerived1 = //super.publicInstanceMemberNotFunction in constructor of derived class
+//super.publicInstanceMemberNotFunction in constructor of derived class
 //super.publicInstanceMemberNotFunction in instance member function of derived class
 //super.publicInstanceMemberNotFunction in instance member accessor(get and set) of derived class
 //super property access only available with typed this
-/*#__PURE__*/ function(SomeBase) {
+var SomeDerived1 = /*#__PURE__*/ function(SomeBase) {
     "use strict";
     swcHelpers.inherits(SomeDerived1, SomeBase);
     var _super = swcHelpers.createSuper(SomeDerived1);
@@ -93,10 +93,10 @@ var SomeDerived1 = //super.publicInstanceMemberNotFunction in constructor of der
     ]);
     return SomeDerived1;
 }(SomeBase);
-var SomeDerived2 = //super.privateProperty in constructor of derived class
+//super.privateProperty in constructor of derived class
 //super.privateProperty in instance member function of derived class
 //super.privateProperty in instance member accessor(get and set) of derived class
-/*#__PURE__*/ function(SomeBase) {
+var SomeDerived2 = /*#__PURE__*/ function(SomeBase) {
     "use strict";
     swcHelpers.inherits(SomeDerived2, SomeBase);
     var _super = swcHelpers.createSuper(SomeDerived2);
@@ -124,11 +124,11 @@ var SomeDerived2 = //super.privateProperty in constructor of derived class
     ]);
     return SomeDerived2;
 }(SomeBase);
-var SomeDerived3 = //super.publicStaticMemberNotFunction in static member function of derived class
+//super.publicStaticMemberNotFunction in static member function of derived class
 //super.publicStaticMemberNotFunction in static member accessor(get and set) of derived class
 //super.privateStaticProperty in static member function of derived class
 //super.privateStaticProperty in static member accessor(get and set) of derived class
-/*#__PURE__*/ function(SomeBase) {
+var SomeDerived3 = /*#__PURE__*/ function(SomeBase) {
     "use strict";
     swcHelpers.inherits(SomeDerived3, SomeBase);
     var _super = swcHelpers.createSuper(SomeDerived3);

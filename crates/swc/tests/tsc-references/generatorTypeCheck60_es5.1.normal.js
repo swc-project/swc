@@ -7,7 +7,7 @@ function g() {
     return regeneratorRuntime.wrap(function g$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.t0 = /*#__PURE__*/ function(_superClass) {
+                _ctx.t0 = function(_superClass) {
                     "use strict";
                     swcHelpers.inherits(C, _superClass);
                     var _super = swcHelpers.createSuper(C);
@@ -21,7 +21,7 @@ function g() {
                 return;
             case 3:
                 _ctx.t1 = _ctx.sent;
-                C = (0, _ctx.t0)(_ctx.t1);
+                C = /*#__PURE__*/ (0, _ctx.t0)(_ctx.t1);
             case 5:
             case "end":
                 return _ctx.stop();

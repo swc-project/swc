@@ -20,6 +20,9 @@ foo(b);
 foo2(b);
 //foo3<any>(b);
 foo4(b);
+//function foo5<T extends String, U extends T>(x: T, y: U): T { return null; }
+//foo5(a, a);
+//foo5<any, any>(b, b);
 var C = function C(x) {
     "use strict";
     swcHelpers.classCallCheck(this, C);
@@ -34,6 +37,11 @@ var C2 = function C2(x) {
 };
 var c3 = new C2(a);
 var c4 = new C2(b);
+//class C3<T extends T[]> {
+//    constructor(public x: T) { }
+//}
+//var c5 = new C3(a);
+//var c6 = new C3<any>(b);
 var C4 = function C4(x) {
     "use strict";
     swcHelpers.classCallCheck(this, C4);

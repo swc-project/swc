@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // @Filename: classExtendsItselfIndirectly_file1.ts
-/*#__PURE__*/ function(E1) {
+// @Filename: classExtendsItselfIndirectly_file1.ts
+var C = /*#__PURE__*/ function(E1) {
     "use strict";
     swcHelpers.inherits(C, E1);
     var _super = swcHelpers.createSuper(C);
@@ -11,8 +11,8 @@ var C = // @Filename: classExtendsItselfIndirectly_file1.ts
     return C;
 } // error
 (E);
-var D = // @Filename: classExtendsItselfIndirectly_file2.ts
-/*#__PURE__*/ function(C) {
+// @Filename: classExtendsItselfIndirectly_file2.ts
+var D = /*#__PURE__*/ function(C) {
     "use strict";
     swcHelpers.inherits(D, C);
     var _super = swcHelpers.createSuper(D);
@@ -22,8 +22,8 @@ var D = // @Filename: classExtendsItselfIndirectly_file2.ts
     }
     return D;
 }(C);
-var E = // @Filename: classExtendsItselfIndirectly_file3.ts
-/*#__PURE__*/ function(D) {
+// @Filename: classExtendsItselfIndirectly_file3.ts
+var E = /*#__PURE__*/ function(D) {
     "use strict";
     swcHelpers.inherits(E, D);
     var _super = swcHelpers.createSuper(E);
@@ -33,8 +33,8 @@ var E = // @Filename: classExtendsItselfIndirectly_file3.ts
     }
     return E;
 }(D);
-var C2 = // @Filename: classExtendsItselfIndirectly_file4.ts
-/*#__PURE__*/ function(E21) {
+// @Filename: classExtendsItselfIndirectly_file4.ts
+var C2 = /*#__PURE__*/ function(E21) {
     "use strict";
     swcHelpers.inherits(C2, E21);
     var _super = swcHelpers.createSuper(C2);
@@ -45,8 +45,8 @@ var C2 = // @Filename: classExtendsItselfIndirectly_file4.ts
     return C2;
 } // error
 (E2);
-var D2 = // @Filename: classExtendsItselfIndirectly_file5.ts
-/*#__PURE__*/ function(C2) {
+// @Filename: classExtendsItselfIndirectly_file5.ts
+var D2 = /*#__PURE__*/ function(C2) {
     "use strict";
     swcHelpers.inherits(D2, C2);
     var _super = swcHelpers.createSuper(D2);
@@ -56,8 +56,8 @@ var D2 = // @Filename: classExtendsItselfIndirectly_file5.ts
     }
     return D2;
 }(C2);
-var E2 = // @Filename: classExtendsItselfIndirectly_file6.ts
-/*#__PURE__*/ function(D2) {
+// @Filename: classExtendsItselfIndirectly_file6.ts
+var E2 = /*#__PURE__*/ function(D2) {
     "use strict";
     swcHelpers.inherits(E2, D2);
     var _super = swcHelpers.createSuper(E2);

@@ -1,12 +1,12 @@
 import * as swcHelpers from "@swc/helpers";
-var SomeBaseClass = // @target: es5
+// @target: es5
 //super.publicInstanceMemberFunction in constructor of derived class
 //super.publicInstanceMemberFunction in instance member function of derived class
 //super.publicInstanceMemberFunction in instance member accessor(get and set) of derived class
 //super.publicInstanceMemberFunction in lambda in member function
 //super.publicStaticMemberFunction in static member function of derived class
 //super.publicStaticMemberFunction in static member accessor(get and set) of derived class
-/*#__PURE__*/ function() {
+var SomeBaseClass = /*#__PURE__*/ function() {
     "use strict";
     function SomeBaseClass() {
         swcHelpers.classCallCheck(this, SomeBaseClass);

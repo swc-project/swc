@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// a class constructor may return an expression, it must be assignable to the class instance type to be valid
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

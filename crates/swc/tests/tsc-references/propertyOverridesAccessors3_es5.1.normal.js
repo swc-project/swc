@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var Animal = // @target: esnext
+// @target: esnext
 // @useDefineForClassFields: true
-/*#__PURE__*/ function() {
+var Animal = /*#__PURE__*/ function() {
     "use strict";
     function Animal() {
         swcHelpers.classCallCheck(this, Animal);

@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// all expected to be errors
 var clodule1 = function clodule1() {
     "use strict";
     swcHelpers.classCallCheck(this, clodule1);

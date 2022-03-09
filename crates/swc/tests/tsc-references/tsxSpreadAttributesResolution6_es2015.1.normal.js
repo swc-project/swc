@@ -6,7 +6,7 @@
 const React = require('react');
 class TextComponent extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("span", null, "Some Text.."));
+        return /*#__PURE__*/ React.createElement("span", null, "Some Text..");
     }
 }
 // Error

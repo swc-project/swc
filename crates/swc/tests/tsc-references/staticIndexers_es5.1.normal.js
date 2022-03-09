@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// static indexers not allowed
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
