@@ -1,4 +1,6 @@
 #![deny(clippy::all)]
+#![deny(clippy::all)]
+#![deny(unused)]
 #![allow(clippy::result_unit_err)]
 
 use std::{
@@ -33,7 +35,7 @@ use swc_ecma_transforms_base::{
     hygiene,
     pass::noop,
 };
-use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory};
+use swc_ecma_utils::{quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
 use testing::{assert_eq, find_executable, NormalizedOutput};
@@ -165,9 +167,6 @@ impl<'a> Tester<'a> {
 
         let module = module
             .fold_with(&mut tr)
-            .fold_with(&mut as_folder(DropSpan {
-                preserve_ctxt: true,
-            }))
             .fold_with(&mut as_folder(Normalizer));
 
         Ok(module)
