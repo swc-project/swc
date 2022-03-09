@@ -1,5 +1,2 @@
-require("react").createElement(MyComp, {
-    a: 10,
-    b: "hi"
-});
+require("react"), MyComp;
 export { };

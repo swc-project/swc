@@ -6,8 +6,3 @@ export var MyComponent = function() {
     }
     return MyComponent.prototype.render = function() {}, MyComponent;
 }();
-React.createElement(MyComponent, {
-    foo: "bar"
-}), React.createElement(MyComponent, {
-    foo: 0
-});

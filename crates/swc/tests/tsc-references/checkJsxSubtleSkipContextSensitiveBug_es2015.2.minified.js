@@ -5,16 +5,3 @@ class AsyncLoader extends React.Component {
         return null;
     }
 }
-function _load() {
-    return (_load = swcHelpers.asyncToGenerator(function*() {
-        return {
-            success: !0
-        };
-    })).apply(this, arguments);
-}
-React.createElement(AsyncLoader, {
-    prop1: function() {
-        return _load.apply(this, arguments);
-    },
-    prop2: (result)=>result
-});

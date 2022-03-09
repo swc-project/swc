@@ -1,2 +1,1 @@
-var T = TestMod.Test;
-React.createElement(T, null), React.createElement(TestMod.Test, null);
+TestMod.Test, TestMod.Test;

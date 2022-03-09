@@ -5,18 +5,15 @@ class Poisoned extends React.Component {
         return React.createElement("div", null, "Hello");
     }
 }
-React.createElement(Poisoned, swcHelpers.extends({}, {
+swcHelpers.extends({}, {
     x: "ok",
     y: "2"
-})), React.createElement(Poisoned, swcHelpers.extends({}, {})), React.createElement(Poisoned, null), React.createElement(Poisoned, {
-    x: !0,
-    y: !0
-}), React.createElement(Poisoned, swcHelpers.extends({}, {
+}), swcHelpers.extends({}, {}), swcHelpers.extends({}, {
     x: 5,
     y: "2"
-})), React.createElement(Poisoned, swcHelpers.extends({}, {
+}), swcHelpers.extends({}, {
     x: 5,
     y: "2"
 }, {
     X: "hi"
-}));
+});

@@ -1,2 +1,2 @@
-React.createElement("div", null, "text");
+"text";
 export { };

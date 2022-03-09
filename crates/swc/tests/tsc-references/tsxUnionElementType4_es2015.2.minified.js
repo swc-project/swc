@@ -20,11 +20,4 @@ class RC4 extends React.Component {
         return null;
     }
 }
-React.createElement(RC1 || RC2, {
-    x: !0
-}), React.createElement(RC1 || RC4, {
-    x: 10
-}), React.createElement(RC3 || RC4, {
-    prop: !0
-});
 export { };

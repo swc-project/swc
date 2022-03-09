@@ -5,15 +5,15 @@ class Poisoned extends React.Component {
         return React.createElement("div", null, "Hello");
     }
 }
-React.createElement(Poisoned, swcHelpers.extends({}, {
+swcHelpers.extends({}, {
     x: "hello world",
     y: 2
-}));
+});
 class EmptyProp extends React.Component {
     render() {
         return React.createElement("div", null, "Default hi");
     }
 }
-React.createElement(EmptyProp, swcHelpers.extends({}, {
+swcHelpers.extends({}, {
     prop1: !1
-}));
+});
