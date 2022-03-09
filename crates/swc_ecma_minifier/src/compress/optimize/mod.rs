@@ -2798,6 +2798,7 @@ where
             }
         }
 
+        let mut can_prepend = true;
         let mut side_effects = vec![];
 
         for v in vars.iter_mut() {
@@ -2819,18 +2820,36 @@ where
             // We can drop the next variable, as we don't have to worry about the side
             // effect.
             if side_effects.is_empty() {
+                can_prepend = false;
                 continue;
             }
 
             // We now have to handle side effects.
-            // We prepend side effects to the initializer.
 
-            let seq = v.init.as_mut().unwrap().force_seq();
-            seq.exprs = side_effects
-                .drain(..)
-                .into_iter()
-                .chain(seq.exprs.take())
-                .collect();
+            if can_prepend {
+                can_prepend = false;
+
+                self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: if side_effects.len() == 1 {
+                        side_effects.remove(0)
+                    } else {
+                        Box::new(Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: side_effects.take(),
+                        }))
+                    },
+                }));
+            } else {
+                // We prepend side effects to the initializer.
+
+                let seq = v.init.as_mut().unwrap().force_seq();
+                seq.exprs = side_effects
+                    .drain(..)
+                    .into_iter()
+                    .chain(seq.exprs.take())
+                    .collect();
+            }
         }
 
         // We append side effects.
