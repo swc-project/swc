@@ -217,6 +217,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         let mut attrs = vec![];
         while let Ok(..) = cur!(self, false) {
+            trace_cur!(self, parse_jsx_opening__attrs_loop);
+
             if is!(self, '/') || is!(self, JSXTagEnd) {
                 break;
             }
