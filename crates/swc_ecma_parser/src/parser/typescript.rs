@@ -2632,6 +2632,8 @@ impl<I: Tokens> Parser<I> {
     {
         debug_assert!(self.input.syntax().typescript());
 
+        trace_cur!(self, ts_in_no_context__before);
+
         let cloned = self.input.token_context().clone();
 
         #[cfg(debug_assertions)]
@@ -2642,6 +2644,8 @@ impl<I: Tokens> Parser<I> {
             .set_token_context(TokenContexts(smallvec::smallvec![cloned.0[0]]));
         let res = op(self);
         self.input.set_token_context(cloned);
+
+        trace_cur!(self, ts_in_no_context__after);
 
         res
     }
