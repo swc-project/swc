@@ -19,7 +19,7 @@ where
         &mut self,
         var: &mut VarDeclarator,
         prepend: bool,
-        preserve_ident_pat: bool,
+        preserve_top_pat: bool,
     ) {
         if var.name.is_invalid() {
             return;
@@ -30,7 +30,7 @@ where
         match &mut var.init {
             Some(init) => match &**init {
                 Expr::Invalid(..) => {
-                    self.drop_unused_vars(var.span, &mut var.name, None, preserve_ident_pat);
+                    self.drop_unused_vars(var.span, &mut var.name, None, preserve_top_pat);
                 }
                 // I don't know why, but terser preserves this
                 Expr::Fn(FnExpr {
@@ -38,7 +38,7 @@ where
                     ..
                 }) => {}
                 _ => {
-                    self.drop_unused_vars(var.span, &mut var.name, Some(init), preserve_ident_pat);
+                    self.drop_unused_vars(var.span, &mut var.name, Some(init), preserve_top_pat);
 
                     if var.name.is_invalid() {
                         tracing::debug!("unused: Removing an unused variable declarator");
@@ -67,7 +67,7 @@ where
                     var.span,
                     &mut var.name,
                     var.init.as_deref_mut(),
-                    preserve_ident_pat,
+                    preserve_top_pat,
                 );
             }
         }
@@ -117,7 +117,7 @@ where
         var_declarator_span: Span,
         name: &mut Pat,
         init: Option<&mut Expr>,
-        preserve_ident_pat: bool,
+        preserve_top_pat: bool,
     ) {
         if self.ctx.is_exported || self.ctx.in_asm {
             return;
@@ -190,7 +190,7 @@ where
             return;
         }
 
-        self.take_pat_if_unused(var_declarator_span, name, init, preserve_ident_pat);
+        self.take_pat_if_unused(var_declarator_span, name, init, preserve_top_pat);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -283,7 +283,7 @@ where
         parent_span: Span,
         name: &mut Pat,
         mut init: Option<&mut Expr>,
-        preserve_ident_pat: bool,
+        preserve_top_pat: bool,
     ) {
         if self.ctx.is_exported {
             return;
@@ -298,7 +298,7 @@ where
 
         match name {
             Pat::Ident(i) => {
-                if preserve_ident_pat {
+                if preserve_top_pat {
                     return;
                 }
 

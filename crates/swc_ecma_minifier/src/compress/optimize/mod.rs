@@ -2827,6 +2827,18 @@ where
             break;
         }
 
+        if vars.len() >= 3 {
+            let len = vars.len();
+            // We don't move initializer yet, but we drops property patterns.
+            for (idx, v) in vars.iter_mut().enumerate() {
+                if idx == 0 || idx == len - 1 {
+                    continue;
+                }
+
+                self.drop_unused_var_declarator(v, false, false);
+            }
+        }
+
         vars.retain_mut(|var| {
             if var.name.is_invalid() {
                 self.changed = true;
