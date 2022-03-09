@@ -295,7 +295,7 @@ where
 
                 if e.span.ctxt.outer() == self.marks.top_level_mark {
                     if is_global_var(&e.sym) {
-                        return true;
+                        return false;
                     }
                 }
             }
@@ -318,7 +318,7 @@ where
 
             Expr::Paren(p) => return self.should_preserve_property_access(&p.expr, opts),
 
-            Expr::Fn(..) | Expr::Arrow(..) => {
+            Expr::Fn(..) | Expr::Arrow(..) | Expr::Array(..) => {
                 return false;
             }
             _ => {}
