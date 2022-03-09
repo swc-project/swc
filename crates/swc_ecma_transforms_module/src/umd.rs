@@ -32,6 +32,7 @@ pub fn umd(cm: Lrc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
         exports: Default::default(),
 
         resolver: Resolver::Default,
+        vars: Default::default(),
     }
 }
 
@@ -52,6 +53,7 @@ pub fn umd_with_resolver(
         exports: Default::default(),
 
         resolver: Resolver::Real { base, resolver },
+        vars: Default::default(),
     }
 }
 
@@ -64,6 +66,7 @@ struct Umd {
     exports: Exports,
 
     resolver: Resolver,
+    vars: RefCell<Vec<VarDeclarator>>,
 }
 
 /// TODO: VisitMut
@@ -452,6 +455,22 @@ impl Fold for Umd {
             }
         }
 
+        let vars = self.vars_take();
+
+        if !vars.is_empty() {
+            let var_stmt = Stmt::Decl(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vars,
+                }
+                .into(),
+            );
+
+            stmts.push(var_stmt);
+        }
+
         // ====================
         //  Handle imports
         // ====================
@@ -825,5 +844,17 @@ impl ModulePass for Umd {
                 !self.config.config.no_interop,
             )),
         })
+    }
+
+    fn vars(&mut self) -> Ref<Vec<VarDeclarator>> {
+        self.vars.borrow()
+    }
+
+    fn vars_mut(&mut self) -> RefMut<Vec<VarDeclarator>> {
+        self.vars.borrow_mut()
+    }
+
+    fn vars_take(&mut self) -> Vec<VarDeclarator> {
+        self.vars.take()
     }
 }

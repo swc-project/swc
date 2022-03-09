@@ -562,11 +562,12 @@ define(["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
+  var ref;
   _exports.f = _exports.e = _exports.c = _exports.a = _exports.test = void 0;
   var test1 = 2;
   _exports.test = test1;
   _exports.test = test1 = 5;
-  test1++, _exports.test = test1;
+  ref = test1++, _exports.test = test1, ref;
 
   (function () {
     var test = 2;
