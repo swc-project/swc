@@ -17,6 +17,9 @@
 - **(es/module/cjs)** Allow re-exports to be lazy (#3856) ([f575b1b](https://github.com/swc-project/swc/commit/f575b1bc4868dd46c572c3ef61767fdd2ee2c2b3))
 
 
+- **(es/parser)** Fix the logic for token contexts (#3926) ([4b4aef3](https://github.com/swc-project/swc/commit/4b4aef3270cac8bdd75c79af9be186bf446b23f1))
+
+
 - **(es/transform/optimization)** Prevent inlining of vars used as RHS in logical expressions (#3907) ([782a874](https://github.com/swc-project/swc/commit/782a8746963f11a1ada446cb1f744a58f6516cf8))
 
 
@@ -48,6 +51,9 @@
 
 
 - **(es/fixer)** Remove extra parens around IIFE in statements (#3918) ([7cfa930](https://github.com/swc-project/swc/commit/7cfa930a629da96b30c2d5021a51d15c0b121013))
+
+
+- **(es/minifier)** Remove pure calls (#3925) ([bd838ac](https://github.com/swc-project/swc/commit/bd838ac5a9524c1a7f3db34c2110c6ddb9718de0))
 
 
 - **(es/parser)** Report errors for non-abstract members in an abstract class (#3917) ([16182d5](https://github.com/swc-project/swc/commit/16182d586f1b54e383ae83a264576267441e49ba))
