@@ -2795,14 +2795,14 @@ where
                 .map(|e| !e.may_have_side_effects())
                 .unwrap_or(true)
             {
-                self.drop_unused_var_declarator(v, true);
+                self.drop_unused_var_declarator(v, true, false);
             }
         }
 
         for v in vars.iter_mut() {
             let was_value_none = v.init.is_none();
 
-            self.drop_unused_var_declarator(v, true);
+            self.drop_unused_var_declarator(v, true, false);
             if v.name.is_invalid() {
                 continue;
             }
@@ -2816,7 +2816,7 @@ where
         for v in vars.iter_mut().rev() {
             let was_value_none = v.init.is_none();
 
-            self.drop_unused_var_declarator(v, false);
+            self.drop_unused_var_declarator(v, false, false);
             if v.name.is_invalid() {
                 continue;
             }

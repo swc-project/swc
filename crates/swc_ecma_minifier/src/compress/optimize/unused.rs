@@ -15,7 +15,12 @@ where
     M: Mode,
 {
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn drop_unused_var_declarator(&mut self, var: &mut VarDeclarator, prepend: bool) {
+    pub(super) fn drop_unused_var_declarator(
+        &mut self,
+        var: &mut VarDeclarator,
+        prepend: bool,
+        preserve_ident_pat: bool,
+    ) {
         if var.name.is_invalid() {
             return;
         }
@@ -25,7 +30,7 @@ where
         match &mut var.init {
             Some(init) => match &**init {
                 Expr::Invalid(..) => {
-                    self.drop_unused_vars(var.span, &mut var.name, None);
+                    self.drop_unused_vars(var.span, &mut var.name, None, preserve_ident_pat);
                 }
                 // I don't know why, but terser preserves this
                 Expr::Fn(FnExpr {
@@ -33,7 +38,7 @@ where
                     ..
                 }) => {}
                 _ => {
-                    self.drop_unused_vars(var.span, &mut var.name, Some(init));
+                    self.drop_unused_vars(var.span, &mut var.name, Some(init), preserve_ident_pat);
 
                     if var.name.is_invalid() {
                         tracing::debug!("unused: Removing an unused variable declarator");
@@ -58,7 +63,12 @@ where
                 }
             },
             None => {
-                self.drop_unused_vars(var.span, &mut var.name, var.init.as_deref_mut());
+                self.drop_unused_vars(
+                    var.span,
+                    &mut var.name,
+                    var.init.as_deref_mut(),
+                    preserve_ident_pat,
+                );
             }
         }
 
@@ -98,7 +108,7 @@ where
             }
         }
 
-        self.take_pat_if_unused(DUMMY_SP, pat, None)
+        self.take_pat_if_unused(DUMMY_SP, pat, None, false)
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -107,6 +117,7 @@ where
         var_declarator_span: Span,
         name: &mut Pat,
         init: Option<&mut Expr>,
+        preserve_ident_pat: bool,
     ) {
         if self.ctx.is_exported || self.ctx.in_asm {
             return;
@@ -179,13 +190,13 @@ where
             return;
         }
 
-        self.take_pat_if_unused(var_declarator_span, name, init);
+        self.take_pat_if_unused(var_declarator_span, name, init, preserve_ident_pat);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
         for param in params.iter_mut().rev() {
-            self.take_pat_if_unused(DUMMY_SP, &mut param.pat, None);
+            self.take_pat_if_unused(DUMMY_SP, &mut param.pat, None, false);
 
             if !param.pat.is_invalid() {
                 return;
@@ -272,6 +283,7 @@ where
         parent_span: Span,
         name: &mut Pat,
         mut init: Option<&mut Expr>,
+        preserve_ident_pat: bool,
     ) {
         if self.ctx.is_exported {
             return;
@@ -286,6 +298,10 @@ where
 
         match name {
             Pat::Ident(i) => {
+                if preserve_ident_pat {
+                    return;
+                }
+
                 self.take_ident_of_pat_if_unused(parent_span, &mut i.id, init);
 
                 // Removed
@@ -306,7 +322,7 @@ where
                                 .as_mut()
                                 .and_then(|expr| self.access_numeric_property(expr, idx));
 
-                            self.take_pat_if_unused(parent_span, p, elem);
+                            self.take_pat_if_unused(parent_span, p, elem, false);
                         }
                         None => {}
                     }
@@ -333,7 +349,7 @@ where
                                 continue;
                             }
 
-                            self.take_pat_if_unused(parent_span, &mut p.value, None);
+                            self.take_pat_if_unused(parent_span, &mut p.value, None, false);
                         }
                         ObjectPatProp::Assign(AssignPatProp {
                             key, value: None, ..
