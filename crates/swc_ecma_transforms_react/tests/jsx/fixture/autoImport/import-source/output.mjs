@@ -1,5 +1,4 @@
 import { jsx as _jsx } from "foo/jsx-runtime";
-
-var x = _jsx("div", {
-  children: _jsx("span", {})
+var x = /*#__PURE__*/ _jsx("div", {
+    children: /*#__PURE__*/ _jsx("span", {})
 });

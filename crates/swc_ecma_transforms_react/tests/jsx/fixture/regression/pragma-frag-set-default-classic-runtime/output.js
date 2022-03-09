@@ -1,4 +1,1 @@
-/* @jsxFrag React.Fragment */
-
-/* @jsx h */
-h(React.Fragment, null, "Test");
+/* @jsxFrag React.Fragment */ /* @jsx h */ /*#__PURE__*/ h(React.Fragment, null, "Test");

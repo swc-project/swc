@@ -1,13 +1,10 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-var x = _jsxs("div", {
+var x = /*#__PURE__*/ _jsxs("div", {
     children: [
-        _jsx("span", {
-        }),
+        /*#__PURE__*/ _jsx("span", {}),
         [
-            _jsx("span", {
-            }, "0"),
-            _jsx("span", {
-            }, "1")
+            /*#__PURE__*/ _jsx("span", {}, "0"),
+            /*#__PURE__*/ _jsx("span", {}, "1")
         ]
     ]
 });
