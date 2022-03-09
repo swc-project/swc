@@ -256,6 +256,26 @@ where
         }
     }
 
+    pub(crate) fn should_preserve_property_access(&self, e: &Expr) -> bool {
+        if let Expr::Ident(e) = e {
+            if let Some(usage) = self
+                .data
+                .as_ref()
+                .and_then(|data| data.vars.get(&e.to_id()))
+            {
+                if !usage.declared {
+                    return true;
+                }
+
+                if !usage.mutated && !usage.reassigned() && usage.no_side_effect_for_member_access {
+                    return false;
+                }
+            }
+        }
+
+        true
+    }
+
     /// `parent_span` should be [Span] of [VarDeclarator] or [AssignExpr]
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn take_pat_if_unused(
@@ -272,6 +292,12 @@ where
             // TODO: Use smart logic
             if self.options.pure_getters != PureGetterOption::Bool(true) {
                 return;
+            }
+
+            if let Some(init) = init.as_mut() {
+                if self.should_preserve_property_access(init) {
+                    return;
+                }
             }
         }
 

@@ -960,23 +960,8 @@ where
                 if !prop.is_computed()
                     && (self.options.top_level() || !self.ctx.in_top_level()) =>
             {
-                if let Expr::Ident(obj) = &**obj {
-                    if let Some(usage) = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&obj.to_id()))
-                    {
-                        if !usage.declared {
-                            return Some(e.take());
-                        }
-
-                        if !usage.mutated
-                            && !usage.reassigned()
-                            && usage.no_side_effect_for_member_access
-                        {
-                            return None;
-                        }
-                    }
+                if self.should_preserve_property_access(obj) {
+                    return Some(e.take());
                 }
             }
 
