@@ -5,9 +5,18 @@ use swc_ecma_utils::{contains_ident_ref, ident::IdentLike};
 
 use super::Optimizer;
 use crate::{
-    compress::optimize::util::class_has_side_effect, debug::dump, mode::Mode,
+    compress::{optimize::util::class_has_side_effect, util::is_global_var},
+    debug::dump,
+    mode::Mode,
     option::PureGetterOption,
 };
+
+#[derive(Debug, Default, Clone, Copy)]
+pub(crate) struct PropertyAccessOpts {
+    pub allow_getter: bool,
+
+    pub only_ident: bool,
+}
 
 /// Methods related to the option `unused`.
 impl<M> Optimizer<'_, M>
@@ -256,21 +265,63 @@ where
         }
     }
 
-    pub(crate) fn should_preserve_property_access(&self, e: &Expr) -> bool {
-        if let Expr::Ident(e) = e {
-            if let Some(usage) = self
-                .data
-                .as_ref()
-                .and_then(|data| data.vars.get(&e.to_id()))
-            {
-                if !usage.declared {
-                    return true;
+    pub(crate) fn should_preserve_property_access(
+        &self,
+        e: &Expr,
+        opts: PropertyAccessOpts,
+    ) -> bool {
+        if opts.only_ident && !e.is_ident() {
+            return true;
+        }
+
+        match e {
+            Expr::Ident(e) => {
+                if let Some(usage) = self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&e.to_id()))
+                {
+                    if !usage.declared {
+                        return true;
+                    }
+
+                    if !usage.mutated
+                        && !usage.reassigned()
+                        && usage.no_side_effect_for_member_access
+                    {
+                        return false;
+                    }
                 }
 
-                if !usage.mutated && !usage.reassigned() && usage.no_side_effect_for_member_access {
-                    return false;
+                if e.span.ctxt.outer() == self.marks.top_level_mark {
+                    if is_global_var(&e.sym) {
+                        return true;
+                    }
                 }
             }
+
+            Expr::Object(o) => {
+                // We should check properties
+                return o.props.iter().all(|p| match p {
+                    PropOrSpread::Spread(p) => !self.should_preserve_property_access(&p.expr, opts),
+                    PropOrSpread::Prop(p) => match &**p {
+                        Prop::Assign(_) => false,
+                        Prop::Getter(_) => opts.allow_getter,
+                        Prop::Shorthand(_) => true,
+                        Prop::KeyValue(..) => true,
+
+                        Prop::Setter(_) => true,
+                        Prop::Method(_) => true,
+                    },
+                });
+            }
+
+            Expr::Paren(p) => return self.should_preserve_property_access(&p.expr, opts),
+
+            Expr::Fn(..) | Expr::Arrow(..) => {
+                return false;
+            }
+            _ => {}
         }
 
         true
@@ -295,7 +346,13 @@ where
             }
 
             if let Some(init) = init.as_mut() {
-                if self.should_preserve_property_access(init) {
+                if self.should_preserve_property_access(
+                    init,
+                    PropertyAccessOpts {
+                        allow_getter: false,
+                        only_ident: false,
+                    },
+                ) {
                     return;
                 }
             }

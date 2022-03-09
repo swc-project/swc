@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
 use super::Pure;
-use crate::compress::util::is_pure_undefined;
+use crate::compress::util::{is_global_var, is_pure_undefined};
 
 impl Pure<'_> {
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
@@ -149,19 +149,10 @@ impl Pure<'_> {
                 if self.options.side_effects
                     || (self.options.unused && opts.drop_global_refs_if_unused)
                 {
-                    match &*i.sym {
-                        "clearInterval" | "clearTimeout" | "setInterval" | "setTimeout"
-                        | "Boolean" | "Date" | "decodeURI" | "decodeURIComponent" | "encodeURI"
-                        | "encodeURIComponent" | "escape" | "eval" | "EvalError" | "isFinite"
-                        | "isNaN" | "JSON" | "parseFloat" | "parseInt" | "RegExp"
-                        | "RangeError" | "ReferenceError" | "SyntaxError" | "TypeError"
-                        | "unescape" | "URIError" | "atob" | "globalThis" | "String" | "Object"
-                        | "Array" | "Number" | "NaN" | "Symbol" => {
-                            tracing::debug!("Dropping a reference to a global variable");
-                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                            return;
-                        }
-                        _ => {}
+                    if is_global_var(&i.sym) {
+                        tracing::debug!("Dropping a reference to a global variable");
+                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        return;
                     }
                 }
             } else {

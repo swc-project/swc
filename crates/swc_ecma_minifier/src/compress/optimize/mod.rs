@@ -17,7 +17,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
 use Value::Known;
 
-use self::util::MultiReplacer;
+use self::{unused::PropertyAccessOpts, util::MultiReplacer};
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
@@ -960,7 +960,13 @@ where
                 if !prop.is_computed()
                     && (self.options.top_level() || !self.ctx.in_top_level()) =>
             {
-                if self.should_preserve_property_access(obj) {
+                if self.should_preserve_property_access(
+                    obj,
+                    PropertyAccessOpts {
+                        allow_getter: true,
+                        only_ident: true,
+                    },
+                ) {
                     return Some(e.take());
                 } else {
                     return None;
