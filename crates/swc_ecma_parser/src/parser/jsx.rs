@@ -157,6 +157,8 @@ impl<'a, I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
         let start = cur_pos!(self);
 
+        let _tracing = debug_tracing!(self, "parse_jsx_attr");
+
         if eat!(self, '{') {
             let dot3_start = cur_pos!(self);
             expect!(self, "...");
