@@ -22,7 +22,7 @@ var source;
 var key;
 const data = null;
 export const version = process.env.__NEXT_VERSION;
-const looseToArray = null, { props: hydrateProps , err: hydrateErr , page , query , buildId , assetPrefix , runtimeConfig , dynamicIds , isFallback , locale , locales , domainLocales , isPreview , rsc  } = null;
+const looseToArray = null, { props: hydrateProps , err: hydrateErr , page , query , buildId , assetPrefix , runtimeConfig , dynamicIds , isFallback , locale , locales , domainLocales , isPreview , rsc ,  } = null;
 let { defaultLocale  } = null;
 const prefix = null;
 setConfig(null);
@@ -104,7 +104,7 @@ const wrapApp = ()=>{
 let RSCComponent;
 if (process.env.__NEXT_RSC) {
     const rscCache = null, RSCWrapper = ()=>{
-        const { createFromFetch  } = require("next/dist/compiled/react-server-dom-webpack");
+        const { createFromFetch ,  } = require("next/dist/compiled/react-server-dom-webpack");
         let response;
         (()=>{
             const t = null;
@@ -136,12 +136,10 @@ const elem = React.createElement(React.Fragment, null, React.createElement(null,
     let referenceNode;
     ()=>{
         const targetTag = null;
-    }, ()=>{
-    };
+    }, ()=>{};
 }), React.createElement(null, null, React.createElement(null, null), React.createElement(Portal, "next-route-announcer", React.createElement(RouteAnnouncer, null))));
 React.createElement(React.createElement(React.StrictMode, null, null));
-React.useLayoutEffect(null, null), React.useEffect(()=>{
-}, null), React.useEffect(()=>{
+React.useLayoutEffect(null, null), React.useEffect(()=>{}, null), React.useEffect(()=>{
     measureWebVitals(null);
 }, null);
 React.useLayoutEffect(null, null);

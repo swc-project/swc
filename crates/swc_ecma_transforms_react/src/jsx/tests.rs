@@ -13,7 +13,7 @@ use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{parse_options, test, test_fixture_allowing_error, Tester};
 
 use super::*;
-use crate::{display_name, react};
+use crate::{display_name, pure_annotations, react};
 
 fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
     chain!(
@@ -72,6 +72,7 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
             top_level_mark
         ),
         display_name(),
+        pure_annotations(Some(t.comments.clone()))
     )
 }
 

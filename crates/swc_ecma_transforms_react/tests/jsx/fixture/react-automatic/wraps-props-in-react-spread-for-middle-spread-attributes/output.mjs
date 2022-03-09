@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-_jsx(Component, {
+/*#__PURE__*/ _jsx(Component, {
     y: 2,
     ...x,
     z: true

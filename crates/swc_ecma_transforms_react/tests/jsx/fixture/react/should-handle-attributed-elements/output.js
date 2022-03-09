@@ -1,9 +1,9 @@
 var HelloMessage = React.createClass({
     render: function() {
-        return React.createElement("div", null, "Hello ", this.props.name);
+        return(/*#__PURE__*/ React.createElement("div", null, "Hello ", this.props.name));
     },
     displayName: "HelloMessage"
 });
-React.render(React.createElement(HelloMessage, {
-    name: React.createElement("span", null, "Sebastian")
+React.render(/*#__PURE__*/ React.createElement(HelloMessage, {
+    name: /*#__PURE__*/ React.createElement("span", null, "Sebastian")
 }), mountNode);

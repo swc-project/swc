@@ -1,3 +1,3 @@
-h("f:image", {
-  "n:attr": true
+/*#__PURE__*/ h("f:image", {
+    "n:attr": true
 });

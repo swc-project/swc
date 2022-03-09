@@ -1,5 +1,5 @@
 import { jsxs as _jsxs } from "react/jsx-runtime";
-_jsxs(Text, {
+/*#__PURE__*/ _jsxs(Text, {
     children: [
         "To get started, edit index.ios.js!!!",
         "\n",
