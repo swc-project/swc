@@ -18,7 +18,7 @@ where
     pub(super) fn drop_unused_var_declarator(
         &mut self,
         var: &mut VarDeclarator,
-        prepend: bool,
+        storage_for_side_effects: &mut Option<Box<Expr>>,
         preserve_top_pat: bool,
     ) {
         if var.name.is_invalid() {
@@ -42,22 +42,9 @@ where
 
                     if var.name.is_invalid() {
                         tracing::debug!("unused: Removing an unused variable declarator");
-                        let side_effects = self.ignore_return_value(init);
+                        let side_effects = self.ignore_return_value(init).map(Box::new);
                         if let Some(e) = side_effects {
-                            if prepend {
-                                self.prepend_stmts.push(Stmt::Expr(ExprStmt {
-                                    span: var.span,
-                                    expr: Box::new(e),
-                                }))
-                            } else {
-                                self.append_stmts.insert(
-                                    0,
-                                    Stmt::Expr(ExprStmt {
-                                        span: var.span,
-                                        expr: Box::new(e),
-                                    }),
-                                )
-                            }
+                            *storage_for_side_effects = Some(e);
                         }
                     }
                 }
