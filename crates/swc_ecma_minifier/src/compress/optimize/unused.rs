@@ -276,6 +276,12 @@ where
 
         match e {
             Expr::Ident(e) => {
+                if e.span.ctxt.outer() == self.marks.top_level_mark {
+                    if is_global_var(&e.sym) {
+                        return false;
+                    }
+                }
+
                 if let Some(usage) = self
                     .data
                     .as_ref()
@@ -289,12 +295,6 @@ where
                         && !usage.reassigned()
                         && usage.no_side_effect_for_member_access
                     {
-                        return false;
-                    }
-                }
-
-                if e.span.ctxt.outer() == self.marks.top_level_mark {
-                    if is_global_var(&e.sym) {
                         return false;
                     }
                 }
@@ -321,6 +321,14 @@ where
             Expr::Fn(..) | Expr::Arrow(..) | Expr::Array(..) => {
                 return false;
             }
+
+            Expr::Seq(e) => {
+                if let Some(last) = e.exprs.last() {
+                    return self.should_preserve_property_access(last, opts);
+                }
+                return true;
+            }
+
             _ => {}
         }
 
