@@ -24,7 +24,6 @@ pub use swc_common::chain;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     comments::SingleThreadedComments,
-    comments::Comments,
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
@@ -504,10 +503,7 @@ impl Options {
             ),
             pass,
             Optional::new(jest::jest(), transform.hidden.jest),
-            Optional::new(
-                dropped_comments_preserver(comments.map(|v| v as &dyn Comments)),
-                preserve_all_comments
-            ),
+            Optional::new(dropped_comments_preserver(comments), preserve_all_comments),
         );
 
         Ok(BuiltInput {

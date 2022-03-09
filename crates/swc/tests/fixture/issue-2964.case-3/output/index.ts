@@ -7,6 +7,8 @@ const x = (_param)=>/*todo: refactor any type*/ {
     ]);
     return {
         y,
-        z: rest.z // another comment
+        // another comment
+        z: rest.z
     };
-};
+} // final comment
+;

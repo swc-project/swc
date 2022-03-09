@@ -1,4 +1,10 @@
-use swc_common::{comments::Comments, BytePos, Span};
+
+
+use swc_common::{
+    comments::{Comment, Comments, SingleThreadedComments},
+    BytePos, Span, DUMMY_SP,
+};
+use swc_ecma_ast::{Module, Script};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// Preserves comments that would otherwise be dropped.
@@ -9,24 +15,39 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// around instanbul coverage and other tooling that relies on comment
 /// directives.
 ///
-/// This transformer shifts orphaned comments to the next closest ast-node.
+/// This transformer shifts orphaned comments to the next closest known span
+/// while making a best-effort to preserve the "general orientation" of comments.
 
-pub fn dropped_comments_preserver(comments: Option<&dyn Comments>) -> impl '_ + Fold + VisitMut {
+pub fn dropped_comments_preserver(
+    comments: Option<&SingleThreadedComments>,
+) -> impl '_ + Fold + VisitMut {
     as_folder(DroppedCommentsPreserver {
         comments,
-        comment_position: 0,
         is_first_span: true,
+        known_spans: Vec::new(),
     })
 }
 
 struct DroppedCommentsPreserver<'a> {
-    comments: Option<&'a dyn Comments>,
-    comment_position: u32,
+    comments: Option<&'a SingleThreadedComments>,
     is_first_span: bool,
+    known_spans: Vec<Span>,
 }
+
+type CommentEntries = Vec<(BytePos, Vec<Comment>)>;
 
 impl VisitMut for DroppedCommentsPreserver<'_> {
     noop_visit_mut_type!();
+
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        module.visit_mut_children_with(self);
+        self.shift_comments_to_known_spans();
+    }
+
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        script.visit_mut_children_with(self);
+        self.shift_comments_to_known_spans();
+    }
 
     fn visit_mut_span(&mut self, span: &mut Span) {
         if span.is_dummy() || self.is_first_span {
@@ -34,21 +55,81 @@ impl VisitMut for DroppedCommentsPreserver<'_> {
             return;
         }
 
-        let mut leading_comments = Vec::new();
-        let mut trailing_comments = Vec::new();
+        self.known_spans.push(*span);
+        span.visit_mut_children_with(self)
+    }
+}
 
-        for idx in (self.comment_position..=span.lo.0).map(BytePos) {
-            leading_comments.extend(self.comments.take_leading(idx).unwrap_or_default());
-            trailing_comments.extend(self.comments.take_trailing(idx).unwrap_or_default());
+impl DroppedCommentsPreserver<'_> {
+    fn shift_comments_to_known_spans(&mut self) {
+        if let Some(comments) = self.comments {
+            let mut trailing_comments = self.shift_leading_comments(comments);
 
-            self.comment_position += 1;
+            self.shift_trailing_comments(&mut trailing_comments);
+        }
+    }
+
+    /// We'll be shifting all comments to known span positions, so drain the
+    /// current comments first to limit the amount of look ups needed into
+    /// the hashmaps.
+    ///
+    /// This way, we only need to take the comments once, and then add them back
+    /// once.
+    fn collect_existing_comments(&mut self, comments: &SingleThreadedComments) -> CommentEntries {
+        let (mut leading_comments, mut trailing_comments) = comments.borrow_all_mut();
+        let mut existing_comments: CommentEntries = leading_comments
+            .drain()
+            .chain(trailing_comments.drain())
+            .collect();
+
+        existing_comments.sort_by(|(bp_a, _), (bp_b, _)| bp_a.cmp(bp_b));
+
+        existing_comments
+    }
+
+    /// Shift all comments to known leading positions.
+    /// This prevents trailing comments from ending up associated with
+    /// nodes that will not emit trailing comments, while
+    /// preserving any comments that might show up after all code positions.
+    ///
+    /// This maintains the highest fidelity between existing comment positions
+    /// of pre and post compiled code.
+    fn shift_leading_comments(&mut self, comments: &SingleThreadedComments) -> CommentEntries {
+        let mut existing_comments = self.collect_existing_comments(comments);
+
+        for span in self.known_spans.iter() {
+            let (comments_to_move, next_byte_positions): (CommentEntries, CommentEntries) =
+                existing_comments
+                    .drain(..)
+                    .partition(|(bp, _)| bp <= &span.lo);
+
+            existing_comments.extend(next_byte_positions);
+
+            let collected_comments = comments_to_move
+                .into_iter().flat_map(|(_, c)| c)
+                .collect();
+
+            self.comments
+                .add_leading_comments(span.lo, collected_comments)
         }
 
-        self.comments
-            .add_leading_comments(span.lo, leading_comments);
-        self.comments
-            .add_trailing_comments(span.hi, trailing_comments);
+        existing_comments
+    }
 
-        span.visit_mut_children_with(self)
+    /// These comments trail all known span lo byte positions and therefor must
+    /// be trailing comments to the highest known span position.
+    fn shift_trailing_comments(&mut self, remaining_comment_entries: &mut CommentEntries) {
+        let last_trailing =
+            self.known_spans.iter().fold(
+                &DUMMY_SP,
+                |acc, span| if span.hi > acc.hi { span } else { acc },
+            );
+
+        self.comments.add_trailing_comments(
+            last_trailing.hi,
+            remaining_comment_entries
+                .drain(..).flat_map(|(_, c)| c)
+                .collect(),
+        );
     }
 }
