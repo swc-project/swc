@@ -145,6 +145,7 @@ destructuring/mangle_destructuring_decl/input.js
 destructuring/mangle_destructuring_decl_array/input.js
 destructuring/mangle_destructuring_decl_collapse_vars/input.js
 destructuring/unused_destructuring_arrow_param/input.js
+destructuring/unused_destructuring_getter_side_effect_2/input.js
 drop_unused/chained_3/input.js
 drop_unused/defun_lambda_same_name/input.js
 drop_unused/delete_assign_1/input.js
