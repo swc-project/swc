@@ -10,6 +10,3 @@ var React = require("react"), Poisoned = function(_Component) {
         return React.createElement("div", null, "Hello");
     }, Poisoned;
 }(React.Component);
-React.createElement(Poisoned, {
-    x: !0
-});

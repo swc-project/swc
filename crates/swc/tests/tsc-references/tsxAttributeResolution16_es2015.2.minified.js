@@ -4,8 +4,3 @@ export class AddressComp extends React.Component {
         return null;
     }
 }
-React.createElement(AddressComp, {
-    postalCode: "T1B 0L3",
-    street: "vancouver",
-    country: "CA"
-});

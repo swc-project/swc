@@ -1,1 +1,0 @@
-React.createElement("div", null, "word ", React.createElement("code", null, "code"), " word"), React.createElement("div", null, React.createElement("code", null, "code"), " word"), React.createElement("div", null, React.createElement("code", null), " word");

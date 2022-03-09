@@ -10,9 +10,9 @@ var React = require("react"), TextComponent = function(_Component) {
         return React.createElement("span", null, "Some Text..");
     }, TextComponent;
 }(React.Component);
-React.createElement(TextComponent, swcHelpers.extends({}, {
+swcHelpers.extends({}, {
     editable: !1
-})), React.createElement(TextComponent, swcHelpers.extends({}, {
+}), swcHelpers.extends({}, {
     editable: !0,
     onEdit: function() {}
-}));
+});

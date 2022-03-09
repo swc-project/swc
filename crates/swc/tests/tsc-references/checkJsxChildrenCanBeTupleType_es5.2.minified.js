@@ -9,4 +9,3 @@ var ResizablePanel = function(_Component) {
     }
     return ResizablePanel;
 }(React.Component);
-React.createElement(ResizablePanel, null, React.createElement("div", null), React.createElement("div", null)), React.createElement(ResizablePanel, null, React.createElement("div", null), React.createElement("div", null), React.createElement("div", null));

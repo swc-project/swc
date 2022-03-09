@@ -4,4 +4,4 @@ export class Empty extends React.Component {
         return React.createElement("div", null, "Hello");
     }
 }
-React.createElement(Empty, swcHelpers.extends({}, obj));
+swcHelpers.extends({}, obj);
