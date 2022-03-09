@@ -91,7 +91,7 @@ impl Fold for Umd {
 
         // Inserted after initializing exported names to undefined.
         let mut extra_stmts = vec![];
-        let mut stmts = Vec::with_capacity(items.len() + 2);
+        let mut stmts = Vec::with_capacity(items.len() + 3);
         if self.config.config.strict_mode && !has_use_strict(&items) {
             stmts.push(use_strict());
         }

@@ -149,7 +149,7 @@ impl Fold for CommonJs {
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut emitted_esmodule = false;
-        let mut stmts = Vec::with_capacity(items.len() + 4);
+        let mut stmts = Vec::with_capacity(items.len() + 5);
         let mut extra_stmts = Vec::with_capacity(items.len());
 
         if self.config.strict_mode && !has_use_strict(&items) {
