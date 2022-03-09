@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::Spanned;
 
 use super::*;
-use crate::{lexer::TokenContext, parser::class_and_fn::is_not_this, token::Keyword};
+use crate::parser::class_and_fn::is_not_this;
 
 impl<'a, I: Tokens> Parser<I> {
     /// Parse a object literal or object pattern.
@@ -76,16 +76,7 @@ impl<'a, I: Tokens> Parser<I> {
                     _ => unreachable!(),
                 },
                 Word(..) => match bump!(p) {
-                    Word(w) => {
-                        if let Word::Keyword(Keyword::Function) = w {
-                            // See https://github.com/swc-project/swc/issues/2075
-                            let ctx = p.input.token_context_mut();
-                            let token_ctx = ctx.pop();
-
-                            debug_assert_eq!(token_ctx, Some(TokenContext::FnExpr));
-                        }
-                        PropName::Ident(Ident::new(w.into(), span!(p, start)))
-                    }
+                    Word(w) => PropName::Ident(Ident::new(w.into(), span!(p, start))),
                     _ => unreachable!(),
                 },
                 tok!('[') => {

@@ -16,6 +16,8 @@ impl<'a, I: Tokens> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
 
+        let _tracing = debug_tracing!(self, "parse_expr");
+
         let expr = self.parse_assignment_expr()?;
         let start = expr.span().lo();
 
