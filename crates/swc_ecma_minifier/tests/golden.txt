@@ -317,6 +317,9 @@ destructuring/destructuring_vardef_in_loops/input.js
 destructuring/destructuring_with_undefined_as_default_assignment/input.js
 destructuring/empty_object_destructuring_1/input.js
 destructuring/empty_object_destructuring_2/input.js
+destructuring/empty_object_destructuring_3/input.js
+destructuring/empty_object_destructuring_4/input.js
+destructuring/empty_object_destructuring_misc/input.js
 destructuring/export_function_containing_destructuring_decl/input.js
 destructuring/export_unreferenced_declarations_1/input.js
 destructuring/issue_1886/input.js
@@ -339,6 +342,7 @@ destructuring/unused/input.js
 destructuring/unused_destructuring_assign_1/input.js
 destructuring/unused_destructuring_assign_2/input.js
 destructuring/unused_destructuring_class_method_param/input.js
+destructuring/unused_destructuring_decl_1/input.js
 destructuring/unused_destructuring_decl_2/input.js
 destructuring/unused_destructuring_decl_3/input.js
 destructuring/unused_destructuring_decl_4/input.js
