@@ -82,6 +82,9 @@ impl<'a, I: Tokens> Parser<I> {
         Type: IsDirective + From<Stmt>,
     {
         trace_cur!(self, parse_stmt_like);
+
+        let _tracing = debug_tracing!(self, "parse_stmt_like");
+
         let start = cur_pos!(self);
         let decorators = self.parse_decorators(true)?;
 
