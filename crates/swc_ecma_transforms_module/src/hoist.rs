@@ -1,7 +1,8 @@
 use std::borrow::Cow;
 
+use indexmap::IndexMap;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, pass::CompilerPass, util::take::Take, DUMMY_SP};
+use swc_common::{pass::CompilerPass, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, IsDirective};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
@@ -129,7 +130,7 @@ impl VisitMut for ModuleHoister {
             let body = stmts;
 
             let mut stmts = Vec::with_capacity(body.len());
-            let mut named_exports = AHashMap::<JsWord, Vec<ExportSpecifier>>::default();
+            let mut named_exports = IndexMap::<JsWord, Vec<ExportSpecifier>>::default();
 
             // collect all named export stmts which bind local idents
             for item in body.into_iter() {
