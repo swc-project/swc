@@ -30,6 +30,10 @@ pub(super) trait ModulePass: Fold {
 
     fn resolver(&self) -> &Resolver;
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr;
+
+    fn vars(&mut self) -> Ref<Vec<VarDeclarator>>;
+    fn vars_mut(&mut self) -> RefMut<Vec<VarDeclarator>>;
+    fn vars_take(&mut self) -> Vec<VarDeclarator>;
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -618,28 +622,62 @@ impl Scope {
 
             Expr::Update(update) if update.arg.is_ident() => {
                 let arg = update.arg.clone().expect_ident();
-                let mut scope = folder.scope_mut();
-                let entry = scope
-                    .exported_bindings
-                    .entry((arg.sym.clone(), arg.span.ctxt()));
 
-                match entry {
-                    Entry::Occupied(entry) => {
-                        if update.prefix {
-                            *chain_assign!(entry, Box::new(update.into()))
-                        } else {
-                            // TODO: This assumes `pureGetters=true`
-                            Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
-                                exprs: vec![
-                                    Box::new(update.into()),
-                                    chain_assign!(entry, Box::new(arg.into())),
-                                ],
-                            })
+                let mut var = Default::default();
+
+                let expr = {
+                    let mut scope = folder.scope_mut();
+                    let entry = scope
+                        .exported_bindings
+                        .entry((arg.sym.clone(), arg.span.ctxt()));
+
+                    match entry {
+                        Entry::Occupied(entry) => {
+                            if update.prefix {
+                                // ++i
+                                // => exports.i = ++i
+                                *chain_assign!(entry, Box::new(update.into()))
+                            } else {
+                                // i++
+                                // (ref = i++, exports.i = i, ref)
+
+                                // TODO: optimize to `exports.i = ++i` if return value is not used.
+
+                                let ref_ident = private_ident!("ref");
+                                var = Some(ref_ident.clone());
+
+                                Expr::Seq(SeqExpr {
+                                    span: update.span,
+                                    exprs: vec![
+                                        Box::new(
+                                            AssignExpr {
+                                                span: DUMMY_SP,
+                                                op: op!("="),
+                                                left: PatOrExpr::Pat(ref_ident.clone().into()),
+                                                right: Box::new(update.into()),
+                                            }
+                                            .into(),
+                                        ),
+                                        chain_assign!(entry, Box::new(arg.into())),
+                                        Box::new(ref_ident.into()),
+                                    ],
+                                })
+                            }
                         }
+                        _ => update.into(),
                     }
-                    _ => update.into(),
-                }
+                };
+
+                if let Some(ref_ident) = var {
+                    folder.vars_mut().push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: ref_ident.into(),
+                        init: None,
+                        definite: false,
+                    });
+                };
+
+                expr
             }
 
             Expr::Assign(mut expr) => {

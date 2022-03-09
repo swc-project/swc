@@ -808,10 +808,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.f = exports.e = exports.c = exports.a = exports.test = void 0;
+var ref;
 var test = 2;
 exports.test = test;
 exports.test = test = 5;
-test++, exports.test = test;
+ref = test++, exports.test = test, ref;
 
 (function () {
   var test1 = 2;
