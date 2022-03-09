@@ -142,9 +142,9 @@ pub(crate) struct AssertValid;
 impl Visit for AssertValid {
     noop_visit_type!();
 
-    fn visit_expr(&mut self, e: &Expr) {
-        let ctx = Ctx { v: e };
-        e.visit_children_with(self);
+    fn visit_expr(&mut self, n: &Expr) {
+        let ctx = Ctx { v: n };
+        n.visit_children_with(self);
         forget(ctx);
     }
 
@@ -154,6 +154,12 @@ impl Visit for AssertValid {
 
     fn visit_setter_prop(&mut self, p: &SetterProp) {
         p.body.visit_with(self);
+    }
+
+    fn visit_stmt(&mut self, n: &Stmt) {
+        let ctx = Ctx { v: n };
+        n.visit_children_with(self);
+        forget(ctx);
     }
 
     fn visit_tpl(&mut self, l: &Tpl) {
