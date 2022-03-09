@@ -962,6 +962,8 @@ where
             {
                 if self.should_preserve_property_access(obj) {
                     return Some(e.take());
+                } else {
+                    return None;
                 }
             }
 
