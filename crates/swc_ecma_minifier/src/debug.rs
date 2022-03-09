@@ -1,3 +1,5 @@
+#![cfg_attr(not(debug_assertions), allow(unused))]
+
 use std::{env, fmt::Debug, mem::forget, process::Command};
 
 use once_cell::sync::Lazy;
