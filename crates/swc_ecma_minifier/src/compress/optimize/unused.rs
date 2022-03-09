@@ -347,6 +347,10 @@ where
             return;
         }
 
+        if cfg!(feature = "debug") {
+            tracing::trace!("unused: take_pat_if_unused({})", dump(&*name, false));
+        }
+
         if !name.is_ident() {
             // TODO: Use smart logic
             if self.options.pure_getters != PureGetterOption::Bool(true) {
