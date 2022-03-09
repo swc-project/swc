@@ -43,8 +43,8 @@ impl VisitMut for FunctionNameReplacer<'_> {
 }
 
 pub fn replace_function_name<N>(node: &mut N, from: &str, to: &str)
-    where
-        N: for<'aa> VisitMutWith<FunctionNameReplacer<'aa>>,
+where
+    N: for<'aa> VisitMutWith<FunctionNameReplacer<'aa>>,
 {
     node.visit_mut_with(&mut FunctionNameReplacer { from, to });
 }
