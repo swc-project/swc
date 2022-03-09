@@ -1,0 +1,72 @@
+.class {
+    mask: none;
+}
+
+.class {
+    mask-image: none;
+}
+
+.class {
+    mask-image: linear-gradient(#fff);
+}
+
+.class {
+    mask-mode: initial;
+}
+
+.class {
+    mask-clip: initial;
+}
+
+.class {
+    mask-size: initial;
+}
+
+.class {
+    mask-repeat: initial;
+}
+
+.class {
+    mask-origin: initial;
+}
+
+.class {
+    mask-position: initial;
+}
+
+.class {
+    mask-composite: initial;
+}
+
+.class {
+    mask-border-source: url(image.png);
+    mask-border-slice: 50% fill;
+    mask-border-width: auto 1 50%;
+    mask-border-outset: 0 1 2;
+    mask-border-repeat: repeat space;
+    mask-border: url(#foo) 1 fill;
+}
+
+a {
+    mask: url(add.png) add, url(substract.png);
+}
+
+a {
+    mask: url(intersect.png) intersect, url(exclude.png);
+}
+
+a {
+    mask: url(image.png) intersect, url(image.png) add, url(image.png);
+}
+
+a {
+    mask-composite: add;
+}
+
+a {
+    mask-composite:;
+}
+
+a {
+    mask-composite: add, subtract, exclude;
+}
