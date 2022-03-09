@@ -6,14 +6,14 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_transforms_module"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.89.4"
+version = "0.89.5"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 Inflector = "0.11.4"
 ahash = "0.7.4"
 anyhow = "1.0.41"
-indexmap = "1.6.1"
+indexmap = "1.8.0"
 pathdiff = "0.2.0"
 serde = {version = "1.0.118", features = ["derive"]}
 swc_atoms = {version = "0.2", path = "../swc_atoms"}

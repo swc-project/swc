@@ -1278,7 +1278,7 @@ d = 4;
   var test1 = 2;
   _exports.test = test1;
   _exports.test = test1 = 5;
-  _exports.test = test1 = +test1 + 1;
+  test1++, _exports.test = test1;
 
   (function () {
     var test = 2;
