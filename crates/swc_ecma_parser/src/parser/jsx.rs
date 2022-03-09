@@ -285,6 +285,8 @@ impl<'a, I: Tokens> Parser<I> {
 
             let opening_element = p.parse_jsx_opening_element_at(start_pos)?;
 
+            trace_cur!(p, parse_jsx_element__after_opening_element);
+
             let mut children = vec![];
             let mut closing_element = None;
 
