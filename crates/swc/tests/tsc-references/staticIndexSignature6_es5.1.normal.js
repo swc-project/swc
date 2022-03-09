@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 // @strict: true
 function foo() {
-    return /*#__PURE__*/ (function() {
+    return /*#__PURE__*/ function() {
         "use strict";
         function _class() {
             swcHelpers.classCallCheck(this, _class);
@@ -11,7 +11,7 @@ function foo() {
             return v;
         };
         return _class;
-    })();
+    }();
 }
 var C = foo();
 C.a;

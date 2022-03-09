@@ -4396,11 +4396,11 @@
                     return _ModalDialog.prototype.buildCSSClass.call(this) + " vjs-text-track-settings";
                 }, _proto.getValues = function() {
                     var _this3 = this;
-                    return (function(object, fn, initial) {
+                    return function(object, fn, initial) {
                         return void 0 === initial && (initial = 0), keys1(object).reduce(function(accum, key) {
                             return fn(accum, object[key], key);
                         }, initial);
-                    })(selectConfigs, function(accum, config, key) {
+                    }(selectConfigs, function(accum, config, key) {
                         var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
                         return void 0 !== value && (accum[key] = value), accum;
                     }, {});

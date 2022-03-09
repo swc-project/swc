@@ -78,11 +78,11 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Default;
         node.visit_mut_children_with(self);
         match &mut node.body {
-            BlockStmtOrExpr::Expr(ref mut e) if e.is_seq() => {
+            BlockStmtOrExpr::Expr(e) if e.is_seq() => {
                 self.wrap(&mut **e);
             }
 
-            BlockStmtOrExpr::Expr(ref mut e) if e.is_assign() => {
+            BlockStmtOrExpr::Expr(e) if e.is_assign() => {
                 if let Expr::Assign(assign) = &**e {
                     match &assign.left {
                         PatOrExpr::Pat(l) => match &**l {
@@ -564,7 +564,9 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let old = self.ctx;
-        self.ctx = Context::Default;
+        // only ExprStmt would have unparened expr,
+        // which would be handled in its own visit function
+        self.ctx = Context::FreeExpr;
         s.visit_mut_children_with(self);
         self.ctx = old;
     }

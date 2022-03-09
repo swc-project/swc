@@ -7,12 +7,12 @@ function foo() {
         }
         var _proto = X.prototype;
         _proto.m = function m() {
-            return (function() {
+            return function() {
                 var Y = function Y() {
                     swcHelpers.classCallCheck(this, Y);
                 };
                 return new Y();
-            })();
+            }();
         };
         return X;
     }();
