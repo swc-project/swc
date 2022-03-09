@@ -193,12 +193,17 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn take_ident_of_pat_if_unused(
         &mut self,
         parent_span: Span,
         i: &mut Ident,
         init: Option<&mut Expr>,
     ) {
+        if cfg!(debug_assertions) {
+            tracing::trace!("unused: Checking identifier `{}`", i);
+        }
+
         if !parent_span.has_mark(self.marks.non_top_level)
             && self.options.top_retain.contains(&i.sym)
         {
@@ -272,9 +277,6 @@ where
             return;
         }
 
-        let had_value = init.is_some();
-        let can_drop_children = had_value;
-
         if !name.is_ident() {
             // TODO: Use smart logic
             if self.options.pure_getters != PureGetterOption::Bool(true) {
@@ -331,18 +333,14 @@ where
                                 continue;
                             }
 
-                            let prop = init.as_mut().and_then(|value| {
-                                self.access_property_with_prop_name(value, &p.key)
-                            });
-
-                            if can_drop_children && prop.is_none() {
-                                continue;
-                            }
-
-                            self.take_pat_if_unused(parent_span, &mut p.value, prop);
+                            self.take_pat_if_unused(parent_span, &mut p.value, None);
                         }
-                        ObjectPatProp::Assign(_) => {}
-                        ObjectPatProp::Rest(_) => {}
+                        ObjectPatProp::Assign(AssignPatProp {
+                            key, value: None, ..
+                        }) => {
+                            self.take_ident_of_pat_if_unused(parent_span, key, None);
+                        }
+                        _ => {}
                     }
                 }
 
@@ -353,7 +351,11 @@ where
                                 return false;
                             }
                         }
-                        ObjectPatProp::Assign(_) => {}
+                        ObjectPatProp::Assign(p) => {
+                            if p.key.sym == js_word!("") {
+                                return false;
+                            }
+                        }
                         ObjectPatProp::Rest(_) => {}
                     }
 
