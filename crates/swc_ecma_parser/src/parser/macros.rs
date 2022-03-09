@@ -373,8 +373,12 @@ macro_rules! debug_tracing {
     ($p:expr, $name:tt) => {{
         #[cfg(feature = "debug")]
         {
-            let cur = format!("{:?}", p.input.cur());
-            tracing::span!(tracing::Level::ERROR, "parse_expr", cur = &*cur).entered()
+            tracing::span!(
+                tracing::Level::ERROR,
+                "parse_expr",
+                tracing::field::debug(&$p.input.cur())
+            )
+            .entered()
         }
     }};
 }
