@@ -193,6 +193,73 @@ where
         }
     }
 
+    fn take_ident_of_pat_if_unused(
+        &mut self,
+        parent_span: Span,
+        i: &mut Ident,
+        init: Option<&mut Expr>,
+    ) {
+        if !parent_span.has_mark(self.marks.non_top_level)
+            && self.options.top_retain.contains(&i.sym)
+        {
+            if cfg!(feature = "debug") {
+                tracing::trace!("unused: [X] Top-retain")
+            }
+            return;
+        }
+
+        if let Some(v) = self
+            .data
+            .as_ref()
+            .and_then(|data| data.vars.get(&i.to_id()).cloned())
+        {
+            if v.ref_count == 0
+                && v.usage_count == 0
+                && !v.reassigned_with_assignment
+                && !v.has_property_mutation
+                && !v.declared_as_catch_param
+            {
+                self.changed = true;
+                tracing::debug!(
+                    "unused: Dropping a variable '{}{:?}' because it is not used",
+                    i.sym,
+                    i.span.ctxt
+                );
+                // This will remove variable.
+                i.take();
+                return;
+            }
+
+            if v.ref_count == 0 && v.usage_count == 0 {
+                if let Some(e) = init {
+                    if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                        if let Expr::Lit(Lit::Null(..)) = e {
+                            return;
+                        }
+                    }
+
+                    let ret = self.ignore_return_value(e);
+                    if let Some(ret) = ret {
+                        *e = ret;
+                    } else {
+                        if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                            *e = Null { span: DUMMY_SP }.into();
+                        } else {
+                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        }
+                    }
+                }
+            }
+
+            if cfg!(feature = "debug") {
+                tracing::trace!(
+                    "unused: Cannot drop ({}) because it's used",
+                    dump(&*i, false)
+                );
+            }
+        }
+    }
+
     /// `parent_span` should be [Span] of [VarDeclarator] or [AssignExpr]
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn take_pat_if_unused(
@@ -217,66 +284,11 @@ where
 
         match name {
             Pat::Ident(i) => {
-                if !parent_span.has_mark(self.marks.non_top_level)
-                    && self.options.top_retain.contains(&i.id.sym)
-                {
-                    if cfg!(feature = "debug") {
-                        tracing::trace!("unused: [X] Top-retain")
-                    }
-                    return;
-                }
+                self.take_ident_of_pat_if_unused(parent_span, &mut i.id, init);
 
-                if let Some(v) = self
-                    .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&i.to_id()).cloned())
-                {
-                    if v.ref_count == 0
-                        && v.usage_count == 0
-                        && !v.reassigned_with_assignment
-                        && !v.has_property_mutation
-                        && !v.declared_as_catch_param
-                    {
-                        self.changed = true;
-                        tracing::debug!(
-                            "unused: Dropping a variable '{}{:?}' because it is not used",
-                            i.id.sym,
-                            i.id.span.ctxt
-                        );
-                        // This will remove variable.
-                        name.take();
-                        return;
-                    }
-
-                    if v.ref_count == 0 && v.usage_count == 0 {
-                        if let Some(e) = init {
-                            if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
-                                if let Expr::Lit(Lit::Null(..)) = e {
-                                    return;
-                                }
-                            }
-
-                            let ret = self.ignore_return_value(e);
-                            if let Some(ret) = ret {
-                                *e = ret;
-                            } else {
-                                if let Some(VarDeclKind::Const | VarDeclKind::Let) =
-                                    self.ctx.var_kind
-                                {
-                                    *e = Null { span: DUMMY_SP }.into();
-                                } else {
-                                    *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                                }
-                            }
-                        }
-                    }
-
-                    if cfg!(feature = "debug") {
-                        tracing::trace!(
-                            "unused: Cannot drop ({}) because it's used",
-                            dump(&*i, false)
-                        );
-                    }
+                // Removed
+                if i.id.sym == js_word!("") {
+                    name.take();
                 }
             }
 
