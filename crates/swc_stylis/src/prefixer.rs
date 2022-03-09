@@ -2,7 +2,7 @@ use std::mem::take;
 
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
-use swc_css_utils::replace_ident;
+use swc_css_utils::{replace_function_name, replace_ident};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn prefixer() -> impl VisitMut {
@@ -119,11 +119,19 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-appearance");
             }
 
-            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/animation.js
             "animation" => {
-                same_content!("-webkit-animation");
-                same_content!("-moz-animation");
-                same_content!("-o-animation");
+                let need_prefix = n.value.iter().all(|n| match n {
+                    ComponentValue::Ident(Ident { value, .. }) => {
+                        !matches!(&*value.to_lowercase(), "reverse" | "alternate-reverse")
+                    }
+                    _ => true,
+                });
+
+                if need_prefix {
+                    same_content!("-webkit-animation");
+                    same_content!("-moz-animation");
+                    same_content!("-o-animation");
+                }
             }
 
             "animation-name" => {
@@ -297,55 +305,30 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            // TODO Handle moz prefix in `zoom-in`, `zoom-out` and `grabbing`
             "cursor" => {
-                let new_value = n
-                    .value
-                    .iter()
-                    .map(|node| match node {
-                        ComponentValue::Ident(Ident { value, .. }) => {
-                            match &*value.to_lowercase() {
-                                "zoom-in" => ComponentValue::Ident(Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-zoom-in".into(),
-                                    raw: "-webkit-grab".into(),
-                                }),
-                                "zoom-out" => ComponentValue::Ident(Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-zoom-out".into(),
-                                    raw: "-webkit-zoom-out".into(),
-                                }),
-                                "grab" => ComponentValue::Ident(Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-grab".into(),
-                                    raw: "-webkit-grab".into(),
-                                }),
-                                "grabbing" => ComponentValue::Ident(Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-grabbing".into(),
-                                    raw: "-webkit-grabbing".into(),
-                                }),
-                                _ => node.clone(),
-                            }
-                        }
-                        ComponentValue::Function(Function { name, value, .. }) => {
-                            if &*name.value.to_lowercase() == "image-set" {
-                                ComponentValue::Function(Function {
-                                    span: DUMMY_SP,
-                                    name: Ident {
-                                        span: DUMMY_SP,
-                                        value: "-webkit-image-set".into(),
-                                        raw: "-webkit-image-set".into(),
-                                    },
-                                    value: value.clone(),
-                                })
-                            } else {
-                                node.clone()
-                            }
-                        }
-                        _ => node.clone(),
-                    })
-                    .collect();
+                let mut new_value = n.value.clone();
+
+                replace_ident(&mut new_value, "zoom-in", "-webkit-zoom-in");
+                replace_ident(&mut new_value, "zoom-out", "-webkit-zoom-out");
+                replace_ident(&mut new_value, "grab", "-webkit-grab");
+                replace_ident(&mut new_value, "grabbing", "-webkit-grabbing");
+                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
+
+                if n.value != new_value {
+                    self.added.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: new_value,
+                        important: n.important.clone(),
+                    });
+                }
+
+                let mut new_value = n.value.clone();
+
+                replace_ident(&mut new_value, "zoom-in", "-moz-zoom-in");
+                replace_ident(&mut new_value, "zoom-out", "-moz-zoom-out");
+                replace_ident(&mut new_value, "grab", "-moz-grab");
+                replace_ident(&mut new_value, "grabbing", "-moz-grabbing");
 
                 if n.value != new_value {
                     self.added.push(Declaration {
@@ -472,7 +455,6 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-flex-line-pack");
             }
 
-            // TODO fix me
             "image-rendering" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "pixelated" {

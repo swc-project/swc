@@ -40,8 +40,7 @@ animation-direction: alternate-reverse;
 -moz-animation: rotation-reverse;
 -o-animation: rotation-reverse;
 animation: rotation-reverse;
--webkit-animation: rotation-reverse reverse;
--moz-animation: rotation-reverse reverse;
--o-animation: rotation-reverse reverse;
 animation: rotation-reverse reverse;
+animation: test reverse;
+animation: reverse test;
 }
