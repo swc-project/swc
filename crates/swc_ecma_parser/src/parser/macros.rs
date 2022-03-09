@@ -375,8 +375,8 @@ macro_rules! debug_tracing {
         {
             tracing::span!(
                 tracing::Level::ERROR,
-                "parse_expr",
-                tracing::field::debug(&$p.input.cur())
+                $name,
+                cur = tracing::field::debug(&$p.input.cur())
             )
             .entered()
         }

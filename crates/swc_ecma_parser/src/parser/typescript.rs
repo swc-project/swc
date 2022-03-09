@@ -532,11 +532,7 @@ impl<I: Tokens> Parser<I> {
         if !self.input.syntax().typescript() {
             return None;
         }
-        #[cfg(feature = "debug")]
-        let _tracing = {
-            let cur = format!("{:?}", self.input.cur());
-            tracing::span!(tracing::Level::ERROR, "try_parse_ts", cur = &*cur).entered()
-        };
+        let _tracing = debug_tracing!(self, "try_parse_ts");
 
         trace_cur!(self, try_parse_ts);
 
