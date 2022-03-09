@@ -2848,6 +2848,7 @@ where
                     .drain(..)
                     .into_iter()
                     .chain(seq.exprs.take())
+                    .filter(|e| !e.is_invalid())
                     .collect();
             }
         }
