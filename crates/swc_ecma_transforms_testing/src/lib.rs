@@ -31,6 +31,7 @@ use swc_ecma_transforms_base::{
     fixer,
     helpers::{inject_helpers, HELPERS},
     hygiene,
+    pass::noop,
 };
 use swc_ecma_utils::{quote_ident, quote_str, DropSpan, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
@@ -682,14 +683,7 @@ fn test_fixture_inner<P>(
     let expected = expected.unwrap_or_default();
 
     let expected_src = Tester::run(|tester| {
-        let expected_module = tester.apply_transform(
-            as_folder(::swc_ecma_utils::DropSpan {
-                preserve_ctxt: true,
-            }),
-            "expected.js",
-            syntax,
-            &expected,
-        )?;
+        let expected_module = tester.apply_transform(noop(), "expected.js", syntax, &expected)?;
 
         let expected_src = tester.print(&expected_module, &tester.comments.clone());
 
@@ -730,10 +724,7 @@ fn test_fixture_inner<P>(
 
         let actual = actual
             .fold_with(&mut crate::hygiene::hygiene())
-            .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)))
-            .fold_with(&mut as_folder(DropSpan {
-                preserve_ctxt: false,
-            }));
+            .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)));
 
         let actual_src = tester.print(&actual, &tester.comments.clone());
 
