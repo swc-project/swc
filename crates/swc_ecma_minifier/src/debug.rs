@@ -142,6 +142,7 @@ pub(crate) struct AssertValid;
 impl Visit for AssertValid {
     noop_visit_type!();
 
+    #[cfg(debug_assertions)]
     fn visit_expr(&mut self, n: &Expr) {
         let ctx = Ctx { v: n };
         n.visit_children_with(self);
@@ -156,6 +157,7 @@ impl Visit for AssertValid {
         p.body.visit_with(self);
     }
 
+    #[cfg(debug_assertions)]
     fn visit_stmt(&mut self, n: &Stmt) {
         let ctx = Ctx { v: n };
         n.visit_children_with(self);
