@@ -292,9 +292,8 @@ impl Visit for VarWithOutInitCounter {
     }
 
     fn visit_module_item(&mut self, s: &ModuleItem) {
-        match s {
-            ModuleItem::Stmt(_) => s.visit_children_with(self),
-            _ => {}
+        if let ModuleItem::Stmt(_) = s {
+            s.visit_children_with(self);
         }
     }
 
@@ -320,9 +319,8 @@ impl VisitMut for VarMover {
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
-        match s {
-            ModuleItem::Stmt(_) => s.visit_mut_children_with(self),
-            _ => {}
+        if let ModuleItem::Stmt(_) = s {
+            s.visit_mut_children_with(self);
         }
     }
 
