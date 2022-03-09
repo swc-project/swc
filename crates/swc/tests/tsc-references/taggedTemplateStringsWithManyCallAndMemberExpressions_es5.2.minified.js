@@ -1,4 +1,3 @@
-var f;
 import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
     var data = swcHelpers.taggedTemplateLiteral([
@@ -9,4 +8,4 @@ function _templateObject() {
         return data;
     }, data;
 }
-new new new (f(_templateObject(), 0)).member("hello")(42);
+new new new ((void 0)(_templateObject(), 0)).member("hello")(42);

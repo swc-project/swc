@@ -8,6 +8,7 @@ class C {
 }(M || (M = {}));
 for(var M;;);
 for(;;);
+for(;;);
 for(new Date(12);;);
 for(new Object();;);
 for(;;);
@@ -21,9 +22,6 @@ for(;;);
 for(new C();;);
 for(;;);
 for(;;);
-for((x)=>2
-;;);
+for(;;);
 for(;;);
 for(new M.A();;);
-for((x)=>"this is a string"
-;;);

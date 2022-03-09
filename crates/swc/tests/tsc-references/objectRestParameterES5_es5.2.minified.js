@@ -10,9 +10,9 @@ suddenly(function(_param) {
             ka: 1
         },
         y: "noo"
-    }, _z = _param.x.z, nested = swcHelpers.objectWithoutProperties(_param.x, [
+    }, nested = (_param.x.z, swcHelpers.objectWithoutProperties(_param.x, [
         "z"
-    ]), rest = swcHelpers.objectWithoutProperties(_param, [
+    ])), rest = swcHelpers.objectWithoutProperties(_param, [
         "x"
     ]);
     return rest.y + nested.ka;

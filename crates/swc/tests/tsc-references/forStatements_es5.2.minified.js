@@ -16,6 +16,7 @@ for(!function(M1) {
     };
 }(M || (M = {}));;);
 for(;;);
+for(;;);
 for(new Date(12);;);
 for(new Object();;);
 for(;;);
@@ -31,4 +32,3 @@ for(;;);
 for(;;);
 for(;;);
 for(new M.A();;);
-for(;;);

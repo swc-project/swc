@@ -173,9 +173,9 @@ export default function n(e) {
     }, r = b(g, p, a.objectSpread({}, d));
     h(g), r.on("search", function() {
         F || (F = setTimeout(function() {
-            var b = y.getState(), d = b.resultsFacetValues, c = a.objectWithoutProperties(b, [
+            var b = y.getState(), c = (b.resultsFacetValues, a.objectWithoutProperties(b, [
                 "resultsFacetValues"
-            ]);
+            ]));
             y.setState(a.objectSpread({}, c, {
                 isSearchStalled: !0
             }));

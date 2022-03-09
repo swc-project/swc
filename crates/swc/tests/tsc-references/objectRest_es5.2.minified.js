@@ -77,10 +77,10 @@ var i = removable;
 i.removed, swcHelpers.objectWithoutProperties(i, [
     "removed"
 ]);
-var computed = "b", computed2 = "a", stillNotGreat = o[computed], soSo = o[computed2], o = swcHelpers.objectWithoutProperties(o, [
+var computed = "b", computed2 = "a", o = (o[computed], o[computed2], swcHelpers.objectWithoutProperties(o, [
     computed,
     computed2
-].map(swcHelpers.toPropertyKey));
+].map(swcHelpers.toPropertyKey)));
 _o = o, o = swcHelpers.objectWithoutProperties(_o, [
     computed,
     computed2

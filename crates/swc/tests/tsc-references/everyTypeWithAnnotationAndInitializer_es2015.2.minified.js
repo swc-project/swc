@@ -7,5 +7,4 @@ class C {
         return x.toString();
     };
 }(M || (M = {})), new Date(12), new Object(), new C(), new C(), new class {
-}(), new C(), new M.A(), (x)=>"this is a string"
-;
+}(), new C(), new M.A();

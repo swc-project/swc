@@ -1,2 +1,2 @@
-var d;
-(void 0).foo(!0), (void 0).foo(1, 2), d.foo(1, 1);
+var c, d;
+(void 0).foo(!0), c.foo(1, 2), d.foo(1, 1);
