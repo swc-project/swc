@@ -326,6 +326,11 @@ destructuring/issue_2044_ecma_6/input.js
 destructuring/issue_2044_ecma_6_beautify/input.js
 destructuring/issue_2140/input.js
 destructuring/issue_3205_1/input.js
+destructuring/issue_t111_1/input.js
+destructuring/issue_t111_2a/input.js
+destructuring/issue_t111_2b/input.js
+destructuring/issue_t111_2c/input.js
+destructuring/issue_t111_3/input.js
 destructuring/issue_t111_4/input.js
 destructuring/nested_destructuring_objects/input.js
 destructuring/object_destructuring_may_need_parentheses/input.js
