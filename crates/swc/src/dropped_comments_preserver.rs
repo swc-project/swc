@@ -113,9 +113,10 @@ impl DroppedCommentsPreserver<'_> {
         existing_comments
     }
 
-    /// These comments trail all known span lo byte positions and therefore should
-    /// be shifted to trail the highest known span hi position. This should ensure that
-    /// any remaining trailing comments are emitted in a similar location
+    /// These comments trail all known span lo byte positions.
+    /// Therefore, by shifting them to trail the highest known hi position, we
+    /// ensure that any remaining trailing comments are emitted in a
+    /// similar location
     fn shift_trailing_comments(&mut self, remaining_comment_entries: &mut CommentEntries) {
         let last_trailing =
             self.known_spans.iter().fold(
