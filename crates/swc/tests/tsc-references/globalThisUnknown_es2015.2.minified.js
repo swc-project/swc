@@ -1,1 +1,1 @@
-win.hi, this.hi, globalThis.hi, win.hi, this.hi, globalThis.hi;
+win.hi, this.hi, win.hi, this.hi;

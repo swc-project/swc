@@ -9,8 +9,8 @@ for(;;);
 for(;;);
 for(;;);
 for(;;);
-for((s)=>3
-;;);
+for(;;);
+for(;;);
 for(;;);
 for(;;);
 for(;;);
@@ -20,4 +20,3 @@ for(;;);
 for(;;);
 for(;;);
 for(new Array();;);
-for(;;);

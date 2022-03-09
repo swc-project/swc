@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 function a10(param) {
-    var _param = swcHelpers.toArray(param), a = _param[0], b = _param[1], ref = swcHelpers.slicedToArray(_param[2], 1), ref1 = swcHelpers.slicedToArray(ref[0], 1);
+    var _param = swcHelpers.toArray(param), ref = (_param[0], _param[1], swcHelpers.slicedToArray(_param[2], 1)), ref1 = swcHelpers.slicedToArray(ref[0], 1);
     ref1[0], _param.slice(3);
 }
 var E, E1, array = [
@@ -19,7 +19,7 @@ function foo1() {
 }(swcHelpers.toConsumableArray(array)), (function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }).apply(void 0, swcHelpers.toConsumableArray(array)), function(param) {
-    var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], ref = swcHelpers.slicedToArray(_param[2], 1), ref2 = swcHelpers.slicedToArray(ref[0], 1);
+    var _param = swcHelpers.slicedToArray(param, 3), ref = (_param[0], _param[1], swcHelpers.slicedToArray(_param[2], 1)), ref2 = swcHelpers.slicedToArray(ref[0], 1);
     ref2[0];
 }([
     1,

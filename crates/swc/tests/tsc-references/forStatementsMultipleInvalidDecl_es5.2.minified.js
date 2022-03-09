@@ -25,6 +25,7 @@ for(!function(M1) {
 }(M || (M = {}));;);
 for(;;);
 for(;;);
+for(;;);
 for(new C();;);
 for(new D();;);
 for(;;);
@@ -39,4 +40,4 @@ for(new C(), new C2(), new D();;);
 for(new D();;);
 for(new Array();;);
 for(;;);
-for(M.A;;);
+M.A;

@@ -62,8 +62,7 @@ let reconstructed = {
     explicitProperty: c.explicitProperty,
     explicitVoid: c.explicitVoid
 };
-reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstructed.explicitVoid)(12), (x)=>x + this.y
-;
+reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstructed.explicitVoid)(12);
 let explicitCFunction, explicitPropertyFunction;
 c.explicitC = explicitCFunction, c.explicitC = function(m) {
     return this.n + m;

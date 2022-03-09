@@ -14,7 +14,7 @@
         return isString(string) ? string.toLowerCase() : string;
     }, uppercase = function(string) {
         return isString(string) ? string.toUpperCase() : string;
-    }, slice = [].slice, push = [].push, toString = Object.prototype.toString, ngMinErr1 = minErr("ng"), _angular = window1.angular, angular1 = window1.angular || (window1.angular = {}), uid = [
+    }, slice = [].slice, push = [].push, toString = Object.prototype.toString, ngMinErr1 = minErr("ng"), angular1 = (window1.angular, window1.angular || (window1.angular = {})), uid = [
         "0",
         "0",
         "0"

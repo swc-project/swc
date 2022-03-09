@@ -714,3 +714,42 @@ impl VisitMut for UnreachableHandler {
         n.init.visit_mut_with(self);
     }
 }
+
+pub(super) fn is_global_var(s: &str) -> bool {
+    matches!(
+        s,
+        "clearInterval"
+            | "clearTimeout"
+            | "setInterval"
+            | "setTimeout"
+            | "Boolean"
+            | "Date"
+            | "decodeURI"
+            | "decodeURIComponent"
+            | "encodeURI"
+            | "encodeURIComponent"
+            | "escape"
+            | "eval"
+            | "EvalError"
+            | "isFinite"
+            | "isNaN"
+            | "JSON"
+            | "parseFloat"
+            | "parseInt"
+            | "RegExp"
+            | "RangeError"
+            | "ReferenceError"
+            | "SyntaxError"
+            | "TypeError"
+            | "unescape"
+            | "URIError"
+            | "atob"
+            | "globalThis"
+            | "String"
+            | "Object"
+            | "Array"
+            | "Number"
+            | "NaN"
+            | "Symbol"
+    )
+}

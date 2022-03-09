@@ -1,1 +1,1 @@
-Symbol.nonsense, ({})[Symbol.nonsense];
+({})[Symbol.nonsense];
