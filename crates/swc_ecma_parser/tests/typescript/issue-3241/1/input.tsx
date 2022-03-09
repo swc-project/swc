@@ -7,9 +7,7 @@ export function demoBug(): any {
                 if (node) {
                     add(2, 3);
                 }
-                function add(a: number, b: number): void {
-                    console.log(a + b);
-                }
+                function add(a: number, b: number): void {}
             }}
         ></div>
     );
