@@ -1,1 +1,1 @@
-React.createElement(A.B.C.D, null, "foo");
+A.B.C.D;

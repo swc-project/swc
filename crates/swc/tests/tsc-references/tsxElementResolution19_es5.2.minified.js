@@ -4,4 +4,3 @@ export var MyClass = function() {
     "use strict";
     swcHelpers.classCallCheck(this, MyClass);
 };
-React.createElement(MyClass, null);

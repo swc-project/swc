@@ -10,4 +10,4 @@ export var Empty = function(_Component) {
         return React.createElement("div", null, "Hello");
     }, Empty;
 }(React.Component);
-React.createElement(Empty, swcHelpers.extends({}, obj));
+swcHelpers.extends({}, obj);

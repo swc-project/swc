@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _this = this, React = require("react"), BigGreeter = function(_Component) {
+var React = require("react"), BigGreeter = function(_Component) {
     "use strict";
     swcHelpers.inherits(BigGreeter, _Component);
     var _super = swcHelpers.createSuper(BigGreeter);
@@ -10,12 +10,3 @@ var _this = this, React = require("react"), BigGreeter = function(_Component) {
         return React.createElement("div", null, "Default hi");
     }, BigGreeter;
 }(React.Component);
-React.createElement(BigGreeter, {
-    prop1: "hello"
-}), React.createElement(BigGreeter, {
-    ref: function(input) {
-        _this.textInput = input;
-    }
-}), React.createElement(BigGreeter, {
-    "data-extra": "hi"
-});

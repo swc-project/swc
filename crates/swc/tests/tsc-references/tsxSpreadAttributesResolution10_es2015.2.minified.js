@@ -8,12 +8,10 @@ class Opt extends React.Component {
 const obj1 = {
     x: 2
 };
-React.createElement(Opt, swcHelpers.extends({}, {}, {
+swcHelpers.extends({}, {}, {
     x: 3
-})), React.createElement(Opt, swcHelpers.extends({}, obj1, {
+}), swcHelpers.extends({}, obj1, {
     x: "Hi"
-})), React.createElement(Opt, swcHelpers.extends({}, obj1, {
+}), swcHelpers.extends({}, obj1, {
     x: 3
-})), React.createElement(Opt, {
-    x: !0
 });

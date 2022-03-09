@@ -10,13 +10,7 @@ var React = require("react"), MyComponent = function(_Component) {
         var AnyComponent = this.props.AnyComponent;
         return React.createElement(AnyComponent, null);
     }, MyComponent;
-}(React.Component);
-React.createElement(MyComponent, {
-    AnyComponent: function() {
-        return React.createElement("button", null, "test");
-    }
-});
-var MyButtonComponent = function(_Component) {
+}(React.Component), MyButtonComponent = function(_Component) {
     "use strict";
     swcHelpers.inherits(MyButtonComponent, _Component);
     var _super = swcHelpers.createSuper(MyButtonComponent);
@@ -25,6 +19,3 @@ var MyButtonComponent = function(_Component) {
     }
     return MyButtonComponent;
 }(React.Component);
-React.createElement(MyComponent, {
-    AnyComponent: MyButtonComponent
-});
