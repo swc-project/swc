@@ -17,6 +17,7 @@ swc_css_ast = {version = "0.89.0", path = "../swc_css_ast"}
 swc_css_codegen_macros = {version = "0.2.0", path = "../swc_css_codegen_macros"}
 
 [dev-dependencies]
+swc_common = {version = "0.17.3", path = "../swc_common", features = ["sourcemap"]}
 swc_css_parser = {version = "0.96.0", path = "../swc_css_parser"}
 swc_css_visit = {version = "0.88.0", path = "../swc_css_visit"}
 testing = {version = "0.18.0", path = "../testing"}

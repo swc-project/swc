@@ -6,31 +6,13 @@ macro_rules! emit {
     }};
 }
 
-macro_rules! punct {
-    ($g:expr,$span:expr,$n:expr) => {{
-        $g.wr.write_punct(Some($span), $n)?;
-    }};
-
-    ($g:expr,$n:expr) => {{
-        $g.wr.write_punct(None, $n)?;
-    }};
-}
-
-macro_rules! keyword {
+macro_rules! write {
     ($g:expr,$span:expr,$n:expr) => {{
         $g.wr.write_raw(Some($span), $n)?;
     }};
 
     ($g:expr,$n:expr) => {{
         $g.wr.write_raw(None, $n)?;
-    }};
-}
-
-macro_rules! formatting_space {
-    ($g:expr) => {{
-        if !$g.config.minify {
-            $g.wr.write_space()?;
-        }
     }};
 }
 
@@ -48,16 +30,24 @@ macro_rules! space {
     }};
 }
 
+macro_rules! formatting_space {
+    ($g:expr) => {{
+        if !$g.config.minify {
+            $g.wr.write_space()?;
+        }
+    }};
+}
+
 macro_rules! semi {
     ($g:expr) => {{
-        punct!($g, ";");
+        write!($g, ";");
     }};
 }
 
 macro_rules! formatting_semi {
     ($g:expr) => {{
         if !$g.config.minify {
-            punct!($g, ";");
+            write!($g, ";");
         }
     }};
 }
