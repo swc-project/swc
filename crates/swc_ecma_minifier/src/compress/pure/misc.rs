@@ -180,7 +180,7 @@ impl Pure<'_> {
 
                 let new = self.make_ignored_expr(args.take().into_iter().map(|arg| arg.expr));
 
-                *e = new.unwrap_or_else(|| Expr::Invalid(Invalid { span: DUMMY_SP }));
+                *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
                 return;
             }
 
@@ -194,7 +194,7 @@ impl Pure<'_> {
 
                 let new = self.make_ignored_expr(exprs.take().into_iter());
 
-                *e = new.unwrap_or_else(|| Expr::Invalid(Invalid { span: DUMMY_SP }));
+                *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
                 return;
             }
 
@@ -205,7 +205,7 @@ impl Pure<'_> {
                 let new =
                     self.make_ignored_expr(args.take().into_iter().flatten().map(|arg| arg.expr));
 
-                *e = new.unwrap_or_else(|| Expr::Invalid(Invalid { span: DUMMY_SP }));
+                *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
                 return;
             }
 
