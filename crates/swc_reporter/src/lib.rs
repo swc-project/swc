@@ -69,7 +69,7 @@ impl SourceCode for MietteSourceCode<'_> {
 
         Ok(Box::new(MietteSpanContents::new(
             src.as_bytes(),
-            *src_span,
+            src_span.clone(),
             loc.line,
             loc.col_display,
             line_count,
