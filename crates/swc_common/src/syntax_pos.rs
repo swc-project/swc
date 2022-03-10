@@ -245,6 +245,12 @@ impl Span {
         self.lo.0 == 0 && self.hi.0 == 0 || self.lo.0 >= DUMMY_RESERVE
     }
 
+    /// Returns `true` if this is a dummy span with any hygienic context.
+    #[inline]
+    pub fn is_dummy_ignoring_cmt(self) -> bool {
+        self.lo.0 == 0 && self.hi.0 == 0
+    }
+
     /// Returns a new span representing an empty span at the beginning of this
     /// span
     #[inline]
