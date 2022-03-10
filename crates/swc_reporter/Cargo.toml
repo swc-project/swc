@@ -10,4 +10,4 @@ version = "0.1.0"
 
 [dependencies]
 miette = {version = "4.2.1", features = ["fancy"]}
-swc_common = {version = "0.17.0", path = "../swc_common"}
+swc_common = {version = "0.17.0", path = "../swc_common", features = ["concurrent"]}
