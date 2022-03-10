@@ -5,7 +5,7 @@ use miette::{
     SourceOffset, SourceSpan, SpanContents,
 };
 use swc_common::{
-    errors::{DiagnosticBuilder, DiagnosticId, Emitter, Level},
+    errors::{DiagnosticBuilder, DiagnosticId, Emitter, Level, SubDiagnostic},
     source_map::SpanLabel,
     sync::Lrc,
     BytePos, SourceMap, Span,
@@ -81,7 +81,7 @@ impl SourceCode for MietteSourceCode<'_> {
 impl Emitter for PrettyEmitter {
     fn emit(&mut self, db: &DiagnosticBuilder) {
         let source_code = MietteSourceCode(&self.cm);
-        let diagnostic = MietteDiagnostic {
+        let diagnostic = WrappedDiagnostic {
             source_code,
             d: &**db,
         };
@@ -92,12 +92,12 @@ impl Emitter for PrettyEmitter {
     }
 }
 
-struct MietteDiagnostic<'a> {
+struct WrappedDiagnostic<'a> {
     source_code: MietteSourceCode<'a>,
     d: &'a swc_common::errors::Diagnostic,
 }
 
-impl miette::Diagnostic for MietteDiagnostic<'_> {
+impl miette::Diagnostic for WrappedDiagnostic<'_> {
     fn code<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
         self.d
             .code
@@ -145,20 +145,24 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
     }
 
     fn related<'a>(&'a self) -> Option<Box<dyn Iterator<Item = &'a dyn miette::Diagnostic> + 'a>> {
-        todo!()
+        None
     }
 }
 
-impl std::error::Error for MietteDiagnostic<'_> {}
+struct WrappedSubdiagnostic<'a> {
+    d: &'a SubDiagnostic,
+}
+
+impl std::error::Error for WrappedDiagnostic<'_> {}
 
 /// Delegates to `Diagnostics`
-impl fmt::Debug for MietteDiagnostic<'_> {
+impl fmt::Debug for WrappedDiagnostic<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Debug::fmt(&self.d, f)
     }
 }
 
-impl fmt::Display for MietteDiagnostic<'_> {
+impl fmt::Display for WrappedDiagnostic<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Display::fmt(&self.d.message[0].0, f)
     }

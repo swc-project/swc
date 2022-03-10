@@ -31,7 +31,9 @@ where
 
     let output = Path::new("tests").join("fixture").join(file);
 
-    fs::write(&output, wr.0.lock().as_str()).expect("failed to write");
+    let s = wr.0.lock().as_str().to_string();
+    println!("{}", s);
+    fs::write(&output, &s).expect("failed to write");
 }
 
 fn span(start: usize, end: usize) -> Span {
@@ -40,7 +42,7 @@ fn span(start: usize, end: usize) -> Span {
 
 #[test]
 fn test_1() {
-    output("1.swc-stderr", |cm, h| {
+    output("1.ans", |cm, h| {
         let fm = cm.new_source_file(FileName::Anon, "123456789".into());
 
         h.struct_span_err(span(1, 3), "test")
