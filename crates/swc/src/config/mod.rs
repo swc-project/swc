@@ -449,7 +449,9 @@ impl Options {
         };
 
         #[cfg(feature = "plugin")]
-        swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
+        if experimental.plugins.is_some() {
+            swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
+        }
 
         let pass = chain!(
             lint_to_fold(swc_ecma_lints::rules::all(LintParams {
