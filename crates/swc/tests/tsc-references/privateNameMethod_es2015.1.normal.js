@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _method = new WeakSet();
+var _method = /*#__PURE__*/ new WeakSet();
 // @strict: true
 // @target: es6
 class A1 {

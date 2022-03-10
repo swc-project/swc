@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _foo = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 class A {
     constructor(){
@@ -7,7 +7,7 @@ class A {
             writable: true,
             value: void 0
         });
-        var _foo1 = new WeakMap();
+        var _foo1 = /*#__PURE__*/ new WeakMap();
         class A {
             constructor(){
                 swcHelpers.classPrivateFieldInit(this, _foo1, {

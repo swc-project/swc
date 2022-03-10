@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _test = new WeakMap();
+var _test = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 class C {
     test() {

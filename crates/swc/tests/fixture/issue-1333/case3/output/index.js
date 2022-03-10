@@ -17,7 +17,7 @@ const headers = [
 var /**
      * Used for sequential requests.
      * @type {AsyncQueue}
-     */ _queue = new WeakMap();
+     */ _queue = /*#__PURE__*/ new WeakMap();
 class RequestHandler {
     /**
      * Whether this handler is inactive or not.

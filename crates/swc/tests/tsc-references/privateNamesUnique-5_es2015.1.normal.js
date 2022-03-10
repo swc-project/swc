@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _foo = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target: es6
 // @strictPropertyInitialization: false
@@ -12,7 +12,7 @@ class A {
         });
     }
 }
-var _foo1 = new WeakMap();
+var _foo1 = /*#__PURE__*/ new WeakMap();
 class B {
     constructor(){
         swcHelpers.classPrivateFieldInit(this, _foo1, {

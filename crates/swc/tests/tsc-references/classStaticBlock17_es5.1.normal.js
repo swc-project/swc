@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 // @target: es2015
 var friendA;
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A(v) {

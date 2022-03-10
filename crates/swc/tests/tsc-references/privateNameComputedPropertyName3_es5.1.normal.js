@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _name = new WeakMap();
+var _name = /*#__PURE__*/ new WeakMap();
 // @target: esnext, es2022, es2015
 var Foo = /*#__PURE__*/ function() {
     "use strict";
@@ -14,7 +14,7 @@ var Foo = /*#__PURE__*/ function() {
     var _proto1 = Foo.prototype;
     _proto1.getValue = function getValue(x) {
         var obj = this;
-        var _y = new WeakMap();
+        var _y = /*#__PURE__*/ new WeakMap();
         var tmp = swcHelpers.classPrivateFieldGet(obj, _name);
         var Bar = /*#__PURE__*/ function() {
             function Bar() {

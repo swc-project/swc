@@ -10,7 +10,7 @@ var Generic;
     }
     var c = new C();
     c.y = c.y;
-    var _value = new WeakMap();
+    var _value = /*#__PURE__*/ new WeakMap();
     class Box {
         get value() {
             return swcHelpers.classPrivateFieldGet(this, _value);

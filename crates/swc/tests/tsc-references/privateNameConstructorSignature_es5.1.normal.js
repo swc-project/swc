@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

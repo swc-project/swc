@@ -1821,10 +1821,10 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| {
+    |t| {
         let mark = Mark::fresh(Mark::root());
         chain!(
-            es2022(Default::default()),
+            es2022(Some(t.comments.clone()), Default::default()),
             es2021(),
             es2018(Default::default()),
             es2017(Default::default()),

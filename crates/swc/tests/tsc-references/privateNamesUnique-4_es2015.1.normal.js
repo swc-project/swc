@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 // @target: es2015
 class A1 {
 }
-var _something = new WeakMap();
+var _something = /*#__PURE__*/ new WeakMap();
 class C {
     constructor(){
         swcHelpers.classPrivateFieldInit(this, _something, {

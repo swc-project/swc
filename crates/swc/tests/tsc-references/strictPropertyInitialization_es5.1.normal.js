@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _f = new WeakMap(), _g = new WeakMap(), _h = new WeakMap(), _i = new WeakMap();
+var _f = /*#__PURE__*/ new WeakMap(), _g = /*#__PURE__*/ new WeakMap(), _h = /*#__PURE__*/ new WeakMap(), _i = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target:es2015
 // @declaration: true
@@ -29,7 +29,7 @@ var C3 = function C3() {
     "use strict";
     swcHelpers.classCallCheck(this, C3);
 };
-var _d = new WeakMap(), _e = new WeakMap(), _f1 = new WeakMap();
+var _d = /*#__PURE__*/ new WeakMap(), _e = /*#__PURE__*/ new WeakMap(), _f1 = /*#__PURE__*/ new WeakMap();
 // Initializer satisfies strict initialization check
 var C4 = function C4() {
     "use strict";
@@ -50,7 +50,7 @@ var C4 = function C4() {
         value: "abc"
     });
 };
-var _b = new WeakMap();
+var _b = /*#__PURE__*/ new WeakMap();
 // Assignment in constructor satisfies strict initialization check
 var C5 = function C5() {
     "use strict";
@@ -62,7 +62,7 @@ var C5 = function C5() {
     this.a = 0;
     swcHelpers.classPrivateFieldSet(this, _b, 0);
 };
-var _b1 = new WeakMap();
+var _b1 = /*#__PURE__*/ new WeakMap();
 // All code paths must contain assignment
 var C6 = function C6(cond) {
     "use strict";
@@ -77,7 +77,7 @@ var C6 = function C6(cond) {
     this.a = 0;
     swcHelpers.classPrivateFieldSet(this, _b1, 0);
 };
-var _b2 = new WeakMap();
+var _b2 = /*#__PURE__*/ new WeakMap();
 var C7 = function C7(cond) {
     "use strict";
     swcHelpers.classCallCheck(this, C7);
@@ -103,7 +103,7 @@ var C9 = function C9() {
     "use strict";
     swcHelpers.classCallCheck(this, C9);
 };
-var _d1 = new WeakMap();
+var _d1 = /*#__PURE__*/ new WeakMap();
 // Properties with non-undefined types must be assigned before they can be accessed
 // within their constructor
 var C10 = function C10() {
@@ -121,7 +121,7 @@ var C10 = function C10() {
     swcHelpers.classPrivateFieldSet(this, _d1, x);
     var y = this.c;
 };
-var _b3 = new WeakMap();
+var _b3 = /*#__PURE__*/ new WeakMap();
 var C11 = function C11() {
     "use strict";
     swcHelpers.classCallCheck(this, C11);

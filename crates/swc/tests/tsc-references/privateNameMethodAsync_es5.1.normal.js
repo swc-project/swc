@@ -3,7 +3,7 @@ import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(baz);
 var _bar, _baz, _qux, _class;
 // @target: es2019
-var C = (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), _class = /*#__PURE__*/ function() {
+var C = (_bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), _qux = /*#__PURE__*/ new WeakSet(), _class = /*#__PURE__*/ function() {
     "use strict";
     function _class1() {
         swcHelpers.classCallCheck(this, _class1);

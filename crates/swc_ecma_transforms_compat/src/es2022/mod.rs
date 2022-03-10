@@ -1,4 +1,4 @@
-use swc_common::chain;
+use swc_common::{chain, comments::Comments};
 use swc_ecma_visit::Fold;
 
 pub use self::{
@@ -11,10 +11,10 @@ pub mod private_in_object;
 pub mod static_blocks;
 
 #[tracing::instrument(level = "trace", skip_all)]
-pub fn es2022(config: Config) -> impl Fold {
+pub fn es2022<C: Comments>(cm: Option<C>, config: Config) -> impl Fold {
     chain!(
         static_blocks(),
-        class_properties(config.class_properties),
+        class_properties(cm, config.class_properties),
         private_in_object(),
     )
 }

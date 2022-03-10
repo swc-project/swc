@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _myField = new WeakMap();
+var _myField = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 class A {
     constructor(){

@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _method = new WeakSet();
+var _method = /*#__PURE__*/ new WeakSet();
 // @target: es2015
 class A3 {
     constructor(a, b){

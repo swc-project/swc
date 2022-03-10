@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _a = new WeakMap(), _b = new WeakSet(), _c = new WeakMap();
+var _a = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakSet(), _c = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 // @importHelpers: true
 // @isolatedModules: true

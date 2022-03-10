@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _foo = new WeakMap(), _bar = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakMap(), _bar = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target: es6
 var A = function A() {

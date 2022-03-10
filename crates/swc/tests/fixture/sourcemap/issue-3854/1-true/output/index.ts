@@ -51,7 +51,7 @@ const seq = {
     source: ()=>new ArticleSourceSeqBuilder()
 };
 exports.seq = seq;
-var _stages = new WeakMap(), _trustBox = new WeakMap(), _disclaimer = new WeakMap(), _articleSources = new WeakMap();
+var _stages = /*#__PURE__*/ new WeakMap(), _trustBox = /*#__PURE__*/ new WeakMap(), _disclaimer = /*#__PURE__*/ new WeakMap(), _articleSources = /*#__PURE__*/ new WeakMap();
 class BodyBuilder extends _abstractBuilders.AbstractBuilder {
     stages(...stages) {
         swcHelpers.classPrivateFieldSet(this, _stages, stages.map(_builderUtils.mapBuildArg));
@@ -97,7 +97,7 @@ class BodyBuilder extends _abstractBuilders.AbstractBuilder {
         });
     }
 }
-var _nodes = new WeakMap(), _hidden = new WeakMap();
+var _nodes = /*#__PURE__*/ new WeakMap(), _hidden = /*#__PURE__*/ new WeakMap();
 class TrustBoxBuilder extends _abstractBuilders.AbstractBuilder {
     nodes(nodes) {
         swcHelpers.classPrivateFieldSet(this, _nodes, nodes.map(_builderUtils.mapBuildArg));
@@ -125,7 +125,7 @@ class TrustBoxBuilder extends _abstractBuilders.AbstractBuilder {
         });
     }
 }
-var _element = new WeakMap();
+var _element = /*#__PURE__*/ new WeakMap();
 class OpenerBuilder extends _abstractBuilders.AbstractBuilder {
     element(element) {
         swcHelpers.classPrivateFieldSet(this, _element, (0, _builderUtils).mapBuildArg(element));
@@ -144,7 +144,7 @@ class OpenerBuilder extends _abstractBuilders.AbstractBuilder {
         });
     }
 }
-var _nodes1 = new WeakMap(), _header = new WeakMap(), _companions = new WeakMap(), _commercialsEndOfStage = new WeakMap();
+var _nodes1 = /*#__PURE__*/ new WeakMap(), _header = /*#__PURE__*/ new WeakMap(), _companions = /*#__PURE__*/ new WeakMap(), _commercialsEndOfStage = /*#__PURE__*/ new WeakMap();
 class BodyStageSeqBuilder extends _abstractBuilders.AbstractSeqBuilder {
     nodes(nodes) {
         swcHelpers.classPrivateFieldSet(this, _nodes1, nodes.map(_builderUtils.mapBuildArgs));
@@ -191,7 +191,7 @@ class BodyStageSeqBuilder extends _abstractBuilders.AbstractSeqBuilder {
         });
     }
 }
-var _seqBuilder = new WeakMap();
+var _seqBuilder = /*#__PURE__*/ new WeakMap();
 class BodyStageBuilder extends _abstractBuilders.AbstractBuilder {
     nodes(nodes) {
         swcHelpers.classPrivateFieldGet(this, _seqBuilder).nodes([
@@ -230,7 +230,7 @@ class BodyStageBuilder extends _abstractBuilders.AbstractBuilder {
         });
     }
 }
-var _variant = new WeakMap(), _opener = new WeakMap();
+var _variant = /*#__PURE__*/ new WeakMap(), _opener = /*#__PURE__*/ new WeakMap();
 class BodyHeaderBuilder extends _abstractBuilders.AbstractBuilder {
     variant(variant) {
         swcHelpers.classPrivateFieldSet(this, _variant, variant);
@@ -258,7 +258,7 @@ class BodyHeaderBuilder extends _abstractBuilders.AbstractBuilder {
         });
     }
 }
-var _nodes2 = new WeakMap();
+var _nodes2 = /*#__PURE__*/ new WeakMap();
 class ArticleSourceSeqBuilder extends _abstractBuilders.AbstractSeqBuilder {
     nodes(nodes) {
         swcHelpers.classPrivateFieldSet(this, _nodes2, nodes.map(_builderUtils.mapBuildArgs));
@@ -279,7 +279,7 @@ class ArticleSourceSeqBuilder extends _abstractBuilders.AbstractSeqBuilder {
         });
     }
 }
-var _seqBuilder1 = new WeakMap();
+var _seqBuilder1 = /*#__PURE__*/ new WeakMap();
 class ArticleSourceBuilder extends _abstractBuilders.AbstractBuilder {
     nodes(...nodes) {
         swcHelpers.classPrivateFieldGet(this, _seqBuilder1).nodes([
@@ -299,7 +299,7 @@ class ArticleSourceBuilder extends _abstractBuilders.AbstractBuilder {
         this.nodes(...nodes);
     }
 }
-var _nodes3 = new WeakMap(), _hidden1 = new WeakMap();
+var _nodes3 = /*#__PURE__*/ new WeakMap(), _hidden1 = /*#__PURE__*/ new WeakMap();
 class ArticleSourcesBuilder extends _abstractBuilders.AbstractBuilder {
     nodes(...nodes) {
         swcHelpers.classPrivateFieldSet(this, _nodes3, nodes.map(_builderUtils.mapBuildArg));

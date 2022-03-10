@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _used = new WeakMap(), _unused = new WeakMap();
+var _used = /*#__PURE__*/ new WeakMap(), _unused = /*#__PURE__*/ new WeakMap();
 // @noUnusedLocals:true 
 // @noEmit: true
 // @target: es2015
@@ -16,7 +16,7 @@ export class A {
         console.log(swcHelpers.classPrivateFieldGet(this, _used));
     }
 }
-var _used1 = new WeakSet(), _unused1 = new WeakSet();
+var _used1 = /*#__PURE__*/ new WeakSet(), _unused1 = /*#__PURE__*/ new WeakSet();
 export class A2 {
     constructor(){
         swcHelpers.classPrivateMethodInit(this, _used1);
@@ -26,7 +26,7 @@ export class A2 {
 }
 function used() {}
 function unused() {}
-var _used2 = new WeakMap(), _unused2 = new WeakMap();
+var _used2 = /*#__PURE__*/ new WeakMap(), _unused2 = /*#__PURE__*/ new WeakMap();
 export class A3 {
     constructor(){
         swcHelpers.classPrivateFieldInit(this, _used2, {

@@ -5,7 +5,7 @@ var B = function B() {
     "use strict";
     swcHelpers.classCallCheck(this, B);
 };
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 var A = /*#__PURE__*/ function(B) {
     "use strict";
     swcHelpers.inherits(A, B);
