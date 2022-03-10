@@ -128,7 +128,7 @@ where
                     .data
                     .as_ref()
                     .and_then(|data| data.vars.get(&i.to_id()))
-                    .map(|v| v.assign_count == 0)
+                    .map(|v| v.assign_count == 0 && !v.declared_as_fn_param)
                     .unwrap_or(false)
                 {
                     self.changed = true;
