@@ -1,8 +1,16 @@
 [package]
-name = "swc_reporter"
-version = "0.1.0"
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Error reporter for the swc project"
+documentation = "https://rustdoc.swc.rs/swc_reporter/"
 edition = "2021"
+license = "Apache-2.0"
+name = "swc_reporter"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+fancy = ["miette/fancy"]
 
 [dependencies]
+miette = "4.2.1"
+swc_common = {version = "0.17.0", path = "../swc_common"}
