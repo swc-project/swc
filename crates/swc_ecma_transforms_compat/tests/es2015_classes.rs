@@ -7318,3 +7318,37 @@ let Test = /*#__PURE__*/function (Foo) {
 }(Foo);
 "#
 );
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            super_is_callable_constructor: true,
+            ..Default::default()
+        }
+    ),
+    issue_3943,
+    r#"
+class Thing extends B {
+  constructor(n) {
+    super()
+    this.name = n
+  }
+}
+"#,
+    r#"
+let Thing = function(B) {
+    "use strict";
+    _inherits(Thing, B);
+    function Thing(n) {
+        _classCallCheck(this, Thing);
+        var _this;
+        _this = B.call(this) || this;
+        _this.name = n;
+        return _this;
+    }
+    return Thing;
+}(B);
+"#
+);
