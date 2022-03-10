@@ -6,6 +6,7 @@ use std::{
     hash::{Hash, Hasher},
     ops::{Add, Sub},
     path::PathBuf,
+    sync::atomic::{AtomicU32, Ordering},
 };
 
 #[cfg(feature = "parking_lot")]
@@ -67,12 +68,16 @@ pub const DUMMY_SP: Span = Span {
 #[derive(Default)]
 pub struct Globals {
     hygiene_data: Mutex<hygiene::HygieneData>,
+    dummy_cnt: AtomicU32,
 }
+
+const DUMMY_RESERVE: u32 = u32::MAX - 2_u32.pow(16);
 
 impl Globals {
     pub fn new() -> Globals {
         Globals {
             hygiene_data: Mutex::new(hygiene::HygieneData::new()),
+            dummy_cnt: AtomicU32::new(DUMMY_RESERVE),
         }
     }
 }
@@ -237,7 +242,7 @@ impl Span {
     /// Returns `true` if this is a dummy span with any hygienic context.
     #[inline]
     pub fn is_dummy(self) -> bool {
-        self.lo.0 == 0 && self.hi.0 == 0
+        self.lo.0 == 0 && self.hi.0 == 0 || self.lo.0 >= DUMMY_RESERVE
     }
 
     /// Returns a new span representing an empty span at the beginning of this
@@ -422,6 +427,20 @@ impl Span {
                 return false;
             }
         }
+    }
+
+    /// Dummy span, both position are extremely large numbers so they would be
+    /// ignore by sourcemap, but can still have comments
+    pub fn dummy_with_cmt() -> Self {
+        GLOBALS.with(|globals| {
+            globals.dummy_cnt.fetch_add(1, Ordering::SeqCst);
+            let lo = BytePos(globals.dummy_cnt.load(Ordering::SeqCst));
+            Span {
+                lo,
+                hi: lo,
+                ctxt: SyntaxContext::empty(),
+            }
+        })
     }
 }
 

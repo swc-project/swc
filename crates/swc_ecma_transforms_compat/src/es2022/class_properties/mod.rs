@@ -4,7 +4,7 @@ use swc_common::{
     collections::{AHashMap, AHashSet},
     comments::Comments,
     util::take::Take,
-    Mark, Spanned, SyntaxContext, DUMMY_SP,
+    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
@@ -680,13 +680,20 @@ impl<C: Comments> ClassProperties<C> {
                         name: ident.clone(),
                         value,
                     });
+                    let span = if let Some(cm) = &self.cm {
+                        let span = Span::dummy_with_cmt();
+                        cm.add_pure_comment(span.lo);
+                        span
+                    } else {
+                        DUMMY_SP
+                    };
                     if self.c.private_as_properties {
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
                             name: ident.clone().into(),
                             init: Some(Box::new(Expr::from(CallExpr {
-                                span: DUMMY_SP,
+                                span,
                                 callee: helper!(
                                     class_private_field_loose_key,
                                     "classPrivateFieldLooseKey"
@@ -701,7 +708,7 @@ impl<C: Comments> ClassProperties<C> {
                             definite: false,
                             name: ident.into(),
                             init: Some(Box::new(Expr::from(NewExpr {
-                                span: DUMMY_SP,
+                                span,
                                 callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
                                 args: Some(Default::default()),
                                 type_args: Default::default(),
@@ -820,13 +827,20 @@ impl<C: Comments> ClassProperties<C> {
                     };
 
                     if let Some(extra) = extra_collect {
+                        let span = if let Some(cm) = &self.cm {
+                            let span = Span::dummy_with_cmt();
+                            cm.add_pure_comment(span.lo);
+                            span
+                        } else {
+                            DUMMY_SP
+                        };
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
                             name: weak_coll_var.clone().into(),
                             init: Some(Box::new(if self.c.private_as_properties {
                                 Expr::from(CallExpr {
-                                    span: DUMMY_SP,
+                                    span,
                                     callee: helper!(
                                         class_private_field_loose_key,
                                         "classPrivateFieldLooseKey"
@@ -836,7 +850,7 @@ impl<C: Comments> ClassProperties<C> {
                                 })
                             } else {
                                 Expr::New(NewExpr {
-                                    span: DUMMY_SP,
+                                    span,
                                     callee: Box::new(Expr::Ident(extra)),
                                     args: Some(Default::default()),
                                     type_args: Default::default(),
