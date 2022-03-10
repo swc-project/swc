@@ -1,0 +1,23 @@
+a {
+    background-image: cross-fade(20% url(foo.png), url(bar.png));
+}
+
+b {
+    background-image: cross-fade(url(foo.png), url(bar.png));
+}
+
+h1 {
+    background-image: cross-fade(10.823% url(foo.png), url(bar.png));
+}
+
+h2 {
+    background-image: cross-fade(0.59 url(foo.png), url(bar.png));
+}
+
+h3 {
+    background-image: cross-fade(.59 url(foo.png), url(bar.png));
+}
+
+.foo {
+    background-image: cross-fade(.59 linear-gradient(white, black), radial-gradient(circle closest-corner, white, black));
+}

@@ -2,7 +2,7 @@ use std::mem::take;
 
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
-use swc_css_utils::replace_ident;
+use swc_css_utils::{replace_function_name, replace_ident};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn prefixer() -> impl VisitMut {
@@ -12,7 +12,7 @@ pub fn prefixer() -> impl VisitMut {
 #[derive(Default)]
 struct Prefixer {
     in_simple_block: bool,
-    added: Vec<Declaration>,
+    added_declarations: Vec<Declaration>,
 }
 
 impl VisitMut for Prefixer {
@@ -55,10 +55,26 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 });
-                self.added.push(Declaration {
+                self.added_declarations.push(Declaration {
                     span: n.span,
                     name,
                     value: vec![val],
+                    important: n.important.clone(),
+                });
+            }};
+        }
+
+        macro_rules! complex {
+            ($name:expr,$val:expr) => {{
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: $name.into(),
+                    raw: $name.into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: $val,
                     important: n.important.clone(),
                 });
             }};
@@ -71,7 +87,7 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 });
-                self.added.push(Declaration {
+                self.added_declarations.push(Declaration {
                     span: n.span,
                     name,
                     value: n.value.clone(),
@@ -87,7 +103,7 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 };
-                self.added.push(Declaration {
+                self.added_declarations.push(Declaration {
                     span: n.span,
                     name: n.name.clone(),
                     value: vec![ComponentValue::Ident(val)],
@@ -119,11 +135,19 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-appearance");
             }
 
-            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/animation.js
             "animation" => {
-                same_content!("-webkit-animation");
-                same_content!("-moz-animation");
-                same_content!("-o-animation");
+                let need_prefix = n.value.iter().all(|n| match n {
+                    ComponentValue::Ident(Ident { value, .. }) => {
+                        !matches!(&*value.to_lowercase(), "reverse" | "alternate-reverse")
+                    }
+                    _ => true,
+                });
+
+                if need_prefix {
+                    same_content!("-webkit-animation");
+                    same_content!("-moz-animation");
+                    same_content!("-o-animation");
+                }
             }
 
             "animation-name" => {
@@ -253,102 +277,108 @@ impl VisitMut for Prefixer {
                 same_content!("-moz-column-fill");
             }
 
+            "content" => {
+                let mut new_value = n.value.clone();
+
+                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
+
+                if n.value != new_value {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: new_value,
+                        important: n.important.clone(),
+                    });
+                }
+            }
+
+            "list-style" => {
+                let mut new_value = n.value.clone();
+
+                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
+
+                if n.value != new_value {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: new_value,
+                        important: n.important.clone(),
+                    });
+                }
+            }
+
+            "list-style-image" => {
+                let mut new_value = n.value.clone();
+
+                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
+
+                if n.value != new_value {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: new_value,
+                        important: n.important.clone(),
+                    });
+                }
+            }
+
             "background" => {
-                if let ComponentValue::Function(f) = &n.value[0] {
-                    if *f.name.value == "image-set".to_lowercase() {
-                        let val = ComponentValue::Function(Function {
-                            span: DUMMY_SP,
-                            name: Ident {
-                                span: DUMMY_SP,
-                                value: "-webkit-image-set".into(),
-                                raw: "-webkit-image-set".into(),
-                            },
-                            value: f.value.clone(),
-                        });
-                        self.added.push(Declaration {
-                            span: n.span,
-                            name: n.name.clone(),
-                            value: vec![val],
-                            important: n.important.clone(),
-                        });
-                    }
+                let mut new_value = n.value.clone();
+
+                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
+
+                if n.value != new_value {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: new_value,
+                        important: n.important.clone(),
+                    });
                 }
             }
 
             "background-image" => {
-                if let ComponentValue::Function(f) = &n.value[0] {
-                    if let "image-set" = &*f.name.value.to_lowercase() {
-                        let val = ComponentValue::Function(Function {
-                            span: DUMMY_SP,
-                            name: Ident {
-                                span: DUMMY_SP,
-                                value: "-webkit-image-set".into(),
-                                raw: "-webkit-image-set".into(),
-                            },
-                            value: f.value.clone(),
-                        });
-                        self.added.push(Declaration {
-                            span: n.span,
-                            name: n.name.clone(),
-                            value: vec![val],
-                            important: n.important.clone(),
-                        });
-                    }
+                let mut new_value = n.value.clone();
+
+                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
+
+                if n.value != new_value {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: new_value,
+                        important: n.important.clone(),
+                    });
                 }
             }
 
-            // TODO Handle moz prefix in `zoom-in`, `zoom-out` and `grabbing`
             "cursor" => {
-                let new_value = n
-                    .value
-                    .iter()
-                    .map(|node| match node {
-                        ComponentValue::Ident(Ident { value, .. }) => {
-                            match &*value.to_lowercase() {
-                                "zoom-in" => ComponentValue::Ident(Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-zoom-in".into(),
-                                    raw: "-webkit-grab".into(),
-                                }),
-                                "zoom-out" => ComponentValue::Ident(Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-zoom-out".into(),
-                                    raw: "-webkit-zoom-out".into(),
-                                }),
-                                "grab" => ComponentValue::Ident(Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-grab".into(),
-                                    raw: "-webkit-grab".into(),
-                                }),
-                                "grabbing" => ComponentValue::Ident(Ident {
-                                    span: DUMMY_SP,
-                                    value: "-webkit-grabbing".into(),
-                                    raw: "-webkit-grabbing".into(),
-                                }),
-                                _ => node.clone(),
-                            }
-                        }
-                        ComponentValue::Function(Function { name, value, .. }) => {
-                            if &*name.value.to_lowercase() == "image-set" {
-                                ComponentValue::Function(Function {
-                                    span: DUMMY_SP,
-                                    name: Ident {
-                                        span: DUMMY_SP,
-                                        value: "-webkit-image-set".into(),
-                                        raw: "-webkit-image-set".into(),
-                                    },
-                                    value: value.clone(),
-                                })
-                            } else {
-                                node.clone()
-                            }
-                        }
-                        _ => node.clone(),
-                    })
-                    .collect();
+                let mut new_value = n.value.clone();
+
+                replace_ident(&mut new_value, "zoom-in", "-webkit-zoom-in");
+                replace_ident(&mut new_value, "zoom-out", "-webkit-zoom-out");
+                replace_ident(&mut new_value, "grab", "-webkit-grab");
+                replace_ident(&mut new_value, "grabbing", "-webkit-grabbing");
+                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
 
                 if n.value != new_value {
-                    self.added.push(Declaration {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: new_value,
+                        important: n.important.clone(),
+                    });
+                }
+
+                let mut new_value = n.value.clone();
+
+                replace_ident(&mut new_value, "zoom-in", "-moz-zoom-in");
+                replace_ident(&mut new_value, "zoom-out", "-moz-zoom-out");
+                replace_ident(&mut new_value, "grab", "-moz-grab");
+                replace_ident(&mut new_value, "grabbing", "-moz-grabbing");
+
+                if n.value != new_value {
+                    self.added_declarations.push(Declaration {
                         span: n.span,
                         name: n.name.clone(),
                         value: new_value,
@@ -472,7 +502,6 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-flex-line-pack");
             }
 
-            // TODO fix me
             "image-rendering" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "pixelated" {
@@ -508,7 +537,11 @@ impl VisitMut for Prefixer {
             }
 
             "mask-image" => {
-                same_content!("-webkit-mask-image");
+                let mut new_value = n.value.clone();
+
+                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
+
+                complex!("-webkit-mask-image", new_value);
             }
 
             "mask-origin" => {
@@ -528,7 +561,11 @@ impl VisitMut for Prefixer {
             }
 
             "mask" => {
-                same_content!("-webkit-mask");
+                let mut new_value = n.value.clone();
+
+                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
+
+                complex!("-webkit-mask", new_value);
             }
 
             "mask-position" => {
@@ -756,7 +793,7 @@ impl VisitMut for Prefixer {
                     value: "-webkit-transition".into(),
                     raw: "-webkit-transition".into(),
                 });
-                self.added.push(Declaration {
+                self.added_declarations.push(Declaration {
                     span: n.span,
                     name,
                     value,
@@ -984,7 +1021,11 @@ impl VisitMut for Prefixer {
 
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/border-image.js
             "border-image" => {
-                same_content!("-webkit-border-image");
+                let mut new_value = n.value.clone();
+
+                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
+
+                complex!("-webkit-border-image", new_value);
                 same_content!("-moz-border-image");
                 same_content!("-o-border-image");
             }
@@ -1039,7 +1080,7 @@ impl VisitMut for Prefixer {
 
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
-            // TODO handle `image-set()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L907 and https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
+            // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
             // TODO handle `calc()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L395
             // TODO handle `element()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L269
             // TODO handle `filter()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L241
@@ -1066,7 +1107,7 @@ impl VisitMut for Prefixer {
             n.visit_mut_children_with(self);
 
             new.extend(
-                self.added
+                self.added_declarations
                     .drain(..)
                     .map(DeclarationOrAtRule::Declaration)
                     .map(ComponentValue::DeclarationOrAtRule),

@@ -1,0 +1,35 @@
+a {
+    background-image: image-set(url(foo@1x.png) 1x, url(foo@2x.png) 2x);
+}
+
+h1 {
+    background-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+
+.class {
+    background-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+
+.class {
+    border-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+
+.class {
+    mask: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+
+.class {
+    mask-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+
+.class {
+    list-style: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+
+.class {
+    list-style-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
+
+.class {
+    content: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+}
