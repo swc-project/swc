@@ -1,8 +1,12 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        let result = 2 + 2;
-        assert_eq!(result, 4);
-    }
+use std::fmt::Write;
+
+use miette::GraphicalReportHandler;
+use swc_common::{sync::Lrc, SourceMap};
+
+pub struct PrettyEmitter {
+    cm: Lrc<SourceMap>,
+
+    wr: Box<dyn Write + Send + Sync>,
+
+    reporter: GraphicalReportHandler,
 }
