@@ -67,13 +67,14 @@ impl SourceCode for MietteSourceCode<'_> {
             .span_to_snippet(span)
             .map_err(|_| MietteError::OutOfBounds)?;
 
-        Ok(Box::new(MietteSpanContents::new(
-            src.as_bytes(),
-            src_span.clone(),
-            loc.line,
-            loc.col_display,
+        Ok(Box::new(SwcSpanContents {
+            data: src,
+            span: src_span.clone(),
+            line: loc.line,
+            column: loc.col_display,
             line_count,
-        )))
+            name: None,
+        }))
     }
 }
 
@@ -163,4 +164,46 @@ fn convert_span(span: Span) -> SourceSpan {
     let len = span.hi - span.lo;
     let start = SourceOffset::from(span.lo.0 as usize);
     SourceSpan::new(start, SourceOffset::from(len.0 as usize))
+}
+
+struct SwcSpanContents {
+    // Data from a [`SourceCode`], in bytes.
+    data: String,
+    // span actually covered by this SpanContents.
+    span: SourceSpan,
+    // The 0-indexed line where the associated [`SourceSpan`] _starts_.
+    line: usize,
+    // The 0-indexed column where the associated [`SourceSpan`] _starts_.
+    column: usize,
+    // Number of line in this snippet.
+    line_count: usize,
+    // Optional filename
+    name: Option<String>,
+}
+
+impl<'a> SpanContents<'a> for SwcSpanContents {
+    fn data(&self) -> &'a [u8] {
+        self.data.as_bytes().to_vec().leak()
+        // self.data.as_bytes()
+    }
+
+    fn span(&self) -> &SourceSpan {
+        &self.span
+    }
+
+    fn line(&self) -> usize {
+        self.line
+    }
+
+    fn column(&self) -> usize {
+        self.column
+    }
+
+    fn line_count(&self) -> usize {
+        self.line_count
+    }
+
+    fn name(&self) -> Option<&str> {
+        self.name.as_deref()
+    }
 }
