@@ -1,8 +1,9 @@
 name: Benchmark
 
 on:
-  - push
   - pull_request
+
+runs-on: [self-hosted, linux, ARM64]
 
 jobs:
   binary-size:
