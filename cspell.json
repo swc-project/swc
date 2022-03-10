@@ -93,6 +93,8 @@
         "LPSECURITY",
         "mbcs",
         "memchr",
+        "miette",
+        "Miette",
         "mimalloc",
         "minifier",
         "miri",
