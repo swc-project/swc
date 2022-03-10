@@ -119,9 +119,10 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
 
 impl std::error::Error for MietteDiagnostic<'_> {}
 
+/// Delegates to `Diagnostics`
 impl fmt::Debug for MietteDiagnostic<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        todo!()
+        fmt::Debug::fmt(&self.d, f)
     }
 }
 
