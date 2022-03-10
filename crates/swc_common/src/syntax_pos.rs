@@ -439,7 +439,7 @@ impl Span {
     /// ignore by sourcemap, but can still have comments
     pub fn dummy_with_cmt() -> Self {
         GLOBALS.with(|globals| {
-            let lo = BytePos(globals.dummy_cnt.fetch_add(1, Ordering::SeqCst) + 1);
+            let lo = BytePos(globals.dummy_cnt.fetch_add(1, Ordering::SeqCst));
             Span {
                 lo,
                 hi: lo,
