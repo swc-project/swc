@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Refer this in constructor when `super_is_callable_constructor` is set (#3944) ([de8a711](https://github.com/swc-project/swc/commit/de8a7116cd587a6ddb8d734ffd96cdacd076f48c))
+
 ## [1.2.152] - 2022-03-10
 
 ### Bug Fixes
