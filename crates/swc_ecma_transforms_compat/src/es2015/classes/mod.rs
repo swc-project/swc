@@ -578,6 +578,7 @@ where
                     is_constructor_default,
                     super_var,
                     ignore_return: false,
+                    super_is_callable_constructor: self.config.super_is_callable_constructor,
                 });
 
                 insert_this |= (mode == None && !is_always_initialized)
