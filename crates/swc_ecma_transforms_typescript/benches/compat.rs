@@ -96,7 +96,12 @@ fn common_reserved_word(b: &mut Bencher) {
 
 #[bench]
 fn es2020(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2022(Default::default()));
+    run(b, || {
+        swc_ecma_transforms_compat::es2022(
+            Some(SingleThreadedComments::default()),
+            Default::default(),
+        )
+    });
 }
 
 #[bench]
@@ -120,7 +125,10 @@ fn es2020_optional_chaining(b: &mut Bencher) {
 #[bench]
 fn es2022_class_properties(b: &mut Bencher) {
     run(b, || {
-        swc_ecma_transforms_compat::es2022::class_properties(Default::default())
+        swc_ecma_transforms_compat::es2022::class_properties(
+            Some(SingleThreadedComments::default()),
+            Default::default(),
+        )
     });
 }
 
@@ -281,7 +289,10 @@ fn es3(b: &mut Bencher) {
 fn full_es2016(b: &mut Bencher) {
     run(b, || {
         chain!(
-            swc_ecma_transforms_compat::es2022(Default::default()),
+            swc_ecma_transforms_compat::es2022(
+                Some(SingleThreadedComments::default()),
+                Default::default()
+            ),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
             swc_ecma_transforms_compat::es2017(Default::default()),
@@ -294,7 +305,10 @@ fn full_es2016(b: &mut Bencher) {
 fn full_es2017(b: &mut Bencher) {
     run(b, || {
         chain!(
-            swc_ecma_transforms_compat::es2022(Default::default()),
+            swc_ecma_transforms_compat::es2022(
+                Some(SingleThreadedComments::default()),
+                Default::default()
+            ),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
             swc_ecma_transforms_compat::es2017(Default::default()),
@@ -306,7 +320,10 @@ fn full_es2017(b: &mut Bencher) {
 fn full_es2018(b: &mut Bencher) {
     run(b, || {
         chain!(
-            swc_ecma_transforms_compat::es2022(Default::default()),
+            swc_ecma_transforms_compat::es2022(
+                Some(SingleThreadedComments::default()),
+                Default::default()
+            ),
             swc_ecma_transforms_compat::es2019(),
             swc_ecma_transforms_compat::es2018(Default::default()),
         )

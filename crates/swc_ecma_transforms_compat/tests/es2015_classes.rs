@@ -6549,7 +6549,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            es2022::es2022(Default::default()),
+            es2022::es2022(Some(t.comments.clone()), Default::default()),
             es2018::es2018(Default::default()),
             es2017::es2017(Default::default()),
             es2016::es2016(),
@@ -6590,7 +6590,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            class_properties(Default::default()),
+            class_properties(Some(t.comments.clone()), Default::default()),
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
@@ -6673,7 +6673,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            class_properties(Default::default()),
+            class_properties(Some(t.comments.clone()), Default::default()),
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
@@ -6720,7 +6720,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            class_properties(Default::default()),
+            class_properties(Some(t.comments.clone()), Default::default()),
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
@@ -6768,7 +6768,7 @@ fn exec(input: PathBuf) {
         Default::default(),
         |t| {
             chain!(
-                class_properties(Default::default()),
+                class_properties(Some(t.comments.clone()), Default::default()),
                 classes(Some(t.comments.clone()), Default::default())
             )
         },
@@ -6784,7 +6784,7 @@ fn fixture(input: PathBuf) {
         Default::default(),
         &|t| {
             chain!(
-                class_properties(Default::default()),
+                class_properties(Some(t.comments.clone()), Default::default()),
                 classes(Some(t.comments.clone()), Default::default())
             )
         },

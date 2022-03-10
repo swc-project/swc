@@ -10,7 +10,7 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
 };
 use swc_ecma_transforms_proposal::decorators;
-use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::Fold;
 
@@ -38,11 +38,14 @@ fn tr_config(
     )
 }
 
-fn properties(loose: bool) -> impl Fold {
-    class_properties(class_properties::Config {
-        set_public_fields: loose,
-        ..Default::default()
-    })
+fn properties(t: &Tester, loose: bool) -> impl Fold {
+    class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            set_public_fields: loose,
+            ..Default::default()
+        },
+    )
 }
 
 macro_rules! to {
@@ -52,7 +55,7 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| chain!(tr(), properties(true)),
+            |t| chain!(tr(), properties(t, true)),
             $name,
             $from,
             $to,
@@ -855,7 +858,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), properties(true)),
+    |t| chain!(tr(), properties(t, true)),
     issue_930_static,
     "class A {
         static b = 'foo';
@@ -871,7 +874,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(tr(), properties(true)),
+    |t| chain!(tr(), properties(t, true)),
     typescript_001,
     "class A {
         foo = new Subject()
@@ -4517,7 +4520,7 @@ fn exec(input: PathBuf) {
             tsx: input.to_string_lossy().ends_with(".tsx"),
             ..Default::default()
         }),
-        &|_| chain!(tr(), properties(true)),
+        &|t| chain!(tr(), properties(t, true)),
         &input,
         &output,
     );

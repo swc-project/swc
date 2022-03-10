@@ -2,6 +2,7 @@
 
 use swc_common::{
     collections::{AHashMap, AHashSet},
+    comments::Comments,
     util::take::Take,
     Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -44,9 +45,10 @@ mod used_name;
 ///
 /// We use custom helper to handle export default class
 #[tracing::instrument(level = "trace", skip_all)]
-pub fn class_properties(config: Config) -> impl Fold + VisitMut {
+pub fn class_properties<C: Comments>(cm: Option<C>, config: Config) -> impl Fold + VisitMut {
     as_folder(ClassProperties {
         c: config,
+        cm,
         private: PrivateRecord::new(),
         extra: ClassExtra::default(),
     })
@@ -60,9 +62,10 @@ pub struct Config {
     pub no_document_all: bool,
 }
 
-struct ClassProperties {
+struct ClassProperties<C: Comments> {
     extra: ClassExtra,
     c: Config,
+    cm: Option<C>,
     private: PrivateRecord,
 }
 
@@ -144,7 +147,7 @@ impl Take for ClassExtra {
 
 #[swc_trace]
 #[fast_path(ShouldWork)]
-impl VisitMut for ClassProperties {
+impl<C: Comments> VisitMut for ClassProperties<C> {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
@@ -306,7 +309,7 @@ impl VisitMut for ClassProperties {
 }
 
 #[swc_trace]
-impl ClassProperties {
+impl<C: Comments> ClassProperties<C> {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + VisitMutWith<Self> + From<Stmt>,
@@ -416,7 +419,7 @@ impl ClassProperties {
 }
 
 #[swc_trace]
-impl ClassProperties {
+impl<C: Comments> ClassProperties<C> {
     fn visit_mut_class_as_decl(
         &mut self,
         class_ident: Ident,
