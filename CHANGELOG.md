@@ -5,7 +5,13 @@
 
 
 
+- **(es)** Don't create `.swc` if not required (#3937) ([46e9d3f](https://github.com/swc-project/swc/commit/46e9d3f62e07b5aaeac9a9f73bb4b5573ad69b27))
+
+
 - **(es/compat/es2015)** Fix span handling of `arrow` and `classes` (#3921) ([12b8606](https://github.com/swc-project/swc/commit/12b8606c99994a1ae4fc65105cd380f1a34d632e))
+
+
+- **(es/minifier)** Skip exported vars while collapsing vars (#3928) ([cc564ff](https://github.com/swc-project/swc/commit/cc564ff6c586db266f0ab8fcb7f25a8d32155d35))
 
 
 - **(es/module)** Make exported vars follow specification (#3906) ([534fc52](https://github.com/swc-project/swc/commit/534fc52a727e5be43adfad47ed3fcdd606967c5c))
@@ -28,6 +34,9 @@
 
 - **(es/typescript)** Remove imports used in interfaces and type signatures (#3893) ([5c92b2d](https://github.com/swc-project/swc/commit/5c92b2d4cee64686d0aad788b177b34cd2fd3bfc))
 
+
+- **(wasm)** Fix handling of `swc_common::GLOBALS` (#3936) ([45a4374](https://github.com/swc-project/swc/commit/45a4374ee19154238eb24952cffbd9e134831c8b))
+
 ### Features
 
 
@@ -48,6 +57,9 @@
 
 
 - **(css/prefixer)** Handle more properties (#3919) ([c2b9e1c](https://github.com/swc-project/swc/commit/c2b9e1c61aa5f72aa0738349ee330d46b9446ed6))
+
+
+- **(css/prefixer)** Implement more rules (#3933) ([62ab179](https://github.com/swc-project/swc/commit/62ab17999eb98312bb03f3ad2f436fbac6ae4acc))
 
 
 - **(es/compat)** Add tracing support to remaining compat transforms (#3904) ([bd0a921](https://github.com/swc-project/swc/commit/bd0a9214c3a678a65a814517ffef6c59199ac06b))
@@ -74,10 +86,16 @@
 
 
 
+- **(*)** Update `tracing` to improve performance of disabled spans (#3932) ([86ea237](https://github.com/swc-project/swc/commit/86ea23785d911f572474d73462cc8bd9af6afaf6))
+
+
 - **(es)** Add fast memory deallocator (#3910) ([f3da349](https://github.com/swc-project/swc/commit/f3da3499c5b2a2a58bdc85f33dd5886f49704932))
 
 
 - **(es/minifier)** Remove needless type parameter (#3897) ([8b3aa6d](https://github.com/swc-project/swc/commit/8b3aa6d3aaf46a7bf4e8972bc867dede950196db))
+
+
+- **(es/minifier)** Make optimization of pure calls parallel (#3938) ([f1ec862](https://github.com/swc-project/swc/commit/f1ec8620ac0df2f0325bd0437227b277de099950))
 
 
 - **(es/parser)** Improve performance by adjusting inlining (#3902) ([4387813](https://github.com/swc-project/swc/commit/43878137e71894fbb3367473317ba65de5e40616))

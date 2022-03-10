@@ -33,7 +33,7 @@ swc_ecma_transforms_base = {version = "0.66.0", path = "../swc_ecma_transforms_b
 swc_ecma_transforms_macros = {version = "0.3.0", path = "../swc_ecma_transforms_macros"}
 swc_ecma_utils = {version = "0.71.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.55.0", path = "../swc_ecma_visit"}
-tracing = "0.1.31"
+tracing = "0.1.32"
 
 [dev-dependencies]
 swc_ecma_transforms_compat = {version = "0.78.0", path = "../swc_ecma_transforms_compat"}

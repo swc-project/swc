@@ -1,3 +1,3 @@
-var types;
+export var types;
 (types || (types = {})).A = class {
 };
