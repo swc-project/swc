@@ -1,8 +1,8 @@
 use std::fmt::{self, Write};
 
-use miette::{GraphicalReportHandler, MietteError, SourceCode, SpanContents};
+use miette::{GraphicalReportHandler, MietteError, Severity, SourceCode, SpanContents};
 use swc_common::{
-    errors::{DiagnosticBuilder, Emitter},
+    errors::{DiagnosticBuilder, Emitter, Level},
     sync::Lrc,
     SourceMap,
 };
@@ -75,8 +75,15 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
             .map(|code| Box::new(code) as Box<dyn fmt::Display>)
     }
 
-    fn severity(&self) -> Option<miette::Severity> {
-        match self.d.level {}
+    fn severity(&self) -> Option<Severity> {
+        match self.d.level {
+            Level::FailureNote | Level::Bug | Level::Fatal | Level::PhaseFatal | Level::Error => {
+                Some(Severity::Error)
+            }
+            Level::Warning => Some(Severity::Warning),
+            Level::Note | Level::Help => Some(Severity::Advice),
+            Level::Cancelled => None,
+        }
     }
 
     fn help<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
@@ -88,7 +95,7 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
     }
 
     fn source_code(&self) -> Option<&dyn SourceCode> {
-        None
+        Some(&self.source_code as &dyn SourceCode)
     }
 
     fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
