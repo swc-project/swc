@@ -121,7 +121,11 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
     }
 
     fn help<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
-        todo!()
+        self.d
+            .children
+            .iter()
+            .filter(|s| s.level == Level::Help)
+            .find_map(|s| Some(Box::new(&s.message[0].0) as Box<_>))
     }
 
     fn url<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
