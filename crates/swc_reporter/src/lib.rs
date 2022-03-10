@@ -81,10 +81,11 @@ impl SourceCode for MietteSourceCode<'_> {
 
 impl Emitter for PrettyEmitter {
     fn emit(&mut self, db: &DiagnosticBuilder) {
+        let d = &**db;
+
         let source_code = MietteSourceCode(&self.cm);
 
-        let children = db
-            .diagnostic
+        let children = d
             .children
             .iter()
             .filter(|d| {
@@ -102,7 +103,7 @@ impl Emitter for PrettyEmitter {
 
         let diagnostic = WrappedDiagnostic {
             source_code,
-            d: &**db,
+            d,
             children,
         };
 
