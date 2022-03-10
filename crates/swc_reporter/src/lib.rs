@@ -2,7 +2,7 @@ use std::fmt::{self, Write};
 
 use miette::{GraphicalReportHandler, MietteError, Severity, SourceCode, SpanContents};
 use swc_common::{
-    errors::{DiagnosticBuilder, Emitter, Level},
+    errors::{DiagnosticBuilder, DiagnosticId, Emitter, Level},
     sync::Lrc,
     SourceMap,
 };
@@ -69,8 +69,8 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
             .code
             .as_ref()
             .map(|v| match v {
-                swc_common::errors::DiagnosticId::Error(v) => v.clone(),
-                swc_common::errors::DiagnosticId::Lint(v) => v.clone(),
+                DiagnosticId::Error(v) => v,
+                DiagnosticId::Lint(v) => v,
             })
             .map(|code| Box::new(code) as Box<dyn fmt::Display>)
     }
