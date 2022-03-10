@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 use std::{fmt, fmt::Write, fs, path::Path};
 
 use swc_common::{
@@ -22,12 +24,12 @@ where
 {
     let cm = Lrc::new(SourceMap::default());
 
-    let mut wr = Writer::default();
+    let wr = Writer::default();
 
     let emitter = PrettyEmitter::new(cm.clone(), Box::new(wr.clone()));
     let handler = Handler::with_emitter(true, false, Box::new(emitter));
 
-    op(cm.clone(), &handler);
+    op(cm, &handler);
 
     let output = Path::new("tests").join("fixture").join(file);
 
@@ -43,7 +45,7 @@ fn span(start: usize, end: usize) -> Span {
 #[test]
 fn test_1() {
     output("1.ans", |cm, h| {
-        let fm = cm.new_source_file(FileName::Anon, "123456789".into());
+        let _fm = cm.new_source_file(FileName::Anon, "123456789".into());
 
         h.struct_span_err(span(1, 3), "test")
             .span_label(span(1, 4), "label")
