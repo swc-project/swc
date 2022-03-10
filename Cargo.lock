@@ -3101,7 +3101,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.87.5"
+version = "0.87.6"
 dependencies = [
  "ahash",
  "ansi_term",
