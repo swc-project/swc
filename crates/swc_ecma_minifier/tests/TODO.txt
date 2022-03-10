@@ -316,10 +316,6 @@ functions/unsafe_call_expansion_1/input.js
 functions/unsafe_call_expansion_2/input.js
 functions/use_before_init_in_loop/input.js
 global_defs/issue_3217/input.js
-harmony/array_literal_with_spread_2b/input.js
-harmony/array_literal_with_spread_4a/input.js
-harmony/array_literal_with_spread_4b/input.js
-harmony/array_spread_of_sequence/input.js
 harmony/class_name_can_be_mangled/input.js
 harmony/class_name_can_be_preserved_with_reserved/input.js
 harmony/classes_extending_classes_out_of_pure_iifes/input.js
