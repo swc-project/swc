@@ -1,5 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var M1, foo2 = require("./foo2");
+var foo2 = require("./foo2");
+export var M1;
 !function(M11) {
     var C1 = function() {
         "use strict";

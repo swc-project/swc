@@ -5,6 +5,7 @@ export var Reflect = function() {
     "use strict";
     swcHelpers.classCallCheck(this, Reflect);
 };
+export var Baz;
 var _class = function() {
     "use strict";
     swcHelpers.classCallCheck(this, _class);
