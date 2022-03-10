@@ -68,7 +68,7 @@ impl SourceCode for MietteSourceCode<'_> {
             .span_to_snippet(span)
             .map_err(|_| MietteError::OutOfBounds)?;
 
-        Ok(Box::new(SwcSpanContents {
+        Ok(Box::new(SpanContentsImpl {
             data: src,
             span: src_span.clone(),
             line: loc.line - 1,
@@ -98,10 +98,10 @@ impl Emitter for PrettyEmitter {
                         | Level::Error
                 )
             })
-            .map(|d| WrappedSubdiagnostic { source_code, d })
+            .map(|d| MietteSubdiagnostic { source_code, d })
             .collect::<Vec<_>>();
 
-        let diagnostic = WrappedDiagnostic {
+        let diagnostic = MietteDiagnostic {
             source_code,
             d,
             children,
@@ -113,14 +113,14 @@ impl Emitter for PrettyEmitter {
     }
 }
 
-struct WrappedDiagnostic<'a> {
+struct MietteDiagnostic<'a> {
     source_code: MietteSourceCode<'a>,
     d: &'a swc_common::errors::Diagnostic,
 
-    children: Vec<WrappedSubdiagnostic<'a>>,
+    children: Vec<MietteSubdiagnostic<'a>>,
 }
 
-impl miette::Diagnostic for WrappedDiagnostic<'_> {
+impl miette::Diagnostic for MietteDiagnostic<'_> {
     fn code<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
         self.d
             .code
@@ -178,16 +178,16 @@ impl miette::Diagnostic for WrappedDiagnostic<'_> {
     }
 }
 
-impl std::error::Error for WrappedDiagnostic<'_> {}
+impl std::error::Error for MietteDiagnostic<'_> {}
 
 /// Delegates to `Diagnostics`
-impl fmt::Debug for WrappedDiagnostic<'_> {
+impl fmt::Debug for MietteDiagnostic<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Debug::fmt(&self.d, f)
     }
 }
 
-impl fmt::Display for WrappedDiagnostic<'_> {
+impl fmt::Display for MietteDiagnostic<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Display::fmt(&self.d.message[0].0, f)
     }
@@ -199,12 +199,12 @@ fn convert_span(span: Span) -> SourceSpan {
     SourceSpan::new(start, SourceOffset::from(len.0 as usize))
 }
 
-struct WrappedSubdiagnostic<'a> {
+struct MietteSubdiagnostic<'a> {
     source_code: MietteSourceCode<'a>,
     d: &'a SubDiagnostic,
 }
 
-impl miette::Diagnostic for WrappedSubdiagnostic<'_> {
+impl miette::Diagnostic for MietteSubdiagnostic<'_> {
     fn code<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
         todo!()
     }
@@ -234,22 +234,22 @@ impl miette::Diagnostic for WrappedSubdiagnostic<'_> {
     }
 }
 
-impl std::error::Error for WrappedSubdiagnostic<'_> {}
+impl std::error::Error for MietteSubdiagnostic<'_> {}
 
 /// Delegates to `Diagnostics`
-impl fmt::Debug for WrappedSubdiagnostic<'_> {
+impl fmt::Debug for MietteSubdiagnostic<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Debug::fmt(&self.d, f)
     }
 }
 
-impl fmt::Display for WrappedSubdiagnostic<'_> {
+impl fmt::Display for MietteSubdiagnostic<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         fmt::Display::fmt(&self.d.message[0].0, f)
     }
 }
 
-struct SwcSpanContents {
+struct SpanContentsImpl {
     // Data from a [`SourceCode`], in bytes.
     data: String,
     // span actually covered by this SpanContents.
@@ -264,7 +264,7 @@ struct SwcSpanContents {
     name: Option<String>,
 }
 
-impl<'a> SpanContents<'a> for SwcSpanContents {
+impl<'a> SpanContents<'a> for SpanContentsImpl {
     fn data(&self) -> &'a [u8] {
         self.data.as_bytes().to_vec().leak()
         // self.data.as_bytes()
