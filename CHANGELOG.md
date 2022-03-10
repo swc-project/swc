@@ -11,6 +11,9 @@
 - **(es/compat/es2015)** Fix span handling of `arrow` and `classes` (#3921) ([12b8606](https://github.com/swc-project/swc/commit/12b8606c99994a1ae4fc65105cd380f1a34d632e))
 
 
+- **(es/minifier)** Skip exported vars while collapsing vars (#3928) ([cc564ff](https://github.com/swc-project/swc/commit/cc564ff6c586db266f0ab8fcb7f25a8d32155d35))
+
+
 - **(es/module)** Make exported vars follow specification (#3906) ([534fc52](https://github.com/swc-project/swc/commit/534fc52a727e5be43adfad47ed3fcdd606967c5c))
 
 
@@ -78,6 +81,9 @@
 
 
 - **(es/testing)** Print comments in `test_fixture` (#3920) ([3d43a9b](https://github.com/swc-project/swc/commit/3d43a9b69df6002786654b3c378b9d981447c126))
+
+
+- **(preset-env)** Update `browserslist-rs` (#3935) ([aec1a54](https://github.com/swc-project/swc/commit/aec1a54204e2140511442479753b6502448f25cb))
 
 ### Performance
 
