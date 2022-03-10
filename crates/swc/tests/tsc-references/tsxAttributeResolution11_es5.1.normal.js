@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var MyComponent = //@filename: file.tsx
-/*#__PURE__*/ function() {
+//@filename: file.tsx
+var MyComponent = /*#__PURE__*/ function() {
     "use strict";
     function MyComponent() {
         swcHelpers.classCallCheck(this, MyComponent);

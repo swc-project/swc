@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var _isConcatSpreadable = Symbol.isConcatSpreadable;
-var Foo = //@target: ES6
-/*#__PURE__*/ function() {
+//@target: ES6
+var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);

@@ -177,8 +177,8 @@ var Component = registerComponent('test-component', {
         return f * this.data.num * this.system.data.counter;
     }
 });
-var MyThrowable = // Repro from #36147
-/*#__PURE__*/ function() {
+// Repro from #36147
+var MyThrowable = /*#__PURE__*/ function() {
     "use strict";
     function MyThrowable() {
         swcHelpers.classCallCheck(this, MyThrowable);

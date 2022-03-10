@@ -1,0 +1,10 @@
+/* This behavior is wrong, but it's what `stylis@3` does. */
+.class {
+    __styled-jsx-placeholder__1
+    animation: slide 3s ease infinite;
+}
+
+.class {
+    animation: slide 3s ease infinite;
+    __styled-jsx-placeholder__1
+}

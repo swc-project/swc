@@ -1,5 +1,4 @@
-/* @jsxRuntime automatic @jsxImportSource react */
 import { jsx as _jsx } from "preact/jsx-runtime";
-var div = _jsx("div", {
+/* @jsxRuntime automatic @jsxImportSource preact */ var div = /*#__PURE__*/ _jsx("div", {
     children: "test"
 });

@@ -116,6 +116,7 @@
         "punct",
         "putc",
         "qself",
+        "RAII",
         "regs",
         "repr",
         "rfind",

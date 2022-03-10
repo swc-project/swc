@@ -3,7 +3,7 @@ import * as swcHelpers from "@swc/helpers";
 /** @jsx predom */ import { predom } from "./renderer2";
 import prerendered from "./component";
 export var MySFC = function(props) {
-    /*#__PURE__*/ return predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
+    return /*#__PURE__*/ predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
 };
 export var MyClass = /*#__PURE__*/ function() {
     "use strict";
@@ -13,7 +13,7 @@ export var MyClass = /*#__PURE__*/ function() {
     }
     var _proto = MyClass.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y));
+        return /*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
     };
     return MyClass;
 }();
@@ -31,7 +31,7 @@ export default /*#__PURE__*/ predom("h", null);
 var elem = prerendered;
 elem = /*#__PURE__*/ predom("h", null); // Expect assignability error here
 var DOMSFC = function(props) {
-    /*#__PURE__*/ return predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y, props.children);
+    return /*#__PURE__*/ predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y, props.children);
 };
 var DOMClass = /*#__PURE__*/ function() {
     "use strict";
@@ -41,7 +41,7 @@ var DOMClass = /*#__PURE__*/ function() {
     }
     var _proto = DOMClass.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y));
+        return /*#__PURE__*/ predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
     };
     return DOMClass;
 }();

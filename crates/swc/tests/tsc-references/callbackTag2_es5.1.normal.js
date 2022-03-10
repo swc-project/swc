@@ -11,7 +11,11 @@ import * as swcHelpers from "@swc/helpers";
 /** @type {Id<string>} I actually wanted to write `const "120"` */ var one_twenty = function(s) {
     return "120";
 };
-var SharedClass = function SharedClass() {
+/** @template S
+ * @callback SharedId
+ * @param {S} ego
+ * @return {S}
+ */ var SharedClass = function SharedClass() {
     "use strict";
     swcHelpers.classCallCheck(this, SharedClass);
     /** @type {SharedId<S>} */ this.id;

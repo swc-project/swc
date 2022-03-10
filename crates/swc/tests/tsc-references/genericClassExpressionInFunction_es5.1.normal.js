@@ -5,7 +5,7 @@ var A = function A() {
 };
 function B1() {
     // class expression can use T
-    return /*#__PURE__*/ (function(A) {
+    return /*#__PURE__*/ function(A) {
         "use strict";
         swcHelpers.inherits(_class, A);
         var _super = swcHelpers.createSuper(_class);
@@ -14,7 +14,7 @@ function B1() {
             return _super.apply(this, arguments);
         }
         return _class;
-    })(A);
+    }(A);
 }
 var B2 = function B2() {
     "use strict";
@@ -30,7 +30,7 @@ var B2 = function B2() {
     }(A);
 };
 function B3() {
-    return /*#__PURE__*/ (function(A) {
+    return /*#__PURE__*/ function(A) {
         "use strict";
         swcHelpers.inherits(Inner, A);
         var _super = swcHelpers.createSuper(Inner);
@@ -39,10 +39,10 @@ function B3() {
             return _super.apply(this, arguments);
         }
         return Inner;
-    })(A);
+    }(A);
 }
-var K = // extends can call B
-/*#__PURE__*/ function(_superClass) {
+// extends can call B
+var K = /*#__PURE__*/ function(_superClass) {
     "use strict";
     swcHelpers.inherits(K, _superClass);
     var _super = swcHelpers.createSuper(K);

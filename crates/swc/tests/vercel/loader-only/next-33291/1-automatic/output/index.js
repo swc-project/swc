@@ -17,7 +17,7 @@ export default function Home() {
             sizes: "".concat(s, "x").concat(s)
         };
     });
-    return(/*#__PURE__*/ _jsxDEV("div", {
+    return /*#__PURE__*/ _jsxDEV("div", {
         className: styles.container,
         children: [
             /*#__PURE__*/ _jsxDEV(Head, {
@@ -253,5 +253,5 @@ export default function Home() {
         fileName: "$DIR/tests/vercel/loader-only/next-33291/1-automatic/input/index.js",
         lineNumber: 16,
         columnNumber: 5
-    }, this));
+    }, this);
 };

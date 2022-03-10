@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // inner type parameters shadow outer ones of the same name
+// inner type parameters shadow outer ones of the same name
 // no errors expected
-/*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

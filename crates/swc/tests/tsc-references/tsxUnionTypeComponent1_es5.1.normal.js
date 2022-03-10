@@ -16,18 +16,18 @@ var MyComponent = /*#__PURE__*/ function(_Component) {
     var _proto = MyComponent.prototype;
     _proto.render = function render() {
         var AnyComponent = this.props.AnyComponent;
-        return(/*#__PURE__*/ React.createElement(AnyComponent, null));
+        return /*#__PURE__*/ React.createElement(AnyComponent, null);
     };
     return MyComponent;
 }(React.Component);
 // Stateless Component As Props
 /*#__PURE__*/ React.createElement(MyComponent, {
     AnyComponent: function() {
-        /*#__PURE__*/ return React.createElement("button", null, "test");
+        return /*#__PURE__*/ React.createElement("button", null, "test");
     }
 });
-var MyButtonComponent = // Component Class as Props
-/*#__PURE__*/ function(_Component) {
+// Component Class as Props
+var MyButtonComponent = /*#__PURE__*/ function(_Component) {
     "use strict";
     swcHelpers.inherits(MyButtonComponent, _Component);
     var _super = swcHelpers.createSuper(MyButtonComponent);

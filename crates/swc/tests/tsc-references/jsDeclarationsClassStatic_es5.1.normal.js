@@ -1,11 +1,11 @@
 import * as swcHelpers from "@swc/helpers";
-var Handler = // @allowJs: true
+// @allowJs: true
 // @checkJs: true
 // @target: es5
 // @outDir: ./out
 // @declaration: true
 // @filename: source.js
-/*#__PURE__*/ function() {
+var Handler = /*#__PURE__*/ function() {
     "use strict";
     function Handler() {
         swcHelpers.classCallCheck(this, Handler);

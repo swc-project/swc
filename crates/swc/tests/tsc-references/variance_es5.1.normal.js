@@ -5,8 +5,8 @@ var foo = {
 var x = foo;
 var y = foo;
 var z = x;
-var Bar = // Repro from #30118
-/*#__PURE__*/ function() {
+// Repro from #30118
+var Bar = /*#__PURE__*/ function() {
     "use strict";
     function Bar() {
         swcHelpers.classCallCheck(this, Bar);

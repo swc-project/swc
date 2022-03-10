@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use super::Pure;
 use crate::compress::util::{is_fine_for_if_cons, negate};
 
-impl<M> Pure<'_, M> {
+impl Pure<'_> {
     /// # Input
     ///
     /// ```js

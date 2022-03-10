@@ -29,8 +29,8 @@ var Base = /*#__PURE__*/ function() {
     ]);
     return Base;
 }();
-var Derived = // Increase visibility of all protected members to public
-/*#__PURE__*/ function(Base) {
+// Increase visibility of all protected members to public
+var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
     swcHelpers.inherits(Derived, Base);
     var _super = swcHelpers.createSuper(Derived);

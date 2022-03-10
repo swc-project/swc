@@ -4,15 +4,9 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, Value};
 
 use super::Pure;
-use crate::{
-    compress::util::{eval_as_number, is_pure_undefined_or_null},
-    mode::Mode,
-};
+use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
@@ -182,7 +176,7 @@ where
 
                 self.changed = true;
                 tracing::debug!(
-                    "evaludate: Reduced `funtion.valueOf()` into a function expression"
+                    "evaluate: Reduced `function.valueOf()` into a function expression"
                 );
 
                 *e = *obj.take();
@@ -190,7 +184,7 @@ where
         }
     }
 
-    /// unsafely evaulate call to `Number`.
+    /// unsafely evaluate call to `Number`.
     pub(super) fn eval_number_call(&mut self, e: &mut Expr) {
         if self.options.unsafe_passes && self.options.unsafe_math {
             if let Expr::Call(CallExpr {
@@ -311,10 +305,7 @@ where
 }
 
 /// Evaluation of strings.
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     /// Handle calls on string literals, like `'foo'.toUpperCase()`.
     pub(super) fn eval_str_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {

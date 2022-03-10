@@ -5,15 +5,11 @@ use swc_ecma_utils::{ExprExt, StmtLike, Value};
 use super::Pure;
 use crate::{
     compress::util::{always_terminates, is_fine_for_if_cons},
-    mode::Mode,
     util::ModuleItemExt,
 };
 
 /// Methods related to option `dead_code`.
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     pub(super) fn drop_unreachable_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemExt + Take,

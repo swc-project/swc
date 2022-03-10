@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// derived class constructors must contain a super call
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

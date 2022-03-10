@@ -1,6 +1,6 @@
 export default function(value, options) {
     try {
-        if ("string" == typeof value && value.length > 0) return (function(str) {
+        if ("string" == typeof value && value.length > 0) return function(str) {
             if ((str = String(str)).length > 100) throw new Error("Value exceeds the maximum length of 100 characters.");
             const match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str);
             if (!match) return NaN;
@@ -47,7 +47,7 @@ export default function(value, options) {
                 default:
                     throw new Error(`The unit ${type} was matched, but no matching case exists.`);
             }
-        })(value);
+        }(value);
         if ("number" == typeof value && isFinite(value)) return options?.long ? fmtLong(value) : fmtShort(value);
         throw new Error("Value is not a string or number.");
     } catch (error) {

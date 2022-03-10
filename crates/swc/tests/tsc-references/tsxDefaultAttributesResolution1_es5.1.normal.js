@@ -15,7 +15,7 @@ var Poisoned = /*#__PURE__*/ function(_Component) {
     }
     var _proto = Poisoned.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+        return /*#__PURE__*/ React.createElement("div", null, "Hello");
     };
     return Poisoned;
 }(React.Component);

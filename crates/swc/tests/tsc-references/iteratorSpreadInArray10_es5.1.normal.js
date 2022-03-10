@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var _iterator = Symbol.iterator;
-var SymbolIterator = //@target: ES6
-/*#__PURE__*/ function() {
+//@target: ES6
+var SymbolIterator = /*#__PURE__*/ function() {
     "use strict";
     function SymbolIterator() {
         swcHelpers.classCallCheck(this, SymbolIterator);

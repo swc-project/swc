@@ -3,8 +3,8 @@ var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);
 };
-var Derived = // ok, use assignment compatibility
-/*#__PURE__*/ function(Base) {
+// ok, use assignment compatibility
+var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
     swcHelpers.inherits(Derived, Base);
     var _super = swcHelpers.createSuper(Derived);
@@ -18,8 +18,8 @@ var Base2 = function Base2() {
     "use strict";
     swcHelpers.classCallCheck(this, Base2);
 };
-var Derived2 = // ok, use assignment compatibility
-/*#__PURE__*/ function(Base2) {
+// ok, use assignment compatibility
+var Derived2 = /*#__PURE__*/ function(Base2) {
     "use strict";
     swcHelpers.inherits(Derived2, Base2);
     var _super = swcHelpers.createSuper(Derived2);

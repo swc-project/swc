@@ -11,9 +11,9 @@ var x2 = function(a) {
 }; // Like iWithCallSignatures2
 // With call signatures of mismatching parameter type
 var x3 = function(a) {
-    /*here a should be any*/ return a.toString();
+    return /*here a should be any*/ a.toString();
 };
 // With call signature count mismatch
 var x4 = function(a) {
-    /*here a should be any*/ return a.toString();
+    return /*here a should be any*/ a.toString();
 };

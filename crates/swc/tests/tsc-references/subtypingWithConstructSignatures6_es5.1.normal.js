@@ -1,4 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
+// checking subtype relations for function types as it relates to contextual signature instantiation
+// same as subtypingWithConstructSignatures4 but using class type parameters instead of generic signatures
+// all are errors
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

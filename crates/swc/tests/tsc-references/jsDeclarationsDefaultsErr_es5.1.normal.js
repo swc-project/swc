@@ -1,4 +1,11 @@
 import * as swcHelpers from "@swc/helpers";
+// @allowJs: true
+// @checkJs: true
+// @target: es5
+// @outDir: ./out
+// @declaration: true
+// @filename: index1.js
+// merge type alias and alias (should error, see #32367)
 var Cls = function Cls() {
     "use strict";
     swcHelpers.classCallCheck(this, Cls);

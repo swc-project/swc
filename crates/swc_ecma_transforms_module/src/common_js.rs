@@ -36,6 +36,7 @@ pub fn common_js(
         scope,
         in_top_level: Default::default(),
         resolver: Resolver::Default,
+        vars: Default::default(),
     }
 }
 
@@ -54,6 +55,7 @@ pub fn common_js_with_resolver(
         scope,
         in_top_level: Default::default(),
         resolver: Resolver::Real { base, resolver },
+        vars: Default::default(),
     }
 }
 
@@ -136,6 +138,7 @@ struct CommonJs {
     scope: Rc<RefCell<Scope>>,
     in_top_level: bool,
     resolver: Resolver,
+    vars: Rc<RefCell<Vec<VarDeclarator>>>,
 }
 
 /// TODO: VisitMut
@@ -146,7 +149,7 @@ impl Fold for CommonJs {
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut emitted_esmodule = false;
-        let mut stmts = Vec::with_capacity(items.len() + 4);
+        let mut stmts = Vec::with_capacity(items.len() + 5);
         let mut extra_stmts = Vec::with_capacity(items.len());
 
         if self.config.strict_mode && !has_use_strict(&items) {
@@ -696,15 +699,33 @@ impl Fold for CommonJs {
             }
         }
 
-        let mut scope_ref_mut = self.scope.borrow_mut();
-        let scope = &mut *scope_ref_mut;
-
         if !initialized.is_empty() {
             stmts.extend(initialize_to_undefined(
                 quote_ident!("exports"),
                 initialized,
             ));
         }
+
+        let vars = self.vars_take();
+
+        if !vars.is_empty() {
+            let var_stmt = Stmt::Decl(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vars,
+                }
+                .into(),
+            )
+            .into();
+
+            stmts.push(var_stmt);
+        }
+
+        let mut scope_ref_mut = self.scope.borrow_mut();
+        let scope = &mut *scope_ref_mut;
+
         let scope = &mut *scope;
         for (src, import) in scope.imports.drain(..) {
             let lazy = if scope.lazy_blacklist.contains(&src) {
@@ -902,6 +923,18 @@ impl ModulePass for CommonJs {
 
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
         handle_dynamic_import(span, args, !self.config.no_interop)
+    }
+
+    fn vars(&mut self) -> Ref<Vec<VarDeclarator>> {
+        self.vars.borrow()
+    }
+
+    fn vars_mut(&mut self) -> RefMut<Vec<VarDeclarator>> {
+        self.vars.borrow_mut()
+    }
+
+    fn vars_take(&mut self) -> Vec<VarDeclarator> {
+        self.vars.take()
     }
 }
 

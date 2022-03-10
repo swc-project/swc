@@ -14,7 +14,7 @@ ahash = "0.7.6"
 auto_impl = "0.5.0"
 petgraph = "0.5.0"
 swc_fast_graph = {version = "0.4.0", path = "../swc_fast_graph/"}
-tracing = "0.1.31"
+tracing = "0.1.32"
 
 [dev-dependencies]
 testing = {version = "0.18.0", path = "../testing"}

@@ -5,7 +5,7 @@
 // @libFiles: react.d.ts,lib.d.ts
 var React = require('react');
 function Comp(p) {
-    return(/*#__PURE__*/ React.createElement("div", null, p.b));
+    return /*#__PURE__*/ React.createElement("div", null, p.b);
 }
 // OK
 var k = /*#__PURE__*/ React.createElement(Comp, {

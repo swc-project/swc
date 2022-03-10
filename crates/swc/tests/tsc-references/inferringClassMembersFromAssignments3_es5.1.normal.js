@@ -1,4 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
+// @noEmit: true
+// @allowJs: true
+// @checkJs: true
+// @noImplicitAny: true
+// @strictNullChecks: true
+// @Filename: a.js
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

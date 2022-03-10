@@ -5,6 +5,7 @@ var o = {
     a: 1,
     b: 'no'
 };
+/// private propagates
 var PrivateOptionalX = function PrivateOptionalX() {
     "use strict";
     swcHelpers.classCallCheck(this, PrivateOptionalX);
@@ -89,8 +90,8 @@ var setterOnly = swcHelpers.objectSpread({}, {
     set b (bad){}
 });
 setterOnly.b = 12; // error, 'b' does not exist
-var C = // methods are skipped because they aren't enumerable
-/*#__PURE__*/ function() {
+// methods are skipped because they aren't enumerable
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

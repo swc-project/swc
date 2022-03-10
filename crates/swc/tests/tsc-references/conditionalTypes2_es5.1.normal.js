@@ -46,8 +46,8 @@ function f21(x, y, z) {
     fooBat(y); // Error
     fooBat(z); // Error
 }
-var Opt = // Repros from #22860
-/*#__PURE__*/ function() {
+// Repros from #22860
+var Opt = /*#__PURE__*/ function() {
     "use strict";
     function Opt() {
         swcHelpers.classCallCheck(this, Opt);

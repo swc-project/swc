@@ -30,11 +30,12 @@ switch(x){
     case function(x) {
         return '';
     }:
-    case (function(x) {
+    case function(x) {
         return '';
-    })(2):
+    }(2):
     default:
 }
+// basic assignable check, rest covered in tests for 'assignment compatibility'
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
@@ -89,7 +90,7 @@ switch(function(x) {
     return '';
 }){
 }
-switch((function(x) {
+switch(function(x) {
     return '';
-})(1)){
+}(1)){
 }

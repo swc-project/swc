@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var X = // @strict: true
+// @strict: true
 // From #4260
-/*#__PURE__*/ function() {
+var X = /*#__PURE__*/ function() {
     "use strict";
     function X() {
         swcHelpers.classCallCheck(this, X);
@@ -26,6 +26,7 @@ xUnknown.f() // error, unknown still expects an argument
 ;
 xNever.f() // error, never still expects an argument
 ;
+// Promise has previously been updated to work without arguments, but to show this fixes the issue too.
 var MyPromise = function MyPromise(executor) {
     "use strict";
     swcHelpers.classCallCheck(this, MyPromise);

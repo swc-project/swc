@@ -1,2 +1,1 @@
-var c;
-Symbol.toStringTag, c[Symbol.toStringTag]().x;
+(void 0)[Symbol.toStringTag]().x;

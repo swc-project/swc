@@ -1,10 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
 var _this = this;
-var B = // @noEmit: true
+// @noEmit: true
 // @checkJs: true
 // @allowJs: true
 // @Filename: a.js
-/*#__PURE__*/ function() {
+var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
         swcHelpers.classCallCheck(this, B);
@@ -39,6 +39,7 @@ var D = /*#__PURE__*/ function(B) {
 D.prototype.foo = function() {
     _this.n = 'not checked, so no error';
 };
+// post-class prototype assignments are trying to show that these properties are abstract
 var Module = function Module() {
     "use strict";
     swcHelpers.classCallCheck(this, Module);

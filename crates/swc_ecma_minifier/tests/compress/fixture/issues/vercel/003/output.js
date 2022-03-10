@@ -13,11 +13,11 @@ const manager = function() {
     }
     return {
         d: function(e) {
-            return (function(g = {}) {
+            return function(g = {}) {
                 const h = b(g);
                 for (const i of c.keys())if (a(i, h)) return i;
                 return null;
-            })(e) || new IntersectionObserver(g1, e);
+            }(e) || new IntersectionObserver(g1, e);
         },
         l: function(m, n, o) {
             const p = j(m);

@@ -1,10 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
 var _brand_check_brand = new WeakSet();
 var _unused = new WeakMap(), _brand = new WeakMap();
-var Foo = // @strict: true
+// @strict: true
 // @noUnusedLocals: true
 // @target: esnext, es2022
-/*#__PURE__*/ function() {
+var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);

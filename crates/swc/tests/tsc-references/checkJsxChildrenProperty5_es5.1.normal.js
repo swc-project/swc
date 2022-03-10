@@ -15,12 +15,12 @@ var Button = /*#__PURE__*/ function(_Component) {
     }
     var _proto = Button.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "My Button"));
+        return /*#__PURE__*/ React.createElement("div", null, "My Button");
     };
     return Button;
 }(React.Component);
 function Comp(p) {
-    return(/*#__PURE__*/ React.createElement("div", null, p.b));
+    return /*#__PURE__*/ React.createElement("div", null, p.b);
 }
 // Error: no children specified
 var k = /*#__PURE__*/ React.createElement(Comp, {

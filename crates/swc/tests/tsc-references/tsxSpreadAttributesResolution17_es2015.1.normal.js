@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 export class Empty extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+        return /*#__PURE__*/ React.createElement("div", null, "Hello");
     }
 }
 // OK

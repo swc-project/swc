@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// subtyping when property names do not match
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

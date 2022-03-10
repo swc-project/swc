@@ -10,6 +10,3 @@ var React = require("react"), TextComponent = function(_Component) {
         return React.createElement("span", null, "Some Text..");
     }, TextComponent;
 }(React.Component);
-React.createElement(TextComponent, {
-    editable: !0
-});

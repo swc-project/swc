@@ -5,12 +5,9 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 
 use super::Pure;
-use crate::{compress::util::is_pure_undefined, mode::Mode};
+use crate::compress::util::{is_global_var, is_pure_undefined};
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
         if let Expr::Bin(BinExpr { left, right, .. }) = e {
             self.remove_invalid(left);
@@ -58,6 +55,7 @@ where
                 self.ignore_return_value(
                     arg.as_deref_mut().unwrap(),
                     DropOpts {
+                        drop_global_refs_if_unused: true,
                         drop_zero: true,
                         drop_str_lit: true,
                         ..Default::default()
@@ -148,20 +146,13 @@ where
         if let Expr::Ident(i) = e {
             // If it's not a top level, it's a reference to a declared variable.
             if i.span.ctxt.outer() == self.marks.top_level_mark {
-                if self.options.side_effects {
-                    match &*i.sym {
-                        "clearInterval" | "clearTimeout" | "setInterval" | "setTimeout"
-                        | "Boolean" | "Date" | "decodeURI" | "decodeURIComponent" | "encodeURI"
-                        | "encodeURIComponent" | "escape" | "eval" | "EvalError" | "isFinite"
-                        | "isNaN" | "JSON" | "parseFloat" | "parseInt" | "RegExp"
-                        | "RangeError" | "ReferenceError" | "SyntaxError" | "TypeError"
-                        | "unescape" | "URIError" | "atob" | "globalThis" | "Object" | "Array"
-                        | "Number" | "NaN" | "Symbol" => {
-                            tracing::debug!("Dropping a reference to a global variable");
-                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
-                            return;
-                        }
-                        _ => {}
+                if self.options.side_effects
+                    || (self.options.unused && opts.drop_global_refs_if_unused)
+                {
+                    if is_global_var(&i.sym) {
+                        tracing::debug!("Dropping a reference to a global variable");
+                        *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                        return;
                     }
                 }
             } else {
@@ -182,6 +173,7 @@ where
                         &mut **arg,
                         DropOpts {
                             drop_str_lit: true,
+                            drop_global_refs_if_unused: true,
                             drop_zero: true,
                             ..opts
                         },
@@ -273,6 +265,7 @@ where
                         &mut bin.left,
                         DropOpts {
                             drop_zero: true,
+                            drop_global_refs_if_unused: true,
                             drop_str_lit: true,
                             ..opts
                         },
@@ -281,6 +274,7 @@ where
                         &mut bin.right,
                         DropOpts {
                             drop_zero: true,
+                            drop_global_refs_if_unused: true,
                             drop_str_lit: true,
                             ..opts
                         },
@@ -395,6 +389,9 @@ where
 
 #[derive(Debug, Default, Clone, Copy)]
 pub(super) struct DropOpts {
+    /// If true and `unused` option is enabled, references to global variables
+    /// will be dropped, even if `side_effects` is false.
+    pub drop_global_refs_if_unused: bool,
     pub drop_zero: bool,
     pub drop_str_lit: bool,
 }

@@ -5,13 +5,31 @@
 
 
 
+- **(es/compat/es2015)** Fix span handling of `arrow` and `classes` (#3921) ([12b8606](https://github.com/swc-project/swc/commit/12b8606c99994a1ae4fc65105cd380f1a34d632e))
+
+
+- **(es/module)** Make exported vars follow specification (#3906) ([534fc52](https://github.com/swc-project/swc/commit/534fc52a727e5be43adfad47ed3fcdd606967c5c))
+
+
+- **(es/module)** Fix exported vars with bigint values (#3909) ([8559fc9](https://github.com/swc-project/swc/commit/8559fc96239026d070f7fcf415e5443b096de605))
+
+
+- **(es/module)** Use correct return values for suffix update expressions (#3927) ([dc457b4](https://github.com/swc-project/swc/commit/dc457b4883ef23815fcdff952c040e5e1e7d7897))
+
+
 - **(es/module/cjs)** Allow re-exports to be lazy (#3856) ([f575b1b](https://github.com/swc-project/swc/commit/f575b1bc4868dd46c572c3ef61767fdd2ee2c2b3))
+
+
+- **(es/parser)** Fix the logic for token contexts (#3926) ([4b4aef3](https://github.com/swc-project/swc/commit/4b4aef3270cac8bdd75c79af9be186bf446b23f1))
 
 
 - **(es/transform/optimization)** Prevent inlining of vars used as RHS in logical expressions (#3907) ([782a874](https://github.com/swc-project/swc/commit/782a8746963f11a1ada446cb1f744a58f6516cf8))
 
 
 - **(es/typescript)** Remove imports used in interfaces and type signatures (#3893) ([5c92b2d](https://github.com/swc-project/swc/commit/5c92b2d4cee64686d0aad788b177b34cd2fd3bfc))
+
+
+- **(wasm)** Fix handling of `swc_common::GLOBALS` (#3936) ([45a4374](https://github.com/swc-project/swc/commit/45a4374ee19154238eb24952cffbd9e134831c8b))
 
 ### Features
 
@@ -23,16 +41,49 @@
 - **(css/lints)** Implement `custom-property-no-missing-var-function` rule (#3890) ([19ececc](https://github.com/swc-project/swc/commit/19ececcd507da27993b421ae76fd0f259b516125))
 
 
+- **(css/lints)** Implement `no-duplicate-at-import-rules` rule (#3833) ([59c84ac](https://github.com/swc-project/swc/commit/59c84ac8bdd2919bb6c8550bc5d8ec7b814f9cda))
+
+
 - **(css/parser)** Improve error recovery (#3901) ([6f781c3](https://github.com/swc-project/swc/commit/6f781c3b43a99ce65e5680665b8101a382adb4ef))
 
 
+- **(css/prefixer)** Implement more prefixing rules (#3905) ([b25c479](https://github.com/swc-project/swc/commit/b25c47901e69a04079cbb9ce1e76154a8affbd11))
+
+
+- **(css/prefixer)** Handle more properties (#3919) ([c2b9e1c](https://github.com/swc-project/swc/commit/c2b9e1c61aa5f72aa0738349ee330d46b9446ed6))
+
+
 - **(es/compat)** Add tracing support to remaining compat transforms (#3904) ([bd0a921](https://github.com/swc-project/swc/commit/bd0a9214c3a678a65a814517ffef6c59199ac06b))
+
+
+- **(es/fixer)** Remove extra parens around IIFE in statements (#3918) ([7cfa930](https://github.com/swc-project/swc/commit/7cfa930a629da96b30c2d5021a51d15c0b121013))
+
+
+- **(es/minifier)** Remove pure calls (#3925) ([bd838ac](https://github.com/swc-project/swc/commit/bd838ac5a9524c1a7f3db34c2110c6ddb9718de0))
+
+
+- **(es/minifier)** Improve dropping of unused vars (#3923) ([9e4dea6](https://github.com/swc-project/swc/commit/9e4dea6663eaba794fb4793318865892eecce910))
+
+
+- **(es/parser)** Report errors for non-abstract members in an abstract class (#3917) ([16182d5](https://github.com/swc-project/swc/commit/16182d586f1b54e383ae83a264576267441e49ba))
+
+
+- **(es/parser)** Relax MSRV requirement (#3922) ([a8ac7e3](https://github.com/swc-project/swc/commit/a8ac7e39b0fbd3908c4b506a1739a0ddf33ac250))
+
+
+- **(es/testing)** Print comments in `test_fixture` (#3920) ([3d43a9b](https://github.com/swc-project/swc/commit/3d43a9b69df6002786654b3c378b9d981447c126))
 
 ### Performance
 
 
 
+- **(*)** Update `tracing` to improve performance of disabled spans (#3932) ([86ea237](https://github.com/swc-project/swc/commit/86ea23785d911f572474d73462cc8bd9af6afaf6))
+
+
 - **(es)** Add fast memory deallocator (#3910) ([f3da349](https://github.com/swc-project/swc/commit/f3da3499c5b2a2a58bdc85f33dd5886f49704932))
+
+
+- **(es/minifier)** Remove needless type parameter (#3897) ([8b3aa6d](https://github.com/swc-project/swc/commit/8b3aa6d3aaf46a7bf4e8972bc867dede950196db))
 
 
 - **(es/parser)** Improve performance by adjusting inlining (#3902) ([4387813](https://github.com/swc-project/swc/commit/43878137e71894fbb3367473317ba65de5e40616))

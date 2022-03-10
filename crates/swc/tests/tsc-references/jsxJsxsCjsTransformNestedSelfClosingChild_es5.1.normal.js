@@ -4,7 +4,7 @@ console.log(/*#__PURE__*/ React.createElement("div", null, [
     1,
     2
 ].map(function(i) {
-    /*#__PURE__*/ return React.createElement("div", {
+    return /*#__PURE__*/ React.createElement("div", {
         key: i
     }, i);
 })));

@@ -15,7 +15,7 @@ var B1 = /*#__PURE__*/ function(_Component) {
     }
     var _proto = B1.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "hi"));
+        return /*#__PURE__*/ React.createElement("div", null, "hi");
     };
     return B1;
 }(React.Component);
@@ -29,9 +29,9 @@ var B = /*#__PURE__*/ function(_Component) {
     }
     var _proto = B.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement(B1, swcHelpers.extends({}, this.props, {
+        return /*#__PURE__*/ React.createElement(B1, swcHelpers.extends({}, this.props, {
             x: "hi"
-        })));
+        }));
     };
     return B;
 }(React.Component);

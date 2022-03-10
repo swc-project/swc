@@ -8,14 +8,10 @@ use swc_ecma_visit::{
 use super::Pure;
 use crate::{
     compress::util::{drop_invalid_stmts, is_directive},
-    mode::Mode,
     util::ModuleItemExt,
 };
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     /// Join variables.
     ///
     /// This method may move variables to head of for statements like

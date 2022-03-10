@@ -23,6 +23,8 @@ var Derived2 = /*#__PURE__*/ function(Derived) {
     }
     return Derived2;
 }(Derived);
+// N and M have the same name, same accessibility, same optionality, and N is a subtype of M
+// foo properties are valid, bar properties cause errors in the derived class declarations
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);

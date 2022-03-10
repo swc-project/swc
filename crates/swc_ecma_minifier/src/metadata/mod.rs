@@ -66,6 +66,11 @@ impl InfoMarker<'_> {
         self.has_flag(span, "NOINLINE")
     }
 
+    /// Check for `/*#__PURE__*/`
+    pub(super) fn has_pure(&self, span: Span) -> bool {
+        self.has_flag(span, "PURE")
+    }
+
     fn find_comment<F>(&self, span: Span, mut op: F) -> bool
     where
         F: FnMut(&Comment) -> bool,
@@ -112,6 +117,18 @@ impl VisitMut for InfoMarker<'_> {
 
         if self.has_noinline(n.span) {
             n.span = n.span.apply_mark(self.marks.noinline);
+        }
+
+        if self.has_pure(n.span) {
+            n.span = n.span.apply_mark(self.marks.pure);
+        }
+    }
+
+    fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
+        n.visit_mut_children_with(self);
+
+        if self.has_pure(n.span) {
+            n.span = n.span.apply_mark(self.marks.pure);
         }
     }
 

@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// @useDefineForClassFields: false
+// @target: es2015
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

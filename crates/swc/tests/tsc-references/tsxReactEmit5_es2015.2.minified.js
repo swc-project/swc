@@ -1,8 +1,8 @@
-var React, foo;
+var foo;
 import * as swcHelpers from "@swc/helpers";
 import { React } from "./test";
-React.createElement("div", swcHelpers.extends({
+swcHelpers.extends({
     x: ""
 }, foo, {
     y: ""
-}));
+});

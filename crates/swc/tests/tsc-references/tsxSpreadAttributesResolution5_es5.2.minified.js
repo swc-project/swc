@@ -10,10 +10,10 @@ var React = require("react"), Poisoned = function(_Component) {
         return React.createElement("div", null, "Hello");
     }, Poisoned;
 }(React.Component);
-React.createElement(Poisoned, swcHelpers.extends({}, {
+swcHelpers.extends({}, {
     x: "hello world",
     y: 2
-}));
+});
 var EmptyProp = function(_Component) {
     "use strict";
     swcHelpers.inherits(EmptyProp, _Component);
@@ -25,6 +25,6 @@ var EmptyProp = function(_Component) {
         return React.createElement("div", null, "Default hi");
     }, EmptyProp;
 }(React.Component);
-React.createElement(EmptyProp, swcHelpers.extends({}, {
+swcHelpers.extends({}, {
     prop1: !1
-}));
+});

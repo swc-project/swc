@@ -3,13 +3,9 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::contains_this_expr;
 
 use super::Pure;
-use crate::mode::Mode;
 
 /// Methods related to the option `arrows`.
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     pub(super) fn unsafe_optimize_fn_as_arrow(&mut self, e: &mut Expr) {
         if self.options.ecma < EsVersion::Es2015 {
             return;

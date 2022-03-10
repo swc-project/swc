@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var Base = // @target: ES5
-/*#__PURE__*/ function() {
+// @target: ES5
+var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
         swcHelpers.classCallCheck(this, Base);
@@ -20,8 +20,8 @@ var Base = // @target: ES5
     ]);
     return Base;
 }();
-var Derived = // error, not a subtype
-/*#__PURE__*/ function(Base) {
+// error, not a subtype
+var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
     swcHelpers.inherits(Derived, Base);
     var _super = swcHelpers.createSuper(Derived);

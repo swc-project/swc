@@ -90,7 +90,7 @@ var Thing3 = /*#__PURE__*/ function(Thing21) {
 }(Thing2);
 // Repro from #13805
 var Timestamped = function(Base1) {
-    return /*#__PURE__*/ (function(Base) {
+    return /*#__PURE__*/ function(Base) {
         "use strict";
         swcHelpers.inherits(_class, Base);
         var _super = swcHelpers.createSuper(_class);
@@ -102,5 +102,5 @@ var Timestamped = function(Base1) {
             return _this;
         }
         return _class;
-    })(Base1);
+    }(Base1);
 };

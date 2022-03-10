@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var A = // object types are identical structurally
-/*#__PURE__*/ function() {
+// object types are identical structurally
+var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);

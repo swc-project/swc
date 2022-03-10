@@ -5,7 +5,7 @@
 // @libFiles: react.d.ts,lib.d.ts
 var React = require('react');
 var Tag = function(x) {
-    /*#__PURE__*/ return React.createElement("div", null);
+    return /*#__PURE__*/ React.createElement("div", null);
 };
 // OK
 var k1 = /*#__PURE__*/ React.createElement(Tag, null);

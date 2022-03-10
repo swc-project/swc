@@ -204,6 +204,7 @@ function _asyncGenFuncYieldVarCall() {
     }));
     return _asyncGenFuncYieldVarCall.apply(this, arguments);
 }
+// classes
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
@@ -308,8 +309,8 @@ var o2 = {
         return p;
     }
 };
-var C0 = // property initializers
-/*#__PURE__*/ function() {
+// property initializers
+var C0 = /*#__PURE__*/ function() {
     "use strict";
     function C0() {
         swcHelpers.classCallCheck(this, C0);

@@ -12,6 +12,4 @@ var Dotted, foundFirst = function() {
         swcHelpers.classCallCheck(this, Name);
     };
     Dotted1.Name = Name;
-}(Dotted || (Dotted = {})), React.createElement("foundFirst", {
-    x: "hello"
-}), React.createElement("string_named", null), React.createElement(Other, null), React.createElement(Dotted.Name, null);
+}(Dotted || (Dotted = {})), Dotted.Name;

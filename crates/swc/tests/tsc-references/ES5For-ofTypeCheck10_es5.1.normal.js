@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 var _iterator = Symbol.iterator;
-var StringIterator = //@target: ES5
+//@target: ES5
 // In ES3/5, you cannot for...of over an arbitrary iterable.
-/*#__PURE__*/ function() {
+var StringIterator = /*#__PURE__*/ function() {
     "use strict";
     function StringIterator() {
         swcHelpers.classCallCheck(this, StringIterator);

@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// @target: es6
 var A = function A() {
     "use strict";
     var _newtarget = swcHelpers._instanceof(this, A) ? this.constructor : void 0;

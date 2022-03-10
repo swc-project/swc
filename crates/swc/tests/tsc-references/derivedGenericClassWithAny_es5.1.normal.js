@@ -50,8 +50,8 @@ var D = /*#__PURE__*/ function(C) {
     ]);
     return D;
 }(C);
-var E = // if D is a valid class definition than E is now not safe tranisitively through C
-/*#__PURE__*/ function(D) {
+// if D is a valid class definition than E is now not safe tranisitively through C
+var E = /*#__PURE__*/ function(D) {
     "use strict";
     swcHelpers.inherits(E, D);
     var _super = swcHelpers.createSuper(E);

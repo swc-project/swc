@@ -2292,7 +2292,7 @@
                         y: 0,
                         type: ""
                     }, view7.lastSelectionOrigin = null, view7.lastSelectionTime = 0, view7.lastIOSEnter = 0, view7.lastIOSEnterFallbackTimeout = null, view7.lastAndroidDelete = 0, view7.composing = !1, view7.composingTimeout = null, view7.compositionNodes = [], view7.compositionEndedAt = -200000000, view7.domObserver = new DOMObserver(view7, function(from1, to1, typeOver1, added1) {
-                        return (function(view8, from2, to2, typeOver, addedNodes) {
+                        return function(view8, from2, to2, typeOver, addedNodes) {
                             if (from2 < 0) {
                                 var preferredPos, preferredSide, nextSel, tr, storedMarks, markChange, $from1, origin = view8.lastSelectionTime > Date.now() - 50 ? view8.lastSelectionOrigin : null, newSel = selectionFromDOM(view8, origin);
                                 if (newSel && !view8.state.selection.eq(newSel)) {
@@ -2452,7 +2452,7 @@
                                 sel$2 && !(result1.chrome && result1.android && view8.composing && sel$2.empty && (change.start != change.endB || view8.lastAndroidDelete < Date.now() - 100) && (sel$2.head == chFrom || sel$2.head == tr.mapping.map(chTo) - 1) || result1.ie && sel$2.empty && sel$2.head == chFrom) && tr.setSelection(sel$2);
                             }
                             storedMarks && tr.ensureMarks(storedMarks), view8.dispatch(tr.scrollIntoView());
-                        })(view7, from1, to1, typeOver1, added1);
+                        }(view7, from1, to1, typeOver1, added1);
                     }), view7.domObserver.start(), view7.domChangeCount = 0, view7.eventHandlers = Object.create(null), handlers1)!function(event6) {
                         var handler = handlers1[event6];
                         view7.dom.addEventListener(event6, view7.eventHandlers[event6] = function(event) {
@@ -2625,7 +2625,7 @@
                 }
                 return cached || document;
             }, EditorView.prototype.posAtCoords = function(coords2) {
-                return (function(view10, coords3) {
+                return function(view10, coords3) {
                     var assign, assign$1, node1, offset1, doc = view10.dom.ownerDocument;
                     if (doc.caretPositionFromPoint) try {
                         var pos$1 = doc.caretPositionFromPoint(coords3.left, coords3.top);
@@ -2676,7 +2676,7 @@
                         pos: pos,
                         inside: desc1 ? desc1.posAtStart - desc1.border : -1
                     };
-                })(this, coords2);
+                }(this, coords2);
             }, EditorView.prototype.coordsAtPos = function(pos, side) {
                 return void 0 === side && (side = 1), coordsAtPos(this, pos, side);
             }, EditorView.prototype.domAtPos = function(pos, side) {

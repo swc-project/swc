@@ -1,6 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _B;
+// @target: ES5
+// @lib: es5,es2015.promise
+// @noEmitHelpers: true
+// https://github.com/Microsoft/TypeScript/issues/20744
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);

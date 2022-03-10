@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// @module: commonjs
+// @Filename: foo1.ts
 var x = function x() {
     "use strict";
     swcHelpers.classCallCheck(this, x);
@@ -17,6 +19,4 @@ var y = /*#__PURE__*/ function(x1) {
     }
     return y;
 }(x);
-// @module: commonjs
-// @Filename: foo1.ts
 export { };

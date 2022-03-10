@@ -11,6 +11,8 @@ if (process.env.NODE_ENV !== "production") {
     var localDate;
     var initialTime;
     exports.unstable_now = null;
+    // If this accidentally gets imported in a non-browser environment, e.g. JavaScriptCore,
+    // fallback to a naive implementation.
     var _callback;
     var _timeoutID;
     var _flushCallback = function() {
@@ -19,21 +21,30 @@ if (process.env.NODE_ENV !== "production") {
     };
     exports.unstable_shouldYield = null;
     exports.unstable_forceFrameRate = null;
+    // Capture local references to native APIs, in case a polyfill overrides them.
     var _setTimeout;
     var _clearTimeout;
+    // TODO: Scheduler no longer requires these methods to be polyfilled. But
+    // maybe we want to continue warning if they don't exist, to preserve the
+    // option to rely on it in the future?
     var requestAnimationFrame;
     var cancelAnimationFrame;
     var isMessageLoopRunning;
     var scheduledHostCallback;
-    var taskTimeoutID;
+    var taskTimeoutID; // Scheduler periodically yields in case there is other work on the main
+    // thread, like user events. By default, it yields multiple times per frame.
+    // It does not attempt to align with frame boundaries, since most tasks don't
+    // need to be frame aligned; for those that do, use requestAnimationFrame.
     var yieldInterval;
-    var deadline;
+    var deadline; // TODO: Make this configurable
+    // `isInputPending` is not available. Since we have no way of knowing if
+    // there's pending input, always yield at the end of the frame.
     exports.unstable_shouldYield = function() {
         exports.unstable_now();
-    };
+    }; // Since we yield every frame regardless, `requestPaint` has no effect.
     exports.unstable_forceFrameRate = null;
     var performWorkUntilDeadline = function() {
-        var currentTime = exports.unstable_now();
+        var currentTime = exports.unstable_now(); // Yield after `yieldInterval` ms, regardless of where we are in the vsync
         var hasTimeRemaining;
         var hasMoreWork;
     };
@@ -56,27 +67,32 @@ if (process.env.NODE_ENV !== "production") {
     var leftIndex;
     var left;
     var rightIndex;
-    var right;
+    var right; // If the left or right node is smaller, swap with the smaller of those.
+    // Compare sort index first, then task id.
     var diff;
+    // TODO: Use symbols?
     var ImmediatePriority;
     var UserBlockingPriority;
     var NormalPriority;
     var LowPriority;
     var IdlePriority;
-    var maxSigned31BitInt;
-    var IMMEDIATE_PRIORITY_TIMEOUT;
+    /* eslint-disable no-var */ // Math.pow(2, 30) - 1
+    // 0b111111111111111111111111111111
+    var maxSigned31BitInt; // Times out immediately
+    var IMMEDIATE_PRIORITY_TIMEOUT; // Eventually times out
     var USER_BLOCKING_PRIORITY_TIMEOUT;
     var NORMAL_PRIORITY_TIMEOUT;
-    var LOW_PRIORITY_TIMEOUT;
-    var IDLE_PRIORITY_TIMEOUT;
+    var LOW_PRIORITY_TIMEOUT; // Never times out
+    var IDLE_PRIORITY_TIMEOUT; // Tasks are stored on a min heap
     var taskQueue;
-    var timerQueue;
-    var taskIdCounter;
+    var timerQueue; // Incrementing id counter. Used to maintain insertion order.
+    var taskIdCounter; // Pausing the scheduler is useful for debugging.
     var currentTask;
-    var currentPriorityLevel;
+    var currentPriorityLevel; // This is set while performing work, to prevent re-entrancy.
     var isPerformingWork;
     var isHostCallbackScheduled;
     var isHostTimeoutScheduled;
+    // Check for tasks that are no longer delayed and add them to the queue.
     var timer;
     var firstTimer;
     var previousPriorityLevel;
@@ -93,6 +109,7 @@ if (process.env.NODE_ENV !== "production") {
     var previousPriorityLevel2;
     var parentPriorityLevel;
     (function() {
+        // This is a fork of runWithPriority, inlined for performance.
         var previousPriorityLevel;
     });
     var currentTime2 = exports.unstable_now();

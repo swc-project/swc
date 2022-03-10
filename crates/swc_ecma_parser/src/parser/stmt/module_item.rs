@@ -457,15 +457,9 @@ impl<'a, I: Tokens> Parser<I> {
                     assert_and_bump!(self, "abstract");
                     let _ = cur!(self, true);
 
-                    let mut class = self.parse_default_class(start, class_start, decorators)?;
-                    match class {
-                        ExportDefaultDecl {
-                            decl: DefaultDecl::Class(ClassExpr { ref mut class, .. }),
-                            ..
-                        } => class.is_abstract = true,
-                        _ => unreachable!(),
-                    }
-                    return Ok(class.into());
+                    return self
+                        .parse_default_class(start, class_start, decorators, true)
+                        .map(ModuleDecl::ExportDefaultDecl);
                 }
                 if is!(self, "abstract") && peeked_is!(self, "interface") {
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1242);
@@ -488,7 +482,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             if is!(self, "class") {
                 let class_start = cur_pos!(self);
-                let decl = self.parse_default_class(start, class_start, decorators)?;
+                let decl = self.parse_default_class(start, class_start, decorators, false)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if is!(self, "async")
                 && peeked_is!(self, "function")
@@ -515,7 +509,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let decl = if !type_only && is!(self, "class") {
             let class_start = cur_pos!(self);
-            self.parse_class_decl(start, class_start, decorators)?
+            self.parse_class_decl(start, class_start, decorators, false)?
         } else if !type_only
             && is!(self, "async")
             && peeked_is!(self, "function")

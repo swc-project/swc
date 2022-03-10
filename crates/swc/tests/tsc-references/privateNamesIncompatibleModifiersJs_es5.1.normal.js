@@ -12,6 +12,12 @@ var /**
      */ _bMethod = new WeakSet(), /**
      * @protected
      */ _cMethod = new WeakSet(), _aProp = new WeakMap(), _bProp = new WeakMap(), _cProp = new WeakMap();
+// @allowJs: true
+// @checkJs: true
+// @strict: true
+// @target: es6
+// @outDir: ./out
+// @filename: privateNamesIncompatibleModifiersJs.js
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);

@@ -62,6 +62,7 @@ function G() {
 /** @param {G} p */ function g(p) {
     p.x;
 }
+// @filename: h.js
 var H = function H() {
     "use strict";
     swcHelpers.classCallCheck(this, H);

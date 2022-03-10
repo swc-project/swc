@@ -84,6 +84,7 @@ var context2 = [
         c: 0
     }
 ];
+// Contextual type C with numeric index signature of type Base makes array literal of Derived have type Base[]
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

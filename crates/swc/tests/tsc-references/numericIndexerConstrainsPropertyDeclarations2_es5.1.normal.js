@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var A = // String indexer providing a constraint of a user defined type
-/*#__PURE__*/ function() {
+// String indexer providing a constraint of a user defined type
+var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);

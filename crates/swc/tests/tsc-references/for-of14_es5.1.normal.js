@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var StringIterator = //@target: ES6
-/*#__PURE__*/ function() {
+//@target: ES6
+var StringIterator = /*#__PURE__*/ function() {
     "use strict";
     function StringIterator() {
         swcHelpers.classCallCheck(this, StringIterator);

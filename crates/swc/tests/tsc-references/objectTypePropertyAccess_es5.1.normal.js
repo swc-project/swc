@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// Index notation should resolve to the type of a declared property with that same name
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

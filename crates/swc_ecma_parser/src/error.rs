@@ -227,6 +227,9 @@ pub enum SyntaxError {
     TS1196,
     TS1242,
     TS1243(JsWord, JsWord),
+    TS1244,
+    TS1245,
+    TS1267,
     TS1383,
     TS2206,
     TS2207,
@@ -419,9 +422,11 @@ impl SyntaxError {
             SyntaxError::PropertyNamedConstructor => {
                 "Classes may not have a non-static field named 'constructor'".into()
             }
-            SyntaxError::PrivateNameModifier(modifier) => {
-                format!("'{modifier}' modifier cannot be used with a private identifier").into()
-            }
+            SyntaxError::PrivateNameModifier(modifier) => format!(
+                "'{}' modifier cannot be used with a private identifier",
+                modifier
+            )
+            .into(),
 
             SyntaxError::ReadOnlyMethod => "A method cannot be readonly".into(),
             SyntaxError::TsBindingPatCannotBeOptional => "A binding pattern parameter cannot be \
@@ -561,11 +566,16 @@ impl SyntaxError {
             SyntaxError::TS1242 => {
                 "`abstract` modifier can only appear on a class or method declaration".into()
             }
+            SyntaxError::TS1244 => {
+                "Abstract methods can only appear within an abstract class.".into()
+            }
             SyntaxError::TS1243(left, right) => format!(
                 "'{}' modifier cannot be used with '{}' modifier.",
                 left, right
             )
             .into(),
+            SyntaxError::TS1245 => "Abstract method cannot have an implementation.".into(),
+            SyntaxError::TS1267 => "Abstract property cannot have an initializer.".into(),
             SyntaxError::TS1383 => "Only named exports may use 'export type'.".into(),
             SyntaxError::TS2206 => "The 'type' modifier cannot be used on a named import when \
                                     'import type' is used on its import statement."

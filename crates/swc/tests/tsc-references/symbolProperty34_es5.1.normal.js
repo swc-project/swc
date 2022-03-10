@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var _toStringTag = Symbol.toStringTag;
-var C1 = //@target: ES6
-/*#__PURE__*/ function(C21) {
+//@target: ES6
+var C1 = /*#__PURE__*/ function(C21) {
     "use strict";
     swcHelpers.inherits(C1, C21);
     var _super = swcHelpers.createSuper(C1);

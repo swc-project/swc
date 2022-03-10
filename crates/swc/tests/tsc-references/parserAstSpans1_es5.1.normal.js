@@ -163,7 +163,7 @@ i2_i.i2_l1();
 i2_i.i2_nc_l1();
 i2_i.l1();
 i2_i.nc_l1();
-var c5 = function c5() {
+/**c5 class*/ var c5 = function c5() {
     "use strict";
     swcHelpers.classCallCheck(this, c5);
 };

@@ -1,9 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
-var C1 = // @target: es2018
+// @target: es2018
 // @lib: esnext
 // @filename: C1.ts
-/*#__PURE__*/ function() {
+var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {
         swcHelpers.classCallCheck(this, C1);
@@ -22,8 +22,8 @@ var C1 = // @target: es2018
     };
     return C1;
 }();
-var C2 = // @filename: C2.ts
-/*#__PURE__*/ function() {
+// @filename: C2.ts
+var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {
         swcHelpers.classCallCheck(this, C2);
@@ -48,8 +48,8 @@ var C2 = // @filename: C2.ts
     };
     return C2;
 }();
-var C3 = // @filename: C3.ts
-/*#__PURE__*/ function() {
+// @filename: C3.ts
+var C3 = /*#__PURE__*/ function() {
     "use strict";
     function C3() {
         swcHelpers.classCallCheck(this, C3);
@@ -74,8 +74,8 @@ var C3 = // @filename: C3.ts
     };
     return C3;
 }();
-var C4 = // @filename: C4.ts
-/*#__PURE__*/ function() {
+// @filename: C4.ts
+var C4 = /*#__PURE__*/ function() {
     "use strict";
     function C4() {
         swcHelpers.classCallCheck(this, C4);
@@ -101,8 +101,8 @@ var C4 = // @filename: C4.ts
     };
     return C4;
 }();
-var C5 = // @filename: C5.ts
-/*#__PURE__*/ function() {
+// @filename: C5.ts
+var C5 = /*#__PURE__*/ function() {
     "use strict";
     function C5() {
         swcHelpers.classCallCheck(this, C5);
@@ -137,8 +137,8 @@ var C5 = // @filename: C5.ts
     };
     return C5;
 }();
-var C6 = // @filename: C6.ts
-/*#__PURE__*/ function() {
+// @filename: C6.ts
+var C6 = /*#__PURE__*/ function() {
     "use strict";
     function C6() {
         swcHelpers.classCallCheck(this, C6);
@@ -163,8 +163,8 @@ var C6 = // @filename: C6.ts
     };
     return C6;
 }();
-var C7 = // @filename: C7.ts
-/*#__PURE__*/ function() {
+// @filename: C7.ts
+var C7 = /*#__PURE__*/ function() {
     "use strict";
     function C7() {
         swcHelpers.classCallCheck(this, C7);
@@ -185,8 +185,8 @@ var C7 = // @filename: C7.ts
     };
     return C7;
 }();
-var C8 = // @filename: C8.ts
-/*#__PURE__*/ function() {
+// @filename: C8.ts
+var C8 = /*#__PURE__*/ function() {
     "use strict";
     function C8() {
         swcHelpers.classCallCheck(this, C8);
@@ -209,8 +209,8 @@ var C8 = // @filename: C8.ts
     };
     return C8;
 }();
-var B9 = // @filename: C9.ts
-/*#__PURE__*/ function() {
+// @filename: C9.ts
+var B9 = /*#__PURE__*/ function() {
     "use strict";
     function B9() {
         swcHelpers.classCallCheck(this, B9);

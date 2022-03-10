@@ -29,9 +29,9 @@ var Base = /*#__PURE__*/ function() {
     ]);
     return Base;
 }();
-var Derived1 = // Errors
+// Errors
 // decrease visibility of all public members to protected
-/*#__PURE__*/ function(Base) {
+var Derived1 = /*#__PURE__*/ function(Base) {
     "use strict";
     swcHelpers.inherits(Derived1, Base);
     var _super = swcHelpers.createSuper(Derived1);

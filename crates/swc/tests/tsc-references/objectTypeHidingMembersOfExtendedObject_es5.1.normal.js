@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// @skipDefaultLibCheck: false
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);

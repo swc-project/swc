@@ -17,8 +17,8 @@ function _templateObject1() {
     };
     return data;
 }
-var Foo = // @target: esnext
-/*#__PURE__*/ function() {
+// @target: esnext
+var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);

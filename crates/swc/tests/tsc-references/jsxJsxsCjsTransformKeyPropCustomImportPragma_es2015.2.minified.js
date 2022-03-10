@@ -5,18 +5,18 @@ import "./preact";
 const props = {
     answer: 42
 };
-_jsx("div", swcHelpers.objectSpread({}, props, {
+swcHelpers.objectSpread({}, props, {
     children: "text"
-}), "foo"), _createElement("div", swcHelpers.objectSpread({}, props, {
+}), swcHelpers.objectSpread({}, props, {
     key: "bar",
     children: "text"
-}));
+});
 const props2 = {
     answer: 42
 };
-_jsx("div", swcHelpers.objectSpread({}, props2, {
+swcHelpers.objectSpread({}, props2, {
     children: "text"
-}), "foo"), _createElement("div", swcHelpers.objectSpread({}, props2, {
+}), swcHelpers.objectSpread({}, props2, {
     key: "bar",
     children: "text"
-}));
+});

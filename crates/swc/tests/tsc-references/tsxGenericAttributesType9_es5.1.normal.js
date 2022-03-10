@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
 // @libFiles: react.d.ts,lib.d.ts
 var React = require('react');
 export function makeP(Ctor) {
-    return /*#__PURE__*/ (function(_PureComponent) {
+    return /*#__PURE__*/ function(_PureComponent) {
         "use strict";
         swcHelpers.inherits(_class, _PureComponent);
         var _super = swcHelpers.createSuper(_class);
@@ -16,8 +16,8 @@ export function makeP(Ctor) {
         }
         var _proto = _class.prototype;
         _proto.render = function render() {
-            return(/*#__PURE__*/ React.createElement(Ctor, swcHelpers.extends({}, this.props)));
+            return /*#__PURE__*/ React.createElement(Ctor, swcHelpers.extends({}, this.props));
         };
         return _class;
-    })(React.PureComponent);
+    }(React.PureComponent);
 }

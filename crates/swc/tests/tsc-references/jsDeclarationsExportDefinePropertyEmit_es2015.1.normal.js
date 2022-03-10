@@ -17,7 +17,7 @@ Object.defineProperty(module.exports.b, "cat", {
  * @param {number} b
  * @return {string} 
  */ function d(a, b) {
-    return(/** @type {*} */ (null));
+    return /** @type {*} */ (null);
 }
 Object.defineProperty(module.exports, "d", {
     value: d
@@ -28,7 +28,7 @@ Object.defineProperty(module.exports, "d", {
  * @param {U} b
  * @return {T & U} 
  */ function e(a, b) {
-    return(/** @type {*} */ (null));
+    return /** @type {*} */ (null);
 }
 Object.defineProperty(module.exports, "e", {
     value: e

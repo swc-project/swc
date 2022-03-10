@@ -1,11 +1,11 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // @noEmit: true
+// @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @noImplicitAny: true
 // @strictNullChecks: true
 // @Filename: inferringClassMembersFromAssignments7.js
-/*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

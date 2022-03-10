@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// Generic call with constraints infering type parameter from object member properties
+// No errors expected
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

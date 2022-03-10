@@ -13,7 +13,6 @@ use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
     debug::{dump, AssertValid},
     marks::Marks,
-    mode::Mode,
     option::CompressOptions,
     util::ModuleItemExt,
     MAX_PAR_DEPTH,
@@ -36,43 +35,41 @@ mod strings;
 mod unsafes;
 mod vars;
 
-pub(crate) fn pure_optimizer<'a, M>(
+#[allow(clippy::needless_lifetimes)]
+pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
     marks: Marks,
-    mode: &'a M,
+    force_str_for_tpl: bool,
     enable_everything: bool,
     debug_infinite_loop: bool,
-) -> impl 'a + VisitMut + Repeated
-where
-    M: Mode,
-{
+) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
         marks,
-        ctx: Default::default(),
+        ctx: Ctx {
+            force_str_for_tpl,
+            ..Default::default()
+        },
         changed: Default::default(),
         enable_everything,
-        mode,
         debug_infinite_loop,
         bindings: Default::default(),
     }
 }
 
-struct Pure<'a, M> {
+struct Pure<'a> {
     options: &'a CompressOptions,
     marks: Marks,
     ctx: Ctx,
     changed: bool,
     enable_everything: bool,
 
-    mode: &'a M,
-
     debug_infinite_loop: bool,
 
     bindings: Option<Arc<AHashSet<Id>>>,
 }
 
-impl<M> Repeated for Pure<'_, M> {
+impl Repeated for Pure<'_> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -84,10 +81,7 @@ impl<M> Repeated for Pure<'_, M> {
     }
 }
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: ModuleItemExt + Take,
@@ -154,7 +148,7 @@ where
     /// Visit `nodes`, maybe in parallel.
     fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
     where
-        N: for<'aa> VisitMutWith<Pure<'aa, M>> + Send + Sync,
+        N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
         if self.ctx.par_depth >= MAX_PAR_DEPTH * 2 || cfg!(target_arch = "wasm32") {
             for node in nodes {
@@ -164,7 +158,6 @@ where
                     ctx: self.ctx,
                     changed: false,
                     enable_everything: self.enable_everything,
-                    mode: self.mode,
                     debug_infinite_loop: self.debug_infinite_loop,
                     bindings: self.bindings.clone(),
                 };
@@ -187,7 +180,6 @@ where
                                 },
                                 changed: false,
                                 enable_everything: self.enable_everything,
-                                mode: self.mode,
                                 debug_infinite_loop: self.debug_infinite_loop,
                                 bindings: self.bindings.clone(),
                             };
@@ -204,10 +196,7 @@ where
     }
 }
 
-impl<M> VisitMut for Pure<'_, M>
-where
-    M: Mode,
-{
+impl VisitMut for Pure<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
@@ -345,6 +334,7 @@ where
             &mut s.expr,
             DropOpts {
                 drop_zero: true,
+                drop_global_refs_if_unused: true,
                 drop_str_lit: false,
             },
         );
@@ -458,6 +448,7 @@ where
                     e,
                     DropOpts {
                         drop_zero: true,
+                        drop_global_refs_if_unused: true,
                         drop_str_lit: true,
                         ..Default::default()
                     },
@@ -538,6 +529,7 @@ where
                     &mut **e,
                     DropOpts {
                         drop_zero: false,
+                        drop_global_refs_if_unused: false,
                         drop_str_lit: true,
                     },
                 );

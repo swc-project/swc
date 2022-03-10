@@ -11,7 +11,7 @@ export const texts = [];
 /**
  @ts-expect-error */ texts.push("100");
 export function MyComponent(props) {
-    return(/*#__PURE__*/ React.createElement("div", null));
+    return /*#__PURE__*/ React.createElement("div", null);
 }
 let x = /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement(MyComponent, {
     foo: 100

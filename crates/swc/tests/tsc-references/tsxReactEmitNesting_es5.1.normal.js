@@ -1,6 +1,6 @@
 // A simple render function with nesting and control statements
 var render = function(ctrl, model) {
-    /*#__PURE__*/ return React.createElement("section", {
+    return /*#__PURE__*/ React.createElement("section", {
         class: "todoapp"
     }, /*#__PURE__*/ React.createElement("header", {
         class: "header"
@@ -23,7 +23,7 @@ var render = function(ctrl, model) {
     }), /*#__PURE__*/ React.createElement("ul", {
         class: "todo-list"
     }, model.filteredTodos.map(function(todo) {
-        /*#__PURE__*/ return React.createElement("li", {
+        return /*#__PURE__*/ React.createElement("li", {
             class: {
                 todo: true,
                 completed: todo.completed,

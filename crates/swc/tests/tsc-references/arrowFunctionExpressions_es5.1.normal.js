@@ -55,9 +55,9 @@ var p9 = function(param) {
 var p10 = function(param) {
     var _param = swcHelpers.slicedToArray(param, 1), ref = _param[0], value = ref.value, done = ref.done;
 };
-var MyClass = // Arrow function used in class member initializer
+// Arrow function used in class member initializer
 // Arrow function used in class member function
-/*#__PURE__*/ function() {
+var MyClass = /*#__PURE__*/ function() {
     "use strict";
     function MyClass() {
         var _this = this;

@@ -60,6 +60,11 @@ var n = function() {
     return 3;
     return 5;
 }();
+// Otherwise, the inferred return type is the first of the types of the return statement expressions
+// in the function body that is a supertype of each of the others, 
+// ignoring return statements with no expressions.
+// A compile - time error occurs if no return statement expression has a type that is a supertype of each of the others.
+// FunctionExpression with no return type annotation with multiple return statements with subtype relation between returns
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

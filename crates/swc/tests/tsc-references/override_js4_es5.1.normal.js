@@ -1,10 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
-var A = // @noImplicitOverride: true
+// @noImplicitOverride: true
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @Filename: a.js
-/*#__PURE__*/ function() {
+var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);

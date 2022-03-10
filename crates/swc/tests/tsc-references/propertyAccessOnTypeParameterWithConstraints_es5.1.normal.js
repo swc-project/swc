@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // generic types should behave as if they have properties of their constraint type
+// generic types should behave as if they have properties of their constraint type
 // no errors expected 
-/*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

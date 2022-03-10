@@ -7,7 +7,7 @@
 const React = require('react');
 class BigGreeter extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Default hi"));
+        return /*#__PURE__*/ React.createElement("div", null, "Default hi");
     }
 }
 // Error

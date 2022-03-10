@@ -1,4 +1,4 @@
-let Foo = function(UnknownNativeClass) {
+let Foo = /*#__PURE__*/ function(UnknownNativeClass) {
     "use strict";
     _inherits(Foo, UnknownNativeClass);
     var _super = _createSuper(Foo);

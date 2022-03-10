@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var RoyalGuard = // @declaration: true
-/*#__PURE__*/ function() {
+// @declaration: true
+var RoyalGuard = /*#__PURE__*/ function() {
     "use strict";
     function RoyalGuard() {
         swcHelpers.classCallCheck(this, RoyalGuard);

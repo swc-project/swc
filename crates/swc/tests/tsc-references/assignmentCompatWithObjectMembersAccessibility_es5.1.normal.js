@@ -2,6 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 // members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
 var TargetIsPublic;
 (function(TargetIsPublic) {
+    // targets
     var Base = function Base() {
         "use strict";
         swcHelpers.classCallCheck(this, Base);
@@ -9,6 +10,7 @@ var TargetIsPublic;
     var a;
     var b;
     var i;
+    // sources
     var D = function D() {
         "use strict";
         swcHelpers.classCallCheck(this, D);
@@ -42,6 +44,7 @@ var TargetIsPublic;
     e = e;
 })(TargetIsPublic || (TargetIsPublic = {}));
 (function(TargetIsPublic) {
+    // targets
     var Base = function Base() {
         "use strict";
         swcHelpers.classCallCheck(this, Base);
@@ -49,6 +52,7 @@ var TargetIsPublic;
     var a;
     var b;
     var i;
+    // sources
     var D = function D() {
         "use strict";
         swcHelpers.classCallCheck(this, D);

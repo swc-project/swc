@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // classes do not permit optional parameters, these are errors
-/*#__PURE__*/ function() {
+// classes do not permit optional parameters, these are errors
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

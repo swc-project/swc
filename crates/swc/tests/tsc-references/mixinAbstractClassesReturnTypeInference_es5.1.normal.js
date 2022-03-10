@@ -4,9 +4,9 @@ var AbstractBase = function AbstractBase() {
     swcHelpers.classCallCheck(this, AbstractBase);
 };
 function Mixin2(baseClass1) {
-    var MixinClass = // must be `abstract` because we cannot know *all* of the possible abstract members that need to be
+    // must be `abstract` because we cannot know *all* of the possible abstract members that need to be
     // implemented for this to be concrete.
-    /*#__PURE__*/ function(baseClass) {
+    var MixinClass = /*#__PURE__*/ function(baseClass) {
         "use strict";
         swcHelpers.inherits(MixinClass, baseClass);
         var _super = swcHelpers.createSuper(MixinClass);

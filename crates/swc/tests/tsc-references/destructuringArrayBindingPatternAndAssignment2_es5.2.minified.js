@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var ref = [], a0 = swcHelpers.slicedToArray(ref[0], 1)[0], ref1 = swcHelpers.slicedToArray(ref[1], 1), ref2 = swcHelpers.slicedToArray(ref1[0], 1);
+var ref = [], ref1 = (swcHelpers.slicedToArray(ref[0], 1)[0], swcHelpers.slicedToArray(ref[1], 1)), ref2 = swcHelpers.slicedToArray(ref1[0], 1);
 ref2[0];
-var _undefined = swcHelpers.slicedToArray(void 0, 2), ref3 = swcHelpers.slicedToArray(_undefined[0], 1), a2 = ref3[0], ref4 = swcHelpers.slicedToArray(_undefined[1], 1), ref5 = swcHelpers.slicedToArray(ref4[0], 1);
+var _undefined = swcHelpers.slicedToArray(void 0, 2), ref3 = swcHelpers.slicedToArray(_undefined[0], 1), ref4 = (ref3[0], swcHelpers.slicedToArray(_undefined[1], 1)), ref5 = swcHelpers.slicedToArray(ref4[0], 1);
 ref5[0];
 var ref6 = swcHelpers.slicedToArray([
     1,

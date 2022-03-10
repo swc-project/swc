@@ -1,10 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
-var Foo = // @target: esnext
+// @target: esnext
 // @allowjs: true
 // @noemit: true
 // @checkjs: true
 // @Filename: foo.ts
-/*#__PURE__*/ function() {
+var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
@@ -20,8 +20,8 @@ var Foo = // @target: esnext
     ]);
     return Foo;
 }();
-var Bar = // @Filename: bar.js
-/*#__PURE__*/ function(Foo) {
+// @Filename: bar.js
+var Bar = /*#__PURE__*/ function(Foo) {
     "use strict";
     swcHelpers.inherits(Bar, Foo);
     var _super = swcHelpers.createSuper(Bar);
