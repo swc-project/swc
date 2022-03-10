@@ -1,16 +1,21 @@
 import * as swcHelpers from "@swc/helpers";
 import { I1 as I, N1 as N, T1 as T } from "./t1";
-export var E, D, M, v = 1;
+export var v = 1;
 export function f() {}
 export var C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
 };
+export var E;
 !function(E) {
     E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
-}(E || (E = {})), function(D) {
+}(E || (E = {}));
+export var D;
+!function(D) {
     D[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C";
-}(D || (D = {})), function(M1) {
+}(D || (D = {}));
+export var M;
+!function(M1) {
     var x;
     M1.x = x;
 }(M || (M = {}));

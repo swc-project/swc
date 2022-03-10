@@ -1,4 +1,5 @@
-var Foo, Bar, ns;
+var Bar, ns;
+export var Foo;
 !function(Foo) {
     Foo[Foo.A = 0] = "A", Foo[Foo.B = 1] = "B";
 }(Foo || (Foo = {})), function(Bar) {
