@@ -1,10 +1,14 @@
 use std::fmt::{self, Write};
 
-use miette::{GraphicalReportHandler, MietteError, Severity, SourceCode, SpanContents};
+use miette::{
+    GraphicalReportHandler, LabeledSpan, MietteError, Severity, SourceCode, SourceOffset,
+    SourceSpan, SpanContents,
+};
 use swc_common::{
     errors::{DiagnosticBuilder, DiagnosticId, Emitter, Level},
+    source_map::SpanLabel,
     sync::Lrc,
-    SourceMap,
+    SourceMap, Span,
 };
 
 pub struct PrettyEmitter {
@@ -46,7 +50,7 @@ struct MietteSourceCode<'a>(&'a SourceMap);
 impl SourceCode for MietteSourceCode<'_> {
     fn read_span<'a>(
         &'a self,
-        span: &miette::SourceSpan,
+        span: &SourceSpan,
         context_lines_before: usize,
         context_lines_after: usize,
     ) -> Result<Box<dyn SpanContents<'a> + 'a>, MietteError> {
@@ -109,7 +113,11 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
     }
 
     fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
-        todo!()
+        let iter = self.d.span.span_labels().into_iter().map(|span_label| {
+            LabeledSpan::new_with_span(span_label.label, convert_span(span_label.span))
+        });
+
+        Some(Box::new(iter))
     }
 
     fn related<'a>(&'a self) -> Option<Box<dyn Iterator<Item = &'a dyn miette::Diagnostic> + 'a>> {
@@ -128,6 +136,12 @@ impl fmt::Debug for MietteDiagnostic<'_> {
 
 impl fmt::Display for MietteDiagnostic<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        todo!()
+        fmt::Display::fmt(&self.d.message[0].0, f)
     }
+}
+
+fn convert_span(span: Span) -> SourceSpan {
+    let len = span.hi - span.lo;
+    let start = SourceOffset::from(span.lo.0 as usize);
+    SourceSpan::new(start, SourceOffset::from(len.0 as usize))
 }
