@@ -1,4 +1,4 @@
 .class {
--webkit-clip-path: none;
-clip-path: none;
+  -webkit-clip-path: none;
+  clip-path: none;
 }

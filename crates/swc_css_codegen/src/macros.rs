@@ -51,3 +51,19 @@ macro_rules! formatting_semi {
         }
     }};
 }
+
+macro_rules! increase_indent {
+    ($g:expr) => {{
+        if !$g.config.minify {
+            $g.wr.increase_indent();
+        }
+    }};
+}
+
+macro_rules! decrease_indent {
+    ($g:expr) => {{
+        if !$g.config.minify {
+            $g.wr.decrease_indent();
+        }
+    }};
+}

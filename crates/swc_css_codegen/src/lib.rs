@@ -880,14 +880,23 @@ where
 
         for (idx, node) in n.value.iter().enumerate() {
             match node {
-                ComponentValue::StyleBlock(_) if idx == 0 => {
-                    formatting_newline!(self);
+                ComponentValue::StyleBlock(_) => {
+                    if idx == 0 {
+                        formatting_newline!(self);
+                    }
+
+                    increase_indent!(self);
                 }
                 ComponentValue::Rule(_) | ComponentValue::KeyframeBlock(_) => {
                     formatting_newline!(self);
+                    increase_indent!(self);
                 }
-                ComponentValue::DeclarationOrAtRule(_) if idx == 0 => {
-                    formatting_newline!(self);
+                ComponentValue::DeclarationOrAtRule(_) => {
+                    if idx == 0 {
+                        formatting_newline!(self);
+                    }
+
+                    increase_indent!(self);
                 }
                 _ => {}
             }
@@ -897,42 +906,53 @@ where
             match node {
                 ComponentValue::Rule(_) => {
                     formatting_newline!(self);
+                    decrease_indent!(self);
                 }
-                ComponentValue::StyleBlock(i) => match i {
-                    StyleBlock::AtRule(_) | StyleBlock::QualifiedRule(_) => {
-                        formatting_newline!(self);
-                    }
-                    StyleBlock::Declaration(_) => {
-                        if idx != len - 1 {
-                            semi!(self);
-                        } else {
-                            formatting_semi!(self);
+                ComponentValue::StyleBlock(i) => {
+                    match i {
+                        StyleBlock::AtRule(_) | StyleBlock::QualifiedRule(_) => {
+                            formatting_newline!(self);
                         }
+                        StyleBlock::Declaration(_) => {
+                            if idx != len - 1 {
+                                semi!(self);
+                            } else {
+                                formatting_semi!(self);
+                            }
 
-                        formatting_newline!(self);
+                            formatting_newline!(self);
+                        }
+                        StyleBlock::Invalid(_) => {}
                     }
-                    StyleBlock::Invalid(_) => {}
-                },
+
+                    decrease_indent!(self);
+                }
                 ComponentValue::KeyframeBlock(_) => {
                     if idx == len - 1 {
                         formatting_newline!(self);
                     }
-                }
-                ComponentValue::DeclarationOrAtRule(i) => match i {
-                    DeclarationOrAtRule::AtRule(_) => {
-                        formatting_newline!(self);
-                    }
-                    DeclarationOrAtRule::Declaration(_) => {
-                        if idx != len - 1 {
-                            semi!(self);
-                        } else {
-                            formatting_semi!(self);
-                        }
 
-                        formatting_newline!(self);
+                    decrease_indent!(self);
+                }
+                ComponentValue::DeclarationOrAtRule(i) => {
+                    match i {
+                        DeclarationOrAtRule::AtRule(_) => {
+                            formatting_newline!(self);
+                        }
+                        DeclarationOrAtRule::Declaration(_) => {
+                            if idx != len - 1 {
+                                semi!(self);
+                            } else {
+                                formatting_semi!(self);
+                            }
+
+                            formatting_newline!(self);
+                        }
+                        DeclarationOrAtRule::Invalid(_) => {}
                     }
-                    DeclarationOrAtRule::Invalid(_) => {}
-                },
+
+                    decrease_indent!(self);
+                }
                 _ => {
                     if ending == ']' && idx != len - 1 {
                         space!(self);
@@ -1596,7 +1616,14 @@ where
 
     #[emitter]
     fn emit_selector_list(&mut self, n: &SelectorList) -> Result {
-        self.emit_list(&n.children, ListFormat::CommaDelimited)?;
+        self.emit_list(
+            &n.children,
+            if self.config.minify {
+                ListFormat::CommaDelimited
+            } else {
+                ListFormat::CommaDelimited | ListFormat::MultiLine
+            },
+        )?;
     }
 
     #[emitter]

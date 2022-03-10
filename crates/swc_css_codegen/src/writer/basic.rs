@@ -52,7 +52,7 @@ where
 
     indent_type: &'a str,
     indent_level: usize,
-    linefeed:  &'a str,
+    linefeed: &'a str,
 
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
 
@@ -78,9 +78,9 @@ where
             LineFeed::LF => "\n",
             LineFeed::CRLF => "\r\n",
         };
-        
+
         BasicCssWriter {
-            line_start: false,
+            line_start: true,
             line: 0,
             col: 0,
 
@@ -121,7 +121,7 @@ where
     }
 
     fn write_indent_string(&mut self) -> Result {
-        for _ in 0..self.config.indent_width {
+        for _ in 0..(self.config.indent_width * self.indent_level as i32) {
             self.raw_write(self.indent_type)?;
         }
 
@@ -158,10 +158,12 @@ where
     }
 
     fn write_newline(&mut self) -> Result {
-        self.line += 1;
-        self.col = 0;
-
-        self.raw_write(self.linefeed)?;
+        if !self.line_start {
+            self.raw_write(self.linefeed)?;
+            self.line += 1;
+            self.col = 0;
+            self.line_start = true;
+        }
 
         Ok(())
     }
@@ -183,6 +185,11 @@ where
     }
 
     fn decrease_indent(&mut self) {
+        debug_assert!(
+            (self.indent_level as i32) >= 0,
+            "indent should zero or greater than zero",
+        );
+
         self.indent_level -= 1;
     }
 }
