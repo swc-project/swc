@@ -97,7 +97,7 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
     }
 
     fn help<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
-        None
+        todo!()
     }
 
     fn url<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
@@ -109,11 +109,11 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
     }
 
     fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
-        None
+        todo!()
     }
 
     fn related<'a>(&'a self) -> Option<Box<dyn Iterator<Item = &'a dyn miette::Diagnostic> + 'a>> {
-        None
+        todo!()
     }
 }
 
