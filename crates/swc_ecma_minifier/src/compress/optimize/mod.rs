@@ -865,53 +865,6 @@ where
                 return None;
             }
 
-            Expr::Call(CallExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
-                tracing::debug!("ignore_return_value: Dropping a pure call");
-                self.changed = true;
-                return if args.is_empty() {
-                    None
-                } else {
-                    Some(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: args.take().into_iter().map(|arg| arg.expr).collect(),
-                    }))
-                };
-            }
-
-            Expr::TaggedTpl(TaggedTpl {
-                span,
-                tpl: Tpl { exprs, .. },
-                ..
-            }) if span.has_mark(self.marks.pure) => {
-                tracing::debug!("ignore_return_value: Dropping a pure call");
-                self.changed = true;
-                return if exprs.is_empty() {
-                    None
-                } else {
-                    Some(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: exprs.take(),
-                    }))
-                };
-            }
-
-            Expr::New(NewExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
-                tracing::debug!("ignore_return_value: Dropping a pure call");
-                self.changed = true;
-                return if let Some(args) = args.take() {
-                    if args.is_empty() {
-                        None
-                    } else {
-                        Some(Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs: args.into_iter().map(|arg| arg.expr).collect(),
-                        }))
-                    }
-                } else {
-                    None
-                };
-            }
-
             Expr::Call(CallExpr {
                 callee: Callee::Expr(callee),
                 args,

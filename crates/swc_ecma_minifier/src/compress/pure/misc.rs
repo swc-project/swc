@@ -131,7 +131,87 @@ impl Pure<'_> {
         }
     }
 
+    fn make_ignored_expr(&mut self, exprs: impl Iterator<Item = Box<Expr>>) -> Option<Expr> {
+        let mut exprs = exprs
+            .filter_map(|mut e| {
+                self.ignore_return_value(
+                    &mut *e,
+                    DropOpts {
+                        drop_global_refs_if_unused: true,
+                        drop_str_lit: true,
+                        drop_zero: true,
+                    },
+                );
+
+                if let Expr::Invalid(..) = &*e {
+                    None
+                } else {
+                    Some(e)
+                }
+            })
+            .collect::<Vec<_>>();
+
+        if exprs.is_empty() {
+            return None;
+        }
+        if exprs.len() == 1 {
+            return Some(*exprs.remove(0));
+        }
+
+        Some(Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs,
+        }))
+    }
+
+    #[inline(never)]
     pub(super) fn ignore_return_value(&mut self, e: &mut Expr, opts: DropOpts) {
+        match e {
+            Expr::Seq(seq) => {
+                if seq.exprs.is_empty() {
+                    e.take();
+                    return;
+                }
+            }
+
+            Expr::Call(CallExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
+                tracing::debug!("ignore_return_value: Dropping a pure call");
+                self.changed = true;
+
+                let new = self.make_ignored_expr(args.take().into_iter().map(|arg| arg.expr));
+
+                *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                return;
+            }
+
+            Expr::TaggedTpl(TaggedTpl {
+                span,
+                tpl: Tpl { exprs, .. },
+                ..
+            }) if span.has_mark(self.marks.pure) => {
+                tracing::debug!("ignore_return_value: Dropping a pure call");
+                self.changed = true;
+
+                let new = self.make_ignored_expr(exprs.take().into_iter());
+
+                *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                return;
+            }
+
+            Expr::New(NewExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
+                tracing::debug!("ignore_return_value: Dropping a pure call");
+                self.changed = true;
+
+                let new =
+                    self.make_ignored_expr(args.take().into_iter().flatten().map(|arg| arg.expr));
+
+                *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                return;
+            }
+
+            _ => {}
+        }
+
         if self.options.unused {
             if let Expr::Lit(Lit::Num(n)) = e {
                 // Skip 0

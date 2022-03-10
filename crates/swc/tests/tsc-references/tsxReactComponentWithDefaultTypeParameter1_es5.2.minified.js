@@ -1,2 +1,2 @@
-require("react"), MyComp;
+MyComp;
 export { };
