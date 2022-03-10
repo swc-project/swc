@@ -25,4 +25,6 @@
     animation-direction: alternate-reverse;
     animation: rotation-reverse;
     animation: rotation-reverse reverse;
+    animation: test reverse;
+    animation: reverse test;
 }
