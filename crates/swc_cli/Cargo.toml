@@ -27,7 +27,7 @@ swc_trace_macro = {version = "0.1.0", path = "../swc_trace_macro"}
 tracing-chrome = "0.4.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
-tracing = "0.1.31"
+tracing = "0.1.32"
 
 [dependencies.path-absolutize]
 version = "3.0.11"

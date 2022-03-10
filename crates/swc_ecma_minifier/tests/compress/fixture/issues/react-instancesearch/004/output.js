@@ -173,9 +173,9 @@ export default function createInstantSearchManager(param1) {
     }, helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({}, HIGHLIGHT_TAGS));
     addAlgoliaAgents(searchClient), helper.on("search", function() {
         stalledSearchTimer || (stalledSearchTimer = setTimeout(function() {
-            var _ref = store.getState(), resultsFacetValues = _ref.resultsFacetValues, partialState = swcHelpers.objectWithoutProperties(_ref, [
+            var _ref = store.getState(), partialState = (_ref.resultsFacetValues, swcHelpers.objectWithoutProperties(_ref, [
                 "resultsFacetValues"
-            ]);
+            ]));
             store.setState(swcHelpers.objectSpread({}, partialState, {
                 isSearchStalled: !0
             }));

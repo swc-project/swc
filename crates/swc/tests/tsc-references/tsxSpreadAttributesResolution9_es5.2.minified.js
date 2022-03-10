@@ -12,8 +12,6 @@ var React = require("react"), Opt = function(_Component) {
 }(React.Component), obj1 = {
     x: 2
 };
-React.createElement(Opt, null), React.createElement(Opt, swcHelpers.extends({}, {})), React.createElement(Opt, swcHelpers.extends({}, obj1)), React.createElement(Opt, swcHelpers.extends({}, obj1, {
+swcHelpers.extends({}, {}), swcHelpers.extends({}, obj1), swcHelpers.extends({}, obj1, {
     y: !0
-})), React.createElement(Opt, {
-    x: 2
 });

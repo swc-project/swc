@@ -41,10 +41,3 @@ var React = require("react"), RC1 = function(_Component) {
         return null;
     }, RC4;
 }(React.Component);
-React.createElement(RC1 || RC2, {
-    x: !0
-}), React.createElement(RC1 || RC4, {
-    x: 10
-}), React.createElement(RC3 || RC4, {
-    prop: !0
-});

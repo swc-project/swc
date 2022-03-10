@@ -30,5 +30,5 @@ var Bar = function() {
 (function() {
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++)_tmp[_key] = arguments[_key];
     var __tmp = swcHelpers.slicedToArray(_tmp, 2);
-    void 0 === swcHelpers.slicedToArray(__tmp[0], 1)[0] && new Foo, void 0 === __tmp[1] && new Foo;
+    void 0 === (void 0 === swcHelpers.slicedToArray(__tmp[0], 1)[0] && new Foo, __tmp[1]) && new Foo;
 }).apply(void 0, swcHelpers.toConsumableArray(new FooArrayIterator));

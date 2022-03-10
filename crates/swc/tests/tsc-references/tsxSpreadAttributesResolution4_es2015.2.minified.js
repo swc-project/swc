@@ -5,22 +5,20 @@ class Poisoned extends React.Component {
         return React.createElement("div", null, "Hello");
     }
 }
-React.createElement(Poisoned, swcHelpers.extends({}, {
+swcHelpers.extends({}, {
     x: "hello world",
     y: 2
-}));
+});
 class EmptyProp extends React.Component {
     render() {
         return React.createElement("div", null, "Default hi");
     }
 }
 let j;
-React.createElement(EmptyProp, swcHelpers.extends({}, {})), React.createElement(EmptyProp, swcHelpers.extends({}, j)), React.createElement(EmptyProp, swcHelpers.extends({}, {
+swcHelpers.extends({}, {}), swcHelpers.extends({}, j), swcHelpers.extends({}, {
     ref: (input)=>{
         this.textInput = input;
     }
-})), React.createElement(EmptyProp, {
+}), swcHelpers.extends({}, {
     "data-prop": !0
-}), React.createElement(EmptyProp, swcHelpers.extends({}, {
-    "data-prop": !0
-}));
+});

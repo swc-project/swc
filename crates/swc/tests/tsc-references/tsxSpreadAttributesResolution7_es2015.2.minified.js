@@ -5,9 +5,9 @@ class TextComponent extends React.Component {
         return React.createElement("span", null, "Some Text..");
     }
 }
-React.createElement(TextComponent, swcHelpers.extends({}, {
+swcHelpers.extends({}, {
     editable: !1
-})), React.createElement(TextComponent, swcHelpers.extends({}, {
+}), swcHelpers.extends({}, {
     editable: !0,
     onEdit: ()=>{}
-}));
+});

@@ -10,6 +10,4 @@ var C = function(Component) {
 }(Component);
 new C({
     foobar: "example"
-}), React.createElement(C, {
-    foobar: "example"
 });

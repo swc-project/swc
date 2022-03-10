@@ -1,4 +1,6 @@
-use std::{env, process::Command};
+#![cfg_attr(not(debug_assertions), allow(unused))]
+
+use std::{env, fmt::Debug, mem::forget, process::Command};
 
 use once_cell::sync::Lazy;
 use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
@@ -125,10 +127,29 @@ pub(crate) fn invoke(module: &Module) {
     )
 }
 
+#[cfg(debug_assertions)]
+struct Ctx<'a> {
+    v: &'a dyn Debug,
+}
+
+#[cfg(debug_assertions)]
+impl Drop for Ctx<'_> {
+    fn drop(&mut self) {
+        eprintln!("Context: {:?}", self.v);
+    }
+}
+
 pub(crate) struct AssertValid;
 
 impl Visit for AssertValid {
     noop_visit_type!();
+
+    #[cfg(debug_assertions)]
+    fn visit_expr(&mut self, n: &Expr) {
+        let ctx = Ctx { v: n };
+        n.visit_children_with(self);
+        forget(ctx);
+    }
 
     fn visit_invalid(&mut self, _: &Invalid) {
         panic!("Invalid node found");
@@ -136,6 +157,13 @@ impl Visit for AssertValid {
 
     fn visit_setter_prop(&mut self, p: &SetterProp) {
         p.body.visit_with(self);
+    }
+
+    #[cfg(debug_assertions)]
+    fn visit_stmt(&mut self, n: &Stmt) {
+        let ctx = Ctx { v: n };
+        n.visit_children_with(self);
+        forget(ctx);
     }
 
     fn visit_tpl(&mut self, l: &Tpl) {

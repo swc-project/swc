@@ -11,8 +11,3 @@ export var AddressComp = function(_Component) {
         return null;
     }, AddressComp;
 }(React.Component);
-React.createElement(AddressComp, {
-    postalCode: "T1B 0L3",
-    street: "vancouver",
-    country: "CA"
-});

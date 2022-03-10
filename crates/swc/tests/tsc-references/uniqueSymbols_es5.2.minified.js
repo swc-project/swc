@@ -119,15 +119,4 @@ regeneratorRuntime.mark(function method4() {
                 return _ctx.stop();
         }
     }, method4);
-}), function() {
-    "use strict";
-    function _class() {
-        swcHelpers.classCallCheck(this, _class);
-    }
-    var _proto = _class.prototype;
-    _proto.method1 = function(p) {
-        return p;
-    }, _proto.method2 = function(p) {
-        return p;
-    };
-}();
+});

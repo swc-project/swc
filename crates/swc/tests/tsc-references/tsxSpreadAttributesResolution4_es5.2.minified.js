@@ -10,10 +10,10 @@ var j, _this = this, React = require("react"), Poisoned = function(_Component) {
         return React.createElement("div", null, "Hello");
     }, Poisoned;
 }(React.Component);
-React.createElement(Poisoned, swcHelpers.extends({}, {
+swcHelpers.extends({}, {
     x: "hello world",
     y: 2
-}));
+});
 var EmptyProp = function(_Component) {
     "use strict";
     swcHelpers.inherits(EmptyProp, _Component);
@@ -25,12 +25,10 @@ var EmptyProp = function(_Component) {
         return React.createElement("div", null, "Default hi");
     }, EmptyProp;
 }(React.Component);
-React.createElement(EmptyProp, swcHelpers.extends({}, {})), React.createElement(EmptyProp, swcHelpers.extends({}, j)), React.createElement(EmptyProp, swcHelpers.extends({}, {
+swcHelpers.extends({}, {}), swcHelpers.extends({}, j), swcHelpers.extends({}, {
     ref: function(input) {
         _this.textInput = input;
     }
-})), React.createElement(EmptyProp, {
+}), swcHelpers.extends({}, {
     "data-prop": !0
-}), React.createElement(EmptyProp, swcHelpers.extends({}, {
-    "data-prop": !0
-}));
+});

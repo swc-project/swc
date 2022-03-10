@@ -617,7 +617,18 @@ impl TokenContexts {
             }
 
             // If previous token was `{`
-            Some(TokenType::LBrace) => return self.current() == Some(TokenContext::BraceStmt),
+            Some(TokenType::LBrace) => {
+                // https://github.com/swc-project/swc/issues/3241#issuecomment-1029584460
+                // <Blah blah={function (): void {}} />
+                if self.current() == Some(TokenContext::BraceExpr) {
+                    let len = self.len();
+                    if let Some(TokenContext::JSXOpeningTag) = self.0.get(len - 2) {
+                        return true;
+                    }
+                }
+
+                return self.current() == Some(TokenContext::BraceStmt);
+            }
 
             // `class C<T> { ... }`
             Some(TokenType::BinOp(Lt)) | Some(TokenType::BinOp(Gt)) => return true,
@@ -625,6 +636,15 @@ impl TokenContexts {
             // () => {}
             Some(TokenType::Arrow) => return true,
             _ => {}
+        }
+
+        if had_line_break {
+            if let Some(TokenType::Other {
+                before_expr: false, ..
+            }) = prev
+            {
+                return true;
+            }
         }
 
         !is_expr_allowed

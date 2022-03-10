@@ -10,5 +10,5 @@ var ref1 = [
         c3: 4,
         c5: 0
     }
-], c1 = ref1[0], c2 = ref1[1], ref2 = ref1[2];
+], ref2 = (ref1[0], ref1[1], ref1[2]);
 ref2.c3, ref2.c5, ref1.slice(4);

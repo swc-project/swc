@@ -32,6 +32,7 @@ pub fn umd(cm: Lrc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
         exports: Default::default(),
 
         resolver: Resolver::Default,
+        vars: Default::default(),
     }
 }
 
@@ -52,6 +53,7 @@ pub fn umd_with_resolver(
         exports: Default::default(),
 
         resolver: Resolver::Real { base, resolver },
+        vars: Default::default(),
     }
 }
 
@@ -64,6 +66,7 @@ struct Umd {
     exports: Exports,
 
     resolver: Resolver,
+    vars: RefCell<Vec<VarDeclarator>>,
 }
 
 /// TODO: VisitMut
@@ -88,7 +91,7 @@ impl Fold for Umd {
 
         // Inserted after initializing exported names to undefined.
         let mut extra_stmts = vec![];
-        let mut stmts = Vec::with_capacity(items.len() + 2);
+        let mut stmts = Vec::with_capacity(items.len() + 3);
         if self.config.config.strict_mode && !has_use_strict(&items) {
             stmts.push(use_strict());
         }
@@ -450,6 +453,22 @@ impl Fold for Umd {
                 | ModuleDecl::TsExportAssignment(..)
                 | ModuleDecl::TsNamespaceExport(..) => {}
             }
+        }
+
+        let vars = self.vars_take();
+
+        if !vars.is_empty() {
+            let var_stmt = Stmt::Decl(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vars,
+                }
+                .into(),
+            );
+
+            stmts.push(var_stmt);
         }
 
         // ====================
@@ -825,5 +844,17 @@ impl ModulePass for Umd {
                 !self.config.config.no_interop,
             )),
         })
+    }
+
+    fn vars(&mut self) -> Ref<Vec<VarDeclarator>> {
+        self.vars.borrow()
+    }
+
+    fn vars_mut(&mut self) -> RefMut<Vec<VarDeclarator>> {
+        self.vars.borrow_mut()
+    }
+
+    fn vars_take(&mut self) -> Vec<VarDeclarator> {
+        self.vars.take()
     }
 }

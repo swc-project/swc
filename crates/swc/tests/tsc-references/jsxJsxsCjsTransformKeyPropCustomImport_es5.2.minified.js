@@ -2,8 +2,8 @@ import * as swcHelpers from "@swc/helpers";
 var props = {
     answer: 42
 };
-React.createElement("div", swcHelpers.extends({
+swcHelpers.extends({
     key: "foo"
-}, props), "text"), React.createElement("div", swcHelpers.extends({}, props, {
+}, props), swcHelpers.extends({}, props, {
     key: "bar"
-}), "text");
+});

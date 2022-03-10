@@ -5,9 +5,9 @@ import * as swcHelpers from "@swc/helpers";
     M1.React = React;
 }(M || (M = {})), function(M) {
     var foo;
-    React.createElement("div", swcHelpers.extends({
+    swcHelpers.extends({
         x: ""
     }, foo, {
         y: ""
-    })), React.createElement("div", null, "This \"quote\" thing");
+    });
 }(M || (M = {}));
