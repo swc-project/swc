@@ -38,10 +38,19 @@ impl DuplicateBindings {
         match self.bindings.entry(id.to_id()) {
             Entry::Occupied(mut prev) => {
                 if unique || prev.get().unique {
+                    let name = &id.sym;
+
                     HANDLER.with(|handler| {
                         handler
-                            .struct_span_err(id.span, "Duplicate binding")
-                            .span_note(prev.get().span, &format!("{} was declared at here", id.sym))
+                            .struct_span_err(
+                                id.span,
+                                &format!("the name `{}` is defined multiple times", name),
+                            )
+                            .span_label(
+                                prev.get().span,
+                                &format!("previous definition of `{}` here", name),
+                            )
+                            .span_label(id.span, &format!("`{}` redefined here", name))
                             .emit();
                     });
                 }

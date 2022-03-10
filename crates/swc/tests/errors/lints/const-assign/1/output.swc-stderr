@@ -1,12 +1,12 @@
-error: Cannot reassign to a variable declared with `const`
- 
-  |
-5 | a = 600;
-  | ^
-  |
-note: a was declared here
+error: cannot reassign to a variable declared with `const`
  
   |
 1 | const a = 500;
-  |       ^
+  |       -
+  |       |
+  |       const variable was declared here
+  |       help: consider making this variable mutable: `let a`
+...
+5 | a = 600;
+  | ^ cannot reassign
 

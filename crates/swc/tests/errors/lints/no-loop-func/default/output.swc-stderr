@@ -1,26 +1,20 @@
-error: Duplicate binding
-  
-   |
-56 |     var a = 0;
-   |         ^
-   |
-note: a was declared at here
+error: the name `a` is defined multiple times
   
    |
 36 | let a; for (let i in {}) { (function() { a; }); a = 1; }
-   |     ^
+   |     - previous definition of `a` here
+...
+56 |     var a = 0;
+   |         ^ `a` redefined here
 
-error: Duplicate binding
-  
-   |
-67 | let { aa, bb: { bb }, cc: [cc], ...ee } = obj;
-   |                                    ^^
-   |
-note: ee was declared at here
+error: the name `ee` is defined multiple times
   
    |
 49 |     function ee() {
-   |              ^^
+   |              -- previous definition of `ee` here
+...
+67 | let { aa, bb: { bb }, cc: [cc], ...ee } = obj;
+   |                                    ^^ `ee` redefined here
 
 error: Function declared in a loop contains unsafe references to variable i
   
