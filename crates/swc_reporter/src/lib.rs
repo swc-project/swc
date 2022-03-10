@@ -71,7 +71,7 @@ impl SourceCode for MietteSourceCode<'_> {
         Ok(Box::new(SwcSpanContents {
             data: src,
             span: src_span.clone(),
-            line: loc.line,
+            line: loc.line - 1,
             column: loc.col_display,
             line_count,
             name: None,
