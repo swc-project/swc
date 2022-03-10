@@ -96,6 +96,10 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     fn srcmap(&mut self, byte_pos: BytePos) {
+        if byte_pos.is_reserved_for_comments() {
+            return;
+        }
+
         if let Some(ref mut srcmap) = self.srcmap {
             srcmap.push((
                 byte_pos,

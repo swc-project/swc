@@ -1131,6 +1131,11 @@ impl SourceMap {
 
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
+
+            if pos.is_reserved_for_comments() {
+                continue;
+            }
+
             let lc = *lc;
 
             if pos == BytePos(u32::MAX) {
