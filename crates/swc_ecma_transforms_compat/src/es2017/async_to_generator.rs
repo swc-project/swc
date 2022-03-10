@@ -35,7 +35,7 @@ use swc_trace_macro::swc_trace;
 ///   yield bar();
 /// });
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn async_to_generator(c: Config) -> impl Fold + VisitMut {
     as_folder(AsyncToGenerator { c })
 }
@@ -350,7 +350,7 @@ impl Actual {
 /// Creates
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn make_fn_ref(mut expr: FnExpr) -> Expr {
     expr.function.body.visit_mut_with(&mut AsyncFnBodyHandler {
         is_async_generator: expr.function.is_generator,
@@ -468,7 +468,7 @@ impl Check for ShouldWork {
     }
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     let s = match stmt {
         Stmt::ForOf(

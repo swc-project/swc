@@ -15,7 +15,7 @@ use swc_ecma_visit::{
 };
 use swc_trace_macro::swc_trace;
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
     as_folder(OptChaining {
         c,
@@ -611,7 +611,7 @@ impl Check for ShouldWork {
 }
 
 // TODO: skip transparent wrapper
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn is_simple_expr(expr: &Expr) -> bool {
     match expr {
         Expr::Ident(_) => true,

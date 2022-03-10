@@ -39,7 +39,7 @@ use swc_trace_macro::swc_trace;
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn computed_properties(c: Config) -> impl Fold {
     as_folder(ComputedProps {
         c,

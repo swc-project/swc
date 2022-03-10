@@ -284,7 +284,7 @@ where
         #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let visitor_name = std::any::type_name::<V>();
-            tracing::span!(tracing::Level::TRACE, "as_folder", visitor = visitor_name).entered()
+            tracing::span!(tracing::Level::INFO, "as_folder", visitor = visitor_name).entered()
         };
         n.visit_mut_with(&mut self.0);
         n

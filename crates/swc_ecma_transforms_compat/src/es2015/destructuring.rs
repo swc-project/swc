@@ -36,7 +36,7 @@ use swc_trace_macro::swc_trace;
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn destructuring(c: Config) -> impl Fold + VisitMut {
     as_folder(Destructuring { c })
 }
@@ -1047,7 +1047,7 @@ fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Box<Ex
     make_ref_ident_for_array(c, decls, init, None)
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn make_ref_ident_for_array(
     c: Config,
     decls: &mut Vec<VarDeclarator>,
