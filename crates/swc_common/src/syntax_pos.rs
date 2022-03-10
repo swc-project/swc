@@ -839,6 +839,14 @@ pub trait Pos {
 )]
 pub struct BytePos(#[cfg_attr(feature = "rkyv", omit_bounds)] pub u32);
 
+impl BytePos {
+    const RESERVED: Self = BytePos(DUMMY_RESERVE);
+
+    pub const fn is_reserved(self) -> bool {
+        self.0 >= Self::RESERVED.0
+    }
+}
+
 /// A character offset. Because of multibyte utf8 characters, a byte offset
 /// is not equivalent to a character offset. The SourceMap will convert BytePos
 /// values to CharPos values as necessary.
