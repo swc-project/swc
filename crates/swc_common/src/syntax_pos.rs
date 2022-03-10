@@ -834,7 +834,7 @@ pub trait Pos {
 ///
 /// # Reserved
 ///
-///  - Values larger than 2^16 are reserved for the comments.
+///  - Values larger than `u32::MAX - 2^16` are reserved for the comments.
 ///
 /// `u32::MAX` is special value used to generate source map entries.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
