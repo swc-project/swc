@@ -13,7 +13,6 @@ use std::{
     cmp::{min, Reverse},
     collections::HashMap,
     io::{self, prelude::*},
-    ops::Range,
 };
 
 #[cfg(feature = "tty-emitter")]
@@ -775,16 +774,13 @@ impl EmitterWriter {
     }
 
     fn get_max_line_num(&mut self, span: &MultiSpan, children: &[SubDiagnostic]) -> usize {
-        let mut max = 0;
-
         let primary = self.get_multispan_max_line_num(span);
-        max = if primary > max { primary } else { max };
-
-        for sub in children {
-            let sub_result = self.get_multispan_max_line_num(&sub.span);
-            max = if sub_result > max { primary } else { max };
-        }
-        max
+        children
+            .iter()
+            .map(|sub| self.get_multispan_max_line_num(&sub.span))
+            .max()
+            .unwrap_or(0)
+            .max(primary)
     }
 
     // This "fixes" MultiSpans that contain Spans that are pointing to locations
@@ -886,15 +882,13 @@ impl EmitterWriter {
         //    `max_line_num_len`
         let padding = " ".repeat(padding + label.len() + 5);
 
-        /// Return whether `style`, or the override if present and the style is
-        /// `NoStyle`.
-        fn style_or_override(style: Style, override_style: Option<Style>) -> Style {
-            if let Some(o) = override_style {
-                if style == Style::NoStyle {
-                    return o;
-                }
+        /// Returns `override` if it is present and `style` is `NoStyle` or
+        /// `style` otherwise
+        fn style_or_override(style: Style, override_: Option<Style>) -> Style {
+            match (style, override_) {
+                (Style::NoStyle, Some(override_)) => override_,
+                _ => style,
             }
-            style
         }
 
         let mut line_number = 0;
@@ -1452,10 +1446,7 @@ fn num_overlap(
     inclusive: bool,
 ) -> bool {
     let extra = if inclusive { 1 } else { 0 };
-    fn contains(r: Range<usize>, value: usize) -> bool {
-        r.start < value && value <= r.end
-    }
-    contains(b_start..b_end + extra, a_start) || contains(a_start..a_end + extra, b_start)
+    (b_start..b_end + extra).contains(&a_start) || (a_start..a_end + extra).contains(&b_start)
 }
 
 fn overlaps(a1: &Annotation, a2: &Annotation, padding: usize) -> bool {
