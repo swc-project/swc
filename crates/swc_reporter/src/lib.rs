@@ -15,6 +15,16 @@ pub struct PrettyEmitter {
     reporter: GraphicalReportHandler,
 }
 
+impl PrettyEmitter {
+    pub fn new(cm: Lrc<SourceMap>, wr: Box<dyn Write + Send + Sync>) -> Self {
+        Self {
+            cm,
+            wr: WriterWrapper(wr),
+            reporter: GraphicalReportHandler::new(),
+        }
+    }
+}
+
 struct WriterWrapper(Box<dyn Write + Send + Sync>);
 
 impl Write for WriterWrapper {
