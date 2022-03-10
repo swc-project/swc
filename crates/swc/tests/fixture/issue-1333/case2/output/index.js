@@ -12,28 +12,28 @@ const connectionStates = Object.keys(_ws.default);
 var /**
      * The serialization handler.
      * @type {Serialization}
-     */ _serialization1 = new WeakMap(), /**
+     */ _serialization1 = /*#__PURE__*/ new WeakMap(), /**
      * The compression handler.
      * @type {Compression}
-     */ _compression1 = new WeakMap(), /**
+     */ _compression1 = /*#__PURE__*/ new WeakMap(), /**
      * The current sequence.
      * @type {number}
-     */ _seq = new WeakMap(), /**
+     */ _seq = /*#__PURE__*/ new WeakMap(), /**
      * The shard sequence when the websocket last closed.
      * @type {number}
-     */ _closingSeq = new WeakMap(), /**
+     */ _closingSeq = /*#__PURE__*/ new WeakMap(), /**
      * The rate-limit bucket.
      * @type {Bucket}
-     */ _bucket = new WeakMap(), /**
+     */ _bucket = /*#__PURE__*/ new WeakMap(), /**
      * The rate-limit bucket for presence updates.
      * @type {Bucket}
-     */ _presenceBucket = new WeakMap(), /**
+     */ _presenceBucket = /*#__PURE__*/ new WeakMap(), /**
      * The current connection.
      * @type {WebSocket}
-     */ _ws1 = new WeakMap(), /**
+     */ _ws1 = /*#__PURE__*/ new WeakMap(), /**
      * Packets that are waiting to be sent.
      * @type {DiscordPacket[]}
-     */ _queue = new WeakMap();
+     */ _queue = /*#__PURE__*/ new WeakMap();
 class Shard extends _utils.Emitter {
     /**
      * The current sequence

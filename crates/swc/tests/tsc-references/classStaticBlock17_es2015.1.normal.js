@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 // @target: es2015
 let friendA;
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 class A {
     getX() {
         return swcHelpers.classPrivateFieldGet(this, _x);

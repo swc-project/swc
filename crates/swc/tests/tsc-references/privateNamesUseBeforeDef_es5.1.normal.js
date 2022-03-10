@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _foo = new WeakMap(), _bar = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakMap(), _bar = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 var A = function A() {
     "use strict";
@@ -14,7 +14,7 @@ var A = function A() {
         value: 3
     });
 };
-var _foo1 = new WeakMap(), _bar1 = new WeakSet();
+var _foo1 = /*#__PURE__*/ new WeakMap(), _bar1 = /*#__PURE__*/ new WeakSet();
 var A2 = function A2() {
     "use strict";
     swcHelpers.classCallCheck(this, A2);
@@ -28,7 +28,7 @@ var A2 = function A2() {
 function bar() {
     return 3;
 }
-var _foo2 = new WeakMap(), _bar2 = new WeakMap();
+var _foo2 = /*#__PURE__*/ new WeakMap(), _bar2 = /*#__PURE__*/ new WeakMap();
 var A3 = function A3() {
     "use strict";
     swcHelpers.classCallCheck(this, A3);
@@ -45,7 +45,7 @@ var A3 = function A3() {
 function get_bar() {
     return 3;
 }
-var _foo3 = new WeakMap(), _bar3 = new WeakMap();
+var _foo3 = /*#__PURE__*/ new WeakMap(), _bar3 = /*#__PURE__*/ new WeakMap();
 var B = function B() {
     "use strict";
     swcHelpers.classCallCheck(this, B);

@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _link = new WeakSet();
+var _link = /*#__PURE__*/ new WeakSet();
 export class Node {
     link() {
         swcHelpers.classPrivateMethodGet(this, _link, link).call(this, this);

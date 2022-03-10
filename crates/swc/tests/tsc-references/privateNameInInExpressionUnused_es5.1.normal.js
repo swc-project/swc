@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 var _brand_check_brand = new WeakSet();
-var _unused = new WeakMap(), _brand = new WeakMap();
+var _unused = /*#__PURE__*/ new WeakMap(), _brand = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @noUnusedLocals: true
 // @target: esnext, es2022

@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _name = new WeakMap();
+var _name = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target: es6
 class A {

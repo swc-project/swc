@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _fooField = new WeakMap(), _fooMethod = new WeakSet(), _fooProp = new WeakMap();
+var _fooField = /*#__PURE__*/ new WeakMap(), _fooMethod = /*#__PURE__*/ new WeakSet(), _fooProp = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target: es6
 var A = function A() {

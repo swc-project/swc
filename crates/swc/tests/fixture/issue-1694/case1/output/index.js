@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _get = new WeakSet();
+var _get = /*#__PURE__*/ new WeakSet();
 var MyClass = function MyClass() {
     "use strict";
     swcHelpers.classCallCheck(this, MyClass);

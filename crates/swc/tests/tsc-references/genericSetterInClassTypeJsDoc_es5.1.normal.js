@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _value = new WeakMap();
+var _value = /*#__PURE__*/ new WeakMap();
 // @target: esnext
 // @lib: esnext
 // @declaration: true

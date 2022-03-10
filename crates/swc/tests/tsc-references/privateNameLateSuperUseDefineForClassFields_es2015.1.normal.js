@@ -3,7 +3,7 @@ import * as swcHelpers from "@swc/helpers";
 // @useDefineForClassFields: true
 class B {
 }
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 class A extends B {
     constructor(){
         void 0;

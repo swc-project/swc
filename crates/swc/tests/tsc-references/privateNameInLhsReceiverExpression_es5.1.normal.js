@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _y = new WeakMap();
+var _y = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 var Test = /*#__PURE__*/ function() {
     "use strict";
@@ -13,7 +13,7 @@ var Test = /*#__PURE__*/ function() {
     Test.something = function something(obj) {
         var _s;
         var _x, _x1;
-        swcHelpers.classPrivateFieldSet(obj[(new (_x = new WeakMap(), function _class() {
+        swcHelpers.classPrivateFieldSet(obj[(new (_x = /*#__PURE__*/ new WeakMap(), function _class() {
             swcHelpers.classCallCheck(this, _class);
             swcHelpers.classPrivateFieldInit(this, _x, {
                 writable: true,
@@ -21,7 +21,7 @@ var Test = /*#__PURE__*/ function() {
             });
             this.s = "prop";
         })).s], _y, 1);
-        swcHelpers.classPrivateFieldSet(_s = obj[(new (_x1 = new WeakMap(), function _class() {
+        swcHelpers.classPrivateFieldSet(_s = obj[(new (_x1 = /*#__PURE__*/ new WeakMap(), function _class() {
             swcHelpers.classCallCheck(this, _class);
             swcHelpers.classPrivateFieldInit(this, _x1, {
                 writable: true,

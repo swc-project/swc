@@ -1,17 +1,17 @@
 import * as swcHelpers from "@swc/helpers";
 var /**
      * @public
-     */ _a = new WeakMap(), /**
+     */ _a = /*#__PURE__*/ new WeakMap(), /**
      * @private
-     */ _b = new WeakMap(), /**
+     */ _b = /*#__PURE__*/ new WeakMap(), /**
      * @protected
-     */ _c = new WeakMap(), /**
+     */ _c = /*#__PURE__*/ new WeakMap(), /**
      * @public
-     */ _aMethod = new WeakSet(), /**
+     */ _aMethod = /*#__PURE__*/ new WeakSet(), /**
      * @private
-     */ _bMethod = new WeakSet(), /**
+     */ _bMethod = /*#__PURE__*/ new WeakSet(), /**
      * @protected
-     */ _cMethod = new WeakSet(), _aProp = new WeakMap(), _bProp = new WeakMap(), _cProp = new WeakMap();
+     */ _cMethod = /*#__PURE__*/ new WeakSet(), _aProp = /*#__PURE__*/ new WeakMap(), _bProp = /*#__PURE__*/ new WeakMap(), _cProp = /*#__PURE__*/ new WeakMap();
 // @allowJs: true
 // @checkJs: true
 // @strict: true

@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var _x, _class;
 // @target: es2015
-const C = (_x = new WeakMap(), _class = class {
+const C = (_x = /*#__PURE__*/ new WeakMap(), _class = class {
     m() {
         swcHelpers.classPrivateFieldSet(this, _x, swcHelpers.classPrivateFieldGet(this, _x) + 2); // Error
     }

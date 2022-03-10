@@ -32,7 +32,7 @@ function _templateObject2() {
     };
     return data;
 }
-var _method = new WeakSet(), _method2 = new WeakSet();
+var _method = /*#__PURE__*/ new WeakSet(), _method2 = /*#__PURE__*/ new WeakSet();
 // @target: es2015
 var AA = /*#__PURE__*/ function() {
     "use strict";

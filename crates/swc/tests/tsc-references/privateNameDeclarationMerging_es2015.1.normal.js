@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 // @target: es6
 class D {
 }
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 class C {
     foo() {
         const c = new C();

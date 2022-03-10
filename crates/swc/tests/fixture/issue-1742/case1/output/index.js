@@ -17,7 +17,7 @@ function _templateObject1() {
     };
     return data;
 }
-var _tag = new WeakSet(), _tag2 = new WeakMap();
+var _tag = /*#__PURE__*/ new WeakSet(), _tag2 = /*#__PURE__*/ new WeakMap();
 var Foo = function Foo() {
     "use strict";
     swcHelpers.classCallCheck(this, Foo);

@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _method = new WeakSet(), _method2 = new WeakSet();
+var _method = /*#__PURE__*/ new WeakSet(), _method2 = /*#__PURE__*/ new WeakSet();
 // @target: es2015
 class AA {
     test() {

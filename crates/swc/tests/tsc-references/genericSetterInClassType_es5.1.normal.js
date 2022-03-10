@@ -20,7 +20,7 @@ var Generic;
     }();
     var c = new C();
     c.y = c.y;
-    var _value = new WeakMap();
+    var _value = /*#__PURE__*/ new WeakMap();
     var Box = /*#__PURE__*/ function() {
         "use strict";
         function Box() {

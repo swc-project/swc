@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _foo = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 class Parent {
     accessChildProps() {
@@ -18,7 +18,7 @@ var _bar = {
     writable: true,
     value: 5
 };
-var _foo1 = new WeakMap(), _bar1 = new WeakMap();
+var _foo1 = /*#__PURE__*/ new WeakMap(), _bar1 = /*#__PURE__*/ new WeakMap();
 class Child extends Parent {
     constructor(...args){
         super(...args);

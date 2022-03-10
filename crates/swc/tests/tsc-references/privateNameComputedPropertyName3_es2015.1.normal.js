@@ -1,10 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
-var _name = new WeakMap();
+var _name = /*#__PURE__*/ new WeakMap();
 // @target: esnext, es2022, es2015
 class Foo {
     getValue(x) {
         const obj = this;
-        var _y = new WeakMap();
+        var _y = /*#__PURE__*/ new WeakMap();
         let tmp = swcHelpers.classPrivateFieldGet(obj, _name);
         class Bar {
             [tmp]() {

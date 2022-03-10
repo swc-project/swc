@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _foo = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target: es6
 var A = function A() {
@@ -11,7 +11,7 @@ var A = function A() {
     });
     swcHelpers.classPrivateFieldSet(this, _foo, 3);
 };
-var _foo1 = new WeakMap();
+var _foo1 = /*#__PURE__*/ new WeakMap();
 var B = /*#__PURE__*/ function(A) {
     "use strict";
     swcHelpers.inherits(B, A);

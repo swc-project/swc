@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _field = new WeakMap();
+var _field = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 class A {
     static getInstance() {

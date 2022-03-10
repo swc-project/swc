@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 // @strict: true
 // @target: es6
 function Field() {
-    var _foo = new WeakMap(), _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap(), _foo = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Field_Field {
         constructor(){
@@ -16,7 +16,7 @@ function Field() {
             });
         }
     }
-    var _foo1 = new WeakMap(), _foo1 = new WeakSet();
+    var _foo1 = /*#__PURE__*/ new WeakMap(), _foo1 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_Field_Method {
         constructor(){
@@ -28,7 +28,7 @@ function Field() {
         }
     }
     function foo() {}
-    var _foo2 = new WeakMap(), _foo2 = new WeakMap();
+    var _foo2 = /*#__PURE__*/ new WeakMap(), _foo2 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Field_Getter {
         constructor(){
@@ -45,7 +45,7 @@ function Field() {
     function get_foo() {
         return "";
     }
-    var _foo3 = new WeakMap(), _foo3 = new WeakMap();
+    var _foo3 = /*#__PURE__*/ new WeakMap(), _foo3 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Field_Setter {
         constructor(){
@@ -60,7 +60,7 @@ function Field() {
         }
     }
     function set_foo(value) {}
-    var _foo4 = new WeakMap();
+    var _foo4 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Field_StaticField {
         constructor(){
@@ -74,7 +74,7 @@ function Field() {
         writable: true,
         value: "foo"
     };
-    var _foo5 = new WeakMap();
+    var _foo5 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Field_StaticMethod {
         constructor(){
@@ -85,7 +85,7 @@ function Field() {
         }
     }
     function foo1() {}
-    var _foo6 = new WeakMap();
+    var _foo6 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Field_StaticGetter {
         constructor(){
@@ -102,7 +102,7 @@ function Field() {
     function get_foo1() {
         return "";
     }
-    var _foo7 = new WeakMap();
+    var _foo7 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Field_StaticSetter {
         constructor(){
@@ -119,7 +119,7 @@ function Field() {
     function set_foo1(value) {}
 }
 function Method() {
-    var _foo = new WeakSet(), _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakSet(), _foo = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Method_Field {
         constructor(){
@@ -131,7 +131,7 @@ function Method() {
         }
     }
     function foo() {}
-    var _foo8 = new WeakSet(), _foo8 = new WeakSet();
+    var _foo8 = /*#__PURE__*/ new WeakSet(), _foo8 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_Method_Method {
         constructor(){
@@ -141,7 +141,7 @@ function Method() {
     }
     function foo2() {}
     function foo2() {}
-    var _foo9 = new WeakSet(), _foo9 = new WeakMap();
+    var _foo9 = /*#__PURE__*/ new WeakSet(), _foo9 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Method_Getter {
         constructor(){
@@ -156,7 +156,7 @@ function Method() {
     function get_foo() {
         return "";
     }
-    var _foo10 = new WeakSet(), _foo10 = new WeakMap();
+    var _foo10 = /*#__PURE__*/ new WeakSet(), _foo10 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Method_Setter {
         constructor(){
@@ -169,7 +169,7 @@ function Method() {
     }
     function foo4() {}
     function set_foo(value) {}
-    var _foo11 = new WeakSet();
+    var _foo11 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_Method_StaticField {
         constructor(){
@@ -181,7 +181,7 @@ function Method() {
         value: "foo"
     };
     function foo5() {}
-    var _foo12 = new WeakSet();
+    var _foo12 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_Method_StaticMethod {
         constructor(){
@@ -190,7 +190,7 @@ function Method() {
     }
     function foo6() {}
     function foo6() {}
-    var _foo13 = new WeakSet();
+    var _foo13 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_Method_StaticGetter {
         constructor(){
@@ -205,7 +205,7 @@ function Method() {
     function get_foo2() {
         return "";
     }
-    var _foo14 = new WeakSet();
+    var _foo14 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_Method_StaticSetter {
         constructor(){
@@ -220,7 +220,7 @@ function Method() {
     function set_foo2(value) {}
 }
 function Getter() {
-    var _foo = new WeakMap(), _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap(), _foo = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Getter_Field {
         constructor(){
@@ -237,7 +237,7 @@ function Getter() {
     function get_foo() {
         return "";
     }
-    var _foo15 = new WeakMap(), _foo15 = new WeakSet();
+    var _foo15 = /*#__PURE__*/ new WeakMap(), _foo15 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_Getter_Method {
         constructor(){
@@ -252,7 +252,7 @@ function Getter() {
         return "";
     }
     function foo() {}
-    var _foo16 = new WeakMap();
+    var _foo16 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Getter_Getter {
         constructor(){
@@ -268,7 +268,7 @@ function Getter() {
     function get_foo4() {
         return "";
     }
-    var _foo17 = new WeakMap();
+    var _foo17 = /*#__PURE__*/ new WeakMap();
     //OK
     class A_Getter_Setter {
         constructor(){
@@ -282,7 +282,7 @@ function Getter() {
         return "";
     }
     function set_foo(value) {}
-    var _foo18 = new WeakMap();
+    var _foo18 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Getter_StaticField {
         constructor(){
@@ -296,7 +296,7 @@ function Getter() {
         return "";
     }
     function foo9() {}
-    var _foo19 = new WeakMap();
+    var _foo19 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Getter_StaticMethod {
         constructor(){
@@ -310,7 +310,7 @@ function Getter() {
         return "";
     }
     function foo10() {}
-    var _foo20 = new WeakMap();
+    var _foo20 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Getter_StaticGetter {
         constructor(){
@@ -330,7 +330,7 @@ function Getter() {
     function get_foo8() {
         return "";
     }
-    var _foo21 = new WeakMap();
+    var _foo21 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Getter_StaticSetter {
         constructor(){
@@ -350,7 +350,7 @@ function Getter() {
     function set_foo3(value) {}
 }
 function Setter() {
-    var _foo = new WeakMap(), _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap(), _foo = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Setter_Field {
         constructor(){
@@ -365,7 +365,7 @@ function Setter() {
         }
     }
     function set_foo(value) {}
-    var _foo22 = new WeakMap(), _foo22 = new WeakSet();
+    var _foo22 = /*#__PURE__*/ new WeakMap(), _foo22 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_Setter_Method {
         constructor(){
@@ -378,7 +378,7 @@ function Setter() {
     }
     function set_foo4(value) {}
     function foo() {}
-    var _foo23 = new WeakMap();
+    var _foo23 = /*#__PURE__*/ new WeakMap();
     // OK
     class A_Setter_Getter {
         constructor(){
@@ -392,7 +392,7 @@ function Setter() {
     function get_foo() {
         return "";
     }
-    var _foo24 = new WeakMap();
+    var _foo24 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Setter_Setter {
         constructor(){
@@ -404,7 +404,7 @@ function Setter() {
     }
     function set_foo6(value) {}
     function set_foo6(value) {}
-    var _foo25 = new WeakMap();
+    var _foo25 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Setter_StaticField {
         constructor(){
@@ -419,7 +419,7 @@ function Setter() {
         value: "foo"
     };
     function set_foo7(value) {}
-    var _foo26 = new WeakMap();
+    var _foo26 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Setter_StaticMethod {
         constructor(){
@@ -431,7 +431,7 @@ function Setter() {
     }
     function set_foo8(value) {}
     function foo11() {}
-    var _foo27 = new WeakMap();
+    var _foo27 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Setter_StaticGetter {
         constructor(){
@@ -449,7 +449,7 @@ function Setter() {
     function get_foo10() {
         return "";
     }
-    var _foo28 = new WeakMap();
+    var _foo28 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_Setter_StaticSetter {
         constructor(){
@@ -467,7 +467,7 @@ function Setter() {
     function set_foo10(value) {}
 }
 function StaticField() {
-    var _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticField_Field {
         constructor(){
@@ -481,7 +481,7 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
-    var _foo29 = new WeakSet();
+    var _foo29 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_StaticField_Method {
         constructor(){
@@ -493,7 +493,7 @@ function StaticField() {
         value: "foo"
     };
     function foo() {}
-    var _foo30 = new WeakMap();
+    var _foo30 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticField_Getter {
         constructor(){
@@ -510,7 +510,7 @@ function StaticField() {
     function get_foo() {
         return "";
     }
-    var _foo31 = new WeakMap();
+    var _foo31 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticField_Setter {
         constructor(){
@@ -572,7 +572,7 @@ function StaticField() {
     function set_foo11(value) {}
 }
 function StaticMethod() {
-    var _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticMethod_Field {
         constructor(){
@@ -583,7 +583,7 @@ function StaticMethod() {
         }
     }
     function foo() {}
-    var _foo36 = new WeakSet();
+    var _foo36 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_StaticMethod_Method {
         constructor(){
@@ -592,7 +592,7 @@ function StaticMethod() {
     }
     function foo13() {}
     function foo13() {}
-    var _foo37 = new WeakMap();
+    var _foo37 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticMethod_Getter {
         constructor(){
@@ -606,7 +606,7 @@ function StaticMethod() {
     function get_foo() {
         return "";
     }
-    var _foo38 = new WeakMap();
+    var _foo38 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticMethod_Setter {
         constructor(){
@@ -653,7 +653,7 @@ function StaticMethod() {
     function set_foo12(value) {}
 }
 function StaticGetter() {
-    var _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticGetter_Field {
         constructor(){
@@ -670,7 +670,7 @@ function StaticGetter() {
     function get_foo() {
         return "";
     }
-    var _foo42 = new WeakSet();
+    var _foo42 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_StaticGetter_Method {
         constructor(){
@@ -685,7 +685,7 @@ function StaticGetter() {
         return "";
     }
     function foo() {}
-    var _foo43 = new WeakMap();
+    var _foo43 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticGetter_Getter {
         constructor(){
@@ -705,7 +705,7 @@ function StaticGetter() {
     function get_foo14() {
         return "";
     }
-    var _foo44 = new WeakMap();
+    var _foo44 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticGetter_Setter {
         constructor(){
@@ -771,7 +771,7 @@ function StaticGetter() {
     function set_foo13(value) {}
 }
 function StaticSetter() {
-    var _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticSetter_Field {
         constructor(){
@@ -786,7 +786,7 @@ function StaticSetter() {
         set: set_foo
     };
     function set_foo(value) {}
-    var _foo49 = new WeakSet();
+    var _foo49 = /*#__PURE__*/ new WeakSet();
     // Error
     class A_StaticSetter_Method {
         constructor(){
@@ -799,7 +799,7 @@ function StaticSetter() {
     };
     function set_foo14(value) {}
     function foo() {}
-    var _foo50 = new WeakMap();
+    var _foo50 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticSetter_Getter {
         constructor(){
@@ -817,7 +817,7 @@ function StaticSetter() {
     function get_foo() {
         return "";
     }
-    var _foo51 = new WeakMap();
+    var _foo51 = /*#__PURE__*/ new WeakMap();
     // Error
     class A_StaticSetter_Setter {
         constructor(){
