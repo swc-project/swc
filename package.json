@@ -63,7 +63,7 @@
         "version": "napi version -p scripts/npm"
     },
     "devDependencies": {
-        "@babel/compat-data": "^7.16.4",
+        "@babel/compat-data": "^7.17.0",
         "@babel/core": "^7.13.16",
         "@babel/plugin-proposal-class-properties": "^7.13.0",
         "@babel/plugin-proposal-decorators": "^7.13.15",
@@ -83,6 +83,7 @@
         "benchmark": "^2.1.4",
         "class-validator": "^0.13.1",
         "core-js": "^2.6.11",
+        "core-js-compat": "^3.21.1",
         "cross-env": "^7.0.3",
         "cspell": "^5.12.3",
         "expect": "^27.4.2",
@@ -107,18 +108,18 @@
         "url": "https://opencollective.com/swc"
     },
     "optionalDependencies": {
-        "@swc/core-win32-x64-msvc": "1.2.146",
+        "@swc/core-android-arm-eabi": "1.2.146",
+        "@swc/core-android-arm64": "1.2.146",
+        "@swc/core-darwin-arm64": "1.2.146",
         "@swc/core-darwin-x64": "1.2.146",
+        "@swc/core-freebsd-x64": "1.2.146",
+        "@swc/core-linux-arm-gnueabihf": "1.2.146",
+        "@swc/core-linux-arm64-gnu": "1.2.146",
+        "@swc/core-linux-arm64-musl": "1.2.146",
         "@swc/core-linux-x64-gnu": "1.2.146",
         "@swc/core-linux-x64-musl": "1.2.146",
-        "@swc/core-freebsd-x64": "1.2.146",
-        "@swc/core-win32-ia32-msvc": "1.2.146",
-        "@swc/core-linux-arm64-gnu": "1.2.146",
-        "@swc/core-linux-arm-gnueabihf": "1.2.146",
-        "@swc/core-darwin-arm64": "1.2.146",
-        "@swc/core-android-arm64": "1.2.146",
-        "@swc/core-linux-arm64-musl": "1.2.146",
         "@swc/core-win32-arm64-msvc": "1.2.146",
-        "@swc/core-android-arm-eabi": "1.2.146"
+        "@swc/core-win32-ia32-msvc": "1.2.146",
+        "@swc/core-win32-x64-msvc": "1.2.146"
     }
 }
