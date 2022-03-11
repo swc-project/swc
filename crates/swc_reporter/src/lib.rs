@@ -124,14 +124,7 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
     }
 
     fn severity(&self) -> Option<Severity> {
-        match self.d.level {
-            Level::FailureNote | Level::Bug | Level::Fatal | Level::PhaseFatal | Level::Error => {
-                Some(Severity::Error)
-            }
-            Level::Warning => Some(Severity::Warning),
-            Level::Note | Level::Help => Some(Severity::Advice),
-            Level::Cancelled => None,
-        }
+        level_to_severity(self.d.level)
     }
 
     fn help<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
@@ -197,15 +190,15 @@ struct MietteSubdiagnostic<'a> {
 
 impl miette::Diagnostic for MietteSubdiagnostic<'_> {
     fn code<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
-        todo!()
+        None
     }
 
     fn severity(&self) -> Option<Severity> {
-        todo!()
+        level_to_severity(self.d.level)
     }
 
     fn help<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
-        todo!()
+        None
     }
 
     fn url<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
@@ -217,11 +210,15 @@ impl miette::Diagnostic for MietteSubdiagnostic<'_> {
     }
 
     fn labels(&self) -> Option<Box<dyn Iterator<Item = LabeledSpan> + '_>> {
-        todo!()
+        let iter = self.d.span.span_labels().into_iter().map(|span_label| {
+            LabeledSpan::new_with_span(span_label.label, convert_span(span_label.span))
+        });
+
+        Some(Box::new(iter))
     }
 
     fn related<'a>(&'a self) -> Option<Box<dyn Iterator<Item = &'a dyn miette::Diagnostic> + 'a>> {
-        todo!()
+        None
     }
 }
 
@@ -279,5 +276,16 @@ impl<'a> SpanContents<'a> for SpanContentsImpl {
 
     fn name(&self) -> Option<&str> {
         self.name.as_deref()
+    }
+}
+
+fn level_to_severity(level: Level) -> Option<Severity> {
+    match level {
+        Level::FailureNote | Level::Bug | Level::Fatal | Level::PhaseFatal | Level::Error => {
+            Some(Severity::Error)
+        }
+        Level::Warning => Some(Severity::Warning),
+        Level::Note | Level::Help => Some(Severity::Advice),
+        Level::Cancelled => None,
     }
 }
