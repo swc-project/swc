@@ -1782,7 +1782,16 @@ where
     #[emitter]
     fn emit_ns_prefix(&mut self, n: &NsPrefix) -> Result {
         emit!(self, n.prefix);
-        write!(self, "|");
+
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.hi - BytePos(1), n.span.hi, Default::default())
+            };
+
+            write!(self, span, "|")
+        }
     }
 
     #[emitter]
