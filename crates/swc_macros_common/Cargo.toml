@@ -15,4 +15,4 @@ quote = "1"
 
 [dependencies.syn]
 features = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]
-version = "=1.0.84"
+version = "1"

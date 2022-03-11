@@ -15,6 +15,6 @@ swc_ecma_ast = {version = "0.69.0", path = "../swc_ecma_ast"}
 swc_ecma_visit = {version = "0.55.0", path = "../swc_ecma_visit"}
 
 [dev-dependencies]
-pretty_assertions = "0.7.2"
+pretty_assertions = "1.1"
 swc_ecma_parser = {version = "0.92.0", path = "../swc_ecma_parser"}
 testing = {version = "0.18.0", path = "../testing"}
