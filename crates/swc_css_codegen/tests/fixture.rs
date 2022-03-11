@@ -18,17 +18,17 @@ use testing::{assert_eq, run_test2, NormalizedOutput};
 
 fn run(input: &Path, minify: bool) {
     let dir = input.parent().unwrap();
-    let map = if minify {
-        dir.join(format!(
-            "output.min.{}.map",
-            input.extension().unwrap().to_string_lossy()
-        ))
-    } else {
-        dir.join(format!(
-            "output.{}.map",
-            input.extension().unwrap().to_string_lossy()
-        ))
-    };
+    // let map = if minify {
+    //     dir.join(format!(
+    //         "output.min.{}.map",
+    //         input.extension().unwrap().to_string_lossy()
+    //     ))
+    // } else {
+    //     dir.join(format!(
+    //         "output.{}.map",
+    //         input.extension().unwrap().to_string_lossy()
+    //     ))
+    // };
     let output = if minify {
         dir.join(format!(
             "output.min.{}",
@@ -61,12 +61,12 @@ fn run(input: &Path, minify: bool) {
         }
 
         let mut css_str = String::new();
-        let mut src_map_buf = vec![];
+        // let mut src_map_buf = vec![];
 
         {
             let wr = BasicCssWriter::new(
                 &mut css_str,
-                Some(&mut src_map_buf),
+                None, // Some(&mut src_map_buf),
                 BasicCssWriterConfig::default(),
             );
 
@@ -75,11 +75,11 @@ fn run(input: &Path, minify: bool) {
             gen.emit(&stylesheet).unwrap();
         }
 
-        let source_map = cm.build_source_map(&mut src_map_buf);
-        let mut source_map_output: Vec<u8> = vec![];
-        source_map.to_writer(&mut source_map_output).unwrap();
-        let str_source_map_output = String::from_utf8_lossy(&source_map_output);
-        std::fs::write(map, &*str_source_map_output).expect("Unable to write file");
+        // let source_map = cm.build_source_map(&mut src_map_buf);
+        // let mut source_map_output: Vec<u8> = vec![];
+        // source_map.to_writer(&mut source_map_output).unwrap();
+        // let str_source_map_output = String::from_utf8_lossy(&source_map_output);
+        // std::fs::write(map, &*str_source_map_output).expect("Unable to write file");
 
         let fm_output = cm.load_file(&output).unwrap();
 
