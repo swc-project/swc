@@ -906,14 +906,16 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "isolate" => {
-                            same_name!("-webkit-isolate");
                             same_name!("-moz-isolate");
+                            same_name!("-webkit-isolate");
                         }
                         "isolate-override" => {
                             same_name!("-moz-isolate-override");
+                            same_name!("-webpack-isolate-override");
                         }
                         "plaintext" => {
                             same_name!("-moz-plaintext");
+                            same_name!("-webpack-plaintext");
                         }
                         _ => {}
                     }
