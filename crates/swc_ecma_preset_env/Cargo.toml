@@ -3,9 +3,10 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "preset-env for the swc"
 documentation = "https://rustdoc.swc.rs/swc_ecma_preset_env/"
 edition = "2021"
+include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
 license = "Apache-2.0"
 name = "swc_ecma_preset_env"
-version = "0.105.0"
+version = "0.105.3"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
