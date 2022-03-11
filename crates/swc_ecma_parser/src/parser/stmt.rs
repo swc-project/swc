@@ -436,7 +436,11 @@ impl<'a, I: Tokens> Parser<I> {
         assert_and_bump!(self, "if");
 
         expect!(self, '(');
-        let test = self.include_in_expr(true).parse_expr()?;
+        let ctx = Context {
+            ignore_else_clause: false,
+            ..self.ctx()
+        };
+        let test = self.with_ctx(ctx).include_in_expr(true).parse_expr()?;
         if !eat!(self, ')') {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
