@@ -211,6 +211,8 @@ export interface TerserMangleOptions {
   ie8?: boolean,
 
   safari10?: boolean,
+  
+  reserved?: string[],
 }
 
 export interface TerserManglePropertiesOptions {
