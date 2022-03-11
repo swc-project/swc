@@ -7,7 +7,7 @@ use swc_ecma_utils::{quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn typeof_symbol() -> impl VisitMut + Fold {
     as_folder(TypeOfSymbol)
 }
@@ -144,7 +144,7 @@ impl VisitMut for TypeOfSymbol {
     }
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn is_non_symbol_literal(e: &Expr) -> bool {
     matches!(
         *e,

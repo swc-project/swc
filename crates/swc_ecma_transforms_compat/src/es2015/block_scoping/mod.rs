@@ -33,7 +33,7 @@ mod vars;
 ///    });
 /// }
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn block_scoping() -> impl VisitMut + Fold {
     as_folder(chain!(
         self::vars::block_scoped_vars(),

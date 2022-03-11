@@ -32,7 +32,7 @@ mod sticky_regex;
 pub mod template_literal;
 mod typeof_symbol;
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn exprs() -> impl Fold {
     chain!(
         arrow(),
@@ -44,7 +44,7 @@ fn exprs() -> impl Fold {
 }
 
 /// Compiles es2015 to es5.
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn es2015<C>(global_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
 where
     C: Comments,

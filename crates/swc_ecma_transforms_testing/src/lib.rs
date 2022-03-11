@@ -43,6 +43,12 @@ use testing::{assert_eq, find_executable, NormalizedOutput};
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub handler: &'a Handler,
+    /// This will be changed to [SingleThreadedComments] once `cargo-mono`
+    /// supports correct bumping logic, or we need to make a breaking change in
+    /// a upstream crate of this crate.
+    ///
+    /// Although type is `Rc<SingleThreadedComments>`, it's fine to clone
+    /// `SingleThreadedComments` without `Rc`.
     pub comments: Rc<SingleThreadedComments>,
 }
 

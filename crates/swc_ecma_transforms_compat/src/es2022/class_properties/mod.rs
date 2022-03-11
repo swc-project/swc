@@ -44,7 +44,7 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export default class
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn class_properties<C: Comments>(cm: Option<C>, config: Config) -> impl Fold + VisitMut {
     as_folder(ClassProperties {
         c: config,

@@ -211,6 +211,8 @@ export interface TerserMangleOptions {
   ie8?: boolean,
 
   safari10?: boolean,
+  
+  reserved?: string[],
 }
 
 export interface TerserManglePropertiesOptions {
@@ -516,6 +518,8 @@ export interface JscConfig {
   }
 
   minify?: JsMinifyOptions;
+
+  preserveAllComments?: boolean;
 }
 
 export type JscTarget =

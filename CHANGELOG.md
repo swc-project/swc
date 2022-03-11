@@ -5,10 +5,34 @@
 
 
 
+- **(api/rust)** Fix transform comment api (#3962) ([fcbd3c5](https://github.com/swc-project/swc/commit/fcbd3c5c5849418b911d87d3a0b36eb84bef1a68))
+
+
+- **(es)** Adjust tracing span level (#3911) ([ca071fb](https://github.com/swc-project/swc/commit/ca071fb705210ec33698dbce81069156de4fcf7a))
+
+
 - **(es/codegen)** Fix sourcemap issue caused by reserved `BytePos` values (#3948) ([e8018c5](https://github.com/swc-project/swc/commit/e8018c54d4581c43c72d27e51d0aa36a64881a9e))
 
 
 - **(es/compat)** Refer this in constructor when `super_is_callable_constructor` is set (#3944) ([de8a711](https://github.com/swc-project/swc/commit/de8a7116cd587a6ddb8d734ffd96cdacd076f48c))
+
+
+- **(es/minifier)** Preserve fuction parameters used for template literals in `evaluate` and `reduce_vars` (#3949) ([91a302a](https://github.com/swc-project/swc/commit/91a302a672a70a34fe693fa84d65ba87901d0f36))
+
+
+- **(node-swc/types)** Add `reserved` to `TerserMangleOptions` (#3959) ([70a68a7](https://github.com/swc-project/swc/commit/70a68a785091845c5e66ab3fe0fd52cc47f11a80))
+
+### Features
+
+
+
+- **(css/codegen)** Support source map (#3958) ([5a6ebd3](https://github.com/swc-project/swc/commit/5a6ebd36ee7a35e81e4f3b0961106a41f83f6b7f))
+
+
+- **(es)** Add an option to preserve all comments (#3815) ([c5a0c9a](https://github.com/swc-project/swc/commit/c5a0c9a0ab2345aa9c41a40100d049a144dfb70f))
+
+
+- **(es/lints)** Refine error message (#3952) ([579aeb7](https://github.com/swc-project/swc/commit/579aeb7cfacb38d822634e5c82b209bd311ac9b2))
 
 ## [1.2.152] - 2022-03-10
 

@@ -19,7 +19,7 @@ use swc_trace_macro::swc_trace;
 /// var _abstract = 1;
 /// var x = _abstract + 1;
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn reserved_words(preserve_import: bool) -> impl Fold {
     ReservedWord { preserve_import }
 }

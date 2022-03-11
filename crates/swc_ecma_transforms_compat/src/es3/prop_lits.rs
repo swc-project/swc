@@ -30,7 +30,7 @@ use swc_trace_macro::swc_trace;
 ///   foo: 1
 /// };
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn property_literals() -> impl Fold {
     PropertyLiteral
 }

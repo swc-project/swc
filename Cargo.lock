@@ -2705,7 +2705,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.146.0"
+version = "0.148.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2818,7 +2818,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.20.0"
+version = "0.22.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -2873,7 +2873,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.98.0"
+version = "0.99.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2896,7 +2896,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.95.0"
+version = "0.96.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2941,7 +2941,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.60.0"
+version = "0.61.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2969,7 +2969,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.86.0"
+version = "0.86.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3060,7 +3060,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.22.2"
+version = "0.22.3"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3101,7 +3101,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.88.0"
+version = "0.88.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3521,7 +3521,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.66.0"
+version = "0.68.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3671,7 +3671,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.94.3"
+version = "0.95.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3693,7 +3693,7 @@ dependencies = [
 
 [[package]]
 name = "swc_trace_macro"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3722,7 +3722,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.64.0"
+version = "0.66.0"
 dependencies = [
  "anyhow",
  "rayon",
