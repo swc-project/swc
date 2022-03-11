@@ -445,6 +445,8 @@ impl<'a, I: Tokens> Parser<I> {
             self.parse_stmt(false).map(Box::new)?
         };
 
+        // We parse `else` branch iteratively, to avoid stack overflow
+        // See https://github.com/swc-project/swc/pull/3961
         let alt = if eat!(self, "else") {
             Some(self.parse_stmt(false).map(Box::new)?)
         } else {
