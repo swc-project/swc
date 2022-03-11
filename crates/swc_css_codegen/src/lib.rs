@@ -1776,7 +1776,15 @@ where
             emit!(self, prefix);
         }
 
-        write!(self, "*");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.hi - BytePos(1), n.span.hi, Default::default())
+            };
+
+            write!(self, span, "*");
+        }
     }
 
     #[emitter]
@@ -1945,7 +1953,16 @@ where
 
     #[emitter]
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
-        write!(self, ":");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
+            };
+
+            write!(self, span, ":");
+        }
+
         emit!(self, n.name);
 
         if let Some(children) = &n.children {
@@ -1997,7 +2014,26 @@ where
 
     #[emitter]
     fn emit_pseudo_element_selector(&mut self, n: &PseudoElementSelector) -> Result {
-        write!(self, "::");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
+            };
+
+            write!(self, span, ":");
+        }
+
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(2), Default::default())
+            };
+
+            write!(self, span, ":");
+        }
+
         emit!(self, n.name);
 
         if let Some(children) = &n.children {
