@@ -1749,13 +1749,31 @@ where
 
     #[emitter]
     fn emit_id_selector(&mut self, n: &IdSelector) -> Result {
-        write!(self, "#");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
+            };
+
+            write!(self, span, "#");
+        }
+
         emit!(self, n.text);
     }
 
     #[emitter]
     fn emit_class_selector(&mut self, n: &ClassSelector) -> Result {
-        write!(self, ".");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
+            };
+
+            write!(self, span, ".");
+        }
+
         emit!(self, n.text);
     }
 
