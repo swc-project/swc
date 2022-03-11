@@ -1,13 +1,14 @@
 use std::io;
 
 use anyhow::{Context, Error};
-use crc::{crc64, crc64::Digest, Hasher64};
+use crc::{Crc, Digest, CRC_64_ECMA_182};
 use swc_common::{sync::Lrc, SourceMap, Span};
 use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 
 pub(crate) fn calc_hash(cm: Lrc<SourceMap>, m: &Module) -> Result<String, Error> {
-    let digest = crc64::Digest::new(crc64::ECMA);
+    let crc = Crc::<u64>::new(&CRC_64_ECMA_182);
+    let digest = crc.digest();
     let mut buf = Hasher { digest };
 
     {
@@ -24,21 +25,21 @@ pub(crate) fn calc_hash(cm: Lrc<SourceMap>, m: &Module) -> Result<String, Error>
     }
     //
 
-    let result = buf.digest.sum64();
+    let result = buf.digest.finalize();
     Ok(radix_fmt::radix(result, 36).to_string())
 }
 
-struct Hasher {
-    digest: Digest,
+struct Hasher<'a> {
+    digest: Digest<'a, u64>,
 }
 
-impl Hasher {
+impl Hasher<'_> {
     fn w(&mut self, s: &str) {
-        self.digest.write(s.as_bytes());
+        self.digest.update(s.as_bytes());
     }
 }
 
-impl WriteJs for &mut Hasher {
+impl WriteJs for &mut Hasher<'_> {
     fn target(&self) -> EsVersion {
         EsVersion::latest()
     }

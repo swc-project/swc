@@ -12,9 +12,9 @@ version = "0.105.0"
 [dependencies]
 ahash = "0.7.4"
 anyhow = "1"
-dashmap = "4.0.2"
+dashmap = "5.1.0"
 indexmap = "1.6.2"
-once_cell = "1.9.0"
+once_cell = "1.10.0"
 preset_env_base = {version = "0.2.0", path = "../preset_env_base"}
 semver = {version = "1.0.4", features = ["serde"]}
 serde = {version = "1", features = ["derive"]}
@@ -29,7 +29,7 @@ swc_ecma_utils = {version = "0.71.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.55.0", path = "../swc_ecma_visit"}
 
 [dev-dependencies]
-pretty_assertions = "0.7.2"
+pretty_assertions = "1.1"
 swc_ecma_codegen = {version = "0.94.0", path = "../swc_ecma_codegen"}
 swc_ecma_parser = {version = "0.92.0", path = "../swc_ecma_parser"}
 testing = {version = "0.18.0", path = "../testing"}

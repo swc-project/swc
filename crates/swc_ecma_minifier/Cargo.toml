@@ -20,9 +20,9 @@ debug = ["backtrace"]
 ahash = "0.7.6"
 backtrace = {version = "0.3.61", optional = true}
 indexmap = "1.7.0"
-once_cell = "1.9.0"
+once_cell = "1.10.0"
 parking_lot = "0.12.0"
-pretty_assertions = {version = "0.7.2", optional = true}
+pretty_assertions = {version = "1.1", optional = true}
 rayon = "1.5.1"
 regex = "1.5.3"
 retain_mut = "0.1.2"
@@ -45,6 +45,6 @@ unicode-id = "0.3.0"
 [dev-dependencies]
 ansi_term = "0.12.1"
 anyhow = "1"
-pretty_assertions = "0.7.2"
+pretty_assertions = "1.1"
 swc_node_base = {version = "0.5.0", path = "../swc_node_base"}
 testing = {version = "0.18.0", path = "../testing"}
