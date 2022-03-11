@@ -1039,10 +1039,12 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.error(start_of_tpl, SyntaxError::UnterminatedTpl)?
     }
 
+    #[inline]
     pub fn had_line_break_before_last(&self) -> bool {
         self.state.had_line_break
     }
 
+    #[inline]
     pub fn set_expr_allowed(&mut self, allow: bool) {
         self.state.is_expr_allowed = allow;
     }
