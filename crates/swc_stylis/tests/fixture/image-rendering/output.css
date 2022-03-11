@@ -1,20 +1,20 @@
 img {
-image-rendering: crisp-edges;
+  image-rendering: crisp-edges;
 }
 img.other {
--ms-interpolation-mode: nearest-neighbor;
-image-rendering: -webkit-optimize-contrast;
-image-rendering: -moz-crisp-edges;
-image-rendering: -o-pixelated;
-image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-pixelated;
+  image-rendering: pixelated;
 }
 img.already {
--ms-interpolation-mode: nearest-neighbor;
-display: block;
-image-rendering: crisp-edges;
--ms-interpolation-mode: nearest-neighbor;
-image-rendering: -webkit-optimize-contrast;
-image-rendering: -moz-crisp-edges;
-image-rendering: -o-pixelated;
-image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+  display: block;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-pixelated;
+  image-rendering: pixelated;
 }

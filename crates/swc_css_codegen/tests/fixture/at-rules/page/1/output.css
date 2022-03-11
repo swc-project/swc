@@ -1,43 +1,43 @@
 @page {}
 @page {}
 @page {
-margin: 1cm;
+  margin: 1cm;
 }
 @page {
-margin: 1cm;
+  margin: 1cm;
 }
 @page {
-margin: 1cm;
+  margin: 1cm;
 }
 @page :first {
-margin: 2cm;
+  margin: 2cm;
 }
 @page :first {
-margin: 2cm;
+  margin: 2cm;
 }
 @page :first {
-margin: 2cm;
+  margin: 2cm;
 }
 @page :first {
-color: green;
-@top-left {
-content: "foo";
-color: blue;
-}
-@top-right {
-content: "bar";
-}
+  color: green;
+  @top-left {
+    content: "foo";
+    color: blue;
+  }
+  @top-right {
+    content: "bar";
+  }
 }
 @page :first {
-color: green;
-@top-left {
-content: "foo";
-color: blue;
-}
-@top-right {
-content: "bar";
-}
-margin: 20px;
+  color: green;
+  @top-left {
+    content: "foo";
+    color: blue;
+  }
+  @top-right {
+    content: "bar";
+  }
+  margin: 20px;
 }
 @page :right {}
 @page CompanyLetterHead:first {}

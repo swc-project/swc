@@ -36,8 +36,7 @@ fn minify_fixtures(input: PathBuf) {
 
         let mut css_str = String::new();
         {
-            // TODO: Create minifying css writer
-            let wr = BasicCssWriter::new(&mut css_str, BasicCssWriterConfig { indent: "\t" });
+            let wr = BasicCssWriter::new(&mut css_str, None, BasicCssWriterConfig::default());
             let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: true });
 
             gen.emit(&ss).unwrap();
