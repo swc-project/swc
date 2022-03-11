@@ -814,6 +814,12 @@ error: SupportsNot
 19 | @supports not (display: flex) {}
    |           ^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:19:11
+   |
+19 | @supports not (display: flex) {}
+   |           ^^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:19:16
    |
@@ -897,6 +903,12 @@ error: SupportsNot
    |
 20 | @SUPPORTS not (display: flex) {}
    |           ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:20:11
+   |
+20 | @SUPPORTS not (display: flex) {}
+   |           ^^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:20:16
@@ -1096,6 +1108,12 @@ error: SupportsOr
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:46
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                              ^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:50
    |
@@ -1216,6 +1234,12 @@ error: SupportsOr
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:89
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                         ^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:93
    |
@@ -1335,6 +1359,12 @@ error: SupportsOr
    |
 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
    |                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:21:135
+   |
+21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+   |                                                                                                                                       ^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:21:139
@@ -1623,6 +1653,12 @@ error: SupportsOr
 23 | |   ( -moz-box-shadow: 0 0 2px black inset ) or
    | |__________________________________________^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:22:47
+   |
+22 | @supports ( box-shadow: 0 0 2px black inset ) or
+   |                                               ^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:23:5
    |
@@ -1747,6 +1783,12 @@ error: SupportsOr
 24 | |   ( -webkit-box-shadow: 0 0 2px black inset ) or
    | |_____________________________________________^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:23:44
+   |
+23 |   ( -moz-box-shadow: 0 0 2px black inset ) or
+   |                                            ^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:24:5
    |
@@ -1870,6 +1912,12 @@ error: SupportsOr
    |  _______________________________________________^
 25 | |   ( -o-box-shadow: 0 0 2px black inset ) {
    | |________________________________________^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:24:47
+   |
+24 |   ( -webkit-box-shadow: 0 0 2px black inset ) or
+   |                                               ^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:25:5
@@ -2090,6 +2138,12 @@ error: SupportsOr
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                         ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:41
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                         ^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:45
    |
@@ -2143,6 +2197,12 @@ error: SupportsAnd
    |
 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
    |                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:28:67
+   |
+28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+   |                                                                   ^^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:28:72
@@ -2312,6 +2372,12 @@ error: SupportsOr
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:40
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                        ^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:44
    |
@@ -2383,6 +2449,12 @@ error: SupportsAnd
    |
 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
    |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:29:66
+   |
+29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+   |                                                                  ^^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:29:71
@@ -2552,6 +2624,12 @@ error: SupportsOr
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:55
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                       ^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:64
    |
@@ -2623,6 +2701,12 @@ error: SupportsAnd
    |
 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
    |                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:30:99
+   |
+30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+   |                                                                                                   ^^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:30:109
@@ -2792,6 +2876,12 @@ error: SupportsOr
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:37
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                     ^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:41
    |
@@ -2863,6 +2953,12 @@ error: SupportsAnd
    |
 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
    |                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:31:61
+   |
+31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+   |                                                             ^^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:31:66
@@ -3170,6 +3266,12 @@ error: SupportsNot
 34 | @supports NOT (display: flex) {}
    |           ^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:34:11
+   |
+34 | @supports NOT (display: flex) {}
+   |           ^^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:34:16
    |
@@ -3320,6 +3422,12 @@ error: SupportsOr
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                         ^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:35:41
+   |
+35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
+   |                                         ^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:45
    |
@@ -3373,6 +3481,12 @@ error: SupportsAnd
    |
 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
    |                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:35:67
+   |
+35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
+   |                                                                   ^^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:35:72
@@ -3542,6 +3656,12 @@ error: SupportsOr
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:36:40
+   |
+36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
+   |                                        ^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:44
    |
@@ -3613,6 +3733,12 @@ error: SupportsAnd
    |
 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
    |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:36:66
+   |
+36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
+   |                                                                  ^^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:36:71
@@ -3745,6 +3871,12 @@ error: SupportsNot
    |
 37 | @supports (NOT (display: flex)) {}
    |            ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:37:12
+   |
+37 | @supports (NOT (display: flex)) {}
+   |            ^^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/supports/input.css:37:17
@@ -6979,6 +7111,12 @@ error: SupportsNot
     |
 106 | @supports not selector(:is(a, b)) {
     |           ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/supports/input.css:106:11
+    |
+106 | @supports not selector(:is(a, b)) {
+    |           ^^^
 
 error: SupportsInParens
    --> $DIR/tests/fixture/at-rule/supports/input.css:106:15

@@ -372,7 +372,7 @@ where
     #[emitter]
     fn emit_media_not(&mut self, n: &MediaNot) -> Result {
         formatting_space!(self);
-        write!(self, "not");
+        emit!(self, n.keyword);
         space!(self);
         emit!(self, n.condition);
     }
@@ -380,7 +380,7 @@ where
     #[emitter]
     fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
         formatting_space!(self);
-        write!(self, "and");
+        emit!(self, n.keyword);
         space!(self);
         emit!(self, n.condition);
     }
@@ -388,7 +388,7 @@ where
     #[emitter]
     fn emit_media_or(&mut self, n: &MediaOr) -> Result {
         formatting_space!(self);
-        write!(self, "or");
+        emit!(self, n.keyword);
         space!(self);
         emit!(self, n.condition);
     }
@@ -397,9 +397,27 @@ where
     fn emit_media_in_parens(&mut self, n: &MediaInParens) -> Result {
         match n {
             MediaInParens::MediaCondition(n) => {
-                write!(self, "(");
+                {
+                    let span = if n.span.is_dummy() {
+                        DUMMY_SP
+                    } else {
+                        Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
+                    };
+
+                    write!(self, span, "(");
+                }
+
                 emit!(self, n);
-                write!(self, ")");
+
+                {
+                    let span = if n.span.is_dummy() {
+                        DUMMY_SP
+                    } else {
+                        Span::new(n.span.hi - BytePos(1), n.span.hi, Default::default())
+                    };
+
+                    write!(self, span, ")")
+                }
             }
             MediaInParens::Feature(n) => emit!(self, n),
         }
@@ -507,7 +525,7 @@ where
     #[emitter]
     fn emit_supports_not(&mut self, n: &SupportsNot) -> Result {
         formatting_space!(self);
-        write!(self, "not");
+        emit!(self, n.keyword);
         space!(self);
         emit!(self, n.condition);
     }
@@ -515,7 +533,7 @@ where
     #[emitter]
     fn emit_supports_and(&mut self, n: &SupportsAnd) -> Result {
         formatting_space!(self);
-        write!(self, "and");
+        emit!(self, n.keyword);
         space!(self);
         emit!(self, n.condition);
     }
@@ -523,7 +541,7 @@ where
     #[emitter]
     fn emit_support_or(&mut self, n: &SupportsOr) -> Result {
         formatting_space!(self);
-        write!(self, "or");
+        emit!(self, n.keyword);
         space!(self);
         emit!(self, n.condition);
     }

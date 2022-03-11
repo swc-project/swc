@@ -75,18 +75,21 @@ pub enum MediaConditionWithoutOrType {
 #[ast_node("MediaNot")]
 pub struct MediaNot {
     pub span: Span,
+    pub keyword: Ident,
     pub condition: MediaInParens,
 }
 
 #[ast_node("MediaAnd")]
 pub struct MediaAnd {
     pub span: Span,
+    pub keyword: Ident,
     pub condition: MediaInParens,
 }
 
 #[ast_node("MediaOr")]
 pub struct MediaOr {
     pub span: Span,
+    pub keyword: Ident,
     pub condition: MediaInParens,
 }
 

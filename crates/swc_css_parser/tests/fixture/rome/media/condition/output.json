@@ -185,6 +185,16 @@
                     "end": 77,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 55,
+                      "end": 58,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
@@ -238,6 +248,16 @@
                     "start": 78,
                     "end": 100,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 78,
+                      "end": 81,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -387,6 +407,16 @@
                     "end": 152,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 130,
+                      "end": 133,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
@@ -441,6 +471,16 @@
                     "end": 175,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 153,
+                      "end": 156,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
@@ -494,6 +534,16 @@
                     "start": 176,
                     "end": 198,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 176,
+                      "end": 179,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -596,6 +646,16 @@
                     "start": 209,
                     "end": 231,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 209,
+                      "end": 212,
+                      "ctxt": 0
+                    },
+                    "value": "not",
+                    "raw": "not"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -753,6 +813,16 @@
                         "end": 284,
                         "ctxt": 0
                       },
+                      "keyword": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 262,
+                          "end": 265,
+                          "ctxt": 0
+                        },
+                        "value": "and",
+                        "raw": "and"
+                      },
                       "condition": {
                         "type": "MediaFeaturePlain",
                         "span": {
@@ -808,6 +878,16 @@
                     "start": 286,
                     "end": 307,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 286,
+                      "end": 288,
+                      "ctxt": 0
+                    },
+                    "value": "or",
+                    "raw": "or"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -957,6 +1037,16 @@
                     "end": 383,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 337,
+                      "end": 340,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
                   "condition": {
                     "type": "MediaCondition",
                     "span": {
@@ -1017,6 +1107,16 @@
                           "start": 361,
                           "end": 382,
                           "ctxt": 0
+                        },
+                        "keyword": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 361,
+                            "end": 363,
+                            "ctxt": 0
+                          },
+                          "value": "or",
+                          "raw": "or"
                         },
                         "condition": {
                           "type": "MediaFeaturePlain",
@@ -1177,6 +1277,16 @@
                         "end": 436,
                         "ctxt": 0
                       },
+                      "keyword": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 414,
+                          "end": 417,
+                          "ctxt": 0
+                        },
+                        "value": "and",
+                        "raw": "and"
+                      },
                       "condition": {
                         "type": "MediaFeaturePlain",
                         "span": {
@@ -1232,6 +1342,16 @@
                     "start": 438,
                     "end": 459,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 438,
+                      "end": 440,
+                      "ctxt": 0
+                    },
+                    "value": "or",
+                    "raw": "or"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -1525,6 +1645,16 @@
                     "end": 559,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 513,
+                      "end": 516,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
                   "condition": {
                     "type": "MediaCondition",
                     "span": {
@@ -1585,6 +1715,16 @@
                           "start": 537,
                           "end": 558,
                           "ctxt": 0
+                        },
+                        "keyword": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 537,
+                            "end": 539,
+                            "ctxt": 0
+                          },
+                          "value": "or",
+                          "raw": "or"
                         },
                         "condition": {
                           "type": "MediaFeaturePlain",

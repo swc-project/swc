@@ -1378,6 +1378,12 @@ error: SupportsNot
 21 | @import url("fallback-layout.css") supports(not (display: flex));
    |                                             ^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:21:45
+   |
+21 | @import url("fallback-layout.css") supports(not (display: flex));
+   |                                             ^^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/at-rule/import/input.css:21:50
    |

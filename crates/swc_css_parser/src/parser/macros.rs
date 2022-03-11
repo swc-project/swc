@@ -97,21 +97,6 @@ macro_rules! is_case_insensitive_ident {
     }};
 }
 
-macro_rules! expect_case_insensitive_ident {
-    ($parser:expr, $tt:tt) => {
-        if is_case_insensitive_ident!($parser, $tt) {
-            bump!($parser);
-        } else {
-            let span = $parser.input.cur_span()?;
-
-            return Err(crate::error::Error::new(
-                span,
-                crate::error::ErrorKind::ExpectedButGot(stringify!($tt)),
-            ));
-        }
-    };
-}
-
 macro_rules! is_one_of_case_insensitive_ident {
     ($parser:expr, $($tt:tt),+) => {
         match $parser.input.cur()? {

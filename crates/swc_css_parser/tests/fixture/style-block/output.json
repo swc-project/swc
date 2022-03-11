@@ -1323,6 +1323,16 @@
                     "end": 555,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 536,
+                      "end": 539,
+                      "ctxt": 0
+                    },
+                    "value": "not",
+                    "raw": "not"
+                  },
                   "condition": {
                     "type": "Declaration",
                     "span": {
@@ -1648,6 +1658,16 @@
                     "start": 667,
                     "end": 686,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 667,
+                      "end": 670,
+                      "ctxt": 0
+                    },
+                    "value": "not",
+                    "raw": "not"
                   },
                   "condition": {
                     "type": "Declaration",
@@ -2081,6 +2101,16 @@
                     "start": 837,
                     "end": 856,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 837,
+                      "end": 840,
+                      "ctxt": 0
+                    },
+                    "value": "not",
+                    "raw": "not"
                   },
                   "condition": {
                     "type": "Declaration",

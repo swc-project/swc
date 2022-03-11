@@ -1172,6 +1172,16 @@
               "end": 826,
               "ctxt": 0
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 807,
+                "end": 810,
+                "ctxt": 0
+              },
+              "value": "not",
+              "raw": "not"
+            },
             "condition": {
               "type": "Declaration",
               "span": {

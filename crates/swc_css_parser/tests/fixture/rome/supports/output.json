@@ -28,6 +28,16 @@
               "end": 29,
               "ctxt": 0
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 10,
+                "end": 13,
+                "ctxt": 0
+              },
+              "value": "not",
+              "raw": "not"
+            },
             "condition": {
               "type": "Declaration",
               "span": {
@@ -184,6 +194,16 @@
               "end": 134,
               "ctxt": 0
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 81,
+                "end": 83,
+                "ctxt": 0
+              },
+              "value": "or",
+              "raw": "or"
+            },
             "condition": {
               "type": "Declaration",
               "span": {
@@ -281,6 +301,16 @@
               "end": 191,
               "ctxt": 0
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 135,
+                "end": 137,
+                "ctxt": 0
+              },
+              "value": "or",
+              "raw": "or"
+            },
             "condition": {
               "type": "Declaration",
               "span": {
@@ -377,6 +407,16 @@
               "start": 192,
               "end": 243,
               "ctxt": 0
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 192,
+                "end": 194,
+                "ctxt": 0
+              },
+              "value": "or",
+              "raw": "or"
             },
             "condition": {
               "type": "Declaration",
@@ -542,6 +582,16 @@
                   "end": 324,
                   "ctxt": 0
                 },
+                "keyword": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 289,
+                    "end": 291,
+                    "ctxt": 0
+                  },
+                  "value": "or",
+                  "raw": "or"
+                },
                 "condition": {
                   "type": "Declaration",
                   "span": {
@@ -582,6 +632,16 @@
               "start": 326,
               "end": 366,
               "ctxt": 0
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 326,
+                "end": 329,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "Declaration",

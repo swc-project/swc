@@ -474,6 +474,16 @@
                     "end": 231,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 209,
+                      "end": 212,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
@@ -527,6 +537,16 @@
                     "start": 232,
                     "end": 254,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 232,
+                      "end": 235,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -685,6 +705,16 @@
                     "end": 317,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 295,
+                      "end": 298,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
@@ -739,6 +769,16 @@
                     "end": 340,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 318,
+                      "end": 321,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
@@ -792,6 +832,16 @@
                     "start": 341,
                     "end": 363,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 341,
+                      "end": 344,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",

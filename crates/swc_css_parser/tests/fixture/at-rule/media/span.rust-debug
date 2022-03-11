@@ -6,9 +6,9 @@ error: Stylesheet
 3   | |
 4   | | @media all {}
 ...   |
-128 | |     }
-129 | | }
-    | |__^
+130 | |
+131 | | @media (NOT (color)) OR (hover) {}
+    | |___________________________________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/media/input.css:1:1
@@ -1186,6 +1186,12 @@ error: MediaNot
 17 | @media not (device-aspect-ratio: 16/9) {}
    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:17:8
+   |
+17 | @media not (device-aspect-ratio: 16/9) {}
+   |        ^^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:17:12
    |
@@ -1293,6 +1299,12 @@ error: MediaNot
    |
 18 | @media not (device-aspect-ratio: 16 / 9) {}
    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:18:8
+   |
+18 | @media not (device-aspect-ratio: 16 / 9) {}
+   |        ^^^
 
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:18:12
@@ -2242,6 +2254,12 @@ error: MediaAnd
 30 | @media (grid) and (max-width: 15em) {}
    |               ^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:30:15
+   |
+30 | @media (grid) and (max-width: 15em) {}
+   |               ^^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:30:19
    |
@@ -2500,6 +2518,12 @@ error: MediaAnd
 33 | @media (min-width: 20em) and (min-width: 20em) {}
    |                          ^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:33:26
+   |
+33 | @media (min-width: 20em) and (min-width: 20em) {}
+   |                          ^^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:33:30
    |
@@ -2679,6 +2703,12 @@ error: MediaAnd
    |
 34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
    |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:34:38
+   |
+34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
+   |                                      ^^^
 
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:34:44
@@ -2860,6 +2890,12 @@ error: MediaAnd
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
    |                            ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:28
+   |
+35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
+   |                            ^^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:35:32
    |
@@ -2931,6 +2967,12 @@ error: MediaAnd
    |
 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
    |                                                    ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:35:52
+   |
+35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
+   |                                                    ^^^
 
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:35:56
@@ -3112,6 +3154,12 @@ error: MediaAnd
 36 | @media(min-width:20em)and (min-width: 20em){}
    |                       ^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:36:23
+   |
+36 | @media(min-width:20em)and (min-width: 20em){}
+   |                       ^^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:36:27
    |
@@ -3292,6 +3340,12 @@ error: MediaAnd
 37 | @media(min-width:20em)and (min-width:20em){}
    |                       ^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:37:23
+   |
+37 | @media(min-width:20em)and (min-width:20em){}
+   |                       ^^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:37:27
    |
@@ -3454,6 +3508,12 @@ error: MediaOr
 39 | @media (update: slow) or (hover: none) {}
    |                       ^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:39:23
+   |
+39 | @media (update: slow) or (hover: none) {}
+   |                       ^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:39:26
    |
@@ -3598,6 +3658,12 @@ error: MediaOr
 40 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:40:39
+   |
+40 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+   |                                       ^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:40:44
    |
@@ -3741,6 +3807,12 @@ error: MediaOr
    |
 41 | @media(update: slow)or (hover: none){}
    |                     ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:41:21
+   |
+41 | @media(update: slow)or (hover: none){}
+   |                     ^^
 
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:41:24
@@ -9778,6 +9850,12 @@ error: MediaAnd
 95 | @media (--modern) and (min-width: 1024px) {}
    |                   ^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:95:19
+   |
+95 | @media (--modern) and (min-width: 1024px) {}
+   |                   ^^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:95:23
    |
@@ -9904,6 +9982,12 @@ error: MediaNot
 97 | @media (not (color)) or (hover) {}
    |         ^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:9
+   |
+97 | @media (not (color)) or (hover) {}
+   |         ^^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:97:13
    |
@@ -9945,6 +10029,12 @@ error: MediaOr
    |
 97 | @media (not (color)) or (hover) {}
    |                      ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:97:22
+   |
+97 | @media (not (color)) or (hover) {}
+   |                      ^^
 
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:97:25
@@ -10042,6 +10132,12 @@ error: MediaNot
 98 | @media   (   not    (   color   )   )   or   (   hover   )   {}
    |              ^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:98:14
+   |
+98 | @media   (   not    (   color   )   )   or   (   hover   )   {}
+   |              ^^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:98:21
    |
@@ -10083,6 +10179,12 @@ error: MediaOr
    |
 98 | @media   (   not    (   color   )   )   or   (   hover   )   {}
    |                                         ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:98:41
+   |
+98 | @media   (   not    (   color   )   )   or   (   hover   )   {}
+   |                                         ^^
 
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:98:46
@@ -10222,6 +10324,12 @@ error: MediaOr
 99 | @media ((color) or (hover)) and (width > 1024px) {}
    |                 ^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:99:17
+   |
+99 | @media ((color) or (hover)) and (width > 1024px) {}
+   |                 ^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:99:20
    |
@@ -10263,6 +10371,12 @@ error: MediaAnd
    |
 99 | @media ((color) or (hover)) and (width > 1024px) {}
    |                             ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/media/input.css:99:29
+   |
+99 | @media ((color) or (hover)) and (width > 1024px) {}
+   |                             ^^^
 
 error: MediaInParens
   --> $DIR/tests/fixture/at-rule/media/input.css:99:33
@@ -10438,6 +10552,12 @@ error: MediaOr
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
     |                   ^^^^^^^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:100:19
+    |
+100 | @media (((color)) or ((hover))) and (width > 1024px) {}
+    |                   ^^
+
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:100:23
     |
@@ -10491,6 +10611,12 @@ error: MediaAnd
     |
 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
     |                                 ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:100:33
+    |
+100 | @media (((color)) or ((hover))) and (width > 1024px) {}
+    |                                 ^^^
 
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:100:37
@@ -10702,6 +10828,12 @@ error: MediaOr
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
     |                     ^^^^^^^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:101:21
+    |
+101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+    |                     ^^
+
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:101:25
     |
@@ -10755,6 +10887,12 @@ error: MediaAnd
     |
 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
     |                                     ^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:101:37
+    |
+101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+    |                                     ^^^
 
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:101:41
@@ -10966,6 +11104,12 @@ error: MediaOr
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
     |                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:102:46
+    |
+102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
+    |                                              ^^
+
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:102:55
     |
@@ -11019,6 +11163,12 @@ error: MediaAnd
     |
 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
     |                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:102:87
+    |
+102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
+    |                                                                                       ^^^
 
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:102:93
@@ -11218,6 +11368,12 @@ error: MediaAnd
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
     |                            ^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:104:28
+    |
+104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+    |                            ^^^
+
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:104:32
     |
@@ -11289,6 +11445,12 @@ error: MediaOr
     |
 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
     |                                                    ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:104:52
+    |
+104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+    |                                                    ^^
 
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:104:55
@@ -11470,6 +11632,12 @@ error: MediaAnd
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
     |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:105:27
+    |
+105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+    |                           ^^^
+
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:105:32
     |
@@ -11559,6 +11727,12 @@ error: MediaOr
     |
 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
     |                                                   ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:105:51
+    |
+105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+    |                                                   ^^
 
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:105:54
@@ -11896,6 +12070,12 @@ error: MediaAnd
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
     |                            ^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:28
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                            ^^^
+
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:109:32
     |
@@ -11967,6 +12147,12 @@ error: MediaOr
     |
 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
     |                                                    ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:109:52
+    |
+109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+    |                                                    ^^
 
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:109:55
@@ -12148,6 +12334,12 @@ error: MediaAnd
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:27
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                           ^^^
+
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:110:32
     |
@@ -12237,6 +12429,12 @@ error: MediaOr
     |
 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
     |                                                   ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:110:51
+    |
+110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+    |                                                   ^^
 
 error: MediaInParens
    --> $DIR/tests/fixture/at-rule/media/input.css:110:54
@@ -12836,4 +13034,154 @@ error: Ident
     |
 127 |         color: orange;
     |                ^^^^^^
+
+error: Rule
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:1
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:1
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaRule
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:1
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQueryList
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:8
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:8
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:8
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:9
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |         ^^^^^^^^^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:9
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |         ^^^^^^^^^^^
+
+error: MediaCondition
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:9
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |         ^^^^^^^^^^^
+
+error: MediaNot
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:9
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |         ^^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:9
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |         ^^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:13
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |             ^^^^^^^
+
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:13
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |             ^^^^^^^
+
+error: MediaFeatureBoolean
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:13
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |             ^^^^^^^
+
+error: MediaFeatureName
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:14
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |              ^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:14
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |              ^^^^^
+
+error: MediaConditionAllType
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:22
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |                      ^^^^^^^^^^
+
+error: MediaOr
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:22
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |                      ^^^^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:22
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |                      ^^
+
+error: MediaInParens
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:25
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |                         ^^^^^^^
+
+error: MediaFeature
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:25
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |                         ^^^^^^^
+
+error: MediaFeatureBoolean
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:25
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |                         ^^^^^^^
+
+error: MediaFeatureName
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:26
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |                          ^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:26
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |                          ^^^^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/at-rule/media/input.css:131:33
+    |
+131 | @media (NOT (color)) OR (hover) {}
+    |                                 ^^
 
