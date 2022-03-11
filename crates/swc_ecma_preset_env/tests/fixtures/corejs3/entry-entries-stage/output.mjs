@@ -1,3 +1,4 @@
+import "core-js/modules/es.map.js";
 import "core-js/modules/esnext.aggregate-error.js";
 import "core-js/modules/esnext.array.last-index.js";
 import "core-js/modules/esnext.array.last-item.js";
