@@ -925,8 +925,8 @@ impl Compiler {
         program: Option<Program>,
         handler: &Handler,
         opts: &Options,
-        custom_before_pass: impl FnOnce(&Program) -> P1,
-        custom_after_pass: impl FnOnce(&Program) -> P2,
+        custom_before_pass: impl FnOnce(&Program, &SingleThreadedComments) -> P1,
+        custom_after_pass: impl FnOnce(&Program, &SingleThreadedComments) -> P2,
     ) -> Result<TransformOutput, Error>
     where
         P1: swc_ecma_visit::Fold,
@@ -942,7 +942,7 @@ impl Compiler {
                     opts,
                     &fm.name,
                     Some(&comments),
-                    custom_before_pass,
+                    |program| custom_before_pass(program, &comments),
                 )
             })?;
             let config = match config {
@@ -952,7 +952,7 @@ impl Compiler {
                 }
             };
 
-            let pass = chain!(config.pass, custom_after_pass(&config.program));
+            let pass = chain!(config.pass, custom_after_pass(&config.program, &comments));
 
             let config = BuiltInput {
                 program: config.program,
@@ -989,7 +989,7 @@ impl Compiler {
         handler: &Handler,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.process_js_with_custom_pass(fm, None, handler, opts, |_| noop(), |_| noop())
+        self.process_js_with_custom_pass(fm, None, handler, opts, |_, _| noop(), |_, _| noop())
     }
 
     #[tracing::instrument(level = "info", skip_all)]
@@ -1127,7 +1127,14 @@ impl Compiler {
         let loc = self.cm.lookup_char_pos(program.span().lo());
         let fm = loc.file;
 
-        self.process_js_with_custom_pass(fm, Some(program), handler, opts, |_| noop(), |_| noop())
+        self.process_js_with_custom_pass(
+            fm,
+            Some(program),
+            handler,
+            opts,
+            |_, _| noop(),
+            |_, _| noop(),
+        )
     }
 
     #[tracing::instrument(level = "info", skip_all)]
