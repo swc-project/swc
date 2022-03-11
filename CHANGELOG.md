@@ -5,6 +5,9 @@
 
 
 
+- **(api/rust)** Fix transform comment api (#3962) ([fcbd3c5](https://github.com/swc-project/swc/commit/fcbd3c5c5849418b911d87d3a0b36eb84bef1a68))
+
+
 - **(es)** Adjust tracing span level (#3911) ([ca071fb](https://github.com/swc-project/swc/commit/ca071fb705210ec33698dbce81069156de4fcf7a))
 
 
