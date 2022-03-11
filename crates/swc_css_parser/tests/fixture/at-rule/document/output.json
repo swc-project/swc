@@ -700,6 +700,16 @@
                     "value": "screen",
                     "raw": "screen"
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 527,
+                      "end": 530,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
                   "condition": {
                     "type": "MediaConditionWithoutOr",
                     "span": {

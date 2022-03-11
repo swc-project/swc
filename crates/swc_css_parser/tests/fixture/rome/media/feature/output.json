@@ -39,6 +39,16 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 14,
+                "end": 17,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -123,6 +133,16 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 48,
+                "end": 51,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -206,6 +226,16 @@
               },
               "value": "screen",
               "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 82,
+                "end": 85,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -310,6 +340,16 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 122,
+                "end": 125,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -412,6 +452,16 @@
               },
               "value": "screen",
               "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 186,
+                "end": 189,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -643,6 +693,16 @@
               },
               "value": "screen",
               "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 272,
+                "end": 275,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",

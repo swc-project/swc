@@ -638,6 +638,7 @@ define!({
         pub span: Span,
         pub modifier: Option<Ident>,
         pub media_type: Option<Ident>,
+        pub keyword: Option<Ident>,
         pub condition: Option<MediaConditionType>,
     }
 

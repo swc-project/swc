@@ -502,6 +502,12 @@ error: Ident
 11 | @import url('landscape.css') screen and (orientation:landscape);
    |                              ^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:11:37
+   |
+11 | @import url('landscape.css') screen and (orientation:landscape);
+   |                                     ^^^
+
 error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/import/input.css:11:41
    |
@@ -1060,6 +1066,12 @@ error: Ident
 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
    |                                                   ^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:19:60
+   |
+19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+   |                                                            ^^^
+
 error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/import/input.css:19:64
    |
@@ -1233,6 +1245,12 @@ error: Ident
    |
 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
    |                                                   ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:20:60
+   |
+20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+   |                                                            ^^^
 
 error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/import/input.css:20:64
@@ -2417,6 +2435,12 @@ error: Ident
 46 | @import url(test.css) screen and (orientation:landscape);
    |                       ^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:46:30
+   |
+46 | @import url(test.css) screen and (orientation:landscape);
+   |                              ^^^
+
 error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/import/input.css:46:34
    |
@@ -2536,6 +2560,12 @@ error: Ident
    |
 47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
    |                       ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:47:30
+   |
+47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
+   |                              ^^^
 
 error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/import/input.css:47:34
@@ -2657,6 +2687,12 @@ error: Ident
 48 | @import url(test.css)screen and (orientation:landscape);
    |                      ^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:48:29
+   |
+48 | @import url(test.css)screen and (orientation:landscape);
+   |                             ^^^
+
 error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/import/input.css:48:33
    |
@@ -2777,6 +2813,12 @@ error: Ident
 49 | @import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
    |                         ^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:49:34
+   |
+49 | @import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
+   |                                  ^^^
+
 error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/import/input.css:49:40
    |
@@ -2896,6 +2938,12 @@ error: Ident
    |
 50 | @import url(test.css) screen and (orientation:landscape);
    |                       ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/import/input.css:50:30
+   |
+50 | @import url(test.css) screen and (orientation:landscape);
+   |                              ^^^
 
 error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/import/input.css:50:34
@@ -4930,6 +4978,12 @@ error: Ident
 109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
     |                                            ^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:109:51
+    |
+109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
+    |                                                   ^^^
+
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:109:55
     |
@@ -5067,6 +5121,12 @@ error: Ident
     |
 110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
     |                                         ^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:110:48
+    |
+110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
+    |                                                ^^^
 
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:110:52
@@ -5848,6 +5908,12 @@ error: Ident
 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
     |                                                   ^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:130:58
+    |
+130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
+    |                                                          ^^^
+
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:130:62
     |
@@ -6190,6 +6256,12 @@ error: Ident
 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
     |                                                                  ^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:133:73
+    |
+133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
+    |                                                                         ^^^
+
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:133:77
     |
@@ -6375,6 +6447,12 @@ error: Ident
     |
 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
     |                                                         ^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:134:64
+    |
+134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+    |                                                                ^^^
 
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:134:68
@@ -6567,6 +6645,12 @@ error: Ident
     |
 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
     |                                                           ^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:135:66
+    |
+135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
+    |                                                                  ^^^
 
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:135:70
@@ -6808,6 +6892,12 @@ error: Ident
 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
     |                                                                     ^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:137:76
+    |
+137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
+    |                                                                            ^^^
+
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:137:80
     |
@@ -7012,6 +7102,12 @@ error: Ident
 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
     |                                                               ^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:138:70
+    |
+138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
+    |                                                                      ^^^
+
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:138:74
     |
@@ -7149,6 +7245,12 @@ error: Ident
     |
 139 | @import url("./test.css")screen and (min-width: 400px);
     |                          ^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:139:33
+    |
+139 | @import url("./test.css")screen and (min-width: 400px);
+    |                                 ^^^
 
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:139:37
@@ -7354,6 +7456,12 @@ error: Ident
 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
     |                                                                                                           ^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:140:118
+    |
+140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+    |                                                                                                                      ^^^
+
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:140:126
     |
@@ -7558,6 +7666,12 @@ error: Ident
 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
     |                                                                  ^^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:141:73
+    |
+141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+    |                                                                         ^^^
+
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:141:77
     |
@@ -7761,6 +7875,12 @@ error: Ident
     |
 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
     |                                                                                                                                                                                         ^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:142:205
+    |
+142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
+    |                                                                                                                                                                                                             ^^^
 
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:142:222
@@ -7996,6 +8116,12 @@ error: Ident
 145 | @import url(test.css) /* Comment */ print and (orientation:landscape);
     |                                     ^^^^^
 
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:145:43
+    |
+145 | @import url(test.css) /* Comment */ print and (orientation:landscape);
+    |                                           ^^^
+
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:145:47
     |
@@ -8115,6 +8241,12 @@ error: Ident
     |
 146 | @import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
     |                                                   ^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:146:57
+    |
+146 | @import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
+    |                                                         ^^^
 
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:146:61
@@ -8847,6 +8979,12 @@ error: Ident
     |
 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
     |                                                                             ^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/at-rule/import/input.css:154:84
+    |
+154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
+    |                                                                                    ^^^
 
 error: MediaConditionWithoutOr
    --> $DIR/tests/fixture/at-rule/import/input.css:154:88

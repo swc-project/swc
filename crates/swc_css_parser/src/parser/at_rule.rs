@@ -1232,9 +1232,11 @@ where
             media_type
         };
 
+        let mut keyword = None;
+
         let condition = if media_type.is_some() {
             if is_one_of_case_insensitive_ident!(self, "and") {
-                bump!(self);
+                keyword = Some(self.parse()?);
 
                 self.input.skip_ws()?;
 
@@ -1262,6 +1264,7 @@ where
             span: Span::new(start_pos, last_pos, Default::default()),
             modifier,
             media_type,
+            keyword,
             condition,
         })
     }

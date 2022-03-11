@@ -30,6 +30,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {

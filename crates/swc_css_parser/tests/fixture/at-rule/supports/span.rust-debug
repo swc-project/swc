@@ -500,6 +500,12 @@ error: Ident
 12 |     @media screen and (min-width: 900px) {
    |            ^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/supports/input.css:12:19
+   |
+12 |     @media screen and (min-width: 900px) {
+   |                   ^^^
+
 error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/supports/input.css:12:23
    |

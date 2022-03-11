@@ -46,6 +46,12 @@ error: Ident
 1 | @media print and (min-resolution: 300dpi) {}
   |        ^^^^^
 
+error: Ident
+ --> $DIR/tests/fixture/value/resolution/input.css:1:14
+  |
+1 | @media print and (min-resolution: 300dpi) {}
+  |              ^^^
+
 error: MediaConditionWithoutOr
  --> $DIR/tests/fixture/value/resolution/input.css:1:18
   |
@@ -159,6 +165,12 @@ error: Ident
   |
 2 | @media print and (min-resolution: 300dpcm) {}
   |        ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/resolution/input.css:2:14
+  |
+2 | @media print and (min-resolution: 300dpcm) {}
+  |              ^^^
 
 error: MediaConditionWithoutOr
  --> $DIR/tests/fixture/value/resolution/input.css:2:18
@@ -274,6 +286,12 @@ error: Ident
 3 | @media print and (min-resolution: 300dppx) {}
   |        ^^^^^
 
+error: Ident
+ --> $DIR/tests/fixture/value/resolution/input.css:3:14
+  |
+3 | @media print and (min-resolution: 300dppx) {}
+  |              ^^^
+
 error: MediaConditionWithoutOr
  --> $DIR/tests/fixture/value/resolution/input.css:3:18
   |
@@ -387,6 +405,12 @@ error: Ident
   |
 4 | @media print and (min-resolution: 300x) {}
   |        ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/value/resolution/input.css:4:14
+  |
+4 | @media print and (min-resolution: 300x) {}
+  |              ^^^
 
 error: MediaConditionWithoutOr
  --> $DIR/tests/fixture/value/resolution/input.css:4:18
