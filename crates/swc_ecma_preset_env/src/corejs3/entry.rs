@@ -13,7 +13,7 @@ use super::compat::DATA as CORE_JS_COMPAT_DATA;
 
 static ENTRIES: Lazy<AHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
     serde_json::from_str::<AHashMap<String, Vec<String>>>(include_str!(
-        "../../../../node_modules/core-js-compat/entries.json"
+        "../../data/core-js-compat/entries.json"
     ))
     .expect("failed to parse entries.json from core js 3")
     .into_iter()
@@ -30,7 +30,7 @@ static ENTRIES: Lazy<AHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
 
 static MODULES_BY_VERSION: Lazy<AHashMap<Version, Vec<&'static str>>> = Lazy::new(|| {
     serde_json::from_str::<AHashMap<_, _>>(include_str!(
-        "../../../../node_modules/core-js-compat/modules-by-versions.json"
+        "../../data/core-js-compat/modules-by-versions.json"
     ))
     .expect("failed to parse modules-by-versions.json")
     .into_iter()
