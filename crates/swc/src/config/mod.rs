@@ -65,6 +65,7 @@ use swc_ecma_visit::{Fold, VisitMutWith};
 use self::util::BoolOrObject;
 use crate::{
     builder::PassBuilder,
+    dropped_comments_preserver::dropped_comments_preserver,
     plugin::{PluginConfig, PluginContext},
     SwcImportResolver,
 };
@@ -296,6 +297,7 @@ impl Options {
             minify: mut js_minify,
             experimental,
             lints,
+            preserve_all_comments,
             ..
         } = config.jsc;
 
@@ -368,7 +370,11 @@ impl Options {
 
         let regenerator = transform.regenerator.clone();
 
-        let preserve_comments = js_minify.as_ref().map(|v| v.format.comments.clone());
+        let preserve_comments = if preserve_all_comments {
+            Some(BoolOrObject::from(true))
+        } else {
+            js_minify.as_ref().map(|v| v.format.comments.clone())
+        };
 
         if syntax.typescript() {
             transform.legacy_decorator = true;
@@ -498,7 +504,11 @@ impl Options {
                 syntax.jsx()
             ),
             pass,
-            Optional::new(jest::jest(), transform.hidden.jest)
+            Optional::new(jest::jest(), transform.hidden.jest),
+            Optional::new(
+                dropped_comments_preserver(comments.cloned()),
+                preserve_all_comments
+            ),
         );
 
         Ok(BuiltInput {
@@ -1031,6 +1041,9 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub lints: LintConfig,
+
+    #[serde(default)]
+    pub preserve_all_comments: bool,
 }
 
 /// `jsc.experimental` in `.swcrc`
@@ -1567,6 +1580,8 @@ impl Merge for JscConfig {
         self.paths.merge(&from.paths);
         self.minify.merge(&from.minify);
         self.experimental.merge(&from.experimental);
+        self.preserve_all_comments
+            .merge(&from.preserve_all_comments)
     }
 }
 

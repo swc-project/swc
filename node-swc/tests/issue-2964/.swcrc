@@ -1,0 +1,36 @@
+{
+  "sourceMaps": true,
+  "module": {
+    "type": "commonjs"
+  },
+  "jsc": {
+    "preserveAllComments": true,
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "dynamicImport": true,
+      "decorators": false
+    },
+    "transform": {
+      "react": {
+        "pragma": "React.createElement",
+        "pragmaFrag": "React.Fragment",
+        "throwIfNamespace": true,
+        "development": false,
+        "useBuiltins": false
+      },
+      "hidden": {
+        "jest": true
+      }
+    },
+    "target": "es3",
+    "loose": false,
+    "externalHelpers": false,
+    "keepClassNames": false,
+    "minify": {
+      "compress": false,
+      "mangle": false
+    }
+  },
+  "minify": false
+}
