@@ -65,7 +65,7 @@ fn test_2() {
             // This does not work.
             .span_suggestion(span(2, 3), "suggesting message", "132".into());
 
-        d.sub(Level::Warning, "sub", Some(span(1, 4)));
+        d.sub(Level::Warning, "sub", Some(span(7, 8)));
 
         d.emit();
     });
