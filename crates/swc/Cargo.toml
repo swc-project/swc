@@ -28,7 +28,7 @@ concurrent = [
 debug = ["swc_ecma_visit/debug"]
 node = ["napi", "napi-derive"]
 plugin = [
-  "swc_plugin_runner",
+  "swc_plugin_runner/default",
 ]
 
 [dependencies]
@@ -72,7 +72,7 @@ swc_ecma_utils = {version = "0.71.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.55.0", path = "../swc_ecma_visit"}
 swc_ecmascript = {version = "0.131.0", path = "../swc_ecmascript"}
 swc_node_comments = {version = "0.4.0", path = "../swc_node_comments"}
-swc_plugin_runner = {version = "0.40.0", path = "../swc_plugin_runner", optional = true}
+swc_plugin_runner = {version = "0.40.0", path = "../swc_plugin_runner", default-features = false, optional = true}
 swc_visit = {version = "0.3.0", path = "../swc_visit"}
 tracing = "0.1.32"
 
