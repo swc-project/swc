@@ -382,6 +382,8 @@ pub struct Context {
 
     // If true, allow super.x and super[x]
     allow_direct_super: bool,
+
+    ignore_else_clause: bool,
 }
 
 #[cfg(test)]

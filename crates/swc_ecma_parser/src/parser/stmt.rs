@@ -415,7 +415,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_if_stmt(&mut self) -> PResult<Stmt> {
+    fn parse_if_stmt(&mut self) -> PResult<IfStmt> {
         let start = cur_pos!(self);
 
         assert_and_bump!(self, "if");
@@ -447,19 +447,45 @@ impl<'a, I: Tokens> Parser<I> {
 
         // We parse `else` branch iteratively, to avoid stack overflow
         // See https://github.com/swc-project/swc/pull/3961
-        let alt = if eat!(self, "else") {
-            Some(self.parse_stmt(false).map(Box::new)?)
-        } else {
+
+        let alt = if self.ctx().ignore_else_clause {
             None
+        } else {
+            let mut cur = None;
+
+            let ctx = Context {
+                ignore_else_clause: true,
+                ..self.ctx()
+            };
+
+            let last = loop {
+                if !eat!(self, "else") {
+                    break None;
+                }
+
+                if !is!(self, "if") {
+                    let last = self.parse_stmt(false).map(Box::new)?;
+                    break Some(last);
+                }
+
+                // We encountered `else if`
+
+                let alt = self.with_ctx(ctx).parse_if_stmt()?;
+            };
+
+            match cur {
+                Some(cur) => {}
+                None => last,
+            }
         };
 
         let span = span!(self, start);
-        Ok(Stmt::If(IfStmt {
+        Ok(IfStmt {
             span,
             test,
             cons,
             alt,
-        }))
+        })
     }
 
     fn parse_return_stmt(&mut self) -> PResult<Stmt> {
