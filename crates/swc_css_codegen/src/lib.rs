@@ -1109,7 +1109,16 @@ where
     #[emitter]
     fn emit_percentage(&mut self, n: &Percentage) -> Result {
         emit!(self, n.value);
-        write!(self, "%");
+
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.hi - BytePos(1), n.span.hi, Default::default())
+            };
+
+            write!(self, span, "%");
+        }
     }
 
     #[emitter]
@@ -1412,7 +1421,16 @@ where
                 write!(self, span, ":");
             }
             Token::Hash { raw, .. } => {
-                write!(self, "#");
+                {
+                    let span = if n.span.is_dummy() {
+                        DUMMY_SP
+                    } else {
+                        Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
+                    };
+
+                    write!(self, span, "#");
+                }
+
                 write!(self, span, raw);
             }
             Token::WhiteSpace { value, .. } => {
@@ -1527,8 +1545,17 @@ where
                     write!(self, span, ":");
                 }
                 Token::Hash { raw, .. } => {
-                    write!(self, span, "#");
-                    write!(self, raw);
+                    {
+                        let span = if n.span.is_dummy() {
+                            DUMMY_SP
+                        } else {
+                            Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
+                        };
+
+                        write!(self, span, "#");
+                    }
+
+                    write!(self, span, raw);
                 }
                 Token::WhiteSpace { value, .. } => {
                     write!(self, span, value);
