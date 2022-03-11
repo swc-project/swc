@@ -541,7 +541,7 @@ fn parse_one_of<'i>(i: Input<'i>, list: &[&str]) -> IResult<Input<'i>, Text> {
         }
     }
 
-    Err(nom::Err::Error((i, ErrorKind::Tag)))
+    Err(nom::Err::Error(nom::error::Error::new(i, ErrorKind::Tag)))
 }
 
 fn parse_name_path(mut i: Input) -> IResult<Input, NamePath> {

@@ -54,6 +54,7 @@ enum TokenType {
     },
 }
 impl TokenType {
+    #[inline]
     fn before_expr(self) -> bool {
         match self {
             TokenType::JSXName
@@ -77,6 +78,7 @@ impl TokenType {
 }
 
 impl<'a> From<&'a Token> for TokenType {
+    #[inline]
     fn from(t: &Token) -> Self {
         match *t {
             Token::Template { .. } => TokenType::Template,
@@ -112,6 +114,7 @@ impl<'a> From<&'a Token> for TokenType {
 }
 
 impl<I: Input> Tokens for Lexer<'_, I> {
+    #[inline]
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.module && !self.module_errors.borrow().is_empty() {
             let mut module_errors = self.module_errors.borrow_mut();
@@ -120,34 +123,42 @@ impl<I: Input> Tokens for Lexer<'_, I> {
         self.ctx = ctx
     }
 
+    #[inline]
     fn ctx(&self) -> Context {
         self.ctx
     }
 
+    #[inline]
     fn syntax(&self) -> Syntax {
         self.syntax
     }
 
+    #[inline]
     fn target(&self) -> EsVersion {
         self.target
     }
 
+    #[inline]
     fn start_pos(&self) -> BytePos {
         self.start_pos
     }
 
+    #[inline]
     fn set_expr_allowed(&mut self, allow: bool) {
         self.set_expr_allowed(allow)
     }
 
+    #[inline]
     fn token_context(&self) -> &TokenContexts {
         &self.state.context
     }
 
+    #[inline]
     fn token_context_mut(&mut self) -> &mut TokenContexts {
         &mut self.state.context
     }
 
+    #[inline]
     fn set_token_context(&mut self, c: TokenContexts) {
         self.state.context = c;
     }
@@ -650,14 +661,17 @@ impl TokenContexts {
         !is_expr_allowed
     }
 
+    #[inline]
     pub fn len(&self) -> usize {
         self.0.len()
     }
 
+    #[inline]
     pub fn is_empty(&self) -> bool {
         self.0.is_empty()
     }
 
+    #[inline]
     pub fn pop(&mut self) -> Option<TokenContext> {
         let opt = self.0.pop();
         if cfg!(feature = "debug") {
@@ -666,10 +680,12 @@ impl TokenContexts {
         opt
     }
 
+    #[inline]
     pub fn current(&self) -> Option<TokenContext> {
         self.0.last().cloned()
     }
 
+    #[inline]
     fn push(&mut self, t: TokenContext) {
         self.0.push(t);
 
@@ -682,6 +698,7 @@ impl TokenContexts {
 /// The algorithm used to determine whether a regexp can appear at a
 /// given point in the program is loosely based on sweet.js' approach.
 /// See https://github.com/mozilla/sweet.js/wiki/design
+#[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Kind)]
 #[kind(function(is_expr = "bool", preserve_space = "bool"))]
 pub enum TokenContext {
