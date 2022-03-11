@@ -650,14 +650,17 @@ impl TokenContexts {
         !is_expr_allowed
     }
 
+    #[inline]
     pub fn len(&self) -> usize {
         self.0.len()
     }
 
+    #[inline]
     pub fn is_empty(&self) -> bool {
         self.0.is_empty()
     }
 
+    #[inline]
     pub fn pop(&mut self) -> Option<TokenContext> {
         let opt = self.0.pop();
         if cfg!(feature = "debug") {
@@ -666,10 +669,12 @@ impl TokenContexts {
         opt
     }
 
+    #[inline]
     pub fn current(&self) -> Option<TokenContext> {
         self.0.last().cloned()
     }
 
+    #[inline]
     fn push(&mut self, t: TokenContext) {
         self.0.push(t);
 
@@ -682,6 +687,7 @@ impl TokenContexts {
 /// The algorithm used to determine whether a regexp can appear at a
 /// given point in the program is loosely based on sweet.js' approach.
 /// See https://github.com/mozilla/sweet.js/wiki/design
+#[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Kind)]
 #[kind(function(is_expr = "bool", preserve_space = "bool"))]
 pub enum TokenContext {
