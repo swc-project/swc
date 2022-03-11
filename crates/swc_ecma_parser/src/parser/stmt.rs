@@ -206,7 +206,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("if") => {
-                return self.parse_if_stmt();
+                return self.parse_if_stmt().map(Stmt::If);
             }
 
             tok!("return") => {
@@ -426,7 +426,7 @@ impl<'a, I: Tokens> Parser<I> {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
             let span = span!(self, start);
-            return Ok(Stmt::If(IfStmt {
+            return Ok(IfStmt {
                 span,
                 test,
                 cons: Box::new(Stmt::Expr(ExprStmt {
@@ -434,7 +434,7 @@ impl<'a, I: Tokens> Parser<I> {
                     expr: Box::new(Expr::Invalid(Invalid { span })),
                 })),
                 alt: Default::default(),
-            }));
+            });
         }
 
         let cons = {
@@ -464,20 +464,32 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 if !is!(self, "if") {
-                    let last = self.parse_stmt(false).map(Box::new)?;
+                    let last = self.parse_stmt(false)?;
                     break Some(last);
                 }
 
                 // We encountered `else if`
 
                 let alt = self.with_ctx(ctx).parse_if_stmt()?;
+
+                match cur {
+                    Some(prev) => {}
+                    None => {
+                        cur = Some(alt);
+                    }
+                }
             };
 
             match cur {
-                Some(cur) => {}
+                Some(cur) => {
+                    debug_assert_eq!(cur.alt, None);
+                    cur.alt = last.map(Box::new);
+                    Some(Stmt::If(cur))
+                }
                 None => last,
             }
-        };
+        }
+        .map(Box::new);
 
         let span = span!(self, start);
         Ok(IfStmt {
