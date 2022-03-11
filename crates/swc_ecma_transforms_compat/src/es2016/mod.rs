@@ -4,7 +4,7 @@ pub use self::exponentation::exponentation;
 
 mod exponentation;
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn es2016() -> impl Fold {
     exponentation()
 }

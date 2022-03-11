@@ -6,7 +6,7 @@ use swc_trace_macro::swc_trace;
 /// syntax. This fixes the only arguments-related bug in ES Modules-supporting
 /// browsers (Edge 16 & 17). Use this plugin instead of
 /// @babel/plugin-transform-parameters when targeting ES Modules.
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn edge_default_param() -> impl Fold + VisitMut {
     as_folder(EdgeDefaultParam::default())
 }

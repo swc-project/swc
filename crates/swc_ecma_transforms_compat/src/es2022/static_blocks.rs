@@ -7,7 +7,7 @@ use swc_trace_macro::swc_trace;
 
 struct ClassStaticBlock;
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn static_blocks() -> impl Fold + VisitMut {
     as_folder(ClassStaticBlock)
 }

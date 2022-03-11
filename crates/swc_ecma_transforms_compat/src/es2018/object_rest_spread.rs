@@ -21,7 +21,7 @@ use swc_trace_macro::swc_trace;
 // `ignoreFunctionLength` and `pureGetters` on
 
 /// `@babel/plugin-proposal-object-rest-spread`
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn object_rest_spread(c: Config) -> impl Fold + VisitMut {
     chain!(
         as_folder(ObjectRest {
@@ -910,7 +910,7 @@ impl ObjectRest {
     }
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn object_without_properties(
     obj: Box<Expr>,
     excluded_props: Vec<Option<ExprOrSpread>>,
@@ -987,7 +987,7 @@ fn object_without_properties(
     })
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
     props
         .iter()

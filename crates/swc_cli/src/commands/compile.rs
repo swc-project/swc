@@ -110,7 +110,7 @@ static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "t
 /// Infer list of files to be transformed from cli arguments.
 /// If given input is a directory, it'll traverse it and collect all supported
 /// files.
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn get_files_list(
     raw_files_input: &[PathBuf],
     extensions: &[String],
@@ -274,7 +274,7 @@ impl CompileOptions {
         }
 
         if let Some(stdin_input) = stdin_input {
-            let span = tracing::span!(tracing::Level::TRACE, "compile_stdin");
+            let span = tracing::span!(tracing::Level::INFO, "compile_stdin");
             let stdin_span_guard = span.enter();
             let comp = COMPILER.clone();
 
@@ -308,7 +308,7 @@ impl CompileOptions {
         }
 
         if !self.files.is_empty() {
-            let span = tracing::span!(tracing::Level::TRACE, "compile_files");
+            let span = tracing::span!(tracing::Level::INFO, "compile_files");
             let files_span_guard = span.enter();
             let included_extensions = if let Some(extensions) = &self.extensions {
                 extensions.clone()
