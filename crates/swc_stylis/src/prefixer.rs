@@ -1110,6 +1110,45 @@ impl VisitMut for Prefixer {
                 same_content!("-ms-high-contrast-adjust");
             }
 
+            "break-inside" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "auto" | "avoid" => {
+                            same_content!("-webkit-column-break-inside");
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
+            "break-before" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "auto" | "avoid" => {
+                            same_content!("-webkit-column-break-before");
+                        }
+                        "column" => {
+                            simple!("-webkit-column-break-before", "always");
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
+            "break-after" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "auto" | "avoid" => {
+                            same_content!("-webkit-column-break-after");
+                        }
+                        "column" => {
+                            simple!("-webkit-column-break-after", "always");
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
@@ -1117,7 +1156,6 @@ impl VisitMut for Prefixer {
             // TODO handle `element()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L269
             // TODO handle `filter()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L241
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
-            // TODO add `break-before`, `break-after`, `break-inside` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/break-props.js
             // TODO add `border-radius` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L59
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
