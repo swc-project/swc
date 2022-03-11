@@ -328,7 +328,7 @@ where
 
             if n.condition.is_some() {
                 space!(self);
-                write!(self, "and");
+                emit!(self, n.keyword);
                 space!(self);
             }
         }
