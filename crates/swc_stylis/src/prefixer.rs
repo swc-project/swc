@@ -895,6 +895,27 @@ impl VisitMut for Prefixer {
             }
 
             "touch-action" => {
+                let mut value = n.value.clone();
+
+                replace_ident(&mut value, "pan-x", "-ms-pan-x");
+                replace_ident(&mut value, "pan-y", "-ms-pan-y");
+                replace_ident(&mut value, "double-tap-zoom", "-ms-double-tap-zoom");
+                replace_ident(&mut value, "manipulation", "-ms-manipulation");
+                replace_ident(&mut value, "none", "-ms-none");
+                replace_ident(&mut value, "pinch-zoom", "-ms-pinch-zoom");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-touch-action".into(),
+                    raw: "-ms-touch-action".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value,
+                    important: n.important.clone(),
+                });
+
                 same_content!("-ms-touch-action");
             }
 
@@ -1079,12 +1100,12 @@ impl VisitMut for Prefixer {
                     same_content!("-ms-scroll-chaining");
                 }
             }
-            
+
             "box-shadow" => {
                 same_content!("-webkit-box-shadow");
                 same_content!("-moz-box-shadow");
             }
-            
+
             "forced-color-adjust" => {
                 same_content!("-ms-high-contrast-adjust");
             }
