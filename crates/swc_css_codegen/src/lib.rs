@@ -397,27 +397,9 @@ where
     fn emit_media_in_parens(&mut self, n: &MediaInParens) -> Result {
         match n {
             MediaInParens::MediaCondition(n) => {
-                {
-                    let span = if n.span.is_dummy() {
-                        DUMMY_SP
-                    } else {
-                        Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
-                    };
-
-                    write!(self, span, "(");
-                }
-
+                write!(self, lo_span_offset!(n.span, 1), "(");
                 emit!(self, n);
-
-                {
-                    let span = if n.span.is_dummy() {
-                        DUMMY_SP
-                    } else {
-                        Span::new(n.span.hi - BytePos(1), n.span.hi, Default::default())
-                    };
-
-                    write!(self, span, ")")
-                }
+                write!(self, hi_span_offset!(n.span, 1), ")");
             }
             MediaInParens::Feature(n) => emit!(self, n),
         }
@@ -550,9 +532,9 @@ where
     fn emit_supports_in_parens(&mut self, n: &SupportsInParens) -> Result {
         match n {
             SupportsInParens::SupportsCondition(n) => {
-                write!(self, "(");
+                write!(self, lo_span_offset!(n.span, 1), "(");
                 emit!(self, n);
-                write!(self, ")");
+                write!(self, hi_span_offset!(n.span, 1), ")");
             }
             SupportsInParens::Feature(n) => emit!(self, n),
             SupportsInParens::GeneralEnclosed(n) => emit!(self, n),
@@ -563,9 +545,9 @@ where
     fn emit_supports_feature(&mut self, n: &SupportsFeature) -> Result {
         match n {
             SupportsFeature::Declaration(n) => {
-                write!(self, "(");
+                write!(self, lo_span_offset!(n.span, 1), "(");
                 emit!(self, n);
-                write!(self, ")");
+                write!(self, hi_span_offset!(n.span, 1), ")");
             }
             SupportsFeature::Function(n) => emit!(self, n),
         }
@@ -884,15 +866,7 @@ where
             }
         };
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
-            };
-
-            write!(self, span, &n.name.to_string());
-        }
+        write!(self, lo_span_offset!(n.span, 1), &n.name.to_string());
 
         let len = n.value.len();
 
@@ -979,15 +953,7 @@ where
             }
         }
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.hi - BytePos(1), n.span.hi, Default::default())
-            };
-
-            write!(self, span, ending)
-        }
+        write!(self, hi_span_offset!(n.span, 1), ending);
     }
 
     #[emitter]
@@ -1127,16 +1093,7 @@ where
     #[emitter]
     fn emit_percentage(&mut self, n: &Percentage) -> Result {
         emit!(self, n.value);
-
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.hi - BytePos(1), n.span.hi, Default::default())
-            };
-
-            write!(self, span, "%");
-        }
+        write!(self, hi_span_offset!(n.span, 1), "%");
     }
 
     #[emitter]
@@ -1331,9 +1288,9 @@ where
             CalcValue::Percentage(n) => emit!(self, n),
             CalcValue::Constant(n) => emit!(self, n),
             CalcValue::Sum(n) => {
-                write!(self, "(");
+                write!(self, lo_span_offset!(n.span, 1), "(");
                 emit!(self, n);
-                write!(self, ")");
+                write!(self, hi_span_offset!(n.span, 1), ")");
             }
             CalcValue::Function(n) => emit!(self, n),
         }
@@ -1439,16 +1396,7 @@ where
                 write!(self, span, ":");
             }
             Token::Hash { raw, .. } => {
-                {
-                    let span = if n.span.is_dummy() {
-                        DUMMY_SP
-                    } else {
-                        Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
-                    };
-
-                    write!(self, span, "#");
-                }
-
+                write!(self, lo_span_offset!(span, 1), "#");
                 write!(self, span, raw);
             }
             Token::WhiteSpace { value, .. } => {
@@ -1563,16 +1511,7 @@ where
                     write!(self, span, ":");
                 }
                 Token::Hash { raw, .. } => {
-                    {
-                        let span = if n.span.is_dummy() {
-                            DUMMY_SP
-                        } else {
-                            Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
-                        };
-
-                        write!(self, span, "#");
-                    }
-
+                    write!(self, lo_span_offset!(span, 1), "#");
                     write!(self, span, raw);
                 }
                 Token::WhiteSpace { value, .. } => {
@@ -1776,30 +1715,13 @@ where
             emit!(self, prefix);
         }
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.hi - BytePos(1), n.span.hi, Default::default())
-            };
-
-            write!(self, span, "*");
-        }
+        write!(self, hi_span_offset!(n.span, 1), "*");
     }
 
     #[emitter]
     fn emit_ns_prefix(&mut self, n: &NsPrefix) -> Result {
         emit!(self, n.prefix);
-
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.hi - BytePos(1), n.span.hi, Default::default())
-            };
-
-            write!(self, span, "|")
-        }
+        write!(self, hi_span_offset!(n.span, 1), "|");
     }
 
     #[emitter]
@@ -1813,46 +1735,19 @@ where
 
     #[emitter]
     fn emit_id_selector(&mut self, n: &IdSelector) -> Result {
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
-            };
-
-            write!(self, span, "#");
-        }
-
+        write!(self, lo_span_offset!(n.span, 1), "#");
         emit!(self, n.text);
     }
 
     #[emitter]
     fn emit_class_selector(&mut self, n: &ClassSelector) -> Result {
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
-            };
-
-            write!(self, span, ".");
-        }
-
+        write!(self, lo_span_offset!(n.span, 1), ".");
         emit!(self, n.text);
     }
 
     #[emitter]
     fn emit_attribute_selector(&mut self, n: &AttributeSelector) -> Result {
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
-            };
-
-            write!(self, span, "[");
-        }
-
+        write!(self, lo_span_offset!(n.span, 1), "[");
         emit!(self, n.name);
 
         if n.matcher.is_some() {
@@ -1874,15 +1769,7 @@ where
             }
         }
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.hi - BytePos(1), n.span.hi, Default::default())
-            };
-
-            write!(self, span, "]");
-        }
+        write!(self, hi_span_offset!(n.span, 1), "]");
     }
 
     #[emitter]
@@ -1953,16 +1840,7 @@ where
 
     #[emitter]
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
-            };
-
-            write!(self, span, ":");
-        }
-
+        write!(self, lo_span_offset!(n.span, 1), ":");
         emit!(self, n.name);
 
         if let Some(children) = &n.children {
@@ -2014,26 +1892,8 @@ where
 
     #[emitter]
     fn emit_pseudo_element_selector(&mut self, n: &PseudoElementSelector) -> Result {
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
-            };
-
-            write!(self, span, ":");
-        }
-
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(2), Default::default())
-            };
-
-            write!(self, span, ":");
-        }
-
+        write!(self, lo_span_offset!(n.span, 1), ":");
+        write!(self, lo_span_offset!(n.span, 2), ":");
         emit!(self, n.name);
 
         if let Some(children) = &n.children {
