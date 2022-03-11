@@ -1077,6 +1077,11 @@ impl VisitMut for Prefixer {
                     same_content!("-ms-scroll-chaining");
                 }
             }
+            
+            "box-shadow" => {
+                same_content!("-webkit-box-shadow");
+                same_content!("-moz-box-shadow");
+            }
 
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
@@ -1086,7 +1091,6 @@ impl VisitMut for Prefixer {
             // TODO handle `filter()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L241
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
             // TODO add `break-before`, `break-after`, `break-inside` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/break-props.js
-            // TODO add `box-shadow` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L79
             // TODO add `border-radius` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L59
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
