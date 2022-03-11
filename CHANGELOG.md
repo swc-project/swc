@@ -22,6 +22,12 @@
 
 - **(*)** Update dependencies (#3964) ([1206c84](https://github.com/swc-project/swc/commit/1206c84e19eca2711670e96407c47062c22a4d04))
 
+### Miscellaneous Tasks
+
+
+
+- **(es/parser)** Add some inline attributes (#3969) ([6a6c322](https://github.com/swc-project/swc/commit/6a6c32203b8f2fde61279320cca505052f969da3))
+
 ## [1.2.153] - 2022-03-11
 
 ### Bug Fixes
