@@ -12,33 +12,37 @@ use swc_ecma_visit::{Fold, FoldWith};
 use super::compat::DATA as CORE_JS_COMPAT_DATA;
 
 static ENTRIES: Lazy<AHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
-    serde_json::from_str::<AHashMap<String, Vec<String>>>(include_str!("entries.json"))
-        .expect("failed to parse entries.json from core js 3")
-        .into_iter()
-        .map(|(k, v)| {
-            (
-                k,
-                v.into_iter()
-                    .map(|s: String| &*Box::leak(s.into_boxed_str()))
-                    .collect::<Vec<_>>(),
-            )
-        })
-        .collect()
+    serde_json::from_str::<AHashMap<String, Vec<String>>>(include_str!(
+        "../../../../node_modules/core-js-compat/entries.json"
+    ))
+    .expect("failed to parse entries.json from core js 3")
+    .into_iter()
+    .map(|(k, v)| {
+        (
+            k,
+            v.into_iter()
+                .map(|s: String| &*Box::leak(s.into_boxed_str()))
+                .collect::<Vec<_>>(),
+        )
+    })
+    .collect()
 });
 
 static MODULES_BY_VERSION: Lazy<AHashMap<Version, Vec<&'static str>>> = Lazy::new(|| {
-    serde_json::from_str::<AHashMap<_, _>>(include_str!("modules-by-versions.json"))
-        .expect("failed to parse modules-by-versions.json")
-        .into_iter()
-        .map(|(k, v): (Version, Vec<String>)| {
-            (
-                k,
-                v.into_iter()
-                    .map(|s: String| &*Box::leak(s.into_boxed_str()))
-                    .collect::<Vec<_>>(),
-            )
-        })
-        .collect()
+    serde_json::from_str::<AHashMap<_, _>>(include_str!(
+        "../../../../node_modules/core-js-compat/modules-by-versions.json"
+    ))
+    .expect("failed to parse modules-by-versions.json")
+    .into_iter()
+    .map(|(k, v): (Version, Vec<String>)| {
+        (
+            k,
+            v.into_iter()
+                .map(|s: String| &*Box::leak(s.into_boxed_str()))
+                .collect::<Vec<_>>(),
+        )
+    })
+    .collect()
 });
 
 #[derive(Debug)]

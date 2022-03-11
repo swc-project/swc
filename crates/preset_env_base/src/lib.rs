@@ -45,6 +45,8 @@ pub struct BrowserData<T: Default> {
     pub opera_mobile: T,
     #[serde(default)]
     pub rhino: T,
+    #[serde(default)]
+    pub deno: T,
 }
 
 pub type Versions = BrowserData<Option<Version>>;

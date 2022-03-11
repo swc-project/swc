@@ -160,13 +160,26 @@ pub enum Feature {
 
     /// `bugfix/transform-safari-id-destructuring-collision-in-function-expression`
     BugfixSafariIdDestructuringCollisionInFunctionExpression,
+
+    /// `bugfix/transform-edge-function-name`
+    BugfixTransformEdgeFunctionName, // TODO
+
+    /// `bugfix/transform-safari-block-shadowing`
+    BugfixTransformSafariBlockShadowing, // TODO
+
+    /// `bugfix/transform-safari-for-shadowing`
+    BugfixTransformSafariForShadowing, // TODO
+
+    /// `bugfix/transform-v8-spread-parameters-in-optional-chaining`
+    BugfixTransformV8SpreadParametersInOptionalChaining, // TODO
 }
 
 pub(crate) static FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>> =
     Lazy::new(|| {
-        let map: AHashMap<Feature, BrowserData<Option<String>>> =
-            serde_json::from_str(include_str!("transform_data.json"))
-                .expect("failed to parse json");
+        let map: AHashMap<Feature, BrowserData<Option<String>>> = serde_json::from_str(
+            include_str!("../../../node_modules/@babel/compat-data/data/plugins.json"),
+        )
+        .expect("failed to parse json");
 
         map.into_iter()
             .map(|(feature, version)| {
@@ -180,9 +193,10 @@ pub(crate) static FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>
 
 pub(crate) static BUGFIX_FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>> =
     Lazy::new(|| {
-        let map: AHashMap<Feature, BrowserData<Option<String>>> =
-            serde_json::from_str(include_str!("transform_data_bugfixes.json"))
-                .expect("failed to parse json");
+        let map: AHashMap<Feature, BrowserData<Option<String>>> = serde_json::from_str(
+            include_str!("../../../node_modules/@babel/compat-data/data/plugin-bugfixes.json"),
+        )
+        .expect("failed to parse json");
 
         FEATURES
             .clone()
