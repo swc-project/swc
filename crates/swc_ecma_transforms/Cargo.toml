@@ -37,7 +37,7 @@ swc_ecma_utils = {version = "0.71.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.55.0", path = "../swc_ecma_visit"}
 
 [dev-dependencies]
-pretty_assertions = "0.7.2"
+pretty_assertions = "1.1"
 sourcemap = "6"
 swc_ecma_codegen = {version = "0.94.0", path = "../swc_ecma_codegen"}
 swc_ecma_parser = {version = "0.92.0", path = "../swc_ecma_parser"}

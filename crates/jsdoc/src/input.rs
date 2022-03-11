@@ -3,7 +3,9 @@ use std::{
     str::{CharIndices, Chars},
 };
 
-use nom::{Compare, CompareResult, InputIter, InputLength, InputTake, Slice, UnspecializedInput};
+use nom::{
+    Compare, CompareResult, InputIter, InputLength, InputTake, Needed, Slice, UnspecializedInput,
+};
 use swc_common::{comments::Comment, BytePos, Span};
 
 use crate::ast::Text;
@@ -109,7 +111,7 @@ impl<'a> InputIter for Input<'a> {
         self.src.position(predicate)
     }
 
-    fn slice_index(&self, count: usize) -> Option<usize> {
+    fn slice_index(&self, count: usize) -> Result<usize, Needed> {
         self.src.slice_index(count)
     }
 }

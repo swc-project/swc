@@ -21,7 +21,7 @@ concurrent = [
 
 [dependencies]
 indexmap = "1"
-once_cell = "1.9.0"
+once_cell = "1.10.0"
 rayon = {version = "1.5.1", optional = true}
 swc_atoms = {version = "0.2.0", path = "../swc_atoms"}
 swc_common = {version = "0.17.0", path = "../swc_common"}

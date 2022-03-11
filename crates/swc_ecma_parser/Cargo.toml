@@ -23,10 +23,10 @@ verify = ["swc_ecma_visit"]
 [dependencies]
 either = {version = "1.4"}
 enum_kind = {version = "0.2.1", path = "../enum_kind"}
-lexical = {version = "5.2.2", features = ["radix"]}
-num-bigint = "0.2"
+lexical = {version = "6.1.0", features = ["power-of-two"]}
+num-bigint = "0.4"
 serde = {version = "1", features = ["derive"]}
-smallvec = "1"
+smallvec = "1.8.0"
 swc_atoms = {version = "0.2.3", path = "../swc_atoms"}
 swc_common = {version = "0.17.0", path = "../swc_common"}
 swc_ecma_ast = {version = "0.69.0", path = "../swc_ecma_ast"}
@@ -36,7 +36,7 @@ typed-arena = "2.0.1"
 unicode-id = "0.3"
 
 [dev-dependencies]
-pretty_assertions = "0.7.2"
+pretty_assertions = "1.1"
 serde_json = "1"
 swc_ecma_visit = {version = "0.55.0", path = "../swc_ecma_visit"}
 swc_node_base = {version = "0.5.0", path = "../swc_node_base"}

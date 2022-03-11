@@ -5,7 +5,19 @@
 
 
 
+- **(es/preset-env)** Fix compilation issue (#3972) ([7ebfcfa](https://github.com/swc-project/swc/commit/7ebfcfa70f1456e627f6cf30f65c00e2b0b17476))
+
+
+- **(es/preset-env)** Publish `builtin.json` (#3973) ([858372f](https://github.com/swc-project/swc/commit/858372ffada23f0f36c1161d2ec36b6da93d973c))
+
+
 - **(preset-env)** Use `core-js-compat` and `@babel/compat-data` directly (#3968) ([487273f](https://github.com/swc-project/swc/commit/487273fc5b5f964c159ea23d409b0f66e1d74229))
+
+### Features
+
+
+
+- **(*)** Update dependencies (#3964) ([1206c84](https://github.com/swc-project/swc/commit/1206c84e19eca2711670e96407c47062c22a4d04))
 
 ## [1.2.153] - 2022-03-11
 
