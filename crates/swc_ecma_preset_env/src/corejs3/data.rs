@@ -456,7 +456,7 @@ pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
         "es.object.to-string"
     ],
     fetch: PROMISE_DEPENDENCIES,
-    globalThis: ["esnext.global-this"],
+    globalThis: ["es.global-this"],
     parseFloat: ["es.parse-float"],
     parseInt: ["es.parse-int"],
     queueMicrotask: ["web.queue-microtask"],
@@ -466,7 +466,7 @@ pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
 });
 
 pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
-    at: ["esnext.string.at"],
+    at: ["es.string.at"],
     anchor: ["es.string.anchor"],
     big: ["es.string.big"],
     bind: ["es.function.bind"],
@@ -503,7 +503,7 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     lastItem: ["esnext.array.last-item"],
     link: ["es.string.link"],
     match: ["es.string.match", "es.regexp.exec"],
-    matchAll: ["esnext.string.match-all"],
+    matchAll: ["es.string.match-all"],
     map: ["es.array.map"],
     name: ["es.function.name"],
     padEnd: ["es.string.pad-end"],
@@ -512,7 +512,7 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     reduceRight: ["es.array.reduce-right"],
     repeat: ["es.string.repeat"],
     replace: ["es.string.replace", "es.regexp.exec"],
-    replaceAll: ["esnext.string.replace-all"],
+    replaceAll: ["es.string.replace-all"],
     reverse: ["es.array.reverse"],
     search: ["es.string.search", "es.regexp.exec"],
     slice: ["es.array.slice"],
@@ -815,7 +815,7 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
     Promise: Map {
         all: PROMISE_DEPENDENCIES_WITH_ITERATORS,
         allSettled: [
-            "esnext.promise.all-settled",
+            "es.promise.all-settled",
             "es.promise",
             "es.object.to-string",
             "es.string.iterator",
@@ -823,7 +823,7 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
             "web.dom-collections.iterator",
         ],
         any: [
-            "esnext.promise.any",
+            "es.promise.any",
             "es.promise",
             "es.object.to-string",
             "es.string.iterator",
