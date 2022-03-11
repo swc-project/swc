@@ -503,7 +503,10 @@ impl Options {
             ),
             pass,
             Optional::new(jest::jest(), transform.hidden.jest),
-            Optional::new(dropped_comments_preserver(comments), preserve_all_comments),
+            Optional::new(
+                dropped_comments_preserver(comments.cloned()),
+                preserve_all_comments
+            ),
         );
 
         Ok(BuiltInput {

@@ -18,8 +18,8 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// comments.
 
 pub fn dropped_comments_preserver(
-    comments: Option<&SingleThreadedComments>,
-) -> impl '_ + Fold + VisitMut {
+    comments: Option<SingleThreadedComments>,
+) -> impl Fold + VisitMut {
     as_folder(DroppedCommentsPreserver {
         comments,
         is_first_span: true,
@@ -27,15 +27,15 @@ pub fn dropped_comments_preserver(
     })
 }
 
-struct DroppedCommentsPreserver<'a> {
-    comments: Option<&'a SingleThreadedComments>,
+struct DroppedCommentsPreserver {
+    comments: Option<SingleThreadedComments>,
     is_first_span: bool,
     known_spans: Vec<Span>,
 }
 
 type CommentEntries = Vec<(BytePos, Vec<Comment>)>;
 
-impl VisitMut for DroppedCommentsPreserver<'_> {
+impl VisitMut for DroppedCommentsPreserver {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, module: &mut Module) {
@@ -59,9 +59,9 @@ impl VisitMut for DroppedCommentsPreserver<'_> {
     }
 }
 
-impl DroppedCommentsPreserver<'_> {
-    fn shift_comments_to_known_spans(&mut self) {
-        if let Some(comments) = self.comments {
+impl DroppedCommentsPreserver {
+    fn shift_comments_to_known_spans(&self) {
+        if let Some(comments) = &self.comments {
             let trailing_comments = self.shift_leading_comments(comments);
 
             self.shift_trailing_comments(trailing_comments);
@@ -74,7 +74,7 @@ impl DroppedCommentsPreserver<'_> {
     ///
     /// This way, we only need to take the comments once, and then add them back
     /// once.
-    fn collect_existing_comments(&mut self, comments: &SingleThreadedComments) -> CommentEntries {
+    fn collect_existing_comments(&self, comments: &SingleThreadedComments) -> CommentEntries {
         let (mut leading_comments, mut trailing_comments) = comments.borrow_all_mut();
         let mut existing_comments: CommentEntries = leading_comments
             .drain()
@@ -93,14 +93,14 @@ impl DroppedCommentsPreserver<'_> {
     ///
     /// This maintains the highest fidelity between existing comment positions
     /// of pre and post compiled code.
-    fn shift_leading_comments(&mut self, comments: &SingleThreadedComments) -> CommentEntries {
+    fn shift_leading_comments(&self, comments: &SingleThreadedComments) -> CommentEntries {
         let mut existing_comments = self.collect_existing_comments(comments);
 
         for span in self.known_spans.iter() {
             let (comments_to_move, next_byte_positions): (CommentEntries, CommentEntries) =
                 existing_comments
                     .drain(..)
-                    .partition(|(bp, _)| bp <= &span.lo);
+                    .partition(|(bp, _)| *bp <= span.lo);
 
             existing_comments.extend(next_byte_positions);
 
@@ -117,10 +117,13 @@ impl DroppedCommentsPreserver<'_> {
     /// Therefore, by shifting them to trail the highest known hi position, we
     /// ensure that any remaining trailing comments are emitted in a
     /// similar location
-    fn shift_trailing_comments(&mut self, remaining_comment_entries: CommentEntries) {
-        let last_trailing =
-            self.known_spans.iter().fold(
-                &DUMMY_SP,
+    fn shift_trailing_comments(&self, remaining_comment_entries: CommentEntries) {
+        let last_trailing = self
+            .known_spans
+            .iter()
+            .copied()
+            .fold(
+                DUMMY_SP,
                 |acc, span| if span.hi > acc.hi { span } else { acc },
             );
 
