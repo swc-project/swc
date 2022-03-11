@@ -405,7 +405,7 @@ fn linefeed_lf(input: PathBuf) {
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        assert_eq!(false, css_str.contains("\r\n"));
+        assert!(!css_str.contains("\r\n"));
 
         NormalizedOutput::from(css_str)
             .compare_to_file(output)
@@ -484,7 +484,7 @@ fn linefeed_crlf(input: PathBuf) {
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        assert_eq!(true, css_str.contains("\r\n"));
+        assert!(css_str.contains("\r\n"));
 
         NormalizedOutput::from(css_str)
             .compare_to_file(output)

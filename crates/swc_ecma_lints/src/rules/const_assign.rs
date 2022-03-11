@@ -92,6 +92,8 @@ struct Collector<'a> {
 }
 
 impl Visit for Collector<'_> {
+    noop_visit_type!();
+
     fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
         p.visit_children_with(self);
 
