@@ -3,7 +3,7 @@
 use std::{fmt, fmt::Write, fs, path::Path};
 
 use swc_common::{
-    errors::Handler,
+    errors::{Handler, Level},
     sync::{Lock, Lrc},
     BytePos, FileName, SourceMap, Span,
 };
@@ -50,5 +50,23 @@ fn test_1() {
         h.struct_span_err(span(1, 3), "test")
             .span_label(span(1, 4), "label")
             .emit();
+    });
+}
+
+#[test]
+fn test_2() {
+    output("2.ans", |cm, h| {
+        let _fm = cm.new_source_file(FileName::Anon, "123456789".into());
+
+        let mut d = h.struct_span_err(span(1, 3), "test");
+
+        d.span_label(span(1, 4), "label")
+            .span_help(span(1, 5), "help")
+            // This does not work.
+            .span_suggestion(span(2, 3), "suggesting message", "132".into());
+
+        d.sub(Level::Warning, "sub", Some(span(1, 4)));
+
+        d.emit();
     });
 }

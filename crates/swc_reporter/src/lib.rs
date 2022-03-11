@@ -88,16 +88,7 @@ impl Emitter for PrettyEmitter {
         let children = d
             .children
             .iter()
-            .filter(|d| {
-                matches!(
-                    d.level,
-                    Level::FailureNote
-                        | Level::Bug
-                        | Level::Fatal
-                        | Level::PhaseFatal
-                        | Level::Error
-                )
-            })
+            .filter(|d| !matches!(d.level, Level::Help))
             .map(|d| MietteSubdiagnostic { source_code, d })
             .collect::<Vec<_>>();
 
