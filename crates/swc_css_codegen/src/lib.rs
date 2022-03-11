@@ -69,14 +69,16 @@ where
     #[emitter]
     fn emit_qualified_rule(&mut self, n: &QualifiedRule) -> Result {
         emit!(self, n.prelude);
-        formatting_space!(self);
         emit!(self, n.block);
     }
 
     #[emitter]
     fn emit_qualified_rule_prelude(&mut self, n: &QualifiedRulePrelude) -> Result {
         match n {
-            QualifiedRulePrelude::SelectorList(n) => emit!(self, n),
+            QualifiedRulePrelude::SelectorList(n) => {
+                emit!(self, n);
+                formatting_space!(self);
+            }
             QualifiedRulePrelude::Invalid(n) => emit!(self, n),
         }
     }
@@ -1759,7 +1761,16 @@ where
 
     #[emitter]
     fn emit_attribute_selector(&mut self, n: &AttributeSelector) -> Result {
-        write!(self, "[");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
+            };
+
+            self.wr.write_raw_char(Some(span), '[')?;
+        }
+
         emit!(self, n.name);
 
         if n.matcher.is_some() {
@@ -1781,7 +1792,15 @@ where
             }
         }
 
-        write!(self, "]");
+        {
+            let span = if n.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(n.span.hi - BytePos(1), n.span.hi, Default::default())
+            };
+
+            self.wr.write_raw_char(Some(span), ']')?;
+        }
     }
 
     #[emitter]
