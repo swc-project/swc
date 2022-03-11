@@ -1,12 +1,11 @@
 use std::fmt::{self, Write};
 
 use miette::{
-    GraphicalReportHandler, LabeledSpan, MietteError, MietteSpanContents, Severity, SourceCode,
-    SourceOffset, SourceSpan, SpanContents,
+    GraphicalReportHandler, LabeledSpan, MietteError, Severity, SourceCode, SourceOffset,
+    SourceSpan, SpanContents,
 };
 use swc_common::{
     errors::{DiagnosticBuilder, DiagnosticId, Emitter, Level, SubDiagnostic},
-    source_map::SpanLabel,
     sync::Lrc,
     BytePos, SourceMap, Span,
 };
@@ -40,7 +39,7 @@ impl Write for WriterWrapper {
         self.0.write_char(c)
     }
 
-    fn write_fmt(mut self: &mut Self, args: fmt::Arguments<'_>) -> fmt::Result {
+    fn write_fmt(&mut self, args: fmt::Arguments<'_>) -> fmt::Result {
         self.0.write_fmt(args)
     }
 }
@@ -52,21 +51,21 @@ impl SourceCode for MietteSourceCode<'_> {
     fn read_span<'a>(
         &'a self,
         src_span: &SourceSpan,
-        context_lines_before: usize,
-        context_lines_after: usize,
+        _context_lines_before: usize,
+        _context_lines_after: usize,
     ) -> Result<Box<dyn SpanContents<'a> + 'a>, MietteError> {
         let lo = src_span.offset();
         let hi = lo + src_span.len();
 
         let span = Span::new(BytePos(lo as _), BytePos(hi as _), Default::default());
 
-        let loc = self.0.lookup_char_pos(span.lo());
-        let line_count = loc.file.lines.len();
-
         let src = self
             .0
             .span_to_snippet(span)
             .map_err(|_| MietteError::OutOfBounds)?;
+
+        let loc = self.0.lookup_char_pos(span.lo());
+        let line_count = loc.file.lines.len();
 
         Ok(Box::new(SpanContentsImpl {
             data: src,
