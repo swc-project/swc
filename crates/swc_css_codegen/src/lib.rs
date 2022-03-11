@@ -156,7 +156,8 @@ where
 
         if let Some(supports) = &n.supports {
             formatting_space!(self);
-            write!(self, "supports(");
+            write!(self, "supports");
+            write!(self, "(");
             emit!(self, supports);
             write!(self, ")");
         }
@@ -413,7 +414,14 @@ where
 
     #[emitter]
     fn emit_media_feature(&mut self, n: &MediaFeature) -> Result {
-        write!(self, "(");
+        let span = match n {
+            MediaFeature::Plain(n) => n.span,
+            MediaFeature::Boolean(n) => n.span,
+            MediaFeature::Range(n) => n.span,
+            MediaFeature::RangeInterval(n) => n.span,
+        };
+
+        write!(self, lo_span_offset!(span, 1), "(");
 
         match n {
             MediaFeature::Plain(n) => emit!(self, n),
@@ -422,7 +430,7 @@ where
             MediaFeature::RangeInterval(n) => emit!(self, n),
         }
 
-        write!(self, ")");
+        write!(self, hi_span_offset!(span, 1), ")");
     }
 
     #[emitter]
