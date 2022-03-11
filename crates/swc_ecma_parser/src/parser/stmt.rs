@@ -457,7 +457,11 @@ impl<'a, I: Tokens> Parser<I> {
             if !self.ctx().strict && is!(self, "function") {
                 // TODO: report error?
             }
-            self.parse_stmt(false).map(Box::new)?
+            let ctx = Context {
+                ignore_else_clause: false,
+                ..self.ctx()
+            };
+            self.with_ctx(ctx).parse_stmt(false).map(Box::new)?
         };
 
         // We parse `else` branch iteratively, to avoid stack overflow
@@ -479,7 +483,13 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 if !is!(self, "if") {
-                    let last = self.parse_stmt(false)?;
+                    let ctx = Context {
+                        ignore_else_clause: false,
+                        ..self.ctx()
+                    };
+
+                    // As we eat `else` above, we need to parse statement once.
+                    let last = self.with_ctx(ctx).parse_stmt(false)?;
                     break Some(last);
                 }
 
