@@ -35,11 +35,11 @@ plugin = [
 ahash = "0.7.4"
 anyhow = "1"
 base64 = "0.13.0"
-dashmap = "4.0.2"
+dashmap = "5.1.0"
 either = "1"
 indexmap = {version = "1", features = ["serde"]}
 lru = "0.7.1"
-once_cell = "1.9.0"
+once_cell = "1.10.0"
 parking_lot = "0.12.0"
 pathdiff = "0.2.0"
 regex = "1"

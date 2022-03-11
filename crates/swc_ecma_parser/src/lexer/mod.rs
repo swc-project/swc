@@ -255,10 +255,15 @@ impl<'a, I: Input> Lexer<'a, I> {
             '0' => {
                 let next = self.input.peek();
 
-                let radix = match next {
-                    Some('x') | Some('X') => 16,
-                    Some('o') | Some('O') => 8,
-                    Some('b') | Some('B') => 2,
+                let bigint = match next {
+                    Some('x') | Some('X') => self
+                        .read_radix_number::<16, { lexical::NumberFormatBuilder::hexadecimal() }>(),
+                    Some('o') | Some('O') => {
+                        self.read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
+                    }
+                    Some('b') | Some('B') => {
+                        self.read_radix_number::<2, { lexical::NumberFormatBuilder::binary() }>()
+                    }
                     _ => {
                         return self
                             .read_number(false)
@@ -270,8 +275,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                 };
 
-                return self
-                    .read_radix_number(radix)
+                return bigint
                     .map(|v| match v {
                         Left(v) => Num(v),
                         Right(v) => BigInt(v),
@@ -825,7 +829,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         debug_assert!(count == 2 || count == 4);
 
         // let pos = self.cur_pos();
-        match self.read_int_u32(16, count, raw)? {
+        match self.read_int_u32::<16>(count, raw)? {
             Some(val) => Ok(val.into()),
             None => self.error(start, SyntaxError::ExpectedHexChars { count })?,
         }
@@ -834,7 +838,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read `CodePoint`.
     fn read_code_point(&mut self, raw: &mut Raw) -> LexResult<Char> {
         let start = self.cur_pos();
-        let val = self.read_int_u32(16, 0, raw)?;
+        let val = self.read_int_u32::<16>(0, raw)?;
         match val {
             Some(val) if 0x0010_ffff >= val => match char::from_u32(val) {
                 Some(c) => Ok(c.into()),
