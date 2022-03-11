@@ -62,9 +62,9 @@ impl VisitMut for DroppedCommentsPreserver<'_> {
 impl DroppedCommentsPreserver<'_> {
     fn shift_comments_to_known_spans(&mut self) {
         if let Some(comments) = self.comments {
-            let mut trailing_comments = self.shift_leading_comments(comments);
+            let trailing_comments = self.shift_leading_comments(comments);
 
-            self.shift_trailing_comments(&mut trailing_comments);
+            self.shift_trailing_comments(trailing_comments);
         }
     }
 
@@ -117,7 +117,7 @@ impl DroppedCommentsPreserver<'_> {
     /// Therefore, by shifting them to trail the highest known hi position, we
     /// ensure that any remaining trailing comments are emitted in a
     /// similar location
-    fn shift_trailing_comments(&mut self, remaining_comment_entries: &mut CommentEntries) {
+    fn shift_trailing_comments(&mut self, remaining_comment_entries: CommentEntries) {
         let last_trailing =
             self.known_spans.iter().fold(
                 &DUMMY_SP,
@@ -127,7 +127,7 @@ impl DroppedCommentsPreserver<'_> {
         self.comments.add_trailing_comments(
             last_trailing.hi,
             remaining_comment_entries
-                .drain(..)
+                .into_iter()
                 .flat_map(|(_, c)| c)
                 .collect(),
         );
