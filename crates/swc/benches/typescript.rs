@@ -59,59 +59,64 @@ fn as_es(c: &swc::Compiler) -> Program {
 #[bench]
 fn base_tr_fixer(b: &mut Bencher) {
     let c = mk();
-    let module = as_es(&c);
+    c.run(|| {
+        let module = as_es(&c);
 
-    b.iter(|| {
-        let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
-
-        black_box(c.run_transform(&handler, true, || {
-            module.clone().fold_with(&mut fixer(Some(c.comments())))
-        }))
+        b.iter(|| {
+            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+            black_box(c.run_transform(&handler, true, || {
+                module.clone().fold_with(&mut fixer(Some(c.comments())))
+            }))
+        });
     });
 }
 
 #[bench]
 fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
     let c = mk();
-    let module = as_es(&c);
+    c.run(|| {
+        let module = as_es(&c);
 
-    b.iter(|| {
-        let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
-
-        black_box(c.run_transform(&handler, true, || {
-            module
-                .clone()
-                .fold_with(&mut resolver())
-                .fold_with(&mut hygiene())
-        }))
-    });
+        b.iter(|| {
+            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+            black_box(c.run_transform(&handler, true, || {
+                module
+                    .clone()
+                    .fold_with(&mut resolver())
+                    .fold_with(&mut hygiene())
+            }))
+        });
+    })
 }
 
 /// This benchmark exists to know exact execution time of each pass.
 
 fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
     let c = mk();
-    let module = as_es(&c);
 
-    //TODO: Use target
+    c.run(|| {
+        let module = as_es(&c);
 
-    b.iter(|| {
-        black_box(
-            c.print(
-                &module,
-                None,
-                None,
-                false,
-                EsVersion::Es2020,
-                SourceMapsConfig::Bool(false),
-                &Default::default(),
-                None,
-                false,
-                None,
-            )
-            .unwrap(),
-        );
-    })
+        //TODO: Use target
+
+        b.iter(|| {
+            black_box(
+                c.print(
+                    &module,
+                    None,
+                    None,
+                    false,
+                    EsVersion::Es2020,
+                    SourceMapsConfig::Bool(false),
+                    &Default::default(),
+                    None,
+                    false,
+                    None,
+                )
+                .unwrap(),
+            );
+        })
+    });
 }
 
 macro_rules! codegen {
