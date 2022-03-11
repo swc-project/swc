@@ -4,7 +4,7 @@ use swc::{
     },
     Compiler,
 };
-use swc_common::FileName;
+use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{modules::common_js, pass::noop};
@@ -50,8 +50,8 @@ fn test_visit_mut() {
 
                 ..Default::default()
             },
-            |_| as_folder(PanicOnVisit),
-            |_| noop(),
+            |_, _| as_folder(PanicOnVisit),
+            |_, _| noop(),
         );
 
         assert_ne!(res.unwrap().code, "console.log(5 as const)");
@@ -101,8 +101,11 @@ fn shopify_1_check_filename() {
                 is_module: IsModule::Bool(true),
                 ..Default::default()
             },
-            |_| noop(),
-            |_| noop(),
+            |_, _: &SingleThreadedComments| {
+                // Ensure comment API
+                noop()
+            },
+            |_, _: &SingleThreadedComments| noop(),
         );
 
         if res.is_err() {
@@ -182,7 +185,8 @@ fn shopify_2_same_opt() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(fm, None, &handler, &opts, |_| noop(), |_| noop());
+        let res =
+            c.process_js_with_custom_pass(fm, None, &handler, &opts, |_, _| noop(), |_, _| noop());
 
         if res.is_err() {
             return Err(());
@@ -243,7 +247,8 @@ fn shopify_3_reduce_defaults() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(fm, None, &handler, &opts, |_| noop(), |_| noop());
+        let res =
+            c.process_js_with_custom_pass(fm, None, &handler, &opts, |_, _| noop(), |_, _| noop());
 
         if res.is_err() {
             return Err(());
@@ -299,7 +304,8 @@ fn shopify_4_reduce_more() {
             .into(),
         );
 
-        let res = c.process_js_with_custom_pass(fm, None, &handler, &opts, |_| noop(), |_| noop());
+        let res =
+            c.process_js_with_custom_pass(fm, None, &handler, &opts, |_, _| noop(), |_, _| noop());
 
         if res.is_err() {
             return Err(());

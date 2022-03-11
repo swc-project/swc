@@ -478,7 +478,7 @@ let diffLevel = 0;
 exports.diffLevel = diffLevel;
 
 function diff() {
-  if (!(exports.diffLevel = diffLevel = +diffLevel + 1)) {
+  if (!(exports.diffLevel = ++diffLevel)) {
     console.log("hey");
   }
 }
@@ -808,10 +808,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.f = exports.e = exports.c = exports.a = exports.test = void 0;
+var ref;
 var test = 2;
 exports.test = test;
 exports.test = test = 5;
-exports.test = test = +test + 1;
+ref = test++, exports.test = test, ref;
 
 (function () {
   var test1 = 2;
@@ -2470,7 +2471,7 @@ let diffLevel = 0;
 exports.diffLevel = diffLevel;
 
 function diff() {
-  if (!(exports.diffLevel = diffLevel = +diffLevel - 1)) {
+  if (!(exports.diffLevel = --diffLevel)) {
     console.log("hey");
   }
 }

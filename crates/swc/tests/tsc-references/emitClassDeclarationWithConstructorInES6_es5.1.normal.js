@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var A = // @target: es6
-/*#__PURE__*/ function() {
+// @target: es6
+var A = /*#__PURE__*/ function() {
     "use strict";
     function A(x) {
         swcHelpers.classCallCheck(this, A);

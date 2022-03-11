@@ -1,4 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
+// @allowJs: true
+// @checkJs: true
+// @moduleResolution: node
+// @declaration: true
+// @emitDeclarationOnly: true
+// @filename: rectangle.js
 var Rectangle = function Rectangle() {
     "use strict";
     swcHelpers.classCallCheck(this, Rectangle);

@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _hello = new WeakMap(), _world = new WeakMap(), _calcHello = new WeakSet(), _screamingHello = new WeakMap();
+var _hello = /*#__PURE__*/ new WeakMap(), _world = /*#__PURE__*/ new WeakMap(), _calcHello = /*#__PURE__*/ new WeakSet(), _screamingHello = /*#__PURE__*/ new WeakMap();
 // @target: esnext
 // @allowJS: true
 // @declaration: true

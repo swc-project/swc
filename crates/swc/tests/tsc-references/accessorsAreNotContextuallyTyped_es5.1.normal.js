@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // accessors are not contextually typed
-/*#__PURE__*/ function() {
+// accessors are not contextually typed
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

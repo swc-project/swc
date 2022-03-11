@@ -334,6 +334,7 @@ impl VisitMut for Pure<'_> {
             &mut s.expr,
             DropOpts {
                 drop_zero: true,
+                drop_global_refs_if_unused: true,
                 drop_str_lit: false,
             },
         );
@@ -447,6 +448,7 @@ impl VisitMut for Pure<'_> {
                     e,
                     DropOpts {
                         drop_zero: true,
+                        drop_global_refs_if_unused: true,
                         drop_str_lit: true,
                         ..Default::default()
                     },
@@ -527,6 +529,7 @@ impl VisitMut for Pure<'_> {
                     &mut **e,
                     DropOpts {
                         drop_zero: false,
+                        drop_global_refs_if_unused: false,
                         drop_str_lit: true,
                     },
                 );

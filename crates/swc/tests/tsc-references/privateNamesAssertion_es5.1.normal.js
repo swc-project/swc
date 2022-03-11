@@ -1,9 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
-var _p1 = new WeakMap();
-var Foo = // @strict: true
+var _p1 = /*#__PURE__*/ new WeakMap();
+// @strict: true
 // @target: esnext, es2022
 // @useDefineForClassFields: false
-/*#__PURE__*/ function() {
+var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
         swcHelpers.classCallCheck(this, Foo);
@@ -23,7 +23,7 @@ var Foo = // @strict: true
     };
     return Foo;
 }();
-var _p11 = new WeakSet();
+var _p11 = /*#__PURE__*/ new WeakSet();
 var Foo2 = /*#__PURE__*/ function() {
     "use strict";
     function Foo2() {

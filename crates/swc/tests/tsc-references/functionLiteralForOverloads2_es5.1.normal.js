@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// basic uses of function literals with constructor overloads
 var C = function C(x) {
     "use strict";
     swcHelpers.classCallCheck(this, C);

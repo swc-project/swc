@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 class C {
     static test() {
         swcHelpers.classPrivateFieldSet(new C(), _x, 10);

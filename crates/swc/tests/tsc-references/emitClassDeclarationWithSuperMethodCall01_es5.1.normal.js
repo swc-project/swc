@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var Parent = //@target: es6
-/*#__PURE__*/ function() {
+//@target: es6
+var Parent = /*#__PURE__*/ function() {
     "use strict";
     function Parent() {
         swcHelpers.classCallCheck(this, Parent);

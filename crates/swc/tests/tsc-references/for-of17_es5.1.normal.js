@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var _iterator = Symbol.iterator;
-var NumberIterator = //@target: ES6
-/*#__PURE__*/ function() {
+//@target: ES6
+var NumberIterator = /*#__PURE__*/ function() {
     "use strict";
     function NumberIterator() {
         swcHelpers.classCallCheck(this, NumberIterator);

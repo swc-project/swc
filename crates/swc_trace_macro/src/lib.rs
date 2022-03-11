@@ -3,7 +3,7 @@ extern crate proc_macro;
 use quote::ToTokens;
 use syn::{parse_quote, AttrStyle, Attribute, ImplItem, ItemImpl};
 
-/// Utility proc macro to add `#[tracing::instrument(level = "trace",
+/// Utility proc macro to add `#[tracing::instrument(level = "info",
 /// skip_all)]` to all methods in an impl block.
 ///
 /// This attribute macro is typically applied on an `VisitMut` impl block.
@@ -19,13 +19,13 @@ pub fn swc_trace(
     item.items.iter_mut().for_each(|item| {
         // We only handle methods
         if let ImplItem::Method(m) = item {
-            // #[tracing::instrument(level = "trace", skip_all)]
+            // #[tracing::instrument(level = "info", skip_all)]
             let attr = Attribute {
                 pound_token: Default::default(),
                 style: AttrStyle::Outer,
                 bracket_token: Default::default(),
                 path: parse_quote!(tracing::instrument),
-                tokens: parse_quote!((level = "trace", skip_all)),
+                tokens: parse_quote!((level = "info", skip_all)),
             };
             m.attrs.push(attr);
         }

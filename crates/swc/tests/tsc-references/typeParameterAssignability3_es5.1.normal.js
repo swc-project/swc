@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// type parameters are not assignable to one another unless directly or indirectly constrained to one another
 var Foo = function Foo() {
     "use strict";
     swcHelpers.classCallCheck(this, Foo);

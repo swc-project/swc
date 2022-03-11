@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// @target: esnext
+// @useDefineForClassFields: false
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);

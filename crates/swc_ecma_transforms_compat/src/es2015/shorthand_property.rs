@@ -40,7 +40,7 @@ use swc_trace_macro::swc_trace;
 ///   }
 /// };
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn shorthand() -> impl 'static + Fold + VisitMut {
     as_folder(Shorthand)
 }

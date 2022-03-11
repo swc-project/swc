@@ -14,8 +14,8 @@ export var Text = /*#__PURE__*/ function(_Component) {
     }
     var _proto = Text.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement(this, null) // this should be an error
-        );
+        return /*#__PURE__*/ React.createElement(this, null) // this should be an error
+        ;
     };
     return Text;
 }(React.Component);

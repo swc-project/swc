@@ -12,7 +12,8 @@ function Field() {
         return "";
     };
     var set_foo1 = function set_foo1(value) {};
-    var _foo = new WeakMap(), _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap(), _foo = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Field_Field = function A_Field_Field() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Field_Field);
@@ -25,7 +26,8 @@ function Field() {
             value: "foo"
         });
     };
-    var _foo1 = new WeakMap(), _foo1 = new WeakSet();
+    var _foo1 = /*#__PURE__*/ new WeakMap(), _foo1 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_Field_Method = function A_Field_Method() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Field_Method);
@@ -35,7 +37,8 @@ function Field() {
             value: "foo"
         });
     };
-    var _foo2 = new WeakMap(), _foo2 = new WeakMap();
+    var _foo2 = /*#__PURE__*/ new WeakMap(), _foo2 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Field_Getter = function A_Field_Getter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Field_Getter);
@@ -48,7 +51,8 @@ function Field() {
             value: "foo"
         });
     };
-    var _foo3 = new WeakMap(), _foo3 = new WeakMap();
+    var _foo3 = /*#__PURE__*/ new WeakMap(), _foo3 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Field_Setter = function A_Field_Setter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Field_Setter);
@@ -61,7 +65,8 @@ function Field() {
             value: "foo"
         });
     };
-    var _foo4 = new WeakMap();
+    var _foo4 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Field_StaticField = function A_Field_StaticField() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Field_StaticField);
@@ -74,7 +79,8 @@ function Field() {
         writable: true,
         value: "foo"
     };
-    var _foo5 = new WeakMap();
+    var _foo5 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Field_StaticMethod = function A_Field_StaticMethod() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Field_StaticMethod);
@@ -83,7 +89,8 @@ function Field() {
             value: "foo"
         });
     };
-    var _foo6 = new WeakMap();
+    var _foo6 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Field_StaticGetter = function A_Field_StaticGetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Field_StaticGetter);
@@ -96,7 +103,8 @@ function Field() {
         get: get_foo1,
         set: void 0
     };
-    var _foo7 = new WeakMap();
+    var _foo7 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Field_StaticSetter = function A_Field_StaticSetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Field_StaticSetter);
@@ -129,7 +137,8 @@ function Method() {
     };
     var foo8 = function foo8() {};
     var set_foo2 = function set_foo2(value) {};
-    var _foo = new WeakSet(), _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakSet(), _foo = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Method_Field = function A_Method_Field() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Method_Field);
@@ -139,14 +148,16 @@ function Method() {
             value: "foo"
         });
     };
-    var _foo8 = new WeakSet(), _foo8 = new WeakSet();
+    var _foo8 = /*#__PURE__*/ new WeakSet(), _foo8 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_Method_Method = function A_Method_Method() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Method_Method);
         swcHelpers.classPrivateMethodInit(this, _foo8);
         swcHelpers.classPrivateMethodInit(this, _foo8);
     };
-    var _foo9 = new WeakSet(), _foo9 = new WeakMap();
+    var _foo9 = /*#__PURE__*/ new WeakSet(), _foo9 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Method_Getter = function A_Method_Getter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Method_Getter);
@@ -156,7 +167,8 @@ function Method() {
             set: void 0
         });
     };
-    var _foo10 = new WeakSet(), _foo10 = new WeakMap();
+    var _foo10 = /*#__PURE__*/ new WeakSet(), _foo10 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Method_Setter = function A_Method_Setter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Method_Setter);
@@ -166,7 +178,8 @@ function Method() {
             set: set_foo
         });
     };
-    var _foo11 = new WeakSet();
+    var _foo11 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_Method_StaticField = function A_Method_StaticField() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Method_StaticField);
@@ -176,13 +189,15 @@ function Method() {
         writable: true,
         value: "foo"
     };
-    var _foo12 = new WeakSet();
+    var _foo12 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_Method_StaticMethod = function A_Method_StaticMethod() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Method_StaticMethod);
         swcHelpers.classPrivateMethodInit(this, _foo12);
     };
-    var _foo13 = new WeakSet();
+    var _foo13 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_Method_StaticGetter = function A_Method_StaticGetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Method_StaticGetter);
@@ -192,7 +207,8 @@ function Method() {
         get: get_foo2,
         set: void 0
     };
-    var _foo14 = new WeakSet();
+    var _foo14 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_Method_StaticSetter = function A_Method_StaticSetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Method_StaticSetter);
@@ -239,7 +255,8 @@ function Getter() {
         return "";
     };
     var set_foo3 = function set_foo3(value) {};
-    var _foo = new WeakMap(), _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap(), _foo = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Getter_Field = function A_Getter_Field() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Getter_Field);
@@ -252,7 +269,8 @@ function Getter() {
             value: "foo"
         });
     };
-    var _foo15 = new WeakMap(), _foo15 = new WeakSet();
+    var _foo15 = /*#__PURE__*/ new WeakMap(), _foo15 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_Getter_Method = function A_Getter_Method() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Getter_Method);
@@ -262,7 +280,8 @@ function Getter() {
         });
         swcHelpers.classPrivateMethodInit(this, _foo15);
     };
-    var _foo16 = new WeakMap();
+    var _foo16 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Getter_Getter = function A_Getter_Getter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Getter_Getter);
@@ -271,7 +290,8 @@ function Getter() {
             set: void 0
         });
     };
-    var _foo17 = new WeakMap();
+    var _foo17 = /*#__PURE__*/ new WeakMap();
+    //OK
     var A_Getter_Setter = function A_Getter_Setter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Getter_Setter);
@@ -280,7 +300,8 @@ function Getter() {
             set: set_foo
         });
     };
-    var _foo18 = new WeakMap();
+    var _foo18 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Getter_StaticField = function A_Getter_StaticField() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Getter_StaticField);
@@ -289,7 +310,8 @@ function Getter() {
             set: void 0
         });
     };
-    var _foo19 = new WeakMap();
+    var _foo19 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Getter_StaticMethod = function A_Getter_StaticMethod() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Getter_StaticMethod);
@@ -298,7 +320,8 @@ function Getter() {
             set: void 0
         });
     };
-    var _foo20 = new WeakMap();
+    var _foo20 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Getter_StaticGetter = function A_Getter_StaticGetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Getter_StaticGetter);
@@ -311,7 +334,8 @@ function Getter() {
         get: get_foo8,
         set: void 0
     };
-    var _foo21 = new WeakMap();
+    var _foo21 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Getter_StaticSetter = function A_Getter_StaticSetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Getter_StaticSetter);
@@ -344,7 +368,8 @@ function Setter() {
     };
     var set_foo10 = function set_foo10(value) {};
     var set_foo10 = function set_foo10(value) {};
-    var _foo = new WeakMap(), _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap(), _foo = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Setter_Field = function A_Setter_Field() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Setter_Field);
@@ -357,7 +382,8 @@ function Setter() {
             value: "foo"
         });
     };
-    var _foo22 = new WeakMap(), _foo22 = new WeakSet();
+    var _foo22 = /*#__PURE__*/ new WeakMap(), _foo22 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_Setter_Method = function A_Setter_Method() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Setter_Method);
@@ -367,7 +393,8 @@ function Setter() {
         });
         swcHelpers.classPrivateMethodInit(this, _foo22);
     };
-    var _foo23 = new WeakMap();
+    var _foo23 = /*#__PURE__*/ new WeakMap();
+    // OK
     var A_Setter_Getter = function A_Setter_Getter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Setter_Getter);
@@ -376,7 +403,8 @@ function Setter() {
             set: set_foo5
         });
     };
-    var _foo24 = new WeakMap();
+    var _foo24 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Setter_Setter = function A_Setter_Setter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Setter_Setter);
@@ -385,7 +413,8 @@ function Setter() {
             set: set_foo6
         });
     };
-    var _foo25 = new WeakMap();
+    var _foo25 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Setter_StaticField = function A_Setter_StaticField() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Setter_StaticField);
@@ -398,7 +427,8 @@ function Setter() {
         writable: true,
         value: "foo"
     };
-    var _foo26 = new WeakMap();
+    var _foo26 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Setter_StaticMethod = function A_Setter_StaticMethod() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Setter_StaticMethod);
@@ -407,7 +437,8 @@ function Setter() {
             set: set_foo8
         });
     };
-    var _foo27 = new WeakMap();
+    var _foo27 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Setter_StaticGetter = function A_Setter_StaticGetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Setter_StaticGetter);
@@ -420,7 +451,8 @@ function Setter() {
         get: get_foo10,
         set: void 0
     };
-    var _foo28 = new WeakMap();
+    var _foo28 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_Setter_StaticSetter = function A_Setter_StaticSetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_Setter_StaticSetter);
@@ -445,7 +477,8 @@ function StaticField() {
         return "";
     };
     var set_foo11 = function set_foo11(value) {};
-    var _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticField_Field = function A_StaticField_Field() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticField_Field);
@@ -458,7 +491,8 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
-    var _foo29 = new WeakSet();
+    var _foo29 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_StaticField_Method = function A_StaticField_Method() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticField_Method);
@@ -468,7 +502,8 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
-    var _foo30 = new WeakMap();
+    var _foo30 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticField_Getter = function A_StaticField_Getter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticField_Getter);
@@ -481,7 +516,8 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
-    var _foo31 = new WeakMap();
+    var _foo31 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticField_Setter = function A_StaticField_Setter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticField_Setter);
@@ -494,6 +530,7 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
+    // Error
     var A_StaticField_StaticField = function A_StaticField_StaticField() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticField_StaticField);
@@ -506,6 +543,7 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
+    // Error
     var A_StaticField_StaticMethod = function A_StaticField_StaticMethod() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticField_StaticMethod);
@@ -514,6 +552,7 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
+    // Error
     var A_StaticField_StaticGetter = function A_StaticField_StaticGetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticField_StaticGetter);
@@ -526,6 +565,7 @@ function StaticField() {
         writable: true,
         value: "foo"
     };
+    // Error
     var A_StaticField_StaticSetter = function A_StaticField_StaticSetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticField_StaticSetter);
@@ -558,7 +598,8 @@ function StaticMethod() {
     };
     var foo19 = function foo19() {};
     var set_foo12 = function set_foo12(value) {};
-    var _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticMethod_Field = function A_StaticMethod_Field() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticMethod_Field);
@@ -567,13 +608,15 @@ function StaticMethod() {
             value: "foo"
         });
     };
-    var _foo36 = new WeakSet();
+    var _foo36 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_StaticMethod_Method = function A_StaticMethod_Method() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticMethod_Method);
         swcHelpers.classPrivateMethodInit(this, _foo36);
     };
-    var _foo37 = new WeakMap();
+    var _foo37 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticMethod_Getter = function A_StaticMethod_Getter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticMethod_Getter);
@@ -582,7 +625,8 @@ function StaticMethod() {
             set: void 0
         });
     };
-    var _foo38 = new WeakMap();
+    var _foo38 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticMethod_Setter = function A_StaticMethod_Setter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticMethod_Setter);
@@ -591,6 +635,7 @@ function StaticMethod() {
             set: set_foo
         });
     };
+    // Error
     var A_StaticMethod_StaticField = function A_StaticMethod_StaticField() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticMethod_StaticField);
@@ -599,10 +644,12 @@ function StaticMethod() {
         writable: true,
         value: "foo"
     };
+    // Error
     var A_StaticMethod_StaticMethod = function A_StaticMethod_StaticMethod() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticMethod_StaticMethod);
     };
+    // Error
     var A_StaticMethod_StaticGetter = function A_StaticMethod_StaticGetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticMethod_StaticGetter);
@@ -611,6 +658,7 @@ function StaticMethod() {
         get: get_foo12,
         set: void 0
     };
+    // Error
     var A_StaticMethod_StaticSetter = function A_StaticMethod_StaticSetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticMethod_StaticSetter);
@@ -656,7 +704,8 @@ function StaticGetter() {
         return "";
     };
     var set_foo13 = function set_foo13(value) {};
-    var _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticGetter_Field = function A_StaticGetter_Field() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticGetter_Field);
@@ -669,7 +718,8 @@ function StaticGetter() {
         get: get_foo,
         set: void 0
     };
-    var _foo42 = new WeakSet();
+    var _foo42 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_StaticGetter_Method = function A_StaticGetter_Method() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticGetter_Method);
@@ -679,7 +729,8 @@ function StaticGetter() {
         get: get_foo13,
         set: void 0
     };
-    var _foo43 = new WeakMap();
+    var _foo43 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticGetter_Getter = function A_StaticGetter_Getter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticGetter_Getter);
@@ -692,7 +743,8 @@ function StaticGetter() {
         get: get_foo14,
         set: void 0
     };
-    var _foo44 = new WeakMap();
+    var _foo44 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticGetter_Setter = function A_StaticGetter_Setter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticGetter_Setter);
@@ -705,6 +757,7 @@ function StaticGetter() {
         get: get_foo15,
         set: void 0
     };
+    // Error
     var A_StaticGetter_StaticField = function A_StaticGetter_StaticField() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticGetter_StaticField);
@@ -713,6 +766,7 @@ function StaticGetter() {
         get: get_foo16,
         set: void 0
     };
+    // Error
     var A_StaticGetter_StaticMethod = function A_StaticGetter_StaticMethod() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticGetter_StaticMethod);
@@ -721,6 +775,7 @@ function StaticGetter() {
         get: get_foo17,
         set: void 0
     };
+    // Error
     var A_StaticGetter_StaticGetter = function A_StaticGetter_StaticGetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticGetter_StaticGetter);
@@ -729,6 +784,7 @@ function StaticGetter() {
         get: get_foo18,
         set: void 0
     };
+    // OK
     var A_StaticGetter_StaticSetter = function A_StaticGetter_StaticSetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticGetter_StaticSetter);
@@ -757,7 +813,8 @@ function StaticSetter() {
     };
     var set_foo20 = function set_foo20(value) {};
     var set_foo20 = function set_foo20(value) {};
-    var _foo = new WeakMap();
+    var _foo = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticSetter_Field = function A_StaticSetter_Field() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticSetter_Field);
@@ -770,7 +827,8 @@ function StaticSetter() {
         get: void 0,
         set: set_foo
     };
-    var _foo49 = new WeakSet();
+    var _foo49 = /*#__PURE__*/ new WeakSet();
+    // Error
     var A_StaticSetter_Method = function A_StaticSetter_Method() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticSetter_Method);
@@ -780,7 +838,8 @@ function StaticSetter() {
         get: void 0,
         set: set_foo14
     };
-    var _foo50 = new WeakMap();
+    var _foo50 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticSetter_Getter = function A_StaticSetter_Getter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticSetter_Getter);
@@ -793,7 +852,8 @@ function StaticSetter() {
         get: void 0,
         set: set_foo15
     };
-    var _foo51 = new WeakMap();
+    var _foo51 = /*#__PURE__*/ new WeakMap();
+    // Error
     var A_StaticSetter_Setter = function A_StaticSetter_Setter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticSetter_Setter);
@@ -806,6 +866,7 @@ function StaticSetter() {
         get: void 0,
         set: set_foo16
     };
+    // Error
     var A_StaticSetter_StaticField = function A_StaticSetter_StaticField() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticSetter_StaticField);
@@ -818,6 +879,7 @@ function StaticSetter() {
         writable: true,
         value: "foo"
     };
+    // Error
     var A_StaticSetter_StaticMethod = function A_StaticSetter_StaticMethod() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticSetter_StaticMethod);
@@ -826,6 +888,7 @@ function StaticSetter() {
         get: void 0,
         set: set_foo18
     };
+    // OK
     var A_StaticSetter_StaticGetter = function A_StaticSetter_StaticGetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticSetter_StaticGetter);
@@ -834,6 +897,7 @@ function StaticSetter() {
         get: get_foo20,
         set: set_foo19
     };
+    // Error
     var A_StaticSetter_StaticSetter = function A_StaticSetter_StaticSetter() {
         "use strict";
         swcHelpers.classCallCheck(this, A_StaticSetter_StaticSetter);

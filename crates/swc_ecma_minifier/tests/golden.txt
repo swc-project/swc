@@ -300,6 +300,7 @@ defaults/defaults_true_evaluate_false/input.js
 defaults/defaults_undefined/input.js
 destructuring/destructure_empty_array_1/input.js
 destructuring/destructure_empty_array_2/input.js
+destructuring/destructure_empty_array_3/input.js
 destructuring/destructuring_arrays/input.js
 destructuring/destructuring_arrays_holes/input.js
 destructuring/destructuring_assign_of_computed_key/input.js
@@ -317,6 +318,9 @@ destructuring/destructuring_vardef_in_loops/input.js
 destructuring/destructuring_with_undefined_as_default_assignment/input.js
 destructuring/empty_object_destructuring_1/input.js
 destructuring/empty_object_destructuring_2/input.js
+destructuring/empty_object_destructuring_3/input.js
+destructuring/empty_object_destructuring_4/input.js
+destructuring/empty_object_destructuring_misc/input.js
 destructuring/export_function_containing_destructuring_decl/input.js
 destructuring/export_unreferenced_declarations_1/input.js
 destructuring/issue_1886/input.js
@@ -326,6 +330,11 @@ destructuring/issue_2044_ecma_6/input.js
 destructuring/issue_2044_ecma_6_beautify/input.js
 destructuring/issue_2140/input.js
 destructuring/issue_3205_1/input.js
+destructuring/issue_t111_1/input.js
+destructuring/issue_t111_2a/input.js
+destructuring/issue_t111_2b/input.js
+destructuring/issue_t111_2c/input.js
+destructuring/issue_t111_3/input.js
 destructuring/issue_t111_4/input.js
 destructuring/nested_destructuring_objects/input.js
 destructuring/object_destructuring_may_need_parentheses/input.js
@@ -334,14 +343,17 @@ destructuring/unused/input.js
 destructuring/unused_destructuring_assign_1/input.js
 destructuring/unused_destructuring_assign_2/input.js
 destructuring/unused_destructuring_class_method_param/input.js
+destructuring/unused_destructuring_decl_1/input.js
 destructuring/unused_destructuring_decl_2/input.js
 destructuring/unused_destructuring_decl_3/input.js
 destructuring/unused_destructuring_decl_4/input.js
+destructuring/unused_destructuring_decl_5/input.js
 destructuring/unused_destructuring_decl_6/input.js
 destructuring/unused_destructuring_declaration_complex_1/input.js
 destructuring/unused_destructuring_declaration_complex_2/input.js
 destructuring/unused_destructuring_function_param/input.js
 destructuring/unused_destructuring_getter_side_effect_1/input.js
+destructuring/unused_destructuring_multipass/input.js
 destructuring/unused_destructuring_object_method_param/input.js
 directives/class_directives_compression/input.js
 directives/simple_statement_is_not_a_directive/input.js

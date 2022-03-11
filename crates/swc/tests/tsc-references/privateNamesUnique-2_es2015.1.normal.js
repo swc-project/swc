@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 // @filename: main.ts
 import { Foo as A } from "./a";
 import { Foo as B } from "./b";
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 // @filename: a.ts
 export class Foo {
@@ -16,7 +16,7 @@ export class Foo {
         });
     }
 }
-var _x1 = new WeakMap();
+var _x1 = /*#__PURE__*/ new WeakMap();
 // @filename: b.ts
 export class Foo {
     constructor(){

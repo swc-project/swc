@@ -1,9 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
-var Base = // @target: *,-es3
+// @target: *,-es3
 // @strict: true
 // @noTypesAndSymbols: true
 // GH#34952
-/*#__PURE__*/ function() {
+var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
         swcHelpers.classCallCheck(this, Base);

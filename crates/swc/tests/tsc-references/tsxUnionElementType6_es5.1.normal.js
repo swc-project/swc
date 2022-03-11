@@ -5,13 +5,13 @@
 // @libFiles: react.d.ts,lib.d.ts
 var React = require('react');
 function EmptySFC1() {
-    return(/*#__PURE__*/ React.createElement("div", null, "Hi"));
+    return /*#__PURE__*/ React.createElement("div", null, "Hi");
 }
 function EmptySFC2() {
-    return(/*#__PURE__*/ React.createElement("div", null, "Hello"));
+    return /*#__PURE__*/ React.createElement("div", null, "Hello");
 }
 function SFC2(prop) {
-    return(/*#__PURE__*/ React.createElement("h1", null, "World"));
+    return /*#__PURE__*/ React.createElement("h1", null, "World");
 }
 var EmptySFCComp = EmptySFC1 || EmptySFC2;
 var SFC2AndEmptyComp = SFC2 || EmptySFC1;

@@ -1,6 +1,6 @@
 class Button {
     render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "My Button"));
+        return /*#__PURE__*/ React.createElement("div", null, "My Button");
     }
 }
 // OK

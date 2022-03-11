@@ -1,5 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
+// @target: es5
+// @lib: esnext, dom
+// @downlevelIteration: true
+// https://github.com/Microsoft/TypeScript/issues/24722
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);

@@ -1,3 +1,2 @@
-const React = require("react");
-React.createElement(1, null);
+require("react");
 export { };

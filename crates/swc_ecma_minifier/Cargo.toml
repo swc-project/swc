@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license = "Apache-2.0"
 name = "swc_ecma_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.87.3"
+version = "0.88.1"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -34,12 +34,12 @@ swc_common = {version = "0.17.0", path = "../swc_common"}
 swc_ecma_ast = {version = "0.69.0", path = "../swc_ecma_ast"}
 swc_ecma_codegen = {version = "0.94.0", path = "../swc_ecma_codegen"}
 swc_ecma_parser = {version = "0.92.0", path = "../swc_ecma_parser"}
-swc_ecma_transforms = {version = "0.129.0", path = "../swc_ecma_transforms/", features = ["optimization"]}
+swc_ecma_transforms = {version = "0.130.0", path = "../swc_ecma_transforms/", features = ["optimization"]}
 swc_ecma_transforms_base = {version = "0.66.0", path = "../swc_ecma_transforms_base"}
 swc_ecma_utils = {version = "0.71.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.55.0", path = "../swc_ecma_visit"}
 swc_timer = {version = "0.4.0", path = "../swc_timer"}
-tracing = "0.1.31"
+tracing = "0.1.32"
 unicode-id = "0.3.0"
 
 [dev-dependencies]

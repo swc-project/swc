@@ -1,9 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
-var C1 = // @target: esnext, es2022, es2015
+// @target: esnext, es2022, es2015
 // @useDefineForClassFields: true
 // @noTypesAndSymbols: true
 // https://github.com/microsoft/TypeScript/issues/44113
-/*#__PURE__*/ function() {
+var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {
         swcHelpers.classCallCheck(this, C1);

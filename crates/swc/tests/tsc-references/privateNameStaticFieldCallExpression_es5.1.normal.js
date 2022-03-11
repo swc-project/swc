@@ -21,8 +21,8 @@ function _templateObject1() {
     };
     return data;
 }
-var A = // @target: es2015
-/*#__PURE__*/ function() {
+// @target: es2015
+var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);

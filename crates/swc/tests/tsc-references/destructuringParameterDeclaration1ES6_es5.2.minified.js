@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 function a1(param) {
-    var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], ref = swcHelpers.slicedToArray(_param[2], 1), ref1 = swcHelpers.slicedToArray(ref[0], 1);
+    var _param = swcHelpers.slicedToArray(param, 3), ref = (_param[0], _param[1], swcHelpers.slicedToArray(_param[2], 1)), ref1 = swcHelpers.slicedToArray(ref[0], 1);
     ref1[0];
 }
 function b2() {
@@ -19,7 +19,7 @@ function c2(param) {
     param.z;
 }
 function c5(param) {
-    var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], ref = swcHelpers.slicedToArray(_param[2], 1), ref2 = swcHelpers.slicedToArray(ref[0], 1);
+    var _param = swcHelpers.slicedToArray(param, 3), ref = (_param[0], _param[1], swcHelpers.slicedToArray(_param[2], 1)), ref2 = swcHelpers.slicedToArray(ref[0], 1);
     ref2[0];
 }
 a1([

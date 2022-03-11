@@ -729,7 +729,7 @@ impl Compiler {
         }
     }
 
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Option<Config>, Error> {
         static CUR_DIR: Lazy<PathBuf> = Lazy::new(|| {
             if cfg!(target_arch = "wasm32") {
@@ -835,7 +835,7 @@ impl Compiler {
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn parse_js_as_input<'a, P>(
         &'a self,
         fm: Lrc<SourceFile>,
@@ -891,7 +891,7 @@ impl Compiler {
         })
     }
 
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn transform(
         &self,
         handler: &Handler,
@@ -919,15 +919,15 @@ impl Compiler {
     ///
     /// This means, you can use `noop_visit_type`, `noop_fold_type` and
     /// `noop_visit_mut_type` in your visitor to reduce the binary size.
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn process_js_with_custom_pass<P1, P2>(
         &self,
         fm: Arc<SourceFile>,
         program: Option<Program>,
         handler: &Handler,
         opts: &Options,
-        custom_before_pass: impl FnOnce(&Program) -> P1,
-        custom_after_pass: impl FnOnce(&Program) -> P2,
+        custom_before_pass: impl FnOnce(&Program, &SingleThreadedComments) -> P1,
+        custom_after_pass: impl FnOnce(&Program, &SingleThreadedComments) -> P2,
     ) -> Result<TransformOutput, Error>
     where
         P1: swc_ecma_visit::Fold,
@@ -943,7 +943,7 @@ impl Compiler {
                     opts,
                     &fm.name,
                     Some(&comments),
-                    custom_before_pass,
+                    |program| custom_before_pass(program, &comments),
                 )
             })?;
             let config = match config {
@@ -953,7 +953,7 @@ impl Compiler {
                 }
             };
 
-            let pass = chain!(config.pass, custom_after_pass(&config.program));
+            let pass = chain!(config.pass, custom_after_pass(&config.program, &comments));
 
             let config = BuiltInput {
                 program: config.program,
@@ -983,17 +983,17 @@ impl Compiler {
         .context("failed to process js file")
     }
 
-    #[tracing::instrument(level = "trace", skip(self, handler, opts))]
+    #[tracing::instrument(level = "info", skip(self, handler, opts))]
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
         handler: &Handler,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.process_js_with_custom_pass(fm, None, handler, opts, |_| noop(), |_| noop())
+        self.process_js_with_custom_pass(fm, None, handler, opts, |_, _| noop(), |_, _| noop())
     }
 
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn minify(
         &self,
         fm: Arc<SourceFile>,
@@ -1118,7 +1118,7 @@ impl Compiler {
     /// You can use custom pass with this method.
     ///
     /// There exists a [PassBuilder] to help building custom passes.
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn process_js(
         &self,
         handler: &Handler,
@@ -1128,10 +1128,17 @@ impl Compiler {
         let loc = self.cm.lookup_char_pos(program.span().lo());
         let fm = loc.file;
 
-        self.process_js_with_custom_pass(fm, Some(program), handler, opts, |_| noop(), |_| noop())
+        self.process_js_with_custom_pass(
+            fm,
+            Some(program),
+            handler,
+            opts,
+            |_, _| noop(),
+            |_, _| noop(),
+        )
     }
 
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     fn process_js_inner(
         &self,
         handler: &Handler,
@@ -1178,7 +1185,7 @@ impl Compiler {
     }
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
     fn convert_json_err(e: serde_json::Error) -> Error {
         let line = e.line();

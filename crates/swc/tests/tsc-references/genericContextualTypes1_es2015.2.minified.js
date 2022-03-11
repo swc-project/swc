@@ -18,5 +18,4 @@ arrayMap((x)=>x.length
     })
 ), arrayFilter((x)=>x.length > 10
 ), arrayFilter((x)=>x.value > 10
-), flip(zip), (a)=>a
-;
+), flip(zip);

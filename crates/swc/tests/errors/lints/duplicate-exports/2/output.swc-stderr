@@ -1,14 +1,13 @@
-error: Duplicate export
+error: the name `default` is exported multiple times
  
   |
+3 |   export { a as default };
+  |                 ------- previous exported here
+4 | 
 5 | / export default () => {
 6 | |     let b = 2;
 7 | | }
-  | |_^
+  | |_^ exported more than once
   |
-note: default was exported at here
- 
-  |
-3 | export { a as default };
-  |               ^^^^^^^
+  = note: Exported identifiers must be unique
 

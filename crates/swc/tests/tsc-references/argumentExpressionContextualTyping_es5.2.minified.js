@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 function foo(param) {
-    var _x = swcHelpers.slicedToArray(param.x, 2), a = _x[0], b = _x[1], _y = param.y;
+    var _x = swcHelpers.slicedToArray(param.x, 2), _y = (_x[0], _x[1], param.y);
     _y.c, _y.d, _y.e;
 }
 function baz(x) {}

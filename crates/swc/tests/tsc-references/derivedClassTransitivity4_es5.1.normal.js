@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // subclassing is not transitive when you can remove required parameters and add optional parameters on protected members
-/*#__PURE__*/ function() {
+// subclassing is not transitive when you can remove required parameters and add optional parameters on protected members
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

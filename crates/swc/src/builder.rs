@@ -189,14 +189,17 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             let assumptions = self.assumptions;
             Either::Right(chain!(
                 Optional::new(
-                    compat::es2022::es2022(compat::es2022::Config {
-                        class_properties: compat::es2022::class_properties::Config {
-                            private_as_properties: assumptions.private_fields_as_properties,
-                            constant_super: assumptions.constant_super,
-                            set_public_fields: assumptions.set_public_class_fields,
-                            no_document_all: assumptions.no_document_all
+                    compat::es2022::es2022(
+                        comments,
+                        compat::es2022::Config {
+                            class_properties: compat::es2022::class_properties::Config {
+                                private_as_properties: assumptions.private_fields_as_properties,
+                                constant_super: assumptions.constant_super,
+                                set_public_fields: assumptions.set_public_class_fields,
+                                no_document_all: assumptions.no_document_all
+                            }
                         }
-                    }),
+                    ),
                     should_enable(self.target, EsVersion::Es2022)
                 ),
                 Optional::new(

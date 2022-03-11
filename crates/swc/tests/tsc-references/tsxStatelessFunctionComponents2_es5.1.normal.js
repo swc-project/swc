@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
 // @libFiles: react.d.ts,lib.d.ts
 var React = require('react');
 function Greet(x) {
-    return(/*#__PURE__*/ React.createElement("div", null, "Hello, ", x));
+    return /*#__PURE__*/ React.createElement("div", null, "Hello, ", x);
 }
 var BigGreeter = /*#__PURE__*/ function(_Component) {
     "use strict";
@@ -18,7 +18,7 @@ var BigGreeter = /*#__PURE__*/ function(_Component) {
     }
     var _proto = BigGreeter.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("div", null));
+        return /*#__PURE__*/ React.createElement("div", null);
     };
     return BigGreeter;
 }(React.Component);

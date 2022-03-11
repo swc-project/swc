@@ -2291,8 +2291,8 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(
-        class_properties(Default::default()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
         async_to_generator(Default::default())
     ),
     issue_1341_1_exec,
@@ -2347,8 +2347,8 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(
-        class_properties(Default::default()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
         async_to_generator(Default::default())
     ),
     issue_1341_2_exec,
@@ -3562,10 +3562,10 @@ fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| {
+        |t| {
             chain!(
                 resolver(),
-                class_properties(Default::default()),
+                class_properties(Some(t.comments.clone()), Default::default()),
                 async_to_generator(Default::default())
             )
         },
@@ -3578,12 +3578,12 @@ fn exec_regenerator(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| {
+        |t| {
             let top_level_mark = Mark::fresh(Mark::root());
 
             chain!(
                 resolver(),
-                class_properties(Default::default()),
+                class_properties(Some(t.comments.clone()), Default::default()),
                 async_to_generator(Default::default()),
                 es2015::for_of(Default::default()),
                 regenerator(Default::default(), top_level_mark)

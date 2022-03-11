@@ -618,7 +618,7 @@
                     styles: styles,
                     next: cursor
                 };
-            }, emotion_element_99289b21_browser_esm_hasOwnProperty = Object.prototype.hasOwnProperty, EmotionCacheContext = (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
+            }, EmotionCacheContext = (Object.prototype.hasOwnProperty, (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
                 var key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])");
@@ -674,7 +674,7 @@
                 return cache.sheet.hydrate(nodesToHydrate), cache;
             }({
                 key: "css"
-            }) : null);
+            }) : null));
             EmotionCacheContext.Provider;
             var emotion_element_99289b21_browser_esm_ThemeContext = (0, react.createContext)({});
             __webpack_require__(8679);

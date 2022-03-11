@@ -203,9 +203,9 @@ dependencies = [
 
 [[package]]
 name = "browserslist-rs"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "67bf6eb040d26861376afa30a5b172f066bfda9cef992af7a55ac5395ef91437"
+checksum = "a0f43be8e0fc9203f6ed7731d2a9a6bf5924cb78907e67e1fe9133617be402be"
 dependencies = [
  "ahash",
  "anyhow",
@@ -1084,9 +1084,9 @@ checksum = "cb56e1aa765b4b4f3aadfab769793b7087bb03a4ea4920644a6d238e2df5b9ed"
 
 [[package]]
 name = "indexmap"
-version = "1.7.0"
+version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bc633605454125dec4b66843673f01c7df2b89479b32e0ed634e43a91cff62a5"
+checksum = "282a6247722caba404c065016bbfa522806e51714c34f5dfc3e4a3a46fcb4223"
 dependencies = [
  "autocfg",
  "hashbrown",
@@ -1930,7 +1930,7 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 
 [[package]]
 name = "preset_env_base"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2705,7 +2705,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.145.1"
+version = "0.147.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2761,7 +2761,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.119.0"
+version = "0.120.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2818,7 +2818,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.19.0"
+version = "0.21.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -2840,7 +2840,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.11"
+version = "0.17.13"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2873,7 +2873,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.98.0"
+version = "0.99.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2896,7 +2896,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.95.0"
+version = "0.96.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -2941,7 +2941,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.60.0"
+version = "0.61.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2969,7 +2969,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.86.0"
+version = "0.86.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3005,7 +3005,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.94.0"
+version = "0.94.1"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3060,7 +3060,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.22.2"
+version = "0.22.3"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3101,7 +3101,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.87.3"
+version = "0.88.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3135,7 +3135,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.92.5"
+version = "0.92.6"
 dependencies = [
  "either",
  "enum_kind",
@@ -3159,7 +3159,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.103.0"
+version = "0.104.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3214,7 +3214,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.129.0"
+version = "0.130.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3273,7 +3273,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.78.1"
+version = "0.79.1"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3313,7 +3313,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.89.4"
+version = "0.90.0"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3338,7 +3338,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.99.1"
+version = "0.100.0"
 dependencies = [
  "ahash",
  "dashmap 4.0.2",
@@ -3366,7 +3366,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.86.0"
+version = "0.87.0"
 dependencies = [
  "either",
  "serde",
@@ -3389,7 +3389,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.91.0"
+version = "0.92.0"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3438,7 +3438,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.94.1"
+version = "0.95.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3485,7 +3485,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.129.0"
+version = "0.130.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3521,7 +3521,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.65.0"
+version = "0.67.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3671,7 +3671,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.94.2"
+version = "0.95.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3693,7 +3693,7 @@ dependencies = [
 
 [[package]]
 name = "swc_trace_macro"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3722,7 +3722,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.63.0"
+version = "0.65.0"
 dependencies = [
  "anyhow",
  "rayon",
@@ -3990,9 +3990,9 @@ checksum = "360dfd1d6d30e05fda32ace2c8c70e9c0a9da713275777f5a4dbb8a1893930c6"
 
 [[package]]
 name = "tracing"
-version = "0.1.31"
+version = "0.1.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f6c650a8ef0cd2dd93736f033d21cbd1224c5a967aa0c258d00fcf7dafef9b9f"
+checksum = "4a1bdf54a7c28a2bbf701e1d2233f6c77f473486b94bee4f9678da5a148dca7f"
 dependencies = [
  "cfg-if 1.0.0",
  "log",
@@ -4003,9 +4003,9 @@ dependencies = [
 
 [[package]]
 name = "tracing-attributes"
-version = "0.1.19"
+version = "0.1.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8276d9a4a3a558d7b7ad5303ad50b53d58264641b82914b7ada36bd762e7a716"
+checksum = "2e65ce065b4b5c53e73bb28912318cb8c9e9ad3921f1d669eb0e68b4c8143a2b"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4202,7 +4202,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.151"
+version = "1.2.152"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",

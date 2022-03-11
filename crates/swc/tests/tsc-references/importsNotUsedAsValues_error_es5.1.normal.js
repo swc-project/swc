@@ -29,6 +29,7 @@ console.log(c, d);
 var c;
 var d;
 console.log(c, d);
+// @Filename: /h.ts
 var H = function H() {
     "use strict";
     swcHelpers.classCallCheck(this, H);

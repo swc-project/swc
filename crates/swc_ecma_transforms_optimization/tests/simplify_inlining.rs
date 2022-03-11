@@ -2154,15 +2154,18 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| {
+    |t| {
         let mark = Mark::fresh(Mark::root());
         chain!(
             resolver_with_mark(mark),
             simple_strip(mark),
-            class_properties(class_properties::Config {
-                set_public_fields: true,
-                ..Default::default()
-            }),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    set_public_fields: true,
+                    ..Default::default()
+                }
+            ),
             inlining(Default::default())
         )
     },
@@ -2200,15 +2203,18 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| {
+    |t| {
         let mark = Mark::fresh(Mark::root());
         chain!(
             resolver_with_mark(mark),
             simple_strip(mark),
-            class_properties(class_properties::Config {
-                set_public_fields: true,
-                ..Default::default()
-            }),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    set_public_fields: true,
+                    ..Default::default()
+                }
+            ),
             inlining(Default::default())
         )
     },

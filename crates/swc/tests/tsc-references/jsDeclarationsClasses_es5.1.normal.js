@@ -40,7 +40,7 @@ export var D = function D(a, b) {
             get: /**
      * @return {U}
      */ function get() {
-                return(/** @type {*} */ (null));
+                return /** @type {*} */ (null);
             },
             set: /**
      * @param {U} _p
@@ -51,7 +51,7 @@ export var D = function D(a, b) {
             get: /**
      * @return {U}
      */ function get() {
-                return(/** @type {*} */ (null));
+                return /** @type {*} */ (null);
             }
         },
         {

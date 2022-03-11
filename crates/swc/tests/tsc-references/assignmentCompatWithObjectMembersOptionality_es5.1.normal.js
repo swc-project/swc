@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// Derived member is not optional but base member is, should be ok
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

@@ -16,7 +16,7 @@ serde = {version = "1.0.126", features = ["derive"]}
 serde_json = "1.0.64"
 swc_common = {version = "0.17.0", path = "../swc_common", features = ["plugin-rt", "concurrent"]}
 swc_ecma_ast = {version = "0.69.0", path = "../swc_ecma_ast", features = ["rkyv-impl"]}
-tracing = "0.1.31"
+tracing = "0.1.32"
 wasmer = "2.2.0"
 wasmer-cache = "2.2.0"
 wasmer-wasi = "2.2.0"

@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 // @target: esnext, es2022, es2015
 let getX;
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 let tmp = (getX = (a)=>swcHelpers.classPrivateFieldGet(a, _x)
 , "_");
 class A {

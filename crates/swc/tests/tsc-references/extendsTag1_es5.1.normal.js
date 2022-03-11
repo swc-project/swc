@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var My = // @noEmit: true
+// @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @lib: esnext
@@ -7,7 +7,7 @@ var My = // @noEmit: true
 /**
  * @template T
  * @extends {Set<T>} Should prefer this Set<T>, not the Set in the heritage clause
- */ /*#__PURE__*/ function(Set) {
+ */ var My = /*#__PURE__*/ function(Set) {
     "use strict";
     swcHelpers.inherits(My, Set);
     var _super = swcHelpers.createSuper(My);

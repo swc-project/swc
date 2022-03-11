@@ -17,7 +17,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
 use Value::Known;
 
-use self::util::MultiReplacer;
+use self::{unused::PropertyAccessOpts, util::MultiReplacer};
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
@@ -26,7 +26,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{contains_leaping_yield, make_number, ModuleItemExt},
+    util::{contains_leaping_yield, make_number, ExprOptExt, ModuleItemExt},
 };
 
 mod arguments;
@@ -751,9 +751,8 @@ where
                             ..
                         }) => {
                             if let PropName::Computed(key) = key {
-                                exprs.extend(
-                                    self.ignore_return_value(key.expr.as_mut()).map(Box::new),
-                                );
+                                exprs
+                                    .extend(self.ignore_return_value(&mut *key.expr).map(Box::new));
                             }
 
                             if *is_static {
@@ -914,23 +913,16 @@ where
                 if !prop.is_computed()
                     && (self.options.top_level() || !self.ctx.in_top_level()) =>
             {
-                if let Expr::Ident(obj) = &**obj {
-                    if let Some(usage) = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&obj.to_id()))
-                    {
-                        if !usage.declared {
-                            return Some(e.take());
-                        }
-
-                        if !usage.mutated
-                            && !usage.reassigned()
-                            && usage.no_side_effect_for_member_access
-                        {
-                            return None;
-                        }
-                    }
+                if self.should_preserve_property_access(
+                    obj,
+                    PropertyAccessOpts {
+                        allow_getter: true,
+                        only_ident: true,
+                    },
+                ) {
+                    return Some(e.take());
+                } else {
+                    return None;
                 }
             }
 
@@ -2745,39 +2737,81 @@ where
         for v in vars.iter_mut() {
             if v.init
                 .as_deref()
-                .map(|e| !e.may_have_side_effects())
+                .map(|e| !e.is_ident() && !e.may_have_side_effects())
                 .unwrap_or(true)
             {
-                self.drop_unused_var_declarator(v, true);
+                self.drop_unused_var_declarator(v, &mut None);
             }
         }
+
+        let mut can_prepend = true;
+        let mut side_effects = vec![];
 
         for v in vars.iter_mut() {
-            let was_value_none = v.init.is_none();
+            let mut storage = None;
+            self.drop_unused_var_declarator(v, &mut storage);
+            side_effects.extend(storage);
 
-            self.drop_unused_var_declarator(v, true);
+            // Dropped. Side effects of the initializer is stored in `side_effects`.
             if v.name.is_invalid() {
                 continue;
             }
-            if was_value_none {
+
+            // If initializer is none, we can check next item without thinking about side
+            // effects.
+            if v.init.is_none() {
                 continue;
             }
 
-            break;
+            // We can drop the next variable, as we don't have to worry about the side
+            // effect.
+            if side_effects.is_empty() {
+                can_prepend = false;
+                continue;
+            }
+
+            // We now have to handle side effects.
+
+            if can_prepend {
+                can_prepend = false;
+
+                self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: if side_effects.len() == 1 {
+                        side_effects.remove(0)
+                    } else {
+                        Box::new(Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: side_effects.take(),
+                        }))
+                    },
+                }));
+            } else {
+                // We prepend side effects to the initializer.
+
+                let seq = v.init.as_mut().unwrap().force_seq();
+                seq.exprs = side_effects
+                    .drain(..)
+                    .into_iter()
+                    .chain(seq.exprs.take())
+                    .filter(|e| !e.is_invalid())
+                    .collect();
+            }
         }
 
-        for v in vars.iter_mut().rev() {
-            let was_value_none = v.init.is_none();
-
-            self.drop_unused_var_declarator(v, false);
-            if v.name.is_invalid() {
-                continue;
-            }
-            if was_value_none {
-                continue;
-            }
-
-            break;
+        // We append side effects.
+        if !side_effects.is_empty() {
+            self.append_stmts.push(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: if side_effects.len() == 1 {
+                    side_effects.remove(0)
+                } else {
+                    Box::new(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: side_effects,
+                    }))
+                },
+            }));
         }
 
         vars.retain_mut(|var| {

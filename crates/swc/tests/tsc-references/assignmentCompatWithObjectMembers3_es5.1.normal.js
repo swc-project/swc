@@ -1,4 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
+// members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
+// additional optional properties do not cause errors
 var S = function S() {
     "use strict";
     swcHelpers.classCallCheck(this, S);

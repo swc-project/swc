@@ -1,6 +1,6 @@
 use std::mem;
 
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
@@ -57,7 +57,7 @@ use swc_trace_macro::swc_trace;
 /// };
 /// console.log(bob.printFriends());
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn arrow() -> impl Fold + VisitMut + InjectVars {
     as_folder(Arrow::default())
 }
@@ -148,7 +148,10 @@ impl VisitMut for Arrow {
                             BlockStmtOrExpr::Expr(expr) => BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: vec![Stmt::Return(ReturnStmt {
-                                    span: expr.span(),
+                                    // this is needed so
+                                    // () => /* 123 */ 1 would become
+                                    // function { return /*123 */ 123 }
+                                    span: DUMMY_SP,
                                     arg: Some(expr.take()),
                                 })],
                             },

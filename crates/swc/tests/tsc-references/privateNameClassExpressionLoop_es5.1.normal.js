@@ -8,7 +8,7 @@ for(var i = 0; i < 10; ++i){
     };
     var set_accessor = function set_accessor(val) {};
     var _myField, _method, _accessor, _C;
-    array.push((_myField = new WeakMap(), _method = new WeakSet(), _accessor = new WeakMap(), _C = function C() {
+    array.push((_myField = /*#__PURE__*/ new WeakMap(), _method = /*#__PURE__*/ new WeakSet(), _accessor = /*#__PURE__*/ new WeakMap(), _C = function C() {
         "use strict";
         swcHelpers.classCallCheck(this, C);
         swcHelpers.classPrivateMethodInit(this, _method);

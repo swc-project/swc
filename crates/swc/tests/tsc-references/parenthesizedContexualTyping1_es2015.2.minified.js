@@ -23,5 +23,4 @@ fun((x)=>x
 , 10), fun(0.5 > Math.random() ? (x)=>x
  : (x)=>void 0
 , (x)=>x
-, 10), (y)=>void 0
-;
+, 10);

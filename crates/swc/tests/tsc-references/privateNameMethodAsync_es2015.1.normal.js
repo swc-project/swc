@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var _bar, _baz, _qux, _class;
 // @target: es2019
-const C = (_bar = new WeakSet(), _baz = new WeakSet(), _qux = new WeakSet(), _class = class {
+const C = (_bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), _qux = /*#__PURE__*/ new WeakSet(), _class = class {
     foo() {
         var _this = this;
         return swcHelpers.asyncToGenerator(function*() {

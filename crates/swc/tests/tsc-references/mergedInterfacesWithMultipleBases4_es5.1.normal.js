@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// merged interfaces behave as if all extends clauses from each declaration are merged together
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

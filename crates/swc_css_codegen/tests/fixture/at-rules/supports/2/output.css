@@ -1,5 +1,5 @@
 @supports (--foo: ) {
-html {
-background: green;
-}
+  html {
+    background: green;
+  }
 }

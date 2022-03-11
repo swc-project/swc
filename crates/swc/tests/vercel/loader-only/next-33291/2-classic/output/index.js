@@ -15,7 +15,7 @@ export default function Home() {
             sizes: "".concat(s, "x").concat(s)
         };
     });
-    return(/*#__PURE__*/ React.createElement("div", {
+    return /*#__PURE__*/ React.createElement("div", {
         className: styles.container,
         __source: {
             fileName: "$DIR/tests/vercel/loader-only/next-33291/2-classic/input/index.js",
@@ -239,5 +239,5 @@ export default function Home() {
             columnNumber: 13
         },
         __self: this
-    }))))));
+    })))));
 };

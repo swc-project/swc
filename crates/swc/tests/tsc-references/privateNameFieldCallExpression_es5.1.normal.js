@@ -21,9 +21,9 @@ function _templateObject1() {
     };
     return data;
 }
-var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
-var A = // @target: es2015
-/*#__PURE__*/ function() {
+var _fieldFunc = /*#__PURE__*/ new WeakMap(), _fieldFunc2 = /*#__PURE__*/ new WeakMap();
+// @target: es2015
+var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);

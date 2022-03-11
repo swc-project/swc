@@ -8,7 +8,7 @@ export var B = function B() {
     "use strict";
     swcHelpers.classCallCheck(this, B);
 };
-var C = /** @extends {Mismatch} */ /*#__PURE__*/ function(B) {
+/** @extends {Mismatch} */ var C = /*#__PURE__*/ function(B) {
     "use strict";
     swcHelpers.inherits(C, B);
     var _super = swcHelpers.createSuper(C);

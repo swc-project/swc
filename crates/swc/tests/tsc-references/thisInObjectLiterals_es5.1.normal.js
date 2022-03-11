@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var MyClass = // @noImplicitAny: true
+// @noImplicitAny: true
 // @noImplicitThis: true
-/*#__PURE__*/ function() {
+var MyClass = /*#__PURE__*/ function() {
     "use strict";
     function MyClass() {
         swcHelpers.classCallCheck(this, MyClass);

@@ -1,7 +1,7 @@
 .class {
-position: relative;
+  position: relative;
 }
 .class {
-position: -webkit-sticky;
-position: sticky;
+  position: -webkit-sticky;
+  position: sticky;
 }

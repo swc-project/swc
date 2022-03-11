@@ -269,10 +269,10 @@
                 }), wrapperPageComponent((authConfig = authConfig1, function(PageComponent) {
                     var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {} : _pageConfig;
                     return _auth.withAuth(function(props) {
-                        var auth = props.auth, setAuth = props.setAuth, rest = swcHelpers.objectWithoutProperties(props, [
+                        var auth = props.auth, rest = (props.setAuth, swcHelpers.objectWithoutProperties(props, [
                             "auth",
                             "setAuth"
-                        ]), pageConfigAuth = pageConfig.auth;
+                        ])), pageConfigAuth = pageConfig.auth;
                         if (pageConfigAuth && !Array.isArray(pageConfigAuth)) throw new Error("pageConfig.auth must be an array");
                         return Array.isArray(pageConfigAuth) && pageConfigAuth.length && !Object.keys(auth).filter(function(item) {
                             return !!pageConfigAuth.includes(item) && auth[item];
@@ -830,10 +830,10 @@
                                 });
                             }), promise;
                         }, _proto.resolveAsync = function() {
-                            var _this4 = this, _this$props = this.props, __chunkExtractor = _this$props.__chunkExtractor, forwardedRef = _this$props.forwardedRef, props = (0, objectWithoutPropertiesLoose.Z)(_this$props, [
+                            var _this4 = this, _this$props = this.props, props = (_this$props.__chunkExtractor, _this$props.forwardedRef, (0, objectWithoutPropertiesLoose.Z)(_this$props, [
                                 "__chunkExtractor",
                                 "forwardedRef"
-                            ]), promise = this.getCache();
+                            ])), promise = this.getCache();
                             return promise || ((promise = ctor.requireAsync(props)).status = STATUS_PENDING, this.setCache(promise), promise.then(function() {
                                 promise.status = "RESOLVED";
                             }, function(error) {
@@ -844,11 +844,11 @@
                                 }), promise.status = STATUS_REJECTED;
                             })), promise;
                         }, _proto.render = function() {
-                            var _this$props2 = this.props, forwardedRef = _this$props2.forwardedRef, propFallback = _this$props2.fallback, __chunkExtractor = _this$props2.__chunkExtractor, props = (0, objectWithoutPropertiesLoose.Z)(_this$props2, [
+                            var _this$props2 = this.props, forwardedRef = _this$props2.forwardedRef, propFallback = _this$props2.fallback, props = (_this$props2.__chunkExtractor, (0, objectWithoutPropertiesLoose.Z)(_this$props2, [
                                 "forwardedRef",
                                 "fallback",
                                 "__chunkExtractor"
-                            ]), _this$state = this.state, error = _this$state.error, loading = _this$state.loading, result = _this$state.result;
+                            ])), _this$state = this.state, error = _this$state.error, loading = _this$state.loading, result = _this$state.result;
                             if (options.suspense && (this.getCache() || this.loadAsync()).status === STATUS_PENDING) throw this.loadAsync();
                             if (error) throw error;
                             var fallback = propFallback || options.fallback || null;

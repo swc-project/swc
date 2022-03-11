@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
-var A = // Two call or construct signatures are considered identical when they have the same number of type parameters and, considering those 
+// Two call or construct signatures are considered identical when they have the same number of type parameters and, considering those 
 // parameters pairwise identical, have identical type parameter constraints, identical number of parameters with identical kind(required, 
 // optional or rest) and types, and identical return types.
-/*#__PURE__*/ function() {
+var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);

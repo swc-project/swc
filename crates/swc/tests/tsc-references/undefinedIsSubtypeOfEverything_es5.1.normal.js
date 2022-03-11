@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// undefined is a subtype of every other types, no errors expected below
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);
@@ -218,10 +219,10 @@ var D15 = /*#__PURE__*/ function(Base) {
     }
     return D15;
 }(Base);
-var D16 = //class D15<T, U extends T> extends Base {
+//class D15<T, U extends T> extends Base {
 //    foo: U;
 //}
-/*#__PURE__*/ function(Base) {
+var D16 = /*#__PURE__*/ function(Base) {
     "use strict";
     swcHelpers.inherits(D16, Base);
     var _super = swcHelpers.createSuper(D16);

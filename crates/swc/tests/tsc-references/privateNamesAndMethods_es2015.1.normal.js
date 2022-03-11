@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _foo = new WeakSet(), _bar = new WeakSet(), _baz = new WeakSet(), __quux = new WeakMap(), _quux = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakSet(), _bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), __quux = /*#__PURE__*/ new WeakMap(), _quux = /*#__PURE__*/ new WeakMap();
 // @target: esnext, es2022
 // @lib: esnext, es2022
 // @useDefineForClassFields: false
@@ -47,7 +47,7 @@ function get_quux() {
 function set_quux(val) {
     swcHelpers.classPrivateFieldSet(this, __quux, val);
 }
-var _foo1 = new WeakSet();
+var _foo1 = /*#__PURE__*/ new WeakSet();
 class B extends A {
     constructor(){
         super();

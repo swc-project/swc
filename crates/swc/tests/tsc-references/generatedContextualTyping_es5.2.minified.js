@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var x187, x188, x189, x190, x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, Base = function() {
+var x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, Base = function() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);
 }, Derived1 = function(Base1) {
@@ -865,7 +865,7 @@ var x85 = function() {
     };
     swcHelpers.classCallCheck(this, x120), this.parm = parm;
 };
-x187 || (x187 = {}), x188 || (x188 = {}), x189 || (x189 = {}), x190 || (x190 = {}), (x193 || (x193 = {})).t = function() {
+(x193 || (x193 = {})).t = function() {
     return [
         d1,
         d2

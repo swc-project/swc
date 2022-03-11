@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 var _class, _Foo;
-var _foo = new WeakMap(), _foo2 = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakMap(), _foo2 = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 class B {
     constructor(){

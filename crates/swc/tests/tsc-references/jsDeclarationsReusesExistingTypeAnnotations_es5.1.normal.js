@@ -1,4 +1,11 @@
 import * as swcHelpers from "@swc/helpers";
+// @allowJs: true
+// @checkJs: true
+// @target: esnext
+// @strict: true
+// @declaration: true
+// @filename: index.js
+// @outDir: /out
 var С1 = function С1() {
     "use strict";
     swcHelpers.classCallCheck(this, С1);

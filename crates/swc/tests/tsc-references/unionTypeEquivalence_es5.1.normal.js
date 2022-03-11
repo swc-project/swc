@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// A | B is equivalent to A if B is a subtype of A
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

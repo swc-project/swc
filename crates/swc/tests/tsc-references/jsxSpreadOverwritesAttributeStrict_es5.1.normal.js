@@ -11,7 +11,7 @@ var props = {
     b: 1
 };
 var Foo = function(props1) {
-    /*#__PURE__*/ return React.createElement("div", null, props1.a);
+    return /*#__PURE__*/ React.createElement("div", null, props1.a);
 };
 // ok
 var a1 = /*#__PURE__*/ React.createElement(Foo, swcHelpers.extends({}, props));

@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var _value = new WeakMap();
-var Box = // @target: esnext
+var _value = /*#__PURE__*/ new WeakMap();
+// @target: esnext
 // @lib: esnext
 // @declaration: true
 // @allowJs: true
@@ -9,7 +9,7 @@ var Box = // @target: esnext
 // @out: genericSetterInClassTypeJsDoc-out.js
 /**
  * @template T
- */ /*#__PURE__*/ function() {
+ */ var Box = /*#__PURE__*/ function() {
     "use strict";
     function Box(initialValue) {
         swcHelpers.classCallCheck(this, Box);

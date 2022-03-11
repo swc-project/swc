@@ -59,8 +59,8 @@ function f5(x) {
 function f6(x) {
     x.p; // Ok, public if any constituent is public
 }
-var C1 = // Can't derive from type with inaccessible properties
-/*#__PURE__*/ function(_superClass) {
+// Can't derive from type with inaccessible properties
+var C1 = /*#__PURE__*/ function(_superClass) {
     "use strict";
     swcHelpers.inherits(C1, _superClass);
     var _super = swcHelpers.createSuper(C1);

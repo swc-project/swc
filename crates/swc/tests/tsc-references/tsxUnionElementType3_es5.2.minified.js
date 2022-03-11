@@ -40,11 +40,4 @@ var React = require("react"), RC1 = function(_Component) {
     return RC4.prototype.render = function() {
         return null;
     }, RC4;
-}(React.Component), EmptyRCComp = RC3 || RC4, PartRCComp = RC1 || RC4;
-React.createElement(RC1 || RC2, {
-    x: "Hi"
-}), React.createElement(EmptyRCComp, null), React.createElement(EmptyRCComp, {
-    "data-prop": "hello"
-}), React.createElement(PartRCComp, null), React.createElement(PartRCComp, {
-    "data-extra": "hello"
-});
+}(React.Component);

@@ -65,6 +65,7 @@ ExpandoExpr2.m = function(n10) {
     return n10 + 1;
 };
 var n = ExpandoExpr2.prop + ExpandoExpr2.m(12) + ExpandoExpr2(101).length;
+// Should not work in typescript -- classes already have statics
 var ExpandoClass = function ExpandoClass() {
     "use strict";
     swcHelpers.classCallCheck(this, ExpandoClass);

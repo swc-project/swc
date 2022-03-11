@@ -6,6 +6,7 @@ use std::{
     hash::{Hash, Hasher},
     ops::{Add, Sub},
     path::PathBuf,
+    sync::atomic::{AtomicU32, Ordering},
 };
 
 #[cfg(feature = "parking_lot")]
@@ -67,12 +68,16 @@ pub const DUMMY_SP: Span = Span {
 #[derive(Default)]
 pub struct Globals {
     hygiene_data: Mutex<hygiene::HygieneData>,
+    dummy_cnt: AtomicU32,
 }
+
+const DUMMY_RESERVE: u32 = u32::MAX - 2_u32.pow(16);
 
 impl Globals {
     pub fn new() -> Globals {
         Globals {
             hygiene_data: Mutex::new(hygiene::HygieneData::new()),
+            dummy_cnt: AtomicU32::new(DUMMY_RESERVE),
         }
     }
 }
@@ -237,6 +242,12 @@ impl Span {
     /// Returns `true` if this is a dummy span with any hygienic context.
     #[inline]
     pub fn is_dummy(self) -> bool {
+        self.lo.0 == 0 && self.hi.0 == 0 || self.lo.0 >= DUMMY_RESERVE
+    }
+
+    /// Returns `true` if this is a dummy span with any hygienic context.
+    #[inline]
+    pub fn is_dummy_ignoring_cmt(self) -> bool {
         self.lo.0 == 0 && self.hi.0 == 0
     }
 
@@ -422,6 +433,19 @@ impl Span {
                 return false;
             }
         }
+    }
+
+    /// Dummy span, both position are extremely large numbers so they would be
+    /// ignore by sourcemap, but can still have comments
+    pub fn dummy_with_cmt() -> Self {
+        GLOBALS.with(|globals| {
+            let lo = BytePos(globals.dummy_cnt.fetch_add(1, Ordering::SeqCst));
+            Span {
+                lo,
+                hi: lo,
+                ctxt: SyntaxContext::empty(),
+            }
+        })
     }
 }
 
@@ -806,6 +830,13 @@ pub trait Pos {
 
 /// A byte offset. Keep this small (currently 32-bits), as AST contains
 /// a lot of them.
+///
+///
+/// # Reserved
+///
+///  - Values larger than `u32::MAX - 2^16` are reserved for the comments.
+///
+/// `u32::MAX` is special value used to generate source map entries.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
 #[serde(transparent)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -814,6 +845,14 @@ pub trait Pos {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct BytePos(#[cfg_attr(feature = "rkyv", omit_bounds)] pub u32);
+
+impl BytePos {
+    const MIN_RESERVED: Self = BytePos(DUMMY_RESERVE);
+
+    pub const fn is_reserved_for_comments(self) -> bool {
+        self.0 >= Self::MIN_RESERVED.0 && self.0 != u32::MAX
+    }
+}
 
 /// A character offset. Because of multibyte utf8 characters, a byte offset
 /// is not equivalent to a character offset. The SourceMap will convert BytePos

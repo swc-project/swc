@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// Types with infinitely expanding recursive types are type checked nominally
 var List = function List() {
     "use strict";
     swcHelpers.classCallCheck(this, List);

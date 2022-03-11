@@ -7,7 +7,7 @@ import * as swcHelpers from "@swc/helpers";
 // @strictNullChecks: true
 const React = require('react');
 function Comp(p) {
-    return(/*#__PURE__*/ React.createElement("div", null, p.b));
+    return /*#__PURE__*/ React.createElement("div", null, p.b);
 }
 // Error: missing children
 let k = /*#__PURE__*/ React.createElement(Comp, {

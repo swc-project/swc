@@ -17,7 +17,7 @@ var BigGreeter = /*#__PURE__*/ function(_Component) {
     }
     var _proto = BigGreeter.prototype;
     _proto.render = function render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Default hi"));
+        return /*#__PURE__*/ React.createElement("div", null, "Default hi");
     };
     return BigGreeter;
 }(React.Component);

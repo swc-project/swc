@@ -2,8 +2,9 @@
 
 use swc_common::{
     collections::{AHashMap, AHashSet},
+    comments::Comments,
     util::take::Take,
-    Mark, Spanned, SyntaxContext, DUMMY_SP,
+    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
@@ -43,10 +44,11 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export default class
-#[tracing::instrument(level = "trace", skip_all)]
-pub fn class_properties(config: Config) -> impl Fold + VisitMut {
+#[tracing::instrument(level = "info", skip_all)]
+pub fn class_properties<C: Comments>(cm: Option<C>, config: Config) -> impl Fold + VisitMut {
     as_folder(ClassProperties {
         c: config,
+        cm,
         private: PrivateRecord::new(),
         extra: ClassExtra::default(),
     })
@@ -60,9 +62,10 @@ pub struct Config {
     pub no_document_all: bool,
 }
 
-struct ClassProperties {
+struct ClassProperties<C: Comments> {
     extra: ClassExtra,
     c: Config,
+    cm: Option<C>,
     private: PrivateRecord,
 }
 
@@ -144,7 +147,7 @@ impl Take for ClassExtra {
 
 #[swc_trace]
 #[fast_path(ShouldWork)]
-impl VisitMut for ClassProperties {
+impl<C: Comments> VisitMut for ClassProperties<C> {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
@@ -306,7 +309,7 @@ impl VisitMut for ClassProperties {
 }
 
 #[swc_trace]
-impl ClassProperties {
+impl<C: Comments> ClassProperties<C> {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + VisitMutWith<Self> + From<Stmt>,
@@ -416,7 +419,7 @@ impl ClassProperties {
 }
 
 #[swc_trace]
-impl ClassProperties {
+impl<C: Comments> ClassProperties<C> {
     fn visit_mut_class_as_decl(
         &mut self,
         class_ident: Ident,
@@ -677,13 +680,20 @@ impl ClassProperties {
                         name: ident.clone(),
                         value,
                     });
+                    let span = if let Some(cm) = &self.cm {
+                        let span = Span::dummy_with_cmt();
+                        cm.add_pure_comment(span.lo);
+                        span
+                    } else {
+                        DUMMY_SP
+                    };
                     if self.c.private_as_properties {
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
                             name: ident.clone().into(),
                             init: Some(Box::new(Expr::from(CallExpr {
-                                span: DUMMY_SP,
+                                span,
                                 callee: helper!(
                                     class_private_field_loose_key,
                                     "classPrivateFieldLooseKey"
@@ -698,7 +708,7 @@ impl ClassProperties {
                             definite: false,
                             name: ident.into(),
                             init: Some(Box::new(Expr::from(NewExpr {
-                                span: DUMMY_SP,
+                                span,
                                 callee: Box::new(Expr::Ident(quote_ident!("WeakMap"))),
                                 args: Some(Default::default()),
                                 type_args: Default::default(),
@@ -817,13 +827,20 @@ impl ClassProperties {
                     };
 
                     if let Some(extra) = extra_collect {
+                        let span = if let Some(cm) = &self.cm {
+                            let span = Span::dummy_with_cmt();
+                            cm.add_pure_comment(span.lo);
+                            span
+                        } else {
+                            DUMMY_SP
+                        };
                         vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             definite: false,
                             name: weak_coll_var.clone().into(),
                             init: Some(Box::new(if self.c.private_as_properties {
                                 Expr::from(CallExpr {
-                                    span: DUMMY_SP,
+                                    span,
                                     callee: helper!(
                                         class_private_field_loose_key,
                                         "classPrivateFieldLooseKey"
@@ -833,7 +850,7 @@ impl ClassProperties {
                                 })
                             } else {
                                 Expr::New(NewExpr {
-                                    span: DUMMY_SP,
+                                    span,
                                     callee: Box::new(Expr::Ident(extra)),
                                     args: Some(Default::default()),
                                     type_args: Default::default(),

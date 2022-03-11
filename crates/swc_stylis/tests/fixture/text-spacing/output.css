@@ -1,4 +1,4 @@
 .class {
--ms-text-spacing: none;
-text-spacing: none;
+  -ms-text-spacing: none;
+  text-spacing: none;
 }

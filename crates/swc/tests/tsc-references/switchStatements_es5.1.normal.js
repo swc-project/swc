@@ -35,6 +35,7 @@ switch(x){
     }(2):
     default:
 }
+// basic assignable check, rest covered in tests for 'assignment compatibility'
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

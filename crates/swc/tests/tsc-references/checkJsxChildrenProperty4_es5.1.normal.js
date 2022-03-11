@@ -21,15 +21,15 @@ var FetchUser = /*#__PURE__*/ function(_Component) {
 }(React.Component);
 // Error
 function UserName() {
-    return(/*#__PURE__*/ React.createElement(FetchUser, null, function(user) {
-        /*#__PURE__*/ return React.createElement("h1", null, user.NAme);
-    }));
+    return /*#__PURE__*/ React.createElement(FetchUser, null, function(user) {
+        return /*#__PURE__*/ React.createElement("h1", null, user.NAme);
+    });
 }
 function UserName1() {
-    return(/*#__PURE__*/ React.createElement(FetchUser, null, function(user) {
-        /*#__PURE__*/ return React.createElement("h1", null, user.Name);
+    return /*#__PURE__*/ React.createElement(FetchUser, null, function(user) {
+        return /*#__PURE__*/ React.createElement("h1", null, user.Name);
     }, function(user) {
-        /*#__PURE__*/ return React.createElement("h1", null, user.Name);
-    }));
+        return /*#__PURE__*/ React.createElement("h1", null, user.Name);
+    });
 }
 export { };

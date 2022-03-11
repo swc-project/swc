@@ -1,12 +1,12 @@
 import * as swcHelpers from "@swc/helpers";
-var Conn = // @allowJs: true
+// @allowJs: true
 // @checkJs: true
 // @outDir: ./out
 // @declaration: true
 // @filename: conn.js
 /**
  * @typedef {string | number} Whatever
- */ /*#__PURE__*/ function() {
+ */ var Conn = /*#__PURE__*/ function() {
     "use strict";
     function Conn() {
         swcHelpers.classCallCheck(this, Conn);
@@ -17,7 +17,10 @@ var Conn = // @allowJs: true
     return Conn;
 }();
 module.exports = Conn;
-var Wrap = function Wrap(c) {
+// @filename: usage.js
+/**
+ * @typedef {import("./conn")} Conn
+ */ var Wrap = function Wrap(c) {
     "use strict";
     swcHelpers.classCallCheck(this, Wrap);
     this.connItem = c.item;

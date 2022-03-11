@@ -30,6 +30,10 @@ pub(super) trait ModulePass: Fold {
 
     fn resolver(&self) -> &Resolver;
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr;
+
+    fn vars(&mut self) -> Ref<Vec<VarDeclarator>>;
+    fn vars_mut(&mut self) -> RefMut<Vec<VarDeclarator>>;
+    fn vars_take(&mut self) -> Vec<VarDeclarator>;
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -616,54 +620,64 @@ impl Scope {
                 ..e
             }),
 
-            Expr::Update(UpdateExpr {
-                span,
-                arg,
-                op,
-                prefix,
-            }) if arg.is_ident() => {
-                let arg = arg.ident().unwrap();
-                let mut scope = folder.scope_mut();
-                let entry = scope
-                    .exported_bindings
-                    .entry((arg.sym.clone(), arg.span.ctxt()));
+            Expr::Update(update) if update.arg.is_ident() => {
+                let arg = update.arg.clone().expect_ident();
 
-                match entry {
-                    Entry::Occupied(entry) => {
-                        let e = chain_assign!(
-                            entry,
-                            Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                left: PatOrExpr::Pat(arg.clone().into()),
-                                op: op!("="),
-                                right: Box::new(Expr::Bin(BinExpr {
-                                    span: DUMMY_SP,
-                                    left: Box::new(Expr::Unary(UnaryExpr {
-                                        span: DUMMY_SP,
-                                        op: op!(unary, "+"),
-                                        arg: Box::new(Expr::Ident(arg)),
-                                    })),
-                                    op: match op {
-                                        op!("++") => op!(bin, "+"),
-                                        op!("--") => op!(bin, "-"),
-                                    },
-                                    right: Box::new(Expr::Lit(Lit::Num(Number {
-                                        span: DUMMY_SP,
-                                        value: 1.0,
-                                    }))),
-                                })),
-                            }))
-                        );
+                let mut var = Default::default();
 
-                        *e
+                let expr = {
+                    let mut scope = folder.scope_mut();
+                    let entry = scope
+                        .exported_bindings
+                        .entry((arg.sym.clone(), arg.span.ctxt()));
+
+                    match entry {
+                        Entry::Occupied(entry) => {
+                            if update.prefix {
+                                // ++i
+                                // => exports.i = ++i
+                                *chain_assign!(entry, Box::new(update.into()))
+                            } else {
+                                // i++
+                                // (ref = i++, exports.i = i, ref)
+
+                                // TODO: optimize to `exports.i = ++i` if return value is not used.
+
+                                let ref_ident = private_ident!("ref");
+                                var = Some(ref_ident.clone());
+
+                                Expr::Seq(SeqExpr {
+                                    span: update.span,
+                                    exprs: vec![
+                                        Box::new(
+                                            AssignExpr {
+                                                span: DUMMY_SP,
+                                                op: op!("="),
+                                                left: PatOrExpr::Pat(ref_ident.clone().into()),
+                                                right: Box::new(update.into()),
+                                            }
+                                            .into(),
+                                        ),
+                                        chain_assign!(entry, Box::new(arg.into())),
+                                        Box::new(ref_ident.into()),
+                                    ],
+                                })
+                            }
+                        }
+                        _ => update.into(),
                     }
-                    _ => Expr::Update(UpdateExpr {
-                        span,
-                        arg: Box::new(Expr::Ident(arg)),
-                        op,
-                        prefix,
-                    }),
-                }
+                };
+
+                if let Some(ref_ident) = var {
+                    folder.vars_mut().push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: ref_ident.into(),
+                        init: None,
+                        definite: false,
+                    });
+                };
+
+                expr
             }
 
             Expr::Assign(mut expr) => {

@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
-var Base = // @strict: true
+// @strict: true
 // @target: ES6
-/*#__PURE__*/ function() {
+var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
         swcHelpers.classCallCheck(this, Base);

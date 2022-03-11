@@ -10,10 +10,7 @@ var React = require("react"), Poisoned = function(_Component) {
         return React.createElement("div", null, "Hello");
     }, Poisoned;
 }(React.Component);
-React.createElement(Poisoned, swcHelpers.extends({}, {
+swcHelpers.extends({}, {
     x: "hello world",
-    y: 2
-})), React.createElement(Poisoned, {
-    x: "hi",
     y: 2
 });

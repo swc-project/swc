@@ -9,14 +9,14 @@ const React = require('react');
 class Button extends React.Component {
     render() {
         // Error children are specified twice
-        return(/*#__PURE__*/ React.createElement(InnerButton, swcHelpers.extends({}, this.props, {
+        return /*#__PURE__*/ React.createElement(InnerButton, swcHelpers.extends({}, this.props, {
             children: "hi"
-        }), /*#__PURE__*/ React.createElement("div", null, "Hello World")));
+        }), /*#__PURE__*/ React.createElement("div", null, "Hello World"));
     }
 }
 class InnerButton extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("button", null, "Hello"));
+        return /*#__PURE__*/ React.createElement("button", null, "Hello");
     }
 }
 export { };

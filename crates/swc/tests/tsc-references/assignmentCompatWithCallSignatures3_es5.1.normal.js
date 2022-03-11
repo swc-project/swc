@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// these are all permitted with the current rules, since we do not do contextual signature instantiation
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

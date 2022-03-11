@@ -1,4 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
+// @noEmit: true
+// @allowJs: true
+// @checkJs: true
+// @target: es6
+// @Filename: def.js
 var Outer = function Outer() {
     "use strict";
     swcHelpers.classCallCheck(this, Outer);

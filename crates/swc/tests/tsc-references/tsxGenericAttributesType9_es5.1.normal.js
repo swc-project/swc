@@ -16,7 +16,7 @@ export function makeP(Ctor) {
         }
         var _proto = _class.prototype;
         _proto.render = function render() {
-            return(/*#__PURE__*/ React.createElement(Ctor, swcHelpers.extends({}, this.props)));
+            return /*#__PURE__*/ React.createElement(Ctor, swcHelpers.extends({}, this.props));
         };
         return _class;
     }(React.PureComponent);

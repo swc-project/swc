@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// checking subtype relations for function types as it relates to contextual signature instantiation
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

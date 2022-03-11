@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var Base = // @target: esnext
+// @target: esnext
 // @useDefineForClassFields: true
-/*#__PURE__*/ function() {
+var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
         swcHelpers.classCallCheck(this, Base);

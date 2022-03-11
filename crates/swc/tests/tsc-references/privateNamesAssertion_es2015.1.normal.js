@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _p1 = new WeakMap();
+var _p1 = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target: esnext, es2022
 // @useDefineForClassFields: false
@@ -19,7 +19,7 @@ class Foo {
         });
     }
 }
-var _p11 = new WeakSet();
+var _p11 = /*#__PURE__*/ new WeakSet();
 class Foo2 {
     m1(v) {
         swcHelpers.classPrivateMethodGet(this, _p11, p1).call(this, v);

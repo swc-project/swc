@@ -1,27 +1,27 @@
 :root {
---foo: red !important;
---foo: red!important;
+  --foo: red !important;
+  --foo: red!important;
 }
 div {
-color: red !important;
-color: red !important;
-color: red !important;
-color: red !important;
-color: red !IMPORTANT;
-color: red !iMpOrTaNt;
+  color: red !important;
+  color: red !important;
+  color: red !important;
+  color: red !important;
+  color: red !IMPORTANT;
+  color: red !iMpOrTaNt;
 }
 a {
-b: c !important;
+  b: c !important;
 }
 .class {
-& div {
-color: red !important;
-}
+  & div {
+    color: red !important;
+  }
 }
 .class {
-& div {
-color: red !important;
-}
+  & div {
+    color: red !important;
+  }
 }
 .foo {
-color: red !ie;}
+  color: red !ie;}

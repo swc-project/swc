@@ -9,7 +9,11 @@ use std::{borrow::Cow, fmt::Write, io};
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
 use swc_atoms::JsWord;
-use swc_common::{comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    comments::{CommentKind, Comments},
+    sync::Lrc,
+    BytePos, SourceMap, Span, Spanned, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
@@ -2424,8 +2428,10 @@ where
             let lo = arg.span().lo;
 
             // see #415
-            if cmt.has_leading(lo) {
-                return true;
+            if let Some(cmt) = cmt.get_leading(lo) {
+                if cmt.iter().any(|cmt| cmt.kind == CommentKind::Line) {
+                    return true;
+                }
             }
         }
 

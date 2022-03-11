@@ -3,7 +3,7 @@ import * as swcHelpers from "@swc/helpers";
 const array = [];
 for(let i = 0; i < 10; ++i){
     var _myField, _method, _accessor, _C;
-    array.push((_myField = new WeakMap(), _method = new WeakSet(), _accessor = new WeakMap(), _C = class C {
+    array.push((_myField = /*#__PURE__*/ new WeakMap(), _method = /*#__PURE__*/ new WeakSet(), _accessor = /*#__PURE__*/ new WeakMap(), _C = class C {
         constructor(){
             swcHelpers.classPrivateMethodInit(this, _method);
             swcHelpers.classPrivateFieldInit(this, _accessor, {

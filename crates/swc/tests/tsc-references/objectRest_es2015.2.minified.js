@@ -87,9 +87,4 @@ var { [computed]: stillNotGreat , [computed2]: soSo  } = o, o = swcHelpers.objec
 _o = o, o = swcHelpers.objectWithoutProperties(_o, [
     computed,
     computed2
-].map(swcHelpers.toPropertyKey)), ({ [computed]: stillNotGreat , [computed2]: soSo  } = _o), (_param)=>{
-    var { aNumber =12  } = _param;
-    return aNumber + swcHelpers.objectWithoutProperties(_param, [
-        "aNumber"
-    ]).anythingGoes;
-};
+].map(swcHelpers.toPropertyKey)), { [computed]: stillNotGreat , [computed2]: soSo  } = _o;

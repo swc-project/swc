@@ -99,6 +99,7 @@ function f27() {}
 function f28(x) {
     var a = swcHelpers.extends({}, x); // Error
 }
+// Class properties of type unknown don't need definite assignment
 var C1 = function C1() {
     "use strict";
     swcHelpers.classCallCheck(this, C1);

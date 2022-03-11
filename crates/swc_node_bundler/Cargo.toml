@@ -36,7 +36,7 @@ swc_ecma_transforms = {path = "../swc_ecma_transforms"}
 swc_ecma_utils = {path = "../swc_ecma_utils"}
 swc_ecma_visit = {path = "../swc_ecma_visit"}
 swc_node_base = {path = "../swc_node_base"}
-tracing = "0.1.31"
+tracing = "0.1.32"
 
 [dev-dependencies]
 pretty_assertions = "0.7.2"

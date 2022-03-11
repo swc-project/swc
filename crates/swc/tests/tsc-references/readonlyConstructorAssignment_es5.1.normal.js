@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// Tests that readonly parameter properties behave like regular readonly properties
 var A = function A(x) {
     "use strict";
     swcHelpers.classCallCheck(this, A);
@@ -39,8 +40,8 @@ var D = function D(x) {
     this.x = x;
     this.x = 0;
 };
-var E = // Fails, can't redeclare readonly property
-/*#__PURE__*/ function(D) {
+// Fails, can't redeclare readonly property
+var E = /*#__PURE__*/ function(D) {
     "use strict";
     swcHelpers.inherits(E, D);
     var _super = swcHelpers.createSuper(E);

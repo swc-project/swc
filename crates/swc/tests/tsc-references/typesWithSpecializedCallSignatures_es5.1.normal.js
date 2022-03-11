@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// basic uses of specialized signatures without errors
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

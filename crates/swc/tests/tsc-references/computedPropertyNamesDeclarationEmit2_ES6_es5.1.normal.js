@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 var tmp = "" + "", tmp1 = "" + "", tmp2 = "" + "";
-var C = // @target: es6
+// @target: es6
 // @declaration: true
-/*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

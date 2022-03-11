@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// No inference is made from function typed arguments which have multiple call signatures
 var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

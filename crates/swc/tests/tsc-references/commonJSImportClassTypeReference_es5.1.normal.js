@@ -9,8 +9,8 @@ var K = require("./mod1").K;
 /** @param {K} k */ function f(k) {
     k.values();
 }
-var K = // @filename: mod1.js
-/*#__PURE__*/ function() {
+// @filename: mod1.js
+var K = /*#__PURE__*/ function() {
     "use strict";
     function K() {
         swcHelpers.classCallCheck(this, K);

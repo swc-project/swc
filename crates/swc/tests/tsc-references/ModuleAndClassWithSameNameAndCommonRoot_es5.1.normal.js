@@ -25,6 +25,7 @@ var X;
 (function(A1) {
     var Instance = A1.Instance = new A();
 })(A || (A = {}));
+// duplicate identifier
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);

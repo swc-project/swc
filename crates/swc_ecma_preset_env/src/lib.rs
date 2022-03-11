@@ -34,7 +34,7 @@ pub fn preset_env<C>(
     assumptions: Assumptions,
 ) -> impl Fold
 where
-    C: Comments,
+    C: Comments + Clone,
 {
     let loose = c.loose;
     let targets: Versions = targets_to_versions(c.targets).expect("failed to parse targets");
@@ -98,12 +98,15 @@ where
     let pass = add!(
         pass,
         ClassProperties,
-        es2022::class_properties(es2022::class_properties::Config {
-            private_as_properties: loose || assumptions.private_fields_as_properties,
-            set_public_fields: loose || assumptions.set_public_class_fields,
-            constant_super: loose || assumptions.constant_super,
-            no_document_all: loose || assumptions.no_document_all
-        })
+        es2022::class_properties(
+            comments.clone(),
+            es2022::class_properties::Config {
+                private_as_properties: loose || assumptions.private_fields_as_properties,
+                set_public_fields: loose || assumptions.set_public_class_fields,
+                constant_super: loose || assumptions.constant_super,
+                no_document_all: loose || assumptions.no_document_all
+            }
+        )
     );
     let pass = add!(pass, PrivatePropertyInObject, es2022::private_in_object());
 

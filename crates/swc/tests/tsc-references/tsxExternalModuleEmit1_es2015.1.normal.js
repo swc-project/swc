@@ -4,11 +4,11 @@ import * as React from 'react';
 import * as React from 'react';
 export class App extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement(Button, null));
+        return /*#__PURE__*/ React.createElement(Button, null);
     }
 }
 export class Button extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("button", null, "Some button"));
+        return /*#__PURE__*/ React.createElement("button", null, "Some button");
     }
 }

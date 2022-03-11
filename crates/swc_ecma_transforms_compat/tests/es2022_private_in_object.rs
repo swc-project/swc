@@ -57,12 +57,15 @@ fn fixture(input: PathBuf) {
                             class_props = true;
                             pass = Box::new(chain!(
                                 pass,
-                                class_properties(class_properties::Config {
-                                    set_public_fields: loose,
-                                    constant_super: loose,
-                                    no_document_all: loose,
-                                    private_as_properties: loose
-                                })
+                                class_properties(
+                                    Some(t.comments.clone()),
+                                    class_properties::Config {
+                                        set_public_fields: loose,
+                                        constant_super: loose,
+                                        no_document_all: loose,
+                                        private_as_properties: loose
+                                    }
+                                )
                             ));
                         }
                     }
@@ -72,12 +75,15 @@ fn fixture(input: PathBuf) {
                             class_props = true;
                             pass = Box::new(chain!(
                                 pass,
-                                class_properties(class_properties::Config {
-                                    set_public_fields: loose,
-                                    constant_super: loose,
-                                    no_document_all: loose,
-                                    private_as_properties: loose
-                                })
+                                class_properties(
+                                    Some(t.comments.clone()),
+                                    class_properties::Config {
+                                        set_public_fields: loose,
+                                        constant_super: loose,
+                                        no_document_all: loose,
+                                        private_as_properties: loose
+                                    }
+                                )
                             ));
                         }
                     }

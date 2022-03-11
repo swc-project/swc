@@ -1,9 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
-var C = // @noEmit: true
+// @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @Filename: webpackLibNormalModule.js
-/*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C(x) {
         swcHelpers.classCallCheck(this, C);

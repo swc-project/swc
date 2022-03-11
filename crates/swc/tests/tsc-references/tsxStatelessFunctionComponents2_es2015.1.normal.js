@@ -5,11 +5,11 @@
 // @libFiles: react.d.ts,lib.d.ts
 const React = require('react');
 function Greet(x) {
-    return(/*#__PURE__*/ React.createElement("div", null, "Hello, ", x));
+    return /*#__PURE__*/ React.createElement("div", null, "Hello, ", x);
 }
 class BigGreeter extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("div", null));
+        return /*#__PURE__*/ React.createElement("div", null);
     }
 }
 // OK

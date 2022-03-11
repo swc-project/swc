@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 function a1(param) {
-    var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], ref = swcHelpers.slicedToArray(_param[2], 1), ref1 = swcHelpers.slicedToArray(ref[0], 1);
+    var _param = swcHelpers.slicedToArray(param, 3), ref = (_param[0], _param[1], swcHelpers.slicedToArray(_param[2], 1)), ref1 = swcHelpers.slicedToArray(ref[0], 1);
     ref1[0];
 }
 function b2() {
@@ -19,7 +19,7 @@ function c2(param) {
     param.z;
 }
 function c5(param) {
-    var _param = swcHelpers.slicedToArray(param, 3), a = _param[0], b = _param[1], ref = swcHelpers.slicedToArray(_param[2], 1), ref2 = swcHelpers.slicedToArray(ref[0], 1);
+    var _param = swcHelpers.slicedToArray(param, 3), ref = (_param[0], _param[1], swcHelpers.slicedToArray(_param[2], 1)), ref2 = swcHelpers.slicedToArray(ref[0], 1);
     ref2[0];
 }
 a1([
@@ -74,7 +74,7 @@ a1([
                 void 0
             ]
         ]
-    ], 3), a = swcHelpers.slicedToArray(ref[0], 1)[0], b = ref[1], ref3 = swcHelpers.slicedToArray(ref[2], 1), ref4 = swcHelpers.slicedToArray(ref3[0], 2);
+    ], 3), ref3 = (swcHelpers.slicedToArray(ref[0], 1)[0], ref[1], swcHelpers.slicedToArray(ref[2], 1)), ref4 = swcHelpers.slicedToArray(ref3[0], 2);
     ref4[0], ref4[1];
 }([
     [

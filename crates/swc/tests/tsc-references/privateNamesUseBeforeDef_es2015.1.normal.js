@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _foo = new WeakMap(), _bar = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakMap(), _bar = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 class A {
     constructor(){
@@ -14,7 +14,7 @@ class A {
         });
     }
 }
-var _foo1 = new WeakMap(), _bar1 = new WeakSet();
+var _foo1 = /*#__PURE__*/ new WeakMap(), _bar1 = /*#__PURE__*/ new WeakSet();
 class A2 {
     constructor(){
         swcHelpers.classPrivateMethodInit(this, _bar1);
@@ -28,7 +28,7 @@ class A2 {
 function bar() {
     return 3;
 }
-var _foo2 = new WeakMap(), _bar2 = new WeakMap();
+var _foo2 = /*#__PURE__*/ new WeakMap(), _bar2 = /*#__PURE__*/ new WeakMap();
 class A3 {
     constructor(){
         swcHelpers.classPrivateFieldInit(this, _bar2, {
@@ -45,7 +45,7 @@ class A3 {
 function get_bar() {
     return 3;
 }
-var _foo3 = new WeakMap(), _bar3 = new WeakMap();
+var _foo3 = /*#__PURE__*/ new WeakMap(), _bar3 = /*#__PURE__*/ new WeakMap();
 class B {
     constructor(){
         swcHelpers.classPrivateFieldInit(this, _foo3, {

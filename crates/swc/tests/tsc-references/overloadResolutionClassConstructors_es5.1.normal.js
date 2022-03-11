@@ -33,6 +33,7 @@ var SomeDerived3 = /*#__PURE__*/ function(SomeBase) {
     }
     return SomeDerived3;
 }(SomeBase);
+// Ambiguous call picks the first overload in declaration order
 var fn1 = function fn1() {
     "use strict";
     swcHelpers.classCallCheck(this, fn1);
@@ -40,6 +41,7 @@ var fn1 = function fn1() {
 new fn1(undefined);
 // No candidate overloads found
 new fn1({}); // Error
+// Generic and non - generic overload where generic overload is the only candidate when called with type arguments
 var fn2 = function fn2() {
     "use strict";
     swcHelpers.classCallCheck(this, fn2);
@@ -51,6 +53,7 @@ var s = new fn2(0, '');
 new fn2('', 0); // OK
 // Generic and non - generic overload where non - generic overload is the only candidate when called without type arguments
 new fn2('', 0); // OK
+// Generic overloads with differing arity called without type arguments
 var fn3 = function fn3() {
     "use strict";
     swcHelpers.classCallCheck(this, fn3);
@@ -64,6 +67,7 @@ new fn3('', '', ''); // Error
 new fn3('', '', 3);
 // Generic overloads with differing arity called with type argument count that doesn't match any overload
 new fn3(); // Error
+// Generic overloads with constraints called with type arguments that satisfy the constraints
 var fn4 = function fn4() {
     "use strict";
     swcHelpers.classCallCheck(this, fn4);
@@ -82,6 +86,7 @@ new fn4(null, null); // Error
 // Generic overloads with constraints called without type arguments but with types that do not satisfy the constraints
 new fn4(true, null); // Error
 new fn4(null, true); // Error
+// Non - generic overloads where contextual typing of function arguments has errors
 var fn5 = function fn5() {
     "use strict";
     swcHelpers.classCallCheck(this, fn5);

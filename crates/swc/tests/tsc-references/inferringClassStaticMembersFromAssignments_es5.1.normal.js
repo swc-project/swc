@@ -18,6 +18,7 @@ export var C2 = function _class() {
 C2.staticProp = 0;
 export var F2 = function F2() {};
 F2.staticProp = 0;
+//@filename: global.js
 var C3 = function C3() {
     "use strict";
     swcHelpers.classCallCheck(this, C3);

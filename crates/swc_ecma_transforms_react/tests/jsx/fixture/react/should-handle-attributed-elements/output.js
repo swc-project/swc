@@ -1,6 +1,6 @@
 var HelloMessage = React.createClass({
     render: function() {
-        return(/*#__PURE__*/ React.createElement("div", null, "Hello ", this.props.name));
+        return /*#__PURE__*/ React.createElement("div", null, "Hello ", this.props.name);
     },
     displayName: "HelloMessage"
 });

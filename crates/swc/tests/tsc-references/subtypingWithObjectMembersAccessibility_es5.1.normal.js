@@ -1,4 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
+// Derived member is private, base member is not causes errors
 var Base = function Base() {
     "use strict";
     swcHelpers.classCallCheck(this, Base);

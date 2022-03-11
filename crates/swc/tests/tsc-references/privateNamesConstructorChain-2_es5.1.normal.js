@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-var _foo = new WeakMap();
-var Parent = // @target: es2015
-/*#__PURE__*/ function() {
+var _foo = /*#__PURE__*/ new WeakMap();
+// @target: es2015
+var Parent = /*#__PURE__*/ function() {
     "use strict";
     function Parent() {
         swcHelpers.classCallCheck(this, Parent);
@@ -22,7 +22,7 @@ var _bar = {
     writable: true,
     value: 5
 };
-var _foo1 = new WeakMap(), _bar1 = new WeakMap();
+var _foo1 = /*#__PURE__*/ new WeakMap(), _bar1 = /*#__PURE__*/ new WeakMap();
 var Child = /*#__PURE__*/ function(Parent) {
     "use strict";
     swcHelpers.inherits(Child, Parent);

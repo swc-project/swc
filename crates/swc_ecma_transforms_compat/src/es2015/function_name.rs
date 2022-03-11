@@ -23,7 +23,7 @@ use swc_trace_macro::swc_trace;
 /// }
 /// var Foo = (class Foo {});
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn function_name() -> impl 'static + Copy + Fold + VisitMut {
     as_folder(FnName)
 }
