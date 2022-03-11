@@ -499,11 +499,8 @@ impl<'a, I: Tokens> Parser<I> {
 
             match cur {
                 Some(mut cur) => {
-                    match last {
-                        Some(last) => {
-                            self.adjust_if_else_clause(&mut cur, Box::new(last));
-                        }
-                        _ => {}
+                    if let Some(last) = last {
+                        self.adjust_if_else_clause(&mut cur, Box::new(last));
                     }
                     Some(Stmt::If(cur))
                 }
