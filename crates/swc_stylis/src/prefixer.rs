@@ -1082,6 +1082,10 @@ impl VisitMut for Prefixer {
                 same_content!("-webkit-box-shadow");
                 same_content!("-moz-box-shadow");
             }
+            
+            "forced-color-adjust" => {
+                same_content!("-ms-high-contrast-adjust");
+            }
 
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
