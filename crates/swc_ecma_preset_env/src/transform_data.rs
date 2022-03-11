@@ -176,10 +176,9 @@ pub enum Feature {
 
 pub(crate) static FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>> =
     Lazy::new(|| {
-        let map: AHashMap<Feature, BrowserData<Option<String>>> = serde_json::from_str(
-            include_str!("../../../node_modules/@babel/compat-data/data/plugins.json"),
-        )
-        .expect("failed to parse json");
+        let map: AHashMap<Feature, BrowserData<Option<String>>> =
+            serde_json::from_str(include_str!("../data/@babel/compat-data/data/plugins.json"))
+                .expect("failed to parse json");
 
         map.into_iter()
             .map(|(feature, version)| {
@@ -194,7 +193,7 @@ pub(crate) static FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>
 pub(crate) static BUGFIX_FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>> =
     Lazy::new(|| {
         let map: AHashMap<Feature, BrowserData<Option<String>>> = serde_json::from_str(
-            include_str!("../../../node_modules/@babel/compat-data/data/plugin-bugfixes.json"),
+            include_str!("../data/@babel/compat-data/data/plugin-bugfixes.json"),
         )
         .expect("failed to parse json");
 
