@@ -830,6 +830,13 @@ pub trait Pos {
 
 /// A byte offset. Keep this small (currently 32-bits), as AST contains
 /// a lot of them.
+///
+///
+/// # Reserved
+///
+///  - Values larger than `u32::MAX - 2^16` are reserved for the comments.
+///
+/// `u32::MAX` is special value used to generate source map entries.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
 #[serde(transparent)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -838,6 +845,14 @@ pub trait Pos {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct BytePos(#[cfg_attr(feature = "rkyv", omit_bounds)] pub u32);
+
+impl BytePos {
+    const MIN_RESERVED: Self = BytePos(DUMMY_RESERVE);
+
+    pub const fn is_reserved_for_comments(self) -> bool {
+        self.0 >= Self::MIN_RESERVED.0 && self.0 != u32::MAX
+    }
+}
 
 /// A character offset. Because of multibyte utf8 characters, a byte offset
 /// is not equivalent to a character offset. The SourceMap will convert BytePos

@@ -11,7 +11,7 @@ use crate::es2015::arrow;
 /// instance via `this` within those methods would also throw. This is fixed by
 /// converting arrow functions in class methods into equivalent function
 /// expressions. See https://bugs.webkit.org/show_bug.cgi?id=166879
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn async_arrows_in_class() -> impl Fold {
     AsyncArrowsInClass::default()
 }

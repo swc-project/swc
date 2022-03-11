@@ -23,12 +23,13 @@ impl NoDupeArgs {
                     handler
                         .struct_span_err(
                             span,
-                            &format!("`{}` used as parameter more than once", js_word),
+                            &format!(
+                                "the name `{}` is bound more than once in this parameter list",
+                                js_word
+                            ),
                         )
-                        .span_note(
-                            old_span,
-                            &format!("previous definition of `{}` here", js_word),
-                        )
+                        .span_label(old_span, "previous definition here".to_string())
+                        .span_label(span, &"used as parameter more than once".to_string())
                         .emit();
                 });
             }

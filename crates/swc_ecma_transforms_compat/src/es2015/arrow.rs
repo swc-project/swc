@@ -57,7 +57,7 @@ use swc_trace_macro::swc_trace;
 /// };
 /// console.log(bob.printFriends());
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn arrow() -> impl Fold + VisitMut + InjectVars {
     as_folder(Arrow::default())
 }

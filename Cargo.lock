@@ -2873,7 +2873,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.98.0"
+version = "0.98.1"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -2969,7 +2969,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.86.0"
+version = "0.86.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3005,7 +3005,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.94.0"
+version = "0.94.1"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3060,7 +3060,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.22.2"
+version = "0.22.3"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3101,7 +3101,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.88.0"
+version = "0.88.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3273,7 +3273,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.79.0"
+version = "0.79.1"
 dependencies = [
  "ahash",
  "arrayvec 0.7.2",
@@ -3693,7 +3693,7 @@ dependencies = [
 
 [[package]]
 name = "swc_trace_macro"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "proc-macro2",
  "quote",

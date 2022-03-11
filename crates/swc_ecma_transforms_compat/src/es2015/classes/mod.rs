@@ -27,7 +27,7 @@ use self::{
 mod constructor;
 mod prop_name;
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn classes<C>(comments: Option<C>, config: Config) -> impl Fold + VisitMut
 where
     C: Comments,
@@ -578,6 +578,7 @@ where
                     is_constructor_default,
                     super_var,
                     ignore_return: false,
+                    super_is_callable_constructor: self.config.super_is_callable_constructor,
                 });
 
                 insert_this |= (mode == None && !is_always_initialized)
@@ -1057,7 +1058,7 @@ where
     }
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
     let mut class_name_sym = name.clone();
     class_name_sym.span = DUMMY_SP;
@@ -1078,7 +1079,7 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
 }
 
 /// Returns true if no `super` is used before `super()` call.
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn is_always_initialized(body: &[Stmt]) -> bool {
     struct SuperFinder {
         found: bool,

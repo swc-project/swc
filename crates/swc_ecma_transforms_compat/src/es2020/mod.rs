@@ -11,7 +11,7 @@ mod export_namespace_from;
 pub mod nullish_coalescing;
 pub mod opt_chaining;
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn es2020(config: Config) -> impl Fold {
     chain!(
         nullish_coalescing(config.nullish_coalescing),

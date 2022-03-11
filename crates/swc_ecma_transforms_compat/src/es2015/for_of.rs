@@ -46,7 +46,7 @@ use swc_trace_macro::swc_trace;
 ///   }
 /// }
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn for_of(c: Config) -> impl Fold + VisitMut {
     as_folder(ForOf {
         c,
@@ -395,7 +395,7 @@ impl ForOf {
 ///     }
 ///   }
 /// ```
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn make_finally_block(
     iterator_return: Box<Expr>,
     normal_completion_ident: &Ident,
