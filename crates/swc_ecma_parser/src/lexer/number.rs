@@ -12,6 +12,22 @@ use tracing::trace;
 use super::*;
 use crate::error::SyntaxError;
 
+struct LazyBigInt<const RADIX: u8> {
+    value: String,
+}
+
+impl<const RADIX: u8> LazyBigInt<RADIX> {
+    fn new(value: String) -> Self {
+        Self { value }
+    }
+
+    #[inline]
+    fn into_value(self) -> BigIntValue {
+        BigIntValue::parse_bytes(self.value.as_bytes(), RADIX as _)
+            .expect("failed to parse string as a bigint")
+    }
+}
+
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
     pub(super) fn read_number(
@@ -41,9 +57,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 )?;
             if self.input.cur() == Some('n') {
                 self.input.bump();
-                return Ok(Either::Right(s));
+                return Ok(Either::Right(s.into_value()));
             }
-            write!(raw_val, "{}", val).unwrap();
+            write!(raw_val, "{}", &s.value).unwrap();
             if starts_with_zero {
                 // TODO: I guess it would be okay if I don't use -ffast-math
                 // (or something like that), but needs review.
@@ -63,7 +79,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // e.g. 08.1 is strict mode violation but 0.1 is valid float.
 
                     if val.fract() == 0.0 {
-                        let val_str = s.to_string();
+                        let val_str = &s.value;
 
                         // if it contains '8' or '9', it's decimal.
                         if not_octal {
@@ -76,7 +92,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 _,
                                 { lexical::NumberFormatBuilder::from_radix(8) },
                             >(
-                                &val_str,
+                                val_str,
                                 &lexical::parse_float_options::Options::from_radix(8),
                             )
                             .unwrap_or_else(|err| {
@@ -185,7 +201,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let (val, s, _) = self.read_number_no_dot_as_str::<RADIX, FORMAT>()?;
         if self.eat(b'n') {
-            return Ok(Either::Right(s));
+            return Ok(Either::Right(s.into_value()));
         }
 
         self.ensure_not_ident()?;
@@ -227,7 +243,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Returned bool is `true` is there was `8` or `9`.
     fn read_number_no_dot_as_str<const RADIX: u8, const FORMAT: u128>(
         &mut self,
-    ) -> LexResult<(f64, BigIntValue, bool)> {
+    ) -> LexResult<(f64, LazyBigInt<RADIX>, bool)> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
@@ -264,8 +280,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 &lexical::parse_float_options::Options::from_radix(RADIX),
             )
             .expect("failed to parse float using lexical"),
-            BigIntValue::parse_bytes(raw_str.as_bytes(), RADIX as _)
-                .expect("failed to parse string as a bigint"),
+            LazyBigInt::new(raw_str),
             non_octal,
         ))
     }
@@ -540,7 +555,8 @@ mod tests {
         assert_eq!(
             1_000_000_000_000_000_000_000_000_000_000f64,
             num("1000000000000000000000000000000")
-        )
+        );
+        assert_eq!(3.402_823_466_385_288_6e38, num("34028234663852886e22"),);
     }
 
     #[test]
