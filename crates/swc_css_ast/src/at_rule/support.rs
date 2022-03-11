@@ -1,6 +1,6 @@
 use swc_common::{ast_node, Span};
 
-use crate::{Declaration, Function, SimpleBlock};
+use crate::{Declaration, Function, Ident, SimpleBlock};
 
 #[ast_node("SupportsRule")]
 pub struct SupportsRule {
@@ -33,18 +33,21 @@ pub enum SupportsConditionType {
 #[ast_node("SupportsNot")]
 pub struct SupportsNot {
     pub span: Span,
+    pub keyword: Ident,
     pub condition: SupportsInParens,
 }
 
 #[ast_node("SupportsAnd")]
 pub struct SupportsAnd {
     pub span: Span,
+    pub keyword: Ident,
     pub condition: SupportsInParens,
 }
 
 #[ast_node("SupportsOr")]
 pub struct SupportsOr {
     pub span: Span,
+    pub keyword: Ident,
     pub condition: SupportsInParens,
 }
 

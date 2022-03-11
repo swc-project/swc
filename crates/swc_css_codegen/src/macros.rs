@@ -67,3 +67,22 @@ macro_rules! decrease_indent {
         }
     }};
 }
+macro_rules! lo_span_offset {
+    ($s:expr,$o:expr) => {{
+        if $s.is_dummy() {
+            DUMMY_SP
+        } else {
+            Span::new($s.lo, $s.lo + BytePos($o), Default::default())
+        }
+    }};
+}
+
+macro_rules! hi_span_offset {
+    ($s:expr,$o:expr) => {{
+        if $s.is_dummy() {
+            DUMMY_SP
+        } else {
+            Span::new($s.hi - BytePos($o), $s.hi, Default::default())
+        }
+    }};
+}

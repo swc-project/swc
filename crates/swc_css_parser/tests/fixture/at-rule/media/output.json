@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 4109,
+    "end": 4145,
     "ctxt": 0
   },
   "rules": [
@@ -39,6 +39,7 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -87,6 +88,7 @@
               "value": "screen",
               "raw": "\\screen"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -135,6 +137,7 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -183,6 +186,7 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -231,6 +235,7 @@
               "value": "print",
               "raw": "print"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -278,6 +283,16 @@
               },
               "value": "screen",
               "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 99,
+                "end": 102,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -354,6 +369,16 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 128,
+                "end": 131,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -400,6 +425,16 @@
               },
               "value": "projection",
               "raw": "projection"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 152,
+                "end": 155,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -476,6 +511,16 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 187,
+                "end": 190,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -522,6 +567,16 @@
               },
               "value": "projection",
               "raw": "projection"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 228,
+                "end": 231,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -597,6 +652,16 @@
               },
               "value": "print",
               "raw": "print"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 266,
+                "end": 269,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -701,6 +766,7 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -748,6 +814,16 @@
               },
               "value": "screen",
               "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 333,
+                "end": 336,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -823,6 +899,16 @@
               },
               "value": "screen",
               "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 366,
+                "end": 369,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -908,6 +994,16 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 408,
+                "end": 411,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -992,6 +1088,16 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 446,
+                "end": 449,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -1038,6 +1144,16 @@
               },
               "value": "print",
               "raw": "print"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 465,
+                "end": 468,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -1105,6 +1221,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -1119,6 +1236,16 @@
                     "start": 487,
                     "end": 518,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 487,
+                      "end": 490,
+                      "ctxt": 0
+                    },
+                    "value": "not",
+                    "raw": "not"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -1207,6 +1334,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -1221,6 +1349,16 @@
                     "start": 529,
                     "end": 562,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 529,
+                      "end": 532,
+                      "ctxt": 0
+                    },
+                    "value": "not",
+                    "raw": "not"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -1327,6 +1465,7 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -1384,6 +1523,7 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -1440,6 +1580,16 @@
               },
               "value": "screen",
               "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 629,
+                "end": 632,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -1525,6 +1675,16 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 669,
+                "end": 672,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -1591,6 +1751,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -1685,6 +1846,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -1779,6 +1941,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -1873,6 +2036,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -1967,6 +2131,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -2061,6 +2226,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -2093,6 +2259,16 @@
                     "start": 905,
                     "end": 926,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 905,
+                      "end": 908,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -2181,6 +2357,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -2247,6 +2424,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -2307,6 +2485,16 @@
                     "start": 979,
                     "end": 1000,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 979,
+                      "end": 982,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -2395,6 +2583,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -2455,6 +2644,16 @@
                     "start": 1041,
                     "end": 1075,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1041,
+                      "end": 1044,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -2543,6 +2742,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -2604,6 +2804,16 @@
                     "end": 1131,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1108,
+                      "end": 1111,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
                   "condition": {
                     "type": "MediaFeaturePlain",
                     "span": {
@@ -2657,6 +2867,16 @@
                     "start": 1132,
                     "end": 1155,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1132,
+                      "end": 1135,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -2745,6 +2965,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -2805,6 +3026,16 @@
                     "start": 1181,
                     "end": 1202,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1181,
+                      "end": 1184,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -2893,6 +3124,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -2953,6 +3185,16 @@
                     "start": 1227,
                     "end": 1247,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1227,
+                      "end": 1230,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -3041,6 +3283,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -3083,6 +3326,16 @@
                     "start": 1273,
                     "end": 1289,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1273,
+                      "end": 1275,
+                      "ctxt": 0
+                    },
+                    "value": "or",
+                    "raw": "or"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -3153,6 +3406,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -3195,6 +3449,16 @@
                     "start": 1331,
                     "end": 1360,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1331,
+                      "end": 1333,
+                      "ctxt": 0
+                    },
+                    "value": "or",
+                    "raw": "or"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -3265,6 +3529,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -3307,6 +3572,16 @@
                     "start": 1387,
                     "end": 1403,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1387,
+                      "end": 1389,
+                      "ctxt": 0
+                    },
+                    "value": "or",
+                    "raw": "or"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -3377,6 +3652,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -3472,6 +3748,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -3567,6 +3844,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -3662,6 +3940,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -3757,6 +4036,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -3852,6 +4132,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -3947,6 +4228,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -4042,6 +4324,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -4137,6 +4420,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -4232,6 +4516,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -4327,6 +4612,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -4422,6 +4708,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -4517,6 +4804,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -4612,6 +4900,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -4707,6 +4996,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -4802,6 +5092,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -4897,6 +5188,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -4992,6 +5284,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -5087,6 +5380,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -5182,6 +5476,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -5277,6 +5572,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -5372,6 +5668,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -5467,6 +5764,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -5562,6 +5860,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -5657,6 +5956,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -5781,6 +6081,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -5905,6 +6206,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -6029,6 +6331,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -6153,6 +6456,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -6277,6 +6581,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -6401,6 +6706,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -6525,6 +6831,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -6649,6 +6956,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -6773,6 +7081,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -6897,6 +7206,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -7021,6 +7331,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -7145,6 +7456,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -7269,6 +7581,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -7393,6 +7706,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -7517,6 +7831,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -7641,6 +7956,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -7765,6 +8081,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -7889,6 +8206,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -8013,6 +8331,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -8137,6 +8456,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -8261,6 +8581,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -8385,6 +8706,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -8509,6 +8831,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -8633,6 +8956,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -8665,6 +8989,16 @@
                     "start": 3151,
                     "end": 3174,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3151,
+                      "end": 3154,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -8753,6 +9087,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -8775,6 +9110,16 @@
                         "start": 3187,
                         "end": 3198,
                         "ctxt": 0
+                      },
+                      "keyword": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 3187,
+                          "end": 3190,
+                          "ctxt": 0
+                        },
+                        "value": "not",
+                        "raw": "not"
                       },
                       "condition": {
                         "type": "MediaFeatureBoolean",
@@ -8803,6 +9148,16 @@
                     "start": 3200,
                     "end": 3210,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3200,
+                      "end": 3202,
+                      "ctxt": 0
+                    },
+                    "value": "or",
+                    "raw": "or"
                   },
                   "condition": {
                     "type": "MediaFeatureBoolean",
@@ -8863,6 +9218,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -8885,6 +9241,16 @@
                         "start": 3227,
                         "end": 3247,
                         "ctxt": 0
+                      },
+                      "keyword": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 3227,
+                          "end": 3230,
+                          "ctxt": 0
+                        },
+                        "value": "not",
+                        "raw": "not"
                       },
                       "condition": {
                         "type": "MediaFeatureBoolean",
@@ -8913,6 +9279,16 @@
                     "start": 3254,
                     "end": 3272,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3254,
+                      "end": 3256,
+                      "ctxt": 0
+                    },
+                    "value": "or",
+                    "raw": "or"
                   },
                   "condition": {
                     "type": "MediaFeatureBoolean",
@@ -8973,6 +9349,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -9014,6 +9391,16 @@
                         "end": 3304,
                         "ctxt": 0
                       },
+                      "keyword": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 3294,
+                          "end": 3296,
+                          "ctxt": 0
+                        },
+                        "value": "or",
+                        "raw": "or"
+                      },
                       "condition": {
                         "type": "MediaFeatureBoolean",
                         "span": {
@@ -9041,6 +9428,16 @@
                     "start": 3306,
                     "end": 3326,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3306,
+                      "end": 3309,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeatureRange",
@@ -9130,6 +9527,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -9181,6 +9579,16 @@
                         "end": 3360,
                         "ctxt": 0
                       },
+                      "keyword": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 3348,
+                          "end": 3350,
+                          "ctxt": 0
+                        },
+                        "value": "or",
+                        "raw": "or"
+                      },
                       "condition": {
                         "type": "MediaCondition",
                         "span": {
@@ -9218,6 +9626,16 @@
                     "start": 3362,
                     "end": 3382,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3362,
+                      "end": 3365,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeatureRange",
@@ -9307,6 +9725,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -9374,6 +9793,16 @@
                                 "end": 3418,
                                 "ctxt": 0
                               },
+                              "keyword": {
+                                "type": "Ident",
+                                "span": {
+                                  "start": 3406,
+                                  "end": 3408,
+                                  "ctxt": 0
+                                },
+                                "value": "or",
+                                "raw": "or"
+                              },
                               "condition": {
                                 "type": "MediaCondition",
                                 "span": {
@@ -9415,6 +9844,16 @@
                     "start": 3422,
                     "end": 3442,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3422,
+                      "end": 3425,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeatureRange",
@@ -9504,6 +9943,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -9571,6 +10011,16 @@
                                 "end": 3517,
                                 "ctxt": 0
                               },
+                              "keyword": {
+                                "type": "Ident",
+                                "span": {
+                                  "start": 3491,
+                                  "end": 3493,
+                                  "ctxt": 0
+                                },
+                                "value": "or",
+                                "raw": "or"
+                              },
                               "condition": {
                                 "type": "MediaCondition",
                                 "span": {
@@ -9612,6 +10062,16 @@
                     "start": 3532,
                     "end": 3564,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3532,
+                      "end": 3535,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeatureRange",
@@ -9701,6 +10161,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -9770,6 +10231,16 @@
                         "end": 3620,
                         "ctxt": 0
                       },
+                      "keyword": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 3598,
+                          "end": 3601,
+                          "ctxt": 0
+                        },
+                        "value": "and",
+                        "raw": "and"
+                      },
                       "condition": {
                         "type": "MediaFeaturePlain",
                         "span": {
@@ -9825,6 +10296,16 @@
                     "start": 3622,
                     "end": 3643,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3622,
+                      "end": 3624,
+                      "ctxt": 0
+                    },
+                    "value": "or",
+                    "raw": "or"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -9913,6 +10394,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -9974,6 +10456,16 @@
                     "end": 3719,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3673,
+                      "end": 3676,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
                   "condition": {
                     "type": "MediaCondition",
                     "span": {
@@ -10034,6 +10526,16 @@
                           "start": 3697,
                           "end": 3718,
                           "ctxt": 0
+                        },
+                        "keyword": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 3697,
+                            "end": 3699,
+                            "ctxt": 0
+                          },
+                          "value": "or",
+                          "raw": "or"
                         },
                         "condition": {
                           "type": "MediaFeaturePlain",
@@ -10143,6 +10645,7 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -10199,6 +10702,16 @@
               },
               "value": "screen",
               "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 3768,
+                "end": 3771,
+                "ctxt": 0
+              },
+              "value": "AND",
+              "raw": "AND"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -10266,6 +10779,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -10335,6 +10849,16 @@
                         "end": 3832,
                         "ctxt": 0
                       },
+                      "keyword": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 3810,
+                          "end": 3813,
+                          "ctxt": 0
+                        },
+                        "value": "AND",
+                        "raw": "AND"
+                      },
                       "condition": {
                         "type": "MediaFeaturePlain",
                         "span": {
@@ -10390,6 +10914,16 @@
                     "start": 3834,
                     "end": 3855,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3834,
+                      "end": 3836,
+                      "ctxt": 0
+                    },
+                    "value": "OR",
+                    "raw": "OR"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -10478,6 +11012,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -10539,6 +11074,16 @@
                     "end": 3931,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 3885,
+                      "end": 3888,
+                      "ctxt": 0
+                    },
+                    "value": "AND",
+                    "raw": "AND"
+                  },
                   "condition": {
                     "type": "MediaCondition",
                     "span": {
@@ -10599,6 +11144,16 @@
                           "start": 3909,
                           "end": 3930,
                           "ctxt": 0
+                        },
+                        "keyword": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 3909,
+                            "end": 3911,
+                            "ctxt": 0
+                          },
+                          "value": "OR",
+                          "raw": "OR"
                         },
                         "condition": {
                           "type": "MediaFeaturePlain",
@@ -10737,6 +11292,7 @@
               "value": "tty",
               "raw": "tty"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -10785,6 +11341,7 @@
               "value": "print",
               "raw": "print"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -10987,6 +11544,7 @@
               "value": "print",
               "raw": "print"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -11155,6 +11713,137 @@
             }
           }
         ]
+      }
+    },
+    {
+      "type": "MediaRule",
+      "span": {
+        "start": 4110,
+        "end": 4144,
+        "ctxt": 0
+      },
+      "media": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 4117,
+          "end": 4141,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 4117,
+              "end": 4141,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "keyword": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 4117,
+                "end": 4141,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaCondition",
+                  "span": {
+                    "start": 4118,
+                    "end": 4129,
+                    "ctxt": 0
+                  },
+                  "conditions": [
+                    {
+                      "type": "MediaNot",
+                      "span": {
+                        "start": 4118,
+                        "end": 4129,
+                        "ctxt": 0
+                      },
+                      "keyword": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 4118,
+                          "end": 4121,
+                          "ctxt": 0
+                        },
+                        "value": "NOT",
+                        "raw": "NOT"
+                      },
+                      "condition": {
+                        "type": "MediaFeatureBoolean",
+                        "span": {
+                          "start": 4122,
+                          "end": 4129,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 4123,
+                            "end": 4128,
+                            "ctxt": 0
+                          },
+                          "value": "color",
+                          "raw": "color"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "MediaOr",
+                  "span": {
+                    "start": 4131,
+                    "end": 4141,
+                    "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 4131,
+                      "end": 4133,
+                      "ctxt": 0
+                    },
+                    "value": "OR",
+                    "raw": "OR"
+                  },
+                  "condition": {
+                    "type": "MediaFeatureBoolean",
+                    "span": {
+                      "start": 4134,
+                      "end": 4141,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 4135,
+                        "end": 4140,
+                        "ctxt": 0
+                      },
+                      "value": "hover",
+                      "raw": "hover"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 4142,
+          "end": 4144,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
       }
     }
   ]

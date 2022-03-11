@@ -848,8 +848,17 @@ where
 {
     fn parse(&mut self) -> PResult<SupportsNot> {
         let span = self.input.cur_span()?;
-
-        expect_case_insensitive_ident!(self, "not");
+        let keyword = match cur!(self) {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
+                self.parse()?
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("ident (with 'not' value) token"),
+                ));
+            }
+        };
 
         self.input.skip_ws()?;
 
@@ -857,6 +866,7 @@ where
 
         Ok(SupportsNot {
             span: span!(self, span.lo),
+            keyword,
             condition: supports_in_parens,
         })
     }
@@ -868,8 +878,17 @@ where
 {
     fn parse(&mut self) -> PResult<SupportsAnd> {
         let span = self.input.cur_span()?;
-
-        expect_case_insensitive_ident!(self, "and");
+        let keyword = match cur!(self) {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
+                self.parse()?
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("ident (with 'and' value) token"),
+                ));
+            }
+        };
 
         self.input.skip_ws()?;
 
@@ -877,6 +896,7 @@ where
 
         Ok(SupportsAnd {
             span: span!(self, span.lo),
+            keyword,
             condition: supports_in_parens,
         })
     }
@@ -888,8 +908,17 @@ where
 {
     fn parse(&mut self) -> PResult<SupportsOr> {
         let span = self.input.cur_span()?;
-
-        expect_case_insensitive_ident!(self, "or");
+        let keyword = match cur!(self) {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
+                self.parse()?
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("ident (with 'or' value) token"),
+                ));
+            }
+        };
 
         self.input.skip_ws()?;
 
@@ -897,6 +926,7 @@ where
 
         Ok(SupportsOr {
             span: span!(self, span.lo),
+            keyword,
             condition: supports_in_parens,
         })
     }
@@ -1202,9 +1232,11 @@ where
             media_type
         };
 
+        let mut keyword = None;
+
         let condition = if media_type.is_some() {
             if is_one_of_case_insensitive_ident!(self, "and") {
-                bump!(self);
+                keyword = Some(self.parse()?);
 
                 self.input.skip_ws()?;
 
@@ -1232,6 +1264,7 @@ where
             span: Span::new(start_pos, last_pos, Default::default()),
             modifier,
             media_type,
+            keyword,
             condition,
         })
     }
@@ -1345,8 +1378,17 @@ where
 {
     fn parse(&mut self) -> PResult<MediaNot> {
         let span = self.input.cur_span()?;
-
-        expect_case_insensitive_ident!(self, "not");
+        let keyword = match cur!(self) {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
+                self.parse()?
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("ident (with 'not' value) token"),
+                ));
+            }
+        };
 
         self.input.skip_ws()?;
 
@@ -1354,6 +1396,7 @@ where
 
         Ok(MediaNot {
             span: span!(self, span.lo),
+            keyword,
             condition: media_in_parens,
         })
     }
@@ -1365,8 +1408,17 @@ where
 {
     fn parse(&mut self) -> PResult<MediaAnd> {
         let span = self.input.cur_span()?;
-
-        expect_case_insensitive_ident!(self, "and");
+        let keyword = match cur!(self) {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
+                self.parse()?
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("ident (with 'and' value) token"),
+                ));
+            }
+        };
 
         self.input.skip_ws()?;
 
@@ -1374,6 +1426,7 @@ where
 
         Ok(MediaAnd {
             span: span!(self, span.lo),
+            keyword,
             condition: media_in_parens,
         })
     }
@@ -1385,8 +1438,17 @@ where
 {
     fn parse(&mut self) -> PResult<MediaOr> {
         let span = self.input.cur_span()?;
-
-        expect_case_insensitive_ident!(self, "or");
+        let keyword = match cur!(self) {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
+                self.parse()?
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("ident (with 'or' value) token"),
+                ));
+            }
+        };
 
         self.input.skip_ws()?;
 
@@ -1394,6 +1456,7 @@ where
 
         Ok(MediaOr {
             span: span!(self, span.lo),
+            keyword,
             condition: media_in_parens,
         })
     }

@@ -232,6 +232,12 @@ error: MediaAnd
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                           ^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:2:27
+  |
+2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                           ^^^
+
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:31
   |
@@ -303,6 +309,12 @@ error: MediaAnd
   |
 2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                  ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:2:50
+  |
+2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                                  ^^^
 
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:2:54
@@ -484,6 +496,12 @@ error: MediaAnd
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                           ^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:27
+  |
+3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                           ^^^
+
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:31
   |
@@ -556,6 +574,12 @@ error: MediaAnd
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                  ^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:50
+  |
+3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                                  ^^^
+
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:54
   |
@@ -627,6 +651,12 @@ error: MediaAnd
   |
 3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   |                                                                         ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:3:73
+  |
+3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+  |                                                                         ^^^
 
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:3:77
@@ -741,6 +771,12 @@ error: MediaNot
   |
 4 | @media not (min-width: 800px) {}
   |        ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:4:8
+  |
+4 | @media not (min-width: 800px) {}
+  |        ^^^
 
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:4:12
@@ -940,6 +976,12 @@ error: MediaAnd
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
   |                            ^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:28
+  |
+5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+  |                            ^^^
+
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:32
   |
@@ -1011,6 +1053,12 @@ error: MediaOr
   |
 5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
   |                                                    ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:5:52
+  |
+5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+  |                                                    ^^
 
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:5:55
@@ -1192,6 +1240,12 @@ error: MediaAnd
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
   |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:27
+  |
+6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+  |                           ^^^
+
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:32
   |
@@ -1281,6 +1335,12 @@ error: MediaOr
   |
 6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
   |                                                   ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:6:51
+  |
+6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+  |                                                   ^^
 
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:6:54
@@ -1498,6 +1558,12 @@ error: MediaAnd
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   |                            ^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:28
+  |
+7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
+  |                            ^^^
+
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:32
   |
@@ -1569,6 +1635,12 @@ error: MediaOr
   |
 7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   |                                                    ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/rome/media/condition/input.css:7:52
+  |
+7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
+  |                                                    ^^
 
 error: MediaInParens
  --> $DIR/tests/fixture/rome/media/condition/input.css:7:55
@@ -1925,6 +1997,12 @@ error: MediaAnd
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
    |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/rome/media/condition/input.css:15:27
+   |
+15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
+   |                           ^^^
+
 error: MediaInParens
   --> $DIR/tests/fixture/rome/media/condition/input.css:15:32
    |
@@ -2014,6 +2092,12 @@ error: MediaOr
    |
 15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
    |                                                   ^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/rome/media/condition/input.css:15:51
+   |
+15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
+   |                                                   ^^
 
 error: MediaInParens
   --> $DIR/tests/fixture/rome/media/condition/input.css:15:54

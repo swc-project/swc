@@ -49,6 +49,12 @@ error: SupportsNot
 1 | @supports not (display: flex) {
   |           ^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+ --> $DIR/tests/fixture/rome/supports/input.css:1:11
+  |
+1 | @supports not (display: flex) {
+  |           ^^^
+
 error: SupportsInParens
  --> $DIR/tests/fixture/rome/supports/input.css:1:16
   |
@@ -266,6 +272,12 @@ error: SupportsOr
 5 | |           ( -moz-box-shadow: 0 0 2px black inset ) or
   | |__________________________________________________^
 
+error: Ident
+ --> $DIR/tests/fixture/rome/supports/input.css:4:47
+  |
+4 | @supports ( box-shadow: 0 0 2px black inset ) or
+  |                                               ^^
+
 error: SupportsInParens
  --> $DIR/tests/fixture/rome/supports/input.css:5:13
   |
@@ -390,6 +402,12 @@ error: SupportsOr
 6 | |           ( -webkit-box-shadow: 0 0 2px black inset ) or
   | |_____________________________________________________^
 
+error: Ident
+ --> $DIR/tests/fixture/rome/supports/input.css:5:52
+  |
+5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+  |                                                    ^^
+
 error: SupportsInParens
  --> $DIR/tests/fixture/rome/supports/input.css:6:13
   |
@@ -513,6 +531,12 @@ error: SupportsOr
   |  _______________________________________________________^
 7 | |           ( -o-box-shadow: 0 0 2px black inset ) {}
   | |________________________________________________^
+
+error: Ident
+ --> $DIR/tests/fixture/rome/supports/input.css:6:55
+  |
+6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+  |                                                       ^^
 
 error: SupportsInParens
  --> $DIR/tests/fixture/rome/supports/input.css:7:13
@@ -749,6 +773,12 @@ error: SupportsOr
 11 | |            (animation-name: foo)) and
    | |________________________________^
 
+error: Ident
+  --> $DIR/tests/fixture/rome/supports/input.css:10:41
+   |
+10 | @supports ((transition-property: color) or
+   |                                         ^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/rome/supports/input.css:11:13
    |
@@ -806,6 +836,12 @@ error: SupportsAnd
    |  ___________________________________^
 12 | |           (transform: rotate(10deg)) {}
    | |____________________________________^
+
+error: Ident
+  --> $DIR/tests/fixture/rome/supports/input.css:11:35
+   |
+11 |            (animation-name: foo)) and
+   |                                   ^^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/rome/supports/input.css:12:12

@@ -1596,6 +1596,12 @@ error: SupportsNot
 38 |     @supports not (display: grid) {
    |               ^^^^^^^^^^^^^^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:38:15
+   |
+38 |     @supports not (display: grid) {
+   |               ^^^
+
 error: SupportsInParens
   --> $DIR/tests/fixture/style-block/input.css:38:20
    |
@@ -1983,6 +1989,12 @@ error: SupportsNot
    |
 48 |     @supports not (display: grid) {
    |               ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:48:15
+   |
+48 |     @supports not (display: grid) {
+   |               ^^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/style-block/input.css:48:20
@@ -2488,6 +2500,12 @@ error: SupportsNot
    |
 62 |     @supports not (display: grid) {
    |               ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:62:15
+   |
+62 |     @supports not (display: grid) {
+   |               ^^^
 
 error: SupportsInParens
   --> $DIR/tests/fixture/style-block/input.css:62:20
