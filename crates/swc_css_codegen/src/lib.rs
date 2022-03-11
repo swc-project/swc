@@ -1302,8 +1302,12 @@ where
 
         match &n.token {
             Token::AtKeyword { raw, .. } => {
-                write!(self, span, "@");
-                write!(self, raw);
+                let mut at_keyword = String::new();
+
+                at_keyword.push('@');
+                at_keyword.push_str(raw);
+
+                write!(self, span, &at_keyword);
             }
             Token::Delim { value } => {
                 write!(self, span, &value.to_string());
@@ -1324,23 +1328,35 @@ where
                 write!(self, span, raw);
             }
             Token::Percentage { raw, .. } => {
-                write!(self, span, raw);
-                write!(self, "%");
+                let mut percentage = String::new();
+
+                percentage.push_str(raw);
+                percentage.push('%');
+
+                write!(self, span, &percentage);
             }
             Token::Dimension {
                 raw_value,
                 raw_unit,
                 ..
             } => {
-                write!(self, span, raw_value);
-                write!(self, raw_unit);
+                let mut dimension = String::new();
+
+                dimension.push_str(raw_value);
+                dimension.push_str(raw_unit);
+
+                write!(self, span, &dimension);
             }
             Token::Ident { raw, .. } => {
                 write!(self, span, raw);
             }
             Token::Function { raw, .. } => {
-                write!(self, span, raw);
-                write!(self, "(");
+                let mut function = String::new();
+
+                function.push_str(raw);
+                function.push('(');
+
+                write!(self, span, &function);
             }
             Token::BadString { raw, .. } => {
                 write!(self, span, raw);
@@ -1396,8 +1412,12 @@ where
                 write!(self, span, ":");
             }
             Token::Hash { raw, .. } => {
-                write!(self, lo_span_offset!(span, 1), "#");
-                write!(self, span, raw);
+                let mut hash = String::new();
+
+                hash.push('#');
+                hash.push_str(raw);
+
+                write!(self, span, &hash);
             }
             Token::WhiteSpace { value, .. } => {
                 write!(self, span, value);
@@ -1415,10 +1435,15 @@ where
     fn emit_tokens(&mut self, n: &Tokens) -> Result {
         for TokenAndSpan { span, token } in &n.tokens {
             let span = *span;
+
             match token {
                 Token::AtKeyword { raw, .. } => {
-                    write!(self, span, "@");
-                    write!(self, raw);
+                    let mut at_keyword = String::new();
+
+                    at_keyword.push('@');
+                    at_keyword.push_str(raw);
+
+                    write!(self, span, &at_keyword);
                 }
                 Token::Delim { value } => {
                     write!(self, span, &value.to_string());
@@ -1439,23 +1464,35 @@ where
                     write!(self, span, raw);
                 }
                 Token::Percentage { raw, .. } => {
-                    write!(self, span, raw);
-                    write!(self, "%");
+                    let mut percentage = String::new();
+
+                    percentage.push_str(raw);
+                    percentage.push('%');
+
+                    write!(self, span, &percentage);
                 }
                 Token::Dimension {
                     raw_value,
                     raw_unit,
                     ..
                 } => {
-                    write!(self, span, raw_value);
-                    write!(self, raw_unit);
+                    let mut dimension = String::new();
+
+                    dimension.push_str(raw_value);
+                    dimension.push_str(raw_unit);
+
+                    write!(self, span, &dimension);
                 }
                 Token::Ident { raw, .. } => {
                     write!(self, span, raw);
                 }
                 Token::Function { raw, .. } => {
-                    write!(self, span, raw);
-                    write!(self, "(");
+                    let mut function = String::new();
+
+                    function.push_str(raw);
+                    function.push('(');
+
+                    write!(self, span, &function);
                 }
                 Token::BadString { raw, .. } => {
                     write!(self, span, raw);
@@ -1511,8 +1548,12 @@ where
                     write!(self, span, ":");
                 }
                 Token::Hash { raw, .. } => {
-                    write!(self, lo_span_offset!(span, 1), "#");
-                    write!(self, span, raw);
+                    let mut hash = String::new();
+
+                    hash.push('#');
+                    hash.push_str(raw);
+
+                    write!(self, span, &hash);
                 }
                 Token::WhiteSpace { value, .. } => {
                     write!(self, span, value);
