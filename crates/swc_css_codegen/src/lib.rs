@@ -116,7 +116,8 @@ where
 
     #[emitter]
     fn emit_charset_rule(&mut self, n: &CharsetRule) -> Result {
-        write!(self, "@charset");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "charset");
         // https://drafts.csswg.org/css2/#charset%E2%91%A0
         // @charset must be written literally, i.e., the 10 characters '@charset "'
         // (lowercase, no backslash escapes), followed by the encoding name, followed by
@@ -128,7 +129,8 @@ where
 
     #[emitter]
     fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
-        write!(self, "@import");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "import");
 
         match n.href {
             ImportHref::Url(_) => {
@@ -185,14 +187,16 @@ where
 
     #[emitter]
     fn emit_font_face_rule(&mut self, n: &FontFaceRule) -> Result {
-        write!(self, "@font-face");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "font-face");
         formatting_space!(self);
         emit!(self, n.block);
     }
 
     #[emitter]
     fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
-        write!(self, "@keyframes");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "keyframes");
 
         match n.name {
             KeyframesName::Str(_) => {
@@ -253,7 +257,8 @@ where
 
     #[emitter]
     fn emit_layer_rule(&mut self, n: &LayerRule) -> Result {
-        write!(self, "@layer");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "layer");
 
         if n.prelude.is_some() {
             space!(self);
@@ -271,7 +276,8 @@ where
 
     #[emitter]
     fn emit_media_rule(&mut self, n: &MediaRule) -> Result {
-        write!(self, "@media");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "media");
 
         if n.media.is_some() {
             let need_space = match n.media.as_ref().unwrap().queries.get(0) {
@@ -473,7 +479,8 @@ where
 
     #[emitter]
     fn emit_supports_rule(&mut self, n: &SupportsRule) -> Result {
-        write!(self, "@supports");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "supports");
 
         match n.condition.conditions.get(0) {
             Some(SupportsConditionType::SupportsInParens(_)) => {
@@ -563,7 +570,8 @@ where
 
     #[emitter]
     fn emit_page_rule(&mut self, n: &PageRule) -> Result {
-        write!(self, "@page");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "page");
 
         if let Some(prelude) = &n.prelude {
             match prelude.selectors.get(0) {
@@ -627,7 +635,8 @@ where
 
     #[emitter]
     fn emit_namespace_rule(&mut self, n: &NamespaceRule) -> Result {
-        write!(self, "@namespace");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "namespace");
 
         let has_prefix = n.prefix.is_some();
         let is_uri_url = match n.uri {
@@ -657,7 +666,8 @@ where
 
     #[emitter]
     fn emit_nest_rule(&mut self, n: &NestRule) -> Result {
-        write!(self, "@nest");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "nest");
         space!(self);
         emit!(self, n.prelude);
         formatting_space!(self);
@@ -666,14 +676,16 @@ where
 
     #[emitter]
     fn emit_viewport_rule(&mut self, n: &ViewportRule) -> Result {
-        write!(self, "@viewport");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "viewport");
         formatting_space!(self);
         emit!(self, n.block);
     }
 
     #[emitter]
     fn emit_document_rule(&mut self, n: &DocumentRule) -> Result {
-        write!(self, "@document");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "document");
         space!(self);
         self.emit_list(&n.matching_functions, ListFormat::CommaDelimited)?;
         formatting_space!(self);
@@ -805,7 +817,8 @@ where
 
     #[emitter]
     fn emit_color_profile_rule(&mut self, n: &ColorProfileRule) -> Result {
-        write!(self, "@color-profile");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "color-profile");
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
@@ -814,7 +827,8 @@ where
 
     #[emitter]
     fn emit_counter_style_rule(&mut self, n: &CounterStyleRule) -> Result {
-        write!(self, "@counter-style");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "counter-style");
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
@@ -823,7 +837,8 @@ where
 
     #[emitter]
     fn emit_property_rule(&mut self, n: &PropertyRule) -> Result {
-        write!(self, "@property");
+        write!(self, lo_span_offset!(n.span, 1), "@");
+        write!(self, "property");
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
@@ -832,7 +847,7 @@ where
 
     #[emitter]
     fn emit_unknown_at_rule(&mut self, n: &UnknownAtRule) -> Result {
-        write!(self, "@");
+        write!(self, lo_span_offset!(n.span, 1), "@");
         emit!(self, n.name);
 
         self.emit_list(&n.prelude, ListFormat::NotDelimited)?;
