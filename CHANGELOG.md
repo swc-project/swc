@@ -7,6 +7,12 @@
 
 - **(preset-env)** Use `core-js-compat` and `@babel/compat-data` directly (#3968) ([487273f](https://github.com/swc-project/swc/commit/487273fc5b5f964c159ea23d409b0f66e1d74229))
 
+### Features
+
+
+
+- **(*)** Update dependencies (#3964) ([1206c84](https://github.com/swc-project/swc/commit/1206c84e19eca2711670e96407c47062c22a4d04))
+
 ## [1.2.153] - 2022-03-11
 
 ### Bug Fixes
