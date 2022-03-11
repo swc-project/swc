@@ -5,6 +5,14 @@
 
 
 
+- **(preset-env)** Use `core-js-compat` and `@babel/compat-data` directly (#3968) ([487273f](https://github.com/swc-project/swc/commit/487273fc5b5f964c159ea23d409b0f66e1d74229))
+
+## [1.2.153] - 2022-03-11
+
+### Bug Fixes
+
+
+
 - **(api/rust)** Fix transform comment api (#3962) ([fcbd3c5](https://github.com/swc-project/swc/commit/fcbd3c5c5849418b911d87d3a0b36eb84bef1a68))
 
 
