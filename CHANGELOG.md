@@ -19,6 +19,12 @@
 
 - **(node-swc/types)** Add `reserved` to `TerserMangleOptions` (#3959) ([70a68a7](https://github.com/swc-project/swc/commit/70a68a785091845c5e66ab3fe0fd52cc47f11a80))
 
+### Features
+
+
+
+- **(es/lints)** Refine error message (#3952) ([579aeb7](https://github.com/swc-project/swc/commit/579aeb7cfacb38d822634e5c82b209bd311ac9b2))
+
 ## [1.2.152] - 2022-03-10
 
 ### Bug Fixes
