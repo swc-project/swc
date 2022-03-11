@@ -415,6 +415,15 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
+    fn adjust_if_else_clause(&mut self, cur: &mut IfStmt, alt: Box<Stmt>) {
+        if let Some(Stmt::If(prev_alt)) = cur.alt.as_deref_mut() {
+            self.adjust_if_else_clause(prev_alt, alt)
+        } else {
+            debug_assert_eq!(cur.alt, None);
+            cur.alt = Some(alt);
+        }
+    }
+
     fn parse_if_stmt(&mut self) -> PResult<IfStmt> {
         let start = cur_pos!(self);
 
@@ -472,8 +481,10 @@ impl<'a, I: Tokens> Parser<I> {
 
                 let alt = self.with_ctx(ctx).parse_if_stmt()?;
 
-                match cur {
-                    Some(prev) => {}
+                match &mut cur {
+                    Some(cur) => {
+                        self.adjust_if_else_clause(cur, Box::new(Stmt::If(alt)));
+                    }
                     None => {
                         cur = Some(alt);
                     }
@@ -481,9 +492,13 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             match cur {
-                Some(cur) => {
-                    debug_assert_eq!(cur.alt, None);
-                    cur.alt = last.map(Box::new);
+                Some(mut cur) => {
+                    match last {
+                        Some(last) => {
+                            self.adjust_if_else_clause(&mut cur, Box::new(last));
+                        }
+                        None => {}
+                    }
                     Some(Stmt::If(cur))
                 }
                 None => last,
