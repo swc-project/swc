@@ -12,7 +12,7 @@ version = "1.2.153"
 crate-type = ["cdylib"]
 
 [features]
-default = ["swc_v1"]
+default = ["swc_v1", "swc/plugin_host_wasm_env"]
 swc_v1 = []
 swc_v2 = []
 
@@ -24,7 +24,7 @@ parking_lot_core = "0.9.1"
 path-clean = "0.1"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1"
-swc = {path = "../swc"}
+swc = {path = "../swc", default-features = false, optional = true}
 swc_common = {path = "../swc_common"}
 swc_ecma_lints = {path = "../swc_ecma_lints", features = ["non_critical_lints"]}
 swc_ecmascript = {path = "../swc_ecmascript"}

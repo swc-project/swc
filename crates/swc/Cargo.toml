@@ -30,6 +30,9 @@ node = ["napi", "napi-derive"]
 plugin = [
   "swc_plugin_runner/default",
 ]
+plugin_host_wasm_env = [
+  "swc_plugin_runner/wasm"
+]
 
 [dependencies]
 ahash = "0.7.4"
