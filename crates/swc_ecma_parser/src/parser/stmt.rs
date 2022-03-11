@@ -415,7 +415,13 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
+    /// Utility function used to parse large if else statements iteratively.
+    ///
+    /// THis function is recursive, but it is very cheap so stack overflow will
+    /// not occur.
     fn adjust_if_else_clause(&mut self, cur: &mut IfStmt, alt: Box<Stmt>) {
+        cur.span = span!(self, cur.span.lo);
+
         if let Some(Stmt::If(prev_alt)) = cur.alt.as_deref_mut() {
             self.adjust_if_else_clause(prev_alt, alt)
         } else {
@@ -485,7 +491,7 @@ impl<'a, I: Tokens> Parser<I> {
                     Some(cur) => {
                         self.adjust_if_else_clause(cur, Box::new(Stmt::If(alt)));
                     }
-                    None => {
+                    _ => {
                         cur = Some(alt);
                     }
                 }
@@ -497,11 +503,11 @@ impl<'a, I: Tokens> Parser<I> {
                         Some(last) => {
                             self.adjust_if_else_clause(&mut cur, Box::new(last));
                         }
-                        None => {}
+                        _ => {}
                     }
                     Some(Stmt::If(cur))
                 }
-                None => last,
+                _ => last,
             }
         }
         .map(Box::new);
