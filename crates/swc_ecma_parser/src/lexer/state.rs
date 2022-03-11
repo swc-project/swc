@@ -54,6 +54,7 @@ enum TokenType {
     },
 }
 impl TokenType {
+    #[inline]
     fn before_expr(self) -> bool {
         match self {
             TokenType::JSXName
@@ -77,6 +78,7 @@ impl TokenType {
 }
 
 impl<'a> From<&'a Token> for TokenType {
+    #[inline]
     fn from(t: &Token) -> Self {
         match *t {
             Token::Template { .. } => TokenType::Template,
@@ -112,6 +114,7 @@ impl<'a> From<&'a Token> for TokenType {
 }
 
 impl<I: Input> Tokens for Lexer<'_, I> {
+    #[inline]
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.module && !self.module_errors.borrow().is_empty() {
             let mut module_errors = self.module_errors.borrow_mut();
@@ -120,34 +123,42 @@ impl<I: Input> Tokens for Lexer<'_, I> {
         self.ctx = ctx
     }
 
+    #[inline]
     fn ctx(&self) -> Context {
         self.ctx
     }
 
+    #[inline]
     fn syntax(&self) -> Syntax {
         self.syntax
     }
 
+    #[inline]
     fn target(&self) -> EsVersion {
         self.target
     }
 
+    #[inline]
     fn start_pos(&self) -> BytePos {
         self.start_pos
     }
 
+    #[inline]
     fn set_expr_allowed(&mut self, allow: bool) {
         self.set_expr_allowed(allow)
     }
 
+    #[inline]
     fn token_context(&self) -> &TokenContexts {
         &self.state.context
     }
 
+    #[inline]
     fn token_context_mut(&mut self) -> &mut TokenContexts {
         &mut self.state.context
     }
 
+    #[inline]
     fn set_token_context(&mut self, c: TokenContexts) {
         self.state.context = c;
     }
