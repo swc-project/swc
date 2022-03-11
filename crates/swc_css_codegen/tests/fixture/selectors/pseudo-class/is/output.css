@@ -1,6 +1,7 @@
-*|*:is(:hover, :focus) {
-color: red;
+*|*:is(:hover, 
+:focus) {
+  color: red;
 }
 div:is(.class > a) {
-color: red;
+  color: red;
 }

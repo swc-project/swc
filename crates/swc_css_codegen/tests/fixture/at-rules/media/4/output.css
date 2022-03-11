@@ -98,7 +98,7 @@
 @media {}
 @media  not (min-width: 100px) {}
 @media ((color) or (hover)) and (min-width: 1024px) {
-.a {
-color: green;
-}
+  .a {
+    color: green;
+  }
 }
