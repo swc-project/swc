@@ -15,7 +15,11 @@
     "es.symbol.to-primitive",
     "es.symbol.to-string-tag",
     "es.symbol.unscopables",
+    "es.error.cause",
+    "es.error.to-string",
     "es.aggregate-error",
+    "es.aggregate-error.cause",
+    "es.array.at",
     "es.array.concat",
     "es.array.copy-within",
     "es.array.every",
@@ -93,6 +97,7 @@
     "es.number.min-safe-integer",
     "es.number.parse-float",
     "es.number.parse-int",
+    "es.number.to-exponential",
     "es.number.to-fixed",
     "es.number.to-precision",
     "es.object.assign",
@@ -108,6 +113,7 @@
     "es.object.get-own-property-descriptors",
     "es.object.get-own-property-names",
     "es.object.get-prototype-of",
+    "es.object.has-own",
     "es.object.is",
     "es.object.is-extensible",
     "es.object.is-frozen",
@@ -148,6 +154,7 @@
     "es.regexp.test",
     "es.regexp.to-string",
     "es.set",
+    "es.string.at-alternative",
     "es.string.code-point-at",
     "es.string.ends-with",
     "es.string.from-code-point",
@@ -190,6 +197,7 @@
     "es.typed-array.uint8-clamped-array",
     "es.typed-array.uint16-array",
     "es.typed-array.uint32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -219,16 +227,22 @@
     "es.weak-map",
     "es.weak-set",
     "esnext.aggregate-error",
+    "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
     "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
     "esnext.array.unique-by",
+    "esnext.array.with",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
     "esnext.async-iterator.drop",
@@ -246,6 +260,9 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.function.is-callable",
+    "esnext.function.is-constructor",
+    "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
@@ -261,6 +278,7 @@
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "esnext.map.delete-all",
     "esnext.map.emplace",
     "esnext.map.every",
@@ -332,6 +350,7 @@
     "esnext.set.symmetric-difference",
     "esnext.set.union",
     "esnext.string.at",
+    "esnext.string.cooked",
     "esnext.string.code-points",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -342,13 +361,18 @@
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
+    "esnext.typed-array.from-async",
     "esnext.typed-array.at",
     "esnext.typed-array.filter-out",
     "esnext.typed-array.filter-reject",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
     "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
     "esnext.typed-array.unique-by",
+    "esnext.typed-array.with",
     "esnext.weak-map.delete-all",
     "esnext.weak-map.from",
     "esnext.weak-map.of",
@@ -358,16 +382,22 @@
     "esnext.weak-set.delete-all",
     "esnext.weak-set.from",
     "esnext.weak-set.of",
+    "web.atob",
+    "web.btoa",
     "web.dom-collections.for-each",
     "web.dom-collections.iterator",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag",
     "web.immediate",
     "web.queue-microtask",
+    "web.structured-clone",
     "web.timers",
     "web.url",
     "web.url.to-json",
     "web.url-search-params"
   ],
-  "core-js/es": [
+  "core-js/actual": [
     "es.symbol",
     "es.symbol.description",
     "es.symbol.async-iterator",
@@ -383,7 +413,11 @@
     "es.symbol.to-primitive",
     "es.symbol.to-string-tag",
     "es.symbol.unscopables",
+    "es.error.cause",
+    "es.error.to-string",
     "es.aggregate-error",
+    "es.aggregate-error.cause",
+    "es.array.at",
     "es.array.concat",
     "es.array.copy-within",
     "es.array.every",
@@ -461,6 +495,7 @@
     "es.number.min-safe-integer",
     "es.number.parse-float",
     "es.number.parse-int",
+    "es.number.to-exponential",
     "es.number.to-fixed",
     "es.number.to-precision",
     "es.object.assign",
@@ -476,6 +511,7 @@
     "es.object.get-own-property-descriptors",
     "es.object.get-own-property-names",
     "es.object.get-prototype-of",
+    "es.object.has-own",
     "es.object.is",
     "es.object.is-extensible",
     "es.object.is-frozen",
@@ -516,6 +552,7 @@
     "es.regexp.test",
     "es.regexp.to-string",
     "es.set",
+    "es.string.at-alternative",
     "es.string.code-point-at",
     "es.string.ends-with",
     "es.string.from-code-point",
@@ -558,6 +595,2218 @@
     "es.typed-array.uint8-clamped-array",
     "es.typed-array.uint16-array",
     "es.typed-array.uint32-array",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "es.unescape",
+    "es.weak-map",
+    "es.weak-set",
+    "esnext.aggregate-error",
+    "esnext.array.at",
+    "esnext.array.find-last",
+    "esnext.array.find-last-index",
+    "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
+    "esnext.global-this",
+    "esnext.object.has-own",
+    "esnext.promise.all-settled",
+    "esnext.promise.any",
+    "esnext.string.match-all",
+    "esnext.string.replace-all",
+    "esnext.symbol.replace-all",
+    "esnext.typed-array.at",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "web.atob",
+    "web.btoa",
+    "web.dom-collections.for-each",
+    "web.dom-collections.iterator",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag",
+    "web.immediate",
+    "web.queue-microtask",
+    "web.structured-clone",
+    "web.timers",
+    "web.url",
+    "web.url.to-json",
+    "web.url-search-params"
+  ],
+  "core-js/actual/aggregate-error": [
+    "es.error.cause",
+    "es.aggregate-error",
+    "es.aggregate-error.cause",
+    "es.array.iterator",
+    "es.string.iterator",
+    "esnext.aggregate-error",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/array": [
+    "es.array.at",
+    "es.array.concat",
+    "es.array.copy-within",
+    "es.array.every",
+    "es.array.fill",
+    "es.array.filter",
+    "es.array.find",
+    "es.array.find-index",
+    "es.array.flat",
+    "es.array.flat-map",
+    "es.array.for-each",
+    "es.array.from",
+    "es.array.includes",
+    "es.array.index-of",
+    "es.array.is-array",
+    "es.array.iterator",
+    "es.array.join",
+    "es.array.last-index-of",
+    "es.array.map",
+    "es.array.of",
+    "es.array.reduce",
+    "es.array.reduce-right",
+    "es.array.reverse",
+    "es.array.slice",
+    "es.array.some",
+    "es.array.sort",
+    "es.array.species",
+    "es.array.splice",
+    "es.array.unscopables.flat",
+    "es.array.unscopables.flat-map",
+    "es.map",
+    "es.object.to-string",
+    "es.string.iterator",
+    "esnext.array.find-last",
+    "esnext.array.find-last-index",
+    "esnext.array.group-by",
+    "esnext.array.group-by-to-map"
+  ],
+  "core-js/actual/array-buffer": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.is-view",
+    "es.array-buffer.slice",
+    "es.object.to-string"
+  ],
+  "core-js/actual/array-buffer/constructor": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.object.to-string"
+  ],
+  "core-js/actual/array-buffer/is-view": [
+    "es.array-buffer.is-view"
+  ],
+  "core-js/actual/array-buffer/slice": [
+    "es.array-buffer.slice"
+  ],
+  "core-js/actual/array/at": [
+    "es.array.at"
+  ],
+  "core-js/actual/array/concat": [
+    "es.array.concat"
+  ],
+  "core-js/actual/array/copy-within": [
+    "es.array.copy-within"
+  ],
+  "core-js/actual/array/entries": [
+    "es.array.iterator",
+    "es.object.to-string"
+  ],
+  "core-js/actual/array/every": [
+    "es.array.every"
+  ],
+  "core-js/actual/array/fill": [
+    "es.array.fill"
+  ],
+  "core-js/actual/array/filter": [
+    "es.array.filter"
+  ],
+  "core-js/actual/array/find": [
+    "es.array.find"
+  ],
+  "core-js/actual/array/find-index": [
+    "es.array.find-index"
+  ],
+  "core-js/actual/array/find-last": [
+    "esnext.array.find-last"
+  ],
+  "core-js/actual/array/find-last-index": [
+    "esnext.array.find-last-index"
+  ],
+  "core-js/actual/array/flat": [
+    "es.array.flat",
+    "es.array.unscopables.flat"
+  ],
+  "core-js/actual/array/flat-map": [
+    "es.array.flat-map",
+    "es.array.unscopables.flat-map"
+  ],
+  "core-js/actual/array/for-each": [
+    "es.array.for-each"
+  ],
+  "core-js/actual/array/from": [
+    "es.array.from",
+    "es.string.iterator"
+  ],
+  "core-js/actual/array/group-by": [
+    "esnext.array.group-by"
+  ],
+  "core-js/actual/array/group-by-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-by-to-map"
+  ],
+  "core-js/actual/array/includes": [
+    "es.array.includes"
+  ],
+  "core-js/actual/array/index-of": [
+    "es.array.index-of"
+  ],
+  "core-js/actual/array/is-array": [
+    "es.array.is-array"
+  ],
+  "core-js/actual/array/iterator": [
+    "es.array.iterator",
+    "es.object.to-string"
+  ],
+  "core-js/actual/array/join": [
+    "es.array.join"
+  ],
+  "core-js/actual/array/keys": [
+    "es.array.iterator",
+    "es.object.to-string"
+  ],
+  "core-js/actual/array/last-index-of": [
+    "es.array.last-index-of"
+  ],
+  "core-js/actual/array/map": [
+    "es.array.map"
+  ],
+  "core-js/actual/array/of": [
+    "es.array.of"
+  ],
+  "core-js/actual/array/reduce": [
+    "es.array.reduce"
+  ],
+  "core-js/actual/array/reduce-right": [
+    "es.array.reduce-right"
+  ],
+  "core-js/actual/array/reverse": [
+    "es.array.reverse"
+  ],
+  "core-js/actual/array/slice": [
+    "es.array.slice"
+  ],
+  "core-js/actual/array/some": [
+    "es.array.some"
+  ],
+  "core-js/actual/array/sort": [
+    "es.array.sort"
+  ],
+  "core-js/actual/array/splice": [
+    "es.array.splice"
+  ],
+  "core-js/actual/array/values": [
+    "es.array.iterator",
+    "es.object.to-string"
+  ],
+  "core-js/actual/array/virtual": [
+    "es.array.at",
+    "es.array.concat",
+    "es.array.copy-within",
+    "es.array.every",
+    "es.array.fill",
+    "es.array.filter",
+    "es.array.find",
+    "es.array.find-index",
+    "es.array.flat",
+    "es.array.flat-map",
+    "es.array.for-each",
+    "es.array.includes",
+    "es.array.index-of",
+    "es.array.iterator",
+    "es.array.join",
+    "es.array.last-index-of",
+    "es.array.map",
+    "es.array.reduce",
+    "es.array.reduce-right",
+    "es.array.reverse",
+    "es.array.slice",
+    "es.array.some",
+    "es.array.sort",
+    "es.array.species",
+    "es.array.splice",
+    "es.array.unscopables.flat",
+    "es.array.unscopables.flat-map",
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.find-last",
+    "esnext.array.find-last-index",
+    "esnext.array.group-by",
+    "esnext.array.group-by-to-map"
+  ],
+  "core-js/actual/array/virtual/at": [
+    "es.array.at"
+  ],
+  "core-js/actual/array/virtual/concat": [
+    "es.array.concat"
+  ],
+  "core-js/actual/array/virtual/copy-within": [
+    "es.array.copy-within"
+  ],
+  "core-js/actual/array/virtual/entries": [
+    "es.array.iterator",
+    "es.object.to-string"
+  ],
+  "core-js/actual/array/virtual/every": [
+    "es.array.every"
+  ],
+  "core-js/actual/array/virtual/fill": [
+    "es.array.fill"
+  ],
+  "core-js/actual/array/virtual/filter": [
+    "es.array.filter"
+  ],
+  "core-js/actual/array/virtual/find": [
+    "es.array.find"
+  ],
+  "core-js/actual/array/virtual/find-index": [
+    "es.array.find-index"
+  ],
+  "core-js/actual/array/virtual/find-last": [
+    "esnext.array.find-last"
+  ],
+  "core-js/actual/array/virtual/find-last-index": [
+    "esnext.array.find-last-index"
+  ],
+  "core-js/actual/array/virtual/flat": [
+    "es.array.flat",
+    "es.array.unscopables.flat"
+  ],
+  "core-js/actual/array/virtual/flat-map": [
+    "es.array.flat-map",
+    "es.array.unscopables.flat-map"
+  ],
+  "core-js/actual/array/virtual/for-each": [
+    "es.array.for-each"
+  ],
+  "core-js/actual/array/virtual/group-by": [
+    "esnext.array.group-by"
+  ],
+  "core-js/actual/array/virtual/group-by-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-by-to-map"
+  ],
+  "core-js/actual/array/virtual/includes": [
+    "es.array.includes"
+  ],
+  "core-js/actual/array/virtual/index-of": [
+    "es.array.index-of"
+  ],
+  "core-js/actual/array/virtual/iterator": [
+    "es.array.iterator",
+    "es.object.to-string"
+  ],
+  "core-js/actual/array/virtual/join": [
+    "es.array.join"
+  ],
+  "core-js/actual/array/virtual/keys": [
+    "es.array.iterator",
+    "es.object.to-string"
+  ],
+  "core-js/actual/array/virtual/last-index-of": [
+    "es.array.last-index-of"
+  ],
+  "core-js/actual/array/virtual/map": [
+    "es.array.map"
+  ],
+  "core-js/actual/array/virtual/reduce": [
+    "es.array.reduce"
+  ],
+  "core-js/actual/array/virtual/reduce-right": [
+    "es.array.reduce-right"
+  ],
+  "core-js/actual/array/virtual/reverse": [
+    "es.array.reverse"
+  ],
+  "core-js/actual/array/virtual/slice": [
+    "es.array.slice"
+  ],
+  "core-js/actual/array/virtual/some": [
+    "es.array.some"
+  ],
+  "core-js/actual/array/virtual/sort": [
+    "es.array.sort"
+  ],
+  "core-js/actual/array/virtual/splice": [
+    "es.array.splice"
+  ],
+  "core-js/actual/array/virtual/values": [
+    "es.array.iterator",
+    "es.object.to-string"
+  ],
+  "core-js/actual/atob": [
+    "es.error.to-string",
+    "es.object.to-string",
+    "web.atob",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag"
+  ],
+  "core-js/actual/btoa": [
+    "es.error.to-string",
+    "es.object.to-string",
+    "web.btoa",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag"
+  ],
+  "core-js/actual/clear-immediate": [
+    "web.immediate"
+  ],
+  "core-js/actual/data-view": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.data-view",
+    "es.object.to-string"
+  ],
+  "core-js/actual/date": [
+    "es.date.get-year",
+    "es.date.now",
+    "es.date.set-year",
+    "es.date.to-gmt-string",
+    "es.date.to-iso-string",
+    "es.date.to-json",
+    "es.date.to-primitive",
+    "es.date.to-string"
+  ],
+  "core-js/actual/date/get-year": [
+    "es.date.get-year"
+  ],
+  "core-js/actual/date/now": [
+    "es.date.now"
+  ],
+  "core-js/actual/date/set-year": [
+    "es.date.set-year"
+  ],
+  "core-js/actual/date/to-gmt-string": [
+    "es.date.to-gmt-string"
+  ],
+  "core-js/actual/date/to-iso-string": [
+    "es.date.to-iso-string",
+    "es.date.to-json"
+  ],
+  "core-js/actual/date/to-json": [
+    "es.date.to-json"
+  ],
+  "core-js/actual/date/to-primitive": [
+    "es.date.to-primitive"
+  ],
+  "core-js/actual/date/to-string": [
+    "es.date.to-string"
+  ],
+  "core-js/actual/dom-collections": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "web.dom-collections.for-each",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/dom-collections/for-each": [
+    "web.dom-collections.for-each"
+  ],
+  "core-js/actual/dom-collections/iterator": [
+    "es.object.to-string",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/dom-exception": [
+    "es.error.to-string",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag"
+  ],
+  "core-js/actual/dom-exception/constructor": [
+    "es.error.to-string",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack"
+  ],
+  "core-js/actual/dom-exception/to-string-tag": [
+    "web.dom-exception.to-string-tag"
+  ],
+  "core-js/actual/error": [
+    "es.error.cause",
+    "es.error.to-string"
+  ],
+  "core-js/actual/error/constructor": [
+    "es.error.cause"
+  ],
+  "core-js/actual/error/to-string": [
+    "es.error.to-string"
+  ],
+  "core-js/actual/escape": [
+    "es.escape"
+  ],
+  "core-js/actual/function": [
+    "es.function.bind",
+    "es.function.has-instance",
+    "es.function.name"
+  ],
+  "core-js/actual/function/bind": [
+    "es.function.bind"
+  ],
+  "core-js/actual/function/has-instance": [
+    "es.function.has-instance"
+  ],
+  "core-js/actual/function/name": [
+    "es.function.name"
+  ],
+  "core-js/actual/function/virtual": [
+    "es.function.bind"
+  ],
+  "core-js/actual/function/virtual/bind": [
+    "es.function.bind"
+  ],
+  "core-js/actual/get-iterator": [
+    "es.array.iterator",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/get-iterator-method": [
+    "es.array.iterator",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/global-this": [
+    "es.global-this"
+  ],
+  "core-js/actual/instance/at": [
+    "es.array.at",
+    "es.string.at-alternative"
+  ],
+  "core-js/actual/instance/bind": [
+    "es.function.bind"
+  ],
+  "core-js/actual/instance/code-point-at": [
+    "es.string.code-point-at"
+  ],
+  "core-js/actual/instance/concat": [
+    "es.array.concat"
+  ],
+  "core-js/actual/instance/copy-within": [
+    "es.array.copy-within"
+  ],
+  "core-js/actual/instance/ends-with": [
+    "es.string.ends-with"
+  ],
+  "core-js/actual/instance/entries": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/instance/every": [
+    "es.array.every"
+  ],
+  "core-js/actual/instance/fill": [
+    "es.array.fill"
+  ],
+  "core-js/actual/instance/filter": [
+    "es.array.filter"
+  ],
+  "core-js/actual/instance/find": [
+    "es.array.find"
+  ],
+  "core-js/actual/instance/find-index": [
+    "es.array.find-index"
+  ],
+  "core-js/actual/instance/find-last": [
+    "esnext.array.find-last"
+  ],
+  "core-js/actual/instance/find-last-index": [
+    "esnext.array.find-last-index"
+  ],
+  "core-js/actual/instance/flags": [
+    "es.regexp.flags"
+  ],
+  "core-js/actual/instance/flat": [
+    "es.array.flat",
+    "es.array.unscopables.flat"
+  ],
+  "core-js/actual/instance/flat-map": [
+    "es.array.flat-map",
+    "es.array.unscopables.flat-map"
+  ],
+  "core-js/actual/instance/for-each": [
+    "es.array.for-each",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/instance/group-by": [
+    "esnext.array.group-by"
+  ],
+  "core-js/actual/instance/group-by-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-by-to-map"
+  ],
+  "core-js/actual/instance/includes": [
+    "es.array.includes",
+    "es.string.includes"
+  ],
+  "core-js/actual/instance/index-of": [
+    "es.array.index-of"
+  ],
+  "core-js/actual/instance/keys": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/instance/last-index-of": [
+    "es.array.last-index-of"
+  ],
+  "core-js/actual/instance/map": [
+    "es.array.map"
+  ],
+  "core-js/actual/instance/match-all": [
+    "es.object.to-string",
+    "es.regexp.exec",
+    "es.string.match-all"
+  ],
+  "core-js/actual/instance/pad-end": [
+    "es.string.pad-end"
+  ],
+  "core-js/actual/instance/pad-start": [
+    "es.string.pad-start"
+  ],
+  "core-js/actual/instance/reduce": [
+    "es.array.reduce"
+  ],
+  "core-js/actual/instance/reduce-right": [
+    "es.array.reduce-right"
+  ],
+  "core-js/actual/instance/repeat": [
+    "es.string.repeat"
+  ],
+  "core-js/actual/instance/replace-all": [
+    "es.regexp.exec",
+    "es.string.replace",
+    "es.string.replace-all"
+  ],
+  "core-js/actual/instance/reverse": [
+    "es.array.reverse"
+  ],
+  "core-js/actual/instance/slice": [
+    "es.array.slice"
+  ],
+  "core-js/actual/instance/some": [
+    "es.array.some"
+  ],
+  "core-js/actual/instance/sort": [
+    "es.array.sort"
+  ],
+  "core-js/actual/instance/splice": [
+    "es.array.splice"
+  ],
+  "core-js/actual/instance/starts-with": [
+    "es.string.starts-with"
+  ],
+  "core-js/actual/instance/trim": [
+    "es.string.trim"
+  ],
+  "core-js/actual/instance/trim-end": [
+    "es.string.trim-end"
+  ],
+  "core-js/actual/instance/trim-left": [
+    "es.string.trim-start"
+  ],
+  "core-js/actual/instance/trim-right": [
+    "es.string.trim-end"
+  ],
+  "core-js/actual/instance/trim-start": [
+    "es.string.trim-start"
+  ],
+  "core-js/actual/instance/values": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/is-iterable": [
+    "es.array.iterator",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/json": [
+    "es.json.stringify",
+    "es.json.to-string-tag"
+  ],
+  "core-js/actual/json/stringify": [
+    "es.json.stringify"
+  ],
+  "core-js/actual/json/to-string-tag": [
+    "es.json.to-string-tag"
+  ],
+  "core-js/actual/map": [
+    "es.array.iterator",
+    "es.map",
+    "es.object.to-string",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/math": [
+    "es.math.acosh",
+    "es.math.asinh",
+    "es.math.atanh",
+    "es.math.cbrt",
+    "es.math.clz32",
+    "es.math.cosh",
+    "es.math.expm1",
+    "es.math.fround",
+    "es.math.hypot",
+    "es.math.imul",
+    "es.math.log10",
+    "es.math.log1p",
+    "es.math.log2",
+    "es.math.sign",
+    "es.math.sinh",
+    "es.math.tanh",
+    "es.math.to-string-tag",
+    "es.math.trunc"
+  ],
+  "core-js/actual/math/acosh": [
+    "es.math.acosh"
+  ],
+  "core-js/actual/math/asinh": [
+    "es.math.asinh"
+  ],
+  "core-js/actual/math/atanh": [
+    "es.math.atanh"
+  ],
+  "core-js/actual/math/cbrt": [
+    "es.math.cbrt"
+  ],
+  "core-js/actual/math/clz32": [
+    "es.math.clz32"
+  ],
+  "core-js/actual/math/cosh": [
+    "es.math.cosh"
+  ],
+  "core-js/actual/math/expm1": [
+    "es.math.expm1"
+  ],
+  "core-js/actual/math/fround": [
+    "es.math.fround"
+  ],
+  "core-js/actual/math/hypot": [
+    "es.math.hypot"
+  ],
+  "core-js/actual/math/imul": [
+    "es.math.imul"
+  ],
+  "core-js/actual/math/log10": [
+    "es.math.log10"
+  ],
+  "core-js/actual/math/log1p": [
+    "es.math.log1p"
+  ],
+  "core-js/actual/math/log2": [
+    "es.math.log2"
+  ],
+  "core-js/actual/math/sign": [
+    "es.math.sign"
+  ],
+  "core-js/actual/math/sinh": [
+    "es.math.sinh"
+  ],
+  "core-js/actual/math/tanh": [
+    "es.math.tanh"
+  ],
+  "core-js/actual/math/to-string-tag": [
+    "es.math.to-string-tag"
+  ],
+  "core-js/actual/math/trunc": [
+    "es.math.trunc"
+  ],
+  "core-js/actual/number": [
+    "es.number.constructor",
+    "es.number.epsilon",
+    "es.number.is-finite",
+    "es.number.is-integer",
+    "es.number.is-nan",
+    "es.number.is-safe-integer",
+    "es.number.max-safe-integer",
+    "es.number.min-safe-integer",
+    "es.number.parse-float",
+    "es.number.parse-int",
+    "es.number.to-exponential",
+    "es.number.to-fixed",
+    "es.number.to-precision"
+  ],
+  "core-js/actual/number/constructor": [
+    "es.number.constructor"
+  ],
+  "core-js/actual/number/epsilon": [
+    "es.number.epsilon"
+  ],
+  "core-js/actual/number/is-finite": [
+    "es.number.is-finite"
+  ],
+  "core-js/actual/number/is-integer": [
+    "es.number.is-integer"
+  ],
+  "core-js/actual/number/is-nan": [
+    "es.number.is-nan"
+  ],
+  "core-js/actual/number/is-safe-integer": [
+    "es.number.is-safe-integer"
+  ],
+  "core-js/actual/number/max-safe-integer": [
+    "es.number.max-safe-integer"
+  ],
+  "core-js/actual/number/min-safe-integer": [
+    "es.number.min-safe-integer"
+  ],
+  "core-js/actual/number/parse-float": [
+    "es.number.parse-float"
+  ],
+  "core-js/actual/number/parse-int": [
+    "es.number.parse-int"
+  ],
+  "core-js/actual/number/to-exponential": [
+    "es.number.to-exponential"
+  ],
+  "core-js/actual/number/to-fixed": [
+    "es.number.to-fixed"
+  ],
+  "core-js/actual/number/to-precision": [
+    "es.number.to-precision"
+  ],
+  "core-js/actual/number/virtual": [
+    "es.number.to-exponential",
+    "es.number.to-fixed",
+    "es.number.to-precision"
+  ],
+  "core-js/actual/number/virtual/to-exponential": [
+    "es.number.to-exponential"
+  ],
+  "core-js/actual/number/virtual/to-fixed": [
+    "es.number.to-fixed"
+  ],
+  "core-js/actual/number/virtual/to-precision": [
+    "es.number.to-precision"
+  ],
+  "core-js/actual/object": [
+    "es.symbol",
+    "es.json.to-string-tag",
+    "es.math.to-string-tag",
+    "es.object.assign",
+    "es.object.create",
+    "es.object.define-getter",
+    "es.object.define-properties",
+    "es.object.define-property",
+    "es.object.define-setter",
+    "es.object.entries",
+    "es.object.freeze",
+    "es.object.from-entries",
+    "es.object.get-own-property-descriptor",
+    "es.object.get-own-property-descriptors",
+    "es.object.get-own-property-names",
+    "es.object.get-prototype-of",
+    "es.object.has-own",
+    "es.object.is",
+    "es.object.is-extensible",
+    "es.object.is-frozen",
+    "es.object.is-sealed",
+    "es.object.keys",
+    "es.object.lookup-getter",
+    "es.object.lookup-setter",
+    "es.object.prevent-extensions",
+    "es.object.seal",
+    "es.object.set-prototype-of",
+    "es.object.to-string",
+    "es.object.values",
+    "es.reflect.to-string-tag",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/object/assign": [
+    "es.object.assign"
+  ],
+  "core-js/actual/object/create": [
+    "es.object.create"
+  ],
+  "core-js/actual/object/define-getter": [
+    "es.object.define-getter"
+  ],
+  "core-js/actual/object/define-properties": [
+    "es.object.define-properties"
+  ],
+  "core-js/actual/object/define-property": [
+    "es.object.define-property"
+  ],
+  "core-js/actual/object/define-setter": [
+    "es.object.define-setter"
+  ],
+  "core-js/actual/object/entries": [
+    "es.object.entries"
+  ],
+  "core-js/actual/object/freeze": [
+    "es.object.freeze"
+  ],
+  "core-js/actual/object/from-entries": [
+    "es.array.iterator",
+    "es.object.from-entries",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/object/get-own-property-descriptor": [
+    "es.object.get-own-property-descriptor"
+  ],
+  "core-js/actual/object/get-own-property-descriptors": [
+    "es.object.get-own-property-descriptors"
+  ],
+  "core-js/actual/object/get-own-property-names": [
+    "es.object.get-own-property-names"
+  ],
+  "core-js/actual/object/get-own-property-symbols": [
+    "es.symbol"
+  ],
+  "core-js/actual/object/get-prototype-of": [
+    "es.object.get-prototype-of"
+  ],
+  "core-js/actual/object/has-own": [
+    "es.object.has-own"
+  ],
+  "core-js/actual/object/is": [
+    "es.object.is"
+  ],
+  "core-js/actual/object/is-extensible": [
+    "es.object.is-extensible"
+  ],
+  "core-js/actual/object/is-frozen": [
+    "es.object.is-frozen"
+  ],
+  "core-js/actual/object/is-sealed": [
+    "es.object.is-sealed"
+  ],
+  "core-js/actual/object/keys": [
+    "es.object.keys"
+  ],
+  "core-js/actual/object/lookup-getter": [
+    "es.object.lookup-setter"
+  ],
+  "core-js/actual/object/lookup-setter": [
+    "es.object.lookup-setter"
+  ],
+  "core-js/actual/object/prevent-extensions": [
+    "es.object.prevent-extensions"
+  ],
+  "core-js/actual/object/seal": [
+    "es.object.seal"
+  ],
+  "core-js/actual/object/set-prototype-of": [
+    "es.object.set-prototype-of"
+  ],
+  "core-js/actual/object/to-string": [
+    "es.json.to-string-tag",
+    "es.math.to-string-tag",
+    "es.object.to-string",
+    "es.reflect.to-string-tag"
+  ],
+  "core-js/actual/object/values": [
+    "es.object.values"
+  ],
+  "core-js/actual/parse-float": [
+    "es.parse-float"
+  ],
+  "core-js/actual/parse-int": [
+    "es.parse-int"
+  ],
+  "core-js/actual/promise": [
+    "es.aggregate-error",
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.promise",
+    "es.promise.all-settled",
+    "es.promise.any",
+    "es.promise.finally",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/promise/all-settled": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.promise",
+    "es.promise.all-settled",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/promise/any": [
+    "es.aggregate-error",
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.promise",
+    "es.promise.any",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/promise/finally": [
+    "es.object.to-string",
+    "es.promise",
+    "es.promise.finally"
+  ],
+  "core-js/actual/queue-microtask": [
+    "web.queue-microtask"
+  ],
+  "core-js/actual/reflect": [
+    "es.object.to-string",
+    "es.reflect.apply",
+    "es.reflect.construct",
+    "es.reflect.define-property",
+    "es.reflect.delete-property",
+    "es.reflect.get",
+    "es.reflect.get-own-property-descriptor",
+    "es.reflect.get-prototype-of",
+    "es.reflect.has",
+    "es.reflect.is-extensible",
+    "es.reflect.own-keys",
+    "es.reflect.prevent-extensions",
+    "es.reflect.set",
+    "es.reflect.set-prototype-of",
+    "es.reflect.to-string-tag"
+  ],
+  "core-js/actual/reflect/apply": [
+    "es.reflect.apply"
+  ],
+  "core-js/actual/reflect/construct": [
+    "es.reflect.construct"
+  ],
+  "core-js/actual/reflect/define-property": [
+    "es.reflect.define-property"
+  ],
+  "core-js/actual/reflect/delete-property": [
+    "es.reflect.delete-property"
+  ],
+  "core-js/actual/reflect/get": [
+    "es.reflect.get"
+  ],
+  "core-js/actual/reflect/get-own-property-descriptor": [
+    "es.reflect.get-own-property-descriptor"
+  ],
+  "core-js/actual/reflect/get-prototype-of": [
+    "es.reflect.get-prototype-of"
+  ],
+  "core-js/actual/reflect/has": [
+    "es.reflect.has"
+  ],
+  "core-js/actual/reflect/is-extensible": [
+    "es.reflect.is-extensible"
+  ],
+  "core-js/actual/reflect/own-keys": [
+    "es.reflect.own-keys"
+  ],
+  "core-js/actual/reflect/prevent-extensions": [
+    "es.reflect.prevent-extensions"
+  ],
+  "core-js/actual/reflect/set": [
+    "es.reflect.set"
+  ],
+  "core-js/actual/reflect/set-prototype-of": [
+    "es.reflect.set-prototype-of"
+  ],
+  "core-js/actual/reflect/to-string-tag": [
+    "es.reflect.to-string-tag"
+  ],
+  "core-js/actual/regexp": [
+    "es.regexp.constructor",
+    "es.regexp.dot-all",
+    "es.regexp.exec",
+    "es.regexp.flags",
+    "es.regexp.sticky",
+    "es.regexp.test",
+    "es.regexp.to-string",
+    "es.string.match",
+    "es.string.replace",
+    "es.string.search",
+    "es.string.split"
+  ],
+  "core-js/actual/regexp/constructor": [
+    "es.regexp.constructor",
+    "es.regexp.dot-all",
+    "es.regexp.exec",
+    "es.regexp.sticky"
+  ],
+  "core-js/actual/regexp/dot-all": [
+    "es.regexp.constructor",
+    "es.regexp.dot-all",
+    "es.regexp.exec"
+  ],
+  "core-js/actual/regexp/flags": [
+    "es.regexp.flags"
+  ],
+  "core-js/actual/regexp/match": [
+    "es.regexp.exec",
+    "es.string.match"
+  ],
+  "core-js/actual/regexp/replace": [
+    "es.regexp.exec",
+    "es.string.replace"
+  ],
+  "core-js/actual/regexp/search": [
+    "es.regexp.exec",
+    "es.string.search"
+  ],
+  "core-js/actual/regexp/split": [
+    "es.regexp.exec",
+    "es.string.split"
+  ],
+  "core-js/actual/regexp/sticky": [
+    "es.regexp.constructor",
+    "es.regexp.exec",
+    "es.regexp.sticky"
+  ],
+  "core-js/actual/regexp/test": [
+    "es.regexp.exec",
+    "es.regexp.test"
+  ],
+  "core-js/actual/regexp/to-string": [
+    "es.regexp.to-string"
+  ],
+  "core-js/actual/set": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.set",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/set-immediate": [
+    "web.immediate"
+  ],
+  "core-js/actual/set-interval": [
+    "web.timers"
+  ],
+  "core-js/actual/set-timeout": [
+    "web.timers"
+  ],
+  "core-js/actual/string": [
+    "es.object.to-string",
+    "es.regexp.exec",
+    "es.string.at-alternative",
+    "es.string.code-point-at",
+    "es.string.ends-with",
+    "es.string.from-code-point",
+    "es.string.includes",
+    "es.string.iterator",
+    "es.string.match",
+    "es.string.match-all",
+    "es.string.pad-end",
+    "es.string.pad-start",
+    "es.string.raw",
+    "es.string.repeat",
+    "es.string.replace",
+    "es.string.replace-all",
+    "es.string.search",
+    "es.string.split",
+    "es.string.starts-with",
+    "es.string.substr",
+    "es.string.trim",
+    "es.string.trim-end",
+    "es.string.trim-start",
+    "es.string.anchor",
+    "es.string.big",
+    "es.string.blink",
+    "es.string.bold",
+    "es.string.fixed",
+    "es.string.fontcolor",
+    "es.string.fontsize",
+    "es.string.italics",
+    "es.string.link",
+    "es.string.small",
+    "es.string.strike",
+    "es.string.sub",
+    "es.string.sup"
+  ],
+  "core-js/actual/string/anchor": [
+    "es.string.anchor"
+  ],
+  "core-js/actual/string/at": [
+    "es.string.at-alternative"
+  ],
+  "core-js/actual/string/big": [
+    "es.string.big"
+  ],
+  "core-js/actual/string/blink": [
+    "es.string.blink"
+  ],
+  "core-js/actual/string/bold": [
+    "es.string.bold"
+  ],
+  "core-js/actual/string/code-point-at": [
+    "es.string.code-point-at"
+  ],
+  "core-js/actual/string/ends-with": [
+    "es.string.ends-with"
+  ],
+  "core-js/actual/string/fixed": [
+    "es.string.fixed"
+  ],
+  "core-js/actual/string/fontcolor": [
+    "es.string.fontcolor"
+  ],
+  "core-js/actual/string/fontsize": [
+    "es.string.fontsize"
+  ],
+  "core-js/actual/string/from-code-point": [
+    "es.string.from-code-point"
+  ],
+  "core-js/actual/string/includes": [
+    "es.string.includes"
+  ],
+  "core-js/actual/string/italics": [
+    "es.string.italics"
+  ],
+  "core-js/actual/string/iterator": [
+    "es.object.to-string",
+    "es.string.iterator"
+  ],
+  "core-js/actual/string/link": [
+    "es.string.link"
+  ],
+  "core-js/actual/string/match": [
+    "es.regexp.exec",
+    "es.string.match"
+  ],
+  "core-js/actual/string/match-all": [
+    "es.object.to-string",
+    "es.regexp.exec",
+    "es.string.match-all"
+  ],
+  "core-js/actual/string/pad-end": [
+    "es.string.pad-end"
+  ],
+  "core-js/actual/string/pad-start": [
+    "es.string.pad-start"
+  ],
+  "core-js/actual/string/raw": [
+    "es.string.raw"
+  ],
+  "core-js/actual/string/repeat": [
+    "es.string.repeat"
+  ],
+  "core-js/actual/string/replace": [
+    "es.regexp.exec",
+    "es.string.replace"
+  ],
+  "core-js/actual/string/replace-all": [
+    "es.regexp.exec",
+    "es.string.replace",
+    "es.string.replace-all"
+  ],
+  "core-js/actual/string/search": [
+    "es.regexp.exec",
+    "es.string.search"
+  ],
+  "core-js/actual/string/small": [
+    "es.string.small"
+  ],
+  "core-js/actual/string/split": [
+    "es.regexp.exec",
+    "es.string.split"
+  ],
+  "core-js/actual/string/starts-with": [
+    "es.string.starts-with"
+  ],
+  "core-js/actual/string/strike": [
+    "es.string.strike"
+  ],
+  "core-js/actual/string/sub": [
+    "es.string.sub"
+  ],
+  "core-js/actual/string/substr": [
+    "es.string.substr"
+  ],
+  "core-js/actual/string/sup": [
+    "es.string.sup"
+  ],
+  "core-js/actual/string/trim": [
+    "es.string.trim"
+  ],
+  "core-js/actual/string/trim-end": [
+    "es.string.trim-end"
+  ],
+  "core-js/actual/string/trim-left": [
+    "es.string.trim-start"
+  ],
+  "core-js/actual/string/trim-right": [
+    "es.string.trim-end"
+  ],
+  "core-js/actual/string/trim-start": [
+    "es.string.trim-start"
+  ],
+  "core-js/actual/string/virtual": [
+    "es.object.to-string",
+    "es.regexp.exec",
+    "es.string.at-alternative",
+    "es.string.code-point-at",
+    "es.string.ends-with",
+    "es.string.includes",
+    "es.string.iterator",
+    "es.string.match",
+    "es.string.match-all",
+    "es.string.pad-end",
+    "es.string.pad-start",
+    "es.string.repeat",
+    "es.string.replace",
+    "es.string.replace-all",
+    "es.string.search",
+    "es.string.split",
+    "es.string.starts-with",
+    "es.string.substr",
+    "es.string.trim",
+    "es.string.trim-end",
+    "es.string.trim-start",
+    "es.string.anchor",
+    "es.string.big",
+    "es.string.blink",
+    "es.string.bold",
+    "es.string.fixed",
+    "es.string.fontcolor",
+    "es.string.fontsize",
+    "es.string.italics",
+    "es.string.link",
+    "es.string.small",
+    "es.string.strike",
+    "es.string.sub",
+    "es.string.sup"
+  ],
+  "core-js/actual/string/virtual/anchor": [
+    "es.string.anchor"
+  ],
+  "core-js/actual/string/virtual/at": [
+    "es.string.at-alternative"
+  ],
+  "core-js/actual/string/virtual/big": [
+    "es.string.big"
+  ],
+  "core-js/actual/string/virtual/blink": [
+    "es.string.blink"
+  ],
+  "core-js/actual/string/virtual/bold": [
+    "es.string.bold"
+  ],
+  "core-js/actual/string/virtual/code-point-at": [
+    "es.string.code-point-at"
+  ],
+  "core-js/actual/string/virtual/ends-with": [
+    "es.string.ends-with"
+  ],
+  "core-js/actual/string/virtual/fixed": [
+    "es.string.fixed"
+  ],
+  "core-js/actual/string/virtual/fontcolor": [
+    "es.string.fontcolor"
+  ],
+  "core-js/actual/string/virtual/fontsize": [
+    "es.string.fontsize"
+  ],
+  "core-js/actual/string/virtual/includes": [
+    "es.string.includes"
+  ],
+  "core-js/actual/string/virtual/italics": [
+    "es.string.italics"
+  ],
+  "core-js/actual/string/virtual/iterator": [
+    "es.object.to-string",
+    "es.string.iterator"
+  ],
+  "core-js/actual/string/virtual/link": [
+    "es.string.link"
+  ],
+  "core-js/actual/string/virtual/match-all": [
+    "es.object.to-string",
+    "es.regexp.exec",
+    "es.string.match-all"
+  ],
+  "core-js/actual/string/virtual/pad-end": [
+    "es.string.pad-end"
+  ],
+  "core-js/actual/string/virtual/pad-start": [
+    "es.string.pad-start"
+  ],
+  "core-js/actual/string/virtual/repeat": [
+    "es.string.repeat"
+  ],
+  "core-js/actual/string/virtual/replace-all": [
+    "es.regexp.exec",
+    "es.string.replace",
+    "es.string.replace-all"
+  ],
+  "core-js/actual/string/virtual/small": [
+    "es.string.small"
+  ],
+  "core-js/actual/string/virtual/starts-with": [
+    "es.string.starts-with"
+  ],
+  "core-js/actual/string/virtual/strike": [
+    "es.string.strike"
+  ],
+  "core-js/actual/string/virtual/sub": [
+    "es.string.sub"
+  ],
+  "core-js/actual/string/virtual/substr": [
+    "es.string.substr"
+  ],
+  "core-js/actual/string/virtual/sup": [
+    "es.string.sup"
+  ],
+  "core-js/actual/string/virtual/trim": [
+    "es.string.trim"
+  ],
+  "core-js/actual/string/virtual/trim-end": [
+    "es.string.trim-end"
+  ],
+  "core-js/actual/string/virtual/trim-left": [
+    "es.string.trim-start"
+  ],
+  "core-js/actual/string/virtual/trim-right": [
+    "es.string.trim-end"
+  ],
+  "core-js/actual/string/virtual/trim-start": [
+    "es.string.trim-start"
+  ],
+  "core-js/actual/structured-clone": [
+    "es.error.to-string",
+    "es.array.iterator",
+    "es.map",
+    "es.object.keys",
+    "es.object.to-string",
+    "es.set",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag",
+    "web.structured-clone"
+  ],
+  "core-js/actual/symbol": [
+    "es.symbol",
+    "es.symbol.description",
+    "es.symbol.async-iterator",
+    "es.symbol.has-instance",
+    "es.symbol.is-concat-spreadable",
+    "es.symbol.iterator",
+    "es.symbol.match",
+    "es.symbol.match-all",
+    "es.symbol.replace",
+    "es.symbol.search",
+    "es.symbol.species",
+    "es.symbol.split",
+    "es.symbol.to-primitive",
+    "es.symbol.to-string-tag",
+    "es.symbol.unscopables",
+    "es.array.concat",
+    "es.json.to-string-tag",
+    "es.math.to-string-tag",
+    "es.object.to-string",
+    "es.reflect.to-string-tag",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/symbol/async-iterator": [
+    "es.symbol.async-iterator"
+  ],
+  "core-js/actual/symbol/description": [
+    "es.symbol.description"
+  ],
+  "core-js/actual/symbol/for": [
+    "es.symbol"
+  ],
+  "core-js/actual/symbol/has-instance": [
+    "es.symbol.has-instance",
+    "es.function.has-instance"
+  ],
+  "core-js/actual/symbol/is-concat-spreadable": [
+    "es.symbol.is-concat-spreadable",
+    "es.array.concat"
+  ],
+  "core-js/actual/symbol/iterator": [
+    "es.symbol.iterator",
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/symbol/key-for": [
+    "es.symbol"
+  ],
+  "core-js/actual/symbol/match": [
+    "es.symbol.match",
+    "es.regexp.exec",
+    "es.string.match"
+  ],
+  "core-js/actual/symbol/match-all": [
+    "es.symbol.match-all",
+    "es.object.to-string",
+    "es.regexp.exec",
+    "es.string.match-all"
+  ],
+  "core-js/actual/symbol/replace": [
+    "es.symbol.replace",
+    "es.regexp.exec",
+    "es.string.replace"
+  ],
+  "core-js/actual/symbol/search": [
+    "es.symbol.search",
+    "es.regexp.exec",
+    "es.string.search"
+  ],
+  "core-js/actual/symbol/species": [
+    "es.symbol.species"
+  ],
+  "core-js/actual/symbol/split": [
+    "es.symbol.split",
+    "es.regexp.exec",
+    "es.string.split"
+  ],
+  "core-js/actual/symbol/to-primitive": [
+    "es.symbol.to-primitive",
+    "es.date.to-primitive"
+  ],
+  "core-js/actual/symbol/to-string-tag": [
+    "es.symbol.to-string-tag",
+    "es.json.to-string-tag",
+    "es.math.to-string-tag",
+    "es.object.to-string",
+    "es.reflect.to-string-tag"
+  ],
+  "core-js/actual/symbol/unscopables": [
+    "es.symbol.unscopables"
+  ],
+  "core-js/actual/typed-array": [
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.float32-array",
+    "es.typed-array.float64-array",
+    "es.typed-array.int8-array",
+    "es.typed-array.int16-array",
+    "es.typed-array.int32-array",
+    "es.typed-array.uint8-array",
+    "es.typed-array.uint8-clamped-array",
+    "es.typed-array.uint16-array",
+    "es.typed-array.uint32-array",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/at": [
+    "es.typed-array.every"
+  ],
+  "core-js/actual/typed-array/copy-within": [
+    "es.typed-array.copy-within"
+  ],
+  "core-js/actual/typed-array/entries": [
+    "es.object.to-string",
+    "es.typed-array.iterator"
+  ],
+  "core-js/actual/typed-array/every": [
+    "es.typed-array.every"
+  ],
+  "core-js/actual/typed-array/fill": [
+    "es.typed-array.fill"
+  ],
+  "core-js/actual/typed-array/filter": [
+    "es.typed-array.filter"
+  ],
+  "core-js/actual/typed-array/find": [
+    "es.typed-array.find"
+  ],
+  "core-js/actual/typed-array/find-index": [
+    "es.typed-array.find-index"
+  ],
+  "core-js/actual/typed-array/find-last": [
+    "esnext.typed-array.find-last"
+  ],
+  "core-js/actual/typed-array/find-last-index": [
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/float32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.float32-array",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/float64-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.float64-array",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/for-each": [
+    "es.typed-array.for-each"
+  ],
+  "core-js/actual/typed-array/from": [
+    "es.typed-array.from"
+  ],
+  "core-js/actual/typed-array/includes": [
+    "es.typed-array.includes"
+  ],
+  "core-js/actual/typed-array/index-of": [
+    "es.typed-array.index-of"
+  ],
+  "core-js/actual/typed-array/int16-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.int16-array",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/int32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.int32-array",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/int8-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.int8-array",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/iterator": [
+    "es.object.to-string",
+    "es.typed-array.iterator"
+  ],
+  "core-js/actual/typed-array/join": [
+    "es.typed-array.join"
+  ],
+  "core-js/actual/typed-array/keys": [
+    "es.object.to-string",
+    "es.typed-array.iterator"
+  ],
+  "core-js/actual/typed-array/last-index-of": [
+    "es.typed-array.last-index-of"
+  ],
+  "core-js/actual/typed-array/map": [
+    "es.typed-array.map"
+  ],
+  "core-js/actual/typed-array/methods": [
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/of": [
+    "es.typed-array.of"
+  ],
+  "core-js/actual/typed-array/reduce": [
+    "es.typed-array.reduce"
+  ],
+  "core-js/actual/typed-array/reduce-right": [
+    "es.typed-array.reduce-right"
+  ],
+  "core-js/actual/typed-array/reverse": [
+    "es.typed-array.reverse"
+  ],
+  "core-js/actual/typed-array/set": [
+    "es.typed-array.set"
+  ],
+  "core-js/actual/typed-array/slice": [
+    "es.typed-array.slice"
+  ],
+  "core-js/actual/typed-array/some": [
+    "es.typed-array.some"
+  ],
+  "core-js/actual/typed-array/sort": [
+    "es.typed-array.sort"
+  ],
+  "core-js/actual/typed-array/subarray": [
+    "es.typed-array.subarray"
+  ],
+  "core-js/actual/typed-array/to-locale-string": [
+    "es.typed-array.to-locale-string"
+  ],
+  "core-js/actual/typed-array/to-string": [
+    "es.typed-array.to-string"
+  ],
+  "core-js/actual/typed-array/uint16-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.uint16-array",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/uint32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.uint32-array",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/uint8-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.uint8-array",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/uint8-clamped-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.uint8-clamped-array",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
+  ],
+  "core-js/actual/typed-array/values": [
+    "es.object.to-string",
+    "es.typed-array.iterator"
+  ],
+  "core-js/actual/unescape": [
+    "es.unescape"
+  ],
+  "core-js/actual/url": [
+    "web.url",
+    "web.url.to-json",
+    "web.url-search-params"
+  ],
+  "core-js/actual/url-search-params": [
+    "web.dom-collections.iterator",
+    "web.url-search-params"
+  ],
+  "core-js/actual/url/to-json": [
+    "web.url.to-json"
+  ],
+  "core-js/actual/weak-map": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.weak-map",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/weak-set": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.weak-set",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/es": [
+    "es.symbol",
+    "es.symbol.description",
+    "es.symbol.async-iterator",
+    "es.symbol.has-instance",
+    "es.symbol.is-concat-spreadable",
+    "es.symbol.iterator",
+    "es.symbol.match",
+    "es.symbol.match-all",
+    "es.symbol.replace",
+    "es.symbol.search",
+    "es.symbol.species",
+    "es.symbol.split",
+    "es.symbol.to-primitive",
+    "es.symbol.to-string-tag",
+    "es.symbol.unscopables",
+    "es.error.cause",
+    "es.error.to-string",
+    "es.aggregate-error",
+    "es.aggregate-error.cause",
+    "es.array.at",
+    "es.array.concat",
+    "es.array.copy-within",
+    "es.array.every",
+    "es.array.fill",
+    "es.array.filter",
+    "es.array.find",
+    "es.array.find-index",
+    "es.array.flat",
+    "es.array.flat-map",
+    "es.array.for-each",
+    "es.array.from",
+    "es.array.includes",
+    "es.array.index-of",
+    "es.array.is-array",
+    "es.array.iterator",
+    "es.array.join",
+    "es.array.last-index-of",
+    "es.array.map",
+    "es.array.of",
+    "es.array.reduce",
+    "es.array.reduce-right",
+    "es.array.reverse",
+    "es.array.slice",
+    "es.array.some",
+    "es.array.sort",
+    "es.array.species",
+    "es.array.splice",
+    "es.array.unscopables.flat",
+    "es.array.unscopables.flat-map",
+    "es.array-buffer.constructor",
+    "es.array-buffer.is-view",
+    "es.array-buffer.slice",
+    "es.data-view",
+    "es.date.get-year",
+    "es.date.now",
+    "es.date.set-year",
+    "es.date.to-gmt-string",
+    "es.date.to-iso-string",
+    "es.date.to-json",
+    "es.date.to-primitive",
+    "es.date.to-string",
+    "es.escape",
+    "es.function.bind",
+    "es.function.has-instance",
+    "es.function.name",
+    "es.global-this",
+    "es.json.stringify",
+    "es.json.to-string-tag",
+    "es.map",
+    "es.math.acosh",
+    "es.math.asinh",
+    "es.math.atanh",
+    "es.math.cbrt",
+    "es.math.clz32",
+    "es.math.cosh",
+    "es.math.expm1",
+    "es.math.fround",
+    "es.math.hypot",
+    "es.math.imul",
+    "es.math.log10",
+    "es.math.log1p",
+    "es.math.log2",
+    "es.math.sign",
+    "es.math.sinh",
+    "es.math.tanh",
+    "es.math.to-string-tag",
+    "es.math.trunc",
+    "es.number.constructor",
+    "es.number.epsilon",
+    "es.number.is-finite",
+    "es.number.is-integer",
+    "es.number.is-nan",
+    "es.number.is-safe-integer",
+    "es.number.max-safe-integer",
+    "es.number.min-safe-integer",
+    "es.number.parse-float",
+    "es.number.parse-int",
+    "es.number.to-exponential",
+    "es.number.to-fixed",
+    "es.number.to-precision",
+    "es.object.assign",
+    "es.object.create",
+    "es.object.define-getter",
+    "es.object.define-properties",
+    "es.object.define-property",
+    "es.object.define-setter",
+    "es.object.entries",
+    "es.object.freeze",
+    "es.object.from-entries",
+    "es.object.get-own-property-descriptor",
+    "es.object.get-own-property-descriptors",
+    "es.object.get-own-property-names",
+    "es.object.get-prototype-of",
+    "es.object.has-own",
+    "es.object.is",
+    "es.object.is-extensible",
+    "es.object.is-frozen",
+    "es.object.is-sealed",
+    "es.object.keys",
+    "es.object.lookup-getter",
+    "es.object.lookup-setter",
+    "es.object.prevent-extensions",
+    "es.object.seal",
+    "es.object.set-prototype-of",
+    "es.object.to-string",
+    "es.object.values",
+    "es.parse-float",
+    "es.parse-int",
+    "es.promise",
+    "es.promise.all-settled",
+    "es.promise.any",
+    "es.promise.finally",
+    "es.reflect.apply",
+    "es.reflect.construct",
+    "es.reflect.define-property",
+    "es.reflect.delete-property",
+    "es.reflect.get",
+    "es.reflect.get-own-property-descriptor",
+    "es.reflect.get-prototype-of",
+    "es.reflect.has",
+    "es.reflect.is-extensible",
+    "es.reflect.own-keys",
+    "es.reflect.prevent-extensions",
+    "es.reflect.set",
+    "es.reflect.set-prototype-of",
+    "es.reflect.to-string-tag",
+    "es.regexp.constructor",
+    "es.regexp.dot-all",
+    "es.regexp.exec",
+    "es.regexp.flags",
+    "es.regexp.sticky",
+    "es.regexp.test",
+    "es.regexp.to-string",
+    "es.set",
+    "es.string.at-alternative",
+    "es.string.code-point-at",
+    "es.string.ends-with",
+    "es.string.from-code-point",
+    "es.string.includes",
+    "es.string.iterator",
+    "es.string.match",
+    "es.string.match-all",
+    "es.string.pad-end",
+    "es.string.pad-start",
+    "es.string.raw",
+    "es.string.repeat",
+    "es.string.replace",
+    "es.string.replace-all",
+    "es.string.search",
+    "es.string.split",
+    "es.string.starts-with",
+    "es.string.substr",
+    "es.string.trim",
+    "es.string.trim-end",
+    "es.string.trim-start",
+    "es.string.anchor",
+    "es.string.big",
+    "es.string.blink",
+    "es.string.bold",
+    "es.string.fixed",
+    "es.string.fontcolor",
+    "es.string.fontsize",
+    "es.string.italics",
+    "es.string.link",
+    "es.string.small",
+    "es.string.strike",
+    "es.string.sub",
+    "es.string.sup",
+    "es.typed-array.float32-array",
+    "es.typed-array.float64-array",
+    "es.typed-array.int8-array",
+    "es.typed-array.int16-array",
+    "es.typed-array.int32-array",
+    "es.typed-array.uint8-array",
+    "es.typed-array.uint8-clamped-array",
+    "es.typed-array.uint16-array",
+    "es.typed-array.uint32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -588,11 +2837,14 @@
     "es.weak-set"
   ],
   "core-js/es/aggregate-error": [
+    "es.error.cause",
     "es.aggregate-error",
+    "es.aggregate-error.cause",
     "es.array.iterator",
     "es.string.iterator"
   ],
   "core-js/es/array": [
+    "es.array.at",
     "es.array.concat",
     "es.array.copy-within",
     "es.array.every",
@@ -633,6 +2885,7 @@
   ],
   "core-js/es/array-buffer/constructor": [
     "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string"
   ],
   "core-js/es/array-buffer/is-view": [
@@ -640,6 +2893,9 @@
   ],
   "core-js/es/array-buffer/slice": [
     "es.array-buffer.slice"
+  ],
+  "core-js/es/array/at": [
+    "es.array.at"
   ],
   "core-js/es/array/concat": [
     "es.array.concat"
@@ -736,6 +2992,7 @@
     "es.object.to-string"
   ],
   "core-js/es/array/virtual": [
+    "es.array.at",
     "es.array.concat",
     "es.array.copy-within",
     "es.array.every",
@@ -763,6 +3020,9 @@
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
     "es.object.to-string"
+  ],
+  "core-js/es/array/virtual/at": [
+    "es.array.at"
   ],
   "core-js/es/array/virtual/concat": [
     "es.array.concat"
@@ -849,6 +3109,8 @@
     "es.object.to-string"
   ],
   "core-js/es/data-view": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.data-view",
     "es.object.to-string"
   ],
@@ -887,6 +3149,16 @@
   "core-js/es/date/to-string": [
     "es.date.to-string"
   ],
+  "core-js/es/error": [
+    "es.error.cause",
+    "es.error.to-string"
+  ],
+  "core-js/es/error/constructor": [
+    "es.error.cause"
+  ],
+  "core-js/es/error/to-string": [
+    "es.error.to-string"
+  ],
   "core-js/es/escape": [
     "es.escape"
   ],
@@ -910,8 +3182,20 @@
   "core-js/es/function/virtual/bind": [
     "es.function.bind"
   ],
+  "core-js/es/get-iterator": [
+    "es.array.iterator",
+    "es.string.iterator"
+  ],
+  "core-js/es/get-iterator-method": [
+    "es.array.iterator",
+    "es.string.iterator"
+  ],
   "core-js/es/global-this": [
     "es.global-this"
+  ],
+  "core-js/es/instance/at": [
+    "es.array.at",
+    "es.string.at-alternative"
   ],
   "core-js/es/instance/bind": [
     "es.function.bind"
@@ -1040,6 +3324,10 @@
     "es.array.iterator",
     "es.object.to-string"
   ],
+  "core-js/es/is-iterable": [
+    "es.array.iterator",
+    "es.string.iterator"
+  ],
   "core-js/es/json": [
     "es.json.stringify",
     "es.json.to-string-tag"
@@ -1141,6 +3429,7 @@
     "es.number.min-safe-integer",
     "es.number.parse-float",
     "es.number.parse-int",
+    "es.number.to-exponential",
     "es.number.to-fixed",
     "es.number.to-precision"
   ],
@@ -1174,6 +3463,9 @@
   "core-js/es/number/parse-int": [
     "es.number.parse-int"
   ],
+  "core-js/es/number/to-exponential": [
+    "es.number.to-exponential"
+  ],
   "core-js/es/number/to-fixed": [
     "es.number.to-fixed"
   ],
@@ -1181,8 +3473,12 @@
     "es.number.to-precision"
   ],
   "core-js/es/number/virtual": [
+    "es.number.to-exponential",
     "es.number.to-fixed",
     "es.number.to-precision"
+  ],
+  "core-js/es/number/virtual/to-exponential": [
+    "es.number.to-exponential"
   ],
   "core-js/es/number/virtual/to-fixed": [
     "es.number.to-fixed"
@@ -1207,6 +3503,7 @@
     "es.object.get-own-property-descriptors",
     "es.object.get-own-property-names",
     "es.object.get-prototype-of",
+    "es.object.has-own",
     "es.object.is",
     "es.object.is-extensible",
     "es.object.is-frozen",
@@ -1263,6 +3560,9 @@
   ],
   "core-js/es/object/get-prototype-of": [
     "es.object.get-prototype-of"
+  ],
+  "core-js/es/object/has-own": [
+    "es.object.has-own"
   ],
   "core-js/es/object/is": [
     "es.object.is"
@@ -1463,6 +3763,7 @@
   "core-js/es/string": [
     "es.object.to-string",
     "es.regexp.exec",
+    "es.string.at-alternative",
     "es.string.code-point-at",
     "es.string.ends-with",
     "es.string.from-code-point",
@@ -1499,6 +3800,9 @@
   ],
   "core-js/es/string/anchor": [
     "es.string.anchor"
+  ],
+  "core-js/es/string/at": [
+    "es.string.at-alternative"
   ],
   "core-js/es/string/big": [
     "es.string.big"
@@ -1614,6 +3918,7 @@
   "core-js/es/string/virtual": [
     "es.object.to-string",
     "es.regexp.exec",
+    "es.string.at-alternative",
     "es.string.code-point-at",
     "es.string.ends-with",
     "es.string.includes",
@@ -1648,6 +3953,9 @@
   ],
   "core-js/es/string/virtual/anchor": [
     "es.string.anchor"
+  ],
+  "core-js/es/string/virtual/at": [
+    "es.string.at-alternative"
   ],
   "core-js/es/string/virtual/big": [
     "es.string.big"
@@ -1841,6 +4149,7 @@
     "es.typed-array.uint8-clamped-array",
     "es.typed-array.uint16-array",
     "es.typed-array.uint32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -1867,6 +4176,9 @@
     "es.typed-array.to-locale-string",
     "es.typed-array.to-string"
   ],
+  "core-js/es/typed-array/at": [
+    "es.typed-array.at"
+  ],
   "core-js/es/typed-array/copy-within": [
     "es.typed-array.copy-within"
   ],
@@ -1890,9 +4202,12 @@
     "es.typed-array.find-index"
   ],
   "core-js/es/typed-array/float32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.float32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -1920,9 +4235,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/es/typed-array/float64-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.float64-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -1962,9 +4280,12 @@
     "es.typed-array.index-of"
   ],
   "core-js/es/typed-array/int16-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.int16-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -1992,9 +4313,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/es/typed-array/int32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.int32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -2022,9 +4346,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/es/typed-array/int8-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.int8-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -2071,6 +4398,7 @@
   "core-js/es/typed-array/methods": [
     "es.object.to-string",
     "es.string.iterator",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -2131,9 +4459,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/es/typed-array/uint16-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.uint16-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -2161,9 +4492,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/es/typed-array/uint32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.uint32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -2191,9 +4525,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/es/typed-array/uint8-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.uint8-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -2221,9 +4558,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/es/typed-array/uint8-clamped-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.uint8-clamped-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -2283,7 +4623,11 @@
     "es.symbol.to-primitive",
     "es.symbol.to-string-tag",
     "es.symbol.unscopables",
+    "es.error.cause",
+    "es.error.to-string",
     "es.aggregate-error",
+    "es.aggregate-error.cause",
+    "es.array.at",
     "es.array.concat",
     "es.array.copy-within",
     "es.array.every",
@@ -2361,6 +4705,7 @@
     "es.number.min-safe-integer",
     "es.number.parse-float",
     "es.number.parse-int",
+    "es.number.to-exponential",
     "es.number.to-fixed",
     "es.number.to-precision",
     "es.object.assign",
@@ -2376,6 +4721,7 @@
     "es.object.get-own-property-descriptors",
     "es.object.get-own-property-names",
     "es.object.get-prototype-of",
+    "es.object.has-own",
     "es.object.is",
     "es.object.is-extensible",
     "es.object.is-frozen",
@@ -2416,6 +4762,7 @@
     "es.regexp.test",
     "es.regexp.to-string",
     "es.set",
+    "es.string.at-alternative",
     "es.string.code-point-at",
     "es.string.ends-with",
     "es.string.from-code-point",
@@ -2458,6 +4805,7 @@
     "es.typed-array.uint8-clamped-array",
     "es.typed-array.uint16-array",
     "es.typed-array.uint32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -2487,16 +4835,22 @@
     "es.weak-map",
     "es.weak-set",
     "esnext.aggregate-error",
+    "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
     "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
     "esnext.array.unique-by",
+    "esnext.array.with",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
     "esnext.async-iterator.drop",
@@ -2514,6 +4868,9 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.function.is-callable",
+    "esnext.function.is-constructor",
+    "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
@@ -2529,6 +4886,7 @@
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "esnext.map.delete-all",
     "esnext.map.emplace",
     "esnext.map.every",
@@ -2600,6 +4958,7 @@
     "esnext.set.symmetric-difference",
     "esnext.set.union",
     "esnext.string.at",
+    "esnext.string.cooked",
     "esnext.string.code-points",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -2610,13 +4969,18 @@
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
+    "esnext.typed-array.from-async",
     "esnext.typed-array.at",
     "esnext.typed-array.filter-out",
     "esnext.typed-array.filter-reject",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
     "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
     "esnext.typed-array.unique-by",
+    "esnext.typed-array.with",
     "esnext.weak-map.delete-all",
     "esnext.weak-map.from",
     "esnext.weak-map.of",
@@ -2626,23 +4990,32 @@
     "esnext.weak-set.delete-all",
     "esnext.weak-set.from",
     "esnext.weak-set.of",
+    "web.atob",
+    "web.btoa",
     "web.dom-collections.for-each",
     "web.dom-collections.iterator",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag",
     "web.immediate",
     "web.queue-microtask",
+    "web.structured-clone",
     "web.timers",
     "web.url",
     "web.url.to-json",
     "web.url-search-params"
   ],
   "core-js/features/aggregate-error": [
+    "es.error.cause",
     "es.aggregate-error",
+    "es.aggregate-error.cause",
     "es.array.iterator",
     "es.string.iterator",
     "esnext.aggregate-error",
     "web.dom-collections.iterator"
   ],
   "core-js/features/array": [
+    "es.array.at",
     "es.array.concat",
     "es.array.copy-within",
     "es.array.every",
@@ -2674,17 +5047,24 @@
     "es.array.unscopables.flat-map",
     "es.map",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
+    "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
     "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
-    "esnext.array.unique-by"
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
+    "esnext.array.unique-by",
+    "esnext.array.with"
   ],
   "core-js/features/array-buffer": [
     "es.array-buffer.constructor",
@@ -2694,6 +5074,7 @@
   ],
   "core-js/features/array-buffer/constructor": [
     "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string"
   ],
   "core-js/features/array-buffer/is-view": [
@@ -2703,6 +5084,7 @@
     "es.array-buffer.slice"
   ],
   "core-js/features/array/at": [
+    "es.array.at",
     "esnext.array.at"
   ],
   "core-js/features/array/concat": [
@@ -2757,8 +5139,20 @@
     "es.array.from",
     "es.string.iterator"
   ],
+  "core-js/features/array/from-async": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.promise",
+    "es.string.iterator",
+    "esnext.array.from-async"
+  ],
   "core-js/features/array/group-by": [
     "esnext.array.group-by"
+  ],
+  "core-js/features/array/group-by-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-by-to-map"
   ],
   "core-js/features/array/includes": [
     "es.array.includes"
@@ -2819,6 +5213,16 @@
   "core-js/features/array/splice": [
     "es.array.splice"
   ],
+  "core-js/features/array/to-reversed": [
+    "esnext.array.to-reversed"
+  ],
+  "core-js/features/array/to-sorted": [
+    "es.array.sort",
+    "esnext.array.to-sorted"
+  ],
+  "core-js/features/array/to-spliced": [
+    "esnext.array.to-spliced"
+  ],
   "core-js/features/array/unique-by": [
     "es.map",
     "esnext.array.unique-by"
@@ -2828,6 +5232,7 @@
     "es.object.to-string"
   ],
   "core-js/features/array/virtual": [
+    "es.array.at",
     "es.array.concat",
     "es.array.copy-within",
     "es.array.every",
@@ -2862,9 +5267,15 @@
     "esnext.array.find-last",
     "esnext.array.find-last-index",
     "esnext.array.group-by",
-    "esnext.array.unique-by"
+    "esnext.array.group-by-to-map",
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
+    "esnext.array.unique-by",
+    "esnext.array.with"
   ],
   "core-js/features/array/virtual/at": [
+    "es.array.at",
     "esnext.array.at"
   ],
   "core-js/features/array/virtual/concat": [
@@ -2918,6 +5329,11 @@
   "core-js/features/array/virtual/group-by": [
     "esnext.array.group-by"
   ],
+  "core-js/features/array/virtual/group-by-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-by-to-map"
+  ],
   "core-js/features/array/virtual/includes": [
     "es.array.includes"
   ],
@@ -2962,6 +5378,16 @@
   "core-js/features/array/virtual/splice": [
     "es.array.splice"
   ],
+  "core-js/features/array/virtual/to-reversed": [
+    "esnext.array.to-reversed"
+  ],
+  "core-js/features/array/virtual/to-sorted": [
+    "es.array.sort",
+    "esnext.array.to-sorted"
+  ],
+  "core-js/features/array/virtual/to-spliced": [
+    "esnext.array.to-spliced"
+  ],
   "core-js/features/array/virtual/unique-by": [
     "es.map",
     "esnext.array.unique-by"
@@ -2969,6 +5395,12 @@
   "core-js/features/array/virtual/values": [
     "es.array.iterator",
     "es.object.to-string"
+  ],
+  "core-js/features/array/virtual/with": [
+    "esnext.array.with"
+  ],
+  "core-js/features/array/with": [
+    "esnext.array.with"
   ],
   "core-js/features/async-iterator": [
     "es.array.iterator",
@@ -3072,11 +5504,29 @@
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.to-array"
   ],
+  "core-js/features/atob": [
+    "es.error.to-string",
+    "es.object.to-string",
+    "web.atob",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag"
+  ],
   "core-js/features/bigint": [
+    "es.object.to-string",
     "esnext.bigint.range"
   ],
   "core-js/features/bigint/range": [
+    "es.object.to-string",
     "esnext.bigint.range"
+  ],
+  "core-js/features/btoa": [
+    "es.error.to-string",
+    "es.object.to-string",
+    "web.btoa",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag"
   ],
   "core-js/features/clear-immediate": [
     "web.immediate"
@@ -3089,6 +5539,8 @@
     "esnext.composite-symbol"
   ],
   "core-js/features/data-view": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.data-view",
     "es.object.to-string"
   ],
@@ -3140,13 +5592,40 @@
     "es.object.to-string",
     "web.dom-collections.iterator"
   ],
+  "core-js/features/dom-exception": [
+    "es.error.to-string",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag"
+  ],
+  "core-js/features/dom-exception/constructor": [
+    "es.error.to-string",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack"
+  ],
+  "core-js/features/dom-exception/to-string-tag": [
+    "web.dom-exception.to-string-tag"
+  ],
+  "core-js/features/error": [
+    "es.error.cause",
+    "es.error.to-string"
+  ],
+  "core-js/features/error/constructor": [
+    "es.error.cause"
+  ],
+  "core-js/features/error/to-string": [
+    "es.error.to-string"
+  ],
   "core-js/features/escape": [
     "es.escape"
   ],
   "core-js/features/function": [
     "es.function.bind",
     "es.function.has-instance",
-    "es.function.name"
+    "es.function.name",
+    "esnext.function.is-callable",
+    "esnext.function.is-constructor",
+    "esnext.function.un-this"
   ],
   "core-js/features/function/bind": [
     "es.function.bind"
@@ -3154,14 +5633,27 @@
   "core-js/features/function/has-instance": [
     "es.function.has-instance"
   ],
+  "core-js/features/function/is-callable": [
+    "esnext.function.is-callable"
+  ],
+  "core-js/features/function/is-constructor": [
+    "esnext.function.is-constructor"
+  ],
   "core-js/features/function/name": [
     "es.function.name"
   ],
+  "core-js/features/function/un-this": [
+    "esnext.function.un-this"
+  ],
   "core-js/features/function/virtual": [
-    "es.function.bind"
+    "es.function.bind",
+    "esnext.function.un-this"
   ],
   "core-js/features/function/virtual/bind": [
     "es.function.bind"
+  ],
+  "core-js/features/function/virtual/un-this": [
+    "esnext.function.un-this"
   ],
   "core-js/features/get-iterator": [
     "es.array.iterator",
@@ -3178,6 +5670,8 @@
     "esnext.global-this"
   ],
   "core-js/features/instance/at": [
+    "es.array.at",
+    "es.string.at-alternative",
     "esnext.array.at",
     "esnext.string.at"
   ],
@@ -3250,6 +5744,11 @@
   "core-js/features/instance/group-by": [
     "esnext.array.group-by"
   ],
+  "core-js/features/instance/group-by-to-map": [
+    "es.map",
+    "es.object.to-string",
+    "esnext.array.group-by-to-map"
+  ],
   "core-js/features/instance/includes": [
     "es.array.includes",
     "es.string.includes"
@@ -3312,6 +5811,16 @@
   "core-js/features/instance/starts-with": [
     "es.string.starts-with"
   ],
+  "core-js/features/instance/to-reversed": [
+    "esnext.array.to-reversed"
+  ],
+  "core-js/features/instance/to-sorted": [
+    "es.array.sort",
+    "esnext.array.to-sorted"
+  ],
+  "core-js/features/instance/to-spliced": [
+    "esnext.array.to-spliced"
+  ],
   "core-js/features/instance/trim": [
     "es.string.trim"
   ],
@@ -3327,6 +5836,9 @@
   "core-js/features/instance/trim-start": [
     "es.string.trim-start"
   ],
+  "core-js/features/instance/un-this": [
+    "esnext.function.un-this"
+  ],
   "core-js/features/instance/unique-by": [
     "es.map",
     "esnext.array.unique-by"
@@ -3336,6 +5848,9 @@
     "es.object.to-string",
     "web.dom-collections.iterator"
   ],
+  "core-js/features/instance/with": [
+    "esnext.array.with"
+  ],
   "core-js/features/is-iterable": [
     "es.array.iterator",
     "es.string.iterator",
@@ -3344,6 +5859,7 @@
   "core-js/features/iterator": [
     "es.array.iterator",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
@@ -3359,6 +5875,7 @@
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "web.dom-collections.iterator"
   ],
   "core-js/features/iterator/as-indexed-pairs": [
@@ -3429,6 +5946,12 @@
     "esnext.iterator.constructor",
     "esnext.iterator.to-array"
   ],
+  "core-js/features/iterator/to-async": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.iterator.constructor",
+    "esnext.iterator.to-async"
+  ],
   "core-js/features/json": [
     "es.json.stringify",
     "es.json.to-string-tag"
@@ -3463,7 +5986,8 @@
     "esnext.map.some",
     "esnext.map.update",
     "esnext.map.update-or-insert",
-    "esnext.map.upsert"
+    "esnext.map.upsert",
+    "web.dom-collections.iterator"
   ],
   "core-js/features/map/delete-all": [
     "es.map",
@@ -3686,8 +6210,10 @@
     "es.number.min-safe-integer",
     "es.number.parse-float",
     "es.number.parse-int",
+    "es.number.to-exponential",
     "es.number.to-fixed",
     "es.number.to-precision",
+    "es.object.to-string",
     "esnext.number.from-string",
     "esnext.number.range"
   ],
@@ -3728,6 +6254,9 @@
     "es.object.to-string",
     "esnext.number.range"
   ],
+  "core-js/features/number/to-exponential": [
+    "es.number.to-exponential"
+  ],
   "core-js/features/number/to-fixed": [
     "es.number.to-fixed"
   ],
@@ -3735,8 +6264,12 @@
     "es.number.to-precision"
   ],
   "core-js/features/number/virtual": [
+    "es.number.to-exponential",
     "es.number.to-fixed",
     "es.number.to-precision"
+  ],
+  "core-js/features/number/virtual/to-exponential": [
+    "es.number.to-exponential"
   ],
   "core-js/features/number/virtual/to-fixed": [
     "es.number.to-fixed"
@@ -3761,6 +6294,7 @@
     "es.object.get-own-property-descriptors",
     "es.object.get-own-property-names",
     "es.object.get-prototype-of",
+    "es.object.has-own",
     "es.object.is",
     "es.object.is-extensible",
     "es.object.is-frozen",
@@ -3777,7 +6311,8 @@
     "esnext.object.has-own",
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
-    "esnext.object.iterate-values"
+    "esnext.object.iterate-values",
+    "web.dom-collections.iterator"
   ],
   "core-js/features/object/assign": [
     "es.object.assign"
@@ -3805,7 +6340,8 @@
   ],
   "core-js/features/object/from-entries": [
     "es.array.iterator",
-    "es.object.from-entries"
+    "es.object.from-entries",
+    "web.dom-collections.iterator"
   ],
   "core-js/features/object/get-own-property-descriptor": [
     "es.object.get-own-property-descriptor"
@@ -3823,6 +6359,7 @@
     "es.object.get-prototype-of"
   ],
   "core-js/features/object/has-own": [
+    "es.object.has-own",
     "esnext.object.has-own"
   ],
   "core-js/features/object/is": [
@@ -3898,7 +6435,8 @@
     "esnext.aggregate-error",
     "esnext.promise.all-settled",
     "esnext.promise.any",
-    "esnext.promise.try"
+    "esnext.promise.try",
+    "web.dom-collections.iterator"
   ],
   "core-js/features/promise/all-settled": [
     "es.array.iterator",
@@ -3906,7 +6444,8 @@
     "es.promise",
     "es.promise.all-settled",
     "es.string.iterator",
-    "esnext.promise.all-settled"
+    "esnext.promise.all-settled",
+    "web.dom-collections.iterator"
   ],
   "core-js/features/promise/any": [
     "es.aggregate-error",
@@ -3916,7 +6455,8 @@
     "es.promise.any",
     "es.string.iterator",
     "esnext.aggregate-error",
-    "esnext.promise.any"
+    "esnext.promise.any",
+    "web.dom-collections.iterator"
   ],
   "core-js/features/promise/finally": [
     "es.object.to-string",
@@ -4102,7 +6642,8 @@
     "esnext.set.reduce",
     "esnext.set.some",
     "esnext.set.symmetric-difference",
-    "esnext.set.union"
+    "esnext.set.union",
+    "web.dom-collections.iterator"
   ],
   "core-js/features/set-immediate": [
     "web.immediate"
@@ -4213,6 +6754,7 @@
   "core-js/features/string": [
     "es.object.to-string",
     "es.regexp.exec",
+    "es.string.at-alternative",
     "es.string.code-point-at",
     "es.string.ends-with",
     "es.string.from-code-point",
@@ -4247,6 +6789,7 @@
     "es.string.sub",
     "es.string.sup",
     "esnext.string.at",
+    "esnext.string.cooked",
     "esnext.string.code-points",
     "esnext.string.match-all",
     "esnext.string.replace-all"
@@ -4255,6 +6798,7 @@
     "es.string.anchor"
   ],
   "core-js/features/string/at": [
+    "es.string.at-alternative",
     "esnext.string.at"
   ],
   "core-js/features/string/big": [
@@ -4272,6 +6816,9 @@
   "core-js/features/string/code-points": [
     "es.object.to-string",
     "esnext.string.code-points"
+  ],
+  "core-js/features/string/cooked": [
+    "esnext.string.cooked"
   ],
   "core-js/features/string/ends-with": [
     "es.string.ends-with"
@@ -4377,6 +6924,7 @@
   "core-js/features/string/virtual": [
     "es.object.to-string",
     "es.regexp.exec",
+    "es.string.at-alternative",
     "es.string.code-point-at",
     "es.string.ends-with",
     "es.string.includes",
@@ -4417,6 +6965,7 @@
     "es.string.anchor"
   ],
   "core-js/features/string/virtual/at": [
+    "es.string.at-alternative",
     "esnext.string.at"
   ],
   "core-js/features/string/virtual/big": [
@@ -4514,6 +7063,18 @@
   "core-js/features/string/virtual/trim-start": [
     "es.string.trim-start"
   ],
+  "core-js/features/structured-clone": [
+    "es.error.to-string",
+    "es.array.iterator",
+    "es.map",
+    "es.object.keys",
+    "es.object.to-string",
+    "es.set",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag",
+    "web.structured-clone"
+  ],
   "core-js/features/symbol": [
     "es.symbol",
     "es.symbol.description",
@@ -4541,7 +7102,8 @@
     "esnext.symbol.metadata",
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
-    "esnext.symbol.replace-all"
+    "esnext.symbol.replace-all",
+    "web.dom-collections.iterator"
   ],
   "core-js/features/symbol/async-dispose": [
     "esnext.symbol.async-dispose"
@@ -4570,7 +7132,8 @@
     "es.symbol.iterator",
     "es.array.iterator",
     "es.object.to-string",
-    "es.string.iterator"
+    "es.string.iterator",
+    "web.dom-collections.iterator"
   ],
   "core-js/features/symbol/key-for": [
     "es.symbol"
@@ -4636,6 +7199,7 @@
   "core-js/features/typed-array": [
     "es.map",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "es.typed-array.float32-array",
     "es.typed-array.float64-array",
@@ -4646,6 +7210,7 @@
     "es.typed-array.uint8-clamped-array",
     "es.typed-array.uint16-array",
     "es.typed-array.uint32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -4671,15 +7236,21 @@
     "es.typed-array.subarray",
     "es.typed-array.to-locale-string",
     "es.typed-array.to-string",
+    "esnext.typed-array.from-async",
     "esnext.typed-array.at",
     "esnext.typed-array.filter-out",
     "esnext.typed-array.filter-reject",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
     "esnext.typed-array.group-by",
-    "esnext.typed-array.unique-by"
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.unique-by",
+    "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/at": [
+    "es.typed-array.every",
     "esnext.typed-array.at"
   ],
   "core-js/features/typed-array/copy-within": [
@@ -4717,9 +7288,14 @@
     "esnext.typed-array.find-last-index"
   ],
   "core-js/features/typed-array/float32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.map",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "es.typed-array.float32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -4744,12 +7320,29 @@
     "es.typed-array.sort",
     "es.typed-array.subarray",
     "es.typed-array.to-locale-string",
-    "es.typed-array.to-string"
+    "es.typed-array.to-string",
+    "esnext.typed-array.from-async",
+    "esnext.typed-array.at",
+    "esnext.typed-array.filter-out",
+    "esnext.typed-array.filter-reject",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.unique-by",
+    "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/float64-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.map",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "es.typed-array.float64-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -4774,13 +7367,28 @@
     "es.typed-array.sort",
     "es.typed-array.subarray",
     "es.typed-array.to-locale-string",
-    "es.typed-array.to-string"
+    "es.typed-array.to-string",
+    "esnext.typed-array.from-async",
+    "esnext.typed-array.at",
+    "esnext.typed-array.filter-out",
+    "esnext.typed-array.filter-reject",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.unique-by",
+    "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/for-each": [
     "es.typed-array.for-each"
   ],
   "core-js/features/typed-array/from": [
     "es.typed-array.from"
+  ],
+  "core-js/features/typed-array/from-async": [
+    "esnext.typed-array.from-async"
   ],
   "core-js/features/typed-array/group-by": [
     "esnext.typed-array.group-by"
@@ -4792,9 +7400,14 @@
     "es.typed-array.index-of"
   ],
   "core-js/features/typed-array/int16-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.map",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "es.typed-array.int16-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -4819,12 +7432,29 @@
     "es.typed-array.sort",
     "es.typed-array.subarray",
     "es.typed-array.to-locale-string",
-    "es.typed-array.to-string"
+    "es.typed-array.to-string",
+    "esnext.typed-array.from-async",
+    "esnext.typed-array.at",
+    "esnext.typed-array.filter-out",
+    "esnext.typed-array.filter-reject",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.unique-by",
+    "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/int32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.map",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "es.typed-array.int32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -4849,12 +7479,29 @@
     "es.typed-array.sort",
     "es.typed-array.subarray",
     "es.typed-array.to-locale-string",
-    "es.typed-array.to-string"
+    "es.typed-array.to-string",
+    "esnext.typed-array.from-async",
+    "esnext.typed-array.at",
+    "esnext.typed-array.filter-out",
+    "esnext.typed-array.filter-reject",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.unique-by",
+    "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/int8-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.map",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "es.typed-array.int8-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -4879,7 +7526,19 @@
     "es.typed-array.sort",
     "es.typed-array.subarray",
     "es.typed-array.to-locale-string",
-    "es.typed-array.to-string"
+    "es.typed-array.to-string",
+    "esnext.typed-array.from-async",
+    "esnext.typed-array.at",
+    "esnext.typed-array.filter-out",
+    "esnext.typed-array.filter-reject",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.unique-by",
+    "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/iterator": [
     "es.object.to-string",
@@ -4897,6 +7556,50 @@
   ],
   "core-js/features/typed-array/map": [
     "es.typed-array.map"
+  ],
+  "core-js/features/typed-array/methods": [
+    "es.map",
+    "es.object.to-string",
+    "es.promise",
+    "es.string.iterator",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string",
+    "esnext.typed-array.from-async",
+    "esnext.typed-array.at",
+    "esnext.typed-array.filter-out",
+    "esnext.typed-array.filter-reject",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.unique-by",
+    "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/of": [
     "es.typed-array.of"
@@ -4928,13 +7631,28 @@
   "core-js/features/typed-array/to-locale-string": [
     "es.typed-array.to-locale-string"
   ],
+  "core-js/features/typed-array/to-reversed": [
+    "esnext.typed-array.to-reversed"
+  ],
+  "core-js/features/typed-array/to-sorted": [
+    "es.typed-array.sort",
+    "esnext.typed-array.to-sorted"
+  ],
+  "core-js/features/typed-array/to-spliced": [
+    "esnext.typed-array.to-spliced"
+  ],
   "core-js/features/typed-array/to-string": [
     "es.typed-array.to-string"
   ],
   "core-js/features/typed-array/uint16-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.map",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "es.typed-array.uint16-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -4959,12 +7677,29 @@
     "es.typed-array.sort",
     "es.typed-array.subarray",
     "es.typed-array.to-locale-string",
-    "es.typed-array.to-string"
+    "es.typed-array.to-string",
+    "esnext.typed-array.from-async",
+    "esnext.typed-array.at",
+    "esnext.typed-array.filter-out",
+    "esnext.typed-array.filter-reject",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.unique-by",
+    "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/uint32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.map",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "es.typed-array.uint32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -4989,12 +7724,29 @@
     "es.typed-array.sort",
     "es.typed-array.subarray",
     "es.typed-array.to-locale-string",
-    "es.typed-array.to-string"
+    "es.typed-array.to-string",
+    "esnext.typed-array.from-async",
+    "esnext.typed-array.at",
+    "esnext.typed-array.filter-out",
+    "esnext.typed-array.filter-reject",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.unique-by",
+    "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/uint8-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.map",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "es.typed-array.uint8-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -5019,12 +7771,29 @@
     "es.typed-array.sort",
     "es.typed-array.subarray",
     "es.typed-array.to-locale-string",
-    "es.typed-array.to-string"
+    "es.typed-array.to-string",
+    "esnext.typed-array.from-async",
+    "esnext.typed-array.at",
+    "esnext.typed-array.filter-out",
+    "esnext.typed-array.filter-reject",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.unique-by",
+    "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/uint8-clamped-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
+    "es.map",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "es.typed-array.uint8-clamped-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -5049,7 +7818,19 @@
     "es.typed-array.sort",
     "es.typed-array.subarray",
     "es.typed-array.to-locale-string",
-    "es.typed-array.to-string"
+    "es.typed-array.to-string",
+    "esnext.typed-array.from-async",
+    "esnext.typed-array.at",
+    "esnext.typed-array.filter-out",
+    "esnext.typed-array.filter-reject",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.unique-by",
+    "esnext.typed-array.with"
   ],
   "core-js/features/typed-array/unique-by": [
     "es.map",
@@ -5058,6 +7839,9 @@
   "core-js/features/typed-array/values": [
     "es.object.to-string",
     "es.typed-array.iterator"
+  ],
+  "core-js/features/typed-array/with": [
+    "esnext.typed-array.with"
   ],
   "core-js/features/unescape": [
     "es.unescape"
@@ -5083,7 +7867,8 @@
     "esnext.weak-map.from",
     "esnext.weak-map.of",
     "esnext.weak-map.emplace",
-    "esnext.weak-map.upsert"
+    "esnext.weak-map.upsert",
+    "web.dom-collections.iterator"
   ],
   "core-js/features/weak-map/delete-all": [
     "es.weak-map",
@@ -5117,7 +7902,8 @@
     "esnext.weak-set.add-all",
     "esnext.weak-set.delete-all",
     "esnext.weak-set.from",
-    "esnext.weak-set.of"
+    "esnext.weak-set.of",
+    "web.dom-collections.iterator"
   ],
   "core-js/features/weak-set/add-all": [
     "es.weak-set",
@@ -5142,6 +7928,9 @@
   "core-js/modules/es.aggregate-error": [
     "es.aggregate-error"
   ],
+  "core-js/modules/es.aggregate-error.cause": [
+    "es.aggregate-error.cause"
+  ],
   "core-js/modules/es.array-buffer.constructor": [
     "es.array-buffer.constructor"
   ],
@@ -5150,6 +7939,9 @@
   ],
   "core-js/modules/es.array-buffer.slice": [
     "es.array-buffer.slice"
+  ],
+  "core-js/modules/es.array.at": [
+    "es.array.at"
   ],
   "core-js/modules/es.array.concat": [
     "es.array.concat"
@@ -5265,6 +8057,12 @@
   "core-js/modules/es.date.to-string": [
     "es.date.to-string"
   ],
+  "core-js/modules/es.error.cause": [
+    "es.error.cause"
+  ],
+  "core-js/modules/es.error.to-string": [
+    "es.error.to-string"
+  ],
   "core-js/modules/es.escape": [
     "es.escape"
   ],
@@ -5373,6 +8171,9 @@
   "core-js/modules/es.number.parse-int": [
     "es.number.parse-int"
   ],
+  "core-js/modules/es.number.to-exponential": [
+    "es.number.to-exponential"
+  ],
   "core-js/modules/es.number.to-fixed": [
     "es.number.to-fixed"
   ],
@@ -5417,6 +8218,9 @@
   ],
   "core-js/modules/es.object.get-prototype-of": [
     "es.object.get-prototype-of"
+  ],
+  "core-js/modules/es.object.has-own": [
+    "es.object.has-own"
   ],
   "core-js/modules/es.object.is": [
     "es.object.is"
@@ -5540,6 +8344,9 @@
   ],
   "core-js/modules/es.string.anchor": [
     "es.string.anchor"
+  ],
+  "core-js/modules/es.string.at-alternative": [
+    "es.string.at-alternative"
   ],
   "core-js/modules/es.string.big": [
     "es.string.big"
@@ -5682,6 +8489,9 @@
   "core-js/modules/es.symbol.unscopables": [
     "es.symbol.unscopables"
   ],
+  "core-js/modules/es.typed-array.at": [
+    "es.typed-array.at"
+  ],
   "core-js/modules/es.typed-array.copy-within": [
     "es.typed-array.copy-within"
   ],
@@ -5811,8 +8621,14 @@
   "core-js/modules/esnext.array.find-last-index": [
     "esnext.array.find-last-index"
   ],
+  "core-js/modules/esnext.array.from-async": [
+    "esnext.array.from-async"
+  ],
   "core-js/modules/esnext.array.group-by": [
     "esnext.array.group-by"
+  ],
+  "core-js/modules/esnext.array.group-by-to-map": [
+    "esnext.array.group-by-to-map"
   ],
   "core-js/modules/esnext.array.is-template-object": [
     "esnext.array.is-template-object"
@@ -5823,8 +8639,20 @@
   "core-js/modules/esnext.array.last-item": [
     "esnext.array.last-item"
   ],
+  "core-js/modules/esnext.array.to-reversed": [
+    "esnext.array.to-reversed"
+  ],
+  "core-js/modules/esnext.array.to-sorted": [
+    "esnext.array.to-sorted"
+  ],
+  "core-js/modules/esnext.array.to-spliced": [
+    "esnext.array.to-spliced"
+  ],
   "core-js/modules/esnext.array.unique-by": [
     "esnext.array.unique-by"
+  ],
+  "core-js/modules/esnext.array.with": [
+    "esnext.array.with"
   ],
   "core-js/modules/esnext.async-iterator.as-indexed-pairs": [
     "esnext.async-iterator.as-indexed-pairs"
@@ -5877,6 +8705,15 @@
   "core-js/modules/esnext.composite-symbol": [
     "esnext.composite-symbol"
   ],
+  "core-js/modules/esnext.function.is-callable": [
+    "esnext.function.is-callable"
+  ],
+  "core-js/modules/esnext.function.is-constructor": [
+    "esnext.function.is-constructor"
+  ],
+  "core-js/modules/esnext.function.un-this": [
+    "esnext.function.un-this"
+  ],
   "core-js/modules/esnext.global-this": [
     "esnext.global-this"
   ],
@@ -5921,6 +8758,9 @@
   ],
   "core-js/modules/esnext.iterator.to-array": [
     "esnext.iterator.to-array"
+  ],
+  "core-js/modules/esnext.iterator.to-async": [
+    "esnext.iterator.to-async"
   ],
   "core-js/modules/esnext.map.delete-all": [
     "esnext.map.delete-all"
@@ -6141,6 +8981,9 @@
   "core-js/modules/esnext.string.code-points": [
     "esnext.string.code-points"
   ],
+  "core-js/modules/esnext.string.cooked": [
+    "esnext.string.cooked"
+  ],
   "core-js/modules/esnext.string.match-all": [
     "esnext.string.match-all"
   ],
@@ -6183,11 +9026,26 @@
   "core-js/modules/esnext.typed-array.find-last-index": [
     "esnext.typed-array.find-last-index"
   ],
+  "core-js/modules/esnext.typed-array.from-async": [
+    "esnext.typed-array.from-async"
+  ],
   "core-js/modules/esnext.typed-array.group-by": [
     "esnext.typed-array.group-by"
   ],
+  "core-js/modules/esnext.typed-array.to-reversed": [
+    "esnext.typed-array.to-reversed"
+  ],
+  "core-js/modules/esnext.typed-array.to-sorted": [
+    "esnext.typed-array.to-sorted"
+  ],
+  "core-js/modules/esnext.typed-array.to-spliced": [
+    "esnext.typed-array.to-spliced"
+  ],
   "core-js/modules/esnext.typed-array.unique-by": [
     "esnext.typed-array.unique-by"
+  ],
+  "core-js/modules/esnext.typed-array.with": [
+    "esnext.typed-array.with"
   ],
   "core-js/modules/esnext.weak-map.delete-all": [
     "esnext.weak-map.delete-all"
@@ -6216,17 +9074,35 @@
   "core-js/modules/esnext.weak-set.of": [
     "esnext.weak-set.of"
   ],
+  "core-js/modules/web.atob": [
+    "web.atob"
+  ],
+  "core-js/modules/web.btoa": [
+    "web.btoa"
+  ],
   "core-js/modules/web.dom-collections.for-each": [
     "web.dom-collections.for-each"
   ],
   "core-js/modules/web.dom-collections.iterator": [
     "web.dom-collections.iterator"
   ],
+  "core-js/modules/web.dom-exception.constructor": [
+    "web.dom-exception.constructor"
+  ],
+  "core-js/modules/web.dom-exception.stack": [
+    "web.dom-exception.stack"
+  ],
+  "core-js/modules/web.dom-exception.to-string-tag": [
+    "web.dom-exception.to-string-tag"
+  ],
   "core-js/modules/web.immediate": [
     "web.immediate"
   ],
   "core-js/modules/web.queue-microtask": [
     "web.queue-microtask"
+  ],
+  "core-js/modules/web.structured-clone": [
+    "web.structured-clone"
   ],
   "core-js/modules/web.timers": [
     "web.timers"
@@ -6242,17 +9118,24 @@
   ],
   "core-js/proposals": [
     "es.map",
+    "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
     "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
     "esnext.array.unique-by",
+    "esnext.array.with",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
     "esnext.async-iterator.drop",
@@ -6270,6 +9153,9 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.function.is-callable",
+    "esnext.function.is-constructor",
+    "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
@@ -6285,6 +9171,7 @@
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "esnext.map.delete-all",
     "esnext.map.emplace",
     "esnext.map.every",
@@ -6356,6 +9243,7 @@
     "esnext.set.symmetric-difference",
     "esnext.set.union",
     "esnext.string.at",
+    "esnext.string.cooked",
     "esnext.string.code-points",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -6366,13 +9254,18 @@
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
+    "esnext.typed-array.from-async",
     "esnext.typed-array.at",
     "esnext.typed-array.filter-out",
     "esnext.typed-array.filter-reject",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
     "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
     "esnext.typed-array.unique-by",
+    "esnext.typed-array.with",
     "esnext.weak-map.delete-all",
     "esnext.weak-map.from",
     "esnext.weak-map.of",
@@ -6401,9 +9294,24 @@
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index"
   ],
+  "core-js/proposals/array-flat-map": [
+    "es.array.flat",
+    "es.array.flat-map",
+    "es.array.unscopables.flat",
+    "es.array.unscopables.flat-map"
+  ],
+  "core-js/proposals/array-from-async": [
+    "esnext.array.from-async",
+    "esnext.typed-array.from-async"
+  ],
   "core-js/proposals/array-grouping": [
     "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
     "esnext.typed-array.group-by"
+  ],
+  "core-js/proposals/array-includes": [
+    "es.array.includes",
+    "es.typed-array.includes"
   ],
   "core-js/proposals/array-is-template-object": [
     "esnext.array.is-template-object"
@@ -6416,6 +9324,19 @@
     "es.map",
     "esnext.array.unique-by",
     "esnext.typed-array.unique-by"
+  ],
+  "core-js/proposals/async-iteration": [
+    "es.symbol.async-iterator"
+  ],
+  "core-js/proposals/change-array-by-copy": [
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
+    "esnext.array.with",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.with"
   ],
   "core-js/proposals/collection-methods": [
     "esnext.map.delete-all",
@@ -6465,6 +9386,17 @@
     "esnext.math.isubh",
     "esnext.math.umulh"
   ],
+  "core-js/proposals/error-cause": [
+    "es.error.cause",
+    "es.aggregate-error.cause"
+  ],
+  "core-js/proposals/function-is-callable-is-constructor": [
+    "esnext.function.is-callable",
+    "esnext.function.is-constructor"
+  ],
+  "core-js/proposals/function-un-this": [
+    "esnext.function.un-this"
+  ],
   "core-js/proposals/global-this": [
     "esnext.global-this"
   ],
@@ -6496,7 +9428,8 @@
     "esnext.iterator.reduce",
     "esnext.iterator.some",
     "esnext.iterator.take",
-    "esnext.iterator.to-array"
+    "esnext.iterator.to-array",
+    "esnext.iterator.to-async"
   ],
   "core-js/proposals/keys-composition": [
     "esnext.composite-key",
@@ -6535,10 +9468,20 @@
     "esnext.bigint.range",
     "esnext.number.range"
   ],
+  "core-js/proposals/object-from-entries": [
+    "es.object.from-entries"
+  ],
+  "core-js/proposals/object-getownpropertydescriptors": [
+    "es.object.get-own-property-descriptors"
+  ],
   "core-js/proposals/object-iteration": [
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
     "esnext.object.iterate-values"
+  ],
+  "core-js/proposals/object-values-entries": [
+    "es.object.entries",
+    "es.object.values"
   ],
   "core-js/proposals/observable": [
     "esnext.observable",
@@ -6555,6 +9498,9 @@
     "esnext.aggregate-error",
     "esnext.promise.any"
   ],
+  "core-js/proposals/promise-finally": [
+    "es.promise.finally"
+  ],
   "core-js/proposals/promise-try": [
     "esnext.promise.try"
   ],
@@ -6569,7 +9515,19 @@
     "esnext.reflect.has-own-metadata",
     "esnext.reflect.metadata"
   ],
+  "core-js/proposals/regexp-dotall-flag": [
+    "es.regexp.constructor",
+    "es.regexp.dot-all",
+    "es.regexp.exec",
+    "es.regexp.flags"
+  ],
+  "core-js/proposals/regexp-named-groups": [
+    "es.regexp.constructor",
+    "es.regexp.exec",
+    "es.string.replace"
+  ],
   "core-js/proposals/relative-indexing-method": [
+    "es.string.at-alternative",
     "esnext.array.at",
     "esnext.typed-array.at"
   ],
@@ -6591,12 +9549,26 @@
   "core-js/proposals/string-code-points": [
     "esnext.string.code-points"
   ],
+  "core-js/proposals/string-cooked": [
+    "esnext.string.cooked"
+  ],
+  "core-js/proposals/string-left-right-trim": [
+    "es.string.trim-end",
+    "es.string.trim-start"
+  ],
   "core-js/proposals/string-match-all": [
     "esnext.string.match-all"
+  ],
+  "core-js/proposals/string-padding": [
+    "es.string.pad-end",
+    "es.string.pad-start"
   ],
   "core-js/proposals/string-replace-all": [
     "esnext.string.replace-all",
     "esnext.symbol.replace-all"
+  ],
+  "core-js/proposals/symbol-description": [
+    "es.symbol.description"
   ],
   "core-js/proposals/url": [
     "web.url",
@@ -6606,6 +9578,9 @@
   "core-js/proposals/using-statement": [
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose"
+  ],
+  "core-js/proposals/well-formed-stringify": [
+    "es.json.stringify"
   ],
   "core-js/stable": [
     "es.symbol",
@@ -6623,7 +9598,11 @@
     "es.symbol.to-primitive",
     "es.symbol.to-string-tag",
     "es.symbol.unscopables",
+    "es.error.cause",
+    "es.error.to-string",
     "es.aggregate-error",
+    "es.aggregate-error.cause",
+    "es.array.at",
     "es.array.concat",
     "es.array.copy-within",
     "es.array.every",
@@ -6701,6 +9680,7 @@
     "es.number.min-safe-integer",
     "es.number.parse-float",
     "es.number.parse-int",
+    "es.number.to-exponential",
     "es.number.to-fixed",
     "es.number.to-precision",
     "es.object.assign",
@@ -6716,6 +9696,7 @@
     "es.object.get-own-property-descriptors",
     "es.object.get-own-property-names",
     "es.object.get-prototype-of",
+    "es.object.has-own",
     "es.object.is",
     "es.object.is-extensible",
     "es.object.is-frozen",
@@ -6756,6 +9737,7 @@
     "es.regexp.test",
     "es.regexp.to-string",
     "es.set",
+    "es.string.at-alternative",
     "es.string.code-point-at",
     "es.string.ends-with",
     "es.string.from-code-point",
@@ -6798,6 +9780,7 @@
     "es.typed-array.uint8-clamped-array",
     "es.typed-array.uint16-array",
     "es.typed-array.uint32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -6826,23 +9809,32 @@
     "es.unescape",
     "es.weak-map",
     "es.weak-set",
+    "web.atob",
+    "web.btoa",
     "web.dom-collections.for-each",
     "web.dom-collections.iterator",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag",
     "web.immediate",
     "web.queue-microtask",
+    "web.structured-clone",
     "web.timers",
     "web.url",
     "web.url.to-json",
     "web.url-search-params"
   ],
   "core-js/stable/aggregate-error": [
+    "es.error.cause",
     "es.aggregate-error",
+    "es.aggregate-error.cause",
     "es.array.iterator",
     "es.string.iterator",
     "esnext.aggregate-error",
     "web.dom-collections.iterator"
   ],
   "core-js/stable/array": [
+    "es.array.at",
     "es.array.concat",
     "es.array.copy-within",
     "es.array.every",
@@ -6883,6 +9875,7 @@
   ],
   "core-js/stable/array-buffer/constructor": [
     "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string"
   ],
   "core-js/stable/array-buffer/is-view": [
@@ -6890,6 +9883,9 @@
   ],
   "core-js/stable/array-buffer/slice": [
     "es.array-buffer.slice"
+  ],
+  "core-js/stable/array/at": [
+    "es.array.at"
   ],
   "core-js/stable/array/concat": [
     "es.array.concat"
@@ -6986,6 +9982,7 @@
     "es.object.to-string"
   ],
   "core-js/stable/array/virtual": [
+    "es.array.at",
     "es.array.concat",
     "es.array.copy-within",
     "es.array.every",
@@ -7013,6 +10010,9 @@
     "es.array.unscopables.flat",
     "es.array.unscopables.flat-map",
     "es.object.to-string"
+  ],
+  "core-js/stable/array/virtual/at": [
+    "es.array.at"
   ],
   "core-js/stable/array/virtual/concat": [
     "es.array.concat"
@@ -7098,10 +10098,28 @@
     "es.array.iterator",
     "es.object.to-string"
   ],
+  "core-js/stable/atob": [
+    "es.error.to-string",
+    "es.object.to-string",
+    "web.atob",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag"
+  ],
+  "core-js/stable/btoa": [
+    "es.error.to-string",
+    "es.object.to-string",
+    "web.btoa",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag"
+  ],
   "core-js/stable/clear-immediate": [
     "web.immediate"
   ],
   "core-js/stable/data-view": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.data-view",
     "es.object.to-string"
   ],
@@ -7153,6 +10171,30 @@
     "es.object.to-string",
     "web.dom-collections.iterator"
   ],
+  "core-js/stable/dom-exception": [
+    "es.error.to-string",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag"
+  ],
+  "core-js/stable/dom-exception/constructor": [
+    "es.error.to-string",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack"
+  ],
+  "core-js/stable/dom-exception/to-string-tag": [
+    "web.dom-exception.to-string-tag"
+  ],
+  "core-js/stable/error": [
+    "es.error.cause",
+    "es.error.to-string"
+  ],
+  "core-js/stable/error/constructor": [
+    "es.error.cause"
+  ],
+  "core-js/stable/error/to-string": [
+    "es.error.to-string"
+  ],
   "core-js/stable/escape": [
     "es.escape"
   ],
@@ -7176,8 +10218,22 @@
   "core-js/stable/function/virtual/bind": [
     "es.function.bind"
   ],
+  "core-js/stable/get-iterator": [
+    "es.array.iterator",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/stable/get-iterator-method": [
+    "es.array.iterator",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
   "core-js/stable/global-this": [
     "es.global-this"
+  ],
+  "core-js/stable/instance/at": [
+    "es.array.at",
+    "es.string.at-alternative"
   ],
   "core-js/stable/instance/bind": [
     "es.function.bind"
@@ -7310,6 +10366,11 @@
     "es.object.to-string",
     "web.dom-collections.iterator"
   ],
+  "core-js/stable/is-iterable": [
+    "es.array.iterator",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
   "core-js/stable/json": [
     "es.json.stringify",
     "es.json.to-string-tag"
@@ -7412,6 +10473,7 @@
     "es.number.min-safe-integer",
     "es.number.parse-float",
     "es.number.parse-int",
+    "es.number.to-exponential",
     "es.number.to-fixed",
     "es.number.to-precision"
   ],
@@ -7445,6 +10507,9 @@
   "core-js/stable/number/parse-int": [
     "es.number.parse-int"
   ],
+  "core-js/stable/number/to-exponential": [
+    "es.number.to-exponential"
+  ],
   "core-js/stable/number/to-fixed": [
     "es.number.to-fixed"
   ],
@@ -7452,8 +10517,12 @@
     "es.number.to-precision"
   ],
   "core-js/stable/number/virtual": [
+    "es.number.to-exponential",
     "es.number.to-fixed",
     "es.number.to-precision"
+  ],
+  "core-js/stable/number/virtual/to-exponential": [
+    "es.number.to-exponential"
   ],
   "core-js/stable/number/virtual/to-fixed": [
     "es.number.to-fixed"
@@ -7478,6 +10547,7 @@
     "es.object.get-own-property-descriptors",
     "es.object.get-own-property-names",
     "es.object.get-prototype-of",
+    "es.object.has-own",
     "es.object.is",
     "es.object.is-extensible",
     "es.object.is-frozen",
@@ -7536,6 +10606,9 @@
   ],
   "core-js/stable/object/get-prototype-of": [
     "es.object.get-prototype-of"
+  ],
+  "core-js/stable/object/has-own": [
+    "es.object.has-own"
   ],
   "core-js/stable/object/is": [
     "es.object.is"
@@ -7751,6 +10824,7 @@
   "core-js/stable/string": [
     "es.object.to-string",
     "es.regexp.exec",
+    "es.string.at-alternative",
     "es.string.code-point-at",
     "es.string.ends-with",
     "es.string.from-code-point",
@@ -7787,6 +10861,9 @@
   ],
   "core-js/stable/string/anchor": [
     "es.string.anchor"
+  ],
+  "core-js/stable/string/at": [
+    "es.string.at-alternative"
   ],
   "core-js/stable/string/big": [
     "es.string.big"
@@ -7902,6 +10979,7 @@
   "core-js/stable/string/virtual": [
     "es.object.to-string",
     "es.regexp.exec",
+    "es.string.at-alternative",
     "es.string.code-point-at",
     "es.string.ends-with",
     "es.string.includes",
@@ -7936,6 +11014,9 @@
   ],
   "core-js/stable/string/virtual/anchor": [
     "es.string.anchor"
+  ],
+  "core-js/stable/string/virtual/at": [
+    "es.string.at-alternative"
   ],
   "core-js/stable/string/virtual/big": [
     "es.string.big"
@@ -8025,6 +11106,18 @@
   ],
   "core-js/stable/string/virtual/trim-start": [
     "es.string.trim-start"
+  ],
+  "core-js/stable/structured-clone": [
+    "es.error.to-string",
+    "es.array.iterator",
+    "es.map",
+    "es.object.keys",
+    "es.object.to-string",
+    "es.set",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag",
+    "web.structured-clone"
   ],
   "core-js/stable/symbol": [
     "es.symbol",
@@ -8131,6 +11224,7 @@
     "es.typed-array.uint8-clamped-array",
     "es.typed-array.uint16-array",
     "es.typed-array.uint32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -8157,6 +11251,9 @@
     "es.typed-array.to-locale-string",
     "es.typed-array.to-string"
   ],
+  "core-js/stable/typed-array/at": [
+    "es.typed-array.at"
+  ],
   "core-js/stable/typed-array/copy-within": [
     "es.typed-array.copy-within"
   ],
@@ -8180,9 +11277,12 @@
     "es.typed-array.find-index"
   ],
   "core-js/stable/typed-array/float32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.float32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -8210,9 +11310,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/stable/typed-array/float64-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.float64-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -8252,9 +11355,12 @@
     "es.typed-array.index-of"
   ],
   "core-js/stable/typed-array/int16-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.int16-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -8282,9 +11388,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/stable/typed-array/int32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.int32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -8312,9 +11421,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/stable/typed-array/int8-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.int8-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -8358,6 +11470,36 @@
   "core-js/stable/typed-array/map": [
     "es.typed-array.map"
   ],
+  "core-js/stable/typed-array/methods": [
+    "es.object.to-string",
+    "es.string.iterator",
+    "es.typed-array.at",
+    "es.typed-array.copy-within",
+    "es.typed-array.every",
+    "es.typed-array.fill",
+    "es.typed-array.filter",
+    "es.typed-array.find",
+    "es.typed-array.find-index",
+    "es.typed-array.for-each",
+    "es.typed-array.from",
+    "es.typed-array.includes",
+    "es.typed-array.index-of",
+    "es.typed-array.iterator",
+    "es.typed-array.join",
+    "es.typed-array.last-index-of",
+    "es.typed-array.map",
+    "es.typed-array.of",
+    "es.typed-array.reduce",
+    "es.typed-array.reduce-right",
+    "es.typed-array.reverse",
+    "es.typed-array.set",
+    "es.typed-array.slice",
+    "es.typed-array.some",
+    "es.typed-array.sort",
+    "es.typed-array.subarray",
+    "es.typed-array.to-locale-string",
+    "es.typed-array.to-string"
+  ],
   "core-js/stable/typed-array/of": [
     "es.typed-array.of"
   ],
@@ -8392,9 +11534,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/stable/typed-array/uint16-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.uint16-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -8422,9 +11567,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/stable/typed-array/uint32-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.uint32-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -8452,9 +11600,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/stable/typed-array/uint8-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.uint8-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -8482,9 +11633,12 @@
     "es.typed-array.to-string"
   ],
   "core-js/stable/typed-array/uint8-clamped-array": [
+    "es.array-buffer.constructor",
+    "es.array-buffer.slice",
     "es.object.to-string",
     "es.string.iterator",
     "es.typed-array.uint8-clamped-array",
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
@@ -8544,17 +11698,24 @@
   ],
   "core-js/stage": [
     "es.map",
+    "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
     "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
     "esnext.array.unique-by",
+    "esnext.array.with",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
     "esnext.async-iterator.drop",
@@ -8572,6 +11733,9 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.function.is-callable",
+    "esnext.function.is-constructor",
+    "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
@@ -8587,6 +11751,7 @@
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "esnext.map.delete-all",
     "esnext.map.emplace",
     "esnext.map.every",
@@ -8658,6 +11823,7 @@
     "esnext.set.symmetric-difference",
     "esnext.set.union",
     "esnext.string.at",
+    "esnext.string.cooked",
     "esnext.string.code-points",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -8668,13 +11834,18 @@
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
+    "esnext.typed-array.from-async",
     "esnext.typed-array.at",
     "esnext.typed-array.filter-out",
     "esnext.typed-array.filter-reject",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
     "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
     "esnext.typed-array.unique-by",
+    "esnext.typed-array.with",
     "esnext.weak-map.delete-all",
     "esnext.weak-map.from",
     "esnext.weak-map.of",
@@ -8690,17 +11861,24 @@
   ],
   "core-js/stage/0": [
     "es.map",
+    "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
     "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
     "esnext.array.unique-by",
+    "esnext.array.with",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
     "esnext.async-iterator.drop",
@@ -8718,6 +11896,9 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.function.is-callable",
+    "esnext.function.is-constructor",
+    "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
@@ -8733,6 +11914,7 @@
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "esnext.map.delete-all",
     "esnext.map.emplace",
     "esnext.map.every",
@@ -8795,6 +11977,7 @@
     "esnext.set.symmetric-difference",
     "esnext.set.union",
     "esnext.string.at",
+    "esnext.string.cooked",
     "esnext.string.code-points",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -8805,13 +11988,18 @@
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
+    "esnext.typed-array.from-async",
     "esnext.typed-array.at",
     "esnext.typed-array.filter-out",
     "esnext.typed-array.filter-reject",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
     "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
     "esnext.typed-array.unique-by",
+    "esnext.typed-array.with",
     "esnext.weak-map.delete-all",
     "esnext.weak-map.from",
     "esnext.weak-map.of",
@@ -8827,17 +12015,24 @@
   ],
   "core-js/stage/1": [
     "es.map",
+    "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
     "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
     "esnext.array.unique-by",
+    "esnext.array.with",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
     "esnext.async-iterator.drop",
@@ -8870,6 +12065,7 @@
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "esnext.map.delete-all",
     "esnext.map.emplace",
     "esnext.map.every",
@@ -8927,6 +12123,7 @@
     "esnext.set.some",
     "esnext.set.symmetric-difference",
     "esnext.set.union",
+    "esnext.string.cooked",
     "esnext.string.code-points",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -8937,13 +12134,18 @@
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
+    "esnext.typed-array.from-async",
     "esnext.typed-array.at",
     "esnext.typed-array.filter-out",
     "esnext.typed-array.filter-reject",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
     "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
     "esnext.typed-array.unique-by",
+    "esnext.typed-array.with",
     "esnext.weak-map.delete-all",
     "esnext.weak-map.from",
     "esnext.weak-map.of",
@@ -8955,11 +12157,19 @@
     "esnext.weak-set.of"
   ],
   "core-js/stage/2": [
+    "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
     "esnext.array.is-template-object",
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
+    "esnext.array.with",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
     "esnext.async-iterator.drop",
@@ -8989,6 +12199,7 @@
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "esnext.map.emplace",
     "esnext.map.update-or-insert",
     "esnext.map.upsert",
@@ -9008,17 +12219,26 @@
     "esnext.symbol.dispose",
     "esnext.symbol.metadata",
     "esnext.symbol.replace-all",
+    "esnext.typed-array.from-async",
     "esnext.typed-array.at",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.with",
     "esnext.weak-map.emplace",
     "esnext.weak-map.upsert"
   ],
   "core-js/stage/3": [
+    "es.string.at-alternative",
     "esnext.aggregate-error",
     "esnext.array.at",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
+    "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
     "esnext.global-this",
     "esnext.object.has-own",
     "esnext.promise.all-settled",
@@ -9028,30 +12248,42 @@
     "esnext.symbol.replace-all",
     "esnext.typed-array.at",
     "esnext.typed-array.find-last",
-    "esnext.typed-array.find-last-index"
+    "esnext.typed-array.find-last-index",
+    "esnext.typed-array.group-by"
   ],
   "core-js/stage/4": [
+    "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.array.at",
     "esnext.global-this",
+    "esnext.object.has-own",
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.string.match-all",
     "esnext.string.replace-all",
-    "esnext.symbol.replace-all"
+    "esnext.symbol.replace-all",
+    "esnext.typed-array.at"
   ],
   "core-js/stage/pre": [
     "es.map",
+    "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
     "esnext.array.filter-reject",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
     "esnext.array.group-by",
+    "esnext.array.group-by-to-map",
     "esnext.array.is-template-object",
     "esnext.array.last-index",
     "esnext.array.last-item",
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
     "esnext.array.unique-by",
+    "esnext.array.with",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
     "esnext.async-iterator.drop",
@@ -9069,6 +12301,9 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.function.is-callable",
+    "esnext.function.is-constructor",
+    "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
@@ -9084,6 +12319,7 @@
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "esnext.map.delete-all",
     "esnext.map.emplace",
     "esnext.map.every",
@@ -9155,6 +12391,7 @@
     "esnext.set.symmetric-difference",
     "esnext.set.union",
     "esnext.string.at",
+    "esnext.string.cooked",
     "esnext.string.code-points",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -9165,13 +12402,18 @@
     "esnext.symbol.observable",
     "esnext.symbol.pattern-match",
     "esnext.symbol.replace-all",
+    "esnext.typed-array.from-async",
     "esnext.typed-array.at",
     "esnext.typed-array.filter-out",
     "esnext.typed-array.filter-reject",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
     "esnext.typed-array.group-by",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
     "esnext.typed-array.unique-by",
+    "esnext.typed-array.with",
     "esnext.weak-map.delete-all",
     "esnext.weak-map.from",
     "esnext.weak-map.of",
@@ -9186,10 +12428,16 @@
     "web.url-search-params"
   ],
   "core-js/web": [
+    "web.atob",
+    "web.btoa",
     "web.dom-collections.for-each",
     "web.dom-collections.iterator",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag",
     "web.immediate",
     "web.queue-microtask",
+    "web.structured-clone",
     "web.timers",
     "web.url",
     "web.url.to-json",
@@ -9199,11 +12447,24 @@
     "web.dom-collections.for-each",
     "web.dom-collections.iterator"
   ],
+  "core-js/web/dom-exception": [
+    "es.error.to-string",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag"
+  ],
   "core-js/web/immediate": [
     "web.immediate"
   ],
   "core-js/web/queue-microtask": [
     "web.queue-microtask"
+  ],
+  "core-js/web/structured-clone": [
+    "es.array.iterator",
+    "es.map",
+    "es.object.to-string",
+    "es.set",
+    "web.structured-clone"
   ],
   "core-js/web/timers": [
     "web.timers"

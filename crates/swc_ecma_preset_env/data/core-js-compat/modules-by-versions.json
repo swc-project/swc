@@ -392,5 +392,43 @@
     "esnext.array.group-by",
     "esnext.typed-array.filter-reject",
     "esnext.typed-array.group-by"
+  ],
+  "3.17": [
+    "es.array.at",
+    "es.object.has-own",
+    "es.string.at-alternative",
+    "es.typed-array.at"
+  ],
+  "3.18": [
+    "esnext.array.from-async",
+    "esnext.typed-array.from-async"
+  ],
+  "3.20": [
+    "es.error.cause",
+    "es.error.to-string",
+    "es.aggregate-error.cause",
+    "es.number.to-exponential",
+    "esnext.array.group-by-to-map",
+    "esnext.array.to-reversed",
+    "esnext.array.to-sorted",
+    "esnext.array.to-spliced",
+    "esnext.array.with",
+    "esnext.function.is-callable",
+    "esnext.function.is-constructor",
+    "esnext.function.un-this",
+    "esnext.iterator.to-async",
+    "esnext.string.cooked",
+    "esnext.typed-array.to-reversed",
+    "esnext.typed-array.to-sorted",
+    "esnext.typed-array.to-spliced",
+    "esnext.typed-array.with",
+    "web.dom-exception.constructor",
+    "web.dom-exception.stack",
+    "web.dom-exception.to-string-tag",
+    "web.structured-clone"
+  ],
+  "3.21": [
+    "web.atob",
+    "web.btoa"
   ]
 }

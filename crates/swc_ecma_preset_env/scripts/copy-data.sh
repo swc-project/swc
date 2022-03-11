@@ -6,6 +6,8 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 NM_DIR="$SCRIPT_DIR/../../../node_modules"
 
 function data {
+    echo "es/preset-env: Copying $1"
+
     mkdir -p "$(dirname $SCRIPT_DIR/../data/$1)"
 
     cp "$NM_DIR/$1" "$SCRIPT_DIR/../data/$1" 
