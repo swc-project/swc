@@ -2,7 +2,7 @@
 
 use std::path::{Path, PathBuf};
 
-use swc_common::{sync::Lrc, FileName, Mark, SourceFile, SourceMap};
+use swc_common::{errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
@@ -40,12 +40,12 @@ fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
     String::from_utf8(buf).unwrap()
 }
 
-fn parse(cm: Lrc<SourceMap>, path: &Path) -> Module {
+fn parse(handler: &Handler, cm: Lrc<SourceMap>, path: &Path) -> Result<Module, ()> {
     let fm = cm.load_file(path).unwrap();
-    parse_fm(fm)
+    parse_fm(handler, fm)
 }
 
-fn parse_fm(fm: Lrc<SourceFile>) -> Module {
+fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Module, ()> {
     parse_file_as_module(
         &fm,
         Default::default(),
@@ -53,13 +53,15 @@ fn parse_fm(fm: Lrc<SourceFile>) -> Module {
         None,
         &mut vec![],
     )
-    .unwrap()
+    .map_err(|err| {
+        err.into_diagnostic(handler).emit();
+    })
 }
 
 #[testing::fixture("tests/compress/fixture/**/output.js")]
 fn compressed(compressed_file: PathBuf) {
-    testing::run_test2(false, |cm, _handler| {
-        let m = parse(cm.clone(), &compressed_file);
+    testing::run_test2(false, |cm, handler| {
+        let m = parse(&handler, cm.clone(), &compressed_file)?;
 
         let top_level_mark = Mark::fresh(Mark::root());
 
@@ -92,8 +94,8 @@ fn compressed(compressed_file: PathBuf) {
         let mangled = print(cm.clone(), &m, false);
         let minified = print(cm.clone(), &m, true);
 
-        parse_fm(cm.new_source_file(FileName::Anon, mangled));
-        parse_fm(cm.new_source_file(FileName::Anon, minified));
+        parse_fm(&handler, cm.new_source_file(FileName::Anon, mangled))?;
+        parse_fm(&handler, cm.new_source_file(FileName::Anon, minified))?;
 
         Ok(())
     })
@@ -102,8 +104,8 @@ fn compressed(compressed_file: PathBuf) {
 
 #[testing::fixture("tests/mangle/**/input.js")]
 fn fixture(input: PathBuf) {
-    testing::run_test2(false, |cm, _handler| {
-        let mut m = parse(cm.clone(), &input);
+    testing::run_test2(false, |cm, handler| {
+        let mut m = parse(&handler, cm.clone(), &input)?;
 
         let top_level_mark = Mark::fresh(Mark::root());
 
@@ -137,10 +139,10 @@ fn fixture(input: PathBuf) {
 }
 
 fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
-    testing::run_test2(false, |cm, _handler| {
+    testing::run_test2(false, |cm, handler| {
         let fm = cm.new_source_file(FileName::Anon, src.into());
 
-        let m = parse_fm(fm);
+        let m = parse_fm(&handler, fm)?;
 
         let top_level_mark = Mark::fresh(Mark::root());
 
