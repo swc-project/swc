@@ -23,6 +23,9 @@
 - **(es/minifier)** Preserve fuction parameters used for template literals in `evaluate` and `reduce_vars` (#3949) ([91a302a](https://github.com/swc-project/swc/commit/91a302a672a70a34fe693fa84d65ba87901d0f36))
 
 
+- **(es/parser)** Parse if-else chain iteratively (#3961) ([76e6468](https://github.com/swc-project/swc/commit/76e646804a025e2a451314013a437e79a6cd8ce2))
+
+
 - **(node-swc/types)** Add `reserved` to `TerserMangleOptions` (#3959) ([70a68a7](https://github.com/swc-project/swc/commit/70a68a785091845c5e66ab3fe0fd52cc47f11a80))
 
 ### Features
