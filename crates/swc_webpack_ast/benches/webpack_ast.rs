@@ -15,6 +15,14 @@ extern crate test;
 fn total(b: &mut Bencher) {
     let input = Path::new("tests/fixture/real/input.js");
 
+    if !input.exists() {
+        println!(
+            "Skipping webpack_ast benchmark due to missing input fixture at {}",
+            input.display()
+        );
+        return;
+    }
+
     b.iter(|| {
         testing::run_test(false, |cm, handler| {
             let fm = cm.load_file(input).unwrap();
