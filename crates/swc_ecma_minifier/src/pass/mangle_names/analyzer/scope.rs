@@ -79,7 +79,7 @@ impl Scope {
             }
 
             loop {
-                let (_, sym) = f.incr_base54(&mut n);
+                let sym = f.incr_base54(&mut n);
 
                 let sym: JsWord = sym.into();
 

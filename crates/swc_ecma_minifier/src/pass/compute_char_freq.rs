@@ -4,7 +4,7 @@ use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit};
 
-use crate::util::base54::{incr_base54, BASE54_DEFAULT_CHARS};
+use crate::util::base54;
 
 /// TODO: Use [u8; 64] instead
 type CharFreq = AHashMap<u8, f32>;
@@ -19,7 +19,7 @@ pub(crate) struct CharFreqInfo {
 pub(crate) fn compute_char_freq(_m: &Module) -> CharFreqInfo {
     let mut base54 = CharFreqInfo {
         frequency: AHashMap::with_capacity_and_hasher(64, Default::default()),
-        chars: *BASE54_DEFAULT_CHARS,
+        chars: *base54::BASE54_DEFAULT_CHARS,
     };
 
     // TODO: Implement more visitor methods (or use codegen) and enable this
@@ -34,7 +34,7 @@ impl CharFreqInfo {
         for c in s.chars().rev().filter_map(|c| {
             if c.len_utf8() == 1 {
                 let b = c as u8;
-                if BASE54_DEFAULT_CHARS.contains(&b) {
+                if base54::BASE54_DEFAULT_CHARS.contains(&b) {
                     return Some(b);
                 }
 
@@ -61,8 +61,8 @@ impl CharFreqInfo {
     }
 
     /// returns `(used_value, identifier_symbol)`
-    pub fn incr_base54(&self, init: &mut usize) -> (usize, String) {
-        incr_base54(init, &self.chars)
+    pub fn incr_base54(&self, init: &mut usize) -> String {
+        base54::encode(init, &self.chars, true)
     }
 }
 
