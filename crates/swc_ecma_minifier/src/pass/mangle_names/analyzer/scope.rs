@@ -14,15 +14,6 @@ pub(crate) struct Scope {
 
 #[derive(Debug, Default)]
 pub struct ScopeData {
-    // decls: AHashSet<Id>,
-
-    // /// Usages in current scope.
-    // usages: AHashSet<Id>,
-    all: AHashSet<Id>,
-    /// Usages in current scope.
-    usages: AHashSet<Id>,
-    // /// Usages in current scope.
-    // usages: AHashSet<Id>,
     all: FxHashSet<Id>,
 
     queue: Vec<(Id, u32)>,
