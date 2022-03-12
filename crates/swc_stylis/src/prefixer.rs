@@ -895,6 +895,27 @@ impl VisitMut for Prefixer {
             }
 
             "touch-action" => {
+                let mut value = n.value.clone();
+
+                replace_ident(&mut value, "pan-x", "-ms-pan-x");
+                replace_ident(&mut value, "pan-y", "-ms-pan-y");
+                replace_ident(&mut value, "double-tap-zoom", "-ms-double-tap-zoom");
+                replace_ident(&mut value, "manipulation", "-ms-manipulation");
+                replace_ident(&mut value, "none", "-ms-none");
+                replace_ident(&mut value, "pinch-zoom", "-ms-pinch-zoom");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-touch-action".into(),
+                    raw: "-ms-touch-action".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value,
+                    important: n.important.clone(),
+                });
+
                 same_content!("-ms-touch-action");
             }
 
@@ -906,14 +927,16 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "isolate" => {
-                            same_name!("-webkit-isolate");
                             same_name!("-moz-isolate");
+                            same_name!("-webkit-isolate");
                         }
                         "isolate-override" => {
                             same_name!("-moz-isolate-override");
+                            same_name!("-webpack-isolate-override");
                         }
                         "plaintext" => {
                             same_name!("-moz-plaintext");
+                            same_name!("-webpack-plaintext");
                         }
                         _ => {}
                     }
@@ -1078,6 +1101,54 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            "box-shadow" => {
+                same_content!("-webkit-box-shadow");
+                same_content!("-moz-box-shadow");
+            }
+
+            "forced-color-adjust" => {
+                same_content!("-ms-high-contrast-adjust");
+            }
+
+            "break-inside" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "auto" | "avoid" => {
+                            same_content!("-webkit-column-break-inside");
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
+            "break-before" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "auto" | "avoid" => {
+                            same_content!("-webkit-column-break-before");
+                        }
+                        "column" => {
+                            simple!("-webkit-column-break-before", "always");
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
+            "break-after" => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "auto" | "avoid" => {
+                            same_content!("-webkit-column-break-after");
+                        }
+                        "column" => {
+                            simple!("-webkit-column-break-after", "always");
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
@@ -1085,8 +1156,6 @@ impl VisitMut for Prefixer {
             // TODO handle `element()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L269
             // TODO handle `filter()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L241
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
-            // TODO add `break-before`, `break-after`, `break-inside` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/break-props.js
-            // TODO add `box-shadow` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L79
             // TODO add `border-radius` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L59
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js

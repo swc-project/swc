@@ -25,6 +25,9 @@
 
 - **(css/codegen)** Fix source maps and ast defs (#3974) ([516dbc6](https://github.com/swc-project/swc/commit/516dbc65dc769b21411989f4397dc97cf97571ed))
 
+
+- **(css/prefixer)** Prefix more properties (#3976) ([4a9a5ff](https://github.com/swc-project/swc/commit/4a9a5ffa4b128c706f9a73a8465a317240c4babf))
+
 ### Miscellaneous Tasks
 
 
