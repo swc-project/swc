@@ -57,6 +57,16 @@ jobs:
           # toolchain: nightly-2021-09-30
           override: true
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: Install node dependencies
+        shell: bash
+        run: |
+          yarn
+
       - name: Run benchmark
         run: cargo bench --workspace --exclude swc_plugin --exclude wasm --exclude swc_cli --exclude node | tee output.txt
 
