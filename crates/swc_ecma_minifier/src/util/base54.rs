@@ -152,19 +152,19 @@ const RESERVED_IN_STRICT_BIND: [usize; 1] = [
 ];
 // const ARGUMENTS: usize = 316465050567304;
 
-const RESERVED_IN_ES3: [usize; 9] = [
-    37129,      // int
-    586362,     // byte
-    777671,     // char
-    1856132,    // goto
-    3166460,    // long
-    100416961,  // final
-    101207497,  // float
-    318263817,  // short
-    4381704314, // double
+const RESERVED_IN_ES3: [usize; 8] = [
+    37129,     // int
+    586362,    // byte
+    777671,    // char
+    1856132,   // goto
+    3166460,   // long
+    100416961, // final
+    101207497, // float
+    318263817, // short
 ];
 
-// const RESERVED_IN_ES3_U64: [usize; 6] = [
+// const RESERVED_IN_ES3_U64: [usize; 7] = [
+//     4381704314,       // double
 //     14884008698,      // native
 //     21443400520,      // throws
 //     142892051907,     // boolean
@@ -229,6 +229,7 @@ mod tests {
         t.gen("aa");
     }
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[test]
     fn generate_reserved() {
         [
@@ -276,6 +277,7 @@ mod tests {
         })
     }
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[test]
     fn generate_reserved_in_strict_mode() {
         let s = "await";
@@ -298,6 +300,7 @@ mod tests {
         })
     }
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[test]
     fn generate_reserved_in_strict_bind() {
         ["eval", "arguments"].iter().for_each(|s| {
@@ -305,6 +308,7 @@ mod tests {
         })
     }
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[test]
     fn generate_reserved_in_es3() {
         [
