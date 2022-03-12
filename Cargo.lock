@@ -3752,6 +3752,7 @@ version = "0.5.1"
 dependencies = [
  "fastmem",
  "mimalloc-rust",
+ "swc_common",
 ]
 
 [[package]]
