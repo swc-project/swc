@@ -1,9 +1,9 @@
-pub(crate) static BASE54_DEFAULT_CHARS: &[u8; 64] =
+static BASE54_DEFAULT_CHARS: &[u8; 64] =
     b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_0123456789";
 
 /// givin a number, return a base54 encoded string
 /// `usize -> [a-zA-Z$_][a-zA-Z$_0-9]*`
-pub(crate) fn encode(init: &mut usize, chars: &[u8; 64], skip_reserved: bool) -> String {
+pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> String {
     if skip_reserved {
         while init.is_reserved()
             || init.is_reserved_in_strict_bind()
@@ -27,13 +27,13 @@ pub(crate) fn encode(init: &mut usize, chars: &[u8; 64], skip_reserved: bool) ->
     let mut ret = String::new();
 
     base /= 54;
-    let mut c = chars[n / base] as char;
+    let mut c = BASE54_DEFAULT_CHARS[n / base] as char;
     ret.push(c);
 
     while base > 1 {
         n %= base;
         base >>= 6;
-        c = chars[n / base] as char;
+        c = BASE54_DEFAULT_CHARS[n / base] as char;
 
         ret.push(c);
     }
@@ -171,7 +171,7 @@ mod tests {
         }
 
         fn gen(&mut self, expected: &str) {
-            let generated = encode(&mut self.n, BASE54_DEFAULT_CHARS, true);
+            let generated = encode(&mut self.n, true);
             assert_eq!(generated, expected);
         }
     }
@@ -296,7 +296,7 @@ mod tests {
     fn is_reserved() {
         RESERVED.iter().for_each(|n| {
             let mut init = *n;
-            let gen = encode(&mut init, BASE54_DEFAULT_CHARS, false);
+            let gen = encode(&mut init, false);
             assert!(gen.is_reserved());
         })
     }
@@ -305,25 +305,23 @@ mod tests {
     fn is_reserved_in_strict_mode() {
         let mut init = AWAIT;
 
-        let gen = encode(&mut init, BASE54_DEFAULT_CHARS, false);
+        let gen = encode(&mut init, false);
         assert!(gen.is_reserved_in_strict_mode(true));
 
         RESERVED_IN_STRICT_MODE.iter().for_each(|n| {
             let mut init = *n;
 
-            let gen = encode(&mut init, BASE54_DEFAULT_CHARS, false);
+            let gen = encode(&mut init, false);
             assert!(gen.is_reserved_in_strict_mode(false));
         })
     }
 
     #[test]
     fn is_reserved_in_strict_bind() {
-        RESERVED_IN_STRICT_BIND.iter().for_each(|n| {
-            let mut init = *n;
+        let mut init = EVAL;
 
-            let gen = encode(&mut init, BASE54_DEFAULT_CHARS, false);
-            assert!(gen.is_reserved_in_strict_bind());
-        })
+        let gen = encode(&mut init, false);
+        assert!(gen.is_reserved_in_strict_bind());
     }
 
     #[test]
@@ -331,7 +329,7 @@ mod tests {
         RESERVED_IN_ES3.iter().for_each(|n| {
             let mut init = *n;
 
-            let gen = encode(&mut init, BASE54_DEFAULT_CHARS, false);
+            let gen = encode(&mut init, false);
             assert!(gen.is_reserved_in_es3());
         })
     }
@@ -340,7 +338,7 @@ mod tests {
     fn skip_reserved() {
         let mut init = RESERVED[0];
         let target = init + 2;
-        let gen = encode(&mut init, BASE54_DEFAULT_CHARS, true);
+        let gen = encode(&mut init, true);
         assert_eq!(gen, "dp");
         assert_eq!(init, target);
     }

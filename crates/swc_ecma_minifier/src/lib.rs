@@ -36,8 +36,8 @@ use crate::{
     mode::Minification,
     option::{ExtraOptions, MinifyOptions},
     pass::{
-        compute_char_freq::compute_char_freq, expand_names::name_expander, global_defs,
-        mangle_names::name_mangler, mangle_props::mangle_properties, merge_exports::merge_exports,
+        expand_names::name_expander, global_defs, mangle_names::name_mangler,
+        mangle_props::mangle_properties, merge_exports::merge_exports,
         postcompress::postcompress_optimizer, precompress::precompress_optimizer,
     },
 };
@@ -163,13 +163,7 @@ pub fn optimize(
         let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
-        let char_freq_info = compute_char_freq(&m);
-        m.visit_mut_with(&mut name_mangler(
-            mangle.clone(),
-            char_freq_info,
-            marks,
-            top_level_ctxt,
-        ));
+        m.visit_mut_with(&mut name_mangler(mangle.clone(), marks, top_level_ctxt));
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {
