@@ -1,4 +1,7 @@
-use std::fmt::{self, Write};
+use std::{
+    fmt::{self, Write},
+    intrinsics::transmute,
+};
 
 use miette::{
     GraphicalReportHandler, LabeledSpan, MietteError, Severity, SourceCode, SourceOffset,
@@ -61,7 +64,10 @@ impl SourceCode for MietteSourceCode<'_> {
 
         let src = self
             .0
-            .span_to_snippet(span)
+            .with_snippet_of_span(span, |s| {
+                // SourceMap does not deallocate strings
+                unsafe { transmute::<&str, &str>(s) }
+            })
             .map_err(|_| MietteError::OutOfBounds)?;
 
         let loc = self.0.lookup_char_pos(span.lo());
@@ -236,9 +242,9 @@ impl fmt::Display for MietteSubdiagnostic<'_> {
     }
 }
 
-struct SpanContentsImpl {
+struct SpanContentsImpl<'a> {
     // Data from a [`SourceCode`], in bytes.
-    data: String,
+    data: &'a str,
     // span actually covered by this SpanContents.
     span: SourceSpan,
     // The 0-indexed line where the associated [`SourceSpan`] _starts_.
@@ -251,10 +257,9 @@ struct SpanContentsImpl {
     name: Option<String>,
 }
 
-impl<'a> SpanContents<'a> for SpanContentsImpl {
+impl<'a> SpanContents<'a> for SpanContentsImpl<'a> {
     fn data(&self) -> &'a [u8] {
-        self.data.as_bytes().to_vec().leak()
-        // self.data.as_bytes()
+        self.data.as_bytes()
     }
 
     fn span(&self) -> &SourceSpan {
