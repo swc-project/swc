@@ -43,6 +43,12 @@
 
 - **(es/parser)** Add some inline attributes (#3969) ([6a6c322](https://github.com/swc-project/swc/commit/6a6c32203b8f2fde61279320cca505052f969da3))
 
+### Performance
+
+
+
+- **(es/minifier)** Make mangler faster by merging hash sets into one (#3983) ([107c91d](https://github.com/swc-project/swc/commit/107c91dd206e31c221df98446f71e8f18020c060))
+
 ## [1.2.153] - 2022-03-11
 
 ### Bug Fixes
