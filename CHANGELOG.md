@@ -43,6 +43,9 @@
 
 - **(es/parser)** Add some inline attributes (#3969) ([6a6c322](https://github.com/swc-project/swc/commit/6a6c32203b8f2fde61279320cca505052f969da3))
 
+
+- **(es/preset-env)** Use js script for copying files (#3986) ([83722df](https://github.com/swc-project/swc/commit/83722df21a54d29caffb6fe8eb1261763a085830))
+
 ### Performance
 
 
