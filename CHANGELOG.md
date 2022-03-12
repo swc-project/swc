@@ -10,6 +10,12 @@
 
 - **(es/preset-env)** Track `.json` files to make cargo happy ([bd0fcb9](https://github.com/swc-project/swc/commit/bd0fcb9ea491f713ab3c0ed2b6035d3438446e8e))
 
+### Performance
+
+
+
+- **(es/minifier)** Refactor base54 (#3989) ([04db7e2](https://github.com/swc-project/swc/commit/04db7e2a9be00248e005deb0a9113bcba0039e8f))
+
 ## [1.2.154] - 2022-03-12
 
 ### Bug Fixes
