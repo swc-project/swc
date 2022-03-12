@@ -85,84 +85,95 @@ trait Reserved {
     fn is_reserved_in_es3(&self) -> bool;
 }
 
-const RESERVED: [usize; 37] = [
-    35630528,           // break
-    750138,             // case
-    48012861,           // catch
-    50819656,           // class
-    51659337,           // const
-    13542199411386,     // continue
-    17240182476487,     // debugger
-    269439774857,       // default
-    4211585658,         // delete
-    260,                // do
-    1319482,            // else
-    1327810,            // enum
-    5605184009,         // export
-    358796246664,       // extends
-    98312762,           // false
-    411307876494,       // finally
-    24903,              // for
-    27148373455171,     // function
-    571,                // if
-    9715601929,         // import
-    579,                // in
-    163295746507125051, // instanceof
-    57036,              // new
-    3715201,            // null
-    1089730735930,      // package
-    19246133763,        // return
-    321674951,          // super
-    20618976829,        // switch
-    5234632,            // this
-    335053132,          // throw
-    5276346,            // true
-    82446,              // try
-    21728047419,        // typeof
-    89543,              // var
-    5787577,            // void
-    385347706,          // while
-    6025853,            // with
+const RESERVED: [usize; 24] = [
+    260,        // do
+    571,        // if
+    579,        // in
+    24903,      // for
+    57036,      // new
+    82446,      // try
+    89543,      // var
+    750138,     // case
+    1319482,    // else
+    1327810,    // enum
+    3715201,    // null
+    5234632,    // this
+    5276346,    // true
+    5787577,    // void
+    6025853,    // with
+    35630528,   // break
+    48012861,   // catch
+    50819656,   // class
+    51659337,   // const
+    98312762,   // false
+    321674951,  // super
+    335053132,  // throw
+    385347706,  // while
+    4211585658, // delete
 ];
+
+// u32::MAX is 4294967295
+
+// const RESERVED_U64: [usize; 13] = [
+//     5605184009,         // export
+//     9715601929,         // import
+//     19246133763,        // return
+//     20618976829,        // switch
+//     21728047419,        // typeof
+//     269439774857,       // default
+//     358796246664,       // extends
+//     411307876494,       // finally
+//     1089730735930,      // package
+//     13542199411386,     // continue
+//     17240182476487,     // debugger
+//     27148373455171,     // function
+//     163295746507125051, // instanceof
+// ];
 
 const AWAIT: usize = 20148169;
 
-const RESERVED_IN_STRICT_MODE: [usize; 9] = [
-    163000531913818760, // implements
-    2551548935630394,   // interface
-    48841,              // let
-    1089730735930,      // package
-    1108087894650,      // private
-    4539138248580793,   // protected
-    17362329528,        // public
-    20566548408,        // static
-    419147897,          // yield
+const RESERVED_IN_STRICT_MODE: [usize; 2] = [
+    48841,     // let
+    419147897, // yield
 ];
 
-const RESERVED_IN_STRICT_BIND: [usize; 2] = [
-    1359297,         // eval
-    316465050567304, // arguments
+// const RESERVED_IN_STRICT_MODE_U64: [usize; 7] = [
+//     17362329528,        // public
+//     20566548408,        // static
+//     1089730735930,      // package
+//     1108087894650,      // private
+//     2551548935630394,   // interface
+//     4539138248580793,   // protected
+//     163000531913818760, // implements
+// ];
+
+const RESERVED_IN_STRICT_BIND: [usize; 1] = [
+    1359297, // eval
+];
+// const ARGUMENTS: usize = 316465050567304;
+
+const RESERVED_IN_ES3: [usize; 9] = [
+    37129,      // int
+    586362,     // byte
+    777671,     // char
+    1856132,    // goto
+    3166460,    // long
+    100416961,  // final
+    101207497,  // float
+    318263817,  // short
+    4381704314, // double
 ];
 
-const RESERVED_IN_ES3: [usize; 15] = [
-    3858124205641,    // abstract
-    142892051907,     // boolean
-    586362,           // byte
-    777671,           // char
-    4381704314,       // double
-    100416961,        // final
-    101207497,        // float
-    1856132,          // goto
-    37129,            // int
-    3166460,          // long
-    14884008698,      // native
-    318263817,        // short
-    21443400520,      // throws
-    5664069876691209, // transient
-    97102619734138,   // volatile
-];
+// const RESERVED_IN_ES3_U64: [usize; 6] = [
+//     14884008698,      // native
+//     21443400520,      // throws
+//     142892051907,     // boolean
+//     3858124205641,    // abstract
+//     97102619734138,   // volatile
+//     5664069876691209, // transient
+// ];
 
-// 17363901597402070713, // synchronized
+// const SYNCHRONIZED: usize = 17363901597402070713;
 
 impl Reserved for usize {
     fn is_reserved(&self) -> bool {
@@ -369,7 +380,7 @@ mod tests {
         let mut init = RESERVED[0];
         let target = init + 2;
         let gen = encode(&mut init, BASE54_DEFAULT_CHARS, true);
-        assert_eq!(gen, "breal");
+        assert_eq!(gen, "dp");
         assert_eq!(init, target);
     }
 
