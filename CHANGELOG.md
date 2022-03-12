@@ -58,6 +58,12 @@
 
 - **(es/minifier)** Use fxhash for integers (#3984) ([67e6154](https://github.com/swc-project/swc/commit/67e615421f85aee2919016a5d01e4ebb1b9b08c4))
 
+### Testing
+
+
+
+- **(es)** Add tests for fixed issues (#3987) ([073d847](https://github.com/swc-project/swc/commit/073d847a33fe9902428633292efa8a606fe208f1))
+
 ## [1.2.153] - 2022-03-11
 
 ### Bug Fixes
