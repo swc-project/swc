@@ -3008,7 +3008,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.14"
+version = "0.17.15"
 dependencies = [
  "ahash",
  "anyhow",
