@@ -92,6 +92,19 @@ impl Visit for DuplicateBindings {
         }
     }
 
+    fn visit_catch_clause(&mut self, c: &CatchClause) {
+        let old_var_decl_kind = self.var_decl_kind.take();
+        let old_is_pat_decl = self.is_pat_decl;
+
+        self.var_decl_kind = Some(VarDeclKind::Var);
+        self.is_pat_decl = true;
+
+        c.visit_children_with(self);
+
+        self.is_pat_decl = old_is_pat_decl;
+        self.var_decl_kind = old_var_decl_kind;
+    }
+
     fn visit_class_decl(&mut self, d: &ClassDecl) {
         self.add(&d.ident, true);
 
