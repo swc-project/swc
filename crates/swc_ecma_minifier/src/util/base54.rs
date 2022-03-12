@@ -112,24 +112,6 @@ const RESERVED: [usize; 24] = [
     4211585658, // delete
 ];
 
-// u32::MAX is 4294967295
-
-// const RESERVED_U64: [usize; 13] = [
-//     5605184009,         // export
-//     9715601929,         // import
-//     19246133763,        // return
-//     20618976829,        // switch
-//     21728047419,        // typeof
-//     269439774857,       // default
-//     358796246664,       // extends
-//     411307876494,       // finally
-//     1089730735930,      // package
-//     13542199411386,     // continue
-//     17240182476487,     // debugger
-//     27148373455171,     // function
-//     163295746507125051, // instanceof
-// ];
-
 const AWAIT: usize = 20148169;
 
 const RESERVED_IN_STRICT_MODE: [usize; 2] = [
@@ -137,20 +119,7 @@ const RESERVED_IN_STRICT_MODE: [usize; 2] = [
     419147897, // yield
 ];
 
-// const RESERVED_IN_STRICT_MODE_U64: [usize; 7] = [
-//     17362329528,        // public
-//     20566548408,        // static
-//     1089730735930,      // package
-//     1108087894650,      // private
-//     2551548935630394,   // interface
-//     4539138248580793,   // protected
-//     163000531913818760, // implements
-// ];
-
-const RESERVED_IN_STRICT_BIND: [usize; 1] = [
-    1359297, // eval
-];
-// const ARGUMENTS: usize = 316465050567304;
+const EVAL: usize = 1359297;
 
 const RESERVED_IN_ES3: [usize; 8] = [
     37129,     // int
@@ -162,18 +131,6 @@ const RESERVED_IN_ES3: [usize; 8] = [
     101207497, // float
     318263817, // short
 ];
-
-// const RESERVED_IN_ES3_U64: [usize; 7] = [
-//     4381704314,       // double
-//     14884008698,      // native
-//     21443400520,      // throws
-//     142892051907,     // boolean
-//     3858124205641,    // abstract
-//     97102619734138,   // volatile
-//     5664069876691209, // transient
-// ];
-
-// const SYNCHRONIZED: usize = 17363901597402070713;
 
 impl Reserved for usize {
     fn is_reserved(&self) -> bool {
@@ -189,7 +146,7 @@ impl Reserved for usize {
     }
 
     fn is_reserved_in_strict_bind(&self) -> bool {
-        RESERVED_IN_STRICT_BIND.contains(self)
+        *self == EVAL
     }
 
     fn is_reserved_in_es3(&self) -> bool {
