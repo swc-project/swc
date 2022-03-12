@@ -45,6 +45,11 @@ unicode-id = "0.3.0"
 [dev-dependencies]
 ansi_term = "0.12.1"
 anyhow = "1"
+criterion = "0.3.5"
 pretty_assertions = "1.1"
 swc_node_base = {version = "0.5.0", path = "../swc_node_base"}
 testing = {version = "0.18.0", path = "../testing"}
+
+[[bench]]
+harness = false
+name = "full"
