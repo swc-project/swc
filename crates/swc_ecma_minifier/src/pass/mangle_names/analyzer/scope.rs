@@ -78,7 +78,6 @@ impl Scope {
                     to.insert(id.clone(), sym);
                     // self.data.decls.remove(&id);
                     // self.data.usages.remove(&id);
-                    self.data.all.remove(&id);
 
                     break;
                 }
