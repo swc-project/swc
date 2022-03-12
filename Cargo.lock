@@ -2987,10 +2987,10 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_ecmascript",
+ "swc_error_reporters",
  "swc_node_base",
  "swc_node_comments",
  "swc_plugin_runner",
- "swc_reporter",
  "swc_visit",
  "testing",
  "tracing",
@@ -3757,6 +3757,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_error_reporters"
+version = "0.1.0"
+dependencies = [
+ "miette",
+ "swc_common",
+]
+
+[[package]]
 name = "swc_estree_ast"
 version = "0.7.1"
 dependencies = [
@@ -3917,14 +3925,6 @@ dependencies = [
 [[package]]
 name = "swc_plugin_testing"
 version = "0.24.1"
-
-[[package]]
-name = "swc_reporter"
-version = "0.1.0"
-dependencies = [
- "miette",
- "swc_common",
-]
 
 [[package]]
 name = "swc_stylis"

@@ -7,7 +7,7 @@ use swc_common::{
     sync::{Lock, Lrc},
     BytePos, FileName, SourceMap, Span,
 };
-use swc_reporter::PrettyEmitter;
+use swc_error_reporters::PrettyEmitter;
 
 #[derive(Clone, Default)]
 struct Writer(Lrc<Lock<String>>);
