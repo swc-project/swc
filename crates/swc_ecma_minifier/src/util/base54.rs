@@ -56,7 +56,7 @@ pub(crate) fn decode(s: &str) -> usize {
 
     for c in s.as_bytes().iter() {
         x <<= 6;
-        x += reverse_base54(c);
+        x += reverse_base54(*c);
     }
 
     ret += x;
@@ -64,14 +64,14 @@ pub(crate) fn decode(s: &str) -> usize {
     ret
 }
 
-fn reverse_base54(c: &u8) -> usize {
+fn reverse_base54(c: u8) -> usize {
     match &c {
         b'a'..=b'z' => (c - b'a').into(),
         b'A'..=b'Z' => (c - b'A' + 26).into(),
         b'$' => 52,
         b'_' => 53,
         b'0'..=b'9' => (c - b'0' + 54).into(),
-        _ => panic!("invalid base54 char: {}", *c as char),
+        _ => panic!("invalid base54 char: {}", c as char),
     }
 }
 
