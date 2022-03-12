@@ -1,5 +1,5 @@
 #[cfg(not(feature = "perf"))]
-use self::ahash::*;
+pub use self::ahash::*;
 #[cfg(feature = "perf")]
 pub use self::fxhash::*;
 
