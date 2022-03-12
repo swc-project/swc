@@ -3283,6 +3283,7 @@ dependencies = [
  "rayon",
  "regex",
  "retain_mut",
+ "rustc-hash",
  "serde",
  "serde_json",
  "swc_atoms",
