@@ -14,6 +14,10 @@ pub(crate) struct Scope {
 
 #[derive(Debug, Default)]
 pub struct ScopeData {
+    /// This is add-only.
+    ///
+    /// If the add-only contraint is violated, it is very likely to be a bug,
+    /// because we merge every items in children to current scope.
     all: FxHashSet<Id>,
 
     queue: Vec<(Id, u32)>,
@@ -49,6 +53,15 @@ impl Scope {
         self.data.all.insert(id.clone());
     }
 
+    /// Copy `children.data.all` to `self.data.all`.
+    pub(super) fn prepare_renaming(&mut self) {
+        self.children.iter_mut().for_each(|child| {
+            child.prepare_renaming();
+
+            self.data.all.extend(child.data.all.iter().cloned());
+        });
+    }
+
     pub(super) fn rename(
         &mut self,
         f: &CharFreqInfo,
@@ -78,7 +91,6 @@ impl Scope {
                     to.insert(id.clone(), sym);
                     // self.data.decls.remove(&id);
                     // self.data.usages.remove(&id);
-                    self.data.all.remove(&id);
 
                     break;
                 }
@@ -109,8 +121,6 @@ impl Scope {
             }
         }
 
-        self.children
-            .iter()
-            .all(|c| c.can_rename(id, symbol, renamed))
+        true
     }
 }

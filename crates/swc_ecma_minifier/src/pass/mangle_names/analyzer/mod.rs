@@ -26,6 +26,8 @@ impl Analyzer {
     ) -> AHashMap<Id, JsWord> {
         let mut map = RenameMap::default();
 
+        self.scope.prepare_renaming();
+
         let preserved_symbols = preserved.iter().cloned().map(|v| v.0).collect();
         self.scope
             .rename(freq, &mut map, preserved, &preserved_symbols);
