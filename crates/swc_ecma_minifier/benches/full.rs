@@ -14,10 +14,13 @@ use swc_ecma_transforms::{fixer, resolver_with_mark};
 use swc_ecma_visit::FoldWith;
 
 pub fn bench_files(c: &mut Criterion) {
+    let mut group = c.benchmark_group("libs");
+    group.sample_size(10);
+
     let mut bench_file = |name: &str| {
         let src = read_to_string(&format!("benches/full/{}.js", name)).unwrap();
 
-        c.bench_function("name", |b| {
+        group.bench_function(name, |b| {
             b.iter(|| {
                 // We benchmark full time, including time for creating cm, handler
                 run(&src)
@@ -79,8 +82,7 @@ fn run(src: &str) {
 
         let code = print(cm, &[output], true);
 
-        eprintln!("Size: {}bytes", code.len());
-
+        black_box(code);
         Ok(())
     })
     .unwrap();
