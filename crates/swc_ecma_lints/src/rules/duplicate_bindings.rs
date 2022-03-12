@@ -84,23 +84,6 @@ impl DuplicateBindings {
 impl Visit for DuplicateBindings {
     noop_visit_type!();
 
-    fn visit_module(&mut self, m: &Module) {
-        m.visit_with(&mut TypeCollector {
-            type_bindings: &mut self.type_bindings,
-        });
-
-        self.is_module = true;
-        m.visit_children_with(self);
-    }
-
-    fn visit_script(&mut self, s: &Script) {
-        s.visit_with(&mut TypeCollector {
-            type_bindings: &mut self.type_bindings,
-        });
-
-        s.visit_children_with(self);
-    }
-
     fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
         p.visit_children_with(self);
 
@@ -160,6 +143,15 @@ impl Visit for DuplicateBindings {
         }
     }
 
+    fn visit_module(&mut self, m: &Module) {
+        m.visit_with(&mut TypeCollector {
+            type_bindings: &mut self.type_bindings,
+        });
+
+        self.is_module = true;
+        m.visit_children_with(self);
+    }
+
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
@@ -168,6 +160,14 @@ impl Visit for DuplicateBindings {
                 self.add(&p.id, self.is_unique_var_kind());
             }
         }
+    }
+
+    fn visit_script(&mut self, s: &Script) {
+        s.visit_with(&mut TypeCollector {
+            type_bindings: &mut self.type_bindings,
+        });
+
+        s.visit_children_with(self);
     }
 
     fn visit_var_decl(&mut self, d: &VarDecl) {
