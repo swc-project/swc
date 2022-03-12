@@ -1,5 +1,6 @@
+use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashSet, util::take::Take};
+use swc_common::util::take::Take;
 use swc_ecma_utils::Id;
 
 use crate::pass::{compute_char_freq::CharFreqInfo, mangle_names::rename_map::RenameMap};
@@ -13,11 +14,7 @@ pub(crate) struct Scope {
 
 #[derive(Debug, Default)]
 pub struct ScopeData {
-    // decls: AHashSet<Id>,
-
-    // /// Usages in current scope.
-    // usages: AHashSet<Id>,
-    all: AHashSet<Id>,
+    all: FxHashSet<Id>,
 
     queue: Vec<(Id, u32)>,
 }
@@ -56,8 +53,8 @@ impl Scope {
         &mut self,
         f: &CharFreqInfo,
         to: &mut RenameMap,
-        preserved: &AHashSet<Id>,
-        preserved_symbols: &AHashSet<JsWord>,
+        preserved: &FxHashSet<Id>,
+        preserved_symbols: &FxHashSet<JsWord>,
     ) {
         let mut n = 0;
         let mut queue = self.data.queue.take();

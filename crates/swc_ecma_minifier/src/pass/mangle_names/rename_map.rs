@@ -1,3 +1,4 @@
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::Id;
@@ -5,7 +6,7 @@ use swc_ecma_ast::Id;
 #[derive(Default)]
 pub(super) struct RenameMap {
     map: AHashMap<Id, JsWord>,
-    rev: AHashMap<JsWord, Vec<Id>>,
+    rev: FxHashMap<JsWord, Vec<Id>>,
 }
 
 impl RenameMap {
