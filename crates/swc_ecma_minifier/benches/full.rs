@@ -36,7 +36,9 @@ pub fn bench_files(c: &mut Criterion) {
     bench_file("moment");
     bench_file("react");
     bench_file("terser");
+    bench_file("three");
     bench_file("typescript");
+    bench_file("victory");
     bench_file("vue");
 }
 
