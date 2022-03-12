@@ -26,6 +26,11 @@
 //! ## `plugin-mode`
 //!
 //! Allows replacing operations related to thread-local variables with a trait.
+//!
+//!
+//! ## `fasthash`
+//!
+//! Use `fxhash` instead of `ahash` for `AHashMap` and `AHashSet`.
 #![deny(clippy::all)]
 #![deny(unused)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
