@@ -5,24 +5,21 @@ use swc_ecma_utils::UsageFinder;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use super::{analyzer::Analyzer, preserver::idents_to_preserve};
-use crate::{marks::Marks, option::MangleOptions, pass::compute_char_freq::CharFreqInfo};
+use crate::{marks::Marks, option::MangleOptions};
 
 pub(crate) fn name_mangler(
     options: MangleOptions,
-    char_freq_info: CharFreqInfo,
     _marks: Marks,
     top_level_ctxt: SyntaxContext,
 ) -> impl VisitMut {
     Mangler {
         options,
         top_level_ctxt,
-        char_freq_info,
     }
 }
 
 struct Mangler {
     options: MangleOptions,
-    char_freq_info: CharFreqInfo,
 
     /// Used to check `eval`.
     top_level_ctxt: SyntaxContext,
@@ -57,7 +54,7 @@ impl VisitMut for Mangler {
             };
             m.visit_with(&mut analyzer);
 
-            analyzer.into_rename_map(&self.char_freq_info, &preserved)
+            analyzer.into_rename_map(&preserved)
         };
 
         m.visit_mut_with(&mut rename(&map));
@@ -77,7 +74,7 @@ impl VisitMut for Mangler {
             };
             s.visit_with(&mut analyzer);
 
-            analyzer.into_rename_map(&self.char_freq_info, &preserved)
+            analyzer.into_rename_map(&preserved)
         };
 
         s.visit_mut_with(&mut rename(&map));
