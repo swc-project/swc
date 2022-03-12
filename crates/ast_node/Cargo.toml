@@ -12,7 +12,7 @@ version = "0.7.7"
 proc-macro = true
 
 [dependencies]
-darling = "0.10"
+darling = "0.13"
 pmutil = "0.5.1"
 proc-macro2 = "1"
 quote = "1"

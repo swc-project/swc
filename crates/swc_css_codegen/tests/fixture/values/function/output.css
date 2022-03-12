@@ -35,3 +35,9 @@ table {
 div {
   prop: func(foo), func(foo);
 }
+.class {
+  width: calc(10px + 100px);
+  width: calc(var(--variable-width) + 20px);
+  width: calc(2em * 5);
+  width: calc(100% - 30px);
+}

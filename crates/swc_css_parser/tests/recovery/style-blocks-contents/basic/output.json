@@ -297,6 +297,16 @@
                     "end": 115,
                     "ctxt": 0
                   },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 96,
+                      "end": 99,
+                      "ctxt": 0
+                    },
+                    "value": "not",
+                    "raw": "not"
+                  },
                   "condition": {
                     "type": "Declaration",
                     "span": {
@@ -831,6 +841,16 @@
                     "start": 319,
                     "end": 338,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 319,
+                      "end": 322,
+                      "ctxt": 0
+                    },
+                    "value": "not",
+                    "raw": "not"
                   },
                   "condition": {
                     "type": "Declaration",

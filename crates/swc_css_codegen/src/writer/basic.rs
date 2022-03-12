@@ -154,22 +154,16 @@ where
     W: Write,
 {
     fn write_space(&mut self) -> Result {
-        self.w.write_char(' ')
+        self.write_raw(None, " ")
     }
 
     fn write_newline(&mut self) -> Result {
         if !self.line_start {
-            self.raw_write(self.linefeed)?;
+            self.write_raw(None, self.linefeed)?;
             self.line += 1;
             self.col = 0;
             self.line_start = true;
         }
-
-        Ok(())
-    }
-
-    fn write_raw_char(&mut self, span: Option<Span>, c: char) -> Result {
-        self.write(span, &c.to_string())?;
 
         Ok(())
     }

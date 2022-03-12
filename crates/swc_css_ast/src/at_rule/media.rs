@@ -21,6 +21,7 @@ pub struct MediaQuery {
     pub span: Span,
     pub modifier: Option<Ident>,
     pub media_type: Option<Ident>,
+    pub keyword: Option<Ident>,
     pub condition: Option<MediaConditionType>,
 }
 
@@ -75,18 +76,21 @@ pub enum MediaConditionWithoutOrType {
 #[ast_node("MediaNot")]
 pub struct MediaNot {
     pub span: Span,
+    pub keyword: Ident,
     pub condition: MediaInParens,
 }
 
 #[ast_node("MediaAnd")]
 pub struct MediaAnd {
     pub span: Span,
+    pub keyword: Ident,
     pub condition: MediaInParens,
 }
 
 #[ast_node("MediaOr")]
 pub struct MediaOr {
     pub span: Span,
+    pub keyword: Ident,
     pub condition: MediaInParens,
 }
 

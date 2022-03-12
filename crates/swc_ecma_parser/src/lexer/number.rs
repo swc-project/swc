@@ -12,6 +12,22 @@ use tracing::trace;
 use super::*;
 use crate::error::SyntaxError;
 
+struct LazyBigInt<const RADIX: u8> {
+    value: String,
+}
+
+impl<const RADIX: u8> LazyBigInt<RADIX> {
+    fn new(value: String) -> Self {
+        Self { value }
+    }
+
+    #[inline]
+    fn into_value(self) -> BigIntValue {
+        BigIntValue::parse_bytes(self.value.as_bytes(), RADIX as _)
+            .expect("failed to parse string as a bigint")
+    }
+}
+
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
     pub(super) fn read_number(
@@ -36,16 +52,17 @@ impl<'a, I: Input> Lexer<'a, I> {
             0f64
         } else {
             // Use read_number_no_dot to support long numbers.
-            let (val, s, not_octal) = self.read_number_no_dot_as_str(10)?;
+            let (val, s, not_octal) = self
+                .read_number_no_dot_as_str::<10, { lexical::NumberFormatBuilder::from_radix(10) }>(
+                )?;
             if self.input.cur() == Some('n') {
                 self.input.bump();
-                return Ok(Either::Right(s));
+                return Ok(Either::Right(s.into_value()));
             }
-            write!(raw_val, "{}", s).unwrap();
+            write!(raw_val, "{}", &s.value).unwrap();
             if starts_with_zero {
                 // TODO: I guess it would be okay if I don't use -ffast-math
                 // (or something like that), but needs review.
-
                 if val == 0.0f64 {
                     // If only one zero is used, it's decimal.
                     // And if multiple zero is used, it's octal.
@@ -55,7 +72,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
-
                         return self.make_legacy_octal(start, 0f64).map(Either::Left);
                     }
                 } else {
@@ -63,7 +79,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // e.g. 08.1 is strict mode violation but 0.1 is valid float.
 
                     if val.fract() == 0.0 {
-                        let val_str = s.to_string();
+                        let val_str = &s.value;
 
                         // if it contains '8' or '9', it's decimal.
                         if not_octal {
@@ -71,10 +87,17 @@ impl<'a, I: Input> Lexer<'a, I> {
                             self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                         } else {
                             // It's Legacy octal, and we should reinterpret value.
-                            let val =
-                                lexical::parse_radix::<f64, _>(&val_str, 8).unwrap_or_else(|err| {
-                                    panic!("failed to parse {} using `lexical`: {:?}", val_str, err)
-                                });
+                            let val = lexical::parse_with_options::<
+                                f64,
+                                _,
+                                { lexical::NumberFormatBuilder::from_radix(8) },
+                            >(
+                                val_str,
+                                &lexical::parse_float_options::Options::from_radix(8),
+                            )
+                            .unwrap_or_else(|err| {
+                                panic!("failed to parse {} using `lexical`: {:?}", val_str, err)
+                            });
 
                             return self.make_legacy_octal(start, val).map(Either::Left);
                         }
@@ -102,7 +125,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             let mut raw = Raw(Some(String::new()));
             // Read numbers after dot
-            let dec_val = self.read_int(10, 0, &mut raw)?;
+            let dec_val = self.read_int::<10>(0, &mut raw)?;
             val = {
                 if let Some(..) = dec_val {
                     raw_val.push_str(raw.0.as_ref().unwrap());
@@ -138,7 +161,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 true
             };
 
-            let exp = self.read_number_no_dot(10)?;
+            let exp = self.read_number_no_dot::<10>()?;
 
             val = if exp == f64::INFINITY {
                 if positive && val != 0.0 {
@@ -163,20 +186,22 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
-    pub(super) fn read_radix_number(&mut self, radix: u8) -> LexResult<Either<f64, BigIntValue>> {
+    pub(super) fn read_radix_number<const RADIX: u8, const FORMAT: u128>(
+        &mut self,
+    ) -> LexResult<Either<f64, BigIntValue>> {
         debug_assert!(
-            radix == 2 || radix == 8 || radix == 16,
+            RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",
-            radix
+            RADIX
         );
         debug_assert_eq!(self.cur(), Some('0'));
 
         self.bump(); // 0
         self.bump(); // x
 
-        let (val, s, _) = self.read_number_no_dot_as_str(radix)?;
+        let (val, s, _) = self.read_number_no_dot_as_str::<RADIX, FORMAT>()?;
         if self.eat(b'n') {
-            return Ok(Either::Right(s));
+            return Ok(Either::Right(s.into_value()));
         }
 
         self.ensure_not_ident()?;
@@ -186,18 +211,17 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// This can read long integers like
     /// "13612536612375123612312312312312312312312".
-    fn read_number_no_dot(&mut self, radix: u8) -> LexResult<f64> {
+    fn read_number_no_dot<const RADIX: u8>(&mut self) -> LexResult<f64> {
         debug_assert!(
-            radix == 2 || radix == 8 || radix == 10 || radix == 16,
+            RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
-            radix
+            RADIX
         );
         let start = self.cur_pos();
 
         let mut read_any = false;
 
-        let res = self.read_digits(
-            radix,
+        let res = self.read_digits::<RADIX, _, f64>(
             |total, radix, v| {
                 read_any = true;
                 Ok((f64::mul_add(total, radix as f64, v as f64), true))
@@ -207,7 +231,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         );
 
         if !read_any {
-            self.error(start, SyntaxError::ExpectedDigit { radix })?;
+            self.error(start, SyntaxError::ExpectedDigit { radix: RADIX })?;
         }
         res
     }
@@ -217,11 +241,13 @@ impl<'a, I: Input> Lexer<'a, I> {
     ///
     ///
     /// Returned bool is `true` is there was `8` or `9`.
-    fn read_number_no_dot_as_str(&mut self, radix: u8) -> LexResult<(f64, BigIntValue, bool)> {
+    fn read_number_no_dot_as_str<const RADIX: u8, const FORMAT: u128>(
+        &mut self,
+    ) -> LexResult<(f64, LazyBigInt<RADIX>, bool)> {
         debug_assert!(
-            radix == 2 || radix == 8 || radix == 10 || radix == 16,
+            RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
-            radix
+            RADIX
         );
         let start = self.cur_pos();
         let mut non_octal = false;
@@ -229,9 +255,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut read_any = false;
 
         let mut raw = Raw(Some(String::new()));
-
-        self.read_digits(
-            radix,
+        self.read_digits::<RADIX, _, f64>(
             |total, radix, v| {
                 read_any = true;
 
@@ -246,15 +270,17 @@ impl<'a, I: Input> Lexer<'a, I> {
         )?;
 
         if !read_any {
-            self.error(start, SyntaxError::ExpectedDigit { radix })?;
+            self.error(start, SyntaxError::ExpectedDigit { radix: RADIX })?;
         }
 
         let raw_str = raw.0.take().unwrap();
         Ok((
-            lexical::parse_radix(raw_str.as_bytes(), radix as _)
-                .expect("failed to parse float using lexical"),
-            BigIntValue::parse_bytes(raw_str.as_bytes(), radix as _)
-                .expect("failed to parse string as a bigint"),
+            lexical::parse_with_options::<f64, _, FORMAT>(
+                raw_str.as_bytes(),
+                &lexical::parse_float_options::Options::from_radix(RADIX),
+            )
+            .expect("failed to parse float using lexical"),
+            LazyBigInt::new(raw_str),
             non_octal,
         ))
     }
@@ -274,10 +300,13 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// were read, the integer value otherwise.
     /// When `len` is not zero, this
     /// will return `None` unless the integer has exactly `len` digits.
-    pub(super) fn read_int(&mut self, radix: u8, len: u8, raw: &mut Raw) -> LexResult<Option<f64>> {
+    pub(super) fn read_int<const RADIX: u8>(
+        &mut self,
+        len: u8,
+        raw: &mut Raw,
+    ) -> LexResult<Option<f64>> {
         let mut count = 0u16;
-        let v = self.read_digits(
-            radix,
+        let v = self.read_digits::<RADIX, _, Option<f64>>(
             |opt: Option<f64>, radix, val| {
                 count += 1;
                 let total = opt.unwrap_or_default() * radix as f64 + val as f64;
@@ -294,17 +323,15 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
-    pub(super) fn read_int_u32(
+    pub(super) fn read_int_u32<const RADIX: u8>(
         &mut self,
-        radix: u8,
         len: u8,
         raw: &mut Raw,
     ) -> LexResult<Option<u32>> {
         let start = self.state.start;
 
         let mut count = 0;
-        let v = self.read_digits(
-            radix,
+        let v = self.read_digits::<RADIX, _, Option<u32>>(
             |opt: Option<u32>, radix, val| {
                 count += 1;
 
@@ -332,9 +359,8 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// `op`- |total, radix, value| -> (total * radix + value, continue)
-    fn read_digits<F, Ret>(
+    fn read_digits<const RADIX: u8, F, Ret>(
         &mut self,
-        radix: u8,
         mut op: F,
         raw: &mut Raw,
         allow_num_separator: bool,
@@ -344,12 +370,12 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ret: Copy + Default,
     {
         debug_assert!(
-            radix == 2 || radix == 8 || radix == 10 || radix == 16,
+            RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_int should be one of 2, 8, 10, 16, but got {}",
-            radix
+            RADIX
         );
         if cfg!(feature = "debug") {
-            trace!("read_digits(radix = {}), cur = {:?}", radix, self.cur());
+            trace!("read_digits(radix = {}), cur = {:?}", RADIX, self.cur());
         }
 
         let start = self.cur_pos();
@@ -364,14 +390,14 @@ impl<'a, I: Input> Lexer<'a, I> {
                         return false;
                     }
                     let c = c.unwrap();
-                    c.is_digit(radix as _)
+                    c.is_digit(RADIX as _)
                 };
                 let is_forbidden = |c: Option<char>| {
                     if c.is_none() {
                         return true;
                     }
 
-                    if radix == 16 {
+                    if RADIX == 16 {
                         matches!(c.unwrap(), '.' | 'X' | '_' | 'x')
                     } else {
                         matches!(c.unwrap(), '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o')
@@ -393,7 +419,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             // e.g. (val for a) = 10  where radix = 16
-            let val = if let Some(val) = c.to_digit(radix as _) {
+            let val = if let Some(val) = c.to_digit(RADIX as _) {
                 val
             } else {
                 return Ok(total);
@@ -402,7 +428,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             raw.push(c);
 
             self.bump();
-            let (t, cont) = op(total, radix, val)?;
+            let (t, cont) = op(total, RADIX, val)?;
             total = t;
             if !cont {
                 return Ok(total);
@@ -458,9 +484,9 @@ mod tests {
         })
     }
 
-    fn int(radix: u8, s: &'static str) -> u32 {
+    fn int<const RADIX: u8>(s: &'static str) -> u32 {
         lex(s, |l| {
-            l.read_int_u32(radix, 0, &mut Raw(None))
+            l.read_int_u32::<RADIX>(0, &mut Raw(None))
                 .unwrap()
                 .expect("read_int returned None")
         })
@@ -529,7 +555,8 @@ mod tests {
         assert_eq!(
             1_000_000_000_000_000_000_000_000_000_000f64,
             num("1000000000000000000000000000000")
-        )
+        );
+        assert_eq!(3.402_823_466_385_288_6e38, num("34028234663852886e22"),);
     }
 
     #[test]
@@ -545,33 +572,39 @@ mod tests {
     #[test]
     fn num_legacy_octal() {
         assert_eq!(0o12 as f64, num("0012"));
+        assert_eq!(10f64, num("012"));
     }
 
     #[test]
     fn read_int_1() {
-        assert_eq!(60, int(10, "60"));
-        assert_eq!(0o73, int(8, "73"));
+        assert_eq!(60, int::<10>("60"));
+        assert_eq!(0o73, int::<8>("73"));
     }
 
     #[test]
     fn read_int_short() {
-        assert_eq!(7, int(10, "7"));
+        assert_eq!(7, int::<10>("7"));
+        assert_eq!(10, int::<10>("10"));
     }
 
     #[test]
     fn read_radix_number() {
         assert_eq!(
             0o73 as f64,
-            lex("0o73", |l| l.read_radix_number(8).unwrap().left().unwrap())
+            lex("0o73", |l| l
+                .read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
+                .unwrap()
+                .left()
+                .unwrap())
         );
     }
 
     #[test]
     fn read_num_sep() {
-        assert_eq!(1_000, int(10, "1_000"));
-        assert_eq!(0xaebece, int(16, "AE_BE_CE"));
-        assert_eq!(0b1010000110000101, int(2, "1010_0001_1000_0101"));
-        assert_eq!(0o0666, int(8, "0_6_6_6"));
+        assert_eq!(1_000, int::<10>("1_000"));
+        assert_eq!(0xaebece, int::<16>("AE_BE_CE"));
+        assert_eq!(0b1010000110000101, int::<2>("1010_0001_1000_0101"));
+        assert_eq!(0o0666, int::<8>("0_6_6_6"));
     }
 
     #[test]
@@ -591,10 +624,39 @@ mod tests {
     fn large_bin_number() {
         const LONG: &str =
             "0B11111111111111111111111111111111111111111111111101001010100000010111110001111111111";
-
+        const VERY_LARGE_BINARY_NUMBER: &str =
+            "0B1111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             111111111111111111111111111111111111111111111111111111111111111111\
+             0010111110001111111111";
+        const FORMAT: u128 = lexical::NumberFormatBuilder::binary();
         assert_eq!(
-            lex(LONG, |l| l.read_radix_number(2).unwrap().left().unwrap()),
+            lex(LONG, |l| l
+                .read_radix_number::<2, FORMAT>()
+                .unwrap()
+                .left()
+                .unwrap()),
             9.671_406_556_917_009e24
+        );
+        assert_eq!(
+            lex(VERY_LARGE_BINARY_NUMBER, |l| l
+                .read_radix_number::<2, FORMAT>()
+                .unwrap()
+                .left()
+                .unwrap()),
+            1.0972248137587377e304
         );
     }
 

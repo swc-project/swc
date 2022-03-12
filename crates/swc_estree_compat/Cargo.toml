@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_estree_compat"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.68.0"
+version = "0.70.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -20,18 +20,18 @@ serde = {version = "1", features = ["derive"]}
 serde_json = "1.0.62"
 swc_atoms = {version = "0.2", path = "../swc_atoms"}
 swc_common = {version = "0.17.0", path = "../swc_common", features = ["concurrent", "sourcemap", "tty-emitter"]}
-swc_ecma_ast = {version = "0.69.0", path = "../swc_ecma_ast"}
-swc_ecma_parser = {version = "0.92.0", path = "../swc_ecma_parser"}
-swc_ecma_utils = {version = "0.71.0", path = "../swc_ecma_utils"}
-swc_ecma_visit = {version = "0.55.0", path = "../swc_ecma_visit"}
+swc_ecma_ast = {version = "0.70.0", path = "../swc_ecma_ast"}
+swc_ecma_parser = {version = "0.93.0", path = "../swc_ecma_parser"}
+swc_ecma_utils = {version = "0.72.0", path = "../swc_ecma_utils"}
+swc_ecma_visit = {version = "0.56.0", path = "../swc_ecma_visit"}
 swc_estree_ast = {version = "0.7.0", path = "../swc_estree_ast"}
 swc_node_comments = {version = "0.4.0", path = "../swc_node_comments/"}
 
 [dev-dependencies]
-pretty_assertions = "0.7.2"
-swc = {version = "0.148.0", path = "../swc"}
-swc_ecma_ast = {version = "0.69.0", path = "../swc_ecma_ast"}
-swc_ecma_parser = {version = "0.92.0", path = "../swc_ecma_parser"}
-swc_ecma_transforms = {version = "0.130.0", path = "../swc_ecma_transforms/"}
+pretty_assertions = "1.1"
+swc = {version = "0.150.0", path = "../swc"}
+swc_ecma_ast = {version = "0.70.0", path = "../swc_ecma_ast"}
+swc_ecma_parser = {version = "0.93.0", path = "../swc_ecma_parser"}
+swc_ecma_transforms = {version = "0.131.0", path = "../swc_ecma_transforms/"}
 testing = {version = "0.18.0", path = "../testing"}
 walkdir = "2"

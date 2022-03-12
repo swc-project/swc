@@ -855,6 +855,12 @@ error: Ident
 19 |     @media screen and (min-width: 900px) {
    |            ^^^^^^
 
+error: Ident
+  --> $DIR/tests/fixture/at-rule/document/input.css:19:19
+   |
+19 |     @media screen and (min-width: 900px) {
+   |                   ^^^
+
 error: MediaConditionWithoutOr
   --> $DIR/tests/fixture/at-rule/document/input.css:19:23
    |

@@ -127,3 +127,5 @@
         color: orange;
     }
 }
+
+@media (NOT (color)) OR (hover) {}
