@@ -164,6 +164,10 @@ jobs:
           profile: minimal
           override: true
           target: ${{ matrix.settings.target }}
+      - name: Install node dependencies
+        shell: bash
+        run: |
+          yarn
       - name: Cache cargo registry
         uses: actions/cache@v2
         with:
@@ -319,7 +323,9 @@ jobs:
           path: node_modules
           key: npm-cache-test-${{ matrix.settings.target }}-${{ matrix.node }}-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
-        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+        run: |
+          yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+          yarn run prepare
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:

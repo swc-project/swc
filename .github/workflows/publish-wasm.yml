@@ -33,7 +33,7 @@ jobs:
           key: ${{ runner.os }}-publish-integration
 
       - name: Install node dependencies
-        run: npm i
+        run: yarn
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -71,7 +71,7 @@ jobs:
           key: ${{ runner.os }}-publish-integration
 
       - name: Install node dependencies
-        run: npm i
+        run: yarn
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
