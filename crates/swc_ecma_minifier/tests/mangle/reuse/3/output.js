@@ -1267,9 +1267,9 @@ class aa extends Array {
         };
     }
 }
-class ba {
+class ab {
     static generate(a) {
-        return new ba(a).generate();
+        return new ab(a).generate();
     }
     constructor(a){
         this.cmd = a;
@@ -1406,7 +1406,7 @@ class ba {
             return '';
         }
         return this.label('Examples') + aa.from(a.map((a)=>[
-                q(p(`${ca(a.name)}:`)),
+                q(p(`${ac(a.name)}:`)),
                 `\n${a.description}`
             ]
         )).padding(1).indent(this.indent * 2).maxCellWidth(150).toString() + '\n';
@@ -1431,15 +1431,15 @@ class ba {
         return '\n' + this.line(p(`${a}:`)) + '\n';
     }
 }
-function ca(a) {
+function ac(a) {
     return (a?.charAt(0).toUpperCase() + a.slice(1)) ?? '';
 }
-const { stdout: da , stderr: ea  } = Deno;
+const { stdout: ad , stderr: ae  } = Deno;
 const c = Deno.permissions;
 const e = c && c.query && await c.query({
     name: 'env'
 });
-const fa = !!e && e.state === 'granted';
+const af = !!e && e.state === 'granted';
 class j {
     versionOption(a, c, b) {
         this._versionOption = a === false ? a : {
@@ -1887,7 +1887,7 @@ class j {
         if (!a.length) {
             return;
         }
-        if (fa) {
+        if (af) {
             a.forEach((a)=>{
                 const b = a.names.find((a)=>!!Deno.env.get(a)
                 );
@@ -2229,10 +2229,10 @@ class j {
         return this.literalArgs;
     }
     write(...a) {
-        da.writeSync(l(N(2) + Q(...a)));
+        ad.writeSync(l(N(2) + Q(...a)));
     }
     writeError(...a) {
-        ea.writeSync(l(N(2) + r(Q(`[ERROR:${this._name}]`, ...a))));
+        ae.writeSync(l(N(2) + r(Q(`[ERROR:${this._name}]`, ...a))));
     }
     log(...a) {
         this.write(...a, '\n');
@@ -2244,7 +2244,7 @@ class j {
         if (this.shouldThrowErrors()) {
             return a;
         }
-        const c = fa ? !!Deno.env.get('CLIFFY_DEBUG') : false;
+        const c = af ? !!Deno.env.get('CLIFFY_DEBUG') : false;
         b && this.help();
         this.logError(c ? a : a.message);
         this.log();
@@ -2255,7 +2255,7 @@ class j {
     }
     getHelp() {
         this.registerDefaults();
-        return ba.generate(this);
+        return ab.generate(this);
     }
     constructor(){
         this.types = new Map([
@@ -2304,12 +2304,12 @@ class j {
         this.hasDefaults = false;
     }
 }
-function ga(a, b) {
+function ag(a, b) {
     return B(a, b, '_');
 }
-class ha {
+class ah {
     static generate(a) {
-        return new ha(a).generate();
+        return new ah(a).generate();
     }
     constructor(a){
         this.cmd = a;
@@ -2317,7 +2317,7 @@ class ha {
     }
     generate() {
         return `
-# compdef _${ga(this.cmd.getPath())} ${this.cmd.getPath()}
+# compdef _${ag(this.cmd.getPath())} ${this.cmd.getPath()}
 #
 # zsh completion for ${this.cmd.getPath()}
 #
@@ -2326,8 +2326,8 @@ class ha {
 
 autoload -U is-at-least
 
-(( $+functions[__${ga(this.cmd.getName())}_complete] )) ||
-function __${ga(this.cmd.getName())}_complete {
+(( $+functions[__${ag(this.cmd.getName())}_complete] )) ||
+function __${ag(this.cmd.getName())}_complete {
     local name="$1"; shift
     local action="$1"; shift
     integer ret=1
@@ -2348,9 +2348,9 @@ function __${ga(this.cmd.getName())}_complete {
 
 ${this.generateCompletions(this.cmd).trim()}
 
-# _${ga(this.cmd.getPath())} "\${@}"
+# _${ag(this.cmd.getPath())} "\${@}"
 
-compdef _${ga(this.cmd.getPath())} ${this.cmd.getPath()}
+compdef _${ag(this.cmd.getPath())} ${this.cmd.getPath()}
 
 #
 # Local Variables:
@@ -2367,8 +2367,8 @@ compdef _${ga(this.cmd.getPath())} ${this.cmd.getPath()}
             return '';
         }
         b = (b ? b + ' ' : '') + a.getName();
-        return `(( $+functions[_${ga(b)}] )) ||
-function _${ga(b)}() {` + (!a.getParent() ? `\n\n    local context state state_descr line\n    typeset -A opt_args` : '') + this.generateCommandCompletions(a, b) + this.generateSubCommandCompletions(a, b) + this.generateArgumentCompletions(a, b) + this.generateActions(a) + `\n}\n\n` + a.getCommands(false).filter((b)=>b !== a
+        return `(( $+functions[_${ag(b)}] )) ||
+function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_descr line\n    typeset -A opt_args` : '') + this.generateCommandCompletions(a, b) + this.generateSubCommandCompletions(a, b) + this.generateArgumentCompletions(a, b) + this.generateActions(a) + `\n}\n\n` + a.getCommands(false).filter((b)=>b !== a
         ).map((a)=>this.generateCompletions(a, b)
         ).join('');
     }
@@ -2389,7 +2389,7 @@ function _${ga(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
             const g = c.getArguments()[0];
             const b = this.addAction(g, f);
             if (b) {
-                a += `\n        __${ga(this.cmd.getName())}_complete ${b.arg.name} ${b.arg.action} ${b.cmd}`;
+                a += `\n        __${ag(this.cmd.getName())}_complete ${b.arg.name} ${b.arg.action} ${b.cmd}`;
             }
         }
         if (a) {
@@ -2399,7 +2399,7 @@ function _${ga(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
     }
     generateSubCommandCompletions(a, c) {
         if (a.hasCommands(false)) {
-            const b = a.getCommands(false).map((a)=>`${a.getName()}) _${ga(c + ' ' + a.getName())} ;;`
+            const b = a.getCommands(false).map((a)=>`${a.getName()}) _${ag(c + ' ' + a.getName())} ;;`
             ).join('\n            ');
             return `\n
     function _command_args() {
@@ -2490,7 +2490,7 @@ function _${ga(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
     generateActions(b) {
         let a = [];
         if (this.actions.size) {
-            a = Array.from(this.actions).map(([b, a])=>`${b}) __${ga(this.cmd.getName())}_complete ${a.arg.name} ${a.arg.action} ${a.cmd} ;;`
+            a = Array.from(this.actions).map(([b, a])=>`${b}) __${ag(this.cmd.getName())}_complete ${a.arg.name} ${a.arg.action} ${a.cmd} ;;`
             );
         }
         if (b.hasCommands(false)) {
