@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es)** Merge `jsc.loose` and `jsc.assumptions` (#3990) ([3590ea2](https://github.com/swc-project/swc/commit/3590ea22779fa3ca57fc9eab55cd203f9fb23f29))
+
 ### Miscellaneous Tasks
 
 
