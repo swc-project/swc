@@ -74,6 +74,7 @@ impl SourceCode for MietteSourceCode<'_> {
         let line_count = loc.file.lines.len();
 
         Ok(Box::new(SpanContentsImpl {
+            _cm: self.0,
             data: src,
             span: src_span.clone(),
             line: loc.line - 1,
@@ -243,6 +244,9 @@ impl fmt::Display for MietteSubdiagnostic<'_> {
 }
 
 struct SpanContentsImpl<'a> {
+    /// This ensures that the underlying sourcemap is not dropped.
+    _cm: &'a SourceMap,
+
     // Data from a [`SourceCode`], in bytes.
     data: &'a str,
     // span actually covered by this SpanContents.
