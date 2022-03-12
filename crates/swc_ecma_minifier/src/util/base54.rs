@@ -365,6 +365,15 @@ mod tests {
     }
 
     #[test]
+    fn skip_reserved() {
+        let mut init = RESERVED[0];
+        let target = init + 2;
+        let gen = encode(&mut init, BASE54_DEFAULT_CHARS, true);
+        assert_eq!(gen, "breal");
+        assert_eq!(init, target);
+    }
+
+    #[test]
     fn perf_1() {
         let mut t = Tester { n: 0 };
 
