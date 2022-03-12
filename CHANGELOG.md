@@ -49,6 +49,9 @@
 
 - **(es/minifier)** Make mangler faster by merging hash sets into one (#3983) ([107c91d](https://github.com/swc-project/swc/commit/107c91dd206e31c221df98446f71e8f18020c060))
 
+
+- **(es/minifier)** Use fxhash for integers (#3984) ([67e6154](https://github.com/swc-project/swc/commit/67e615421f85aee2919016a5d01e4ebb1b9b08c4))
+
 ## [1.2.153] - 2022-03-11
 
 ### Bug Fixes
