@@ -82,6 +82,7 @@ impl Scope {
 
                 let sym: JsWord = sym.into();
 
+                // TODO: Use base54::decode
                 if preserved_symbols.contains(&sym) {
                     continue;
                 }
