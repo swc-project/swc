@@ -1,9 +1,9 @@
-#[cfg(not(feature = "fasthash"))]
+#[cfg(not(feature = "perf"))]
 use self::ahash::*;
-#[cfg(feature = "fasthash")]
+#[cfg(feature = "perf")]
 pub use self::fxhash::*;
 
-#[cfg(feature = "fasthash")]
+#[cfg(feature = "perf")]
 mod fxhash {
     use std::{
         collections::{HashMap, HashSet},
@@ -17,7 +17,7 @@ mod fxhash {
     pub type AHashSet<V> = HashSet<V, BuildHasherDefault<FxHasher>>;
 }
 
-#[cfg(not(feature = "fasthash"))]
+#[cfg(not(feature = "perf"))]
 mod ahash {
     use std::collections::{HashMap, HashSet};
 

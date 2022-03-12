@@ -28,7 +28,7 @@
 //! Allows replacing operations related to thread-local variables with a trait.
 //!
 //!
-//! ## `fasthash`
+//! ## `perf`
 //!
 //! Use `fxhash` instead of `ahash` for `AHashMap` and `AHashSet`.
 #![deny(clippy::all)]
