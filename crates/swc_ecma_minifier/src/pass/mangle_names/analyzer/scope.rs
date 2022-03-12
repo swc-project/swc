@@ -13,10 +13,11 @@ pub(crate) struct Scope {
 
 #[derive(Debug, Default)]
 pub struct ScopeData {
-    decls: AHashSet<Id>,
+    // decls: AHashSet<Id>,
 
-    /// Usages in current scope.
-    usages: AHashSet<Id>,
+    // /// Usages in current scope.
+    // usages: AHashSet<Id>,
+    all: AHashSet<Id>,
 
     queue: Vec<(Id, u32)>,
 }
@@ -27,7 +28,8 @@ impl Scope {
             return;
         }
 
-        self.data.decls.insert(id.clone());
+        // self.data.decls.insert(id.clone());
+        self.data.all.insert(id.clone());
         {
             if let Some((_, cnt)) = self.data.queue.iter_mut().find(|(i, _)| *i == *id) {
                 *cnt += 1;
@@ -46,7 +48,8 @@ impl Scope {
             *cnt += 1;
         }
 
-        self.data.usages.insert(id.clone());
+        // self.data.usages.insert(id.clone());
+        self.data.all.insert(id.clone());
     }
 
     pub(super) fn rename(
@@ -76,8 +79,10 @@ impl Scope {
 
                 if self.can_rename(&id, &sym, to) {
                     to.insert(id.clone(), sym);
-                    self.data.decls.remove(&id);
-                    self.data.usages.remove(&id);
+                    // self.data.decls.remove(&id);
+                    // self.data.usages.remove(&id);
+                    self.data.all.remove(&id);
+
                     break;
                 }
             }
@@ -88,6 +93,7 @@ impl Scope {
         }
     }
 
+    #[inline]
     fn can_rename(&self, id: &Id, symbol: &JsWord, renamed: &RenameMap) -> bool {
         if let Some(lefts) = renamed.get_by_right(symbol) {
             for left in lefts {
@@ -96,7 +102,11 @@ impl Scope {
                 }
 
                 //
-                if self.data.usages.contains(left) || self.data.decls.contains(left) {
+                // if self.data.usages.contains(left) || self.data.decls.contains(left) {
+                //     return false;
+                // }
+
+                if self.data.all.contains(left) {
                     return false;
                 }
             }
