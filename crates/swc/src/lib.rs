@@ -980,7 +980,7 @@ impl Compiler {
 
             self.process_js_inner(handler, orig.as_ref(), config)
         })
-        .context("failed to process js file")
+        .context("failed to process input file")
     }
 
     #[tracing::instrument(level = "info", skip(self, handler, opts))]

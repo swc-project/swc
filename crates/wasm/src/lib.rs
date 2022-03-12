@@ -126,7 +126,7 @@ pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
             );
             let out = c
                 .process_js_file(fm, handler, &opts)
-                .context("failed to process js file")?;
+                .context("failed to process input file")?;
 
             JsValue::from_serde(&out).context("failed to serialize json")
         })
