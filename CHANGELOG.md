@@ -32,6 +32,9 @@
 
 
 
+- **(ci)** Skip unnecessary package for the benchmark (#3980) ([485dc54](https://github.com/swc-project/swc/commit/485dc54d299c6f48752841401d2bfaf716f64f06))
+
+
 - **(es/parser)** Add some inline attributes (#3969) ([6a6c322](https://github.com/swc-project/swc/commit/6a6c32203b8f2fde61279320cca505052f969da3))
 
 ## [1.2.153] - 2022-03-11
