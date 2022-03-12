@@ -58,6 +58,9 @@
 
 - **(es/minifier)** Use fxhash for integers (#3984) ([67e6154](https://github.com/swc-project/swc/commit/67e615421f85aee2919016a5d01e4ebb1b9b08c4))
 
+
+- **(es/minifier)** Merge hashmap for scoping before checking (#3988) ([1beecce](https://github.com/swc-project/swc/commit/1beecceead16765abd1b698d3a255e647a2adcc7))
+
 ### Testing
 
 
