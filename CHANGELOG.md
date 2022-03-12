@@ -28,6 +28,9 @@
 
 - **(css/prefixer)** Prefix more properties (#3976) ([4a9a5ff](https://github.com/swc-project/swc/commit/4a9a5ffa4b128c706f9a73a8465a317240c4babf))
 
+
+- **(es/lints)** Mark catch params as binding patterns while checking duplicates (#3981) ([f28134f](https://github.com/swc-project/swc/commit/f28134fe774173b6e12c8571c92fe1c015f8b53b))
+
 ### Miscellaneous Tasks
 
 

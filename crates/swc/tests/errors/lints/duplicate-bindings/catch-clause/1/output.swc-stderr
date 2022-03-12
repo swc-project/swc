@@ -1,0 +1,8 @@
+error: the name `foo` is defined multiple times
+ 
+  |
+2 | } catch (foo) {
+  |          --- previous definition of `foo` here
+3 |     let foo;
+  |         ^^^ `foo` redefined here
+
