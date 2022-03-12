@@ -4,6 +4,7 @@ use swc_common::{input::SourceFileInput, Mark, SyntaxContext};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_lints::{
     config::LintConfig,
+    rule::Rule,
     rules::{all, LintParams},
 };
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
@@ -53,7 +54,7 @@ fn pass(input: PathBuf) {
 
         let config = LintConfig::default();
 
-        let rules = all(LintParams {
+        let mut rules = all(LintParams {
             program: &program,
             lint_config: &config,
             top_level_ctxt,
@@ -61,11 +62,12 @@ fn pass(input: PathBuf) {
             source_map: cm,
         });
 
-        HANDLER.set(handler, || {
-            if let Program::Module(m) = &program {
-                for mut rule in rules {
-                    rule.lint_module(m);
-                }
+        HANDLER.set(handler, || match &program {
+            Program::Module(m) => {
+                rules.lint_module(m);
+            }
+            Program::Script(s) => {
+                rules.lint_script(s);
             }
         });
 
