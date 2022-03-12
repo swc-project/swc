@@ -4,7 +4,7 @@ use swc_common::{input::SourceFileInput, Mark, SyntaxContext};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_lints::{
     config::LintConfig,
-    rule::{self, Rule},
+    rule::Rule,
     rules::{all, LintParams},
 };
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
