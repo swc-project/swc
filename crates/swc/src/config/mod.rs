@@ -1572,10 +1572,12 @@ impl Merge for swc_ecma_preset_env::Config {
 
 impl Merge for JscConfig {
     fn merge(&mut self, from: &Self) {
+        self.assumptions.merge(&from.assumptions);
         self.syntax.merge(&from.syntax);
         self.transform.merge(&from.transform);
-        self.target.merge(&from.target);
         self.external_helpers.merge(&from.external_helpers);
+        self.target.merge(&from.target);
+        self.loose.merge(&from.loose);
         self.keep_class_names.merge(&from.keep_class_names);
         self.paths.merge(&from.paths);
         self.minify.merge(&from.minify);
@@ -1670,6 +1672,34 @@ impl Merge for swc_ecma_parser::TsConfig {
     fn merge(&mut self, from: &Self) {
         self.tsx |= from.tsx;
         self.decorators |= from.decorators;
+    }
+}
+
+impl Merge for Assumptions {
+    fn merge(&mut self, from: &Self) {
+        self.array_like_is_iterable |= from.array_like_is_iterable;
+        self.constant_reexports |= from.constant_reexports;
+        self.constant_super |= from.constant_super;
+        self.enumerable_module_meta |= from.enumerable_module_meta;
+        self.ignore_function_length |= from.ignore_function_length;
+        self.ignore_function_name |= from.ignore_function_name;
+        self.ignore_to_primitive_hint |= from.ignore_to_primitive_hint;
+        self.iterable_is_array |= from.iterable_is_array;
+        self.mutable_template_object |= from.mutable_template_object;
+        self.no_class_calls |= from.no_class_calls;
+        self.no_document_all |= from.no_document_all;
+        self.no_incomplete_ns_import_detection |= from.no_incomplete_ns_import_detection;
+        self.no_new_arrows |= from.no_new_arrows;
+        self.object_rest_no_symbols |= from.object_rest_no_symbols;
+        self.private_fields_as_properties |= from.private_fields_as_properties;
+        self.pure_getters |= from.pure_getters;
+        self.set_class_methods |= from.set_class_methods;
+        self.set_computed_properties |= from.set_computed_properties;
+        self.set_public_class_fields |= from.set_public_class_fields;
+        self.set_spread_properties |= from.set_spread_properties;
+        self.skip_for_of_iterator_closing |= from.skip_for_of_iterator_closing;
+        self.super_is_callable_constructor |= from.super_is_callable_constructor;
+        self.ts_enum_is_readonly |= from.ts_enum_is_readonly;
     }
 }
 
