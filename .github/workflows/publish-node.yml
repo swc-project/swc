@@ -216,6 +216,17 @@ jobs:
     name: Build FreeBSD
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: Install node dependencies
+        shell: bash
+        run: |
+          yarn
+
       - name: Cleanup useless files to speedup
         run: |
           rm -rf crates/swc_css_parser/tests/errors
@@ -323,9 +334,7 @@ jobs:
           path: node_modules
           key: npm-cache-test-${{ matrix.settings.target }}-${{ matrix.node }}-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
-        run: |
-          yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
-          yarn run prepare
+        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
