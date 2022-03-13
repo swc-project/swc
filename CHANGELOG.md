@@ -22,6 +22,9 @@
 
 - **(es/minifier)** Refactor base54 (#3989) ([04db7e2](https://github.com/swc-project/swc/commit/04db7e2a9be00248e005deb0a9113bcba0039e8f))
 
+
+- **(es/minifier)** Use `Vec<u8>` as a buffer for `base54` (#3993) ([f7b212b](https://github.com/swc-project/swc/commit/f7b212bfc4fe9cdc89b77b5639be52a586c220e0))
+
 ## [1.2.154] - 2022-03-12
 
 ### Bug Fixes
