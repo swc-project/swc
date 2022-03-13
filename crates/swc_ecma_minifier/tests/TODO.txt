@@ -11,8 +11,6 @@ arrays/for_loop/input.js
 arrays/index/input.js
 arrays/index_length/input.js
 arrow/call_args_drop_param/input.js
-arrow/concise_methods_with_computed_property2/input.js
-arrow/export_default_object_expression/input.js
 arrow/issue_2084/input.js
 arrow/issue_2105_1/input.js
 arrow/issue_2105_2/input.js
