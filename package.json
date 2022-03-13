@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.2.153",
+    "version": "1.2.154",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -53,7 +53,7 @@
     "types": "./index.d.ts",
     "scripts": {
         "changelog": "git cliff --output CHANGELOG.md",
-        "prepare": "husky install && git config feature.manyFiles true && ./crates/swc_ecma_preset_env/scripts/copy-data.sh",
+        "prepare": "husky install && git config feature.manyFiles true && node ./crates/swc_ecma_preset_env/scripts/copy-data.js",
         "artifacts": "napi artifacts --dist scripts/npm",
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
         "build": "tsc -d && napi build --platform --cargo-name node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p node --release",

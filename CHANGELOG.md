@@ -5,6 +5,29 @@
 
 
 
+- **(es)** Merge `jsc.loose` and `jsc.assumptions` (#3990) ([3590ea2](https://github.com/swc-project/swc/commit/3590ea22779fa3ca57fc9eab55cd203f9fb23f29))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Invoke `yarn` before publishing ([743a5da](https://github.com/swc-project/swc/commit/743a5da1e5e6a3c9b8c59694e4f3cf04fa89006d))
+
+
+- **(es/preset-env)** Track `.json` files to make cargo happy ([bd0fcb9](https://github.com/swc-project/swc/commit/bd0fcb9ea491f713ab3c0ed2b6035d3438446e8e))- **general**: Update linguist (#3991) ([0312292](https://github.com/swc-project/swc/commit/0312292410e3e001906241f5a2ab88839995376f))
+
+### Performance
+
+
+
+- **(es/minifier)** Refactor base54 (#3989) ([04db7e2](https://github.com/swc-project/swc/commit/04db7e2a9be00248e005deb0a9113bcba0039e8f))
+
+## [1.2.154] - 2022-03-12
+
+### Bug Fixes
+
+
+
 - **(es)** Change error message as it can be misleading (#3982) ([48f2fd8](https://github.com/swc-project/swc/commit/48f2fd8e1b723e3dfa1d54c25aa9f3c391c5ee74))
 
 
@@ -43,14 +66,29 @@
 
 - **(es/parser)** Add some inline attributes (#3969) ([6a6c322](https://github.com/swc-project/swc/commit/6a6c32203b8f2fde61279320cca505052f969da3))
 
+
+- **(es/preset-env)** Use js script for copying files (#3986) ([83722df](https://github.com/swc-project/swc/commit/83722df21a54d29caffb6fe8eb1261763a085830))
+
 ### Performance
 
+
+
+- **(common)** Use `fxhash` everywhere (#3985) ([db60291](https://github.com/swc-project/swc/commit/db602911647360e0a26139d93882c353ba4d9330))
 
 
 - **(es/minifier)** Make mangler faster by merging hash sets into one (#3983) ([107c91d](https://github.com/swc-project/swc/commit/107c91dd206e31c221df98446f71e8f18020c060))
 
 
 - **(es/minifier)** Use fxhash for integers (#3984) ([67e6154](https://github.com/swc-project/swc/commit/67e615421f85aee2919016a5d01e4ebb1b9b08c4))
+
+
+- **(es/minifier)** Merge hashmap for scoping before checking (#3988) ([1beecce](https://github.com/swc-project/swc/commit/1beecceead16765abd1b698d3a255e647a2adcc7))
+
+### Testing
+
+
+
+- **(es)** Add tests for fixed issues (#3987) ([073d847](https://github.com/swc-project/swc/commit/073d847a33fe9902428633292efa8a606fe208f1))
 
 ## [1.2.153] - 2022-03-11
 

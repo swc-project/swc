@@ -2873,7 +2873,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "swc"
-version = "0.150.1"
+version = "0.150.3"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2929,7 +2929,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.121.0"
+version = "0.122.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3008,7 +3008,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.14"
+version = "0.17.15"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3269,7 +3269,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.89.2"
+version = "0.89.3"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3329,7 +3329,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.106.0"
+version = "0.106.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3655,7 +3655,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.132.0"
+version = "0.132.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3716,7 +3716,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_graph"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "ahash",
  "indexmap",
@@ -3726,7 +3726,7 @@ dependencies = [
 
 [[package]]
 name = "swc_graph_analyzer"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3752,6 +3752,7 @@ version = "0.5.1"
 dependencies = [
  "fastmem",
  "mimalloc-rust",
+ "swc_common",
 ]
 
 [[package]]
@@ -4391,7 +4392,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.153"
+version = "1.2.154"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
