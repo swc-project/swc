@@ -1,26 +1,22 @@
-error: Expected 'number', 'dimension', 'percentage', 'ident', '(' or 'function' tokens
- --> $DIR/tests/recovery/function/unclosed/input.css:2:18
-  |
-2 |     width: min(500px;
-  |                     ^
 
-error: Expected 'number', 'dimension', 'percentage', 'ident', '(' or 'function' tokens
- --> $DIR/tests/recovery/function/unclosed/input.css:3:1
-  |
-3 | }
-  | ^
+  x Expected 'number', 'dimension', 'percentage', 'ident', '(' or 'function' tokens
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:3:5]
+ 3 | width: min(500px;
+   :                 ^
+   `----
 
-error: Expected Declaration value
- --> $DIR/tests/recovery/function/unclosed/input.css:3:1
-  |
-3 | }
-  | ^
+  x Expected 'number', 'dimension', 'percentage', 'ident', '(' or 'function' tokens
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:4:1]
+ 4 | }
+   : ^
+   `----
 
-error: Unexpected end of file
- --> $DIR/tests/recovery/function/unclosed/input.css:3:3
-  |
-3 | }
-  |   ^
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:4:1]
+ 4 | }
+   : ^
+   `----
 
-error: Unexpected end of file
+  x Unexpected end of file
 
+  x Unexpected end of file
