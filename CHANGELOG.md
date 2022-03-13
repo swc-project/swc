@@ -37,6 +37,9 @@
 
 - **(es)** Add an execution test system (#3994) ([b22d084](https://github.com/swc-project/swc/commit/b22d084180b77508f5e940045eb1b7bb9cd5c99b))
 
+
+- **(es)** Add auto-closable tests (#3995) ([dabc492](https://github.com/swc-project/swc/commit/dabc4920a813ab395a96f9f8f90b3c50163063f9))
+
 ### Build
 
 
