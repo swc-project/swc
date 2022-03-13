@@ -1,18 +1,18 @@
 
   x Unexpected alert
    ,----
- 1 | this.alert();
+ 2 | this.alert();
    : ^^^^^^^^^^^^
    `----
 
   x Unexpected alert
     ,----
- 33 | this.alert();
+ 34 | this.alert();
     : ^^^^^^^^^^^^
     `----
 
   x Unexpected alert
     ,----
- 48 | this.alert();
+ 49 | this.alert();
     : ^^^^^^^^^^^^
     `----

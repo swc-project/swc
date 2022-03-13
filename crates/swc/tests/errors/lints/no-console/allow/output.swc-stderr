@@ -1,6 +1,6 @@
 
   x Unexpected console statement
    ,----
- 1 | console.log('restricted');
+ 2 | console.log('restricted');
    : ^^^^^^^^^^^
    `----

@@ -1,126 +1,126 @@
 
   x Unexpected empty function pattern
    ,----
- 1 | function foo1() {}
+ 2 | function foo1() {}
    : ^^^^^^^^^^^^^^^^^^
    `----
 
   x Unexpected empty function pattern
    ,----
- 3 | var foo2 = function() {};
+ 4 | var foo2 = function() {};
    :            ^^^^^^^^^^^^^
    `----
 
   x Unexpected empty generator function pattern
-   ,----
- 9 | function* foo4() {}
-   : ^^^^^^^^^^^^^^^^^^^
-   `----
+    ,----
+ 10 | function* foo4() {}
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
 
   x Unexpected empty generator function pattern
     ,----
- 11 | var foo5 = function*() {};
+ 12 | var foo5 = function*() {};
     :            ^^^^^^^^^^^^^^
     `----
 
   x Unexpected empty arrow function pattern
     ,----
- 13 | var foo6 = () => {};
+ 14 | var foo6 = () => {};
     :            ^^^^^^^^
     `----
 
   x Unexpected empty async function pattern
     ,----
- 15 | async function foo7() {}
+ 16 | async function foo7() {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Unexpected empty constructor pattern
     ,----
- 18 | constructor() {}
+ 19 | constructor() {}
     : ^^^^^^^^^^^^^^^^
     `----
 
   x Unexpected empty method pattern
     ,----
- 20 | foo() {}
+ 21 | foo() {}
     : ^^^^^^^^
     `----
 
   x Unexpected empty generator method pattern
     ,----
- 22 | *foo() {}
+ 23 | *foo() {}
     : ^^^^^^^^^
     `----
 
   x Unexpected empty getter method pattern
     ,----
- 24 | get foo() {}
+ 25 | get foo() {}
     : ^^^^^^^^^^^^
     `----
 
   x Unexpected empty setter method pattern
     ,----
- 26 | set foo(value) {}
+ 27 | set foo(value) {}
     : ^^^^^^^^^^^^^^^^^
     `----
 
   x Unexpected empty method pattern
     ,----
- 28 | static foo() {}
+ 29 | static foo() {}
     : ^^^^^^^^^^^^^^^
     `----
 
   x Unexpected empty generator method pattern
     ,----
- 30 | static *foo() {}
+ 31 | static *foo() {}
     : ^^^^^^^^^^^^^^^^
     `----
 
   x Unexpected empty getter method pattern
     ,----
- 32 | static get foo() {}
+ 33 | static get foo() {}
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Unexpected empty setter method pattern
     ,----
- 34 | static set foo(value) {}
+ 35 | static set foo(value) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Unexpected empty function pattern
     ,----
- 38 | foo: function() {},
+ 39 | foo: function() {},
     :      ^^^^^^^^^^^^^
     `----
 
   x Unexpected empty generator function pattern
     ,----
- 40 | foo: function*() {},
+ 41 | foo: function*() {},
     :      ^^^^^^^^^^^^^^
     `----
 
   x Unexpected empty function pattern
     ,----
- 42 | foo() {},
+ 43 | foo() {},
     : ^^^^^^^^
     `----
 
   x Unexpected empty generator function pattern
     ,----
- 44 | *foo() {},
+ 45 | *foo() {},
     : ^^^^^^^^^
     `----
 
   x Unexpected empty getter method pattern
     ,----
- 46 | get foo() {},
+ 47 | get foo() {},
     : ^^^^^^^^^^^^
     `----
 
   x Unexpected empty setter method pattern
     ,----
- 48 | set foo(value) {}
+ 49 | set foo(value) {}
     : ^^^^^^^^^^^^^^^^^
     `----

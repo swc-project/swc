@@ -1,6 +1,6 @@
 
   x String must use doublequotes
    ,----
- 2 | var s = 'double quotes string';
+ 3 | var s = 'double quotes string';
    :         ^^^^^^^^^^^^^^^^^^^^^^
    `----

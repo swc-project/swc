@@ -1,139 +1,139 @@
 
   x Missing radix parameter
    ,----
- 2 | parseInt("12");
+ 3 | parseInt("12");
    : ^^^^^^^^^^^^^^
    `----
 
 Error: 
   > Add radix parameter `10` for parsing decimal numbers
    ,----
- 2 | parseInt("12");
+ 3 | parseInt("12");
    : ^^^^^^^^^^^^^^
    `----
 
   x Missing radix parameter
    ,----
- 5 | Number.parseInt("12");
+ 6 | Number.parseInt("12");
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
 Error: 
   > Add radix parameter `10` for parsing decimal numbers
    ,----
- 5 | Number.parseInt("12");
+ 6 | Number.parseInt("12");
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Missing radix parameter
    ,----
- 8 | globalThis.parseInt("12");
+ 9 | globalThis.parseInt("12");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
 Error: 
   > Add radix parameter `10` for parsing decimal numbers
    ,----
- 8 | globalThis.parseInt("12");
+ 9 | globalThis.parseInt("12");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Missing radix parameter
     ,----
- 11 | Number['parseInt']("12");
+ 12 | Number['parseInt']("12");
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
 Error: 
   > Add radix parameter `10` for parsing decimal numbers
     ,----
- 11 | Number['parseInt']("12");
+ 12 | Number['parseInt']("12");
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Invalid radix parameter, must be an integer between 2 and 36
     ,----
- 14 | parseInt("12", 1);
+ 15 | parseInt("12", 1);
     : ^^^^^^^^^^^^^^^^^
     `----
 
   x Invalid radix parameter, must be an integer between 2 and 36
     ,----
- 17 | parseInt("12", 37);
+ 18 | parseInt("12", 37);
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x Missing parameters
     ,----
- 20 | parseInt();
+ 21 | parseInt();
     : ^^^^^^^^^^
     `----
 
   x Invalid radix parameter, must be an integer between 2 and 36
     ,----
- 23 | parseInt("12", "abc");
+ 24 | parseInt("12", "abc");
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Missing radix parameter
     ,----
- 36 | this.parseInt("12");
+ 37 | this.parseInt("12");
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
 Error: 
   > Add radix parameter `10` for parsing decimal numbers
     ,----
- 36 | this.parseInt("12");
+ 37 | this.parseInt("12");
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Missing radix parameter
     ,----
- 40 | globalThis.parseInt("12");
+ 41 | globalThis.parseInt("12");
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
 Error: 
   > Add radix parameter `10` for parsing decimal numbers
     ,----
- 40 | globalThis.parseInt("12");
+ 41 | globalThis.parseInt("12");
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Missing radix parameter
     ,----
- 43 | globalThis?.parseInt("12");
+ 44 | globalThis?.parseInt("12");
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
 Error: 
   > Add radix parameter `10` for parsing decimal numbers
     ,----
- 43 | globalThis?.parseInt("12");
+ 44 | globalThis?.parseInt("12");
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Invalid radix parameter, must be an integer between 2 and 36
     ,----
- 46 | parseInt("12", ("abc"));
+ 47 | parseInt("12", ("abc"));
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Invalid radix parameter, must be an integer between 2 and 36
     ,----
- 52 | parseInt("12", 2.4);
+ 53 | parseInt("12", 2.4);
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Invalid radix parameter, must be an integer between 2 and 36
     ,----
- 55 | parseInt(`12`, `10`);
+ 56 | parseInt(`12`, `10`);
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Invalid radix parameter, must be an integer between 2 and 36
     ,----
- 58 | console.log(parseInt('10', '10'));
+ 59 | console.log(parseInt('10', '10'));
     :             ^^^^^^^^^^^^^^^^^^^^
     `----

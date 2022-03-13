@@ -1,96 +1,96 @@
 
   x Unexpected use of '|'
    ,----
- 1 | var x = y | z;
+ 2 | var x = y | z;
    :         ^^^^^
    `----
 
   x Unexpected use of '&'
    ,----
- 3 | var x = y & z;
+ 4 | var x = y & z;
    :         ^^^^^
    `----
 
   x Unexpected use of '^'
    ,----
- 5 | var x = y ^ z;
+ 6 | var x = y ^ z;
    :         ^^^^^
    `----
 
   x Unexpected use of '~'
    ,----
- 7 | var x = ~ z;
+ 8 | var x = ~ z;
    :         ^^^
    `----
 
   x Unexpected use of '<<'
-   ,----
- 9 | var x = y << z;
-   :         ^^^^^^
-   `----
+    ,----
+ 10 | var x = y << z;
+    :         ^^^^^^
+    `----
 
   x Unexpected use of '>>'
     ,----
- 11 | var x = y >> z;
+ 12 | var x = y >> z;
     :         ^^^^^^
     `----
 
   x Unexpected use of '>>>'
     ,----
- 13 | var x = y >>> z;
+ 14 | var x = y >>> z;
     :         ^^^^^^^
     `----
 
   x Unexpected use of '|='
     ,----
- 15 | x |= y;
+ 16 | x |= y;
     : ^^^^^^
     `----
 
   x Unexpected use of '&='
     ,----
- 17 | x &= y;
+ 18 | x &= y;
     : ^^^^^^
     `----
 
   x Unexpected use of '^='
     ,----
- 19 | x ^= y;
+ 20 | x ^= y;
     : ^^^^^^
     `----
 
   x Unexpected use of '<<='
     ,----
- 21 | x <<= y;
+ 22 | x <<= y;
     : ^^^^^^^
     `----
 
   x Unexpected use of '>>='
     ,----
- 23 | x >>= y;
+ 24 | x >>= y;
     : ^^^^^^^
     `----
 
   x Unexpected use of '>>>='
     ,----
- 25 | x >>>= y;
+ 26 | x >>>= y;
     : ^^^^^^^^
     `----
 
   x Unexpected use of '^'
     ,----
- 27 | if (a ^ b) {}
+ 28 | if (a ^ b) {}
     :     ^^^^^
     `----
 
   x Unexpected use of '^'
     ,----
- 29 | var a = x ^ y;
+ 30 | var a = x ^ y;
     :         ^^^^^
     `----
 
   x Unexpected use of '^'
     ,----
- 32 | a = x ^ y
+ 33 | a = x ^ y
     :     ^^^^^
     `----

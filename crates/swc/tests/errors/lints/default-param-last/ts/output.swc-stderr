@@ -1,6 +1,6 @@
 
   x Default parameters should be last.
    ,----
- 2 | constructor({ a } = {}, public b) {}
+ 3 | constructor({ a } = {}, public b) {}
    :                         ^^^^^^^^
    `----

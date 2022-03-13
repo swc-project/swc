@@ -1,6 +1,6 @@
-error: Unexpected duplicate '@import' rule 'a.css'.
- --> $DIR/tests/rules/fail/no-duplicate-at-import-rules/1/input.css:1:18
-  |
-1 | @import 'a.css'; @import 'a.css';
-  |                  ^^^^^^^^^^^^^^^^
 
+  x Unexpected duplicate '@import' rule 'a.css'.
+   ,-[$DIR/tests/rules/fail/no-duplicate-at-import-rules/1/input.css:1:1]
+ 1 | @import 'a.css'; @import 'a.css';
+   :                  ^^^^^^^^^^^^^^^^
+   `----

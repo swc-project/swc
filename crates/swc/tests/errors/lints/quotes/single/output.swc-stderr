@@ -1,18 +1,18 @@
 
   x String must use singlequotes
    ,----
- 1 | var s = `template string`;
+ 2 | var s = `template string`;
    :         ^^^^^^^^^^^^^^^^^
    `----
 
   x String must use singlequotes
    ,----
- 2 | var s = `template string with "escape"`;
+ 3 | var s = `template string with "escape"`;
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x String must use singlequotes
    ,----
- 8 | var s = "double quotes string";
+ 9 | var s = "double quotes string";
    :         ^^^^^^^^^^^^^^^^^^^^^^
    `----

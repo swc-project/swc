@@ -1,6 +1,6 @@
 
   x no 'for-in' expession
    ,----
- 1 | for (var x in {}) {}
+ 2 | for (var x in {}) {}
    : ^^^^^^^^^^^^^^^^^^^^
    `----

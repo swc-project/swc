@@ -1,48 +1,48 @@
 
   x Use a regular expression literal instead of the 'RegExp' constructor
    ,----
- 1 | new RegExp("abc");
+ 2 | new RegExp("abc");
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x Use a regular expression literal instead of the 'RegExp' constructor
    ,----
- 2 | new RegExp("abc", "u");
+ 3 | new RegExp("abc", "u");
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Use a regular expression literal instead of the 'RegExp' constructor
    ,----
- 3 | RegExp("abc");
+ 4 | RegExp("abc");
    : ^^^^^^^^^^^^^
    `----
 
   x Use a regular expression literal instead of the 'RegExp' constructor
    ,----
- 4 | RegExp("abc", "u");
+ 5 | RegExp("abc", "u");
    : ^^^^^^^^^^^^^^^^^^
    `----
 
   x Use a regular expression literal instead of the 'RegExp' constructor
    ,----
- 5 | new RegExp("\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d");
+ 6 | new RegExp("\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Use a regular expression literal instead of the 'RegExp' constructor
    ,----
- 6 | RegExp(`^\\d\\.$`);
+ 7 | RegExp(`^\\d\\.$`);
    : ^^^^^^^^^^^^^^^^^^
    `----
 
   x Use a regular expression literal instead of the 'RegExp' constructor
    ,----
- 7 | new RegExp(String.raw`^\d\.$`);
+ 8 | new RegExp(String.raw`^\d\.$`);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Use a regular expression literal instead of the 'RegExp' constructor
     ,----
- 38 | new RegExp("a");
+ 39 | new RegExp("a");
     : ^^^^^^^^^^^^^^^
     `----

@@ -1,6 +1,6 @@
 
   x ['a'] is better written in dot notation
    ,----
- 3 | obj['a'];
+ 4 | obj['a'];
    :    ^^^^^
    `----

@@ -1,18 +1,18 @@
 
   x Do not use 'new' for side effects
    ,----
- 1 | new A()
+ 2 | new A()
    : ^^^^^^^
    `----
 
   x Do not use 'new' for side effects
    ,----
- 4 | new A()
+ 5 | new A()
    : ^^^^^^^
    `----
 
   x Do not use 'new' for side effects
-   ,----
- 9 | new A();
-   : ^^^^^^^
-   `----
+    ,----
+ 10 | new A();
+    : ^^^^^^^
+    `----

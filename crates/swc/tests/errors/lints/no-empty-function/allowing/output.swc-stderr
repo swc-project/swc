@@ -1,12 +1,12 @@
 
   x Unexpected empty generator function pattern
    ,----
- 3 | function* foo2() {}
+ 4 | function* foo2() {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Unexpected empty method pattern
     ,----
- 10 | method2() {}
+ 11 | method2() {}
     : ^^^^^^^^^^^^
     `----

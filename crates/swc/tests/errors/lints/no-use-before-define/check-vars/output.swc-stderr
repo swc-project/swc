@@ -1,6 +1,6 @@
 
   x 'a' was used before it was defined
    ,----
- 1 | alert(a);
+ 2 | alert(a);
    :       ^
    `----

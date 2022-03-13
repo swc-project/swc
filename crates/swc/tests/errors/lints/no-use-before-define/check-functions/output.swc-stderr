@@ -1,6 +1,6 @@
 
   x 'foo' was used before it was defined
    ,----
- 1 | foo();
+ 2 | foo();
    : ^^^
    `----

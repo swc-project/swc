@@ -1,84 +1,84 @@
 
   x 'a' was used before it was defined
    ,----
- 1 | alert(a);
+ 2 | alert(a);
    :       ^
    `----
 
   x 'a' was used before it was defined
    ,----
- 3 | console.log(a);
+ 4 | console.log(a);
    :             ^
    `----
 
   x 'a' was used before it was defined
-   ,----
- 9 | obj[a];
-   :     ^
-   `----
+    ,----
+ 10 | obj[a];
+    :     ^
+    `----
 
   x 'a' was used before it was defined
     ,----
- 11 | `${a}`;
+ 12 | `${a}`;
     :    ^
     `----
 
   x 'a' was used before it was defined
     ,----
- 13 | [a];
+ 14 | [a];
     :  ^
     `----
 
   x 'a' was used before it was defined
     ,----
- 15 | var x = a + "";
+ 16 | var x = a + "";
     :         ^
     `----
 
   x 'a' was used before it was defined
     ,----
- 18 | [a]: "",
+ 19 | [a]: "",
     :  ^
     `----
 
   x 'b' was used before it was defined
     ,----
- 25 | alert(b);
+ 26 | alert(b);
     :       ^
     `----
 
   x 'a1' was used before it was defined
     ,----
- 30 | console.log(a1);
+ 31 | console.log(a1);
     :             ^^
     `----
 
   x 'a3' was used before it was defined
     ,----
- 37 | console.log(a3);
+ 38 | console.log(a3);
     :             ^^
     `----
 
   x 'a4' was used before it was defined
     ,----
- 42 | console.log(a4);
+ 43 | console.log(a4);
     :             ^^
     `----
 
   x 'a5' was used before it was defined
     ,----
- 49 | console.log(a5);
+ 50 | console.log(a5);
     :             ^^
     `----
 
   x 'a6' was used before it was defined
     ,----
- 54 | console.log(a6);
+ 55 | console.log(a6);
     :             ^^
     `----
 
   x 'a7' was used before it was defined
     ,----
- 59 | console.log(a7);
+ 60 | console.log(a7);
     :             ^^
     `----

@@ -1,6 +1,6 @@
-error: Unexpected '!important'.
- --> $DIR/tests/rules/fail/keyframe-declaration-no-important/input.css:6:20
-  |
-6 |         opacity: 1 !important;
-  |                    ^^^^^^^^^^
 
+  x Unexpected '!important'.
+   ,-[$DIR/tests/rules/fail/keyframe-declaration-no-important/input.css:6:9]
+ 6 | opacity: 1 !important;
+   :            ^^^^^^^^^^
+   `----
