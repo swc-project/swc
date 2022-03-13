@@ -7,11 +7,7 @@ use anyhow::{anyhow, Context, Error};
 use napi::{Env, Status};
 use serde::de::DeserializeOwned;
 use swc::try_with_handler;
-use swc_common::{
-    errors::{ColorConfig, Handler},
-    sync::Lrc,
-    SourceMap,
-};
+use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use tracing::instrument;
 use tracing_chrome::ChromeLayerBuilder;
 use tracing_subscriber::{
