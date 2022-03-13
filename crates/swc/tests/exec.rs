@@ -6,8 +6,18 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use swc::{config::Options, try_with_handler, Compiler};
-use swc_common::{errors::Handler, SourceMap};
+use swc_common::{errors::Handler, sync::Lazy, SourceMap};
 use testing::assert_eq;
+
+fn create_matrix() -> &'static [Options] {
+    static MATRIX: Lazy<&[Options]> = Lazy::new(|| {
+        let mut vec = vec![];
+
+        Box::new(vec).leak()
+    });
+
+    *MATRIX
+}
 
 #[testing::fixture("tests/exec/**/exec.js")]
 #[testing::fixture("tests/exec/**/exec.ts")]
