@@ -246,6 +246,8 @@ pub struct HandlerOpts {
     /// [ColorConfig::Auto] is the default, and it will print colors unless the
     /// environment variable `NO_COLOR` is not 1.
     pub color: ColorConfig,
+
+    /// Defaults to `false`.
     pub skip_filename: bool,
 }
 
