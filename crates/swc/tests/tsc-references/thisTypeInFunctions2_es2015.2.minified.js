@@ -18,7 +18,5 @@ extend1({
     foo (n) {
         return n.length + this.bar();
     },
-    bar () {
-        return 14;
-    }
+    bar: ()=>14
 });

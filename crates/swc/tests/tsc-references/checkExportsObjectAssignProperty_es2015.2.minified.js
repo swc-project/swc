@@ -6,14 +6,11 @@ Object.defineProperty(exports, "thing", {
     value: "Smith",
     writable: !1
 }), Object.defineProperty(exports, "rwAccessors", {
-    get () {
-        return 98122;
-    },
+    get: ()=>98122
+    ,
     set (_) {}
 }), Object.defineProperty(exports, "readonlyAccessor", {
-    get () {
-        return 21.75;
-    }
+    get: ()=>21.75
 }), Object.defineProperty(exports, "setonlyAccessor", {
     set (str) {
         this.rwAccessors = Number(str);
@@ -25,14 +22,11 @@ Object.defineProperty(exports, "thing", {
     value: "Smith",
     writable: !1
 }), Object.defineProperty(module.exports, "rwAccessors", {
-    get () {
-        return 98122;
-    },
+    get: ()=>98122
+    ,
     set (_) {}
 }), Object.defineProperty(module.exports, "readonlyAccessor", {
-    get () {
-        return 21.75;
-    }
+    get: ()=>21.75
 }), Object.defineProperty(module.exports, "setonlyAccessor", {
     set (str) {
         this.rwAccessors = Number(str);

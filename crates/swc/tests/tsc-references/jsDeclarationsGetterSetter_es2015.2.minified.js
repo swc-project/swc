@@ -15,9 +15,7 @@ export class C {
 export class D {
 }
 Object.defineProperty(D.prototype, "x", {
-    get () {
-        return 12;
-    }
+    get: ()=>12
 });
 export class E {
 }
@@ -27,8 +25,7 @@ Object.defineProperty(E.prototype, "x", {
 export class F {
 }
 Object.defineProperty(F.prototype, "x", {
-    get () {
-        return 12;
-    },
+    get: ()=>12
+    ,
     set (_arg) {}
 });

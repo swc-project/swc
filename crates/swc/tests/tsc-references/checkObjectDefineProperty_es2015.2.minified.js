@@ -8,14 +8,11 @@ Object.defineProperty(x, "name", {
     value: "Smith",
     writable: !1
 }), Object.defineProperty(x, "zip", {
-    get () {
-        return 98122;
-    },
+    get: ()=>98122
+    ,
     set (_) {}
 }), Object.defineProperty(x, "houseNumber", {
-    get () {
-        return 21.75;
-    }
+    get: ()=>21.75
 }), Object.defineProperty(x, "zipStr", {
     set (str) {
         this.zip = Number(str);

@@ -7,7 +7,9 @@ class TextComponent extends React.Component {
 }
 swcHelpers.extends({}, {
     editable: !1
-}), swcHelpers.extends({}, {
-    editable: !0,
-    onEdit: ()=>{}
 });
+const textPropsTrue = {
+    editable: !0,
+    onEdit () {}
+};
+swcHelpers.extends({}, textPropsTrue);

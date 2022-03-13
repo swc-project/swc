@@ -81,9 +81,8 @@ let vue = new Vue({
             return this.x;
         },
         hello: {
-            get () {
-                return "hi";
-            },
+            get: ()=>"hi"
+            ,
             set (value) {}
         }
     }

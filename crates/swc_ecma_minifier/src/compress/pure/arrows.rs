@@ -1,8 +1,9 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::contains_this_expr;
+use swc_ecma_utils::{contains_arguments, contains_this_expr};
 
 use super::Pure;
+use crate::compress::util::contains_super;
 
 /// Methods related to the option `arrows`.
 impl Pure<'_> {
@@ -69,6 +70,13 @@ impl Pure<'_> {
         }
 
         if let Prop::Method(m) = p {
+            if m.function.is_generator
+                || contains_arguments(&m.function.body)
+                || contains_super(&m.function.body)
+            {
+                return;
+            }
+
             let m_span = m.function.span;
 
             if let Some(body) = &mut m.function.body {
