@@ -1,29 +1,36 @@
 use std::{
+    fmt,
     io::{self, Write},
     sync::{Arc, RwLock},
 };
 
 use swc_common::{
-    errors::{EmitterWriter, Handler, HandlerFlags, SourceMapperDyn},
+    errors::{Handler, HandlerFlags},
     sync::Lrc,
+    SourceMap,
+};
+use swc_error_reporters::{
+    GraphicalReportHandler, GraphicalTheme, PrettyEmitter, PrettyEmitterConfig,
 };
 
 use super::StdErr;
 
 /// Creates a new handler for testing.
-pub(crate) fn new_handler(
-    cm: Lrc<SourceMapperDyn>,
-    treat_err_as_bug: bool,
-) -> (Handler, BufferedError) {
+pub(crate) fn new_handler(cm: Lrc<SourceMap>, treat_err_as_bug: bool) -> (Handler, BufferedError) {
     let buf: BufferedError = Default::default();
 
-    let e = EmitterWriter::new(Box::new(buf.clone()), Some(cm.clone()), false, true);
-
+    let emitter = PrettyEmitter::new(
+        cm,
+        Box::new(buf.clone()),
+        GraphicalReportHandler::default().with_theme(GraphicalTheme::none()),
+        PrettyEmitterConfig {
+            skip_filename: false,
+        },
+    );
     let handler = Handler::with_emitter_and_flags(
-        Box::new(e),
+        Box::new(emitter),
         HandlerFlags {
             treat_err_as_bug,
-            can_emit_warnings: true,
             ..Default::default()
         },
     );
@@ -49,5 +56,12 @@ impl From<BufferedError> for StdErr {
         let s: String = String::from_utf8_lossy(&s).into();
 
         s.into()
+    }
+}
+
+impl fmt::Write for BufferedError {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        self.write(s.as_bytes()).map_err(|_| fmt::Error)?;
+        Ok(())
     }
 }
