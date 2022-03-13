@@ -7,8 +7,6 @@ module.exports = function(timeout) {
 }, module.exports = function(handle) {
     this.handle = handle;
 }, Context.prototype = {
-    construct (input, handle = ()=>void 0
-    ) {
-        return input;
-    }
+    construct: (input, handle = ()=>void 0
+    )=>input
 }, module.exports = Context;

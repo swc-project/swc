@@ -4137,7 +4137,7 @@
                     const c = s13.createWebChannel(o, r);
                     let a = !1, u = !1;
                     const h = new Gr({
-                        vi: (t)=>{
+                        vi (t) {
                             u ? $("Connection", "Not sending because WebChannel is closed:", t) : (a || ($("Connection", "Opening WebChannel transport."), c.open(), a = !0), $("Connection", "WebChannel sending:", t), c.send(t));
                         },
                         Vi: ()=>c.close()
@@ -6278,7 +6278,7 @@
                     const s25 = new Q;
                     return t255.asyncQueue.enqueueAndForget(async ()=>(function(t256, e, n54, s, i) {
                             const r = new Lc({
-                                next: (n)=>{
+                                next (n) {
                                     e.enqueueAndForget(()=>Uo(t256, o)
                                     ), n.fromCache && "server" === s.source ? i.reject(new j(K.UNAVAILABLE, "Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to \"server\" to retrieve the cached documents.)")) : i.resolve(n);
                                 },
