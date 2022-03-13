@@ -6,9 +6,9 @@ error: Stylesheet
 3   | | .foo {
 4   | |     display: grid;
 ...   |
-102 | | a/**/
-103 | | {}
-    | |___^
+114 | | ;
+115 | | }
+    | |__^
 
 error: Rule
  --> $DIR/tests/fixture/style-block/input.css:1:1
@@ -4025,4 +4025,544 @@ error: SimpleBlock
     |
 103 | {}
     | ^^
+
+error: Rule
+   --> $DIR/tests/fixture/style-block/input.css:105:1
+    |
+105 | / :root {
+106 | |     --zero-size: {
+107 | |         width: 0;
+108 | |         height: 0;
+...   |
+114 | | ;
+115 | | }
+    | |_^
+
+error: QualifiedRule
+   --> $DIR/tests/fixture/style-block/input.css:105:1
+    |
+105 | / :root {
+106 | |     --zero-size: {
+107 | |         width: 0;
+108 | |         height: 0;
+...   |
+114 | | ;
+115 | | }
+    | |_^
+
+error: SelectorList
+   --> $DIR/tests/fixture/style-block/input.css:105:1
+    |
+105 | :root {
+    | ^^^^^
+
+error: ComplexSelector
+   --> $DIR/tests/fixture/style-block/input.css:105:1
+    |
+105 | :root {
+    | ^^^^^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/style-block/input.css:105:1
+    |
+105 | :root {
+    | ^^^^^
+
+error: SubclassSelector
+   --> $DIR/tests/fixture/style-block/input.css:105:1
+    |
+105 | :root {
+    | ^^^^^
+
+error: PseudoClassSelector
+   --> $DIR/tests/fixture/style-block/input.css:105:1
+    |
+105 | :root {
+    | ^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/style-block/input.css:105:2
+    |
+105 | :root {
+    |  ^^^^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/style-block/input.css:105:7
+    |
+105 |   :root {
+    |  _______^
+106 | |     --zero-size: {
+107 | |         width: 0;
+108 | |         height: 0;
+...   |
+114 | | ;
+115 | | }
+    | |_^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:106:5
+    |
+106 |     --zero-size: {
+    |     ^^^^^^^^^^^^^^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/style-block/input.css:106:5
+    |
+106 |     --zero-size: {
+    |     ^^^^^^^^^^^^^^
+
+error: Declaration
+   --> $DIR/tests/fixture/style-block/input.css:106:5
+    |
+106 |     --zero-size: {
+    |     ^^^^^^^^^^^^^^
+
+error: DeclarationName
+   --> $DIR/tests/fixture/style-block/input.css:106:5
+    |
+106 |     --zero-size: {
+    |     ^^^^^^^^^^^
+
+error: DashedIdent
+   --> $DIR/tests/fixture/style-block/input.css:106:5
+    |
+106 |     --zero-size: {
+    |     ^^^^^^^^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:106:18
+    |
+106 |     --zero-size: {
+    |                  ^
+
+error: LBrace
+   --> $DIR/tests/fixture/style-block/input.css:106:18
+    |
+106 |     --zero-size: {
+    |                  ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:106:19
+    |
+106 |       --zero-size: {
+    |  ___________________^
+107 | |         width: 0;
+    | |________^
+
+error: WhiteSpace { value: Atom('
+        ' type=dynamic) }
+   --> $DIR/tests/fixture/style-block/input.css:106:19
+    |
+106 |       --zero-size: {
+    |  ___________________^
+107 | |         width: 0;
+    | |________^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:107:9
+    |
+107 |         width: 0;
+    |         ^^^^^
+
+error: Ident { value: Atom('width' type=inline), raw: Atom('width' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:107:9
+    |
+107 |         width: 0;
+    |         ^^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:107:14
+    |
+107 |         width: 0;
+    |              ^
+
+error: Colon
+   --> $DIR/tests/fixture/style-block/input.css:107:14
+    |
+107 |         width: 0;
+    |              ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:107:15
+    |
+107 |         width: 0;
+    |               ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:107:15
+    |
+107 |         width: 0;
+    |               ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:107:16
+    |
+107 |         width: 0;
+    |                ^
+
+error: Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
+   --> $DIR/tests/fixture/style-block/input.css:107:16
+    |
+107 |         width: 0;
+    |                ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:107:17
+    |
+107 |         width: 0;
+    |                 ^
+
+error: Semi
+   --> $DIR/tests/fixture/style-block/input.css:107:17
+    |
+107 |         width: 0;
+    |                 ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:107:18
+    |
+107 |           width: 0;
+    |  __________________^
+108 | |         height: 0;
+    | |________^
+
+error: WhiteSpace { value: Atom('
+        ' type=dynamic) }
+   --> $DIR/tests/fixture/style-block/input.css:107:18
+    |
+107 |           width: 0;
+    |  __________________^
+108 | |         height: 0;
+    | |________^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:108:9
+    |
+108 |         height: 0;
+    |         ^^^^^^
+
+error: Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:108:9
+    |
+108 |         height: 0;
+    |         ^^^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:108:15
+    |
+108 |         height: 0;
+    |               ^
+
+error: Colon
+   --> $DIR/tests/fixture/style-block/input.css:108:15
+    |
+108 |         height: 0;
+    |               ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:108:16
+    |
+108 |         height: 0;
+    |                ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:108:16
+    |
+108 |         height: 0;
+    |                ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:108:17
+    |
+108 |         height: 0;
+    |                 ^
+
+error: Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
+   --> $DIR/tests/fixture/style-block/input.css:108:17
+    |
+108 |         height: 0;
+    |                 ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:108:18
+    |
+108 |         height: 0;
+    |                  ^
+
+error: Semi
+   --> $DIR/tests/fixture/style-block/input.css:108:18
+    |
+108 |         height: 0;
+    |                  ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:108:19
+    |
+108 |           height: 0;
+    |  ___________________^
+109 | |     };
+    | |____^
+
+error: WhiteSpace { value: Atom('
+    ' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:108:19
+    |
+108 |           height: 0;
+    |  ___________________^
+109 | |     };
+    | |____^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:109:5
+    |
+109 |     };
+    |     ^
+
+error: RBrace
+   --> $DIR/tests/fixture/style-block/input.css:109:5
+    |
+109 |     };
+    |     ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:110:5
+    |
+110 |     --small-icon: {
+    |     ^^^^^^^^^^^^^^^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/style-block/input.css:110:5
+    |
+110 |     --small-icon: {
+    |     ^^^^^^^^^^^^^^^
+
+error: Declaration
+   --> $DIR/tests/fixture/style-block/input.css:110:5
+    |
+110 |     --small-icon: {
+    |     ^^^^^^^^^^^^^^^
+
+error: DeclarationName
+   --> $DIR/tests/fixture/style-block/input.css:110:5
+    |
+110 |     --small-icon: {
+    |     ^^^^^^^^^^^^
+
+error: DashedIdent
+   --> $DIR/tests/fixture/style-block/input.css:110:5
+    |
+110 |     --small-icon: {
+    |     ^^^^^^^^^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:110:19
+    |
+110 |     --small-icon: {
+    |                   ^
+
+error: LBrace
+   --> $DIR/tests/fixture/style-block/input.css:110:19
+    |
+110 |     --small-icon: {
+    |                   ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:110:20
+    |
+110 |       --small-icon: {
+    |  ____________________^
+111 | |         width: 16px;
+    | |________^
+
+error: WhiteSpace { value: Atom('
+        ' type=dynamic) }
+   --> $DIR/tests/fixture/style-block/input.css:110:20
+    |
+110 |       --small-icon: {
+    |  ____________________^
+111 | |         width: 16px;
+    | |________^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:111:9
+    |
+111 |         width: 16px;
+    |         ^^^^^
+
+error: Ident { value: Atom('width' type=inline), raw: Atom('width' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:111:9
+    |
+111 |         width: 16px;
+    |         ^^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:111:14
+    |
+111 |         width: 16px;
+    |              ^
+
+error: Colon
+   --> $DIR/tests/fixture/style-block/input.css:111:14
+    |
+111 |         width: 16px;
+    |              ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:111:15
+    |
+111 |         width: 16px;
+    |               ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:111:15
+    |
+111 |         width: 16px;
+    |               ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:111:16
+    |
+111 |         width: 16px;
+    |                ^^^^
+
+error: Dimension { value: 16.0, raw_value: Atom('16' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+   --> $DIR/tests/fixture/style-block/input.css:111:16
+    |
+111 |         width: 16px;
+    |                ^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:111:20
+    |
+111 |         width: 16px;
+    |                    ^
+
+error: Semi
+   --> $DIR/tests/fixture/style-block/input.css:111:20
+    |
+111 |         width: 16px;
+    |                    ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:111:21
+    |
+111 |           width: 16px;
+    |  _____________________^
+112 | |         height: 16px;
+    | |________^
+
+error: WhiteSpace { value: Atom('
+        ' type=dynamic) }
+   --> $DIR/tests/fixture/style-block/input.css:111:21
+    |
+111 |           width: 16px;
+    |  _____________________^
+112 | |         height: 16px;
+    | |________^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:112:9
+    |
+112 |         height: 16px;
+    |         ^^^^^^
+
+error: Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:112:9
+    |
+112 |         height: 16px;
+    |         ^^^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:112:15
+    |
+112 |         height: 16px;
+    |               ^
+
+error: Colon
+   --> $DIR/tests/fixture/style-block/input.css:112:15
+    |
+112 |         height: 16px;
+    |               ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:112:16
+    |
+112 |         height: 16px;
+    |                ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:112:16
+    |
+112 |         height: 16px;
+    |                ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:112:17
+    |
+112 |         height: 16px;
+    |                 ^^^^
+
+error: Dimension { value: 16.0, raw_value: Atom('16' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+   --> $DIR/tests/fixture/style-block/input.css:112:17
+    |
+112 |         height: 16px;
+    |                 ^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:112:21
+    |
+112 |         height: 16px;
+    |                     ^
+
+error: Semi
+   --> $DIR/tests/fixture/style-block/input.css:112:21
+    |
+112 |         height: 16px;
+    |                     ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:112:22
+    |
+112 |           height: 16px;
+    |  ______________________^
+113 | |     }
+    | |____^
+
+error: WhiteSpace { value: Atom('
+    ' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:112:22
+    |
+112 |           height: 16px;
+    |  ______________________^
+113 | |     }
+    | |____^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:113:5
+    |
+113 |     }
+    |     ^
+
+error: RBrace
+   --> $DIR/tests/fixture/style-block/input.css:113:5
+    |
+113 |     }
+    |     ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:113:6
+    |
+113 |       }
+    |  ______^
+114 | | ;
+    | |_
+
+error: WhiteSpace { value: Atom('
+' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:113:6
+    |
+113 |       }
+    |  ______^
+114 | | ;
+    | |_
 
