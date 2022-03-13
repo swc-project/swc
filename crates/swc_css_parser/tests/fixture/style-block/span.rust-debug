@@ -6,8 +6,8 @@ error: Stylesheet
 3  | | .foo {
 4  | |     display: grid;
 ...  |
-75 | |     }
-76 | | }
+84 | | ;color: pink;
+85 | | }
    | |__^
 
 error: Rule
@@ -2949,4 +2949,225 @@ error: Ident
    |
 74 |         color: green;
    |                ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:78:1
+   |
+78 | / a {;;
+79 | |     color: black;
+80 | | ; ;
+81 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:78:1
+   |
+78 | / a {;;
+79 | |     color: black;
+80 | | ; ;
+81 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:78:1
+   |
+78 | a {;;
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:78:1
+   |
+78 | a {;;
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:78:1
+   |
+78 | a {;;
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/style-block/input.css:78:1
+   |
+78 | a {;;
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/style-block/input.css:78:1
+   |
+78 | a {;;
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/style-block/input.css:78:1
+   |
+78 | a {;;
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:78:1
+   |
+78 | a {;;
+   | ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:78:3
+   |
+78 |   a {;;
+   |  ___^
+79 | |     color: black;
+80 | | ; ;
+81 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:79:5
+   |
+79 |     color: black;
+   |     ^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:79:5
+   |
+79 |     color: black;
+   |     ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:79:5
+   |
+79 |     color: black;
+   |     ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:79:5
+   |
+79 |     color: black;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:79:5
+   |
+79 |     color: black;
+   |     ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:79:12
+   |
+79 |     color: black;
+   |            ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:79:12
+   |
+79 |     color: black;
+   |            ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:83:1
+   |
+83 | / a {
+84 | | ;color: pink;
+85 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:83:1
+   |
+83 | / a {
+84 | | ;color: pink;
+85 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:83:1
+   |
+83 | a {
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:83:1
+   |
+83 | a {
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:83:1
+   |
+83 | a {
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/style-block/input.css:83:1
+   |
+83 | a {
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/style-block/input.css:83:1
+   |
+83 | a {
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/style-block/input.css:83:1
+   |
+83 | a {
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:83:1
+   |
+83 | a {
+   | ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:83:3
+   |
+83 |   a {
+   |  ___^
+84 | | ;color: pink;
+85 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:84:2
+   |
+84 | ;color: pink;
+   |  ^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:84:2
+   |
+84 | ;color: pink;
+   |  ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:84:2
+   |
+84 | ;color: pink;
+   |  ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:84:2
+   |
+84 | ;color: pink;
+   |  ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:84:2
+   |
+84 | ;color: pink;
+   |  ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:84:9
+   |
+84 | ;color: pink;
+   |         ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:84:9
+   |
+84 | ;color: pink;
+   |         ^^^^
 
