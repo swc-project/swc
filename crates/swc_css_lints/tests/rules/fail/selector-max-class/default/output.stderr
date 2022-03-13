@@ -1,24 +1,24 @@
 
   x Expected selector to have no more than 3 classes, but 4 actually.
-   ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:1:1]
- 1 | .a.b.c.d {
+   ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:2:1]
+ 2 | .a.b.c.d {
    : ^^^^^^^^
    `----
 
   x Expected selector to have no more than 3 classes, but 4 actually.
-   ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:4:1]
- 4 | .a .b .c .d {
+   ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:5:1]
+ 5 | .a .b .c .d {
    : ^^^^^^^^^^^
    `----
 
   x Expected selector to have no more than 3 classes, but 4 actually.
-   ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:8:5]
- 8 | .a.b.c.d {
+   ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:9:5]
+ 9 | .a.b.c.d {
    : ^^^^^^^^
    `----
 
   x Expected selector to have no more than 3 classes, but 4 actually.
-    ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:12:1]
- 12 | :not(.a.b.c.d) {
+    ,-[$DIR/tests/rules/fail/selector-max-class/default/input.css:13:1]
+ 13 | :not(.a.b.c.d) {
     :      ^^^^^^^^
     `----
