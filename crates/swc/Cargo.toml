@@ -74,7 +74,6 @@ swc_ecmascript = {version = "0.132.1", path = "../swc_ecmascript"}
 swc_error_reporters = {version = "0.1.0", path = "../swc_error_reporters"}
 swc_node_comments = {version = "0.4.0", path = "../swc_node_comments"}
 swc_plugin_runner = {version = "0.41.0", path = "../swc_plugin_runner", optional = true}
-swc_reporter = {version = "0.1.0", path = "../swc_reporter"}
 swc_visit = {version = "0.3.0", path = "../swc_visit"}
 tracing = "0.1.32"
 
