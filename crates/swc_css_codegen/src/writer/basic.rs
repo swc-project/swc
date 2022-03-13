@@ -130,7 +130,6 @@ where
 
     fn raw_write(&mut self, data: &str) -> Result {
         self.w.write_str(data)?;
-
         self.col += data.chars().count();
 
         Ok(())
@@ -159,7 +158,7 @@ where
 
     fn write_newline(&mut self) -> Result {
         if !self.line_start {
-            self.write_raw(None, self.linefeed)?;
+            self.raw_write(self.linefeed)?;
             self.line += 1;
             self.col = 0;
             self.line_start = true;
@@ -169,7 +168,42 @@ where
     }
 
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result {
+        debug_assert!(
+            !text.contains('\n'),
+            "write_raw should not contains new lines, got '{}'",
+            text,
+        );
+
         self.write(span, text)?;
+
+        Ok(())
+    }
+
+    fn write_str(&mut self, span: Span, s: &str) -> Result {
+        if !s.is_empty() {
+            let mut lines = s.split('\n').peekable();
+            let mut lo_byte_pos = span.lo();
+
+            while let Some(line) = lines.next() {
+                if !span.is_dummy() {
+                    self.srcmap(lo_byte_pos)
+                }
+
+                self.raw_write(line)?;
+
+                if lines.peek().is_some() {
+                    self.raw_write("\n")?;
+                    self.line += 1;
+                    self.col = 0;
+
+                    if !span.is_dummy() {
+                        lo_byte_pos = lo_byte_pos + BytePos((line.len() + 1) as u32);
+                    }
+                } else if !span.is_dummy() {
+                    self.srcmap(span.hi());
+                }
+            }
+        }
 
         Ok(())
     }

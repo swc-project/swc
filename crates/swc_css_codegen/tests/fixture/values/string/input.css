@@ -65,3 +65,15 @@ div {
 .prop {
     prop: name "test";
 }
+
+.foo {
+    content: 'string \
+is string';
+}
+
+.foo {
+    content: 'stri\
+ng\
+ is stri\
+ng';
+}
