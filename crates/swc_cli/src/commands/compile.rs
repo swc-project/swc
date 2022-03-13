@@ -81,7 +81,7 @@ pub struct CompileOptions {
     #[clap(group = "input")]
     files: Vec<PathBuf>,
 
-    /// Enable experimantal trace profiling
+    /// Enable experimental trace profiling
     /// generates trace compatible with trace event format.
     #[clap(group = "experimental_trace", long)]
     experimental_trace: bool,
