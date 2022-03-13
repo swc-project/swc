@@ -169,7 +169,7 @@ where
 
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result {
         debug_assert!(
-            !text.contains("\n"),
+            !text.contains('\n'),
             "write_raw should not contains new lines, got '{}'",
             text,
         );
@@ -199,10 +199,8 @@ where
                     if !span.is_dummy() {
                         lo_byte_pos = lo_byte_pos + BytePos((line.len() + 1) as u32);
                     }
-                } else {
-                    if !span.is_dummy() {
-                        self.srcmap(span.hi());
-                    }
+                } else if !span.is_dummy() {
+                    self.srcmap(span.hi());
                 }
             }
         }
