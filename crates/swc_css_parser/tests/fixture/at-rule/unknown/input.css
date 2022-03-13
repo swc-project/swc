@@ -58,7 +58,8 @@
 @unknown x ( a , b ) ;
 @unknown x ( a , b ) { foo: bar }
 @unknown x( a, b ) { foo: bar }
-/*@unknown x ( a + b ) ;*/
-/*@unknown x ( a - b ) ;*/
-/*@unknown x ( a * b ) ;*/
-/*@unknown x ( a / b ) ;*/
+@unknown x ( a + b ) ;
+@unknown x ( a - b ) ;
+@unknown x ( a * b ) ;
+@unknown x ( a / b ) ;
+@unknown{}

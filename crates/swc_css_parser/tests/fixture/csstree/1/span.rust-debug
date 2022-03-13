@@ -1,0 +1,3690 @@
+error: Stylesheet
+  --> $DIR/tests/fixture/csstree/1/input.css:1:17
+   |
+1  |   /*! something */
+   |  _________________^
+2  | | @charset 'utf-8';
+3  | | @page :left {
+4  | |     margin: 2em;
+...  |
+54 | |     number: 0.1.2.3;
+55 | | }
+   | |__^
+
+error: Rule
+ --> $DIR/tests/fixture/csstree/1/input.css:2:1
+  |
+2 | @charset 'utf-8';
+  | ^^^^^^^^^^^^^^^^^
+
+error: AtRule
+ --> $DIR/tests/fixture/csstree/1/input.css:2:1
+  |
+2 | @charset 'utf-8';
+  | ^^^^^^^^^^^^^^^^^
+
+error: CharsetRule
+ --> $DIR/tests/fixture/csstree/1/input.css:2:1
+  |
+2 | @charset 'utf-8';
+  | ^^^^^^^^^^^^^^^^^
+
+error: Str
+ --> $DIR/tests/fixture/csstree/1/input.css:2:10
+  |
+2 | @charset 'utf-8';
+  |          ^^^^^^^
+
+error: Rule
+ --> $DIR/tests/fixture/csstree/1/input.css:3:1
+  |
+3 | / @page :left {
+4 | |     margin: 2em;
+5 | | }
+  | |_^
+
+error: AtRule
+ --> $DIR/tests/fixture/csstree/1/input.css:3:1
+  |
+3 | / @page :left {
+4 | |     margin: 2em;
+5 | | }
+  | |_^
+
+error: PageRule
+ --> $DIR/tests/fixture/csstree/1/input.css:3:1
+  |
+3 | / @page :left {
+4 | |     margin: 2em;
+5 | | }
+  | |_^
+
+error: PageSelectorList
+ --> $DIR/tests/fixture/csstree/1/input.css:3:7
+  |
+3 | @page :left {
+  |       ^^^^^
+
+error: PageSelector
+ --> $DIR/tests/fixture/csstree/1/input.css:3:7
+  |
+3 | @page :left {
+  |       ^^^^^
+
+error: PageSelectorPseudo
+ --> $DIR/tests/fixture/csstree/1/input.css:3:7
+  |
+3 | @page :left {
+  |       ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/csstree/1/input.css:3:8
+  |
+3 | @page :left {
+  |        ^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/csstree/1/input.css:3:13
+  |
+3 |   @page :left {
+  |  _____________^
+4 | |     margin: 2em;
+5 | | }
+  | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/csstree/1/input.css:4:5
+  |
+4 |     margin: 2em;
+  |     ^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/csstree/1/input.css:4:5
+  |
+4 |     margin: 2em;
+  |     ^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/csstree/1/input.css:4:5
+  |
+4 |     margin: 2em;
+  |     ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/csstree/1/input.css:4:5
+  |
+4 |     margin: 2em;
+  |     ^^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/csstree/1/input.css:4:13
+  |
+4 |     margin: 2em;
+  |             ^^^
+
+error: Dimension
+ --> $DIR/tests/fixture/csstree/1/input.css:4:13
+  |
+4 |     margin: 2em;
+  |             ^^^
+
+error: Length
+ --> $DIR/tests/fixture/csstree/1/input.css:4:13
+  |
+4 |     margin: 2em;
+  |             ^^^
+
+error: Number
+ --> $DIR/tests/fixture/csstree/1/input.css:4:13
+  |
+4 |     margin: 2em;
+  |             ^
+
+error: Ident
+ --> $DIR/tests/fixture/csstree/1/input.css:4:14
+  |
+4 |     margin: 2em;
+  |              ^^
+
+error: Rule
+  --> $DIR/tests/fixture/csstree/1/input.css:6:1
+   |
+6  | / @media screen and (foo: 1) {
+7  | |     .class {
+8  | |         color: red;
+9  | |     }
+10 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/csstree/1/input.css:6:1
+   |
+6  | / @media screen and (foo: 1) {
+7  | |     .class {
+8  | |         color: red;
+9  | |     }
+10 | | }
+   | |_^
+
+error: MediaRule
+  --> $DIR/tests/fixture/csstree/1/input.css:6:1
+   |
+6  | / @media screen and (foo: 1) {
+7  | |     .class {
+8  | |         color: red;
+9  | |     }
+10 | | }
+   | |_^
+
+error: MediaQueryList
+ --> $DIR/tests/fixture/csstree/1/input.css:6:8
+  |
+6 | @media screen and (foo: 1) {
+  |        ^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+ --> $DIR/tests/fixture/csstree/1/input.css:6:8
+  |
+6 | @media screen and (foo: 1) {
+  |        ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/csstree/1/input.css:6:8
+  |
+6 | @media screen and (foo: 1) {
+  |        ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/csstree/1/input.css:6:15
+  |
+6 | @media screen and (foo: 1) {
+  |               ^^^
+
+error: MediaConditionWithoutOr
+ --> $DIR/tests/fixture/csstree/1/input.css:6:19
+  |
+6 | @media screen and (foo: 1) {
+  |                   ^^^^^^^^
+
+error: MediaConditionWithoutOrType
+ --> $DIR/tests/fixture/csstree/1/input.css:6:19
+  |
+6 | @media screen and (foo: 1) {
+  |                   ^^^^^^^^
+
+error: MediaInParens
+ --> $DIR/tests/fixture/csstree/1/input.css:6:19
+  |
+6 | @media screen and (foo: 1) {
+  |                   ^^^^^^^^
+
+error: MediaFeature
+ --> $DIR/tests/fixture/csstree/1/input.css:6:19
+  |
+6 | @media screen and (foo: 1) {
+  |                   ^^^^^^^^
+
+error: MediaFeaturePlain
+ --> $DIR/tests/fixture/csstree/1/input.css:6:19
+  |
+6 | @media screen and (foo: 1) {
+  |                   ^^^^^^^^
+
+error: MediaFeatureName
+ --> $DIR/tests/fixture/csstree/1/input.css:6:20
+  |
+6 | @media screen and (foo: 1) {
+  |                    ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/csstree/1/input.css:6:20
+  |
+6 | @media screen and (foo: 1) {
+  |                    ^^^
+
+error: MediaFeatureValue
+ --> $DIR/tests/fixture/csstree/1/input.css:6:25
+  |
+6 | @media screen and (foo: 1) {
+  |                         ^
+
+error: Number
+ --> $DIR/tests/fixture/csstree/1/input.css:6:25
+  |
+6 | @media screen and (foo: 1) {
+  |                         ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:6:28
+   |
+6  |   @media screen and (foo: 1) {
+   |  ____________________________^
+7  | |     .class {
+8  | |         color: red;
+9  | |     }
+10 | | }
+   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/csstree/1/input.css:7:5
+  |
+7 | /     .class {
+8 | |         color: red;
+9 | |     }
+  | |_____^
+
+error: Rule
+ --> $DIR/tests/fixture/csstree/1/input.css:7:5
+  |
+7 | /     .class {
+8 | |         color: red;
+9 | |     }
+  | |_____^
+
+error: QualifiedRule
+ --> $DIR/tests/fixture/csstree/1/input.css:7:5
+  |
+7 | /     .class {
+8 | |         color: red;
+9 | |     }
+  | |_____^
+
+error: SelectorList
+ --> $DIR/tests/fixture/csstree/1/input.css:7:5
+  |
+7 |     .class {
+  |     ^^^^^^
+
+error: ComplexSelector
+ --> $DIR/tests/fixture/csstree/1/input.css:7:5
+  |
+7 |     .class {
+  |     ^^^^^^
+
+error: CompoundSelector
+ --> $DIR/tests/fixture/csstree/1/input.css:7:5
+  |
+7 |     .class {
+  |     ^^^^^^
+
+error: SubclassSelector
+ --> $DIR/tests/fixture/csstree/1/input.css:7:5
+  |
+7 |     .class {
+  |     ^^^^^^
+
+error: ClassSelector
+ --> $DIR/tests/fixture/csstree/1/input.css:7:5
+  |
+7 |     .class {
+  |     ^^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/csstree/1/input.css:7:6
+  |
+7 |     .class {
+  |      ^^^^^
+
+error: SimpleBlock
+ --> $DIR/tests/fixture/csstree/1/input.css:7:12
+  |
+7 |       .class {
+  |  ____________^
+8 | |         color: red;
+9 | |     }
+  | |_____^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/csstree/1/input.css:8:9
+  |
+8 |         color: red;
+  |         ^^^^^^^^^^
+
+error: StyleBlock
+ --> $DIR/tests/fixture/csstree/1/input.css:8:9
+  |
+8 |         color: red;
+  |         ^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/csstree/1/input.css:8:9
+  |
+8 |         color: red;
+  |         ^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/csstree/1/input.css:8:9
+  |
+8 |         color: red;
+  |         ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/csstree/1/input.css:8:9
+  |
+8 |         color: red;
+  |         ^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/csstree/1/input.css:8:16
+  |
+8 |         color: red;
+  |                ^^^
+
+error: Ident
+ --> $DIR/tests/fixture/csstree/1/input.css:8:16
+  |
+8 |         color: red;
+  |                ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/csstree/1/input.css:12:1
+   |
+12 | / *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+13 | | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+14 | | :has(> img) {
+15 | |     color: green;
+...  |
+22 | |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+23 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/csstree/1/input.css:12:1
+   |
+12 | / *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+13 | | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+14 | | :has(> img) {
+15 | |     color: green;
+...  |
+22 | |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+23 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/csstree/1/input.css:12:1
+   |
+12 | / *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+13 | | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+14 | | :has(> img) {
+   | |___________^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:1
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:1
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   | ^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:1
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   | ^
+
+error: UniversalSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:1
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   | ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:2
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |  ^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:2
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |  ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:3
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |   ^^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/csstree/1/input.css:12:8
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |        ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:9
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |         ^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:9
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |         ^^^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:9
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |         ^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:12:9
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |         ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:9
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |         ^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:16
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                ^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:16
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:16
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:19
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                   ^^^^^^
+
+error: AttributeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:19
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                   ^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:12:20
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                    ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:20
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                    ^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/csstree/1/input.css:12:25
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                         ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:26
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:26
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                          ^^^^^^^^^^^^^
+
+error: AttributeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:26
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                          ^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:12:27
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                           ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:27
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                           ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/csstree/1/input.css:12:31
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                               ^^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/csstree/1/input.css:12:33
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                 ^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/csstree/1/input.css:12:33
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                 ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:39
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                       ^^^^^^^^^^^^^^
+
+error: AttributeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:39
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                       ^^^^^^^^^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:12:40
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                        ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:40
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                        ^^^^
+
+error: AttributeSelectorMatcher
+  --> $DIR/tests/fixture/csstree/1/input.css:12:44
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                            ^
+
+error: AttributeSelectorValue
+  --> $DIR/tests/fixture/csstree/1/input.css:12:45
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                             ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:45
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                             ^^^^^
+
+error: AttributeSelectorModifier
+  --> $DIR/tests/fixture/csstree/1/input.css:12:51
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                   ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:51
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                   ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:53
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                     ^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:53
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                     ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:54
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                      ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:60
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                            ^^^^^^^^
+
+error: PseudoElementSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:60
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                            ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:62
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                              ^^^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/csstree/1/input.css:12:69
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                     ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:71
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                       ^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:71
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                       ^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:71
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                       ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:72
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                        ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:12:76
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                            ^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/csstree/1/input.css:12:76
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                            ^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:76
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                            ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:76
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                            ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:76
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                            ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:76
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                            ^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:12:76
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                            ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:76
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                            ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:79
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                               ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:79
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                               ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:79
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                               ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:79
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                               ^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:12:79
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                               ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:79
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                               ^
+
+error: Combinator
+  --> $DIR/tests/fixture/csstree/1/input.css:12:82
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                  ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:84
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:84
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                    ^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:84
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                    ^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:85
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                     ^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:12:95
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                               ^^^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/csstree/1/input.css:12:95
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                               ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:95
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                               ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:99
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:12:99
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:12:100
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                                    ^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:12:110
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                                              ^^^^^^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/csstree/1/input.css:12:110
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                                              ^^^^^^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/csstree/1/input.css:12:110
+   |
+12 | *.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+   |                                                                                                              ^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:1
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:1
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:1
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   | ^^^^^
+
+error: UniversalSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:1
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   | ^^^^^
+
+error: NsPrefix
+  --> $DIR/tests/fixture/csstree/1/input.css:13:1
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   | ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:1
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   | ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:6
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |      ^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:6
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |      ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:7
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |       ^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:13:15
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |               ^
+
+error: SelectorList
+  --> $DIR/tests/fixture/csstree/1/input.css:13:15
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |               ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:15
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |               ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:15
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |               ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:15
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |               ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:15
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |               ^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:13:15
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |               ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:15
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |               ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:17
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                 ^^^^^^^^^^^^
+
+error: PseudoElementSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:17
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                 ^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:19
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                   ^^^^^^^
+
+error: PseudoElementSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:13:27
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                           ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:27
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                           ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:27
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                           ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:27
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                           ^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:13:27
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                           ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:27
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                           ^
+
+error: Combinator
+  --> $DIR/tests/fixture/csstree/1/input.css:13:30
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                              ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:32
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:32
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:32
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:33
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                 ^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:13:43
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                           ^^^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/csstree/1/input.css:13:43
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                           ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:43
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                           ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:13:47
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                               ^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:47
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                               ^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:13:50
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                  ^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/csstree/1/input.css:13:50
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                  ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:50
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                  ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:50
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                  ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:50
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                  ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:50
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                  ^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:13:50
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                  ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:50
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                  ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:53
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                     ^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:53
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                     ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:53
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                     ^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:53
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                     ^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:54
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                      ^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:56
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:56
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:57
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                         ^^^^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:13:67
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                   ^^^^^^
+
+error: AnPlusB
+  --> $DIR/tests/fixture/csstree/1/input.css:13:67
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                   ^^^^^^
+
+error: AnPlusBNotation
+  --> $DIR/tests/fixture/csstree/1/input.css:13:67
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                   ^^^^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:13:74
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                          ^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:74
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                          ^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:13:77
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                             ^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/csstree/1/input.css:13:77
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                             ^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:77
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                             ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:77
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                             ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:77
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                             ^^^
+
+error: AttributeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:13:77
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                             ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:13:78
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                              ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:13:78
+   |
+13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+   |                                                                              ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:14:1
+   |
+14 | :has(> img) {
+   | ^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:14:1
+   |
+14 | :has(> img) {
+   | ^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:14:1
+   |
+14 | :has(> img) {
+   | ^^^^^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:14:1
+   |
+14 | :has(> img) {
+   | ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:14:2
+   |
+14 | :has(> img) {
+   |  ^^^
+
+error: PseudoClassSelectorChildren
+  --> $DIR/tests/fixture/csstree/1/input.css:14:6
+   |
+14 | :has(> img) {
+   |      ^^^^^
+
+error: RelativeSelectorList
+  --> $DIR/tests/fixture/csstree/1/input.css:14:6
+   |
+14 | :has(> img) {
+   |      ^^^^^
+
+error: RelativeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:14:6
+   |
+14 | :has(> img) {
+   |      ^^^^^
+
+error: Combinator
+  --> $DIR/tests/fixture/csstree/1/input.css:14:6
+   |
+14 | :has(> img) {
+   |      ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:14:8
+   |
+14 | :has(> img) {
+   |        ^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:14:8
+   |
+14 | :has(> img) {
+   |        ^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:14:8
+   |
+14 | :has(> img) {
+   |        ^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:14:8
+   |
+14 | :has(> img) {
+   |        ^^^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:14:8
+   |
+14 | :has(> img) {
+   |        ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:14:8
+   |
+14 | :has(> img) {
+   |        ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:14:13
+   |
+14 |   :has(> img) {
+   |  _____________^
+15 | |     color: green;
+16 | |     /*filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img.png',sizingMethod='scale') alpha(opacity=80);*/
+17 | |     /*width: expression(1 + 2);*/
+...  |
+22 | |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+23 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:15:5
+   |
+15 |     color: green;
+   |     ^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:15:5
+   |
+15 |     color: green;
+   |     ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:15:5
+   |
+15 |     color: green;
+   |     ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:15:5
+   |
+15 |     color: green;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:15:5
+   |
+15 |     color: green;
+   |     ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:15:12
+   |
+15 |     color: green;
+   |            ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:15:12
+   |
+15 |     color: green;
+   |            ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:18:5
+   |
+18 | /     background:
+19 | |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+20 | |     url(path/to.png) url( 'path/test.svg' )
+21 | |     u+123-456 u+123???
+22 | |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   | |____________________________________________________________________________________^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:18:5
+   |
+18 | /     background:
+19 | |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+20 | |     url(path/to.png) url( 'path/test.svg' )
+21 | |     u+123-456 u+123???
+22 | |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   | |____________________________________________________________________________________^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:18:5
+   |
+18 | /     background:
+19 | |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+20 | |     url(path/to.png) url( 'path/test.svg' )
+21 | |     u+123-456 u+123???
+22 | |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   | |____________________________________________________________________________________^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:18:5
+   |
+18 |     background:
+   |     ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:18:5
+   |
+18 |     background:
+   |     ^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:5
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:19:5
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |     ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:11
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |           ^^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:19:11
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |           ^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:18
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                  ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/csstree/1/input.css:19:18
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                  ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:19:18
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                  ^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:23
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                       ^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/csstree/1/input.css:19:23
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                       ^^^
+
+error: Length
+  --> $DIR/tests/fixture/csstree/1/input.css:19:23
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                       ^^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:19:23
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                       ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:19:24
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                        ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:26
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                          ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/csstree/1/input.css:19:26
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                          ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:27
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                           ^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/csstree/1/input.css:19:27
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                           ^^^
+
+error: Length
+  --> $DIR/tests/fixture/csstree/1/input.css:19:27
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                           ^^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:19:27
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                           ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:19:28
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                            ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:31
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                               ^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/csstree/1/input.css:19:31
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                               ^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:19:31
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                               ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:36
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                    ^^^^^^^^^^^^
+
+error: CalcSum
+  --> $DIR/tests/fixture/csstree/1/input.css:19:36
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                    ^^^^^^^^^^^^
+
+error: CalcProductOrOperator
+  --> $DIR/tests/fixture/csstree/1/input.css:19:36
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                    ^^^
+
+error: CalcProduct
+  --> $DIR/tests/fixture/csstree/1/input.css:19:36
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                    ^^^
+
+error: CalcValueOrOperator
+  --> $DIR/tests/fixture/csstree/1/input.css:19:36
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                    ^^^
+
+error: CalcValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:36
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                    ^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/csstree/1/input.css:19:36
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                    ^^^
+
+error: Length
+  --> $DIR/tests/fixture/csstree/1/input.css:19:36
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                    ^^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:19:36
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                    ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:19:37
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                     ^^
+
+error: CalcProductOrOperator
+  --> $DIR/tests/fixture/csstree/1/input.css:19:40
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                        ^
+
+error: CalcOperator
+  --> $DIR/tests/fixture/csstree/1/input.css:19:40
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                        ^
+
+error: CalcProductOrOperator
+  --> $DIR/tests/fixture/csstree/1/input.css:19:42
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                          ^^^^^^
+
+error: CalcProduct
+  --> $DIR/tests/fixture/csstree/1/input.css:19:42
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                          ^^^^^^
+
+error: CalcValueOrOperator
+  --> $DIR/tests/fixture/csstree/1/input.css:19:42
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                          ^^
+
+error: CalcValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:42
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                          ^^
+
+error: Percentage
+  --> $DIR/tests/fixture/csstree/1/input.css:19:42
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                          ^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:19:42
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                          ^
+
+error: CalcValueOrOperator
+  --> $DIR/tests/fixture/csstree/1/input.css:19:45
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                             ^
+
+error: CalcOperator
+  --> $DIR/tests/fixture/csstree/1/input.css:19:45
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                             ^
+
+error: CalcValueOrOperator
+  --> $DIR/tests/fixture/csstree/1/input.css:19:47
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                               ^
+
+error: CalcValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:47
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                               ^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:19:47
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                               ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:19:49
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                                 ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/csstree/1/input.css:19:49
+   |
+19 |     ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+   |                                                 ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:20:5
+   |
+20 |     url(path/to.png) url( 'path/test.svg' )
+   |     ^^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/csstree/1/input.css:20:5
+   |
+20 |     url(path/to.png) url( 'path/test.svg' )
+   |     ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:20:5
+   |
+20 |     url(path/to.png) url( 'path/test.svg' )
+   |     ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/csstree/1/input.css:20:9
+   |
+20 |     url(path/to.png) url( 'path/test.svg' )
+   |         ^^^^^^^^^^^
+
+error: UrlValueRaw
+  --> $DIR/tests/fixture/csstree/1/input.css:20:9
+   |
+20 |     url(path/to.png) url( 'path/test.svg' )
+   |         ^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:20:22
+   |
+20 |     url(path/to.png) url( 'path/test.svg' )
+   |                      ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Url
+  --> $DIR/tests/fixture/csstree/1/input.css:20:22
+   |
+20 |     url(path/to.png) url( 'path/test.svg' )
+   |                      ^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:20:22
+   |
+20 |     url(path/to.png) url( 'path/test.svg' )
+   |                      ^^^
+
+error: UrlValue
+  --> $DIR/tests/fixture/csstree/1/input.css:20:27
+   |
+20 |     url(path/to.png) url( 'path/test.svg' )
+   |                           ^^^^^^^^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/csstree/1/input.css:20:27
+   |
+20 |     url(path/to.png) url( 'path/test.svg' )
+   |                           ^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:21:5
+   |
+21 |     u+123-456 u+123???
+   |     ^^^^^^^^^
+
+error: UnicodeRange
+  --> $DIR/tests/fixture/csstree/1/input.css:21:5
+   |
+21 |     u+123-456 u+123???
+   |     ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:21:15
+   |
+21 |     u+123-456 u+123???
+   |               ^^^^^^^^
+
+error: UnicodeRange
+  --> $DIR/tests/fixture/csstree/1/input.css:21:15
+   |
+21 |     u+123-456 u+123???
+   |               ^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:5
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/csstree/1/input.css:22:5
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/csstree/1/input.css:22:5
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |     ^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:22:5
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |     ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:10
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |          ^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:22:10
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |          ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:11
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |           ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/csstree/1/input.css:22:11
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |           ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:13
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |             ^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:22:13
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |             ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:14
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |              ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/csstree/1/input.css:22:14
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |              ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:16
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                ^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:22:16
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:17
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                 ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/csstree/1/input.css:22:17
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                 ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:19
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                   ^
+
+error: AlphaValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:19
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                   ^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:22:19
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                   ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:22
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                      ^^^^
+
+error: Color
+  --> $DIR/tests/fixture/csstree/1/input.css:22:22
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                      ^^^^
+
+error: HexColor
+  --> $DIR/tests/fixture/csstree/1/input.css:22:22
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                      ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:27
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                           ^^^^^^^
+
+error: Color
+  --> $DIR/tests/fixture/csstree/1/input.css:22:27
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                           ^^^^^^^
+
+error: HexColor
+  --> $DIR/tests/fixture/csstree/1/input.css:22:27
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                           ^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:35
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                   ^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/csstree/1/input.css:22:35
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                   ^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:44
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                            ^^^^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/csstree/1/input.css:22:44
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                            ^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:53
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                                     ^^^^^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:22:53
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                                     ^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:54
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                                      ^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:22:54
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                                      ^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:67
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                                                   ^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:22:67
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                                                   ^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:22:68
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                                                    ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:22:68
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                                                    ^^^^^
+
+error: ImportantFlag
+  --> $DIR/tests/fixture/csstree/1/input.css:22:75
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                                                           ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:22:76
+   |
+22 |     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+   |                                                                            ^^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/csstree/1/input.css:25:1
+   |
+25 | / @media (device-aspect-ratio: 16/9) {
+26 | |     *|span:before {
+27 | |         --custom1: { something !important };
+28 | |         --custom2: ([]) !important;
+29 | |         background: element(#id);
+30 | |     }
+31 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/csstree/1/input.css:25:1
+   |
+25 | / @media (device-aspect-ratio: 16/9) {
+26 | |     *|span:before {
+27 | |         --custom1: { something !important };
+28 | |         --custom2: ([]) !important;
+29 | |         background: element(#id);
+30 | |     }
+31 | | }
+   | |_^
+
+error: MediaRule
+  --> $DIR/tests/fixture/csstree/1/input.css:25:1
+   |
+25 | / @media (device-aspect-ratio: 16/9) {
+26 | |     *|span:before {
+27 | |         --custom1: { something !important };
+28 | |         --custom2: ([]) !important;
+29 | |         background: element(#id);
+30 | |     }
+31 | | }
+   | |_^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/csstree/1/input.css:25:8
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/csstree/1/input.css:25:8
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaCondition
+  --> $DIR/tests/fixture/csstree/1/input.css:25:8
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaConditionAllType
+  --> $DIR/tests/fixture/csstree/1/input.css:25:8
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaInParens
+  --> $DIR/tests/fixture/csstree/1/input.css:25:8
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeature
+  --> $DIR/tests/fixture/csstree/1/input.css:25:8
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeaturePlain
+  --> $DIR/tests/fixture/csstree/1/input.css:25:8
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureName
+  --> $DIR/tests/fixture/csstree/1/input.css:25:9
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |         ^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:25:9
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |         ^^^^^^^^^^^^^^^^^^^
+
+error: MediaFeatureValue
+  --> $DIR/tests/fixture/csstree/1/input.css:25:30
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |                              ^^^^
+
+error: Ratio
+  --> $DIR/tests/fixture/csstree/1/input.css:25:30
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |                              ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:25:30
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |                              ^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:25:33
+   |
+25 | @media (device-aspect-ratio: 16/9) {
+   |                                 ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:25:36
+   |
+25 |   @media (device-aspect-ratio: 16/9) {
+   |  ____________________________________^
+26 | |     *|span:before {
+27 | |         --custom1: { something !important };
+28 | |         --custom2: ([]) !important;
+29 | |         background: element(#id);
+30 | |     }
+31 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:26:5
+   |
+26 | /     *|span:before {
+27 | |         --custom1: { something !important };
+28 | |         --custom2: ([]) !important;
+29 | |         background: element(#id);
+30 | |     }
+   | |_____^
+
+error: Rule
+  --> $DIR/tests/fixture/csstree/1/input.css:26:5
+   |
+26 | /     *|span:before {
+27 | |         --custom1: { something !important };
+28 | |         --custom2: ([]) !important;
+29 | |         background: element(#id);
+30 | |     }
+   | |_____^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/csstree/1/input.css:26:5
+   |
+26 | /     *|span:before {
+27 | |         --custom1: { something !important };
+28 | |         --custom2: ([]) !important;
+29 | |         background: element(#id);
+30 | |     }
+   | |_____^
+
+error: SelectorList
+  --> $DIR/tests/fixture/csstree/1/input.css:26:5
+   |
+26 |     *|span:before {
+   |     ^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:26:5
+   |
+26 |     *|span:before {
+   |     ^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:26:5
+   |
+26 |     *|span:before {
+   |     ^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:26:5
+   |
+26 |     *|span:before {
+   |     ^^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:26:5
+   |
+26 |     *|span:before {
+   |     ^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:26:5
+   |
+26 |     *|span:before {
+   |     ^^^^^^
+
+error: NsPrefix
+  --> $DIR/tests/fixture/csstree/1/input.css:26:5
+   |
+26 |     *|span:before {
+   |     ^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:26:5
+   |
+26 |     *|span:before {
+   |     ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:26:7
+   |
+26 |     *|span:before {
+   |       ^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:26:11
+   |
+26 |     *|span:before {
+   |           ^^^^^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:26:11
+   |
+26 |     *|span:before {
+   |           ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:26:12
+   |
+26 |     *|span:before {
+   |            ^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:26:19
+   |
+26 |       *|span:before {
+   |  ___________________^
+27 | |         --custom1: { something !important };
+28 | |         --custom2: ([]) !important;
+29 | |         background: element(#id);
+30 | |     }
+   | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:27:9
+   |
+27 |         --custom1: { something !important };
+   |         ^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:27:9
+   |
+27 |         --custom1: { something !important };
+   |         ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:27:9
+   |
+27 |         --custom1: { something !important };
+   |         ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:27:9
+   |
+27 |         --custom1: { something !important };
+   |         ^^^^^^^^^
+
+error: DashedIdent
+  --> $DIR/tests/fixture/csstree/1/input.css:27:9
+   |
+27 |         --custom1: { something !important };
+   |         ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:27:20
+   |
+27 |         --custom1: { something !important };
+   |                    ^
+
+error: LBrace
+  --> $DIR/tests/fixture/csstree/1/input.css:27:20
+   |
+27 |         --custom1: { something !important };
+   |                    ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:27:21
+   |
+27 |         --custom1: { something !important };
+   |                     ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/csstree/1/input.css:27:21
+   |
+27 |         --custom1: { something !important };
+   |                     ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:27:22
+   |
+27 |         --custom1: { something !important };
+   |                      ^^^^^^^^^
+
+error: Ident { value: Atom('something' type=dynamic), raw: Atom('something' type=dynamic) }
+  --> $DIR/tests/fixture/csstree/1/input.css:27:22
+   |
+27 |         --custom1: { something !important };
+   |                      ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:27:31
+   |
+27 |         --custom1: { something !important };
+   |                               ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/csstree/1/input.css:27:31
+   |
+27 |         --custom1: { something !important };
+   |                               ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:27:32
+   |
+27 |         --custom1: { something !important };
+   |                                ^
+
+error: Delim { value: '!' }
+  --> $DIR/tests/fixture/csstree/1/input.css:27:32
+   |
+27 |         --custom1: { something !important };
+   |                                ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:27:33
+   |
+27 |         --custom1: { something !important };
+   |                                 ^^^^^^^^^
+
+error: Ident { value: Atom('important' type=static), raw: Atom('important' type=static) }
+  --> $DIR/tests/fixture/csstree/1/input.css:27:33
+   |
+27 |         --custom1: { something !important };
+   |                                 ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:27:42
+   |
+27 |         --custom1: { something !important };
+   |                                          ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/csstree/1/input.css:27:42
+   |
+27 |         --custom1: { something !important };
+   |                                          ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:27:43
+   |
+27 |         --custom1: { something !important };
+   |                                           ^
+
+error: RBrace
+  --> $DIR/tests/fixture/csstree/1/input.css:27:43
+   |
+27 |         --custom1: { something !important };
+   |                                           ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:28:9
+   |
+28 |         --custom2: ([]) !important;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:28:9
+   |
+28 |         --custom2: ([]) !important;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:28:9
+   |
+28 |         --custom2: ([]) !important;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:28:9
+   |
+28 |         --custom2: ([]) !important;
+   |         ^^^^^^^^^
+
+error: DashedIdent
+  --> $DIR/tests/fixture/csstree/1/input.css:28:9
+   |
+28 |         --custom2: ([]) !important;
+   |         ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:28:20
+   |
+28 |         --custom2: ([]) !important;
+   |                    ^
+
+error: LParen
+  --> $DIR/tests/fixture/csstree/1/input.css:28:20
+   |
+28 |         --custom2: ([]) !important;
+   |                    ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:28:21
+   |
+28 |         --custom2: ([]) !important;
+   |                     ^
+
+error: LBracket
+  --> $DIR/tests/fixture/csstree/1/input.css:28:21
+   |
+28 |         --custom2: ([]) !important;
+   |                     ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:28:22
+   |
+28 |         --custom2: ([]) !important;
+   |                      ^
+
+error: RBracket
+  --> $DIR/tests/fixture/csstree/1/input.css:28:22
+   |
+28 |         --custom2: ([]) !important;
+   |                      ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:28:23
+   |
+28 |         --custom2: ([]) !important;
+   |                       ^
+
+error: RParen
+  --> $DIR/tests/fixture/csstree/1/input.css:28:23
+   |
+28 |         --custom2: ([]) !important;
+   |                       ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:28:24
+   |
+28 |         --custom2: ([]) !important;
+   |                        ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/csstree/1/input.css:28:24
+   |
+28 |         --custom2: ([]) !important;
+   |                        ^
+
+error: ImportantFlag
+  --> $DIR/tests/fixture/csstree/1/input.css:28:25
+   |
+28 |         --custom2: ([]) !important;
+   |                         ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:28:26
+   |
+28 |         --custom2: ([]) !important;
+   |                          ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:29:9
+   |
+29 |         background: element(#id);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:29:9
+   |
+29 |         background: element(#id);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:29:9
+   |
+29 |         background: element(#id);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:29:9
+   |
+29 |         background: element(#id);
+   |         ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:29:9
+   |
+29 |         background: element(#id);
+   |         ^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:29:21
+   |
+29 |         background: element(#id);
+   |                     ^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/csstree/1/input.css:29:21
+   |
+29 |         background: element(#id);
+   |                     ^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:29:21
+   |
+29 |         background: element(#id);
+   |                     ^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:29:29
+   |
+29 |         background: element(#id);
+   |                             ^^^
+
+error: Color
+  --> $DIR/tests/fixture/csstree/1/input.css:29:29
+   |
+29 |         background: element(#id);
+   |                             ^^^
+
+error: HexColor
+  --> $DIR/tests/fixture/csstree/1/input.css:29:29
+   |
+29 |         background: element(#id);
+   |                             ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/csstree/1/input.css:33:1
+   |
+33 | / @supports (box-shadow: 1px 2px black !important) {
+34 | |     .rule {
+35 | |         box-shadow: var(--something, fallback);
+36 | |     }
+37 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/csstree/1/input.css:33:1
+   |
+33 | / @supports (box-shadow: 1px 2px black !important) {
+34 | |     .rule {
+35 | |         box-shadow: var(--something, fallback);
+36 | |     }
+37 | | }
+   | |_^
+
+error: SupportsRule
+  --> $DIR/tests/fixture/csstree/1/input.css:33:1
+   |
+33 | / @supports (box-shadow: 1px 2px black !important) {
+34 | |     .rule {
+35 | |         box-shadow: var(--something, fallback);
+36 | |     }
+37 | | }
+   | |_^
+
+error: SupportsCondition
+  --> $DIR/tests/fixture/csstree/1/input.css:33:11
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsConditionType
+  --> $DIR/tests/fixture/csstree/1/input.css:33:12
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsInParens
+  --> $DIR/tests/fixture/csstree/1/input.css:33:12
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SupportsFeature
+  --> $DIR/tests/fixture/csstree/1/input.css:33:12
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:33:12
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:33:12
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |            ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:33:12
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |            ^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:33:24
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                        ^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/csstree/1/input.css:33:24
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                        ^^^
+
+error: Length
+  --> $DIR/tests/fixture/csstree/1/input.css:33:24
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                        ^^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:33:24
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                        ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:33:25
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                         ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:33:28
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                            ^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/csstree/1/input.css:33:28
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                            ^^^
+
+error: Length
+  --> $DIR/tests/fixture/csstree/1/input.css:33:28
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                            ^^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:33:28
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                            ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:33:29
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                             ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:33:32
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                                ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:33:32
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                                ^^^^^
+
+error: ImportantFlag
+  --> $DIR/tests/fixture/csstree/1/input.css:33:38
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                                      ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:33:39
+   |
+33 | @supports (box-shadow: 1px 2px black !important) {
+   |                                       ^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:33:50
+   |
+33 |   @supports (box-shadow: 1px 2px black !important) {
+   |  __________________________________________________^
+34 | |     .rule {
+35 | |         box-shadow: var(--something, fallback);
+36 | |     }
+37 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:34:5
+   |
+34 | /     .rule {
+35 | |         box-shadow: var(--something, fallback);
+36 | |     }
+   | |_____^
+
+error: Rule
+  --> $DIR/tests/fixture/csstree/1/input.css:34:5
+   |
+34 | /     .rule {
+35 | |         box-shadow: var(--something, fallback);
+36 | |     }
+   | |_____^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/csstree/1/input.css:34:5
+   |
+34 | /     .rule {
+35 | |         box-shadow: var(--something, fallback);
+36 | |     }
+   | |_____^
+
+error: SelectorList
+  --> $DIR/tests/fixture/csstree/1/input.css:34:5
+   |
+34 |     .rule {
+   |     ^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:34:5
+   |
+34 |     .rule {
+   |     ^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:34:5
+   |
+34 |     .rule {
+   |     ^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:34:5
+   |
+34 |     .rule {
+   |     ^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:34:5
+   |
+34 |     .rule {
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:34:6
+   |
+34 |     .rule {
+   |      ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:34:11
+   |
+34 |       .rule {
+   |  ___________^
+35 | |         box-shadow: var(--something, fallback);
+36 | |     }
+   | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:35:9
+   |
+35 |         box-shadow: var(--something, fallback);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:35:9
+   |
+35 |         box-shadow: var(--something, fallback);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:35:9
+   |
+35 |         box-shadow: var(--something, fallback);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:35:9
+   |
+35 |         box-shadow: var(--something, fallback);
+   |         ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:35:9
+   |
+35 |         box-shadow: var(--something, fallback);
+   |         ^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:35:21
+   |
+35 |         box-shadow: var(--something, fallback);
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Function
+  --> $DIR/tests/fixture/csstree/1/input.css:35:21
+   |
+35 |         box-shadow: var(--something, fallback);
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:35:21
+   |
+35 |         box-shadow: var(--something, fallback);
+   |                     ^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:35:25
+   |
+35 |         box-shadow: var(--something, fallback);
+   |                         ^^^^^^^^^^^
+
+error: DashedIdent
+  --> $DIR/tests/fixture/csstree/1/input.css:35:25
+   |
+35 |         box-shadow: var(--something, fallback);
+   |                         ^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:35:36
+   |
+35 |         box-shadow: var(--something, fallback);
+   |                                    ^
+
+error: Delimiter
+  --> $DIR/tests/fixture/csstree/1/input.css:35:36
+   |
+35 |         box-shadow: var(--something, fallback);
+   |                                    ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:35:38
+   |
+35 |         box-shadow: var(--something, fallback);
+   |                                      ^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:35:38
+   |
+35 |         box-shadow: var(--something, fallback);
+   |                                      ^^^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/csstree/1/input.css:39:1
+   |
+39 | / .-a#-b:-c::-d[-e][*|-f] {
+40 | |     -foo: 123;
+41 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/csstree/1/input.css:39:1
+   |
+39 | / .-a#-b:-c::-d[-e][*|-f] {
+40 | |     -foo: 123;
+41 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/csstree/1/input.css:39:1
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:1
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:1
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   | ^^^^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:1
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   | ^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:1
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   | ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:39:2
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |  ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:4
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |    ^^^
+
+error: IdSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:4
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |    ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:39:4
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |    ^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:7
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |       ^^^
+
+error: PseudoClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:7
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |       ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:39:8
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |        ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:10
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |          ^^^^
+
+error: PseudoElementSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:10
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |          ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:39:12
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |            ^^
+
+error: Combinator
+  --> $DIR/tests/fixture/csstree/1/input.css:39:14
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |              ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:14
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |              ^^^^^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:14
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |              ^^^^
+
+error: AttributeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:14
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |              ^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:39:15
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |               ^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:39:15
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |               ^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:18
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |                  ^^^^^^
+
+error: AttributeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:39:18
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |                  ^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:39:19
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |                   ^^^^
+
+error: NsPrefix
+  --> $DIR/tests/fixture/csstree/1/input.css:39:19
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |                   ^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:39:19
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |                   ^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:39:21
+   |
+39 | .-a#-b:-c::-d[-e][*|-f] {
+   |                     ^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:39:25
+   |
+39 |   .-a#-b:-c::-d[-e][*|-f] {
+   |  _________________________^
+40 | |     -foo: 123;
+41 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:40:5
+   |
+40 |     -foo: 123;
+   |     ^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:40:5
+   |
+40 |     -foo: 123;
+   |     ^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:40:5
+   |
+40 |     -foo: 123;
+   |     ^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:40:5
+   |
+40 |     -foo: 123;
+   |     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:40:5
+   |
+40 |     -foo: 123;
+   |     ^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:40:11
+   |
+40 |     -foo: 123;
+   |           ^^^
+
+error: Integer
+  --> $DIR/tests/fixture/csstree/1/input.css:40:11
+   |
+40 |     -foo: 123;
+   |           ^^^
+
+error: Rule
+  --> $DIR/tests/fixture/csstree/1/input.css:44:1
+   |
+44 | @import 'foo' screen;
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/csstree/1/input.css:44:1
+   |
+44 | @import 'foo' screen;
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportRule
+  --> $DIR/tests/fixture/csstree/1/input.css:44:1
+   |
+44 | @import 'foo' screen;
+   | ^^^^^^^^^^^^^^^^^^^^^
+
+error: ImportHref
+  --> $DIR/tests/fixture/csstree/1/input.css:44:9
+   |
+44 | @import 'foo' screen;
+   |         ^^^^^
+
+error: Str
+  --> $DIR/tests/fixture/csstree/1/input.css:44:9
+   |
+44 | @import 'foo' screen;
+   |         ^^^^^
+
+error: MediaQueryList
+  --> $DIR/tests/fixture/csstree/1/input.css:44:15
+   |
+44 | @import 'foo' screen;
+   |               ^^^^^^
+
+error: MediaQuery
+  --> $DIR/tests/fixture/csstree/1/input.css:44:15
+   |
+44 | @import 'foo' screen;
+   |               ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:44:15
+   |
+44 | @import 'foo' screen;
+   |               ^^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/csstree/1/input.css:45:1
+   |
+45 | / @keyframes 'anim' {
+46 | |     from  { color: red }
+47 | |     50.1% { color: green; background: green }
+48 | |     100%  { ;color: blue;; }
+49 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/csstree/1/input.css:45:1
+   |
+45 | / @keyframes 'anim' {
+46 | |     from  { color: red }
+47 | |     50.1% { color: green; background: green }
+48 | |     100%  { ;color: blue;; }
+49 | | }
+   | |_^
+
+error: KeyframesRule
+  --> $DIR/tests/fixture/csstree/1/input.css:45:1
+   |
+45 | / @keyframes 'anim' {
+46 | |     from  { color: red }
+47 | |     50.1% { color: green; background: green }
+48 | |     100%  { ;color: blue;; }
+49 | | }
+   | |_^
+
+error: Str
+  --> $DIR/tests/fixture/csstree/1/input.css:45:12
+   |
+45 | @keyframes 'anim' {
+   |            ^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:45:19
+   |
+45 |   @keyframes 'anim' {
+   |  ___________________^
+46 | |     from  { color: red }
+47 | |     50.1% { color: green; background: green }
+48 | |     100%  { ;color: blue;; }
+49 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:46:5
+   |
+46 |     from  { color: red }
+   |     ^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframeBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:46:5
+   |
+46 |     from  { color: red }
+   |     ^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:46:5
+   |
+46 |     from  { color: red }
+   |     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:46:5
+   |
+46 |     from  { color: red }
+   |     ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:46:11
+   |
+46 |     from  { color: red }
+   |           ^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:46:13
+   |
+46 |     from  { color: red }
+   |             ^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:46:13
+   |
+46 |     from  { color: red }
+   |             ^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:46:13
+   |
+46 |     from  { color: red }
+   |             ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:46:13
+   |
+46 |     from  { color: red }
+   |             ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:46:20
+   |
+46 |     from  { color: red }
+   |                    ^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:46:20
+   |
+46 |     from  { color: red }
+   |                    ^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:47:5
+   |
+47 |     50.1% { color: green; background: green }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframeBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:47:5
+   |
+47 |     50.1% { color: green; background: green }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:47:5
+   |
+47 |     50.1% { color: green; background: green }
+   |     ^^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/csstree/1/input.css:47:5
+   |
+47 |     50.1% { color: green; background: green }
+   |     ^^^^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:47:5
+   |
+47 |     50.1% { color: green; background: green }
+   |     ^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:47:11
+   |
+47 |     50.1% { color: green; background: green }
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:47:13
+   |
+47 |     50.1% { color: green; background: green }
+   |             ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:47:13
+   |
+47 |     50.1% { color: green; background: green }
+   |             ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:47:13
+   |
+47 |     50.1% { color: green; background: green }
+   |             ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:47:13
+   |
+47 |     50.1% { color: green; background: green }
+   |             ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:47:20
+   |
+47 |     50.1% { color: green; background: green }
+   |                    ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:47:20
+   |
+47 |     50.1% { color: green; background: green }
+   |                    ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:47:27
+   |
+47 |     50.1% { color: green; background: green }
+   |                           ^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:47:27
+   |
+47 |     50.1% { color: green; background: green }
+   |                           ^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:47:27
+   |
+47 |     50.1% { color: green; background: green }
+   |                           ^^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:47:27
+   |
+47 |     50.1% { color: green; background: green }
+   |                           ^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:47:39
+   |
+47 |     50.1% { color: green; background: green }
+   |                                       ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:47:39
+   |
+47 |     50.1% { color: green; background: green }
+   |                                       ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:48:5
+   |
+48 |     100%  { ;color: blue;; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframeBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:48:5
+   |
+48 |     100%  { ;color: blue;; }
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: KeyframeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:48:5
+   |
+48 |     100%  { ;color: blue;; }
+   |     ^^^^
+
+error: Percentage
+  --> $DIR/tests/fixture/csstree/1/input.css:48:5
+   |
+48 |     100%  { ;color: blue;; }
+   |     ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:48:5
+   |
+48 |     100%  { ;color: blue;; }
+   |     ^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:48:11
+   |
+48 |     100%  { ;color: blue;; }
+   |           ^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:48:14
+   |
+48 |     100%  { ;color: blue;; }
+   |              ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:48:14
+   |
+48 |     100%  { ;color: blue;; }
+   |              ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:48:14
+   |
+48 |     100%  { ;color: blue;; }
+   |              ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:48:14
+   |
+48 |     100%  { ;color: blue;; }
+   |              ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:48:21
+   |
+48 |     100%  { ;color: blue;; }
+   |                     ^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:48:21
+   |
+48 |     100%  { ;color: blue;; }
+   |                     ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/csstree/1/input.css:51:1
+   |
+51 | / edge\ .c\61ases {
+52 | |     --empty-var: ;
+53 | |     --bad-var:;
+54 | |     number: 0.1.2.3;
+55 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/csstree/1/input.css:51:1
+   |
+51 | / edge\ .c\61ases {
+52 | |     --empty-var: ;
+53 | |     --bad-var:;
+54 | |     number: 0.1.2.3;
+55 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/csstree/1/input.css:51:1
+   |
+51 | edge\ .c\61ases {
+   | ^^^^^^^^^^^^^^^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:51:1
+   |
+51 | edge\ .c\61ases {
+   | ^^^^^^^^^^^^^^^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:51:1
+   |
+51 | edge\ .c\61ases {
+   | ^^^^^^^^^^^^^^^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:51:1
+   |
+51 | edge\ .c\61ases {
+   | ^^^^^^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:51:1
+   |
+51 | edge\ .c\61ases {
+   | ^^^^^^
+
+error: WqName
+  --> $DIR/tests/fixture/csstree/1/input.css:51:1
+   |
+51 | edge\ .c\61ases {
+   | ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:51:1
+   |
+51 | edge\ .c\61ases {
+   | ^^^^^^
+
+error: SubclassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:51:7
+   |
+51 | edge\ .c\61ases {
+   |       ^^^^^^^^^
+
+error: ClassSelector
+  --> $DIR/tests/fixture/csstree/1/input.css:51:7
+   |
+51 | edge\ .c\61ases {
+   |       ^^^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:51:8
+   |
+51 | edge\ .c\61ases {
+   |        ^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:51:17
+   |
+51 |   edge\ .c\61ases {
+   |  _________________^
+52 | |     --empty-var: ;
+53 | |     --bad-var:;
+54 | |     number: 0.1.2.3;
+55 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:52:5
+   |
+52 |     --empty-var: ;
+   |     ^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:52:5
+   |
+52 |     --empty-var: ;
+   |     ^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:52:5
+   |
+52 |     --empty-var: ;
+   |     ^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:52:5
+   |
+52 |     --empty-var: ;
+   |     ^^^^^^^^^^^
+
+error: DashedIdent
+  --> $DIR/tests/fixture/csstree/1/input.css:52:5
+   |
+52 |     --empty-var: ;
+   |     ^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:53:5
+   |
+53 |     --bad-var:;
+   |     ^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:53:5
+   |
+53 |     --bad-var:;
+   |     ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:53:5
+   |
+53 |     --bad-var:;
+   |     ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:53:5
+   |
+53 |     --bad-var:;
+   |     ^^^^^^^^^
+
+error: DashedIdent
+  --> $DIR/tests/fixture/csstree/1/input.css:53:5
+   |
+53 |     --bad-var:;
+   |     ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:54:5
+   |
+54 |     number: 0.1.2.3;
+   |     ^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/csstree/1/input.css:54:5
+   |
+54 |     number: 0.1.2.3;
+   |     ^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/csstree/1/input.css:54:5
+   |
+54 |     number: 0.1.2.3;
+   |     ^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/csstree/1/input.css:54:5
+   |
+54 |     number: 0.1.2.3;
+   |     ^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/csstree/1/input.css:54:5
+   |
+54 |     number: 0.1.2.3;
+   |     ^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:54:13
+   |
+54 |     number: 0.1.2.3;
+   |             ^^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:54:13
+   |
+54 |     number: 0.1.2.3;
+   |             ^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:54:16
+   |
+54 |     number: 0.1.2.3;
+   |                ^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:54:16
+   |
+54 |     number: 0.1.2.3;
+   |                ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/csstree/1/input.css:54:18
+   |
+54 |     number: 0.1.2.3;
+   |                  ^^
+
+error: Number
+  --> $DIR/tests/fixture/csstree/1/input.css:54:18
+   |
+54 |     number: 0.1.2.3;
+   |                  ^^
+

@@ -1,5 +1,5 @@
 
-  x Expected string, url or function
+  x Expected string, url or function token
    ,-[$DIR/tests/recovery/at-rule/import/empty/input.css:2:1]
  2 | @import ;
    :         ^

@@ -74,3 +74,42 @@
         color: green;
     }
 }
+
+a {;;
+    color: black;
+; ;
+}
+
+a {
+;color: pink;
+}
+
+a{color:black}
+
+a {
+    width: 10px;
+    @mixin mobile {
+        height: 100px;
+    }
+}
+
+a { color: a/* ; */ b  ; }
+
+a { @unknown "a.css"; }
+
+a { @unknown foo {} }
+
+a/**/
+{}
+
+:root {
+    --zero-size: {
+        width: 0;
+        height: 0;
+    };
+    --small-icon: {
+        width: 16px;
+        height: 16px;
+    }
+;
+}
