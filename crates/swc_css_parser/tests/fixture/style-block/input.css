@@ -83,3 +83,21 @@ a {;;
 a {
 ;color: pink;
 }
+
+a{color:black}
+
+a {
+    width: 10px;
+    @mixin mobile {
+        height: 100px;
+    }
+}
+
+a { color: a/* ; */ b  ; }
+
+a { @unknown "a.css"; }
+
+a { @unknown foo {} }
+
+a/**/
+{}

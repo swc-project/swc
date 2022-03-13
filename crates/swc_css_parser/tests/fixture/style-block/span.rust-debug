@@ -1,14 +1,14 @@
 error: Stylesheet
-  --> $DIR/tests/fixture/style-block/input.css:1:1
-   |
-1  | / .foo { display: grid; }
-2  | |
-3  | | .foo {
-4  | |     display: grid;
-...  |
-84 | | ;color: pink;
-85 | | }
-   | |__^
+   --> $DIR/tests/fixture/style-block/input.css:1:1
+    |
+1   | / .foo { display: grid; }
+2   | |
+3   | | .foo {
+4   | |     display: grid;
+...   |
+102 | | a/**/
+103 | | {}
+    | |___^
 
 error: Rule
  --> $DIR/tests/fixture/style-block/input.css:1:1
@@ -3170,4 +3170,859 @@ error: Ident
    |
 84 | ;color: pink;
    |         ^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:87:1
+   |
+87 | a{color:black}
+   | ^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:87:1
+   |
+87 | a{color:black}
+   | ^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:87:1
+   |
+87 | a{color:black}
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:87:1
+   |
+87 | a{color:black}
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:87:1
+   |
+87 | a{color:black}
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/style-block/input.css:87:1
+   |
+87 | a{color:black}
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/style-block/input.css:87:1
+   |
+87 | a{color:black}
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/style-block/input.css:87:1
+   |
+87 | a{color:black}
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:87:1
+   |
+87 | a{color:black}
+   | ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:87:2
+   |
+87 | a{color:black}
+   |  ^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:87:3
+   |
+87 | a{color:black}
+   |   ^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:87:3
+   |
+87 | a{color:black}
+   |   ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:87:3
+   |
+87 | a{color:black}
+   |   ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:87:3
+   |
+87 | a{color:black}
+   |   ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:87:3
+   |
+87 | a{color:black}
+   |   ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:87:9
+   |
+87 | a{color:black}
+   |         ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:87:9
+   |
+87 | a{color:black}
+   |         ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:89:1
+   |
+89 | / a {
+90 | |     width: 10px;
+91 | |     @mixin mobile {
+92 | |         height: 100px;
+93 | |     }
+94 | | }
+   | |_^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:89:1
+   |
+89 | / a {
+90 | |     width: 10px;
+91 | |     @mixin mobile {
+92 | |         height: 100px;
+93 | |     }
+94 | | }
+   | |_^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:89:1
+   |
+89 | a {
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:89:1
+   |
+89 | a {
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:89:1
+   |
+89 | a {
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/style-block/input.css:89:1
+   |
+89 | a {
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/style-block/input.css:89:1
+   |
+89 | a {
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/style-block/input.css:89:1
+   |
+89 | a {
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:89:1
+   |
+89 | a {
+   | ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:89:3
+   |
+89 |   a {
+   |  ___^
+90 | |     width: 10px;
+91 | |     @mixin mobile {
+92 | |         height: 100px;
+93 | |     }
+94 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:90:5
+   |
+90 |     width: 10px;
+   |     ^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:90:5
+   |
+90 |     width: 10px;
+   |     ^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:90:5
+   |
+90 |     width: 10px;
+   |     ^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:90:5
+   |
+90 |     width: 10px;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:90:5
+   |
+90 |     width: 10px;
+   |     ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:90:12
+   |
+90 |     width: 10px;
+   |            ^^^^
+
+error: Dimension
+  --> $DIR/tests/fixture/style-block/input.css:90:12
+   |
+90 |     width: 10px;
+   |            ^^^^
+
+error: Length
+  --> $DIR/tests/fixture/style-block/input.css:90:12
+   |
+90 |     width: 10px;
+   |            ^^^^
+
+error: Number
+  --> $DIR/tests/fixture/style-block/input.css:90:12
+   |
+90 |     width: 10px;
+   |            ^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:90:14
+   |
+90 |     width: 10px;
+   |              ^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:91:5
+   |
+91 | /     @mixin mobile {
+92 | |         height: 100px;
+93 | |     }
+   | |_____^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:91:5
+   |
+91 | /     @mixin mobile {
+92 | |         height: 100px;
+93 | |     }
+   | |_____^
+
+error: AtRule
+  --> $DIR/tests/fixture/style-block/input.css:91:5
+   |
+91 | /     @mixin mobile {
+92 | |         height: 100px;
+93 | |     }
+   | |_____^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/style-block/input.css:91:5
+   |
+91 | /     @mixin mobile {
+92 | |         height: 100px;
+93 | |     }
+   | |_____^
+
+error: AtRuleName
+  --> $DIR/tests/fixture/style-block/input.css:91:6
+   |
+91 |     @mixin mobile {
+   |      ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:91:6
+   |
+91 |     @mixin mobile {
+   |      ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:91:11
+   |
+91 |     @mixin mobile {
+   |           ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/style-block/input.css:91:11
+   |
+91 |     @mixin mobile {
+   |           ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:91:12
+   |
+91 |     @mixin mobile {
+   |            ^^^^^^
+
+error: Ident { value: Atom('mobile' type=inline), raw: Atom('mobile' type=inline) }
+  --> $DIR/tests/fixture/style-block/input.css:91:12
+   |
+91 |     @mixin mobile {
+   |            ^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:91:18
+   |
+91 |     @mixin mobile {
+   |                  ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/style-block/input.css:91:18
+   |
+91 |     @mixin mobile {
+   |                  ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:91:19
+   |
+91 |       @mixin mobile {
+   |  ___________________^
+92 | |         height: 100px;
+93 | |     }
+   | |_____^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:91:20
+   |
+91 |       @mixin mobile {
+   |  ____________________^
+92 | |         height: 100px;
+   | |________^
+
+error: WhiteSpace { value: Atom('
+        ' type=dynamic) }
+  --> $DIR/tests/fixture/style-block/input.css:91:20
+   |
+91 |       @mixin mobile {
+   |  ____________________^
+92 | |         height: 100px;
+   | |________^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:92:9
+   |
+92 |         height: 100px;
+   |         ^^^^^^
+
+error: Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+  --> $DIR/tests/fixture/style-block/input.css:92:9
+   |
+92 |         height: 100px;
+   |         ^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:92:15
+   |
+92 |         height: 100px;
+   |               ^
+
+error: Colon
+  --> $DIR/tests/fixture/style-block/input.css:92:15
+   |
+92 |         height: 100px;
+   |               ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:92:16
+   |
+92 |         height: 100px;
+   |                ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/style-block/input.css:92:16
+   |
+92 |         height: 100px;
+   |                ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:92:17
+   |
+92 |         height: 100px;
+   |                 ^^^^^
+
+error: Dimension { value: 100.0, raw_value: Atom('100' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+  --> $DIR/tests/fixture/style-block/input.css:92:17
+   |
+92 |         height: 100px;
+   |                 ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:92:22
+   |
+92 |         height: 100px;
+   |                      ^
+
+error: Semi
+  --> $DIR/tests/fixture/style-block/input.css:92:22
+   |
+92 |         height: 100px;
+   |                      ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:92:23
+   |
+92 |           height: 100px;
+   |  _______________________^
+93 | |     }
+   | |____^
+
+error: WhiteSpace { value: Atom('
+    ' type=inline) }
+  --> $DIR/tests/fixture/style-block/input.css:92:23
+   |
+92 |           height: 100px;
+   |  _______________________^
+93 | |     }
+   | |____^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:96:1
+   |
+96 | a { color: a/* ; */ b  ; }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:96:1
+   |
+96 | a { color: a/* ; */ b  ; }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:96:1
+   |
+96 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:96:1
+   |
+96 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:96:1
+   |
+96 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/style-block/input.css:96:1
+   |
+96 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/style-block/input.css:96:1
+   |
+96 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/style-block/input.css:96:1
+   |
+96 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:96:1
+   |
+96 | a { color: a/* ; */ b  ; }
+   | ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:96:3
+   |
+96 | a { color: a/* ; */ b  ; }
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:96:5
+   |
+96 | a { color: a/* ; */ b  ; }
+   |     ^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:96:5
+   |
+96 | a { color: a/* ; */ b  ; }
+   |     ^^^^^^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/style-block/input.css:96:5
+   |
+96 | a { color: a/* ; */ b  ; }
+   |     ^^^^^^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/style-block/input.css:96:5
+   |
+96 | a { color: a/* ; */ b  ; }
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:96:5
+   |
+96 | a { color: a/* ; */ b  ; }
+   |     ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:96:12
+   |
+96 | a { color: a/* ; */ b  ; }
+   |            ^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:96:12
+   |
+96 | a { color: a/* ; */ b  ; }
+   |            ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:96:21
+   |
+96 | a { color: a/* ; */ b  ; }
+   |                     ^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:96:21
+   |
+96 | a { color: a/* ; */ b  ; }
+   |                     ^
+
+error: Rule
+  --> $DIR/tests/fixture/style-block/input.css:98:1
+   |
+98 | a { @unknown "a.css"; }
+   | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+  --> $DIR/tests/fixture/style-block/input.css:98:1
+   |
+98 | a { @unknown "a.css"; }
+   | ^^^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+  --> $DIR/tests/fixture/style-block/input.css:98:1
+   |
+98 | a { @unknown "a.css"; }
+   | ^
+
+error: ComplexSelector
+  --> $DIR/tests/fixture/style-block/input.css:98:1
+   |
+98 | a { @unknown "a.css"; }
+   | ^
+
+error: CompoundSelector
+  --> $DIR/tests/fixture/style-block/input.css:98:1
+   |
+98 | a { @unknown "a.css"; }
+   | ^
+
+error: TypeSelector
+  --> $DIR/tests/fixture/style-block/input.css:98:1
+   |
+98 | a { @unknown "a.css"; }
+   | ^
+
+error: TagNameSelector
+  --> $DIR/tests/fixture/style-block/input.css:98:1
+   |
+98 | a { @unknown "a.css"; }
+   | ^
+
+error: WqName
+  --> $DIR/tests/fixture/style-block/input.css:98:1
+   |
+98 | a { @unknown "a.css"; }
+   | ^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:98:1
+   |
+98 | a { @unknown "a.css"; }
+   | ^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/style-block/input.css:98:3
+   |
+98 | a { @unknown "a.css"; }
+   |   ^^^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:98:5
+   |
+98 | a { @unknown "a.css"; }
+   |     ^^^^^^^^^^^^^^^^^
+
+error: StyleBlock
+  --> $DIR/tests/fixture/style-block/input.css:98:5
+   |
+98 | a { @unknown "a.css"; }
+   |     ^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/style-block/input.css:98:5
+   |
+98 | a { @unknown "a.css"; }
+   |     ^^^^^^^^^^^^^^^^^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/style-block/input.css:98:5
+   |
+98 | a { @unknown "a.css"; }
+   |     ^^^^^^^^^^^^^^^^^
+
+error: AtRuleName
+  --> $DIR/tests/fixture/style-block/input.css:98:6
+   |
+98 | a { @unknown "a.css"; }
+   |      ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/style-block/input.css:98:6
+   |
+98 | a { @unknown "a.css"; }
+   |      ^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:98:13
+   |
+98 | a { @unknown "a.css"; }
+   |             ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/style-block/input.css:98:13
+   |
+98 | a { @unknown "a.css"; }
+   |             ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/style-block/input.css:98:14
+   |
+98 | a { @unknown "a.css"; }
+   |              ^^^^^^^
+
+error: String { value: Atom('a.css' type=inline), raw: Atom('"a.css"' type=inline) }
+  --> $DIR/tests/fixture/style-block/input.css:98:14
+   |
+98 | a { @unknown "a.css"; }
+   |              ^^^^^^^
+
+error: Rule
+   --> $DIR/tests/fixture/style-block/input.css:100:1
+    |
+100 | a { @unknown foo {} }
+    | ^^^^^^^^^^^^^^^^^^^^^
+
+error: QualifiedRule
+   --> $DIR/tests/fixture/style-block/input.css:100:1
+    |
+100 | a { @unknown foo {} }
+    | ^^^^^^^^^^^^^^^^^^^^^
+
+error: SelectorList
+   --> $DIR/tests/fixture/style-block/input.css:100:1
+    |
+100 | a { @unknown foo {} }
+    | ^
+
+error: ComplexSelector
+   --> $DIR/tests/fixture/style-block/input.css:100:1
+    |
+100 | a { @unknown foo {} }
+    | ^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/style-block/input.css:100:1
+    |
+100 | a { @unknown foo {} }
+    | ^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/style-block/input.css:100:1
+    |
+100 | a { @unknown foo {} }
+    | ^
+
+error: TagNameSelector
+   --> $DIR/tests/fixture/style-block/input.css:100:1
+    |
+100 | a { @unknown foo {} }
+    | ^
+
+error: WqName
+   --> $DIR/tests/fixture/style-block/input.css:100:1
+    |
+100 | a { @unknown foo {} }
+    | ^
+
+error: Ident
+   --> $DIR/tests/fixture/style-block/input.css:100:1
+    |
+100 | a { @unknown foo {} }
+    | ^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/style-block/input.css:100:3
+    |
+100 | a { @unknown foo {} }
+    |   ^^^^^^^^^^^^^^^^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:100:5
+    |
+100 | a { @unknown foo {} }
+    |     ^^^^^^^^^^^^^^^
+
+error: StyleBlock
+   --> $DIR/tests/fixture/style-block/input.css:100:5
+    |
+100 | a { @unknown foo {} }
+    |     ^^^^^^^^^^^^^^^
+
+error: AtRule
+   --> $DIR/tests/fixture/style-block/input.css:100:5
+    |
+100 | a { @unknown foo {} }
+    |     ^^^^^^^^^^^^^^^
+
+error: UnknownAtRule
+   --> $DIR/tests/fixture/style-block/input.css:100:5
+    |
+100 | a { @unknown foo {} }
+    |     ^^^^^^^^^^^^^^^
+
+error: AtRuleName
+   --> $DIR/tests/fixture/style-block/input.css:100:6
+    |
+100 | a { @unknown foo {} }
+    |      ^^^^^^^
+
+error: Ident
+   --> $DIR/tests/fixture/style-block/input.css:100:6
+    |
+100 | a { @unknown foo {} }
+    |      ^^^^^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:100:13
+    |
+100 | a { @unknown foo {} }
+    |             ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:100:13
+    |
+100 | a { @unknown foo {} }
+    |             ^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:100:14
+    |
+100 | a { @unknown foo {} }
+    |              ^^^
+
+error: Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:100:14
+    |
+100 | a { @unknown foo {} }
+    |              ^^^
+
+error: ComponentValue
+   --> $DIR/tests/fixture/style-block/input.css:100:17
+    |
+100 | a { @unknown foo {} }
+    |                 ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+   --> $DIR/tests/fixture/style-block/input.css:100:17
+    |
+100 | a { @unknown foo {} }
+    |                 ^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/style-block/input.css:100:18
+    |
+100 | a { @unknown foo {} }
+    |                  ^^
+
+error: Rule
+   --> $DIR/tests/fixture/style-block/input.css:102:1
+    |
+102 | / a/**/
+103 | | {}
+    | |__^
+
+error: QualifiedRule
+   --> $DIR/tests/fixture/style-block/input.css:102:1
+    |
+102 | / a/**/
+103 | | {}
+    | |__^
+
+error: SelectorList
+   --> $DIR/tests/fixture/style-block/input.css:102:1
+    |
+102 | a/**/
+    | ^
+
+error: ComplexSelector
+   --> $DIR/tests/fixture/style-block/input.css:102:1
+    |
+102 | a/**/
+    | ^
+
+error: CompoundSelector
+   --> $DIR/tests/fixture/style-block/input.css:102:1
+    |
+102 | a/**/
+    | ^
+
+error: TypeSelector
+   --> $DIR/tests/fixture/style-block/input.css:102:1
+    |
+102 | a/**/
+    | ^
+
+error: TagNameSelector
+   --> $DIR/tests/fixture/style-block/input.css:102:1
+    |
+102 | a/**/
+    | ^
+
+error: WqName
+   --> $DIR/tests/fixture/style-block/input.css:102:1
+    |
+102 | a/**/
+    | ^
+
+error: Ident
+   --> $DIR/tests/fixture/style-block/input.css:102:1
+    |
+102 | a/**/
+    | ^
+
+error: SimpleBlock
+   --> $DIR/tests/fixture/style-block/input.css:103:1
+    |
+103 | {}
+    | ^^
 
