@@ -3041,7 +3041,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.100.0"
+version = "0.101.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3064,7 +3064,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.97.0"
+version = "0.98.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3109,7 +3109,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.62.0"
+version = "0.63.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3842,7 +3842,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.96.1"
+version = "0.97.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
