@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 184,
+    "end": 281,
     "ctxt": 0
   },
   "rules": [
@@ -257,6 +257,168 @@
                 "span": {
                   "start": 176,
                   "end": 181,
+                  "ctxt": 0
+                },
+                "value": "value",
+                "raw": "value"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "FontFaceRule",
+      "span": {
+        "start": 185,
+        "end": 231,
+        "ctxt": 0
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 196,
+          "end": 231,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 202,
+              "end": 214,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 202,
+                "end": 207,
+                "ctxt": 0
+              },
+              "value": "prop1",
+              "raw": "prop1"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 209,
+                  "end": 214,
+                  "ctxt": 0
+                },
+                "value": "value",
+                "raw": "value"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 217,
+              "end": 229,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 217,
+                "end": 222,
+                "ctxt": 0
+              },
+              "value": "prop2",
+              "raw": "prop2"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 224,
+                  "end": 229,
+                  "ctxt": 0
+                },
+                "value": "value",
+                "raw": "value"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "FontFaceRule",
+      "span": {
+        "start": 233,
+        "end": 280,
+        "ctxt": 0
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 244,
+          "end": 280,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 250,
+              "end": 262,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 250,
+                "end": 255,
+                "ctxt": 0
+              },
+              "value": "prop1",
+              "raw": "prop1"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 257,
+                  "end": 262,
+                  "ctxt": 0
+                },
+                "value": "value",
+                "raw": "value"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 265,
+              "end": 277,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 265,
+                "end": 270,
+                "ctxt": 0
+              },
+              "value": "prop2",
+              "raw": "prop2"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 272,
+                  "end": 277,
                   "ctxt": 0
                 },
                 "value": "value",
