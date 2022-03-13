@@ -16,6 +16,12 @@ macro_rules! write {
     }};
 }
 
+macro_rules! write_str {
+    ($g:expr,$span:expr,$n:expr) => {{
+        $g.wr.write_str($span, $n)?;
+    }};
+}
+
 macro_rules! formatting_newline {
     ($g:expr) => {{
         if !$g.config.minify {

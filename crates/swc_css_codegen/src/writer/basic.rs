@@ -169,7 +169,35 @@ where
     }
 
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result {
+        // debug_assert!(
+        //     text.contains("\r"),
+        //     "write_raw should not contains new lines",
+        // );
+
         self.write(span, text)?;
+
+        Ok(())
+    }
+
+    fn write_str(&mut self, span: Span, s: &str) -> Result {
+        if !s.is_empty() {
+            if !span.is_dummy() {
+                self.srcmap(span.lo())
+            }
+
+            self.write(None, s)?;
+
+            let line_start_of_s = compute_line_starts(s);
+
+            if line_start_of_s.len() > 1 {
+                self.line = self.line + line_start_of_s.len() - 1;
+                self.col = s.len() - line_start_of_s.last().cloned().unwrap_or(0);
+            }
+
+            if !span.is_dummy() {
+                self.srcmap(span.hi())
+            }
+        }
 
         Ok(())
     }
@@ -186,4 +214,31 @@ where
 
         self.indent_level -= 1;
     }
+}
+
+fn compute_line_starts(s: &str) -> Vec<usize> {
+    let mut res = vec![];
+    let mut line_start = 0;
+    let mut chars = s.char_indices().peekable();
+
+    while let Some((pos, c)) = chars.next() {
+        match c {
+            '\r' => {
+                if let Some(&(_, '\n')) = chars.peek() {
+                    let _ = chars.next();
+                }
+            }
+
+            '\n' => {
+                res.push(line_start);
+                line_start = pos + 1;
+            }
+
+            _ => {}
+        }
+    }
+
+    // Last line.
+    res.push(line_start);
+    res
 }

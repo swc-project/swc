@@ -872,9 +872,9 @@ where
         if self.config.minify {
             let minified = minify_string(&*n.value);
 
-            write!(self, n.span, &minified);
+            write_str!(self, n.span, &minified);
         } else {
-            write!(self, n.span, &n.raw);
+            write_str!(self, n.span, &n.raw);
         }
     }
 
@@ -1382,10 +1382,10 @@ where
                 write!(self, span, &function);
             }
             Token::BadString { raw, .. } => {
-                write!(self, span, raw);
+                write_str!(self, span, raw);
             }
             Token::String { raw, .. } => {
-                write!(self, span, raw);
+                write_str!(self, span, raw);
             }
             Token::Url {
                 raw_name,
@@ -1403,7 +1403,7 @@ where
                 url.push_str(after);
                 url.push(')');
 
-                write!(self, span, &url);
+                write_str!(self, span, &url);
             }
             Token::BadUrl {
                 raw_name,
@@ -1417,7 +1417,7 @@ where
                 bad_url.push_str(raw_value);
                 bad_url.push(')');
 
-                write!(self, span, &bad_url);
+                write_str!(self, span, &bad_url);
             }
             Token::Comma => {
                 write!(self, span, ",");
@@ -1443,7 +1443,7 @@ where
                 write!(self, span, &hash);
             }
             Token::WhiteSpace { value, .. } => {
-                write!(self, span, value);
+                write_str!(self, span, value);
             }
             Token::CDC => {
                 write!(self, span, "-->");
@@ -1518,10 +1518,10 @@ where
                     write!(self, span, &function);
                 }
                 Token::BadString { raw, .. } => {
-                    write!(self, span, raw);
+                    write_str!(self, span, raw);
                 }
                 Token::String { raw, .. } => {
-                    write!(self, span, raw);
+                    write_str!(self, span, raw);
                 }
                 Token::Url {
                     raw_name,
@@ -1539,7 +1539,7 @@ where
                     url.push_str(after);
                     url.push(')');
 
-                    write!(self, span, &url);
+                    write_str!(self, span, &url);
                 }
                 Token::BadUrl {
                     raw_name,
@@ -1553,7 +1553,7 @@ where
                     bad_url.push_str(raw_value);
                     bad_url.push(')');
 
-                    write!(self, span, &bad_url);
+                    write_str!(self, span, &bad_url);
                 }
                 Token::Comma => {
                     write!(self, span, ",");
@@ -1579,7 +1579,7 @@ where
                     write!(self, span, &hash);
                 }
                 Token::WhiteSpace { value, .. } => {
-                    write!(self, span, value);
+                    write_str!(self, span, value);
                 }
                 Token::CDC => {
                     write!(self, span, "-->");
@@ -1639,7 +1639,7 @@ where
             url.push_str(&n.after);
         }
 
-        write!(self, n.span, &url);
+        write_str!(self, n.span, &url);
     }
 
     #[emitter]
