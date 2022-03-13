@@ -130,7 +130,6 @@ where
 
     fn raw_write(&mut self, data: &str) -> Result {
         self.w.write_str(data)?;
-
         self.col += data.chars().count();
 
         Ok(())
@@ -182,21 +181,29 @@ where
 
     fn write_str(&mut self, span: Span, s: &str) -> Result {
         if !s.is_empty() {
-            if !span.is_dummy() {
-                self.srcmap(span.lo())
-            }
+            let mut lines = s.split('\n').peekable();
+            let mut lo_byte_pos = span.lo();
 
-            self.raw_write(s)?;
+            while let Some(line) = lines.next() {
+                if !span.is_dummy() {
+                    self.srcmap(lo_byte_pos)
+                }
 
-            let line_start_of_s = compute_line_starts(s);
+                self.raw_write(line)?;
 
-            if line_start_of_s.len() > 1 {
-                self.line = self.line + line_start_of_s.len() - 1;
-                self.col = s.len() - line_start_of_s.last().cloned().unwrap_or(0);
-            }
+                if lines.peek().is_some() {
+                    self.raw_write("\n")?;
+                    self.line += 1;
+                    self.col = 0;
 
-            if !span.is_dummy() {
-                self.srcmap(span.hi())
+                    if !span.is_dummy() {
+                        lo_byte_pos = lo_byte_pos + BytePos((line.len() + 1) as u32);
+                    }
+                } else {
+                    if !span.is_dummy() {
+                        self.srcmap(span.hi());
+                    }
+                }
             }
         }
 
@@ -215,31 +222,4 @@ where
 
         self.indent_level -= 1;
     }
-}
-
-fn compute_line_starts(s: &str) -> Vec<usize> {
-    let mut res = vec![];
-    let mut line_start = 0;
-    let mut chars = s.char_indices().peekable();
-
-    while let Some((pos, c)) = chars.next() {
-        match c {
-            '\r' => {
-                if let Some(&(_, '\n')) = chars.peek() {
-                    let _ = chars.next();
-                }
-            }
-
-            '\n' => {
-                res.push(line_start);
-                line_start = pos + 1;
-            }
-
-            _ => {}
-        }
-    }
-
-    // Last line.
-    res.push(line_start);
-    res
 }
