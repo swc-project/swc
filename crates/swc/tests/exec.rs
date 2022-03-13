@@ -204,5 +204,9 @@ fn stdout_of(code: &str) -> Result<String, Error> {
         )
     }
 
-    Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
+    let s = String::from_utf8_lossy(&actual_output.stdout).to_string();
+    if s.trim().is_empty() {
+        bail!("empty stdout");
+    }
+    Ok(s)
 }
