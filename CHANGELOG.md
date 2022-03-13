@@ -31,6 +31,18 @@
 
 - **(es/minifier)** Use `Vec<u8>` as a buffer for `base54` (#3993) ([f7b212b](https://github.com/swc-project/swc/commit/f7b212bfc4fe9cdc89b77b5639be52a586c220e0))
 
+### Testing
+
+
+
+- **(es)** Add an execution test system (#3994) ([b22d084](https://github.com/swc-project/swc/commit/b22d084180b77508f5e940045eb1b7bb9cd5c99b))
+
+### Build
+
+
+
+- **(cargo)** Set workspace default members (#3978) ([560c81b](https://github.com/swc-project/swc/commit/560c81b120043b1edc20702a3ccfe3d3336c489a))
+
 ## [1.2.154] - 2022-03-12
 
 ### Bug Fixes
