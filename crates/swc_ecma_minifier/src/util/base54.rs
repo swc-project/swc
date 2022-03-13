@@ -38,7 +38,10 @@ pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> String {
         ret.push(c);
     }
 
-    unsafe { String::from_utf8_unchecked(ret) }
+    unsafe {
+        // Safety: We are only using ascii characters
+        String::from_utf8_unchecked(ret)
+    }
 }
 
 #[allow(unused)]
