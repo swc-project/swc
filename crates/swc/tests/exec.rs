@@ -1,6 +1,6 @@
 use std::{
     fs::{self, create_dir_all, rename},
-    path::{Path, PathBuf},
+    path::{Component, Path, PathBuf},
     process::Command,
     sync::Arc,
 };
@@ -143,10 +143,9 @@ fn run_fixture_test(entry: PathBuf) {
 
 /// Rename `foo/.bar/exec.js` => `foo/bar/exec.js`
 fn unignore(path: &Path) {
-    if path
-        .components()
-        .all(|c| !c.as_os_str().to_string_lossy().starts_with('.'))
-    {
+    if path.components().all(|c| {
+        matches!(c, Component::Normal(..)) && !c.as_os_str().to_string_lossy().starts_with('.')
+    }) {
         return;
     }
     //
@@ -154,7 +153,7 @@ fn unignore(path: &Path) {
     let mut new_path = PathBuf::new();
 
     for c in path.components() {
-        if let std::path::Component::Normal(s) = c {
+        if let Component::Normal(s) = c {
             if let Some(s) = s.to_string_lossy().strip_prefix('.') {
                 new_path.push(s);
 
