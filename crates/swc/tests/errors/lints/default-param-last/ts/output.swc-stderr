@@ -1,6 +1,6 @@
-error: Default parameters should be last.
- 
-  |
-2 |     constructor({ a } = {}, public b) {}
-  |                             ^^^^^^^^
 
+  x Default parameters should be last.
+   ,----
+ 3 | constructor({ a } = {}, public b) {}
+   :                         ^^^^^^^^
+   `----

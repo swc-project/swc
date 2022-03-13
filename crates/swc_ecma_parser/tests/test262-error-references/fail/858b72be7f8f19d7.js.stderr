@@ -1,6 +1,6 @@
-error: Unexpected initializer in for in/of loop
- --> $DIR/tests/test262-parser/fail/858b72be7f8f19d7.js:1:9
-  |
-1 | for(let a = 0 of b);
-  |         ^
 
+  x Unexpected initializer in for in/of loop
+   ,-[$DIR/tests/test262-parser/fail/858b72be7f8f19d7.js:2:1]
+ 2 | for(let a = 0 of b);
+   :         ^
+   `----

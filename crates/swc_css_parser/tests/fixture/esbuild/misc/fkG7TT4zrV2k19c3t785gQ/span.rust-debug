@@ -1,48 +1,48 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:1:1
-  |
-1 | @media \0screen\,screen\9 {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:1:1
-  |
-1 | @media \0screen\,screen\9 {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:2:1]
+ 2 | @media \0screen\,screen\9 {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:1:1
-  |
-1 | @media \0screen\,screen\9 {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:2:1]
+ 2 | @media \0screen\,screen\9 {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: MediaRule
- --> $DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:1:1
-  |
-1 | @media \0screen\,screen\9 {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:2:1]
+ 2 | @media \0screen\,screen\9 {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: MediaQueryList
- --> $DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:1:8
-  |
-1 | @media \0screen\,screen\9 {}
-  |        ^^^^^^^^^^^^^^^^^^^
+  x MediaRule
+   ,-[$DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:2:1]
+ 2 | @media \0screen\,screen\9 {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: MediaQuery
- --> $DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:1:8
-  |
-1 | @media \0screen\,screen\9 {}
-  |        ^^^^^^^^^^^^^^^^^^^
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:2:1]
+ 2 | @media \0screen\,screen\9 {}
+   :        ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:1:8
-  |
-1 | @media \0screen\,screen\9 {}
-  |        ^^^^^^^^^^^^^^^^^^^
+  x MediaQuery
+   ,-[$DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:2:1]
+ 2 | @media \0screen\,screen\9 {}
+   :        ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:1:27
-  |
-1 | @media \0screen\,screen\9 {}
-  |                           ^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:2:1]
+ 2 | @media \0screen\,screen\9 {}
+   :        ^^^^^^^^^^^^^^^^^^^
+   `----
 
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:2:1]
+ 2 | @media \0screen\,screen\9 {}
+   :                           ^^
+   `----

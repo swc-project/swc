@@ -1,6 +1,6 @@
-error: Expected ',', got '.'
- --> $DIR/tests/test262-parser/fail/537c4a516d7c8d7f.js:1:20
-  |
-1 | try {} catch ({e: x.a}) {}
-  |                    ^
 
+  x Expected ',', got '.'
+   ,-[$DIR/tests/test262-parser/fail/537c4a516d7c8d7f.js:2:1]
+ 2 | try {} catch ({e: x.a}) {}
+   :                    ^
+   `----

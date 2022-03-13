@@ -1,6 +1,6 @@
-error: Invalid access to super
- --> $DIR/tests/span/js/super/obj1.js:3:15
-  |
-3 |         super.x;
-  |               ^
 
+  x Invalid access to super
+   ,-[$DIR/tests/span/js/super/obj1.js:4:9]
+ 4 | super.x;
+   :       ^
+   `----

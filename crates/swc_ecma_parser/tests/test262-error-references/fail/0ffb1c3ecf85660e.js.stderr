@@ -1,24 +1,25 @@
-error: Expected ';', '}' or <eof>
- --> $DIR/tests/test262-parser/fail/0ffb1c3ecf85660e.js:2:6
-  |
-2 | World"
-  |      ^
-  |
-note: This is the expression part of an expression statement
- --> $DIR/tests/test262-parser/fail/0ffb1c3ecf85660e.js:2:1
-  |
-2 | World"
-  | ^^^^^
 
-error: Unterminated string constant
- --> $DIR/tests/test262-parser/fail/0ffb1c3ecf85660e.js:1:1
-  |
-1 | "Hello
-  | ^^^^^^
+  x Expected ';', '}' or <eof>
+   ,-[$DIR/tests/test262-parser/fail/0ffb1c3ecf85660e.js:3:1]
+ 3 | World"
+   :      ^
+   `----
 
-error: Unterminated string constant
- --> $DIR/tests/test262-parser/fail/0ffb1c3ecf85660e.js:2:6
-  |
-2 | World"
-  |      ^
+Error: 
+  > This is the expression part of an expression statement
+   ,-[$DIR/tests/test262-parser/fail/0ffb1c3ecf85660e.js:3:1]
+ 3 | World"
+   : ^^^^^
+   `----
 
+  x Unterminated string constant
+   ,-[$DIR/tests/test262-parser/fail/0ffb1c3ecf85660e.js:2:1]
+ 2 | "Hello
+   : ^^^^^^
+   `----
+
+  x Unterminated string constant
+   ,-[$DIR/tests/test262-parser/fail/0ffb1c3ecf85660e.js:3:1]
+ 3 | World"
+   :      ^
+   `----

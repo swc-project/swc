@@ -1,66 +1,66 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1
-  |
-1 | a|* {}
-  | ^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1
-  |
-1 | a|* {}
-  | ^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:2:1]
+ 2 | a|* {}
+   : ^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1
-  |
-1 | a|* {}
-  | ^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:2:1]
+ 2 | a|* {}
+   : ^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1
-  |
-1 | a|* {}
-  | ^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:2:1]
+ 2 | a|* {}
+   : ^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1
-  |
-1 | a|* {}
-  | ^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:2:1]
+ 2 | a|* {}
+   : ^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1
-  |
-1 | a|* {}
-  | ^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:2:1]
+ 2 | a|* {}
+   : ^^^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1
-  |
-1 | a|* {}
-  | ^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:2:1]
+ 2 | a|* {}
+   : ^^^
+   `----
 
-error: UniversalSelector
- --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1
-  |
-1 | a|* {}
-  | ^^^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:2:1]
+ 2 | a|* {}
+   : ^^^
+   `----
 
-error: NsPrefix
- --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1
-  |
-1 | a|* {}
-  | ^^
+  x UniversalSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:2:1]
+ 2 | a|* {}
+   : ^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1
-  |
-1 | a|* {}
-  | ^
+  x NsPrefix
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:2:1]
+ 2 | a|* {}
+   : ^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:5
-  |
-1 | a|* {}
-  |     ^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:2:1]
+ 2 | a|* {}
+   : ^
+   `----
 
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:2:1]
+ 2 | a|* {}
+   :     ^^
+   `----

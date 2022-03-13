@@ -1,6 +1,6 @@
-error: Expected ',', got '.'
- --> $DIR/tests/test262-parser/fail/ca424e812e0896bd.js:1:15
-  |
-1 | (function* ([a.b]) {})
-  |               ^
 
+  x Expected ',', got '.'
+   ,-[$DIR/tests/test262-parser/fail/ca424e812e0896bd.js:2:1]
+ 2 | (function* ([a.b]) {})
+   :               ^
+   `----

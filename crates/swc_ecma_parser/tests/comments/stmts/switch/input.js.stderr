@@ -1,8 +1,9 @@
-note: Leading (hi)
-  |
-note:  4
- --> $DIR/tests/comments/stmts/switch/input.js:5:1
-  |
-5 | }
-  | ^
 
+  > Leading (hi)
+
+Error: 
+  >  4
+   ,-[$DIR/tests/comments/stmts/switch/input.js:6:1]
+ 6 | }
+   : ^
+   `----

@@ -12,9 +12,9 @@ use rayon::prelude::*;
 use relative_path::RelativePath;
 use swc::{
     config::{Config, Options},
-    try_with_handler, Compiler, TransformOutput,
+    try_with_handler, Compiler, HandlerOpts, TransformOutput,
 };
-use swc_common::{sync::Lazy, FileName, FilePathMapping, SourceMap};
+use swc_common::{errors::ColorConfig, sync::Lazy, FileName, FilePathMapping, SourceMap};
 use swc_trace_macro::swc_trace;
 use walkdir::WalkDir;
 
@@ -81,7 +81,7 @@ pub struct CompileOptions {
     #[clap(group = "input")]
     files: Vec<PathBuf>,
 
-    /// Enable experimantal trace profiling
+    /// Enable experimental trace profiling
     /// generates trace compatible with trace event format.
     #[clap(group = "experimental_trace", long)]
     experimental_trace: bool,
@@ -278,21 +278,28 @@ impl CompileOptions {
             let stdin_span_guard = span.enter();
             let comp = COMPILER.clone();
 
-            let result = try_with_handler(comp.cm.clone(), false, |handler| {
-                let options =
-                    build_transform_options(&self.config_file, &self.filename.as_deref())?;
+            let result = try_with_handler(
+                comp.cm.clone(),
+                HandlerOpts {
+                    color: swc_common::errors::ColorConfig::Always,
+                    skip_filename: false,
+                },
+                |handler| {
+                    let options =
+                        build_transform_options(&self.config_file, &self.filename.as_deref())?;
 
-                let fm = comp.cm.new_source_file(
-                    if options.filename.is_empty() {
-                        FileName::Anon
-                    } else {
-                        FileName::Real(options.filename.clone().into())
-                    },
-                    stdin_input,
-                );
+                    let fm = comp.cm.new_source_file(
+                        if options.filename.is_empty() {
+                            FileName::Anon
+                        } else {
+                            FileName::Real(options.filename.clone().into())
+                        },
+                        stdin_input,
+                    );
 
-                comp.process_js_file(fm, handler, &options)
-            });
+                    comp.process_js_file(fm, handler, &options)
+                },
+            );
 
             match result {
                 Ok(output) => emit_output(
@@ -322,15 +329,22 @@ impl CompileOptions {
             let ret = files
                 .into_par_iter()
                 .try_for_each_with(cm, |compiler, file_path| {
-                    let result = try_with_handler(compiler.cm.clone(), false, |handler| {
-                        let options =
-                            build_transform_options(&self.config_file, &Some(&file_path))?;
-                        let fm = compiler
-                            .cm
-                            .load_file(&file_path)
-                            .context("failed to load file")?;
-                        compiler.process_js_file(fm, handler, &options)
-                    });
+                    let result = try_with_handler(
+                        compiler.cm.clone(),
+                        HandlerOpts {
+                            color: ColorConfig::Always,
+                            skip_filename: false,
+                        },
+                        |handler| {
+                            let options =
+                                build_transform_options(&self.config_file, &Some(&file_path))?;
+                            let fm = compiler
+                                .cm
+                                .load_file(&file_path)
+                                .context("failed to load file")?;
+                            compiler.process_js_file(fm, handler, &options)
+                        },
+                    );
 
                     match result {
                         Ok(output) => emit_output(&output, &self.out_dir, &file_path)?,

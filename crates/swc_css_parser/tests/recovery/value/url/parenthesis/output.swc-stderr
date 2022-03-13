@@ -1,10 +1,12 @@
-error: Expected Declaration value
- --> $DIR/tests/recovery/value/url/parenthesis/input.css:2:17
-  |
-2 |       background: url(test\);
-  |  _________________^
-3 | | }
-  | |_^
 
-error: Unexpected end of file
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:3:5]
+ 3 | ,-> background: url(test\);
+ 4 | `-> }
+   `----
 
+  x Unexpected end of file
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:2:1]
+ 2 | a {
+   : ^
+   `----

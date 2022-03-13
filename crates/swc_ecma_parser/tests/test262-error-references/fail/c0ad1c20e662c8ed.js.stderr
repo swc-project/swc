@@ -1,6 +1,6 @@
-error: assignment property is invalid syntax
- --> $DIR/tests/test262-parser/fail/c0ad1c20e662c8ed.js:1:8
-  |
-1 | obj = {x = 0}
-  |        ^^^^^
 
+  x assignment property is invalid syntax
+   ,-[$DIR/tests/test262-parser/fail/c0ad1c20e662c8ed.js:2:1]
+ 2 | obj = {x = 0}
+   :        ^^^^^
+   `----

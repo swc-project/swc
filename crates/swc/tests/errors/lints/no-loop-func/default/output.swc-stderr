@@ -1,70 +1,100 @@
-error: the name `a` is defined multiple times
-  
-   |
-36 | let a; for (let i in {}) { (function() { a; }); a = 1; }
-   |     - previous definition of `a` here
-...
-56 |     var a = 0;
-   |         ^ `a` redefined here
 
-error: the name `ee` is defined multiple times
-  
-   |
-49 |     function ee() {
-   |              -- previous definition of `ee` here
-...
-67 | let { aa, bb: { bb }, cc: [cc], ...ee } = obj;
-   |                                    ^^ `ee` redefined here
+  x the name `a` is defined multiple times
+    ,-[37:1]
+ 37 | let a; for (let i in {}) { (function() { a; }); a = 1; }
+    :     |
+    :     `-- previous definition of `a` here
+ 38 | 
+ 39 | // interview example =)
+ 40 | for (var i = 0; i < 10; i++) {
+ 41 |     setTimeout(() => {
+ 42 |         console.log(i);
+ 43 |     })
+ 44 | }
+ 45 | 
+ 46 | // it's ok
+ 47 | while (cond) {
+ 48 |     let x = 10;
+ 49 | 
+ 50 |     function ee() {
+ 51 |         alert(x);
+ 52 |     }
+ 53 | }
+ 54 | 
+ 55 | // not ok
+ 56 | while (true) {
+ 57 |     var a = 0;
+    :         |
+    :         `-- `a` redefined here
+    `----
 
-error: Function declared in a loop contains unsafe references to variable i
-  
-   |
-9  | /     function x() {
-10 | |         alert(i);
-11 | |     }
-   | |_____^
+  x the name `ee` is defined multiple times
+    ,-[50:5]
+ 50 | function ee() {
+    :          ^|
+    :           `-- previous definition of `ee` here
+ 51 |         alert(x);
+ 52 |     }
+ 53 | }
+ 54 | 
+ 55 | // not ok
+ 56 | while (true) {
+ 57 |     var a = 0;
+ 58 | 
+ 59 |     while (true) {
+ 60 |         setTimeout(() => {
+ 61 |             a;
+ 62 |         })
+ 63 |     }
+ 64 | }
+ 65 | 
+ 66 | 
+ 67 | 
+ 68 | let { aa, bb: { bb }, cc: [cc], ...ee } = obj;
+    :                                    ^|
+    :                                     `-- `ee` redefined here
+    `----
 
-error: Function declared in a loop contains unsafe references to variable(s) z, zz
-  
-   |
-29 | /     function x() {
-30 | |         alert(z, zz);
-31 | |     }
-   | |_____^
+  x Function declared in a loop contains unsafe references to variable i
+    ,-[10:5]
+ 10 | ,-> function x() {
+ 11 | |           alert(i);
+ 12 | `->     }
+    `----
 
-error: Function declared in a loop contains unsafe references to variable a
-  
-   |
-36 | let a; for (let i in {}) { (function() { a; }); a = 1; }
-   |                             ^^^^^^^^^^^^^^^^^
+  x Function declared in a loop contains unsafe references to variable(s) z, zz
+    ,-[30:5]
+ 30 | ,-> function x() {
+ 31 | |           alert(z, zz);
+ 32 | `->     }
+    `----
 
-error: Function declared in a loop contains unsafe references to variable i
-  
-   |
-40 |       setTimeout(() => {
-   |  ________________^
-41 | |         console.log(i);
-42 | |     })
-   | |_____^
+  x Function declared in a loop contains unsafe references to variable a
+    ,----
+ 37 | let a; for (let i in {}) { (function() { a; }); a = 1; }
+    :                             ^^^^^^^^^^^^^^^^^
+    `----
 
-error: Function declared in a loop contains unsafe references to variable a
-  
-   |
-59 |           setTimeout(() => {
-   |  ____________________^
-60 | |             a;
-61 | |         })
-   | |_________^
+  x Function declared in a loop contains unsafe references to variable i
+    ,-[41:5]
+ 41 | ,-> setTimeout(() => {
+ 42 | |           console.log(i);
+ 43 | `->     })
+    `----
 
-error: Function declared in a loop contains unsafe references to variable(s) aa, bb, cc, ee
-  
-   |
-69 |       setTimeout(() => {
-   |  ________________^
-70 | |         aa;
-71 | |         bb;
-72 | |         cc;
-73 | |         ee;
-74 | |     })
-   | |_____^
+  x Function declared in a loop contains unsafe references to variable a
+    ,-[60:9]
+ 60 | ,-> setTimeout(() => {
+ 61 | |               a;
+ 62 | `->         })
+    `----
 
+  x Function declared in a loop contains unsafe references to variable(s) aa, bb, cc, ee
+    ,-[70:5]
+ 70 | ,-> setTimeout(() => {
+ 71 | |           aa;
+ 72 | |           bb;
+ 73 | |           cc;
+ 74 | |           ee;
+ 75 | `->     })
+    `----

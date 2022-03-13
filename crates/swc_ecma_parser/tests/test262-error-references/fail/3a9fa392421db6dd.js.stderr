@@ -1,6 +1,6 @@
-error: Expected ']', got ','
- --> $DIR/tests/test262-parser/fail/3a9fa392421db6dd.js:1:5
-  |
-1 | ({[a,b]:0})
-  |     ^
 
+  x Expected ']', got ','
+   ,-[$DIR/tests/test262-parser/fail/3a9fa392421db6dd.js:2:1]
+ 2 | ({[a,b]:0})
+   :     ^
+   `----

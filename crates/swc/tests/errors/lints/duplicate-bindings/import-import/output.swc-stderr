@@ -1,8 +1,10 @@
-error: the name `hi` is defined multiple times
- 
-  |
-1 | import { hi } from 'foo';
-  |          -- previous definition of `hi` here
-2 | import { hi } from 'foo';
-  |          ^^ `hi` redefined here
 
+  x the name `hi` is defined multiple times
+   ,-[2:1]
+ 2 | import { hi } from 'foo';
+   :          ^|
+   :           `-- previous definition of `hi` here
+ 3 | import { hi } from 'foo';
+   :          ^|
+   :           `-- `hi` redefined here
+   `----

@@ -1,8 +1,10 @@
-error: the name `foo` is defined multiple times
- 
-  |
-3 | function foo() {}
-  |          --- previous definition of `foo` here
-4 | function foo() {}
-  |          ^^^ `foo` redefined here
 
+  x the name `foo` is defined multiple times
+   ,-[4:1]
+ 4 | function foo() {}
+   :          ^|^
+   :           `-- previous definition of `foo` here
+ 5 | function foo() {}
+   :          ^|^
+   :           `-- `foo` redefined here
+   `----

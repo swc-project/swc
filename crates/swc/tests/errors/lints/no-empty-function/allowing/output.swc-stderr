@@ -1,12 +1,12 @@
-error: Unexpected empty generator function pattern
- 
-  |
-3 | function* foo2() {}
-  | ^^^^^^^^^^^^^^^^^^^
 
-error: Unexpected empty method pattern
-  
-   |
-10 |     method2() {}
-   |     ^^^^^^^^^^^^
+  x Unexpected empty generator function pattern
+   ,----
+ 4 | function* foo2() {}
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
 
+  x Unexpected empty method pattern
+    ,----
+ 11 | method2() {}
+    : ^^^^^^^^^^^^
+    `----

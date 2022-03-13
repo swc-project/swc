@@ -1,6 +1,6 @@
-error: Expected ';', got '.'
- --> $DIR/tests/test262-parser/fail/84633c379e4010bf.js:1:29
-  |
-1 | function *g() { return yield.x; }
-  |                             ^
 
+  x Expected ';', got '.'
+   ,-[$DIR/tests/test262-parser/fail/84633c379e4010bf.js:2:1]
+ 2 | function *g() { return yield.x; }
+   :                             ^
+   `----

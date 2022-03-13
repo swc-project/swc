@@ -1,24 +1,24 @@
-error: Expected 'e', 'pi', 'infinity', '-infinity' or 'NaN', ident tokens
- --> $DIR/tests/recovery/vercel/002/input.css:4:20
-  |
-4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
-  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Expected 'number', 'dimension', 'percentage', 'ident', '(' or 'function' tokens
- --> $DIR/tests/recovery/vercel/002/input.css:4:50
-  |
-4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
-  |                                                  ^
+  x Expected 'e', 'pi', 'infinity', '-infinity' or 'NaN', ident tokens
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Expected Declaration value
- --> $DIR/tests/recovery/vercel/002/input.css:4:50
-  |
-4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
-  |                                                  ^
+  x Expected 'number', 'dimension', 'percentage', 'ident', '(' or 'function' tokens
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                                              ^
+   `----
 
-error: Expected 'e', 'pi', 'infinity', '-infinity' or 'NaN', ident tokens
- --> $DIR/tests/recovery/vercel/002/input.css:4:52
-  |
-4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
-  |                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                                              ^
+   `----
 
+  x Expected 'e', 'pi', 'infinity', '-infinity' or 'NaN', ident tokens
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

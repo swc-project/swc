@@ -1,12 +1,12 @@
-error: Expected ',', got '=>'
- --> $DIR/tests/test262-parser/fail/ca3dd7ea0b4626dd.js:1:23
-  |
-1 | console.log(typeof () => {});
-  |                       ^^
 
-error: An arrow function is not allowed here
- --> $DIR/tests/test262-parser/fail/ca3dd7ea0b4626dd.js:1:20
-  |
-1 | console.log(typeof () => {});
-  |                    ^^
+  x Expected ',', got '=>'
+   ,-[$DIR/tests/test262-parser/fail/ca3dd7ea0b4626dd.js:2:1]
+ 2 | console.log(typeof () => {});
+   :                       ^^
+   `----
 
+  x An arrow function is not allowed here
+   ,-[$DIR/tests/test262-parser/fail/ca3dd7ea0b4626dd.js:2:1]
+ 2 | console.log(typeof () => {});
+   :                    ^^
+   `----

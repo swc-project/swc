@@ -6071,7 +6071,7 @@ fn fixture(input: PathBuf) {
             decorators: true,
             ..Default::default()
         }),
-        |t| {
+        |_t| {
             let top_level_mark = Mark::fresh(Mark::root());
 
             chain!(

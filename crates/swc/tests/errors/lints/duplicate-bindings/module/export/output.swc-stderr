@@ -1,24 +1,30 @@
-error: the name `foo` is defined multiple times
- 
-  |
-1 | function foo() {}
-  |          --- previous definition of `foo` here
-2 | const foo = 1; // error
-  |       ^^^ `foo` redefined here
 
-error: the name `bar` is defined multiple times
- 
-  |
-4 | function bar() {}
-  |          --- previous definition of `bar` here
-5 | var bar; // error
-  |     ^^^ `bar` redefined here
+  x the name `foo` is defined multiple times
+   ,-[2:1]
+ 2 | function foo() {}
+   :          ^|^
+   :           `-- previous definition of `foo` here
+ 3 | const foo = 1; // error
+   :       ^|^
+   :        `-- `foo` redefined here
+   `----
 
-error: the name `baz` is defined multiple times
- 
-  |
-7 | function baz() {}
-  |          --- previous definition of `baz` here
-8 | function baz() {} // error
-  |          ^^^ `baz` redefined here
+  x the name `bar` is defined multiple times
+   ,-[5:1]
+ 5 | function bar() {}
+   :          ^|^
+   :           `-- previous definition of `bar` here
+ 6 | var bar; // error
+   :     ^|^
+   :      `-- `bar` redefined here
+   `----
 
+  x the name `baz` is defined multiple times
+   ,-[8:1]
+ 8 | function baz() {}
+   :          ^|^
+   :           `-- previous definition of `baz` here
+ 9 | function baz() {} // error
+   :          ^|^
+   :           `-- `baz` redefined here
+   `----

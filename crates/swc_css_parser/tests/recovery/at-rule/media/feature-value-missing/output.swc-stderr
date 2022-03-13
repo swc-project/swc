@@ -1,6 +1,6 @@
-error: Expected number, ident or dimension token
- --> $DIR/tests/recovery/at-rule/media/feature-value-missing/input.css:1:31
-  |
-1 | @media screen and (min-width: ) {}
-  |                               ^
 
+  x Expected number, ident or dimension token
+   ,-[$DIR/tests/recovery/at-rule/media/feature-value-missing/input.css:2:1]
+ 2 | @media screen and (min-width: ) {}
+   :                               ^
+   `----

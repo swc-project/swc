@@ -1,6 +1,6 @@
-error: Expected ')', got '('
- --> $DIR/tests/test262-parser/fail/25b1013a4046bd70.js:1:21
-  |
-1 | try {} catch (answer()) {} 
-  |                     ^
 
+  x Expected ')', got '('
+   ,-[$DIR/tests/test262-parser/fail/25b1013a4046bd70.js:2:1]
+ 2 | try {} catch (answer()) {}
+   :                     ^
+   `----

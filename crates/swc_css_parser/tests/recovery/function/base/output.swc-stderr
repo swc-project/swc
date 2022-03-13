@@ -1,24 +1,24 @@
-error: Expected Declaration value
- --> $DIR/tests/recovery/function/base/input.css:2:18
-  |
-2 |     prop: func(1 + 2);
-  |                  ^
 
-error: Expected Declaration value
- --> $DIR/tests/recovery/function/base/input.css:3:21
-  |
-3 |     prop: func(ident.ident);
-  |                     ^
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(1 + 2);
+   :              ^
+   `----
 
-error: Expected Declaration value
- --> $DIR/tests/recovery/function/base/input.css:4:25
-  |
-4 |     prop: func3(   ident.ident   );
-  |                         ^
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func(ident.ident);
+   :                 ^
+   `----
 
-error: Expected Declaration value
- --> $DIR/tests/recovery/function/base/input.css:7:21
-  |
-7 |     prop: func({ foo: bar });
-  |                     ^
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func3(   ident.ident   );
+   :                     ^
+   `----
 
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func({ foo: bar });
+   :                 ^
+   `----

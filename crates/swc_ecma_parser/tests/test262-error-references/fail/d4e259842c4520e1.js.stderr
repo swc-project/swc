@@ -1,6 +1,6 @@
-error: Expected ')', got '<eof>'
- --> $DIR/tests/test262-parser/fail/d4e259842c4520e1.js:1:5
-  |
-1 | 1 + (
-  |     ^
 
+  x Expected ')', got '<eof>'
+   ,-[$DIR/tests/test262-parser/fail/d4e259842c4520e1.js:2:1]
+ 2 | 1 + (
+   :     ^
+   `----

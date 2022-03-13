@@ -1,30 +1,30 @@
-error: Expected Ident
- --> $DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:16
-  |
-1 | .class {--foo:!; }
-  |                ^
 
-error: Expected Ident
- --> $DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:12
-  |
-4 |     --foo:!; 
-  |            ^
+  x Expected Ident
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:2:1]
+ 2 | .class {--foo:!; }
+   :                ^
+   `----
 
-error: Expected Ident
-  --> $DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:12
-   |
-10 |     --foo:!;
-   |            ^
+  x Expected Ident
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:5:5]
+ 5 | --foo:!;
+   :        ^
+   `----
 
-error: Expected Ident
-  --> $DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:13
-   |
-14 |     --foo: !;
-   |             ^
+  x Expected Ident
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:11:5]
+ 11 | --foo:!;
+    :        ^
+    `----
 
-error: Expected Ident
-  --> $DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:13
-   |
-20 |     --foo: !;
-   |             ^
+  x Expected Ident
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:15:5]
+ 15 | --foo: !;
+    :         ^
+    `----
 
+  x Expected Ident
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:21:5]
+ 21 | --foo: !;
+    :         ^
+    `----

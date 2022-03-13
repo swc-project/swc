@@ -1,36 +1,36 @@
-error: Unexpected empty private constructor pattern
- 
-  |
-2 |   private constructor() {}
-  |   ^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Unexpected empty private method pattern
- 
-  |
-4 |   private method1() {}
-  |   ^^^^^^^^^^^^^^^^^^^^
+  x Unexpected empty private constructor pattern
+   ,----
+ 3 | private constructor() {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Unexpected empty protected method pattern
- 
-  |
-6 |   protected method2() {}
-  |   ^^^^^^^^^^^^^^^^^^^^^^
+  x Unexpected empty private method pattern
+   ,----
+ 5 | private method1() {}
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Unexpected empty public method pattern
- 
-  |
-8 |   public method3() {}
-  |   ^^^^^^^^^^^^^^^^^^^
+  x Unexpected empty protected method pattern
+   ,----
+ 7 | protected method2() {}
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Unexpected empty public method pattern
-  
-   |
-11 |   public async *method4() {}
-   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Unexpected empty public method pattern
+   ,----
+ 9 | public method3() {}
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Unexpected empty method pattern
-  
-   |
-17 |       method() {}
-   |       ^^^^^^^^^^^
+  x Unexpected empty public method pattern
+    ,----
+ 12 | public async *method4() {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
 
+  x Unexpected empty method pattern
+    ,----
+ 18 | method() {}
+    : ^^^^^^^^^^^
+    `----

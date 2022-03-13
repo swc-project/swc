@@ -1,6 +1,6 @@
-error: Unexpected token `(`. Expected yield, an identifier, [ or {
- --> $DIR/tests/test262-parser/fail/893986e2bbf8b7c5.js:1:5
-  |
-1 | var ([x]) = 0
-  |     ^
 
+  x Unexpected token `(`. Expected yield, an identifier, [ or {
+   ,-[$DIR/tests/test262-parser/fail/893986e2bbf8b7c5.js:2:1]
+ 2 | var ([x]) = 0
+   :     ^
+   `----

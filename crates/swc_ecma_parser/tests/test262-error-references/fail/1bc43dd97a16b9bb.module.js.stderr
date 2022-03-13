@@ -1,6 +1,6 @@
-error: Expected 'from', got ';'
- --> $DIR/tests/test262-parser/fail/1bc43dd97a16b9bb.module.js:1:10
-  |
-1 | import {};
-  |          ^
 
+  x Expected 'from', got ';'
+   ,-[$DIR/tests/test262-parser/fail/1bc43dd97a16b9bb.module.js:2:1]
+ 2 | import {};
+   :          ^
+   `----

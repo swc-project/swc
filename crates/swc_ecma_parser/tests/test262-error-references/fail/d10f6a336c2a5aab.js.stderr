@@ -1,12 +1,13 @@
-error: Expected ';', '}' or <eof>
- --> $DIR/tests/test262-parser/fail/d10f6a336c2a5aab.js:1:17
-  |
-1 | while(true) let a
-  |                 ^
-  |
-note: This is the expression part of an expression statement
- --> $DIR/tests/test262-parser/fail/d10f6a336c2a5aab.js:1:13
-  |
-1 | while(true) let a
-  |             ^^^
 
+  x Expected ';', '}' or <eof>
+   ,-[$DIR/tests/test262-parser/fail/d10f6a336c2a5aab.js:2:1]
+ 2 | while(true) let a
+   :                 ^
+   `----
+
+Error: 
+  > This is the expression part of an expression statement
+   ,-[$DIR/tests/test262-parser/fail/d10f6a336c2a5aab.js:2:1]
+ 2 | while(true) let a
+   :             ^^^
+   `----

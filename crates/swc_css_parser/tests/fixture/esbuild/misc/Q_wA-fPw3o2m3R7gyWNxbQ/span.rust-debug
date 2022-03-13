@@ -1,126 +1,126 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
-  |
-1 | a:after { content: '\invalid' }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
-  |
-1 | a:after { content: '\invalid' }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
-  |
-1 | a:after { content: '\invalid' }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
-  |
-1 | a:after { content: '\invalid' }
-  | ^^^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
-  |
-1 | a:after { content: '\invalid' }
-  | ^^^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   : ^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
-  |
-1 | a:after { content: '\invalid' }
-  | ^^^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   : ^^^^^^^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
-  |
-1 | a:after { content: '\invalid' }
-  | ^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   : ^^^^^^^
+   `----
 
-error: TagNameSelector
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
-  |
-1 | a:after { content: '\invalid' }
-  | ^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   : ^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
-  |
-1 | a:after { content: '\invalid' }
-  | ^
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   : ^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1
-  |
-1 | a:after { content: '\invalid' }
-  | ^
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   : ^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:2
-  |
-1 | a:after { content: '\invalid' }
-  |  ^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   : ^
+   `----
 
-error: PseudoClassSelector
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:2
-  |
-1 | a:after { content: '\invalid' }
-  |  ^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   :  ^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:3
-  |
-1 | a:after { content: '\invalid' }
-  |   ^^^^^
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   :  ^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:9
-  |
-1 | a:after { content: '\invalid' }
-  |         ^^^^^^^^^^^^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   :   ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
-  |
-1 | a:after { content: '\invalid' }
-  |           ^^^^^^^^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   :         ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: StyleBlock
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
-  |
-1 | a:after { content: '\invalid' }
-  |           ^^^^^^^^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   :           ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
-  |
-1 | a:after { content: '\invalid' }
-  |           ^^^^^^^^^^^^^^^^^^^
+  x StyleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   :           ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
-  |
-1 | a:after { content: '\invalid' }
-  |           ^^^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   :           ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:11
-  |
-1 | a:after { content: '\invalid' }
-  |           ^^^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   :           ^^^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:20
-  |
-1 | a:after { content: '\invalid' }
-  |                    ^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   :           ^^^^^^^
+   `----
 
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:20
-  |
-1 | a:after { content: '\invalid' }
-  |                    ^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   :                    ^^^^^^^^^^
+   `----
 
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:2:1]
+ 2 | a:after { content: '\invalid' }
+   :                    ^^^^^^^^^^
+   `----

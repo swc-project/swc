@@ -1,6 +1,6 @@
-error: Expected function or ident tokens
- --> $DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:2
-  |
-1 | : first-child {
-  |  ^
 
+  x Expected function or ident tokens
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:2:1]
+ 2 | : first-child {
+   :  ^
+   `----
