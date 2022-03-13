@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_css_lints"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.7.0"
+version = "0.8.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -24,5 +24,5 @@ thiserror = "1.0.30"
 
 [dev-dependencies]
 serde_json = "1.0.79"
-swc_css_parser = {version = "0.97.0", path = "../swc_css_parser"}
-testing = {version = "0.18.0", path = "../testing"}
+swc_css_parser = {version = "0.98.0", path = "../swc_css_parser"}
+testing = {version = "0.19.0", path = "../testing"}
