@@ -10,7 +10,7 @@ use miette::{
 use swc_common::{
     errors::{DiagnosticBuilder, DiagnosticId, Emitter, Level, SubDiagnostic},
     sync::Lrc,
-    BytePos, SourceMap, Span,
+    BytePos, FileName, SourceMap, Span,
 };
 
 pub struct PrettyEmitter {
@@ -61,7 +61,7 @@ impl Write for WriterWrapper {
 }
 
 #[derive(Clone, Copy)]
-struct MietteSourceCode<'a>(&'a SourceMap);
+struct MietteSourceCode<'a>(&'a SourceMap, &'a PrettyEmitterConfig);
 
 impl SourceCode for MietteSourceCode<'_> {
     fn read_span<'a>(
@@ -89,6 +89,17 @@ impl SourceCode for MietteSourceCode<'_> {
         let loc = self.0.lookup_char_pos(span.lo());
         let line_count = loc.file.lines.len();
 
+        let name = if self.1.skip_filename {
+            None
+        } else {
+            match loc.file.name {
+                FileName::Real(ref path) => Some(path.to_string_lossy().into_owned()),
+                FileName::Custom(ref name) => Some(name.clone()),
+                FileName::Anon => None,
+                _ => Some(loc.file.name.to_string()),
+            }
+        };
+
         Ok(Box::new(SpanContentsImpl {
             _cm: self.0,
             data: src,
@@ -96,7 +107,7 @@ impl SourceCode for MietteSourceCode<'_> {
             line: loc.line - 1,
             column: loc.col_display,
             line_count,
-            name: None,
+            name,
         }))
     }
 }
@@ -105,7 +116,7 @@ impl Emitter for PrettyEmitter {
     fn emit(&mut self, db: &DiagnosticBuilder) {
         let d = &**db;
 
-        let source_code = MietteSourceCode(&self.cm);
+        let source_code = MietteSourceCode(&self.cm, &self.config);
 
         let children = d
             .children
