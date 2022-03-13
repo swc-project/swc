@@ -113,6 +113,7 @@ pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
 use std::{
+    fmt,
     fs::{read_to_string, File},
     io::Write,
     mem::take,
@@ -122,12 +123,7 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
-use common::{
-    collections::AHashMap,
-    comments::SingleThreadedComments,
-    errors::{EmitterWriter, HANDLER},
-    Span,
-};
+use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER, Span};
 use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
@@ -160,6 +156,7 @@ use swc_ecma_transforms::{
     resolver_with_mark,
 };
 use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
+use swc_error_reporters::PrettyEmitter;
 pub use swc_node_comments::SwcComments;
 use tracing::instrument;
 
@@ -229,12 +226,20 @@ impl Write for LockedWriter {
     }
 }
 
+impl fmt::Write for LockedWriter {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        self.write(s.as_bytes()).map_err(|_| fmt::Error)?;
+
+        Ok(())
+    }
+}
+
 /// Try operation with a [Handler] and prints the errors as a [String] wrapped
 /// by [Err].
 #[instrument(level = "trace", skip_all)]
 pub fn try_with_handler<F, Ret>(
     cm: Lrc<SourceMap>,
-    skip_filename: bool,
+    _skip_filename: bool,
     op: F,
 ) -> Result<Ret, Error>
 where
@@ -242,8 +247,10 @@ where
 {
     let wr = Box::new(LockedWriter::default());
 
-    let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false, true).skip_filename(skip_filename);
-    let handler = Handler::with_emitter(true, false, Box::new(e_wr));
+    let emitter = PrettyEmitter::new(cm, wr.clone());
+    // let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false,
+    // true).skip_filename(skip_filename);
+    let handler = Handler::with_emitter(true, false, Box::new(emitter));
 
     let ret = HANDLER.set(&handler, || op(&handler));
 
