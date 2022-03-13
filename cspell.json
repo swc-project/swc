@@ -147,6 +147,7 @@
         "uncons",
         "Unexported",
         "Unexporter",
+        "unignore",
         "unimpl",
         "unsafes",
         "untrusted",
