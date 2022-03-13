@@ -24,21 +24,21 @@ pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> String {
         base <<= 6;
     }
 
-    let mut ret = String::new();
+    let mut ret = vec![];
 
     base /= 54;
-    let mut c = BASE54_DEFAULT_CHARS[n / base] as char;
+    let mut c = BASE54_DEFAULT_CHARS[n / base];
     ret.push(c);
 
     while base > 1 {
         n %= base;
         base >>= 6;
-        c = BASE54_DEFAULT_CHARS[n / base] as char;
+        c = BASE54_DEFAULT_CHARS[n / base];
 
         ret.push(c);
     }
 
-    ret
+    unsafe { String::from_utf8_unchecked(ret) }
 }
 
 #[allow(unused)]
