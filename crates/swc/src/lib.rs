@@ -263,6 +263,10 @@ impl Default for HandlerOpts {
 fn to_miette_reporter(color: ColorConfig) -> GraphicalReportHandler {
     match color {
         ColorConfig::Auto => {
+            if cfg!(target_arch = "wasm32") {
+                return to_miette_reporter(ColorConfig::Always);
+            }
+
             static ENABLE: Lazy<bool> =
                 Lazy::new(|| !env::var("NO_COLOR").map(|s| s == "1").unwrap_or(false));
 
