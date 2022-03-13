@@ -226,6 +226,7 @@ comparing/issue_2857_2/input.js
 comparing/issue_2857_3/input.js
 comparing/issue_2857_4/input.js
 comparing/issue_2857_5/input.js
+comparing/issue_2857_6/input.js
 comparing/keep_comparisons_with_unsafe_comps/input.js
 comparing/self_comparison_1/input.js
 comparing/self_comparison_2/input.js
