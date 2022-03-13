@@ -14,6 +14,9 @@
 
 
 
+- **(common)** Implement a pretty error reporter (#3946) ([40b8a4e](https://github.com/swc-project/swc/commit/40b8a4e596f0df33a325c93b75e5abab1336be11))
+
+
 - **(css/parser)** Improve error reporting (#3999) ([96d6f37](https://github.com/swc-project/swc/commit/96d6f37c204f4962d0850a4ee2e38652d4833fa3))
 
 
