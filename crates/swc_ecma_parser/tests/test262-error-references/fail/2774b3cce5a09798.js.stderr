@@ -1,6 +1,6 @@
-error: Expected ident
- --> $DIR/tests/test262-parser/fail/2774b3cce5a09798.js:1:19
-  |
-1 | (function *(x, ...yield){})
-  |                   ^^^^^
 
+  x Expected ident
+   ,-[$DIR/tests/test262-parser/fail/2774b3cce5a09798.js:2:1]
+ 2 | (function *(x, ...yield){})
+   :                   ^^^^^
+   `----

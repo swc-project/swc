@@ -1,6 +1,6 @@
-error: Expected ')', got '='
- --> $DIR/tests/test262-parser/fail/831b4a1caf3c5a06.js:1:20
-  |
-1 | try { } catch ([a] = []) { }
-  |                    ^
 
+  x Expected ')', got '='
+   ,-[$DIR/tests/test262-parser/fail/831b4a1caf3c5a06.js:2:1]
+ 2 | try { } catch ([a] = []) { }
+   :                    ^
+   `----

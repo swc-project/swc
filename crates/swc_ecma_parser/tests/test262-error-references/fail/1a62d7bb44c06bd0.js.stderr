@@ -1,6 +1,6 @@
-error: Expected ident
- --> $DIR/tests/test262-parser/fail/1a62d7bb44c06bd0.js:1:12
-  |
-1 | function t(if) { }
-  |            ^^
 
+  x Expected ident
+   ,-[$DIR/tests/test262-parser/fail/1a62d7bb44c06bd0.js:2:1]
+ 2 | function t(if) { }
+   :            ^^
+   `----

@@ -1,6 +1,6 @@
-error: Unexpected token `}`. Expected identifier, string literal, numeric literal or [ for the computed key
- --> $DIR/tests/test262-parser/fail/c220924a9ace3542.js:1:15
-  |
-1 | class Foo { * }
-  |               ^
 
+  x Unexpected token `}`. Expected identifier, string literal, numeric literal or [ for the computed key
+   ,-[$DIR/tests/test262-parser/fail/c220924a9ace3542.js:2:1]
+ 2 | class Foo { * }
+   :               ^
+   `----

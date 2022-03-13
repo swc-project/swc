@@ -1,6 +1,6 @@
-error: Invalid unicode code point
- --> $DIR/tests/test262-parser/fail/f8b20220d8c85d71.js:1:5
-  |
-1 | "\u{110000}"
-  |     ^^^^^^
 
+  x Invalid unicode code point
+   ,-[$DIR/tests/test262-parser/fail/f8b20220d8c85d71.js:2:1]
+ 2 | "\u{110000}"
+   :     ^^^^^^
+   `----

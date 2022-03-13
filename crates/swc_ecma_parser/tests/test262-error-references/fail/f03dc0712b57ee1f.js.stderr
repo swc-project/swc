@@ -1,6 +1,6 @@
-error: Expected one variable binding
- --> $DIR/tests/test262-parser/fail/f03dc0712b57ee1f.js:1:13
-  |
-1 | for (var i, i2 in {});
-  |             ^^
 
+  x Expected one variable binding
+   ,-[$DIR/tests/test262-parser/fail/f03dc0712b57ee1f.js:2:1]
+ 2 | for (var i, i2 in {});
+   :             ^^
+   `----

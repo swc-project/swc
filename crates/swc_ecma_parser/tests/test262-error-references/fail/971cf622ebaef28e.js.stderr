@@ -1,6 +1,6 @@
-error: Declaration is now allowed
- --> $DIR/tests/test262-parser/fail/971cf622ebaef28e.js:1:12
-  |
-1 | with(true) class a {}
-  |            ^^^^^
 
+  x Declaration is now allowed
+   ,-[$DIR/tests/test262-parser/fail/971cf622ebaef28e.js:2:1]
+ 2 | with(true) class a {}
+   :            ^^^^^
+   `----

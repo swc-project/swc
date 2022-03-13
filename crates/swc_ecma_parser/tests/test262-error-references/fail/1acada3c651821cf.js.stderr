@@ -1,6 +1,6 @@
-error: Expected '}', got ';'
- --> $DIR/tests/test262-parser/fail/1acada3c651821cf.js:1:12
-  |
-1 | `hello ${10;test`
-  |            ^
 
+  x Expected '}', got ';'
+   ,-[$DIR/tests/test262-parser/fail/1acada3c651821cf.js:2:1]
+ 2 | `hello ${10;test`
+   :            ^
+   `----

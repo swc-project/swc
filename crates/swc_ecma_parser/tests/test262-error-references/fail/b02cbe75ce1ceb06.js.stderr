@@ -1,6 +1,6 @@
-error: Rest element must be final element
- --> $DIR/tests/test262-parser/fail/b02cbe75ce1ceb06.js:1:2
-  |
-1 | [...0,{a=0}]=0
-  |  ^^^^
 
+  x Rest element must be final element
+   ,-[$DIR/tests/test262-parser/fail/b02cbe75ce1ceb06.js:2:1]
+ 2 | [...0,{a=0}]=0
+   :  ^^^^
+   `----

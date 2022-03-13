@@ -1,6 +1,6 @@
-error: Expected ident
- --> $DIR/tests/test262-parser/fail/d65452ddaed68d73.js:1:5
-  |
-1 | var super
-  |     ^^^^^
 
+  x Expected ident
+   ,-[$DIR/tests/test262-parser/fail/d65452ddaed68d73.js:2:1]
+ 2 | var super
+   :     ^^^^^
+   `----
