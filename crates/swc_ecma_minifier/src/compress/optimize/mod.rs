@@ -1620,6 +1620,8 @@ where
 
         self.optimize_bin_operator(n);
 
+        self.optimize_cmp_with_null_or_undefined(n);
+
         self.optimize_bin_and_or(n);
 
         if n.op == op!(bin, "+") {

@@ -216,8 +216,6 @@ impl VisitMut for Pure<'_> {
 
         self.compress_cmp_with_long_op(e);
 
-        self.optimize_cmp_with_null_or_undefined(e);
-
         if e.op == op!(bin, "+") {
             self.concat_tpl(&mut e.left, &mut e.right);
         }
