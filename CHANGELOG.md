@@ -14,7 +14,7 @@
 - **(ci)** Invoke `yarn` before publishing ([743a5da](https://github.com/swc-project/swc/commit/743a5da1e5e6a3c9b8c59694e4f3cf04fa89006d))
 
 
-- **(es/preset-env)** Track `.json` files to make cargo happy ([bd0fcb9](https://github.com/swc-project/swc/commit/bd0fcb9ea491f713ab3c0ed2b6035d3438446e8e))
+- **(es/preset-env)** Track `.json` files to make cargo happy ([bd0fcb9](https://github.com/swc-project/swc/commit/bd0fcb9ea491f713ab3c0ed2b6035d3438446e8e))- **general**: Update linguist (#3991) ([0312292](https://github.com/swc-project/swc/commit/0312292410e3e001906241f5a2ab88839995376f))
 
 ### Performance
 
