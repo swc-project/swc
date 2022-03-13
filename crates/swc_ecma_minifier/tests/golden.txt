@@ -29,8 +29,11 @@ arrow/async_identifiers/input.js
 arrow/async_object_literal/input.js
 arrow/call_args/input.js
 arrow/concise_method_with_super/input.js
+arrow/concise_methods_with_computed_property2/input.js
+arrow/export_default_object_expression/input.js
 arrow/issue_2271/input.js
 arrow/issue_3092a/input.js
+arrow/issue_3092b/input.js
 arrow/issue_485_crashing_1530/input.js
 arrow/no_leading_parentheses/input.js
 arrow/object_parens/input.js

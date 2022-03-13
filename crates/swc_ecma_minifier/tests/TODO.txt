@@ -17,7 +17,6 @@ arrow/issue_2105_2/input.js
 arrow/issue_2136_2/input.js
 arrow/issue_2136_3/input.js
 arrow/issue_27/input.js
-arrow/issue_3092b/input.js
 ascii/ascii_only_false/input.js
 ascii/ascii_only_true/input.js
 asm/asm_mixed/input.js
