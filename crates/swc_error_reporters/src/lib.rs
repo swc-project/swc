@@ -173,6 +173,12 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
     }
 
     fn source_code(&self) -> Option<&dyn SourceCode> {
+        if let Some(span) = self.d.span.primary_span() {
+            if span.lo == span.hi {
+                return None;
+            }
+        }
+
         Some(&self.source_code as &dyn SourceCode)
     }
 
