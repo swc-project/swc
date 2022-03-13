@@ -186,7 +186,7 @@ where
                 self.srcmap(span.lo())
             }
 
-            self.write(None, s)?;
+            self.raw_write(s)?;
 
             let line_start_of_s = compute_line_starts(s);
 
