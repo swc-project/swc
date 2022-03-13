@@ -26,7 +26,7 @@ impl PrettyEmitter {
         Self {
             cm,
             wr: WriterWrapper(wr),
-            reporter: GraphicalReportHandler::new(),
+            reporter: GraphicalReportHandler::new().with_context_lines(1),
         }
     }
 }
@@ -53,14 +53,17 @@ struct MietteSourceCode<'a>(&'a SourceMap);
 impl SourceCode for MietteSourceCode<'_> {
     fn read_span<'a>(
         &'a self,
-        src_span: &SourceSpan,
+        span: &SourceSpan,
         _context_lines_before: usize,
         _context_lines_after: usize,
     ) -> Result<Box<dyn SpanContents<'a> + 'a>, MietteError> {
-        let lo = src_span.offset();
-        let hi = lo + src_span.len();
+        let lo = span.offset();
+        let hi = lo + span.len();
 
         let span = Span::new(BytePos(lo as _), BytePos(hi as _), Default::default());
+
+        let span = self.0.span_extend_to_prev_char(span, '\n');
+        let span = self.0.span_extend_to_next_char(span, '\n');
 
         let src = self
             .0
@@ -76,7 +79,7 @@ impl SourceCode for MietteSourceCode<'_> {
         Ok(Box::new(SpanContentsImpl {
             _cm: self.0,
             data: src,
-            span: src_span.clone(),
+            span: convert_span(span),
             line: loc.line - 1,
             column: loc.col_display,
             line_count,
