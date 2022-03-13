@@ -3,9 +3,9 @@ use std::{
     intrinsics::transmute,
 };
 
+pub use miette::{GraphicalReportHandler, GraphicalTheme};
 use miette::{
-    GraphicalReportHandler, LabeledSpan, MietteError, Severity, SourceCode, SourceOffset,
-    SourceSpan, SpanContents,
+    LabeledSpan, MietteError, Severity, SourceCode, SourceOffset, SourceSpan, SpanContents,
 };
 use swc_common::{
     errors::{DiagnosticBuilder, DiagnosticId, Emitter, Level, SubDiagnostic},
@@ -22,11 +22,15 @@ pub struct PrettyEmitter {
 }
 
 impl PrettyEmitter {
-    pub fn new(cm: Lrc<SourceMap>, wr: Box<dyn Write + Send + Sync>) -> Self {
+    pub fn new(
+        cm: Lrc<SourceMap>,
+        wr: Box<dyn Write + Send + Sync>,
+        reporter: GraphicalReportHandler,
+    ) -> Self {
         Self {
             cm,
             wr: WriterWrapper(wr),
-            reporter: GraphicalReportHandler::new().with_context_lines(1),
+            reporter,
         }
     }
 }

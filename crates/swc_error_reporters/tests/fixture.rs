@@ -26,7 +26,7 @@ where
 
     let wr = Writer::default();
 
-    let emitter = PrettyEmitter::new(cm.clone(), Box::new(wr.clone()));
+    let emitter = PrettyEmitter::new(cm.clone(), Box::new(wr.clone()), Default::default());
     let handler = Handler::with_emitter(true, false, Box::new(emitter));
 
     op(cm, &handler);

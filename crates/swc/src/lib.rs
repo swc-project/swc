@@ -156,7 +156,7 @@ use swc_ecma_transforms::{
     resolver_with_mark,
 };
 use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
-use swc_error_reporters::PrettyEmitter;
+use swc_error_reporters::{GraphicalReportHandler, GraphicalTheme, PrettyEmitter};
 pub use swc_node_comments::SwcComments;
 use tracing::instrument;
 
@@ -247,7 +247,11 @@ where
 {
     let wr = Box::new(LockedWriter::default());
 
-    let emitter = PrettyEmitter::new(cm, wr.clone());
+    let emitter = PrettyEmitter::new(
+        cm,
+        wr.clone(),
+        GraphicalReportHandler::default().with_theme(GraphicalTheme::none()),
+    );
     // let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false,
     // true).skip_filename(skip_filename);
     let handler = Handler::with_emitter(true, false, Box::new(emitter));
