@@ -5,18 +5,118 @@ use std::{
 };
 
 use anyhow::{bail, Context, Error};
-use swc::{config::Options, try_with_handler, Compiler};
-use swc_common::{errors::Handler, sync::Lazy, SourceMap};
+use swc::{
+    config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
+    try_with_handler, Compiler,
+};
+use swc_common::{sync::Lazy, SourceMap};
+use swc_ecma_ast::EsVersion;
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use testing::assert_eq;
 
-fn create_matrix() -> &'static [Options] {
-    static MATRIX: Lazy<&[Options]> = Lazy::new(|| {
-        let mut vec = vec![];
+trait IterExt<T>: Sized + IntoIterator<Item = T>
+where
+    T: Clone,
+{
+    fn matrix<F, I, N>(self, mut gen: F) -> Vec<(T, N)>
+    where
+        F: FnMut() -> I,
+        I: IntoIterator<Item = N>,
+    {
+        self.into_iter()
+            .flat_map(|l| gen().into_iter().map(move |r| (l.clone(), r)))
+            .collect()
+    }
 
-        Box::new(vec).leak()
-    });
+    fn matrix_bool(self) -> Vec<(T, bool)> {
+        self.matrix(|| [true, false])
+    }
+}
 
-    *MATRIX
+impl<I, T> IterExt<T> for I
+where
+    I: IntoIterator<Item = T>,
+    T: Clone,
+{
+}
+
+fn create_matrix(entry: &Path) -> Vec<Options> {
+    [
+        EsVersion::Es2022,
+        EsVersion::Es2021,
+        EsVersion::Es2020,
+        EsVersion::Es2019,
+        EsVersion::Es2018,
+        EsVersion::Es2017,
+        EsVersion::Es2016,
+        EsVersion::Es2015,
+        EsVersion::Es5,
+    ]
+    .into_iter()
+    .matrix(|| {
+        let default_es = Syntax::Es(EsConfig {
+            ..Default::default()
+        });
+
+        if let Some(ext) = entry.extension() {
+            if ext == "ts" {
+                let ts = Syntax::Typescript(TsConfig {
+                    ..Default::default()
+                });
+                return vec![ts, default_es];
+            }
+        }
+
+        vec![default_es]
+    })
+    .matrix_bool()
+    .matrix_bool()
+    .matrix_bool()
+    .into_iter()
+    .map(
+        |((((target, syntax), minify), source_map), external_helpers)| {
+            // Actual
+            Options {
+                config: Config {
+                    jsc: JscConfig {
+                        syntax: Some(syntax),
+                        transform: None,
+                        external_helpers,
+                        target: Some(target),
+                        minify: if minify {
+                            Some(JsMinifyOptions {
+                                compress: true.into(),
+                                mangle: true.into(),
+                                format: Default::default(),
+                                ecma: Default::default(),
+                                keep_classnames: Default::default(),
+                                keep_fnames: Default::default(),
+                                module: Default::default(),
+                                safari10: Default::default(),
+                                toplevel: Default::default(),
+                                source_map: Default::default(),
+                                output_path: Default::default(),
+                                inline_sources_content: Default::default(),
+                            })
+                        } else {
+                            None
+                        },
+                        ..Default::default()
+                    },
+                    module: Some(ModuleConfig::CommonJs(Default::default())),
+                    minify,
+                    ..Default::default()
+                },
+                source_maps: if source_map {
+                    Some(SourceMapsConfig::Str("inline".into()))
+                } else {
+                    None
+                },
+                ..Default::default()
+            }
+        },
+    )
+    .collect::<Vec<_>>()
 }
 
 #[testing::fixture("tests/exec/**/exec.js")]
