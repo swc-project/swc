@@ -6,7 +6,7 @@ macro_rules! emit {
     }};
 }
 
-macro_rules! write {
+macro_rules! write_raw {
     ($g:expr,$span:expr,$n:expr) => {{
         $g.wr.write_raw(Some($span), $n)?;
     }};
@@ -46,14 +46,14 @@ macro_rules! formatting_space {
 
 macro_rules! semi {
     ($g:expr) => {{
-        write!($g, ";");
+        write_raw!($g, ";");
     }};
 }
 
 macro_rules! formatting_semi {
     ($g:expr) => {{
         if !$g.config.minify {
-            write!($g, ";");
+            write_raw!($g, ";");
         }
     }};
 }
