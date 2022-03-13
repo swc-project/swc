@@ -76,15 +76,20 @@ impl SourceCode for MietteSourceCode<'_> {
         let span = Span::new(BytePos(lo as _), BytePos(hi as _), Default::default());
 
         let span = self.0.span_extend_to_prev_char(span, '\n');
+
         let span = self.0.span_extend_to_next_char(span, '\n');
 
-        let src = self
+        let mut src = self
             .0
             .with_snippet_of_span(span, |s| {
                 // Safety: SourceMap does not deallocate strings
                 unsafe { transmute::<&str, &str>(s) }
             })
             .map_err(|_| MietteError::OutOfBounds)?;
+
+        if span.lo == span.hi {
+            src = " ";
+        }
 
         let loc = self.0.lookup_char_pos(span.lo());
         let line_count = loc.file.lines.len();
