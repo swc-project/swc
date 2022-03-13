@@ -1090,7 +1090,7 @@ where
         value.push('!');
 
         if self.config.minify {
-            value.push_str("important");
+            value.push_str(&n.value.value.to_lowercase());
         } else {
             value.push_str(&n.value.raw);
         }
