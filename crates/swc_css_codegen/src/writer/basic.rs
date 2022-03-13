@@ -159,7 +159,7 @@ where
 
     fn write_newline(&mut self) -> Result {
         if !self.line_start {
-            self.write_raw(None, self.linefeed)?;
+            self.raw_write(self.linefeed)?;
             self.line += 1;
             self.col = 0;
             self.line_start = true;
@@ -169,10 +169,11 @@ where
     }
 
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result {
-        // debug_assert!(
-        //     text.contains("\r"),
-        //     "write_raw should not contains new lines",
-        // );
+        debug_assert!(
+            !text.contains("\n"),
+            "write_raw should not contains new lines, got '{}'",
+            text,
+        );
 
         self.write(span, text)?;
 
