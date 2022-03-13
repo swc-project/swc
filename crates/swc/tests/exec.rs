@@ -131,6 +131,7 @@ fn run_fixture_test(entry: PathBuf) {
     matrix
         .into_par_iter()
         .map(|opts| test_file_with_opts(&entry, &opts, &expected_stdout).unwrap())
+        .panic_fuse()
         .collect::<Vec<_>>();
 }
 
