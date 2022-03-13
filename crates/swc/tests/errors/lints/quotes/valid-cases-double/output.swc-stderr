@@ -1,6 +1,6 @@
-error: String must use doublequotes
- 
-  |
-2 | var s = 'double quotes string';
-  |         ^^^^^^^^^^^^^^^^^^^^^^
 
+  x String must use doublequotes
+   ,----
+ 2 | var s = 'double quotes string';
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+   `----

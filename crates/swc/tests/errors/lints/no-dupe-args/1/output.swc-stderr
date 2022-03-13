@@ -1,96 +1,96 @@
-error: the name `b` is bound more than once in this parameter list
- 
-  |
-1 | function a(a, b, b) {}
-  |               -  ^ used as parameter more than once
-  |               |
-  |               previous definition here
 
-error: the name `a` is bound more than once in this parameter list
- 
-  |
-2 | function b(a, a, a) {}
-  |            -  ^ used as parameter more than once
-  |            |
-  |            previous definition here
+  x the name `b` is bound more than once in this parameter list
+   ,----
+ 1 | function a(a, b, b) {}
+   :               |  |
+   :               |  `-- used as parameter more than once
+   :               `-- previous definition here
+   `----
 
-error: the name `a` is bound more than once in this parameter list
- 
-  |
-2 | function b(a, a, a) {}
-  |               -  ^ used as parameter more than once
-  |               |
-  |               previous definition here
+  x the name `a` is bound more than once in this parameter list
+   ,----
+ 2 | function b(a, a, a) {}
+   :            |  |
+   :            |  `-- used as parameter more than once
+   :            `-- previous definition here
+   `----
 
-error: the name `a` is bound more than once in this parameter list
- 
-  |
-3 | function c(a, b, a) {}
-  |            -     ^ used as parameter more than once
-  |            |
-  |            previous definition here
+  x the name `a` is bound more than once in this parameter list
+   ,----
+ 2 | function b(a, a, a) {}
+   :               |  |
+   :               |  `-- used as parameter more than once
+   :               `-- previous definition here
+   `----
 
-error: the name `a` is bound more than once in this parameter list
- 
-  |
-4 | function d(a, b, a, b) {}
-  |            -     ^ used as parameter more than once
-  |            |
-  |            previous definition here
+  x the name `a` is bound more than once in this parameter list
+   ,----
+ 3 | function c(a, b, a) {}
+   :            |     |
+   :            |     `-- used as parameter more than once
+   :            `-- previous definition here
+   `----
 
-error: the name `b` is bound more than once in this parameter list
- 
-  |
-4 | function d(a, b, a, b) {}
-  |               -     ^ used as parameter more than once
-  |               |
-  |               previous definition here
+  x the name `a` is bound more than once in this parameter list
+   ,----
+ 4 | function d(a, b, a, b) {}
+   :            |     |
+   :            |     `-- used as parameter more than once
+   :            `-- previous definition here
+   `----
 
-error: the name `b` is bound more than once in this parameter list
- 
-  |
-5 | var e = function (a, b, b) {};
-  |                      -  ^ used as parameter more than once
-  |                      |
-  |                      previous definition here
+  x the name `b` is bound more than once in this parameter list
+   ,----
+ 4 | function d(a, b, a, b) {}
+   :               |     |
+   :               |     `-- used as parameter more than once
+   :               `-- previous definition here
+   `----
 
-error: the name `a` is bound more than once in this parameter list
- 
-  |
-6 | var f = function (a, a, a) {};
-  |                   -  ^ used as parameter more than once
-  |                   |
-  |                   previous definition here
+  x the name `b` is bound more than once in this parameter list
+   ,----
+ 5 | var e = function (a, b, b) {};
+   :                      |  |
+   :                      |  `-- used as parameter more than once
+   :                      `-- previous definition here
+   `----
 
-error: the name `a` is bound more than once in this parameter list
- 
-  |
-6 | var f = function (a, a, a) {};
-  |                      -  ^ used as parameter more than once
-  |                      |
-  |                      previous definition here
+  x the name `a` is bound more than once in this parameter list
+   ,----
+ 6 | var f = function (a, a, a) {};
+   :                   |  |
+   :                   |  `-- used as parameter more than once
+   :                   `-- previous definition here
+   `----
 
-error: the name `a` is bound more than once in this parameter list
- 
-  |
-7 | var g = function (a, b, a) {};
-  |                   -     ^ used as parameter more than once
-  |                   |
-  |                   previous definition here
+  x the name `a` is bound more than once in this parameter list
+   ,----
+ 6 | var f = function (a, a, a) {};
+   :                      |  |
+   :                      |  `-- used as parameter more than once
+   :                      `-- previous definition here
+   `----
 
-error: the name `a` is bound more than once in this parameter list
- 
-  |
-8 | var h = function (a, b, a, b) {};
-  |                   -     ^ used as parameter more than once
-  |                   |
-  |                   previous definition here
+  x the name `a` is bound more than once in this parameter list
+   ,----
+ 7 | var g = function (a, b, a) {};
+   :                   |     |
+   :                   |     `-- used as parameter more than once
+   :                   `-- previous definition here
+   `----
 
-error: the name `b` is bound more than once in this parameter list
- 
-  |
-8 | var h = function (a, b, a, b) {};
-  |                      -     ^ used as parameter more than once
-  |                      |
-  |                      previous definition here
+  x the name `a` is bound more than once in this parameter list
+   ,----
+ 8 | var h = function (a, b, a, b) {};
+   :                   |     |
+   :                   |     `-- used as parameter more than once
+   :                   `-- previous definition here
+   `----
 
+  x the name `b` is bound more than once in this parameter list
+   ,----
+ 8 | var h = function (a, b, a, b) {};
+   :                      |     |
+   :                      |     `-- used as parameter more than once
+   :                      `-- previous definition here
+   `----

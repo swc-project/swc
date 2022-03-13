@@ -1,6 +1,6 @@
-error: 'a' was used before it was defined
- 
-  |
-1 | alert(a);
-  |       ^
 
+  x 'a' was used before it was defined
+   ,----
+ 1 | alert(a);
+   :       ^
+   `----

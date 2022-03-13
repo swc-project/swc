@@ -1,6 +1,6 @@
-error: 'C' was used before it was defined
- 
-  |
-1 | new C();
-  |     ^
 
+  x 'C' was used before it was defined
+   ,----
+ 1 | new C();
+   :     ^
+   `----

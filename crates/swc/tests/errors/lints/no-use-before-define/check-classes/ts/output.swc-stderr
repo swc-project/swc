@@ -1,6 +1,6 @@
-error: 'a' was used before it was defined
-  
-   |
-10 | console.log(a);
-   |             ^
 
+  x 'a' was used before it was defined
+    ,----
+ 10 | console.log(a);
+    :             ^
+    `----

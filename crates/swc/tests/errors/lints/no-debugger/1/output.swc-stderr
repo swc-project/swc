@@ -1,12 +1,12 @@
-error: Unexpected 'debugger' statement
- 
-  |
-2 |     debugger;
-  |     ^^^^^^^^^
 
-error: Unexpected 'debugger' statement
- 
-  |
-5 | debugger;
-  | ^^^^^^^^^
+  x Unexpected 'debugger' statement
+   ,----
+ 2 | debugger;
+   : ^^^^^^^^^
+   `----
 
+  x Unexpected 'debugger' statement
+   ,----
+ 5 | debugger;
+   : ^^^^^^^^^
+   `----

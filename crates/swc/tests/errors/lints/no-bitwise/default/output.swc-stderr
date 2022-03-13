@@ -1,96 +1,96 @@
-error: Unexpected use of '|'
- 
-  |
-1 | var x = y | z;
-  |         ^^^^^
 
-error: Unexpected use of '&'
- 
-  |
-3 | var x = y & z;
-  |         ^^^^^
+  x Unexpected use of '|'
+   ,----
+ 1 | var x = y | z;
+   :         ^^^^^
+   `----
 
-error: Unexpected use of '^'
- 
-  |
-5 | var x = y ^ z;
-  |         ^^^^^
+  x Unexpected use of '&'
+   ,----
+ 3 | var x = y & z;
+   :         ^^^^^
+   `----
 
-error: Unexpected use of '~'
- 
-  |
-7 | var x = ~ z;
-  |         ^^^
+  x Unexpected use of '^'
+   ,----
+ 5 | var x = y ^ z;
+   :         ^^^^^
+   `----
 
-error: Unexpected use of '<<'
- 
-  |
-9 | var x = y << z;
-  |         ^^^^^^
+  x Unexpected use of '~'
+   ,----
+ 7 | var x = ~ z;
+   :         ^^^
+   `----
 
-error: Unexpected use of '>>'
-  
-   |
-11 | var x = y >> z;
-   |         ^^^^^^
+  x Unexpected use of '<<'
+   ,----
+ 9 | var x = y << z;
+   :         ^^^^^^
+   `----
 
-error: Unexpected use of '>>>'
-  
-   |
-13 | var x = y >>> z;
-   |         ^^^^^^^
+  x Unexpected use of '>>'
+    ,----
+ 11 | var x = y >> z;
+    :         ^^^^^^
+    `----
 
-error: Unexpected use of '|='
-  
-   |
-15 | x |= y;
-   | ^^^^^^
+  x Unexpected use of '>>>'
+    ,----
+ 13 | var x = y >>> z;
+    :         ^^^^^^^
+    `----
 
-error: Unexpected use of '&='
-  
-   |
-17 | x &= y;
-   | ^^^^^^
+  x Unexpected use of '|='
+    ,----
+ 15 | x |= y;
+    : ^^^^^^
+    `----
 
-error: Unexpected use of '^='
-  
-   |
-19 | x ^= y;
-   | ^^^^^^
+  x Unexpected use of '&='
+    ,----
+ 17 | x &= y;
+    : ^^^^^^
+    `----
 
-error: Unexpected use of '<<='
-  
-   |
-21 | x <<= y;
-   | ^^^^^^^
+  x Unexpected use of '^='
+    ,----
+ 19 | x ^= y;
+    : ^^^^^^
+    `----
 
-error: Unexpected use of '>>='
-  
-   |
-23 | x >>= y;
-   | ^^^^^^^
+  x Unexpected use of '<<='
+    ,----
+ 21 | x <<= y;
+    : ^^^^^^^
+    `----
 
-error: Unexpected use of '>>>='
-  
-   |
-25 | x >>>= y;
-   | ^^^^^^^^
+  x Unexpected use of '>>='
+    ,----
+ 23 | x >>= y;
+    : ^^^^^^^
+    `----
 
-error: Unexpected use of '^'
-  
-   |
-27 | if (a ^ b) {}
-   |     ^^^^^
+  x Unexpected use of '>>>='
+    ,----
+ 25 | x >>>= y;
+    : ^^^^^^^^
+    `----
 
-error: Unexpected use of '^'
-  
-   |
-29 | var a = x ^ y;
-   |         ^^^^^
+  x Unexpected use of '^'
+    ,----
+ 27 | if (a ^ b) {}
+    :     ^^^^^
+    `----
 
-error: Unexpected use of '^'
-  
-   |
-32 |   a = x ^ y
-   |       ^^^^^
+  x Unexpected use of '^'
+    ,----
+ 29 | var a = x ^ y;
+    :         ^^^^^
+    `----
 
+  x Unexpected use of '^'
+    ,----
+ 32 | a = x ^ y
+    :     ^^^^^
+    `----

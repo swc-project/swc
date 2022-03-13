@@ -1,6 +1,6 @@
-error: ['a'] is better written in dot notation
- 
-  |
-3 | obj['a'];
-  |    ^^^^^
 
+  x ['a'] is better written in dot notation
+   ,----
+ 3 | obj['a'];
+   :    ^^^^^
+   `----

@@ -1,98 +1,97 @@
-error: Do not use 'new' for side effects
- 
-  |
-1 | new A();
-  | ^^^^^^^
 
-error: Do not use 'new' for side effects
- 
-  |
-3 | (new A());
-  |  ^^^^^^^
+  x Do not use 'new' for side effects
+   ,----
+ 1 | new A();
+   : ^^^^^^^
+   `----
 
-error: Do not use 'new' for side effects
- 
-  |
-5 | (0, new A());
-  |     ^^^^^^^
+  x Do not use 'new' for side effects
+   ,----
+ 3 | (new A());
+   :  ^^^^^^^
+   `----
 
-error: Do not use 'new' for side effects
- 
-  |
-9 |         new A()
-  |         ^^^^^^^
+  x Do not use 'new' for side effects
+   ,----
+ 5 | (0, new A());
+   :     ^^^^^^^
+   `----
 
-error: Do not use 'new' for side effects
-  
-   |
-13 |             new A()
-   |             ^^^^^^^
+  x Do not use 'new' for side effects
+   ,----
+ 9 | new A()
+   : ^^^^^^^
+   `----
 
-error: Do not use 'new' for side effects
-  
-   |
-19 |     a = () => { new A() },
-   |                 ^^^^^^^
+  x Do not use 'new' for side effects
+    ,----
+ 13 | new A()
+    : ^^^^^^^
+    `----
 
-error: Do not use 'new' for side effects
-  
-   |
-20 |     [ b = () => { new A() } ]
-   |                   ^^^^^^^
+  x Do not use 'new' for side effects
+    ,----
+ 19 | a = () => { new A() },
+    :             ^^^^^^^
+    `----
 
-error: Do not use 'new' for side effects
-  
-   |
-23 | (0, new A(), 0);
-   |     ^^^^^^^
+  x Do not use 'new' for side effects
+    ,----
+ 20 | [ b = () => { new A() } ]
+    :               ^^^^^^^
+    `----
 
-error: Do not use 'new' for side effects
-  
-   |
-26 |     new B();
-   |     ^^^^^^^
+  x Do not use 'new' for side effects
+    ,----
+ 23 | (0, new A(), 0);
+    :     ^^^^^^^
+    `----
 
-error: Do not use 'new' for side effects
-  
-   |
-30 | new A(new A());
-   | ^^^^^^^^^^^^^^
+  x Do not use 'new' for side effects
+    ,----
+ 26 | new B();
+    : ^^^^^^^
+    `----
 
-error: Do not use 'new' for side effects
-  
-   |
-32 | / new A(new A(() => {
-33 | |     new B();
-34 | | }));
-   | |___^
+  x Do not use 'new' for side effects
+    ,----
+ 30 | new A(new A());
+    : ^^^^^^^^^^^^^^
+    `----
 
-error: Do not use 'new' for side effects
-  
-   |
-33 |     new B();
-   |     ^^^^^^^
+  x Do not use 'new' for side effects
+    ,-[32:1]
+ 32 | ,-> new A(new A(() => {
+ 33 | |       new B();
+ 34 | `-> }));
+    `----
 
-error: Do not use 'new' for side effects
-  
-   |
-36 | var x = (new A(), 0);
-   |          ^^^^^^^
+  x Do not use 'new' for side effects
+    ,----
+ 33 | new B();
+    : ^^^^^^^
+    `----
 
-error: Do not use 'new' for side effects
-  
-   |
-39 |     new B();
-   |     ^^^^^^^
+  x Do not use 'new' for side effects
+    ,----
+ 36 | var x = (new A(), 0);
+    :          ^^^^^^^
+    `----
 
-error: Do not use 'new' for side effects
-  
-   |
-44 |         new B()
-   |         ^^^^^^^
+  x Do not use 'new' for side effects
+    ,----
+ 39 | new B();
+    : ^^^^^^^
+    `----
 
-error: Do not use 'new' for side effects
-  
-   |
-48 | function foo(arg = () => { new A() }) {}
-   |                            ^^^^^^^
+  x Do not use 'new' for side effects
+    ,----
+ 44 | new B()
+    : ^^^^^^^
+    `----
 
+  x Do not use 'new' for side effects
+    ,----
+ 48 | function foo(arg = () => { new A() }) {}
+    :                            ^^^^^^^
+    `----

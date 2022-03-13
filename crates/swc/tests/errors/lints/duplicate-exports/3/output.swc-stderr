@@ -1,10 +1,13 @@
-error: the name `b` is exported multiple times
- 
-  |
-8 | export { b }
-  |          - previous exported here
-9 | export { a as b }
-  |               ^ exported more than once
-  |
-  = note: Exported identifiers must be unique
 
+  x the name `b` is exported multiple times
+   ,-[8:1]
+ 8 | export { b }
+   :          |
+   :          `-- previous exported here
+ 9 | export { a as b }
+   :               |
+   :               `-- exported more than once
+   `----
+
+Error: 
+  > Exported identifiers must be unique

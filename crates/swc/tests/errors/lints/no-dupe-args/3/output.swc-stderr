@@ -1,24 +1,24 @@
-error: the name `a` is bound more than once in this parameter list
- 
-  |
-1 | function foo(a, b, [a]) {}
-  |              -      ^ used as parameter more than once
-  |              |
-  |              previous definition here
 
-error: the name `a` is bound more than once in this parameter list
- 
-  |
-2 | function bar(a, b, ...a) {}
-  |              -        ^ used as parameter more than once
-  |              |
-  |              previous definition here
+  x the name `a` is bound more than once in this parameter list
+   ,----
+ 1 | function foo(a, b, [a]) {}
+   :              |      |
+   :              |      `-- used as parameter more than once
+   :              `-- previous definition here
+   `----
 
-error: the name `a` is bound more than once in this parameter list
- 
-  |
-3 | function baz({ a }, b, { c: [a] }) {}
-  |                -             ^ used as parameter more than once
-  |                |
-  |                previous definition here
+  x the name `a` is bound more than once in this parameter list
+   ,----
+ 2 | function bar(a, b, ...a) {}
+   :              |        |
+   :              |        `-- used as parameter more than once
+   :              `-- previous definition here
+   `----
 
+  x the name `a` is bound more than once in this parameter list
+   ,----
+ 3 | function baz({ a }, b, { c: [a] }) {}
+   :                |             |
+   :                |             `-- used as parameter more than once
+   :                `-- previous definition here
+   `----

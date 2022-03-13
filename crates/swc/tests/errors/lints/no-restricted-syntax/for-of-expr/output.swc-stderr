@@ -1,6 +1,6 @@
-error: no 'for-of' expession
- 
-  |
-1 | for (var x of {}) {}
-  | ^^^^^^^^^^^^^^^^^^^^
 
+  x no 'for-of' expession
+   ,----
+ 1 | for (var x of {}) {}
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----

@@ -1,6 +1,6 @@
-error: Unexpected console statement
- 
-  |
-7 | console.log("message");
-  | ^^^^^^^^^^^
 
+  x Unexpected console statement
+   ,----
+ 7 | console.log("message");
+   : ^^^^^^^^^^^
+   `----

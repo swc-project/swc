@@ -1,18 +1,18 @@
-error: String must use singlequotes
- 
-  |
-1 | var s = `template string`;
-  |         ^^^^^^^^^^^^^^^^^
 
-error: String must use singlequotes
- 
-  |
-2 | var s = `template string with "escape"`;
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x String must use singlequotes
+   ,----
+ 1 | var s = `template string`;
+   :         ^^^^^^^^^^^^^^^^^
+   `----
 
-error: String must use singlequotes
- 
-  |
-8 | var s = "double quotes string";
-  |         ^^^^^^^^^^^^^^^^^^^^^^
+  x String must use singlequotes
+   ,----
+ 2 | var s = `template string with "escape"`;
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
+  x String must use singlequotes
+   ,----
+ 8 | var s = "double quotes string";
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+   `----

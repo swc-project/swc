@@ -1,24 +1,24 @@
-error: Unexpected alert
- 
-  |
-3 | globalThis.alert();
-  | ^^^^^^^^^^^^^^^^^^
 
-error: Unexpected alert
- 
-  |
-8 | globalThis.alert();
-  | ^^^^^^^^^^^^^^^^^^
+  x Unexpected alert
+   ,----
+ 3 | globalThis.alert();
+   : ^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Unexpected alert
- 
-  |
-9 | window?.alert(foo);
-  | ^^^^^^^^^^^^^^^^^^
+  x Unexpected alert
+   ,----
+ 8 | globalThis.alert();
+   : ^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Unexpected alert
-  
-   |
-10 | (window?.alert)(foo);
-   | ^^^^^^^^^^^^^^^^^^^^
+  x Unexpected alert
+   ,----
+ 9 | window?.alert(foo);
+   : ^^^^^^^^^^^^^^^^^^
+   `----
 
+  x Unexpected alert
+    ,----
+ 10 | (window?.alert)(foo);
+    : ^^^^^^^^^^^^^^^^^^^^
+    `----

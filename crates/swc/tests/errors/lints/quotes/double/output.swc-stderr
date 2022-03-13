@@ -1,24 +1,24 @@
-error: String must use doublequotes
- 
-  |
-1 | var s = `template string`;
-  |         ^^^^^^^^^^^^^^^^^
 
-error: String must use doublequotes
- 
-  |
-2 | var s = `template string with "escape"`;
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x String must use doublequotes
+   ,----
+ 1 | var s = `template string`;
+   :         ^^^^^^^^^^^^^^^^^
+   `----
 
-error: String must use doublequotes
- 
-  |
-5 | var s = 'single quotes string';
-  |         ^^^^^^^^^^^^^^^^^^^^^^
+  x String must use doublequotes
+   ,----
+ 2 | var s = `template string with "escape"`;
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: String must use doublequotes
- 
-  |
-7 | var s = 'single quotes string with "escape"';
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x String must use doublequotes
+   ,----
+ 5 | var s = 'single quotes string';
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
+  x String must use doublequotes
+   ,----
+ 7 | var s = 'single quotes string with "escape"';
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

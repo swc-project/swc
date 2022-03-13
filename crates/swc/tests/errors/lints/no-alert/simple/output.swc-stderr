@@ -1,96 +1,96 @@
-error: Unexpected alert
- 
-  |
-3 | alert();
-  | ^^^^^^^
 
-error: Unexpected alert
- 
-  |
-4 | window.alert();
-  | ^^^^^^^^^^^^^^
+  x Unexpected alert
+   ,----
+ 3 | alert();
+   : ^^^^^^^
+   `----
 
-error: Unexpected alert
- 
-  |
-5 | window["alert"]();
-  | ^^^^^^^^^^^^^^^^^
+  x Unexpected alert
+   ,----
+ 4 | window.alert();
+   : ^^^^^^^^^^^^^^
+   `----
 
-error: Unexpected confirm
- 
-  |
-6 | confirm();
-  | ^^^^^^^^^
+  x Unexpected alert
+   ,----
+ 5 | window["alert"]();
+   : ^^^^^^^^^^^^^^^^^
+   `----
 
-error: Unexpected confirm
- 
-  |
-7 | window.confirm();
-  | ^^^^^^^^^^^^^^^^
+  x Unexpected confirm
+   ,----
+ 6 | confirm();
+   : ^^^^^^^^^
+   `----
 
-error: Unexpected confirm
- 
-  |
-8 | window["confirm"]();
-  | ^^^^^^^^^^^^^^^^^^^
+  x Unexpected confirm
+   ,----
+ 7 | window.confirm();
+   : ^^^^^^^^^^^^^^^^
+   `----
 
-error: Unexpected prompt
- 
-  |
-9 | prompt();
-  | ^^^^^^^^
+  x Unexpected confirm
+   ,----
+ 8 | window["confirm"]();
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Unexpected prompt
-  
-   |
-10 | window.prompt();
-   | ^^^^^^^^^^^^^^^
+  x Unexpected prompt
+   ,----
+ 9 | prompt();
+   : ^^^^^^^^
+   `----
 
-error: Unexpected prompt
-  
-   |
-11 | window["prompt"]();
-   | ^^^^^^^^^^^^^^^^^^
+  x Unexpected prompt
+    ,----
+ 10 | window.prompt();
+    : ^^^^^^^^^^^^^^^
+    `----
 
-error: Unexpected alert
-  
-   |
-13 |     window.alert();
-   |     ^^^^^^^^^^^^^^
+  x Unexpected prompt
+    ,----
+ 11 | window["prompt"]();
+    : ^^^^^^^^^^^^^^^^^^
+    `----
 
-error: Unexpected alert
-  
-   |
-16 |     alert();
-   |     ^^^^^^^
+  x Unexpected alert
+    ,----
+ 13 | window.alert();
+    : ^^^^^^^^^^^^^^
+    `----
 
-error: Unexpected alert
-  
-   |
-21 | alert();
-   | ^^^^^^^
+  x Unexpected alert
+    ,----
+ 16 | alert();
+    : ^^^^^^^
+    `----
 
-error: Unexpected alert
-  
-   |
-31 | window.alert();
-   | ^^^^^^^^^^^^^^
+  x Unexpected alert
+    ,----
+ 21 | alert();
+    : ^^^^^^^
+    `----
 
-error: Unexpected alert
-  
-   |
-38 | alert(() => alert("foo"));
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Unexpected alert
+    ,----
+ 31 | window.alert();
+    : ^^^^^^^^^^^^^^
+    `----
 
-error: Unexpected alert
-  
-   |
-38 | alert(() => alert("foo"));
-   |             ^^^^^^^^^^^^
+  x Unexpected alert
+    ,----
+ 38 | alert(() => alert("foo"));
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
 
-error: Unexpected alert
-  
-   |
-54 | fu(() => alert(""));
-   |          ^^^^^^^^^
+  x Unexpected alert
+    ,----
+ 38 | alert(() => alert("foo"));
+    :             ^^^^^^^^^^^^
+    `----
 
+  x Unexpected alert
+    ,----
+ 54 | fu(() => alert(""));
+    :          ^^^^^^^^^
+    `----
