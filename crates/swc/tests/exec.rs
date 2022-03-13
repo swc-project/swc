@@ -144,7 +144,7 @@ fn run_fixture_test(entry: PathBuf) {
 /// Rename `foo/.bar/exec.js` => `foo/bar/exec.js`
 fn unignore(path: &Path) {
     if path.components().all(|c| {
-        matches!(c, Component::Normal(..)) && !c.as_os_str().to_string_lossy().starts_with('.')
+        !matches!(c, Component::Normal(..)) || !c.as_os_str().to_string_lossy().starts_with('.')
     }) {
         return;
     }
