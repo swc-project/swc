@@ -1,34 +1,29 @@
 use std::{path::Path, sync::Arc};
 
-use swc::{self, config::Options};
-use swc_common::{
-    errors::{ColorConfig, Handler},
-    SourceMap,
-};
+use anyhow::Context;
+use swc::{self, config::Options, try_with_handler};
+use swc_common::SourceMap;
 
 fn main() {
     let cm = Arc::<SourceMap>::default();
-    let handler = Arc::new(Handler::with_tty_emitter(
-        ColorConfig::Auto,
-        true,
-        false,
-        Some(cm.clone()),
-    ));
+
     let c = swc::Compiler::new(cm.clone());
 
-    let fm = cm
-        .load_file(Path::new("examples/transform-input.js"))
-        .expect("failed to load file");
+    let output = try_with_handler(cm.clone(), false, |handler| {
+        let fm = cm
+            .load_file(Path::new("examples/transform-input.js"))
+            .expect("failed to load file");
 
-    let output = c
-        .process_js_file(
+        c.process_js_file(
             fm,
-            &handler,
+            handler,
             &Options {
                 ..Default::default()
             },
         )
-        .expect("failed to process file");
+        .context("failed to process file")
+    })
+    .unwrap();
 
     println!("{}", output.code);
 }
