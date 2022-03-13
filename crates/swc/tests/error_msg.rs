@@ -4,7 +4,7 @@ use swc::{
     config::{IsModule, Options},
     try_with_handler, Compiler, HandlerOpts,
 };
-use swc_common::{sync::Lrc, FilePathMapping, SourceMap};
+use swc_common::{errors::ColorConfig, sync::Lrc, FilePathMapping, SourceMap};
 use testing::{NormalizedOutput, Tester};
 
 fn file(f: impl AsRef<Path>) -> NormalizedOutput {
@@ -56,7 +56,7 @@ fn fixture(input: PathBuf) {
         cm.clone(),
         HandlerOpts {
             skip_filename: true,
-            ..Default::default()
+            color: ColorConfig::Never,
         },
         |handler| {
             let c = Compiler::new(cm.clone());
