@@ -341,7 +341,6 @@ macro_rules! typed {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &mut $T) {
             if self.handle_types {
-                self.in_type = true;
                 node.visit_mut_children_with(self)
             }
         }
@@ -352,9 +351,21 @@ macro_rules! typed_ref {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &mut $T) {
             if self.handle_types {
+                node.visit_mut_children_with(self);
+            }
+        }
+    };
+}
+
+macro_rules! typed_ref_init {
+    ($name:ident, $T:ty) => {
+        fn $name(&mut self, node: &mut $T) {
+            if self.handle_types {
+                let in_type = self.in_type;
                 self.ident_type = IdentType::Ref;
                 self.in_type = true;
-                node.visit_mut_children_with(self)
+                node.visit_mut_children_with(self);
+                self.in_type = in_type;
             }
         }
     };
@@ -364,9 +375,11 @@ macro_rules! typed_decl {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &mut $T) {
             if self.handle_types {
+                let in_type = self.in_type;
                 self.ident_type = IdentType::Binding;
                 self.in_type = true;
-                node.visit_mut_children_with(self)
+                node.visit_mut_children_with(self);
+                self.in_type = in_type;
             }
         }
     };
@@ -402,7 +415,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
     typed_ref!(visit_mut_ts_conditional_type, TsConditionalType);
 
-    typed_ref!(
+    typed_ref_init!(
         visit_mut_ts_type_param_instantiation,
         TsTypeParamInstantiation
     );
@@ -413,9 +426,9 @@ impl<'a> VisitMut for Resolver<'a> {
 
     typed_ref!(visit_mut_ts_type_operator, TsTypeOperator);
 
-    typed_ref!(visit_mut_ts_type, TsType);
+    typed_ref_init!(visit_mut_ts_type, TsType);
 
-    typed_ref!(visit_mut_ts_type_ann, TsTypeAnn);
+    typed_ref_init!(visit_mut_ts_type_ann, TsTypeAnn);
 
     typed!(
         visit_mut_ts_union_or_intersection_type,
@@ -504,11 +517,9 @@ impl<'a> VisitMut for Resolver<'a> {
         let ident_type = self.ident_type;
         let in_type = self.in_type;
 
-        self.in_type = true;
         self.ident_type = IdentType::Ref;
         i.type_ann.visit_mut_with(self);
 
-        self.in_type = false;
         self.ident_type = ident_type;
         i.id.visit_mut_with(self);
 
@@ -640,7 +651,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
-        self.in_type = false;
         decl.visit_mut_children_with(self)
     }
 
@@ -677,7 +687,6 @@ impl<'a> VisitMut for Resolver<'a> {
             None
         };
 
-        self.in_type = false;
         let old = self.ident_type;
         self.ident_type = IdentType::Ref;
         expr.visit_mut_children_with(self);
@@ -710,7 +719,6 @@ impl<'a> VisitMut for Resolver<'a> {
         );
 
         if let Some(ident) = &mut e.ident {
-            self.in_type = false;
             folder.modify(ident, None)
         }
         e.function.visit_mut_with(&mut folder);
@@ -762,7 +770,6 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_function(&mut self, f: &mut Function) {
         f.type_params.visit_mut_with(self);
 
-        self.in_type = false;
         self.ident_type = IdentType::Ref;
         f.decorators.visit_mut_with(self);
 
@@ -922,13 +929,11 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_param(&mut self, param: &mut Param) {
-        self.in_type = false;
         self.ident_type = IdentType::Binding;
         param.visit_mut_children_with(self);
     }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
-        self.in_type = false;
         p.visit_mut_children_with(self);
     }
 
@@ -962,7 +967,6 @@ impl<'a> VisitMut for Resolver<'a> {
                 self.handle_types,
             );
 
-            child.in_type = false;
             child.ident_type = IdentType::Binding;
             n.param.visit_mut_with(&mut child);
             n.body.visit_mut_with(&mut child);
@@ -1023,7 +1027,6 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        self.in_type = true;
         let child_mark = Mark::fresh(Mark::root());
 
         // Child folder
@@ -1042,7 +1045,6 @@ impl<'a> VisitMut for Resolver<'a> {
         if !self.handle_types {
             return;
         }
-        self.in_type = true;
         let child_mark = Mark::fresh(Mark::root());
 
         // Child folder
@@ -1063,7 +1065,6 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        self.in_type = true;
         let child_mark = Mark::fresh(Mark::root());
 
         // Child folder
@@ -1103,7 +1104,6 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        self.in_type = true;
         let child_mark = Mark::fresh(Mark::root());
 
         // Child folder
@@ -1127,7 +1127,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
-        self.in_type = false;
         self.modify(&mut n.id, None);
 
         n.module_ref.visit_mut_with(self);
@@ -1163,15 +1162,11 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        self.in_type = true;
         self.ident_type = IdentType::Binding;
         n.type_param.visit_mut_with(self);
-
-        self.in_type = true;
         self.ident_type = IdentType::Ref;
         n.name_type.visit_mut_with(self);
 
-        self.in_type = true;
         self.ident_type = IdentType::Ref;
         n.type_ann.visit_mut_with(self);
     }
@@ -1181,7 +1176,6 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        self.in_type = true;
         let child_mark = Mark::fresh(Mark::root());
 
         // Child folder
@@ -1225,7 +1219,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ts_param_prop_param(&mut self, n: &mut TsParamPropParam) {
-        self.in_type = false;
         self.ident_type = IdentType::Binding;
         n.visit_mut_children_with(self)
     }
@@ -1235,7 +1228,6 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        self.in_type = true;
         if n.computed {
             n.key.visit_mut_with(self);
         }
@@ -1311,7 +1303,6 @@ impl<'a> VisitMut for Resolver<'a> {
         if !self.handle_types {
             return;
         }
-        self.in_type = true;
         param.name.visit_mut_with(self);
 
         let ident_type = self.ident_type;
@@ -1322,7 +1313,6 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_ts_type_params(&mut self, params: &mut Vec<TsTypeParam>) {
         for param in params.iter_mut() {
-            self.in_type = true;
             param.name.visit_mut_with(self);
         }
 
@@ -1330,8 +1320,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
-        self.in_type = false;
-
         let old_hoist = self.hoist;
 
         self.hoist = VarDeclKind::Var == decl.kind;
@@ -1403,7 +1391,6 @@ impl VisitMut for Hoister<'_, '_> {
         if self.in_block {
             return;
         }
-        self.resolver.in_type = false;
         self.resolver
             .modify(&mut node.ident, Some(VarDeclKind::Let));
     }
@@ -1418,13 +1405,17 @@ impl VisitMut for Hoister<'_, '_> {
         if self.resolver.handle_types {
             match decl {
                 Decl::TsInterface(i) => {
+                    let in_type = self.resolver.in_type;
                     self.resolver.in_type = true;
                     self.resolver.modify(&mut i.id, None);
+                    self.resolver.in_type = in_type;
                 }
 
                 Decl::TsTypeAlias(a) => {
+                    let in_type = self.resolver.in_type;
                     self.resolver.in_type = true;
                     self.resolver.modify(&mut a.id, None);
+                    self.resolver.in_type = in_type;
                 }
                 _ => {}
             }
@@ -1437,7 +1428,6 @@ impl VisitMut for Hoister<'_, '_> {
         match &mut node.decl {
             DefaultDecl::Fn(f) => {
                 if let Some(id) = &mut f.ident {
-                    self.resolver.in_type = false;
                     self.resolver.modify(id, Some(VarDeclKind::Var));
                 }
 
@@ -1445,7 +1435,6 @@ impl VisitMut for Hoister<'_, '_> {
             }
             DefaultDecl::Class(c) => {
                 if let Some(id) = &mut c.ident {
-                    self.resolver.in_type = false;
                     self.resolver.modify(id, Some(VarDeclKind::Let));
                 }
 
@@ -1480,7 +1469,6 @@ impl VisitMut for Hoister<'_, '_> {
             }
         }
 
-        self.resolver.in_type = false;
         self.resolver
             .modify(&mut node.ident, Some(VarDeclKind::Var));
     }
@@ -1492,7 +1480,6 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_param(&mut self, _: &mut Param) {}
 
     fn visit_mut_pat(&mut self, node: &mut Pat) {
-        self.resolver.in_type = false;
         match node {
             Pat::Ident(i) => {
                 if self.catch_param_decls.contains(&i.id.sym) {
