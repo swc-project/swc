@@ -19,6 +19,13 @@ pub struct PrettyEmitter {
     wr: WriterWrapper,
 
     reporter: GraphicalReportHandler,
+
+    config: PrettyEmitterConfig,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct PrettyEmitterConfig {
+    pub skip_filename: bool,
 }
 
 impl PrettyEmitter {
@@ -26,11 +33,13 @@ impl PrettyEmitter {
         cm: Lrc<SourceMap>,
         wr: Box<dyn Write + Send + Sync>,
         reporter: GraphicalReportHandler,
+        config: PrettyEmitterConfig,
     ) -> Self {
         Self {
             cm,
             wr: WriterWrapper(wr),
             reporter,
+            config,
         }
     }
 }
