@@ -13,6 +13,12 @@
 
 - **(es/resolver)** Use correct context for identifiers after type parameters (#4000) ([87a3c1c](https://github.com/swc-project/swc/commit/87a3c1c91673c2609e71eda12f969a1fd4e56294))
 
+### Documentation
+
+
+
+- **(api/rust)** Add examples (#4002) ([dac84b9](https://github.com/swc-project/swc/commit/dac84b98e38bd546cb9c9df72e3ad8d08b9550d9))
+
 ### Features
 
 
