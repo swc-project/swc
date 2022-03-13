@@ -5,7 +5,10 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::fixer;
 use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith,
+    VisitWith,
+};
 use unicode_id::UnicodeID;
 
 use crate::{debug::dump, util::ModuleItemExt};
@@ -752,4 +755,44 @@ pub(super) fn is_global_var(s: &str) -> bool {
             | "NaN"
             | "Symbol"
     )
+}
+
+// TODO: remove
+pub(crate) fn contains_super<N>(body: &N) -> bool
+where
+    N: VisitWith<SuperFinder>,
+{
+    let mut visitor = SuperFinder { found: false };
+    body.visit_with(&mut visitor);
+    visitor.found
+}
+
+pub struct SuperFinder {
+    found: bool,
+}
+
+impl Visit for SuperFinder {
+    noop_visit_type!();
+
+    /// Don't recurse into constructor
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    /// Don't recurse into fn
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_prop(&mut self, n: &Prop) {
+        n.visit_children_with(self);
+
+        if let Prop::Shorthand(Ident {
+            sym: js_word!("arguments"),
+            ..
+        }) = n
+        {
+            self.found = true;
+        }
+    }
+
+    fn visit_super(&mut self, _: &Super) {
+        self.found = true;
+    }
 }
