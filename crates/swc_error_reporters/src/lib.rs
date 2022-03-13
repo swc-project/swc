@@ -177,7 +177,7 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
         if let Some(span) = self.d.span.primary_span() {
             if span.lo == span.hi {
                 let loc = self.source_code.0.lookup_byte_offset(span.lo);
-                if loc.pos == BytePos(0) {
+                if loc.sf.start_pos == loc.sf.end_pos {
                     return None;
                 }
             }
