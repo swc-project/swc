@@ -12,5 +12,13 @@
    `----
 
   x Unexpected end of file
+   ,-[$DIR/tests/recovery/simple-block/unclosed-in-function/input.css:4:3]
+ 4 |  
+   : ^
+   `----
 
   x Unexpected end of file
+   ,-[$DIR/tests/recovery/simple-block/unclosed-in-function/input.css:2:1]
+ 2 | .style {
+   : ^
+   `----
