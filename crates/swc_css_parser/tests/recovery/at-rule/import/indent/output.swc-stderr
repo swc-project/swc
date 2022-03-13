@@ -1,4 +1,4 @@
-error: Expected string, url or function
+error: Expected string, url or function token
  --> $DIR/tests/recovery/at-rule/import/indent/input.css:1:9
   |
 1 | @import foo-bar;

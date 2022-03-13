@@ -6,9 +6,9 @@ error: Stylesheet
 3  | | @unknown "blah";
 4  | | @unknown \"blah\";
 ...  |
-63 | | /*@unknown x ( a * b ) ;*/
-64 | | /*@unknown x ( a / b ) ;*/
-   | |___________________________^
+64 | | @unknown x ( a / b ) ;
+65 | | @unknown{}
+   | |___________^
 
 error: Rule
  --> $DIR/tests/fixture/at-rule/unknown/input.css:1:1
@@ -5186,4 +5186,736 @@ error: WhiteSpace { value: Atom(' ' type=inline) }
    |
 60 | @unknown x( a, b ) { foo: bar }
    |                              ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:1
+   |
+61 | @unknown x ( a + b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:1
+   |
+61 | @unknown x ( a + b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:1
+   |
+61 | @unknown x ( a + b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:2
+   |
+61 | @unknown x ( a + b ) ;
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:2
+   |
+61 | @unknown x ( a + b ) ;
+   |  ^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:9
+   |
+61 | @unknown x ( a + b ) ;
+   |         ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:9
+   |
+61 | @unknown x ( a + b ) ;
+   |         ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:10
+   |
+61 | @unknown x ( a + b ) ;
+   |          ^
+
+error: Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:10
+   |
+61 | @unknown x ( a + b ) ;
+   |          ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:11
+   |
+61 | @unknown x ( a + b ) ;
+   |           ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:11
+   |
+61 | @unknown x ( a + b ) ;
+   |           ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:12
+   |
+61 | @unknown x ( a + b ) ;
+   |            ^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:12
+   |
+61 | @unknown x ( a + b ) ;
+   |            ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:13
+   |
+61 | @unknown x ( a + b ) ;
+   |             ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:13
+   |
+61 | @unknown x ( a + b ) ;
+   |             ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:14
+   |
+61 | @unknown x ( a + b ) ;
+   |              ^
+
+error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:14
+   |
+61 | @unknown x ( a + b ) ;
+   |              ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:15
+   |
+61 | @unknown x ( a + b ) ;
+   |               ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:15
+   |
+61 | @unknown x ( a + b ) ;
+   |               ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:16
+   |
+61 | @unknown x ( a + b ) ;
+   |                ^
+
+error: Delim { value: '+' }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:16
+   |
+61 | @unknown x ( a + b ) ;
+   |                ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:17
+   |
+61 | @unknown x ( a + b ) ;
+   |                 ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:17
+   |
+61 | @unknown x ( a + b ) ;
+   |                 ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:18
+   |
+61 | @unknown x ( a + b ) ;
+   |                  ^
+
+error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:18
+   |
+61 | @unknown x ( a + b ) ;
+   |                  ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:19
+   |
+61 | @unknown x ( a + b ) ;
+   |                   ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:19
+   |
+61 | @unknown x ( a + b ) ;
+   |                   ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:21
+   |
+61 | @unknown x ( a + b ) ;
+   |                     ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:61:21
+   |
+61 | @unknown x ( a + b ) ;
+   |                     ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:1
+   |
+62 | @unknown x ( a - b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:1
+   |
+62 | @unknown x ( a - b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:1
+   |
+62 | @unknown x ( a - b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:2
+   |
+62 | @unknown x ( a - b ) ;
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:2
+   |
+62 | @unknown x ( a - b ) ;
+   |  ^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:9
+   |
+62 | @unknown x ( a - b ) ;
+   |         ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:9
+   |
+62 | @unknown x ( a - b ) ;
+   |         ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:10
+   |
+62 | @unknown x ( a - b ) ;
+   |          ^
+
+error: Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:10
+   |
+62 | @unknown x ( a - b ) ;
+   |          ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:11
+   |
+62 | @unknown x ( a - b ) ;
+   |           ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:11
+   |
+62 | @unknown x ( a - b ) ;
+   |           ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:12
+   |
+62 | @unknown x ( a - b ) ;
+   |            ^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:12
+   |
+62 | @unknown x ( a - b ) ;
+   |            ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:13
+   |
+62 | @unknown x ( a - b ) ;
+   |             ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:13
+   |
+62 | @unknown x ( a - b ) ;
+   |             ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:14
+   |
+62 | @unknown x ( a - b ) ;
+   |              ^
+
+error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:14
+   |
+62 | @unknown x ( a - b ) ;
+   |              ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:15
+   |
+62 | @unknown x ( a - b ) ;
+   |               ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:15
+   |
+62 | @unknown x ( a - b ) ;
+   |               ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:16
+   |
+62 | @unknown x ( a - b ) ;
+   |                ^
+
+error: Delim { value: '-' }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:16
+   |
+62 | @unknown x ( a - b ) ;
+   |                ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:17
+   |
+62 | @unknown x ( a - b ) ;
+   |                 ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:17
+   |
+62 | @unknown x ( a - b ) ;
+   |                 ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:18
+   |
+62 | @unknown x ( a - b ) ;
+   |                  ^
+
+error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:18
+   |
+62 | @unknown x ( a - b ) ;
+   |                  ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:19
+   |
+62 | @unknown x ( a - b ) ;
+   |                   ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:19
+   |
+62 | @unknown x ( a - b ) ;
+   |                   ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:21
+   |
+62 | @unknown x ( a - b ) ;
+   |                     ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:62:21
+   |
+62 | @unknown x ( a - b ) ;
+   |                     ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:1
+   |
+63 | @unknown x ( a * b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:1
+   |
+63 | @unknown x ( a * b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:1
+   |
+63 | @unknown x ( a * b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:2
+   |
+63 | @unknown x ( a * b ) ;
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:2
+   |
+63 | @unknown x ( a * b ) ;
+   |  ^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:9
+   |
+63 | @unknown x ( a * b ) ;
+   |         ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:9
+   |
+63 | @unknown x ( a * b ) ;
+   |         ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:10
+   |
+63 | @unknown x ( a * b ) ;
+   |          ^
+
+error: Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:10
+   |
+63 | @unknown x ( a * b ) ;
+   |          ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:11
+   |
+63 | @unknown x ( a * b ) ;
+   |           ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:11
+   |
+63 | @unknown x ( a * b ) ;
+   |           ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:12
+   |
+63 | @unknown x ( a * b ) ;
+   |            ^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:12
+   |
+63 | @unknown x ( a * b ) ;
+   |            ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:13
+   |
+63 | @unknown x ( a * b ) ;
+   |             ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:13
+   |
+63 | @unknown x ( a * b ) ;
+   |             ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:14
+   |
+63 | @unknown x ( a * b ) ;
+   |              ^
+
+error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:14
+   |
+63 | @unknown x ( a * b ) ;
+   |              ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:15
+   |
+63 | @unknown x ( a * b ) ;
+   |               ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:15
+   |
+63 | @unknown x ( a * b ) ;
+   |               ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:16
+   |
+63 | @unknown x ( a * b ) ;
+   |                ^
+
+error: Delim { value: '*' }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:16
+   |
+63 | @unknown x ( a * b ) ;
+   |                ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:17
+   |
+63 | @unknown x ( a * b ) ;
+   |                 ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:17
+   |
+63 | @unknown x ( a * b ) ;
+   |                 ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:18
+   |
+63 | @unknown x ( a * b ) ;
+   |                  ^
+
+error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:18
+   |
+63 | @unknown x ( a * b ) ;
+   |                  ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:19
+   |
+63 | @unknown x ( a * b ) ;
+   |                   ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:19
+   |
+63 | @unknown x ( a * b ) ;
+   |                   ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:21
+   |
+63 | @unknown x ( a * b ) ;
+   |                     ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:63:21
+   |
+63 | @unknown x ( a * b ) ;
+   |                     ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:1
+   |
+64 | @unknown x ( a / b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:1
+   |
+64 | @unknown x ( a / b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:1
+   |
+64 | @unknown x ( a / b ) ;
+   | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:2
+   |
+64 | @unknown x ( a / b ) ;
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:2
+   |
+64 | @unknown x ( a / b ) ;
+   |  ^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:9
+   |
+64 | @unknown x ( a / b ) ;
+   |         ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:9
+   |
+64 | @unknown x ( a / b ) ;
+   |         ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:10
+   |
+64 | @unknown x ( a / b ) ;
+   |          ^
+
+error: Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:10
+   |
+64 | @unknown x ( a / b ) ;
+   |          ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:11
+   |
+64 | @unknown x ( a / b ) ;
+   |           ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:11
+   |
+64 | @unknown x ( a / b ) ;
+   |           ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:12
+   |
+64 | @unknown x ( a / b ) ;
+   |            ^^^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:12
+   |
+64 | @unknown x ( a / b ) ;
+   |            ^^^^^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:13
+   |
+64 | @unknown x ( a / b ) ;
+   |             ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:13
+   |
+64 | @unknown x ( a / b ) ;
+   |             ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:14
+   |
+64 | @unknown x ( a / b ) ;
+   |              ^
+
+error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:14
+   |
+64 | @unknown x ( a / b ) ;
+   |              ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:15
+   |
+64 | @unknown x ( a / b ) ;
+   |               ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:15
+   |
+64 | @unknown x ( a / b ) ;
+   |               ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:16
+   |
+64 | @unknown x ( a / b ) ;
+   |                ^
+
+error: Delim { value: '/' }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:16
+   |
+64 | @unknown x ( a / b ) ;
+   |                ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:17
+   |
+64 | @unknown x ( a / b ) ;
+   |                 ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:17
+   |
+64 | @unknown x ( a / b ) ;
+   |                 ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:18
+   |
+64 | @unknown x ( a / b ) ;
+   |                  ^
+
+error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:18
+   |
+64 | @unknown x ( a / b ) ;
+   |                  ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:19
+   |
+64 | @unknown x ( a / b ) ;
+   |                   ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:19
+   |
+64 | @unknown x ( a / b ) ;
+   |                   ^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:21
+   |
+64 | @unknown x ( a / b ) ;
+   |                     ^
+
+error: WhiteSpace { value: Atom(' ' type=inline) }
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:64:21
+   |
+64 | @unknown x ( a / b ) ;
+   |                     ^
+
+error: Rule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:65:1
+   |
+65 | @unknown{}
+   | ^^^^^^^^^^
+
+error: AtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:65:1
+   |
+65 | @unknown{}
+   | ^^^^^^^^^^
+
+error: UnknownAtRule
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:65:1
+   |
+65 | @unknown{}
+   | ^^^^^^^^^^
+
+error: AtRuleName
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:65:2
+   |
+65 | @unknown{}
+   |  ^^^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:65:2
+   |
+65 | @unknown{}
+   |  ^^^^^^^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/at-rule/unknown/input.css:65:9
+   |
+65 | @unknown{}
+   |         ^^
 

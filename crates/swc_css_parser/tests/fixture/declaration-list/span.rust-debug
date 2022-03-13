@@ -1,77 +1,47 @@
 error: Stylesheet
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | / a {
-2 | |     prop1: value;
-3 | |     prop2: value;
-4 | | }
-  | |__^
+  --> $DIR/tests/fixture/declaration-list/input.css:1:1
+   |
+1  | / @font-face {
+2  | |     prop1: value;
+3  | |     prop2: value;
+4  | | }
+...  |
+26 | |     prop1: value;;;prop2: value;
+27 | | }
+   | |__^
 
 error: Rule
  --> $DIR/tests/fixture/declaration-list/input.css:1:1
   |
-1 | / a {
+1 | / @font-face {
 2 | |     prop1: value;
 3 | |     prop2: value;
 4 | | }
   | |_^
 
-error: QualifiedRule
+error: AtRule
  --> $DIR/tests/fixture/declaration-list/input.css:1:1
   |
-1 | / a {
+1 | / @font-face {
 2 | |     prop1: value;
 3 | |     prop2: value;
 4 | | }
   | |_^
 
-error: SelectorList
+error: FontFaceRule
  --> $DIR/tests/fixture/declaration-list/input.css:1:1
   |
-1 | a {
-  | ^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
-
-error: WqName
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
-
-error: Ident
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
+1 | / @font-face {
+2 | |     prop1: value;
+3 | |     prop2: value;
+4 | | }
+  | |_^
 
 error: SimpleBlock
- --> $DIR/tests/fixture/declaration-list/input.css:1:3
+ --> $DIR/tests/fixture/declaration-list/input.css:1:12
   |
-1 |   a {
-  |  ___^
+1 |   @font-face {
+  |  ____________^
 2 | |     prop1: value;
 3 | |     prop2: value;
 4 | | }
@@ -83,12 +53,6 @@ error: ComponentValue
 2 |     prop1: value;
   |     ^^^^^^^^^^^^
 
-error: StyleBlock
- --> $DIR/tests/fixture/declaration-list/input.css:2:5
-  |
-2 |     prop1: value;
-  |     ^^^^^^^^^^^^
-
 error: Declaration
  --> $DIR/tests/fixture/declaration-list/input.css:2:5
   |
@@ -125,12 +89,6 @@ error: ComponentValue
 3 |     prop2: value;
   |     ^^^^^^^^^^^^
 
-error: StyleBlock
- --> $DIR/tests/fixture/declaration-list/input.css:3:5
-  |
-3 |     prop2: value;
-  |     ^^^^^^^^^^^^
-
 error: Declaration
  --> $DIR/tests/fixture/declaration-list/input.css:3:5
   |
@@ -160,4 +118,465 @@ error: Ident
   |
 3 |     prop2: value;
   |            ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/declaration-list/input.css:6:1
+   |
+6  | / @font-face {
+7  | |     prop1: value;
+8  | |     ;;;;;
+9  | |     prop2: value;
+10 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/declaration-list/input.css:6:1
+   |
+6  | / @font-face {
+7  | |     prop1: value;
+8  | |     ;;;;;
+9  | |     prop2: value;
+10 | | }
+   | |_^
+
+error: FontFaceRule
+  --> $DIR/tests/fixture/declaration-list/input.css:6:1
+   |
+6  | / @font-face {
+7  | |     prop1: value;
+8  | |     ;;;;;
+9  | |     prop2: value;
+10 | | }
+   | |_^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/declaration-list/input.css:6:12
+   |
+6  |   @font-face {
+   |  ____________^
+7  | |     prop1: value;
+8  | |     ;;;;;
+9  | |     prop2: value;
+10 | | }
+   | |_^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/declaration-list/input.css:7:5
+  |
+7 |     prop1: value;
+  |     ^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/declaration-list/input.css:7:5
+  |
+7 |     prop1: value;
+  |     ^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/declaration-list/input.css:7:5
+  |
+7 |     prop1: value;
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration-list/input.css:7:5
+  |
+7 |     prop1: value;
+  |     ^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/declaration-list/input.css:7:12
+  |
+7 |     prop1: value;
+  |            ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration-list/input.css:7:12
+  |
+7 |     prop1: value;
+  |            ^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/declaration-list/input.css:9:5
+  |
+9 |     prop2: value;
+  |     ^^^^^^^^^^^^
+
+error: Declaration
+ --> $DIR/tests/fixture/declaration-list/input.css:9:5
+  |
+9 |     prop2: value;
+  |     ^^^^^^^^^^^^
+
+error: DeclarationName
+ --> $DIR/tests/fixture/declaration-list/input.css:9:5
+  |
+9 |     prop2: value;
+  |     ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration-list/input.css:9:5
+  |
+9 |     prop2: value;
+  |     ^^^^^
+
+error: ComponentValue
+ --> $DIR/tests/fixture/declaration-list/input.css:9:12
+  |
+9 |     prop2: value;
+  |            ^^^^^
+
+error: Ident
+ --> $DIR/tests/fixture/declaration-list/input.css:9:12
+  |
+9 |     prop2: value;
+  |            ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/declaration-list/input.css:13:1
+   |
+13 | / @font-face {;;
+14 | |     prop1: value;;
+15 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/declaration-list/input.css:13:1
+   |
+13 | / @font-face {;;
+14 | |     prop1: value;;
+15 | | }
+   | |_^
+
+error: FontFaceRule
+  --> $DIR/tests/fixture/declaration-list/input.css:13:1
+   |
+13 | / @font-face {;;
+14 | |     prop1: value;;
+15 | | }
+   | |_^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/declaration-list/input.css:13:12
+   |
+13 |   @font-face {;;
+   |  ____________^
+14 | |     prop1: value;;
+15 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:14:5
+   |
+14 |     prop1: value;;
+   |     ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration-list/input.css:14:5
+   |
+14 |     prop1: value;;
+   |     ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/declaration-list/input.css:14:5
+   |
+14 |     prop1: value;;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:14:5
+   |
+14 |     prop1: value;;
+   |     ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:14:12
+   |
+14 |     prop1: value;;
+   |            ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:14:12
+   |
+14 |     prop1: value;;
+   |            ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/declaration-list/input.css:17:1
+   |
+17 | / @font-face {
+18 | |     prop1: value
+19 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/declaration-list/input.css:17:1
+   |
+17 | / @font-face {
+18 | |     prop1: value
+19 | | }
+   | |_^
+
+error: FontFaceRule
+  --> $DIR/tests/fixture/declaration-list/input.css:17:1
+   |
+17 | / @font-face {
+18 | |     prop1: value
+19 | | }
+   | |_^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/declaration-list/input.css:17:12
+   |
+17 |   @font-face {
+   |  ____________^
+18 | |     prop1: value
+19 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:18:5
+   |
+18 |     prop1: value
+   |     ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration-list/input.css:18:5
+   |
+18 |     prop1: value
+   |     ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/declaration-list/input.css:18:5
+   |
+18 |     prop1: value
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:18:5
+   |
+18 |     prop1: value
+   |     ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:18:12
+   |
+18 |     prop1: value
+   |            ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:18:12
+   |
+18 |     prop1: value
+   |            ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/declaration-list/input.css:21:1
+   |
+21 | / @font-face {
+22 | |     prop1: value;;;prop2: value
+23 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/declaration-list/input.css:21:1
+   |
+21 | / @font-face {
+22 | |     prop1: value;;;prop2: value
+23 | | }
+   | |_^
+
+error: FontFaceRule
+  --> $DIR/tests/fixture/declaration-list/input.css:21:1
+   |
+21 | / @font-face {
+22 | |     prop1: value;;;prop2: value
+23 | | }
+   | |_^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/declaration-list/input.css:21:12
+   |
+21 |   @font-face {
+   |  ____________^
+22 | |     prop1: value;;;prop2: value
+23 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:22:5
+   |
+22 |     prop1: value;;;prop2: value
+   |     ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration-list/input.css:22:5
+   |
+22 |     prop1: value;;;prop2: value
+   |     ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/declaration-list/input.css:22:5
+   |
+22 |     prop1: value;;;prop2: value
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:22:5
+   |
+22 |     prop1: value;;;prop2: value
+   |     ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:22:12
+   |
+22 |     prop1: value;;;prop2: value
+   |            ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:22:12
+   |
+22 |     prop1: value;;;prop2: value
+   |            ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:22:20
+   |
+22 |     prop1: value;;;prop2: value
+   |                    ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration-list/input.css:22:20
+   |
+22 |     prop1: value;;;prop2: value
+   |                    ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/declaration-list/input.css:22:20
+   |
+22 |     prop1: value;;;prop2: value
+   |                    ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:22:20
+   |
+22 |     prop1: value;;;prop2: value
+   |                    ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:22:27
+   |
+22 |     prop1: value;;;prop2: value
+   |                           ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:22:27
+   |
+22 |     prop1: value;;;prop2: value
+   |                           ^^^^^
+
+error: Rule
+  --> $DIR/tests/fixture/declaration-list/input.css:25:1
+   |
+25 | / @font-face {
+26 | |     prop1: value;;;prop2: value;
+27 | | }
+   | |_^
+
+error: AtRule
+  --> $DIR/tests/fixture/declaration-list/input.css:25:1
+   |
+25 | / @font-face {
+26 | |     prop1: value;;;prop2: value;
+27 | | }
+   | |_^
+
+error: FontFaceRule
+  --> $DIR/tests/fixture/declaration-list/input.css:25:1
+   |
+25 | / @font-face {
+26 | |     prop1: value;;;prop2: value;
+27 | | }
+   | |_^
+
+error: SimpleBlock
+  --> $DIR/tests/fixture/declaration-list/input.css:25:12
+   |
+25 |   @font-face {
+   |  ____________^
+26 | |     prop1: value;;;prop2: value;
+27 | | }
+   | |_^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:26:5
+   |
+26 |     prop1: value;;;prop2: value;
+   |     ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration-list/input.css:26:5
+   |
+26 |     prop1: value;;;prop2: value;
+   |     ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/declaration-list/input.css:26:5
+   |
+26 |     prop1: value;;;prop2: value;
+   |     ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:26:5
+   |
+26 |     prop1: value;;;prop2: value;
+   |     ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:26:12
+   |
+26 |     prop1: value;;;prop2: value;
+   |            ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:26:12
+   |
+26 |     prop1: value;;;prop2: value;
+   |            ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:26:20
+   |
+26 |     prop1: value;;;prop2: value;
+   |                    ^^^^^^^^^^^^
+
+error: Declaration
+  --> $DIR/tests/fixture/declaration-list/input.css:26:20
+   |
+26 |     prop1: value;;;prop2: value;
+   |                    ^^^^^^^^^^^^
+
+error: DeclarationName
+  --> $DIR/tests/fixture/declaration-list/input.css:26:20
+   |
+26 |     prop1: value;;;prop2: value;
+   |                    ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:26:20
+   |
+26 |     prop1: value;;;prop2: value;
+   |                    ^^^^^
+
+error: ComponentValue
+  --> $DIR/tests/fixture/declaration-list/input.css:26:27
+   |
+26 |     prop1: value;;;prop2: value;
+   |                           ^^^^^
+
+error: Ident
+  --> $DIR/tests/fixture/declaration-list/input.css:26:27
+   |
+26 |     prop1: value;;;prop2: value;
+   |                           ^^^^^
 
