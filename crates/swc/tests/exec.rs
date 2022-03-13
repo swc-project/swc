@@ -1,5 +1,5 @@
 use std::{
-    fs,
+    fs::{self, create_dir_all, rename},
     path::{Path, PathBuf},
     process::Command,
     sync::Arc,
@@ -135,6 +135,32 @@ fn run_fixture_test(entry: PathBuf) {
         .map(|opts| test_file_with_opts(&entry, &opts, &expected_stdout).unwrap())
         .panic_fuse()
         .collect::<Vec<_>>();
+
+    // Test was successful.
+
+    unignore(&entry);
+}
+
+/// Rename `foo/.bar/exec.js` => `foo/bar/exec.js`
+fn unignore(path: &Path) {
+    //
+
+    let mut new_path = PathBuf::new();
+
+    for c in path.components() {
+        if let std::path::Component::Normal(s) = c {
+            if let Some(s) = s.to_string_lossy().strip_prefix('.') {
+                new_path.push(s);
+
+                continue;
+            }
+        }
+        new_path.push(c);
+    }
+
+    create_dir_all(new_path.parent().unwrap()).expect("failed to create parent dir");
+
+    rename(&path, &new_path).expect("failed to rename");
 }
 
 fn test_file_with_opts(entry: &Path, opts: &Options, expected_stdout: &str) -> Result<(), Error> {
