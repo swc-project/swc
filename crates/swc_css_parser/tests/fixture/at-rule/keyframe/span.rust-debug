@@ -1,1631 +1,1693 @@
-error: Stylesheet
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:1:1
-   |
-1  | / @keyframes foo { /* ... */ }
-2  | | @keyframes "foo" { /* ... */ }
-3  | | @keyframes    foo    { /* ... */ }
-4  | |
-...  |
-53 | |     }
-54 | | }
-   | |__^
-
-error: Rule
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:1:1
-  |
-1 | @keyframes foo { /* ... */ }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:1:1
-  |
-1 | @keyframes foo { /* ... */ }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: KeyframesRule
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:1:1
-  |
-1 | @keyframes foo { /* ... */ }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CustomIdent
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:1:12
-  |
-1 | @keyframes foo { /* ... */ }
-  |            ^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:1:16
-  |
-1 | @keyframes foo { /* ... */ }
-  |                ^^^^^^^^^^^^^
-
-error: Rule
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:2:1
-  |
-2 | @keyframes "foo" { /* ... */ }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:2:1
-  |
-2 | @keyframes "foo" { /* ... */ }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: KeyframesRule
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:2:1
-  |
-2 | @keyframes "foo" { /* ... */ }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Str
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:2:12
-  |
-2 | @keyframes "foo" { /* ... */ }
-  |            ^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:2:18
-  |
-2 | @keyframes "foo" { /* ... */ }
-  |                  ^^^^^^^^^^^^^
-
-error: Rule
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:3:1
-  |
-3 | @keyframes    foo    { /* ... */ }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:3:1
-  |
-3 | @keyframes    foo    { /* ... */ }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: KeyframesRule
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:3:1
-  |
-3 | @keyframes    foo    { /* ... */ }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CustomIdent
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:3:15
-  |
-3 | @keyframes    foo    { /* ... */ }
-  |               ^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:3:22
-  |
-3 | @keyframes    foo    { /* ... */ }
-  |                      ^^^^^^^^^^^^^
-
-error: Rule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:5:1
-   |
-5  | / @keyframes slidein {
-6  | |     from {
-7  | |         transform: translateX(0%);
-8  | |     }
-...  |
-12 | |     }
-13 | | }
-   | |_^
-
-error: AtRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:5:1
-   |
-5  | / @keyframes slidein {
-6  | |     from {
-7  | |         transform: translateX(0%);
-8  | |     }
-...  |
-12 | |     }
-13 | | }
-   | |_^
-
-error: KeyframesRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:5:1
-   |
-5  | / @keyframes slidein {
-6  | |     from {
-7  | |         transform: translateX(0%);
-8  | |     }
-...  |
-12 | |     }
-13 | | }
-   | |_^
-
-error: CustomIdent
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:5:12
-  |
-5 | @keyframes slidein {
-  |            ^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:5:20
-   |
-5  |   @keyframes slidein {
-   |  ____________________^
-6  | |     from {
-7  | |         transform: translateX(0%);
-8  | |     }
-...  |
-12 | |     }
-13 | | }
-   | |_^
-
-error: ComponentValue
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:6:5
-  |
-6 | /     from {
-7 | |         transform: translateX(0%);
-8 | |     }
-  | |_____^
-
-error: KeyframeBlock
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:6:5
-  |
-6 | /     from {
-7 | |         transform: translateX(0%);
-8 | |     }
-  | |_____^
-
-error: KeyframeSelector
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:6:5
-  |
-6 |     from {
-  |     ^^^^
-
-error: Ident
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:6:5
-  |
-6 |     from {
-  |     ^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:6:10
-  |
-6 |       from {
-  |  __________^
-7 | |         transform: translateX(0%);
-8 | |     }
-  | |_____^
-
-error: ComponentValue
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:9
-  |
-7 |         transform: translateX(0%);
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Declaration
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:9
-  |
-7 |         transform: translateX(0%);
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: DeclarationName
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:9
-  |
-7 |         transform: translateX(0%);
-  |         ^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:9
-  |
-7 |         transform: translateX(0%);
-  |         ^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:20
-  |
-7 |         transform: translateX(0%);
-  |                    ^^^^^^^^^^^^^^
-
-error: Function
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:20
-  |
-7 |         transform: translateX(0%);
-  |                    ^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:20
-  |
-7 |         transform: translateX(0%);
-  |                    ^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:31
-  |
-7 |         transform: translateX(0%);
-  |                               ^^
-
-error: Percentage
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:31
-  |
-7 |         transform: translateX(0%);
-  |                               ^^
-
-error: Number
- --> $DIR/tests/fixture/at-rule/keyframe/input.css:7:31
-  |
-7 |         transform: translateX(0%);
-  |                               ^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:10:5
-   |
-10 | /     to {
-11 | |         transform: translateX(100%);
-12 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:10:5
-   |
-10 | /     to {
-11 | |         transform: translateX(100%);
-12 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:10:5
-   |
-10 |     to {
-   |     ^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:10:5
-   |
-10 |     to {
-   |     ^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:10:8
-   |
-10 |       to {
-   |  ________^
-11 | |         transform: translateX(100%);
-12 | |     }
-   | |_____^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:9
-   |
-11 |         transform: translateX(100%);
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:9
-   |
-11 |         transform: translateX(100%);
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:9
-   |
-11 |         transform: translateX(100%);
-   |         ^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:9
-   |
-11 |         transform: translateX(100%);
-   |         ^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:20
-   |
-11 |         transform: translateX(100%);
-   |                    ^^^^^^^^^^^^^^^^
-
-error: Function
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:20
-   |
-11 |         transform: translateX(100%);
-   |                    ^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:20
-   |
-11 |         transform: translateX(100%);
-   |                    ^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:31
-   |
-11 |         transform: translateX(100%);
-   |                               ^^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:31
-   |
-11 |         transform: translateX(100%);
-   |                               ^^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:11:31
-   |
-11 |         transform: translateX(100%);
-   |                               ^^^
-
-error: Rule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:15:1
-   |
-15 | / @keyframes identifier {
-16 | |     0% { top: 0; left: 0; }
-17 | |     30% { top: 50px; }
-18 | |     68%, 72% { left: 50px; }
-19 | |     100% { top: 100px; left: 100%; }
-20 | | }
-   | |_^
-
-error: AtRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:15:1
-   |
-15 | / @keyframes identifier {
-16 | |     0% { top: 0; left: 0; }
-17 | |     30% { top: 50px; }
-18 | |     68%, 72% { left: 50px; }
-19 | |     100% { top: 100px; left: 100%; }
-20 | | }
-   | |_^
-
-error: KeyframesRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:15:1
-   |
-15 | / @keyframes identifier {
-16 | |     0% { top: 0; left: 0; }
-17 | |     30% { top: 50px; }
-18 | |     68%, 72% { left: 50px; }
-19 | |     100% { top: 100px; left: 100%; }
-20 | | }
-   | |_^
-
-error: CustomIdent
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:15:12
-   |
-15 | @keyframes identifier {
-   |            ^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:15:23
-   |
-15 |   @keyframes identifier {
-   |  _______________________^
-16 | |     0% { top: 0; left: 0; }
-17 | |     30% { top: 50px; }
-18 | |     68%, 72% { left: 50px; }
-19 | |     100% { top: 100px; left: 100%; }
-20 | | }
-   | |_^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:5
-   |
-16 |     0% { top: 0; left: 0; }
-   |     ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:5
-   |
-16 |     0% { top: 0; left: 0; }
-   |     ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:5
-   |
-16 |     0% { top: 0; left: 0; }
-   |     ^^
-
-error: Percentage
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:5
-   |
-16 |     0% { top: 0; left: 0; }
-   |     ^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:5
-   |
-16 |     0% { top: 0; left: 0; }
-   |     ^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:8
-   |
-16 |     0% { top: 0; left: 0; }
-   |        ^^^^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:10
-   |
-16 |     0% { top: 0; left: 0; }
-   |          ^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:10
-   |
-16 |     0% { top: 0; left: 0; }
-   |          ^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:10
-   |
-16 |     0% { top: 0; left: 0; }
-   |          ^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:10
-   |
-16 |     0% { top: 0; left: 0; }
-   |          ^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:15
-   |
-16 |     0% { top: 0; left: 0; }
-   |               ^
-
-error: Integer
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:15
-   |
-16 |     0% { top: 0; left: 0; }
-   |               ^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:18
-   |
-16 |     0% { top: 0; left: 0; }
-   |                  ^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:18
-   |
-16 |     0% { top: 0; left: 0; }
-   |                  ^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:18
-   |
-16 |     0% { top: 0; left: 0; }
-   |                  ^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:18
-   |
-16 |     0% { top: 0; left: 0; }
-   |                  ^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:24
-   |
-16 |     0% { top: 0; left: 0; }
-   |                        ^
-
-error: Integer
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:16:24
-   |
-16 |     0% { top: 0; left: 0; }
-   |                        ^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:5
-   |
-17 |     30% { top: 50px; }
-   |     ^^^^^^^^^^^^^^^^^^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:5
-   |
-17 |     30% { top: 50px; }
-   |     ^^^^^^^^^^^^^^^^^^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:5
-   |
-17 |     30% { top: 50px; }
-   |     ^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:5
-   |
-17 |     30% { top: 50px; }
-   |     ^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:5
-   |
-17 |     30% { top: 50px; }
-   |     ^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:9
-   |
-17 |     30% { top: 50px; }
-   |         ^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:11
-   |
-17 |     30% { top: 50px; }
-   |           ^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:11
-   |
-17 |     30% { top: 50px; }
-   |           ^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:11
-   |
-17 |     30% { top: 50px; }
-   |           ^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:11
-   |
-17 |     30% { top: 50px; }
-   |           ^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:16
-   |
-17 |     30% { top: 50px; }
-   |                ^^^^
-
-error: Dimension
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:16
-   |
-17 |     30% { top: 50px; }
-   |                ^^^^
-
-error: Length
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:16
-   |
-17 |     30% { top: 50px; }
-   |                ^^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:16
-   |
-17 |     30% { top: 50px; }
-   |                ^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:17:18
-   |
-17 |     30% { top: 50px; }
-   |                  ^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:5
-   |
-18 |     68%, 72% { left: 50px; }
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:5
-   |
-18 |     68%, 72% { left: 50px; }
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:5
-   |
-18 |     68%, 72% { left: 50px; }
-   |     ^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:5
-   |
-18 |     68%, 72% { left: 50px; }
-   |     ^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:5
-   |
-18 |     68%, 72% { left: 50px; }
-   |     ^^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:10
-   |
-18 |     68%, 72% { left: 50px; }
-   |          ^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:10
-   |
-18 |     68%, 72% { left: 50px; }
-   |          ^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:10
-   |
-18 |     68%, 72% { left: 50px; }
-   |          ^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:14
-   |
-18 |     68%, 72% { left: 50px; }
-   |              ^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:16
-   |
-18 |     68%, 72% { left: 50px; }
-   |                ^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:16
-   |
-18 |     68%, 72% { left: 50px; }
-   |                ^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:16
-   |
-18 |     68%, 72% { left: 50px; }
-   |                ^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:16
-   |
-18 |     68%, 72% { left: 50px; }
-   |                ^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:22
-   |
-18 |     68%, 72% { left: 50px; }
-   |                      ^^^^
-
-error: Dimension
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:22
-   |
-18 |     68%, 72% { left: 50px; }
-   |                      ^^^^
-
-error: Length
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:22
-   |
-18 |     68%, 72% { left: 50px; }
-   |                      ^^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:22
-   |
-18 |     68%, 72% { left: 50px; }
-   |                      ^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:18:24
-   |
-18 |     68%, 72% { left: 50px; }
-   |                        ^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:5
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:5
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:5
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |     ^^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:5
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |     ^^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:5
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |     ^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:10
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:12
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |            ^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:12
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |            ^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:12
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |            ^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:12
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |            ^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:17
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                 ^^^^^
-
-error: Dimension
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:17
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                 ^^^^^
-
-error: Length
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:17
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                 ^^^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:17
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                 ^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:20
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                    ^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:24
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                        ^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:24
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                        ^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:24
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                        ^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:24
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                        ^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:30
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                              ^^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:30
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                              ^^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:19:30
-   |
-19 |     100% { top: 100px; left: 100%; }
-   |                              ^^^
-
-error: Rule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:22:1
-   |
-22 | @keyframes FOO {}
-   | ^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:22:1
-   |
-22 | @keyframes FOO {}
-   | ^^^^^^^^^^^^^^^^^
-
-error: KeyframesRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:22:1
-   |
-22 | @keyframes FOO {}
-   | ^^^^^^^^^^^^^^^^^
-
-error: CustomIdent
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:22:12
-   |
-22 | @keyframes FOO {}
-   |            ^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:22:16
-   |
-22 | @keyframes FOO {}
-   |                ^^
-
-error: Rule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:23:1
-   |
-23 | @keyframes "initial" {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:23:1
-   |
-23 | @keyframes "initial" {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: KeyframesRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:23:1
-   |
-23 | @keyframes "initial" {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:23:12
-   |
-23 | @keyframes "initial" {}
-   |            ^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:23:22
-   |
-23 | @keyframes "initial" {}
-   |                      ^^
-
-error: Rule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:24:1
-   |
-24 | @keyframes "None" {}
-   | ^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:24:1
-   |
-24 | @keyframes "None" {}
-   | ^^^^^^^^^^^^^^^^^^^^
-
-error: KeyframesRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:24:1
-   |
-24 | @keyframes "None" {}
-   | ^^^^^^^^^^^^^^^^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:24:12
-   |
-24 | @keyframes "None" {}
-   |            ^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:24:19
-   |
-24 | @keyframes "None" {}
-   |                   ^^
-
-error: Rule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:25:1
-   |
-25 | / @keyframes slide-right {
-26 | |
-27 | |     from {
-28 | |         margin-left: 0px;
-...  |
-43 | |
-44 | | }
-   | |_^
-
-error: AtRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:25:1
-   |
-25 | / @keyframes slide-right {
-26 | |
-27 | |     from {
-28 | |         margin-left: 0px;
-...  |
-43 | |
-44 | | }
-   | |_^
-
-error: KeyframesRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:25:1
-   |
-25 | / @keyframes slide-right {
-26 | |
-27 | |     from {
-28 | |         margin-left: 0px;
-...  |
-43 | |
-44 | | }
-   | |_^
-
-error: CustomIdent
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:25:12
-   |
-25 | @keyframes slide-right {
-   |            ^^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:25:24
-   |
-25 |   @keyframes slide-right {
-   |  ________________________^
-26 | |
-27 | |     from {
-28 | |         margin-left: 0px;
-...  |
-43 | |
-44 | | }
-   | |_^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:27:5
-   |
-27 | /     from {
-28 | |         margin-left: 0px;
-29 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:27:5
-   |
-27 | /     from {
-28 | |         margin-left: 0px;
-29 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:27:5
-   |
-27 |     from {
-   |     ^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:27:5
-   |
-27 |     from {
-   |     ^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:27:10
-   |
-27 |       from {
-   |  __________^
-28 | |         margin-left: 0px;
-29 | |     }
-   | |_____^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:9
-   |
-28 |         margin-left: 0px;
-   |         ^^^^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:9
-   |
-28 |         margin-left: 0px;
-   |         ^^^^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:9
-   |
-28 |         margin-left: 0px;
-   |         ^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:9
-   |
-28 |         margin-left: 0px;
-   |         ^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:22
-   |
-28 |         margin-left: 0px;
-   |                      ^^^
-
-error: Dimension
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:22
-   |
-28 |         margin-left: 0px;
-   |                      ^^^
-
-error: Length
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:22
-   |
-28 |         margin-left: 0px;
-   |                      ^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:22
-   |
-28 |         margin-left: 0px;
-   |                      ^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:28:23
-   |
-28 |         margin-left: 0px;
-   |                       ^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:31:5
-   |
-31 | /     50% {
-32 | |         margin-left: 110px;
-33 | |         opacity: 1;
-34 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:31:5
-   |
-31 | /     50% {
-32 | |         margin-left: 110px;
-33 | |         opacity: 1;
-34 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:31:5
-   |
-31 |     50% {
-   |     ^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:31:5
-   |
-31 |     50% {
-   |     ^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:31:5
-   |
-31 |     50% {
-   |     ^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:31:9
-   |
-31 |       50% {
-   |  _________^
-32 | |         margin-left: 110px;
-33 | |         opacity: 1;
-34 | |     }
-   | |_____^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:9
-   |
-32 |         margin-left: 110px;
-   |         ^^^^^^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:9
-   |
-32 |         margin-left: 110px;
-   |         ^^^^^^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:9
-   |
-32 |         margin-left: 110px;
-   |         ^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:9
-   |
-32 |         margin-left: 110px;
-   |         ^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:22
-   |
-32 |         margin-left: 110px;
-   |                      ^^^^^
-
-error: Dimension
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:22
-   |
-32 |         margin-left: 110px;
-   |                      ^^^^^
-
-error: Length
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:22
-   |
-32 |         margin-left: 110px;
-   |                      ^^^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:22
-   |
-32 |         margin-left: 110px;
-   |                      ^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:32:25
-   |
-32 |         margin-left: 110px;
-   |                         ^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:33:9
-   |
-33 |         opacity: 1;
-   |         ^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:33:9
-   |
-33 |         opacity: 1;
-   |         ^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:33:9
-   |
-33 |         opacity: 1;
-   |         ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:33:9
-   |
-33 |         opacity: 1;
-   |         ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:33:18
-   |
-33 |         opacity: 1;
-   |                  ^
-
-error: Integer
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:33:18
-   |
-33 |         opacity: 1;
-   |                  ^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:36:5
-   |
-36 | /     50% {
-37 | |         opacity: 0.9;
-38 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:36:5
-   |
-36 | /     50% {
-37 | |         opacity: 0.9;
-38 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:36:5
-   |
-36 |     50% {
-   |     ^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:36:5
-   |
-36 |     50% {
-   |     ^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:36:5
-   |
-36 |     50% {
-   |     ^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:36:9
-   |
-36 |       50% {
-   |  _________^
-37 | |         opacity: 0.9;
-38 | |     }
-   | |_____^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:37:9
-   |
-37 |         opacity: 0.9;
-   |         ^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:37:9
-   |
-37 |         opacity: 0.9;
-   |         ^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:37:9
-   |
-37 |         opacity: 0.9;
-   |         ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:37:9
-   |
-37 |         opacity: 0.9;
-   |         ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:37:18
-   |
-37 |         opacity: 0.9;
-   |                  ^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:37:18
-   |
-37 |         opacity: 0.9;
-   |                  ^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:40:5
-   |
-40 | /     to {
-41 | |         margin-left: 200px;
-42 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:40:5
-   |
-40 | /     to {
-41 | |         margin-left: 200px;
-42 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:40:5
-   |
-40 |     to {
-   |     ^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:40:5
-   |
-40 |     to {
-   |     ^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:40:8
-   |
-40 |       to {
-   |  ________^
-41 | |         margin-left: 200px;
-42 | |     }
-   | |_____^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:9
-   |
-41 |         margin-left: 200px;
-   |         ^^^^^^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:9
-   |
-41 |         margin-left: 200px;
-   |         ^^^^^^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:9
-   |
-41 |         margin-left: 200px;
-   |         ^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:9
-   |
-41 |         margin-left: 200px;
-   |         ^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:22
-   |
-41 |         margin-left: 200px;
-   |                      ^^^^^
-
-error: Dimension
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:22
-   |
-41 |         margin-left: 200px;
-   |                      ^^^^^
-
-error: Length
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:22
-   |
-41 |         margin-left: 200px;
-   |                      ^^^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:22
-   |
-41 |         margin-left: 200px;
-   |                      ^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:41:25
-   |
-41 |         margin-left: 200px;
-   |                         ^^
-
-error: Rule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:46:1
-   |
-46 | / @keyframes slidein-up {
-47 | |     fRoM {
-48 | |         transform: translateX(0%);
-49 | |     }
-...  |
-53 | |     }
-54 | | }
-   | |_^
-
-error: AtRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:46:1
-   |
-46 | / @keyframes slidein-up {
-47 | |     fRoM {
-48 | |         transform: translateX(0%);
-49 | |     }
-...  |
-53 | |     }
-54 | | }
-   | |_^
-
-error: KeyframesRule
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:46:1
-   |
-46 | / @keyframes slidein-up {
-47 | |     fRoM {
-48 | |         transform: translateX(0%);
-49 | |     }
-...  |
-53 | |     }
-54 | | }
-   | |_^
-
-error: CustomIdent
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:46:12
-   |
-46 | @keyframes slidein-up {
-   |            ^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:46:23
-   |
-46 |   @keyframes slidein-up {
-   |  _______________________^
-47 | |     fRoM {
-48 | |         transform: translateX(0%);
-49 | |     }
-...  |
-53 | |     }
-54 | | }
-   | |_^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:47:5
-   |
-47 | /     fRoM {
-48 | |         transform: translateX(0%);
-49 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:47:5
-   |
-47 | /     fRoM {
-48 | |         transform: translateX(0%);
-49 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:47:5
-   |
-47 |     fRoM {
-   |     ^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:47:5
-   |
-47 |     fRoM {
-   |     ^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:47:10
-   |
-47 |       fRoM {
-   |  __________^
-48 | |         transform: translateX(0%);
-49 | |     }
-   | |_____^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:9
-   |
-48 |         transform: translateX(0%);
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:9
-   |
-48 |         transform: translateX(0%);
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:9
-   |
-48 |         transform: translateX(0%);
-   |         ^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:9
-   |
-48 |         transform: translateX(0%);
-   |         ^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:20
-   |
-48 |         transform: translateX(0%);
-   |                    ^^^^^^^^^^^^^^
-
-error: Function
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:20
-   |
-48 |         transform: translateX(0%);
-   |                    ^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:20
-   |
-48 |         transform: translateX(0%);
-   |                    ^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:31
-   |
-48 |         transform: translateX(0%);
-   |                               ^^
-
-error: Percentage
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:31
-   |
-48 |         transform: translateX(0%);
-   |                               ^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:48:31
-   |
-48 |         transform: translateX(0%);
-   |                               ^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:51:5
-   |
-51 | /     tO {
-52 | |         transform: translateX(100%);
-53 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:51:5
-   |
-51 | /     tO {
-52 | |         transform: translateX(100%);
-53 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:51:5
-   |
-51 |     tO {
-   |     ^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:51:5
-   |
-51 |     tO {
-   |     ^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:51:8
-   |
-51 |       tO {
-   |  ________^
-52 | |         transform: translateX(100%);
-53 | |     }
-   | |_____^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:9
-   |
-52 |         transform: translateX(100%);
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:9
-   |
-52 |         transform: translateX(100%);
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:9
-   |
-52 |         transform: translateX(100%);
-   |         ^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:9
-   |
-52 |         transform: translateX(100%);
-   |         ^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:20
-   |
-52 |         transform: translateX(100%);
-   |                    ^^^^^^^^^^^^^^^^
-
-error: Function
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:20
-   |
-52 |         transform: translateX(100%);
-   |                    ^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:20
-   |
-52 |         transform: translateX(100%);
-   |                    ^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:31
-   |
-52 |         transform: translateX(100%);
-   |                               ^^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:31
-   |
-52 |         transform: translateX(100%);
-   |                               ^^^^
-
-error: Number
-  --> $DIR/tests/fixture/at-rule/keyframe/input.css:52:31
-   |
-52 |         transform: translateX(100%);
-   |                               ^^^
 
+  x Stylesheet
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:2:1]
+  2 | ,-> @keyframes foo { /* ... */ }
+  3 | |   @keyframes "foo" { /* ... */ }
+  4 | |   @keyframes    foo    { /* ... */ }
+  5 | |   
+  6 | |   @keyframes slidein {
+  7 | |       from {
+  8 | |           transform: translateX(0%);
+  9 | |       }
+ 10 | |   
+ 11 | |       to {
+ 12 | |           transform: translateX(100%);
+ 13 | |       }
+ 14 | |   }
+ 15 | |   
+ 16 | |   @keyframes identifier {
+ 17 | |       0% { top: 0; left: 0; }
+ 18 | |       30% { top: 50px; }
+ 19 | |       68%, 72% { left: 50px; }
+ 20 | |       100% { top: 100px; left: 100%; }
+ 21 | |   }
+ 22 | |   
+ 23 | |   @keyframes FOO {}
+ 24 | |   @keyframes "initial" {}
+ 25 | |   @keyframes "None" {}
+ 26 | |   @keyframes slide-right {
+ 27 | |   
+ 28 | |       from {
+ 29 | |           margin-left: 0px;
+ 30 | |       }
+ 31 | |   
+ 32 | |       50% {
+ 33 | |           margin-left: 110px;
+ 34 | |           opacity: 1;
+ 35 | |       }
+ 36 | |   
+ 37 | |       50% {
+ 38 | |           opacity: 0.9;
+ 39 | |       }
+ 40 | |   
+ 41 | |       to {
+ 42 | |           margin-left: 200px;
+ 43 | |       }
+ 44 | |   
+ 45 | |   }
+ 46 | |   
+ 47 | |   @keyframes slidein-up {
+ 48 | |       fRoM {
+ 49 | |           transform: translateX(0%);
+ 50 | |       }
+ 51 | |   
+ 52 | |       tO {
+ 53 | |           transform: translateX(100%);
+ 54 | |       }
+ 55 | `-> }
+    `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:2:1]
+ 2 | @keyframes foo { /* ... */ }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:2:1]
+ 2 | @keyframes foo { /* ... */ }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x KeyframesRule
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:2:1]
+ 2 | @keyframes foo { /* ... */ }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CustomIdent
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:2:1]
+ 2 | @keyframes foo { /* ... */ }
+   :            ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:2:1]
+ 2 | @keyframes foo { /* ... */ }
+   :                ^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:3:1]
+ 3 | @keyframes "foo" { /* ... */ }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:3:1]
+ 3 | @keyframes "foo" { /* ... */ }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x KeyframesRule
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:3:1]
+ 3 | @keyframes "foo" { /* ... */ }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:3:1]
+ 3 | @keyframes "foo" { /* ... */ }
+   :            ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:3:1]
+ 3 | @keyframes "foo" { /* ... */ }
+   :                  ^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:4:1]
+ 4 | @keyframes    foo    { /* ... */ }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:4:1]
+ 4 | @keyframes    foo    { /* ... */ }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x KeyframesRule
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:4:1]
+ 4 | @keyframes    foo    { /* ... */ }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CustomIdent
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:4:1]
+ 4 | @keyframes    foo    { /* ... */ }
+   :               ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:4:1]
+ 4 | @keyframes    foo    { /* ... */ }
+   :                      ^^^^^^^^^^^^^
+   `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:6:1]
+  6 | ,-> @keyframes slidein {
+  7 | |       from {
+  8 | |           transform: translateX(0%);
+  9 | |       }
+ 10 | |   
+ 11 | |       to {
+ 12 | |           transform: translateX(100%);
+ 13 | |       }
+ 14 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:6:1]
+  6 | ,-> @keyframes slidein {
+  7 | |       from {
+  8 | |           transform: translateX(0%);
+  9 | |       }
+ 10 | |   
+ 11 | |       to {
+ 12 | |           transform: translateX(100%);
+ 13 | |       }
+ 14 | `-> }
+    `----
+
+  x KeyframesRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:6:1]
+  6 | ,-> @keyframes slidein {
+  7 | |       from {
+  8 | |           transform: translateX(0%);
+  9 | |       }
+ 10 | |   
+ 11 | |       to {
+ 12 | |           transform: translateX(100%);
+ 13 | |       }
+ 14 | `-> }
+    `----
+
+  x CustomIdent
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:6:1]
+ 6 | @keyframes slidein {
+   :            ^^^^^^^
+   `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:6:1]
+  6 | ,-> @keyframes slidein {
+  7 | |       from {
+  8 | |           transform: translateX(0%);
+  9 | |       }
+ 10 | |   
+ 11 | |       to {
+ 12 | |           transform: translateX(100%);
+ 13 | |       }
+ 14 | `-> }
+    `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:7:5]
+ 7 | ,-> from {
+ 8 | |           transform: translateX(0%);
+ 9 | `->     }
+   `----
+
+  x KeyframeBlock
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:7:5]
+ 7 | ,-> from {
+ 8 | |           transform: translateX(0%);
+ 9 | `->     }
+   `----
+
+  x KeyframeSelector
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:7:5]
+ 7 | from {
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:7:5]
+ 7 | from {
+   : ^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:7:5]
+ 7 | ,-> from {
+ 8 | |           transform: translateX(0%);
+ 9 | `->     }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:8:9]
+ 8 | transform: translateX(0%);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:8:9]
+ 8 | transform: translateX(0%);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:8:9]
+ 8 | transform: translateX(0%);
+   : ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:8:9]
+ 8 | transform: translateX(0%);
+   : ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:8:9]
+ 8 | transform: translateX(0%);
+   :            ^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:8:9]
+ 8 | transform: translateX(0%);
+   :            ^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:8:9]
+ 8 | transform: translateX(0%);
+   :            ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:8:9]
+ 8 | transform: translateX(0%);
+   :                       ^^
+   `----
+
+  x Percentage
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:8:9]
+ 8 | transform: translateX(0%);
+   :                       ^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:8:9]
+ 8 | transform: translateX(0%);
+   :                       ^
+   `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:11:5]
+ 11 | ,-> to {
+ 12 | |           transform: translateX(100%);
+ 13 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:11:5]
+ 11 | ,-> to {
+ 12 | |           transform: translateX(100%);
+ 13 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:11:5]
+ 11 | to {
+    : ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:11:5]
+ 11 | to {
+    : ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:11:5]
+ 11 | ,-> to {
+ 12 | |           transform: translateX(100%);
+ 13 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:12:9]
+ 12 | transform: translateX(100%);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:12:9]
+ 12 | transform: translateX(100%);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:12:9]
+ 12 | transform: translateX(100%);
+    : ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:12:9]
+ 12 | transform: translateX(100%);
+    : ^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:12:9]
+ 12 | transform: translateX(100%);
+    :            ^^^^^^^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:12:9]
+ 12 | transform: translateX(100%);
+    :            ^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:12:9]
+ 12 | transform: translateX(100%);
+    :            ^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:12:9]
+ 12 | transform: translateX(100%);
+    :                       ^^^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:12:9]
+ 12 | transform: translateX(100%);
+    :                       ^^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:12:9]
+ 12 | transform: translateX(100%);
+    :                       ^^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:16:1]
+ 16 | ,-> @keyframes identifier {
+ 17 | |       0% { top: 0; left: 0; }
+ 18 | |       30% { top: 50px; }
+ 19 | |       68%, 72% { left: 50px; }
+ 20 | |       100% { top: 100px; left: 100%; }
+ 21 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:16:1]
+ 16 | ,-> @keyframes identifier {
+ 17 | |       0% { top: 0; left: 0; }
+ 18 | |       30% { top: 50px; }
+ 19 | |       68%, 72% { left: 50px; }
+ 20 | |       100% { top: 100px; left: 100%; }
+ 21 | `-> }
+    `----
+
+  x KeyframesRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:16:1]
+ 16 | ,-> @keyframes identifier {
+ 17 | |       0% { top: 0; left: 0; }
+ 18 | |       30% { top: 50px; }
+ 19 | |       68%, 72% { left: 50px; }
+ 20 | |       100% { top: 100px; left: 100%; }
+ 21 | `-> }
+    `----
+
+  x CustomIdent
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:16:1]
+ 16 | @keyframes identifier {
+    :            ^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:16:1]
+ 16 | ,-> @keyframes identifier {
+ 17 | |       0% { top: 0; left: 0; }
+ 18 | |       30% { top: 50px; }
+ 19 | |       68%, 72% { left: 50px; }
+ 20 | |       100% { top: 100px; left: 100%; }
+ 21 | `-> }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    : ^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    : ^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    : ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :    ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :      ^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :      ^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :      ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :      ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :           ^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :              ^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :              ^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :              ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :              ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :                    ^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
+ 17 | 0% { top: 0; left: 0; }
+    :                    ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    : ^^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    : ^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    : ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    :     ^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    :       ^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    :       ^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    :       ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    :       ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    :            ^^^^
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    :            ^^^^
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    :            ^^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    :            ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
+ 18 | 30% { top: 50px; }
+    :              ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    : ^^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    : ^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    : ^^
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :      ^^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :      ^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :      ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :          ^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :            ^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :            ^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :            ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :            ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :                  ^^^^
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :                  ^^^^
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :                  ^^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :                  ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
+ 19 | 68%, 72% { left: 50px; }
+    :                    ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    : ^^^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    : ^^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    : ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :        ^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :        ^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :        ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :             ^^^^^
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :             ^^^^^
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :             ^^^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :             ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :                ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :                    ^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :                    ^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :                    ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :                    ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :                          ^^^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :                          ^^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:20:5]
+ 20 | 100% { top: 100px; left: 100%; }
+    :                          ^^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:23:1]
+ 23 | @keyframes FOO {}
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:23:1]
+ 23 | @keyframes FOO {}
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x KeyframesRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:23:1]
+ 23 | @keyframes FOO {}
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x CustomIdent
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:23:1]
+ 23 | @keyframes FOO {}
+    :            ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:23:1]
+ 23 | @keyframes FOO {}
+    :                ^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:24:1]
+ 24 | @keyframes "initial" {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:24:1]
+ 24 | @keyframes "initial" {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x KeyframesRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:24:1]
+ 24 | @keyframes "initial" {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:24:1]
+ 24 | @keyframes "initial" {}
+    :            ^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:24:1]
+ 24 | @keyframes "initial" {}
+    :                      ^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:25:1]
+ 25 | @keyframes "None" {}
+    : ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:25:1]
+ 25 | @keyframes "None" {}
+    : ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x KeyframesRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:25:1]
+ 25 | @keyframes "None" {}
+    : ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:25:1]
+ 25 | @keyframes "None" {}
+    :            ^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:25:1]
+ 25 | @keyframes "None" {}
+    :                   ^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:26:1]
+ 26 | ,-> @keyframes slide-right {
+ 27 | |   
+ 28 | |       from {
+ 29 | |           margin-left: 0px;
+ 30 | |       }
+ 31 | |   
+ 32 | |       50% {
+ 33 | |           margin-left: 110px;
+ 34 | |           opacity: 1;
+ 35 | |       }
+ 36 | |   
+ 37 | |       50% {
+ 38 | |           opacity: 0.9;
+ 39 | |       }
+ 40 | |   
+ 41 | |       to {
+ 42 | |           margin-left: 200px;
+ 43 | |       }
+ 44 | |   
+ 45 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:26:1]
+ 26 | ,-> @keyframes slide-right {
+ 27 | |   
+ 28 | |       from {
+ 29 | |           margin-left: 0px;
+ 30 | |       }
+ 31 | |   
+ 32 | |       50% {
+ 33 | |           margin-left: 110px;
+ 34 | |           opacity: 1;
+ 35 | |       }
+ 36 | |   
+ 37 | |       50% {
+ 38 | |           opacity: 0.9;
+ 39 | |       }
+ 40 | |   
+ 41 | |       to {
+ 42 | |           margin-left: 200px;
+ 43 | |       }
+ 44 | |   
+ 45 | `-> }
+    `----
+
+  x KeyframesRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:26:1]
+ 26 | ,-> @keyframes slide-right {
+ 27 | |   
+ 28 | |       from {
+ 29 | |           margin-left: 0px;
+ 30 | |       }
+ 31 | |   
+ 32 | |       50% {
+ 33 | |           margin-left: 110px;
+ 34 | |           opacity: 1;
+ 35 | |       }
+ 36 | |   
+ 37 | |       50% {
+ 38 | |           opacity: 0.9;
+ 39 | |       }
+ 40 | |   
+ 41 | |       to {
+ 42 | |           margin-left: 200px;
+ 43 | |       }
+ 44 | |   
+ 45 | `-> }
+    `----
+
+  x CustomIdent
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:26:1]
+ 26 | @keyframes slide-right {
+    :            ^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:26:1]
+ 26 | ,-> @keyframes slide-right {
+ 27 | |   
+ 28 | |       from {
+ 29 | |           margin-left: 0px;
+ 30 | |       }
+ 31 | |   
+ 32 | |       50% {
+ 33 | |           margin-left: 110px;
+ 34 | |           opacity: 1;
+ 35 | |       }
+ 36 | |   
+ 37 | |       50% {
+ 38 | |           opacity: 0.9;
+ 39 | |       }
+ 40 | |   
+ 41 | |       to {
+ 42 | |           margin-left: 200px;
+ 43 | |       }
+ 44 | |   
+ 45 | `-> }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:28:5]
+ 28 | ,-> from {
+ 29 | |           margin-left: 0px;
+ 30 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:28:5]
+ 28 | ,-> from {
+ 29 | |           margin-left: 0px;
+ 30 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:28:5]
+ 28 | from {
+    : ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:28:5]
+ 28 | from {
+    : ^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:28:5]
+ 28 | ,-> from {
+ 29 | |           margin-left: 0px;
+ 30 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:29:9]
+ 29 | margin-left: 0px;
+    : ^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:29:9]
+ 29 | margin-left: 0px;
+    : ^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:29:9]
+ 29 | margin-left: 0px;
+    : ^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:29:9]
+ 29 | margin-left: 0px;
+    : ^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:29:9]
+ 29 | margin-left: 0px;
+    :              ^^^
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:29:9]
+ 29 | margin-left: 0px;
+    :              ^^^
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:29:9]
+ 29 | margin-left: 0px;
+    :              ^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:29:9]
+ 29 | margin-left: 0px;
+    :              ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:29:9]
+ 29 | margin-left: 0px;
+    :               ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:32:5]
+ 32 | ,-> 50% {
+ 33 | |           margin-left: 110px;
+ 34 | |           opacity: 1;
+ 35 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:32:5]
+ 32 | ,-> 50% {
+ 33 | |           margin-left: 110px;
+ 34 | |           opacity: 1;
+ 35 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:32:5]
+ 32 | 50% {
+    : ^^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:32:5]
+ 32 | 50% {
+    : ^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:32:5]
+ 32 | 50% {
+    : ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:32:5]
+ 32 | ,-> 50% {
+ 33 | |           margin-left: 110px;
+ 34 | |           opacity: 1;
+ 35 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:33:9]
+ 33 | margin-left: 110px;
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:33:9]
+ 33 | margin-left: 110px;
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:33:9]
+ 33 | margin-left: 110px;
+    : ^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:33:9]
+ 33 | margin-left: 110px;
+    : ^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:33:9]
+ 33 | margin-left: 110px;
+    :              ^^^^^
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:33:9]
+ 33 | margin-left: 110px;
+    :              ^^^^^
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:33:9]
+ 33 | margin-left: 110px;
+    :              ^^^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:33:9]
+ 33 | margin-left: 110px;
+    :              ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:33:9]
+ 33 | margin-left: 110px;
+    :                 ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:34:9]
+ 34 | opacity: 1;
+    : ^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:34:9]
+ 34 | opacity: 1;
+    : ^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:34:9]
+ 34 | opacity: 1;
+    : ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:34:9]
+ 34 | opacity: 1;
+    : ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:34:9]
+ 34 | opacity: 1;
+    :          ^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:34:9]
+ 34 | opacity: 1;
+    :          ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:37:5]
+ 37 | ,-> 50% {
+ 38 | |           opacity: 0.9;
+ 39 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:37:5]
+ 37 | ,-> 50% {
+ 38 | |           opacity: 0.9;
+ 39 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:37:5]
+ 37 | 50% {
+    : ^^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:37:5]
+ 37 | 50% {
+    : ^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:37:5]
+ 37 | 50% {
+    : ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:37:5]
+ 37 | ,-> 50% {
+ 38 | |           opacity: 0.9;
+ 39 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:38:9]
+ 38 | opacity: 0.9;
+    : ^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:38:9]
+ 38 | opacity: 0.9;
+    : ^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:38:9]
+ 38 | opacity: 0.9;
+    : ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:38:9]
+ 38 | opacity: 0.9;
+    : ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:38:9]
+ 38 | opacity: 0.9;
+    :          ^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:38:9]
+ 38 | opacity: 0.9;
+    :          ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:41:5]
+ 41 | ,-> to {
+ 42 | |           margin-left: 200px;
+ 43 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:41:5]
+ 41 | ,-> to {
+ 42 | |           margin-left: 200px;
+ 43 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:41:5]
+ 41 | to {
+    : ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:41:5]
+ 41 | to {
+    : ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:41:5]
+ 41 | ,-> to {
+ 42 | |           margin-left: 200px;
+ 43 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:42:9]
+ 42 | margin-left: 200px;
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:42:9]
+ 42 | margin-left: 200px;
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:42:9]
+ 42 | margin-left: 200px;
+    : ^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:42:9]
+ 42 | margin-left: 200px;
+    : ^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:42:9]
+ 42 | margin-left: 200px;
+    :              ^^^^^
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:42:9]
+ 42 | margin-left: 200px;
+    :              ^^^^^
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:42:9]
+ 42 | margin-left: 200px;
+    :              ^^^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:42:9]
+ 42 | margin-left: 200px;
+    :              ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:42:9]
+ 42 | margin-left: 200px;
+    :                 ^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:47:1]
+ 47 | ,-> @keyframes slidein-up {
+ 48 | |       fRoM {
+ 49 | |           transform: translateX(0%);
+ 50 | |       }
+ 51 | |   
+ 52 | |       tO {
+ 53 | |           transform: translateX(100%);
+ 54 | |       }
+ 55 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:47:1]
+ 47 | ,-> @keyframes slidein-up {
+ 48 | |       fRoM {
+ 49 | |           transform: translateX(0%);
+ 50 | |       }
+ 51 | |   
+ 52 | |       tO {
+ 53 | |           transform: translateX(100%);
+ 54 | |       }
+ 55 | `-> }
+    `----
+
+  x KeyframesRule
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:47:1]
+ 47 | ,-> @keyframes slidein-up {
+ 48 | |       fRoM {
+ 49 | |           transform: translateX(0%);
+ 50 | |       }
+ 51 | |   
+ 52 | |       tO {
+ 53 | |           transform: translateX(100%);
+ 54 | |       }
+ 55 | `-> }
+    `----
+
+  x CustomIdent
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:47:1]
+ 47 | @keyframes slidein-up {
+    :            ^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:47:1]
+ 47 | ,-> @keyframes slidein-up {
+ 48 | |       fRoM {
+ 49 | |           transform: translateX(0%);
+ 50 | |       }
+ 51 | |   
+ 52 | |       tO {
+ 53 | |           transform: translateX(100%);
+ 54 | |       }
+ 55 | `-> }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:48:5]
+ 48 | ,-> fRoM {
+ 49 | |           transform: translateX(0%);
+ 50 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:48:5]
+ 48 | ,-> fRoM {
+ 49 | |           transform: translateX(0%);
+ 50 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:48:5]
+ 48 | fRoM {
+    : ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:48:5]
+ 48 | fRoM {
+    : ^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:48:5]
+ 48 | ,-> fRoM {
+ 49 | |           transform: translateX(0%);
+ 50 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:49:9]
+ 49 | transform: translateX(0%);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:49:9]
+ 49 | transform: translateX(0%);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:49:9]
+ 49 | transform: translateX(0%);
+    : ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:49:9]
+ 49 | transform: translateX(0%);
+    : ^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:49:9]
+ 49 | transform: translateX(0%);
+    :            ^^^^^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:49:9]
+ 49 | transform: translateX(0%);
+    :            ^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:49:9]
+ 49 | transform: translateX(0%);
+    :            ^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:49:9]
+ 49 | transform: translateX(0%);
+    :                       ^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:49:9]
+ 49 | transform: translateX(0%);
+    :                       ^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:49:9]
+ 49 | transform: translateX(0%);
+    :                       ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:52:5]
+ 52 | ,-> tO {
+ 53 | |           transform: translateX(100%);
+ 54 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:52:5]
+ 52 | ,-> tO {
+ 53 | |           transform: translateX(100%);
+ 54 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:52:5]
+ 52 | tO {
+    : ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:52:5]
+ 52 | tO {
+    : ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:52:5]
+ 52 | ,-> tO {
+ 53 | |           transform: translateX(100%);
+ 54 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:53:9]
+ 53 | transform: translateX(100%);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:53:9]
+ 53 | transform: translateX(100%);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:53:9]
+ 53 | transform: translateX(100%);
+    : ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:53:9]
+ 53 | transform: translateX(100%);
+    : ^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:53:9]
+ 53 | transform: translateX(100%);
+    :            ^^^^^^^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:53:9]
+ 53 | transform: translateX(100%);
+    :            ^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:53:9]
+ 53 | transform: translateX(100%);
+    :            ^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:53:9]
+ 53 | transform: translateX(100%);
+    :                       ^^^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:53:9]
+ 53 | transform: translateX(100%);
+    :                       ^^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:53:9]
+ 53 | transform: translateX(100%);
+    :                       ^^^
+    `----

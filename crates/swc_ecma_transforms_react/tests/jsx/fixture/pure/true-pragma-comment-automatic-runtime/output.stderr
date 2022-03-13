@@ -1,6 +1,6 @@
-error: pragma and pragmaFrag cannot be set when runtime is automatic
- --> input.js:3:1
-  |
-3 | <div />;
-  | ^^^^^^^^
 
+  x pragma and pragmaFrag cannot be set when runtime is automatic
+   ,-[input.js:4:1]
+ 4 | <div />;
+   : ^^^^^^^^
+   `----

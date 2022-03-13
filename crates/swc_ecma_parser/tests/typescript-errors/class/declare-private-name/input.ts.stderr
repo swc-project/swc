@@ -1,6 +1,6 @@
-error: 'declare' modifier cannot be used with a private identifier
- --> $DIR/tests/typescript-errors/class/declare-private-name/input.ts:2:13
-  |
-2 |     declare #name;
-  |             ^^^^^
 
+  x 'declare' modifier cannot be used with a private identifier
+   ,-[$DIR/tests/typescript-errors/class/declare-private-name/input.ts:3:5]
+ 3 | declare #name;
+   :         ^^^^^
+   `----

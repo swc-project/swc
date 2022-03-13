@@ -1,2 +1,6 @@
-error: Unexpected end of file
 
+  x Unexpected end of file
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:2:1]
+ 2 | @media screen {@content}
+   : ^
+   `----

@@ -1,10 +1,8 @@
-error: Expected Declaration value
- --> $DIR/tests/recovery/function/bad-comment/input.css:2:17
-  |
-2 |       background: url(
-  |  _________________^
-3 | |         /* test */
-4 | |         test.png
-5 | |     );
-  | |_____^
 
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:3:5]
+ 3 | ,-> background: url(
+ 4 | |           /* test */
+ 5 | |           test.png
+ 6 | `->     );
+   `----

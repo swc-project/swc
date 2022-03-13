@@ -1,126 +1,126 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
-  |
-1 | a { value: 10e\32x }
-  | ^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
-  |
-1 | a { value: 10e\32x }
-  | ^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
-  |
-1 | a { value: 10e\32x }
-  | ^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
-  |
-1 | a { value: 10e\32x }
-  | ^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
-  |
-1 | a { value: 10e\32x }
-  | ^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   : ^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
-  |
-1 | a { value: 10e\32x }
-  | ^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   : ^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
-  |
-1 | a { value: 10e\32x }
-  | ^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   : ^
+   `----
 
-error: TagNameSelector
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
-  |
-1 | a { value: 10e\32x }
-  | ^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   : ^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
-  |
-1 | a { value: 10e\32x }
-  | ^
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   : ^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1
-  |
-1 | a { value: 10e\32x }
-  | ^
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   : ^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:3
-  |
-1 | a { value: 10e\32x }
-  |   ^^^^^^^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   : ^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:5
-  |
-1 | a { value: 10e\32x }
-  |     ^^^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   :   ^^^^^^^^^^^^^^^^^^
+   `----
 
-error: StyleBlock
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:5
-  |
-1 | a { value: 10e\32x }
-  |     ^^^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   :     ^^^^^^^^^^^^^^
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:5
-  |
-1 | a { value: 10e\32x }
-  |     ^^^^^^^^^^^^^^
+  x StyleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   :     ^^^^^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:5
-  |
-1 | a { value: 10e\32x }
-  |     ^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   :     ^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:5
-  |
-1 | a { value: 10e\32x }
-  |     ^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   :     ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:12
-  |
-1 | a { value: 10e\32x }
-  |            ^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   :     ^^^^^
+   `----
 
-error: Dimension
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:12
-  |
-1 | a { value: 10e\32x }
-  |            ^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   :            ^^^^^^^
+   `----
 
-error: UnknownDimension
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:12
-  |
-1 | a { value: 10e\32x }
-  |            ^^^^^^^
+  x Dimension
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   :            ^^^^^^^
+   `----
 
-error: Number
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:12
-  |
-1 | a { value: 10e\32x }
-  |            ^^
+  x UnknownDimension
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   :            ^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:14
-  |
-1 | a { value: 10e\32x }
-  |              ^^^^^
+  x Number
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   :            ^^
+   `----
 
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:2:1]
+ 2 | a { value: 10e\32x }
+   :              ^^^^^
+   `----

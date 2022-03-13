@@ -1,6 +1,6 @@
-error: Expected 'left', 'right', 'first' or 'blank' ident
- --> $DIR/tests/recovery/at-rule/page/no-space/input.css:1:12
-  |
-1 | @page Page: blank {
-  |            ^
 
+  x Expected 'left', 'right', 'first' or 'blank' ident
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:1]
+ 2 | @page Page: blank {
+   :            ^
+   `----

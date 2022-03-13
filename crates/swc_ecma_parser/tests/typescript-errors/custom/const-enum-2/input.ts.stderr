@@ -1,6 +1,6 @@
-error: Expected ',', got 'Some(c)'
- --> $DIR/tests/typescript-errors/custom/const-enum-2/input.ts:4:5
-  |
-4 |     c
-  |     ^
 
+  x Expected ',', got 'Some(c)'
+   ,-[$DIR/tests/typescript-errors/custom/const-enum-2/input.ts:5:5]
+ 5 | c
+   : ^
+   `----

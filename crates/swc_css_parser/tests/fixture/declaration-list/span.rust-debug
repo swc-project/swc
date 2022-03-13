@@ -1,163 +1,158 @@
-error: Stylesheet
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | / a {
-2 | |     prop1: value;
-3 | |     prop2: value;
-4 | | }
-  | |__^
 
-error: Rule
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | / a {
-2 | |     prop1: value;
-3 | |     prop2: value;
-4 | | }
-  | |_^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/declaration-list/input.css:2:1]
+ 2 | ,-> a {
+ 3 | |       prop1: value;
+ 4 | |       prop2: value;
+ 5 | `-> }
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | / a {
-2 | |     prop1: value;
-3 | |     prop2: value;
-4 | | }
-  | |_^
+  x Rule
+   ,-[$DIR/tests/fixture/declaration-list/input.css:2:1]
+ 2 | ,-> a {
+ 3 | |       prop1: value;
+ 4 | |       prop2: value;
+ 5 | `-> }
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/declaration-list/input.css:2:1]
+ 2 | ,-> a {
+ 3 | |       prop1: value;
+ 4 | |       prop2: value;
+ 5 | `-> }
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
+  x SelectorList
+   ,-[$DIR/tests/fixture/declaration-list/input.css:2:1]
+ 2 | a {
+   : ^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/declaration-list/input.css:2:1]
+ 2 | a {
+   : ^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/declaration-list/input.css:2:1]
+ 2 | a {
+   : ^
+   `----
 
-error: TagNameSelector
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/declaration-list/input.css:2:1]
+ 2 | a {
+   : ^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/declaration-list/input.css:2:1]
+ 2 | a {
+   : ^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/declaration-list/input.css:1:1
-  |
-1 | a {
-  | ^
+  x WqName
+   ,-[$DIR/tests/fixture/declaration-list/input.css:2:1]
+ 2 | a {
+   : ^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/declaration-list/input.css:1:3
-  |
-1 |   a {
-  |  ___^
-2 | |     prop1: value;
-3 | |     prop2: value;
-4 | | }
-  | |_^
+  x Ident
+   ,-[$DIR/tests/fixture/declaration-list/input.css:2:1]
+ 2 | a {
+   : ^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/declaration-list/input.css:2:5
-  |
-2 |     prop1: value;
-  |     ^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/declaration-list/input.css:2:1]
+ 2 | ,-> a {
+ 3 | |       prop1: value;
+ 4 | |       prop2: value;
+ 5 | `-> }
+   `----
 
-error: StyleBlock
- --> $DIR/tests/fixture/declaration-list/input.css:2:5
-  |
-2 |     prop1: value;
-  |     ^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/declaration-list/input.css:3:5]
+ 3 | prop1: value;
+   : ^^^^^^^^^^^^
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/declaration-list/input.css:2:5
-  |
-2 |     prop1: value;
-  |     ^^^^^^^^^^^^
+  x StyleBlock
+   ,-[$DIR/tests/fixture/declaration-list/input.css:3:5]
+ 3 | prop1: value;
+   : ^^^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/declaration-list/input.css:2:5
-  |
-2 |     prop1: value;
-  |     ^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/declaration-list/input.css:3:5]
+ 3 | prop1: value;
+   : ^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/declaration-list/input.css:2:5
-  |
-2 |     prop1: value;
-  |     ^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/declaration-list/input.css:3:5]
+ 3 | prop1: value;
+   : ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/declaration-list/input.css:2:12
-  |
-2 |     prop1: value;
-  |            ^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/declaration-list/input.css:3:5]
+ 3 | prop1: value;
+   : ^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/declaration-list/input.css:2:12
-  |
-2 |     prop1: value;
-  |            ^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/declaration-list/input.css:3:5]
+ 3 | prop1: value;
+   :        ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/declaration-list/input.css:3:5
-  |
-3 |     prop2: value;
-  |     ^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/declaration-list/input.css:3:5]
+ 3 | prop1: value;
+   :        ^^^^^
+   `----
 
-error: StyleBlock
- --> $DIR/tests/fixture/declaration-list/input.css:3:5
-  |
-3 |     prop2: value;
-  |     ^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/declaration-list/input.css:4:5]
+ 4 | prop2: value;
+   : ^^^^^^^^^^^^
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/declaration-list/input.css:3:5
-  |
-3 |     prop2: value;
-  |     ^^^^^^^^^^^^
+  x StyleBlock
+   ,-[$DIR/tests/fixture/declaration-list/input.css:4:5]
+ 4 | prop2: value;
+   : ^^^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/declaration-list/input.css:3:5
-  |
-3 |     prop2: value;
-  |     ^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/declaration-list/input.css:4:5]
+ 4 | prop2: value;
+   : ^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/declaration-list/input.css:3:5
-  |
-3 |     prop2: value;
-  |     ^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/declaration-list/input.css:4:5]
+ 4 | prop2: value;
+   : ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/declaration-list/input.css:3:12
-  |
-3 |     prop2: value;
-  |            ^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/declaration-list/input.css:4:5]
+ 4 | prop2: value;
+   : ^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/declaration-list/input.css:3:12
-  |
-3 |     prop2: value;
-  |            ^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/declaration-list/input.css:4:5]
+ 4 | prop2: value;
+   :        ^^^^^
+   `----
 
+  x Ident
+   ,-[$DIR/tests/fixture/declaration-list/input.css:4:5]
+ 4 | prop2: value;
+   :        ^^^^^
+   `----

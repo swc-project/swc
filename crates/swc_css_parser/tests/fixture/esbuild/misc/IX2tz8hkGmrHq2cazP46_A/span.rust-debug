@@ -1,42 +1,42 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:1
-  |
-1 | @namespace \6es 'path';
-  | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:1
-  |
-1 | @namespace \6es 'path';
-  | ^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:2:1]
+ 2 | @namespace \6es 'path';
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:1
-  |
-1 | @namespace \6es 'path';
-  | ^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:2:1]
+ 2 | @namespace \6es 'path';
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: NamespaceRule
- --> $DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:1
-  |
-1 | @namespace \6es 'path';
-  | ^^^^^^^^^^^^^^^^^^^^^^^
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:2:1]
+ 2 | @namespace \6es 'path';
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:12
-  |
-1 | @namespace \6es 'path';
-  |            ^^^^
+  x NamespaceRule
+   ,-[$DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:2:1]
+ 2 | @namespace \6es 'path';
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: NamespaceUri
- --> $DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:17
-  |
-1 | @namespace \6es 'path';
-  |                 ^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:2:1]
+ 2 | @namespace \6es 'path';
+   :            ^^^^
+   `----
 
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:17
-  |
-1 | @namespace \6es 'path';
-  |                 ^^^^^^
+  x NamespaceUri
+   ,-[$DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:2:1]
+ 2 | @namespace \6es 'path';
+   :                 ^^^^^^
+   `----
 
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:2:1]
+ 2 | @namespace \6es 'path';
+   :                 ^^^^^^
+   `----

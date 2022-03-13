@@ -1,6 +1,6 @@
-error: Expected "("
- --> $DIR/tests/recovery/at-rule/media/feature/input.css:1:19
-  |
-1 | @media screen and {}
-  |                   ^
 
+  x Expected "("
+   ,-[$DIR/tests/recovery/at-rule/media/feature/input.css:2:1]
+ 2 | @media screen and {}
+   :                   ^
+   `----

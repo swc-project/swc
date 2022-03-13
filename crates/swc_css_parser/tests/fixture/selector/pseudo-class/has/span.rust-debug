@@ -1,1980 +1,1982 @@
-error: Stylesheet
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1
-   |
-1  | / a:has(> img) {}
-2  | | a:has(   > img   ) {}
-3  | | a:has(   >   img   ) {}
-4  | | a:has(   >   img   ,   >   img   ) {}
-...  |
-9  | | div:has(p) {}
-10 | | .header-group:has(h2):has(.subtitle) h2 {}
-   | |___________________________________________^
-
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1
-  |
-1 | a:has(> img) {}
-  | ^^^^^^^^^^^^^^^
-
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1
-  |
-1 | a:has(> img) {}
-  | ^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1
-  |
-1 | a:has(> img) {}
-  | ^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1
-  |
-1 | a:has(> img) {}
-  | ^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1
-  |
-1 | a:has(> img) {}
-  | ^^^^^^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1
-  |
-1 | a:has(> img) {}
-  | ^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1
-  |
-1 | a:has(> img) {}
-  | ^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1
-  |
-1 | a:has(> img) {}
-  | ^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1
-  |
-1 | a:has(> img) {}
-  | ^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:2
-  |
-1 | a:has(> img) {}
-  |  ^^^^^^^^^^^
-
-error: PseudoClassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:2
-  |
-1 | a:has(> img) {}
-  |  ^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:3
-  |
-1 | a:has(> img) {}
-  |   ^^^
-
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:7
-  |
-1 | a:has(> img) {}
-  |       ^^^^^
-
-error: RelativeSelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:7
-  |
-1 | a:has(> img) {}
-  |       ^^^^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:7
-  |
-1 | a:has(> img) {}
-  |       ^^^^^
-
-error: Combinator
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:7
-  |
-1 | a:has(> img) {}
-  |       ^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:9
-  |
-1 | a:has(> img) {}
-  |         ^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:9
-  |
-1 | a:has(> img) {}
-  |         ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:9
-  |
-1 | a:has(> img) {}
-  |         ^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:9
-  |
-1 | a:has(> img) {}
-  |         ^^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:9
-  |
-1 | a:has(> img) {}
-  |         ^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:9
-  |
-1 | a:has(> img) {}
-  |         ^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:1:14
-  |
-1 | a:has(> img) {}
-  |              ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1
-  |
-2 | a:has(   > img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^
-
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1
-  |
-2 | a:has(   > img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1
-  |
-2 | a:has(   > img   ) {}
-  | ^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1
-  |
-2 | a:has(   > img   ) {}
-  | ^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1
-  |
-2 | a:has(   > img   ) {}
-  | ^^^^^^^^^^^^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1
-  |
-2 | a:has(   > img   ) {}
-  | ^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1
-  |
-2 | a:has(   > img   ) {}
-  | ^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1
-  |
-2 | a:has(   > img   ) {}
-  | ^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1
-  |
-2 | a:has(   > img   ) {}
-  | ^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:2
-  |
-2 | a:has(   > img   ) {}
-  |  ^^^^^^^^^^^^^^^^^
-
-error: PseudoClassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:2
-  |
-2 | a:has(   > img   ) {}
-  |  ^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:3
-  |
-2 | a:has(   > img   ) {}
-  |   ^^^
-
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:10
-  |
-2 | a:has(   > img   ) {}
-  |          ^^^^^
-
-error: RelativeSelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:10
-  |
-2 | a:has(   > img   ) {}
-  |          ^^^^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:10
-  |
-2 | a:has(   > img   ) {}
-  |          ^^^^^
-
-error: Combinator
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:10
-  |
-2 | a:has(   > img   ) {}
-  |          ^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:12
-  |
-2 | a:has(   > img   ) {}
-  |            ^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:12
-  |
-2 | a:has(   > img   ) {}
-  |            ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:12
-  |
-2 | a:has(   > img   ) {}
-  |            ^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:12
-  |
-2 | a:has(   > img   ) {}
-  |            ^^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:12
-  |
-2 | a:has(   > img   ) {}
-  |            ^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:12
-  |
-2 | a:has(   > img   ) {}
-  |            ^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:2:20
-  |
-2 | a:has(   > img   ) {}
-  |                    ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1
-  |
-3 | a:has(   >   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1
-  |
-3 | a:has(   >   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1
-  |
-3 | a:has(   >   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1
-  |
-3 | a:has(   >   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1
-  |
-3 | a:has(   >   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1
-  |
-3 | a:has(   >   img   ) {}
-  | ^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1
-  |
-3 | a:has(   >   img   ) {}
-  | ^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1
-  |
-3 | a:has(   >   img   ) {}
-  | ^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1
-  |
-3 | a:has(   >   img   ) {}
-  | ^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:2
-  |
-3 | a:has(   >   img   ) {}
-  |  ^^^^^^^^^^^^^^^^^^^
-
-error: PseudoClassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:2
-  |
-3 | a:has(   >   img   ) {}
-  |  ^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:3
-  |
-3 | a:has(   >   img   ) {}
-  |   ^^^
-
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:10
-  |
-3 | a:has(   >   img   ) {}
-  |          ^^^^^^^
-
-error: RelativeSelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:10
-  |
-3 | a:has(   >   img   ) {}
-  |          ^^^^^^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:10
-  |
-3 | a:has(   >   img   ) {}
-  |          ^^^^^^^
-
-error: Combinator
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:10
-  |
-3 | a:has(   >   img   ) {}
-  |          ^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:14
-  |
-3 | a:has(   >   img   ) {}
-  |              ^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:14
-  |
-3 | a:has(   >   img   ) {}
-  |              ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:14
-  |
-3 | a:has(   >   img   ) {}
-  |              ^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:14
-  |
-3 | a:has(   >   img   ) {}
-  |              ^^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:14
-  |
-3 | a:has(   >   img   ) {}
-  |              ^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:14
-  |
-3 | a:has(   >   img   ) {}
-  |              ^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:3:22
-  |
-3 | a:has(   >   img   ) {}
-  |                      ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  | ^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  | ^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  | ^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  | ^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:2
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PseudoClassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:2
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:3
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |   ^^^
-
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:10
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |          ^^^^^^^^^^^^^^^^^^^^^
-
-error: RelativeSelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:10
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |          ^^^^^^^^^^^^^^^^^^^^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:10
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |          ^^^^^^^
-
-error: Combinator
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:10
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |          ^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:14
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |              ^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:14
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |              ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:14
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |              ^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:14
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |              ^^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:14
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |              ^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:14
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |              ^^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:24
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |                        ^^^^^^^
-
-error: Combinator
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:24
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |                        ^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:28
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |                            ^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:28
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |                            ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:28
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |                            ^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:28
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |                            ^^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:28
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |                            ^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:28
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |                            ^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:4:36
-  |
-4 | a:has(   >   img   ,   >   img   ) {}
-  |                                    ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1
-  |
-5 | a:has(   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^
-
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1
-  |
-5 | a:has(   img   ) {}
-  | ^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1
-  |
-5 | a:has(   img   ) {}
-  | ^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1
-  |
-5 | a:has(   img   ) {}
-  | ^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1
-  |
-5 | a:has(   img   ) {}
-  | ^^^^^^^^^^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1
-  |
-5 | a:has(   img   ) {}
-  | ^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1
-  |
-5 | a:has(   img   ) {}
-  | ^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1
-  |
-5 | a:has(   img   ) {}
-  | ^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1
-  |
-5 | a:has(   img   ) {}
-  | ^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:2
-  |
-5 | a:has(   img   ) {}
-  |  ^^^^^^^^^^^^^^^
-
-error: PseudoClassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:2
-  |
-5 | a:has(   img   ) {}
-  |  ^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:3
-  |
-5 | a:has(   img   ) {}
-  |   ^^^
-
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:10
-  |
-5 | a:has(   img   ) {}
-  |          ^^^
-
-error: RelativeSelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:10
-  |
-5 | a:has(   img   ) {}
-  |          ^^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:10
-  |
-5 | a:has(   img   ) {}
-  |          ^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:10
-  |
-5 | a:has(   img   ) {}
-  |          ^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:10
-  |
-5 | a:has(   img   ) {}
-  |          ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:10
-  |
-5 | a:has(   img   ) {}
-  |          ^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:10
-  |
-5 | a:has(   img   ) {}
-  |          ^^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:10
-  |
-5 | a:has(   img   ) {}
-  |          ^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:10
-  |
-5 | a:has(   img   ) {}
-  |          ^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:5:18
-  |
-5 | a:has(   img   ) {}
-  |                  ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1
-  |
-6 | dt:has(+ dt) {}
-  | ^^^^^^^^^^^^^^^
-
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1
-  |
-6 | dt:has(+ dt) {}
-  | ^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1
-  |
-6 | dt:has(+ dt) {}
-  | ^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1
-  |
-6 | dt:has(+ dt) {}
-  | ^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1
-  |
-6 | dt:has(+ dt) {}
-  | ^^^^^^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1
-  |
-6 | dt:has(+ dt) {}
-  | ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1
-  |
-6 | dt:has(+ dt) {}
-  | ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1
-  |
-6 | dt:has(+ dt) {}
-  | ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1
-  |
-6 | dt:has(+ dt) {}
-  | ^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:3
-  |
-6 | dt:has(+ dt) {}
-  |   ^^^^^^^^^^
-
-error: PseudoClassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:3
-  |
-6 | dt:has(+ dt) {}
-  |   ^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:4
-  |
-6 | dt:has(+ dt) {}
-  |    ^^^
-
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:8
-  |
-6 | dt:has(+ dt) {}
-  |        ^^^^
-
-error: RelativeSelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:8
-  |
-6 | dt:has(+ dt) {}
-  |        ^^^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:8
-  |
-6 | dt:has(+ dt) {}
-  |        ^^^^
-
-error: Combinator
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:8
-  |
-6 | dt:has(+ dt) {}
-  |        ^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:10
-  |
-6 | dt:has(+ dt) {}
-  |          ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:10
-  |
-6 | dt:has(+ dt) {}
-  |          ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:10
-  |
-6 | dt:has(+ dt) {}
-  |          ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:10
-  |
-6 | dt:has(+ dt) {}
-  |          ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:10
-  |
-6 | dt:has(+ dt) {}
-  |          ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:10
-  |
-6 | dt:has(+ dt) {}
-  |          ^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:6:14
-  |
-6 | dt:has(+ dt) {}
-  |              ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:8
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PseudoClassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:8
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:9
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |         ^^^
-
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:13
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:13
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:13
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:13
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:13
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PseudoClassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:13
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:14
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |              ^^^
-
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:18
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^
-
-error: RelativeSelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:18
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:18
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:18
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:18
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:18
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:18
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:18
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:18
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:22
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:22
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:22
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:22
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:22
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:22
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:22
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:26
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:26
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:26
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:26
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:26
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:26
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:26
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:30
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:30
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:30
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:30
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:30
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:30
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:30
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:34
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:34
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:34
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:34
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:34
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:34
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:34
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:38
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:38
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:38
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:38
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:38
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:38
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:38
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:7:43
-  |
-7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  |                                           ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  | ^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:8
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PseudoClassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:8
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:9
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |         ^^^
-
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:13
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: RelativeSelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:13
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:13
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:13
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:13
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:13
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PseudoClassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:13
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:14
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |              ^^^
-
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:18
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:18
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:18
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:18
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:18
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:18
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:18
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:18
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                  ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:22
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:22
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:22
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:22
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:22
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:22
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                      ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:26
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:26
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:26
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:26
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:26
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:26
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                          ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:30
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:30
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:30
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:30
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:30
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:30
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                              ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:34
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:34
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:34
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:34
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:34
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:34
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                  ^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:38
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:38
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:38
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:38
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:38
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:38
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                      ^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:8:43
-  |
-8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-  |                                           ^^
-
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1
-  |
-9 | div:has(p) {}
-  | ^^^^^^^^^^^^^
-
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1
-  |
-9 | div:has(p) {}
-  | ^^^^^^^^^^^^^
-
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1
-  |
-9 | div:has(p) {}
-  | ^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1
-  |
-9 | div:has(p) {}
-  | ^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1
-  |
-9 | div:has(p) {}
-  | ^^^^^^^^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1
-  |
-9 | div:has(p) {}
-  | ^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1
-  |
-9 | div:has(p) {}
-  | ^^^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1
-  |
-9 | div:has(p) {}
-  | ^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1
-  |
-9 | div:has(p) {}
-  | ^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:4
-  |
-9 | div:has(p) {}
-  |    ^^^^^^^
-
-error: PseudoClassSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:4
-  |
-9 | div:has(p) {}
-  |    ^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:5
-  |
-9 | div:has(p) {}
-  |     ^^^
-
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:9
-  |
-9 | div:has(p) {}
-  |         ^
-
-error: RelativeSelectorList
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:9
-  |
-9 | div:has(p) {}
-  |         ^
-
-error: RelativeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:9
-  |
-9 | div:has(p) {}
-  |         ^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:9
-  |
-9 | div:has(p) {}
-  |         ^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:9
-  |
-9 | div:has(p) {}
-  |         ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:9
-  |
-9 | div:has(p) {}
-  |         ^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:9
-  |
-9 | div:has(p) {}
-  |         ^
-
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:9
-  |
-9 | div:has(p) {}
-  |         ^
-
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:9
-  |
-9 | div:has(p) {}
-  |         ^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:9:12
-  |
-9 | div:has(p) {}
-  |            ^^
-
-error: Rule
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SelectorList
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   | ^^^^^^^^^^^^^
-
-error: ClassSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   | ^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:2
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |  ^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:14
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |              ^^^^^^^^
-
-error: PseudoClassSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:14
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |              ^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:15
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |               ^^^
-
-error: PseudoClassSelectorChildren
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:19
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                   ^^
-
-error: RelativeSelectorList
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:19
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                   ^^
-
-error: RelativeSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:19
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                   ^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:19
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                   ^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:19
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                   ^^
-
-error: TypeSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:19
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                   ^^
-
-error: TagNameSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:19
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                   ^^
-
-error: WqName
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:19
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                   ^^
-
-error: Ident
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:19
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                   ^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:22
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                      ^^^^^^^^^^^^^^^
-
-error: PseudoClassSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:22
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                      ^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:23
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                       ^^^
-
-error: PseudoClassSelectorChildren
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:27
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                           ^^^^^^^^^
-
-error: RelativeSelectorList
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:27
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                           ^^^^^^^^^
-
-error: RelativeSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:27
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                           ^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:27
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                           ^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:27
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                           ^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:27
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                           ^^^^^^^^^
-
-error: ClassSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:27
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                           ^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:28
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                            ^^^^^^^^
-
-error: Combinator
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:37
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                                     ^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:38
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                                      ^^
-
-error: TypeSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:38
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                                      ^^
-
-error: TagNameSelector
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:38
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                                      ^^
-
-error: WqName
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:38
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                                      ^^
-
-error: Ident
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:38
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                                      ^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/selector/pseudo-class/has/input.css:10:41
-   |
-10 | .header-group:has(h2):has(.subtitle) h2 {}
-   |                                         ^^
 
+  x Stylesheet
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+  2 | ,-> a:has(> img) {}
+  3 | |   a:has(   > img   ) {}
+  4 | |   a:has(   >   img   ) {}
+  5 | |   a:has(   >   img   ,   >   img   ) {}
+  6 | |   a:has(   img   ) {}
+  7 | |   dt:has(+ dt) {}
+  8 | |   section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+  9 | |   section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+ 10 | |   div:has(p) {}
+ 11 | `-> .header-group:has(h2):has(.subtitle) h2 {}
+    `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   : ^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   : ^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   : ^^^^^^^^^^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   : ^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :  ^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :  ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :   ^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :       ^^^^^
+   `----
+
+  x RelativeSelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :       ^^^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :       ^^^^^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :       ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :         ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :         ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :         ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :         ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :         ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :         ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
+ 2 | a:has(> img) {}
+   :              ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   : ^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :  ^^^^^^^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :  ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :   ^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :          ^^^^^
+   `----
+
+  x RelativeSelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :          ^^^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :          ^^^^^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :          ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :            ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :            ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :            ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :            ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :            ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :            ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
+ 3 | a:has(   > img   ) {}
+   :                    ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   : ^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :  ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :  ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :   ^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :          ^^^^^^^
+   `----
+
+  x RelativeSelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :          ^^^^^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :          ^^^^^^^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :          ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :              ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :              ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :              ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :              ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :              ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :              ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
+ 4 | a:has(   >   img   ) {}
+   :                      ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   : ^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :   ^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :          ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x RelativeSelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :          ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :          ^^^^^^^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :          ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :              ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :              ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :              ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :              ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :              ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :              ^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :                        ^^^^^^^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :                        ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :                            ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :                            ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :                            ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :                            ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :                            ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :                            ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
+ 5 | a:has(   >   img   ,   >   img   ) {}
+   :                                    ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   : ^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :  ^^^^^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :  ^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :   ^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :          ^^^
+   `----
+
+  x RelativeSelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :          ^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :          ^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :          ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :          ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :          ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :          ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :          ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :          ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
+ 6 | a:has(   img   ) {}
+   :                  ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   : ^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   : ^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   : ^^^^^^^^^^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   : ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   : ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   : ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   : ^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :   ^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :   ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :    ^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :        ^^^^
+   `----
+
+  x RelativeSelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :        ^^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :        ^^^^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :        ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :          ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :          ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :          ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :          ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :          ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :          ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
+ 7 | dt:has(+ dt) {}
+   :              ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :         ^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :              ^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x RelativeSelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 8 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+   :                                           ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :         ^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x RelativeSelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :              ^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                  ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                      ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                          ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                              ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                  ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                      ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:9:1]
+ 9 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                           ^^
+   `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    : ^^^^^^^^^^^^^
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    : ^^^^^^^^^^^^^
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    : ^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    : ^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    : ^^^^^^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    : ^^^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    : ^^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    : ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    : ^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :    ^^^^^^^
+    `----
+
+  x PseudoClassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :    ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :     ^^^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :         ^
+    `----
+
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :         ^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :         ^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :         ^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :         ^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :         ^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :         ^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :         ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :         ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
+ 10 | div:has(p) {}
+    :            ^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    : ^^^^^^^^^^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :  ^^^^^^^^^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :              ^^^^^^^^
+    `----
+
+  x PseudoClassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :              ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :               ^^^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                   ^^
+    `----
+
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                   ^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                   ^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                   ^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                   ^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                   ^^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                   ^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                   ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                   ^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                      ^^^^^^^^^^^^^^^
+    `----
+
+  x PseudoClassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                      ^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                       ^^^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                           ^^^^^^^^^
+    `----
+
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                           ^^^^^^^^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                           ^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                           ^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                           ^^^^^^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                           ^^^^^^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                           ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                            ^^^^^^^^
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                                     ^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                                      ^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                                      ^^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                                      ^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                                      ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                                      ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:11:1]
+ 11 | .header-group:has(h2):has(.subtitle) h2 {}
+    :                                         ^^
+    `----

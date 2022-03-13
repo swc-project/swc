@@ -1,6 +1,6 @@
-error: Expected identifier value
- --> $DIR/tests/recovery/at-rule/media/feature-range/input.css:1:8
-  |
-1 | @media (height + 600px) {}
-  |        ^
 
+  x Expected identifier value
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range/input.css:2:1]
+ 2 | @media (height + 600px) {}
+   :        ^
+   `----

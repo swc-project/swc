@@ -1,6 +1,6 @@
-error: cannot import as reserved word
- --> $DIR/tests/typescript-errors/type-only-import-specifier/invalid-type-only/input.ts:1:15
-  |
-1 | import { type import } from 'mod'
-  |               ^^^^^^
 
+  x cannot import as reserved word
+   ,-[$DIR/tests/typescript-errors/type-only-import-specifier/invalid-type-only/input.ts:2:1]
+ 2 | import { type import } from 'mod'
+   :               ^^^^^^
+   `----

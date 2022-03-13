@@ -1,6 +1,6 @@
-error: Expected ident or string
- --> $DIR/tests/recovery/at-rule/keyframes/empty-name/input.css:1:12
-  |
-1 | @keyframes {}
-  |            ^
 
+  x Expected ident or string
+   ,-[$DIR/tests/recovery/at-rule/keyframes/empty-name/input.css:2:1]
+ 2 | @keyframes {}
+   :            ^
+   `----

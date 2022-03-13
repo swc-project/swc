@@ -1,6 +1,6 @@
-error: Expected Ident
- --> $DIR/tests/recovery/delim-token/bang/input.css:2:13
-  |
-2 |     color: !!;
-  |             ^
 
+  x Expected Ident
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:3:5]
+ 3 | color: !!;
+   :         ^
+   `----

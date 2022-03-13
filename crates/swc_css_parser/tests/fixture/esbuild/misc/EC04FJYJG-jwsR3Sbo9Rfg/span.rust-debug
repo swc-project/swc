@@ -1,84 +1,84 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1
-  |
-1 | div#\-0 {}
-  | ^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1
-  |
-1 | div#\-0 {}
-  | ^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   : ^^^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1
-  |
-1 | div#\-0 {}
-  | ^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   : ^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1
-  |
-1 | div#\-0 {}
-  | ^^^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   : ^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1
-  |
-1 | div#\-0 {}
-  | ^^^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   : ^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1
-  |
-1 | div#\-0 {}
-  | ^^^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   : ^^^^^^^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1
-  |
-1 | div#\-0 {}
-  | ^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   : ^^^^^^^
+   `----
 
-error: TagNameSelector
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1
-  |
-1 | div#\-0 {}
-  | ^^^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   : ^^^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1
-  |
-1 | div#\-0 {}
-  | ^^^
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   : ^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1
-  |
-1 | div#\-0 {}
-  | ^^^
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   : ^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:4
-  |
-1 | div#\-0 {}
-  |    ^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   : ^^^
+   `----
 
-error: IdSelector
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:4
-  |
-1 | div#\-0 {}
-  |    ^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   :    ^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:4
-  |
-1 | div#\-0 {}
-  |    ^^^^
+  x IdSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   :    ^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:9
-  |
-1 | div#\-0 {}
-  |         ^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   :    ^^^^
+   `----
 
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:2:1]
+ 2 | div#\-0 {}
+   :         ^^
+   `----

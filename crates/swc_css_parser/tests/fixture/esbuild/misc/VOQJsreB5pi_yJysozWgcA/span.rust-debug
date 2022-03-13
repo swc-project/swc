@@ -1,1204 +1,1253 @@
-error: Stylesheet
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:1:1
-   |
-1  | /
-2  | |         @page :first { margin: 0 }
-3  | |         @page {
-4  | |             @top-left-corner { content: 'tlc' }
-...  |
-20 | |         }
-21 | |     
-   | |____^
-
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:3
-  |
-2 |         @page :first { margin: 0 }
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:3
-  |
-2 |         @page :first { margin: 0 }
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:3
-  |
-2 |         @page :first { margin: 0 }
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageSelectorList
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9
-  |
-2 |         @page :first { margin: 0 }
-  |               ^^^^^^
-
-error: PageSelector
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9
-  |
-2 |         @page :first { margin: 0 }
-  |               ^^^^^^
-
-error: PageSelectorPseudo
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9
-  |
-2 |         @page :first { margin: 0 }
-  |               ^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:10
-  |
-2 |         @page :first { margin: 0 }
-  |                ^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:16
-  |
-2 |         @page :first { margin: 0 }
-  |                      ^^^^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
-  |
-2 |         @page :first { margin: 0 }
-  |                        ^^^^^^^^^
-
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
-  |
-2 |         @page :first { margin: 0 }
-  |                        ^^^^^^^^^
-
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
-  |
-2 |         @page :first { margin: 0 }
-  |                        ^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:18
-  |
-2 |         @page :first { margin: 0 }
-  |                        ^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:26
-  |
-2 |         @page :first { margin: 0 }
-  |                                ^
-
-error: Integer
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:26
-  |
-2 |         @page :first { margin: 0 }
-  |                                ^
-
-error: Rule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:3
-   |
-3  |           @page {
-   |  _________^
-4  | |             @top-left-corner { content: 'tlc' }
-5  | |             @top-left { content: 'tl' }
-6  | |             @top-center { content: 'tc' }
-...  |
-19 | |             @right-bottom { content: 'rb' }
-20 | |         }
-   | |_________^
-
-error: AtRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:3
-   |
-3  |           @page {
-   |  _________^
-4  | |             @top-left-corner { content: 'tlc' }
-5  | |             @top-left { content: 'tl' }
-6  | |             @top-center { content: 'tc' }
-...  |
-19 | |             @right-bottom { content: 'rb' }
-20 | |         }
-   | |_________^
-
-error: PageRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:3
-   |
-3  |           @page {
-   |  _________^
-4  | |             @top-left-corner { content: 'tlc' }
-5  | |             @top-left { content: 'tl' }
-6  | |             @top-center { content: 'tc' }
-...  |
-19 | |             @right-bottom { content: 'rb' }
-20 | |         }
-   | |_________^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9
-   |
-3  |           @page {
-   |  _______________^
-4  | |             @top-left-corner { content: 'tlc' }
-5  | |             @top-left { content: 'tl' }
-6  | |             @top-center { content: 'tc' }
-...  |
-19 | |             @right-bottom { content: 'rb' }
-20 | |         }
-   | |_________^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:4
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:5
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |              ^^^^^^^^^^^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:21
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |                              ^^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |                                ^^^^^^^^^^^^^^
-
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |                                ^^^^^^^^^^^^^^
-
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |                                ^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:23
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |                                ^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:32
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |                                         ^^^^^
-
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:32
-  |
-4 |             @top-left-corner { content: 'tlc' }
-  |                                         ^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
-  |
-5 |             @top-left { content: 'tl' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
-  |
-5 |             @top-left { content: 'tl' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:4
-  |
-5 |             @top-left { content: 'tl' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:5
-  |
-5 |             @top-left { content: 'tl' }
-  |              ^^^^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:14
-  |
-5 |             @top-left { content: 'tl' }
-  |                       ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
-  |
-5 |             @top-left { content: 'tl' }
-  |                         ^^^^^^^^^^^^^
-
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
-  |
-5 |             @top-left { content: 'tl' }
-  |                         ^^^^^^^^^^^^^
-
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
-  |
-5 |             @top-left { content: 'tl' }
-  |                         ^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:16
-  |
-5 |             @top-left { content: 'tl' }
-  |                         ^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:25
-  |
-5 |             @top-left { content: 'tl' }
-  |                                  ^^^^
-
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:25
-  |
-5 |             @top-left { content: 'tl' }
-  |                                  ^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
-  |
-6 |             @top-center { content: 'tc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
-  |
-6 |             @top-center { content: 'tc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:4
-  |
-6 |             @top-center { content: 'tc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:5
-  |
-6 |             @top-center { content: 'tc' }
-  |              ^^^^^^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:16
-  |
-6 |             @top-center { content: 'tc' }
-  |                         ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
-  |
-6 |             @top-center { content: 'tc' }
-  |                           ^^^^^^^^^^^^^
-
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
-  |
-6 |             @top-center { content: 'tc' }
-  |                           ^^^^^^^^^^^^^
-
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
-  |
-6 |             @top-center { content: 'tc' }
-  |                           ^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:18
-  |
-6 |             @top-center { content: 'tc' }
-  |                           ^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:27
-  |
-6 |             @top-center { content: 'tc' }
-  |                                    ^^^^
-
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:27
-  |
-6 |             @top-center { content: 'tc' }
-  |                                    ^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
-  |
-7 |             @top-right { content: 'tr' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
-  |
-7 |             @top-right { content: 'tr' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:4
-  |
-7 |             @top-right { content: 'tr' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:5
-  |
-7 |             @top-right { content: 'tr' }
-  |              ^^^^^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:15
-  |
-7 |             @top-right { content: 'tr' }
-  |                        ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
-  |
-7 |             @top-right { content: 'tr' }
-  |                          ^^^^^^^^^^^^^
-
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
-  |
-7 |             @top-right { content: 'tr' }
-  |                          ^^^^^^^^^^^^^
-
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
-  |
-7 |             @top-right { content: 'tr' }
-  |                          ^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:17
-  |
-7 |             @top-right { content: 'tr' }
-  |                          ^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:26
-  |
-7 |             @top-right { content: 'tr' }
-  |                                   ^^^^
-
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:26
-  |
-7 |             @top-right { content: 'tr' }
-  |                                   ^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:4
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:5
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |              ^^^^^^^^^^^^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:22
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |                               ^^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |                                 ^^^^^^^^^^^^^^
-
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |                                 ^^^^^^^^^^^^^^
-
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |                                 ^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:24
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |                                 ^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:33
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |                                          ^^^^^
-
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:33
-  |
-8 |             @top-right-corner { content: 'trc' }
-  |                                          ^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:4
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:5
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |              ^^^^^^^^^^^^^^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:24
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |                                 ^^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |                                   ^^^^^^^^^^^^^^
-
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |                                   ^^^^^^^^^^^^^^
-
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |                                   ^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:26
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |                                   ^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:35
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |                                            ^^^^^
-
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:35
-  |
-9 |             @bottom-left-corner { content: 'blc' }
-  |                                            ^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
-   |
-10 |             @bottom-left { content: 'bl' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
-   |
-10 |             @bottom-left { content: 'bl' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:4
-   |
-10 |             @bottom-left { content: 'bl' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:5
-   |
-10 |             @bottom-left { content: 'bl' }
-   |              ^^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:17
-   |
-10 |             @bottom-left { content: 'bl' }
-   |                          ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
-   |
-10 |             @bottom-left { content: 'bl' }
-   |                            ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
-   |
-10 |             @bottom-left { content: 'bl' }
-   |                            ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
-   |
-10 |             @bottom-left { content: 'bl' }
-   |                            ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:19
-   |
-10 |             @bottom-left { content: 'bl' }
-   |                            ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:28
-   |
-10 |             @bottom-left { content: 'bl' }
-   |                                     ^^^^
-
-error: Str
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:28
-   |
-10 |             @bottom-left { content: 'bl' }
-   |                                     ^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
-   |
-11 |             @bottom-center { content: 'bc' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
-   |
-11 |             @bottom-center { content: 'bc' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:4
-   |
-11 |             @bottom-center { content: 'bc' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:5
-   |
-11 |             @bottom-center { content: 'bc' }
-   |              ^^^^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:19
-   |
-11 |             @bottom-center { content: 'bc' }
-   |                            ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
-   |
-11 |             @bottom-center { content: 'bc' }
-   |                              ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
-   |
-11 |             @bottom-center { content: 'bc' }
-   |                              ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
-   |
-11 |             @bottom-center { content: 'bc' }
-   |                              ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:21
-   |
-11 |             @bottom-center { content: 'bc' }
-   |                              ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:30
-   |
-11 |             @bottom-center { content: 'bc' }
-   |                                       ^^^^
-
-error: Str
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:30
-   |
-11 |             @bottom-center { content: 'bc' }
-   |                                       ^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
-   |
-12 |             @bottom-right { content: 'br' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
-   |
-12 |             @bottom-right { content: 'br' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:4
-   |
-12 |             @bottom-right { content: 'br' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:5
-   |
-12 |             @bottom-right { content: 'br' }
-   |              ^^^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:18
-   |
-12 |             @bottom-right { content: 'br' }
-   |                           ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
-   |
-12 |             @bottom-right { content: 'br' }
-   |                             ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
-   |
-12 |             @bottom-right { content: 'br' }
-   |                             ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
-   |
-12 |             @bottom-right { content: 'br' }
-   |                             ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:20
-   |
-12 |             @bottom-right { content: 'br' }
-   |                             ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:29
-   |
-12 |             @bottom-right { content: 'br' }
-   |                                      ^^^^
-
-error: Str
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:29
-   |
-12 |             @bottom-right { content: 'br' }
-   |                                      ^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:4
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:5
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |              ^^^^^^^^^^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:25
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |                                  ^^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |                                    ^^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |                                    ^^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |                                    ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:27
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |                                    ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:36
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |                                             ^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:36
-   |
-13 |             @bottom-right-corner { content: 'brc' }
-   |                                             ^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
-   |
-14 |             @left-top { content: 'lt' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
-   |
-14 |             @left-top { content: 'lt' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:4
-   |
-14 |             @left-top { content: 'lt' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:5
-   |
-14 |             @left-top { content: 'lt' }
-   |              ^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:14
-   |
-14 |             @left-top { content: 'lt' }
-   |                       ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
-   |
-14 |             @left-top { content: 'lt' }
-   |                         ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
-   |
-14 |             @left-top { content: 'lt' }
-   |                         ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
-   |
-14 |             @left-top { content: 'lt' }
-   |                         ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:16
-   |
-14 |             @left-top { content: 'lt' }
-   |                         ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:25
-   |
-14 |             @left-top { content: 'lt' }
-   |                                  ^^^^
-
-error: Str
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:25
-   |
-14 |             @left-top { content: 'lt' }
-   |                                  ^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
-   |
-15 |             @left-middle { content: 'lm' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
-   |
-15 |             @left-middle { content: 'lm' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:4
-   |
-15 |             @left-middle { content: 'lm' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:5
-   |
-15 |             @left-middle { content: 'lm' }
-   |              ^^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:17
-   |
-15 |             @left-middle { content: 'lm' }
-   |                          ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
-   |
-15 |             @left-middle { content: 'lm' }
-   |                            ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
-   |
-15 |             @left-middle { content: 'lm' }
-   |                            ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
-   |
-15 |             @left-middle { content: 'lm' }
-   |                            ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:19
-   |
-15 |             @left-middle { content: 'lm' }
-   |                            ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:28
-   |
-15 |             @left-middle { content: 'lm' }
-   |                                     ^^^^
-
-error: Str
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:28
-   |
-15 |             @left-middle { content: 'lm' }
-   |                                     ^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
-   |
-16 |             @left-bottom { content: 'lb' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
-   |
-16 |             @left-bottom { content: 'lb' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:4
-   |
-16 |             @left-bottom { content: 'lb' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:5
-   |
-16 |             @left-bottom { content: 'lb' }
-   |              ^^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:17
-   |
-16 |             @left-bottom { content: 'lb' }
-   |                          ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
-   |
-16 |             @left-bottom { content: 'lb' }
-   |                            ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
-   |
-16 |             @left-bottom { content: 'lb' }
-   |                            ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
-   |
-16 |             @left-bottom { content: 'lb' }
-   |                            ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:19
-   |
-16 |             @left-bottom { content: 'lb' }
-   |                            ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:28
-   |
-16 |             @left-bottom { content: 'lb' }
-   |                                     ^^^^
-
-error: Str
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:28
-   |
-16 |             @left-bottom { content: 'lb' }
-   |                                     ^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
-   |
-17 |             @right-top { content: 'rt' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
-   |
-17 |             @right-top { content: 'rt' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:4
-   |
-17 |             @right-top { content: 'rt' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:5
-   |
-17 |             @right-top { content: 'rt' }
-   |              ^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:15
-   |
-17 |             @right-top { content: 'rt' }
-   |                        ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
-   |
-17 |             @right-top { content: 'rt' }
-   |                          ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
-   |
-17 |             @right-top { content: 'rt' }
-   |                          ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
-   |
-17 |             @right-top { content: 'rt' }
-   |                          ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:17
-   |
-17 |             @right-top { content: 'rt' }
-   |                          ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:26
-   |
-17 |             @right-top { content: 'rt' }
-   |                                   ^^^^
-
-error: Str
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:26
-   |
-17 |             @right-top { content: 'rt' }
-   |                                   ^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
-   |
-18 |             @right-middle { content: 'rm' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
-   |
-18 |             @right-middle { content: 'rm' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:4
-   |
-18 |             @right-middle { content: 'rm' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:5
-   |
-18 |             @right-middle { content: 'rm' }
-   |              ^^^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:18
-   |
-18 |             @right-middle { content: 'rm' }
-   |                           ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
-   |
-18 |             @right-middle { content: 'rm' }
-   |                             ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
-   |
-18 |             @right-middle { content: 'rm' }
-   |                             ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
-   |
-18 |             @right-middle { content: 'rm' }
-   |                             ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:20
-   |
-18 |             @right-middle { content: 'rm' }
-   |                             ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:29
-   |
-18 |             @right-middle { content: 'rm' }
-   |                                      ^^^^
-
-error: Str
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:29
-   |
-18 |             @right-middle { content: 'rm' }
-   |                                      ^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
-   |
-19 |             @right-bottom { content: 'rb' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
-   |
-19 |             @right-bottom { content: 'rb' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: PageMarginRule
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:4
-   |
-19 |             @right-bottom { content: 'rb' }
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:5
-   |
-19 |             @right-bottom { content: 'rb' }
-   |              ^^^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:18
-   |
-19 |             @right-bottom { content: 'rb' }
-   |                           ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20
-   |
-19 |             @right-bottom { content: 'rb' }
-   |                             ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20
-   |
-19 |             @right-bottom { content: 'rb' }
-   |                             ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20
-   |
-19 |             @right-bottom { content: 'rb' }
-   |                             ^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:20
-   |
-19 |             @right-bottom { content: 'rb' }
-   |                             ^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:29
-   |
-19 |             @right-bottom { content: 'rb' }
-   |                                      ^^^^
-
-error: Str
-  --> $DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:29
-   |
-19 |             @right-bottom { content: 'rb' }
-   |                                      ^^^^
 
+  x Stylesheet
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:1]
+  2 | ,-> 
+  3 | |   		@page :first { margin: 0 }
+  4 | |   		@page {
+  5 | |   			@top-left-corner { content: 'tlc' }
+  6 | |   			@top-left { content: 'tl' }
+  7 | |   			@top-center { content: 'tc' }
+  8 | |   			@top-right { content: 'tr' }
+  9 | |   			@top-right-corner { content: 'trc' }
+ 10 | |   			@bottom-left-corner { content: 'blc' }
+ 11 | |   			@bottom-left { content: 'bl' }
+ 12 | |   			@bottom-center { content: 'bc' }
+ 13 | |   			@bottom-right { content: 'br' }
+ 14 | |   			@bottom-right-corner { content: 'brc' }
+ 15 | |   			@left-top { content: 'lt' }
+ 16 | |   			@left-middle { content: 'lm' }
+ 17 | |   			@left-bottom { content: 'lb' }
+ 18 | |   			@right-top { content: 'rt' }
+ 19 | |   			@right-middle { content: 'rm' }
+ 20 | |   			@right-bottom { content: 'rb' }
+ 21 | |   		}
+ 22 | `-> 	
+    `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PageRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PageSelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   :       ^^^^^^
+   `----
+
+  x PageSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   :       ^^^^^^
+   `----
+
+  x PageSelectorPseudo
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   :       ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   :        ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   :              ^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   :                ^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   :                ^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   :                ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   :                ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   :                        ^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page :first { margin: 0 }
+   :                        ^
+   `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:9]
+  4 | ,-> @page {
+  5 | |   			@top-left-corner { content: 'tlc' }
+  6 | |   			@top-left { content: 'tl' }
+  7 | |   			@top-center { content: 'tc' }
+  8 | |   			@top-right { content: 'tr' }
+  9 | |   			@top-right-corner { content: 'trc' }
+ 10 | |   			@bottom-left-corner { content: 'blc' }
+ 11 | |   			@bottom-left { content: 'bl' }
+ 12 | |   			@bottom-center { content: 'bc' }
+ 13 | |   			@bottom-right { content: 'br' }
+ 14 | |   			@bottom-right-corner { content: 'brc' }
+ 15 | |   			@left-top { content: 'lt' }
+ 16 | |   			@left-middle { content: 'lm' }
+ 17 | |   			@left-bottom { content: 'lb' }
+ 18 | |   			@right-top { content: 'rt' }
+ 19 | |   			@right-middle { content: 'rm' }
+ 20 | |   			@right-bottom { content: 'rb' }
+ 21 | `-> 		}
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:9]
+  4 | ,-> @page {
+  5 | |   			@top-left-corner { content: 'tlc' }
+  6 | |   			@top-left { content: 'tl' }
+  7 | |   			@top-center { content: 'tc' }
+  8 | |   			@top-right { content: 'tr' }
+  9 | |   			@top-right-corner { content: 'trc' }
+ 10 | |   			@bottom-left-corner { content: 'blc' }
+ 11 | |   			@bottom-left { content: 'bl' }
+ 12 | |   			@bottom-center { content: 'bc' }
+ 13 | |   			@bottom-right { content: 'br' }
+ 14 | |   			@bottom-right-corner { content: 'brc' }
+ 15 | |   			@left-top { content: 'lt' }
+ 16 | |   			@left-middle { content: 'lm' }
+ 17 | |   			@left-bottom { content: 'lb' }
+ 18 | |   			@right-top { content: 'rt' }
+ 19 | |   			@right-middle { content: 'rm' }
+ 20 | |   			@right-bottom { content: 'rb' }
+ 21 | `-> 		}
+    `----
+
+  x PageRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:9]
+  4 | ,-> @page {
+  5 | |   			@top-left-corner { content: 'tlc' }
+  6 | |   			@top-left { content: 'tl' }
+  7 | |   			@top-center { content: 'tc' }
+  8 | |   			@top-right { content: 'tr' }
+  9 | |   			@top-right-corner { content: 'trc' }
+ 10 | |   			@bottom-left-corner { content: 'blc' }
+ 11 | |   			@bottom-left { content: 'bl' }
+ 12 | |   			@bottom-center { content: 'bc' }
+ 13 | |   			@bottom-right { content: 'br' }
+ 14 | |   			@bottom-right-corner { content: 'brc' }
+ 15 | |   			@left-top { content: 'lt' }
+ 16 | |   			@left-middle { content: 'lm' }
+ 17 | |   			@left-bottom { content: 'lb' }
+ 18 | |   			@right-top { content: 'rt' }
+ 19 | |   			@right-middle { content: 'rm' }
+ 20 | |   			@right-bottom { content: 'rb' }
+ 21 | `-> 		}
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:9]
+  4 | ,-> @page {
+  5 | |   			@top-left-corner { content: 'tlc' }
+  6 | |   			@top-left { content: 'tl' }
+  7 | |   			@top-center { content: 'tc' }
+  8 | |   			@top-right { content: 'tr' }
+  9 | |   			@top-right-corner { content: 'trc' }
+ 10 | |   			@bottom-left-corner { content: 'blc' }
+ 11 | |   			@bottom-left { content: 'bl' }
+ 12 | |   			@bottom-center { content: 'bc' }
+ 13 | |   			@bottom-right { content: 'br' }
+ 14 | |   			@bottom-right-corner { content: 'brc' }
+ 15 | |   			@left-top { content: 'lt' }
+ 16 | |   			@left-middle { content: 'lm' }
+ 17 | |   			@left-bottom { content: 'lb' }
+ 18 | |   			@right-top { content: 'rt' }
+ 19 | |   			@right-middle { content: 'rm' }
+ 20 | |   			@right-bottom { content: 'rb' }
+ 21 | `-> 		}
+    `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
+ 5 | @top-left-corner { content: 'tlc' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
+ 5 | @top-left-corner { content: 'tlc' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PageMarginRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
+ 5 | @top-left-corner { content: 'tlc' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
+ 5 | @top-left-corner { content: 'tlc' }
+   :  ^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
+ 5 | @top-left-corner { content: 'tlc' }
+   :                  ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
+ 5 | @top-left-corner { content: 'tlc' }
+   :                    ^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
+ 5 | @top-left-corner { content: 'tlc' }
+   :                    ^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
+ 5 | @top-left-corner { content: 'tlc' }
+   :                    ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
+ 5 | @top-left-corner { content: 'tlc' }
+   :                    ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
+ 5 | @top-left-corner { content: 'tlc' }
+   :                             ^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
+ 5 | @top-left-corner { content: 'tlc' }
+   :                             ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
+ 6 | @top-left { content: 'tl' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
+ 6 | @top-left { content: 'tl' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PageMarginRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
+ 6 | @top-left { content: 'tl' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
+ 6 | @top-left { content: 'tl' }
+   :  ^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
+ 6 | @top-left { content: 'tl' }
+   :           ^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
+ 6 | @top-left { content: 'tl' }
+   :             ^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
+ 6 | @top-left { content: 'tl' }
+   :             ^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
+ 6 | @top-left { content: 'tl' }
+   :             ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
+ 6 | @top-left { content: 'tl' }
+   :             ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
+ 6 | @top-left { content: 'tl' }
+   :                      ^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
+ 6 | @top-left { content: 'tl' }
+   :                      ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
+ 7 | @top-center { content: 'tc' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
+ 7 | @top-center { content: 'tc' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PageMarginRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
+ 7 | @top-center { content: 'tc' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
+ 7 | @top-center { content: 'tc' }
+   :  ^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
+ 7 | @top-center { content: 'tc' }
+   :             ^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
+ 7 | @top-center { content: 'tc' }
+   :               ^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
+ 7 | @top-center { content: 'tc' }
+   :               ^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
+ 7 | @top-center { content: 'tc' }
+   :               ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
+ 7 | @top-center { content: 'tc' }
+   :               ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
+ 7 | @top-center { content: 'tc' }
+   :                        ^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
+ 7 | @top-center { content: 'tc' }
+   :                        ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
+ 8 | @top-right { content: 'tr' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
+ 8 | @top-right { content: 'tr' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PageMarginRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
+ 8 | @top-right { content: 'tr' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
+ 8 | @top-right { content: 'tr' }
+   :  ^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
+ 8 | @top-right { content: 'tr' }
+   :            ^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
+ 8 | @top-right { content: 'tr' }
+   :              ^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
+ 8 | @top-right { content: 'tr' }
+   :              ^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
+ 8 | @top-right { content: 'tr' }
+   :              ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
+ 8 | @top-right { content: 'tr' }
+   :              ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
+ 8 | @top-right { content: 'tr' }
+   :                       ^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
+ 8 | @top-right { content: 'tr' }
+   :                       ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
+ 9 | @top-right-corner { content: 'trc' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
+ 9 | @top-right-corner { content: 'trc' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PageMarginRule
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
+ 9 | @top-right-corner { content: 'trc' }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
+ 9 | @top-right-corner { content: 'trc' }
+   :  ^^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
+ 9 | @top-right-corner { content: 'trc' }
+   :                   ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
+ 9 | @top-right-corner { content: 'trc' }
+   :                     ^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
+ 9 | @top-right-corner { content: 'trc' }
+   :                     ^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
+ 9 | @top-right-corner { content: 'trc' }
+   :                     ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
+ 9 | @top-right-corner { content: 'trc' }
+   :                     ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
+ 9 | @top-right-corner { content: 'trc' }
+   :                              ^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
+ 9 | @top-right-corner { content: 'trc' }
+   :                              ^^^^^
+   `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
+ 10 | @bottom-left-corner { content: 'blc' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
+ 10 | @bottom-left-corner { content: 'blc' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PageMarginRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
+ 10 | @bottom-left-corner { content: 'blc' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
+ 10 | @bottom-left-corner { content: 'blc' }
+    :  ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
+ 10 | @bottom-left-corner { content: 'blc' }
+    :                     ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
+ 10 | @bottom-left-corner { content: 'blc' }
+    :                       ^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
+ 10 | @bottom-left-corner { content: 'blc' }
+    :                       ^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
+ 10 | @bottom-left-corner { content: 'blc' }
+    :                       ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
+ 10 | @bottom-left-corner { content: 'blc' }
+    :                       ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
+ 10 | @bottom-left-corner { content: 'blc' }
+    :                                ^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
+ 10 | @bottom-left-corner { content: 'blc' }
+    :                                ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
+ 11 | @bottom-left { content: 'bl' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
+ 11 | @bottom-left { content: 'bl' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PageMarginRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
+ 11 | @bottom-left { content: 'bl' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
+ 11 | @bottom-left { content: 'bl' }
+    :  ^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
+ 11 | @bottom-left { content: 'bl' }
+    :              ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
+ 11 | @bottom-left { content: 'bl' }
+    :                ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
+ 11 | @bottom-left { content: 'bl' }
+    :                ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
+ 11 | @bottom-left { content: 'bl' }
+    :                ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
+ 11 | @bottom-left { content: 'bl' }
+    :                ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
+ 11 | @bottom-left { content: 'bl' }
+    :                         ^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
+ 11 | @bottom-left { content: 'bl' }
+    :                         ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
+ 12 | @bottom-center { content: 'bc' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
+ 12 | @bottom-center { content: 'bc' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PageMarginRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
+ 12 | @bottom-center { content: 'bc' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
+ 12 | @bottom-center { content: 'bc' }
+    :  ^^^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
+ 12 | @bottom-center { content: 'bc' }
+    :                ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
+ 12 | @bottom-center { content: 'bc' }
+    :                  ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
+ 12 | @bottom-center { content: 'bc' }
+    :                  ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
+ 12 | @bottom-center { content: 'bc' }
+    :                  ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
+ 12 | @bottom-center { content: 'bc' }
+    :                  ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
+ 12 | @bottom-center { content: 'bc' }
+    :                           ^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
+ 12 | @bottom-center { content: 'bc' }
+    :                           ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
+ 13 | @bottom-right { content: 'br' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
+ 13 | @bottom-right { content: 'br' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PageMarginRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
+ 13 | @bottom-right { content: 'br' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
+ 13 | @bottom-right { content: 'br' }
+    :  ^^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
+ 13 | @bottom-right { content: 'br' }
+    :               ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
+ 13 | @bottom-right { content: 'br' }
+    :                 ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
+ 13 | @bottom-right { content: 'br' }
+    :                 ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
+ 13 | @bottom-right { content: 'br' }
+    :                 ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
+ 13 | @bottom-right { content: 'br' }
+    :                 ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
+ 13 | @bottom-right { content: 'br' }
+    :                          ^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
+ 13 | @bottom-right { content: 'br' }
+    :                          ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
+ 14 | @bottom-right-corner { content: 'brc' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
+ 14 | @bottom-right-corner { content: 'brc' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PageMarginRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
+ 14 | @bottom-right-corner { content: 'brc' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
+ 14 | @bottom-right-corner { content: 'brc' }
+    :  ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
+ 14 | @bottom-right-corner { content: 'brc' }
+    :                      ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
+ 14 | @bottom-right-corner { content: 'brc' }
+    :                        ^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
+ 14 | @bottom-right-corner { content: 'brc' }
+    :                        ^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
+ 14 | @bottom-right-corner { content: 'brc' }
+    :                        ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
+ 14 | @bottom-right-corner { content: 'brc' }
+    :                        ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
+ 14 | @bottom-right-corner { content: 'brc' }
+    :                                 ^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
+ 14 | @bottom-right-corner { content: 'brc' }
+    :                                 ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
+ 15 | @left-top { content: 'lt' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
+ 15 | @left-top { content: 'lt' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PageMarginRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
+ 15 | @left-top { content: 'lt' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
+ 15 | @left-top { content: 'lt' }
+    :  ^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
+ 15 | @left-top { content: 'lt' }
+    :           ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
+ 15 | @left-top { content: 'lt' }
+    :             ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
+ 15 | @left-top { content: 'lt' }
+    :             ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
+ 15 | @left-top { content: 'lt' }
+    :             ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
+ 15 | @left-top { content: 'lt' }
+    :             ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
+ 15 | @left-top { content: 'lt' }
+    :                      ^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
+ 15 | @left-top { content: 'lt' }
+    :                      ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
+ 16 | @left-middle { content: 'lm' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
+ 16 | @left-middle { content: 'lm' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PageMarginRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
+ 16 | @left-middle { content: 'lm' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
+ 16 | @left-middle { content: 'lm' }
+    :  ^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
+ 16 | @left-middle { content: 'lm' }
+    :              ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
+ 16 | @left-middle { content: 'lm' }
+    :                ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
+ 16 | @left-middle { content: 'lm' }
+    :                ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
+ 16 | @left-middle { content: 'lm' }
+    :                ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
+ 16 | @left-middle { content: 'lm' }
+    :                ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
+ 16 | @left-middle { content: 'lm' }
+    :                         ^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
+ 16 | @left-middle { content: 'lm' }
+    :                         ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
+ 17 | @left-bottom { content: 'lb' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
+ 17 | @left-bottom { content: 'lb' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PageMarginRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
+ 17 | @left-bottom { content: 'lb' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
+ 17 | @left-bottom { content: 'lb' }
+    :  ^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
+ 17 | @left-bottom { content: 'lb' }
+    :              ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
+ 17 | @left-bottom { content: 'lb' }
+    :                ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
+ 17 | @left-bottom { content: 'lb' }
+    :                ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
+ 17 | @left-bottom { content: 'lb' }
+    :                ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
+ 17 | @left-bottom { content: 'lb' }
+    :                ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
+ 17 | @left-bottom { content: 'lb' }
+    :                         ^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
+ 17 | @left-bottom { content: 'lb' }
+    :                         ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
+ 18 | @right-top { content: 'rt' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
+ 18 | @right-top { content: 'rt' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PageMarginRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
+ 18 | @right-top { content: 'rt' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
+ 18 | @right-top { content: 'rt' }
+    :  ^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
+ 18 | @right-top { content: 'rt' }
+    :            ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
+ 18 | @right-top { content: 'rt' }
+    :              ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
+ 18 | @right-top { content: 'rt' }
+    :              ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
+ 18 | @right-top { content: 'rt' }
+    :              ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
+ 18 | @right-top { content: 'rt' }
+    :              ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
+ 18 | @right-top { content: 'rt' }
+    :                       ^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
+ 18 | @right-top { content: 'rt' }
+    :                       ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
+ 19 | @right-middle { content: 'rm' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
+ 19 | @right-middle { content: 'rm' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PageMarginRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
+ 19 | @right-middle { content: 'rm' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
+ 19 | @right-middle { content: 'rm' }
+    :  ^^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
+ 19 | @right-middle { content: 'rm' }
+    :               ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
+ 19 | @right-middle { content: 'rm' }
+    :                 ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
+ 19 | @right-middle { content: 'rm' }
+    :                 ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
+ 19 | @right-middle { content: 'rm' }
+    :                 ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
+ 19 | @right-middle { content: 'rm' }
+    :                 ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
+ 19 | @right-middle { content: 'rm' }
+    :                          ^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
+ 19 | @right-middle { content: 'rm' }
+    :                          ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:20:13]
+ 20 | @right-bottom { content: 'rb' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:20:13]
+ 20 | @right-bottom { content: 'rb' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PageMarginRule
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:20:13]
+ 20 | @right-bottom { content: 'rb' }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:20:13]
+ 20 | @right-bottom { content: 'rb' }
+    :  ^^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:20:13]
+ 20 | @right-bottom { content: 'rb' }
+    :               ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:20:13]
+ 20 | @right-bottom { content: 'rb' }
+    :                 ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:20:13]
+ 20 | @right-bottom { content: 'rb' }
+    :                 ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:20:13]
+ 20 | @right-bottom { content: 'rb' }
+    :                 ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:20:13]
+ 20 | @right-bottom { content: 'rb' }
+    :                 ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:20:13]
+ 20 | @right-bottom { content: 'rb' }
+    :                          ^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:20:13]
+ 20 | @right-bottom { content: 'rb' }
+    :                          ^^^^
+    `----

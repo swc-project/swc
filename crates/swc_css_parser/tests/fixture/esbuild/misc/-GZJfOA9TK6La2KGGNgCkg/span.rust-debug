@@ -1,198 +1,198 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  | ^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: TagNameSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  | ^^^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  | ^^^
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  | ^^^
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:4
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |    ^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^
+   `----
 
-error: PseudoElementSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:4
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |    ^^^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :    ^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:6
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |      ^^^^^^
+  x PseudoElementSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :    ^^^^^^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:12
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |            ^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :      ^^^^^^
+   `----
 
-error: PseudoElementSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:12
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |            ^^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :            ^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:14
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |              ^^^^^
+  x PseudoElementSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :            ^^^^^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:19
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                   ^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :              ^^^^^
+   `----
 
-error: PseudoElementSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:19
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                   ^^^^^^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                   ^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:21
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                     ^^^^^^^^^
+  x PseudoElementSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                   ^^^^^^^^^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:30
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                              ^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                     ^^^^^^^^^
+   `----
 
-error: PseudoElementSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:30
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                              ^^^^^^^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                              ^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:32
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                ^^^^^^^^^^
+  x PseudoElementSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                              ^^^^^^^^^^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:42
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                          ^^^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                ^^^^^^^^^^
+   `----
 
-error: PseudoElementSelector
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:42
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                          ^^^^^^^^^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                          ^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:44
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                            ^^^^^^^^^^^^
+  x PseudoElementSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                          ^^^^^^^^^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:57
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                                         ^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                            ^^^^^^^^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:58
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                                          ^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                                         ^^^^^^^^^^^
+   `----
 
-error: StyleBlock
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:58
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                                          ^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                                          ^^^^^^^^^
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:58
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                                          ^^^^^^^^^
+  x StyleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                                          ^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:58
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                                          ^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                                          ^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:58
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                                          ^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                                          ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:64
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                                                ^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                                          ^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:64
-  |
-1 | div::before::after::selection::first-line::first-letter {color:red}
-  |                                                                ^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                                                ^^^
+   `----
 
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:2:1]
+ 2 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                                                ^^^
+   `----

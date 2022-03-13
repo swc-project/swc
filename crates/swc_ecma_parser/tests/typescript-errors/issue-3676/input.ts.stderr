@@ -1,6 +1,6 @@
-error: Expected ']', got ','
- --> $DIR/tests/typescript-errors/issue-3676/input.ts:1:15
-  |
-1 | const [...rest,] = a
-  |               ^
 
+  x Expected ']', got ','
+   ,-[$DIR/tests/typescript-errors/issue-3676/input.ts:2:1]
+ 2 | const [...rest,] = a
+   :               ^
+   `----

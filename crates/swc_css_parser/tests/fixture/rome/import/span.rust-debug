@@ -1,85 +1,84 @@
-error: Stylesheet
- --> $DIR/tests/fixture/rome/import/input.css:1:1
-  |
-1 | / @import "something.css";
-2 | | @import url("something.css");
-  | |______________________________^
 
-error: Rule
- --> $DIR/tests/fixture/rome/import/input.css:1:1
-  |
-1 | @import "something.css";
-  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+ 2 | ,-> @import "something.css";
+ 3 | `-> @import url("something.css");
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/rome/import/input.css:1:1
-  |
-1 | @import "something.css";
-  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+ 2 | @import "something.css";
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ImportRule
- --> $DIR/tests/fixture/rome/import/input.css:1:1
-  |
-1 | @import "something.css";
-  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+ 2 | @import "something.css";
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ImportHref
- --> $DIR/tests/fixture/rome/import/input.css:1:9
-  |
-1 | @import "something.css";
-  |         ^^^^^^^^^^^^^^^
+  x ImportRule
+   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+ 2 | @import "something.css";
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Str
- --> $DIR/tests/fixture/rome/import/input.css:1:9
-  |
-1 | @import "something.css";
-  |         ^^^^^^^^^^^^^^^
+  x ImportHref
+   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+ 2 | @import "something.css";
+   :         ^^^^^^^^^^^^^^^
+   `----
 
-error: Rule
- --> $DIR/tests/fixture/rome/import/input.css:2:1
-  |
-2 | @import url("something.css");
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Str
+   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+ 2 | @import "something.css";
+   :         ^^^^^^^^^^^^^^^
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/rome/import/input.css:2:1
-  |
-2 | @import url("something.css");
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/rome/import/input.css:3:1]
+ 3 | @import url("something.css");
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ImportRule
- --> $DIR/tests/fixture/rome/import/input.css:2:1
-  |
-2 | @import url("something.css");
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/import/input.css:3:1]
+ 3 | @import url("something.css");
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ImportHref
- --> $DIR/tests/fixture/rome/import/input.css:2:9
-  |
-2 | @import url("something.css");
-  |         ^^^^^^^^^^^^^^^^^^^^
+  x ImportRule
+   ,-[$DIR/tests/fixture/rome/import/input.css:3:1]
+ 3 | @import url("something.css");
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Url
- --> $DIR/tests/fixture/rome/import/input.css:2:9
-  |
-2 | @import url("something.css");
-  |         ^^^^^^^^^^^^^^^^^^^^
+  x ImportHref
+   ,-[$DIR/tests/fixture/rome/import/input.css:3:1]
+ 3 | @import url("something.css");
+   :         ^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/rome/import/input.css:2:9
-  |
-2 | @import url("something.css");
-  |         ^^^
+  x Url
+   ,-[$DIR/tests/fixture/rome/import/input.css:3:1]
+ 3 | @import url("something.css");
+   :         ^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: UrlValue
- --> $DIR/tests/fixture/rome/import/input.css:2:13
-  |
-2 | @import url("something.css");
-  |             ^^^^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/rome/import/input.css:3:1]
+ 3 | @import url("something.css");
+   :         ^^^
+   `----
 
-error: Str
- --> $DIR/tests/fixture/rome/import/input.css:2:13
-  |
-2 | @import url("something.css");
-  |             ^^^^^^^^^^^^^^^
+  x UrlValue
+   ,-[$DIR/tests/fixture/rome/import/input.css:3:1]
+ 3 | @import url("something.css");
+   :             ^^^^^^^^^^^^^^^
+   `----
 
+  x Str
+   ,-[$DIR/tests/fixture/rome/import/input.css:3:1]
+ 3 | @import url("something.css");
+   :             ^^^^^^^^^^^^^^^
+   `----

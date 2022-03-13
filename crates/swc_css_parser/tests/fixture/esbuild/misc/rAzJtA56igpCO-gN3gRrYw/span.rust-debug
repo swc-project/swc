@@ -1,108 +1,108 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1
-  |
-1 | a { value: 'a\62c' }
-  | ^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1
-  |
-1 | a { value: 'a\62c' }
-  | ^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1
-  |
-1 | a { value: 'a\62c' }
-  | ^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1
-  |
-1 | a { value: 'a\62c' }
-  | ^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1
-  |
-1 | a { value: 'a\62c' }
-  | ^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   : ^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1
-  |
-1 | a { value: 'a\62c' }
-  | ^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   : ^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1
-  |
-1 | a { value: 'a\62c' }
-  | ^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   : ^
+   `----
 
-error: TagNameSelector
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1
-  |
-1 | a { value: 'a\62c' }
-  | ^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   : ^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1
-  |
-1 | a { value: 'a\62c' }
-  | ^
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   : ^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:1
-  |
-1 | a { value: 'a\62c' }
-  | ^
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   : ^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:3
-  |
-1 | a { value: 'a\62c' }
-  |   ^^^^^^^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   : ^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:5
-  |
-1 | a { value: 'a\62c' }
-  |     ^^^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   :   ^^^^^^^^^^^^^^^^^^
+   `----
 
-error: StyleBlock
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:5
-  |
-1 | a { value: 'a\62c' }
-  |     ^^^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   :     ^^^^^^^^^^^^^^
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:5
-  |
-1 | a { value: 'a\62c' }
-  |     ^^^^^^^^^^^^^^
+  x StyleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   :     ^^^^^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:5
-  |
-1 | a { value: 'a\62c' }
-  |     ^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   :     ^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:5
-  |
-1 | a { value: 'a\62c' }
-  |     ^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   :     ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:12
-  |
-1 | a { value: 'a\62c' }
-  |            ^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   :     ^^^^^
+   `----
 
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:1:12
-  |
-1 | a { value: 'a\62c' }
-  |            ^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   :            ^^^^^^^
+   `----
 
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/rAzJtA56igpCO-gN3gRrYw/input.css:2:1]
+ 2 | a { value: 'a\62c' }
+   :            ^^^^^^^
+   `----
