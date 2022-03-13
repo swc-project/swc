@@ -17,15 +17,18 @@ fn main() {
     let c = swc::Compiler::new(cm.clone());
 
     let fm = cm
-        .load_file(Path::new("foo.js"))
+        .load_file(Path::new("examples/transform-input.js"))
         .expect("failed to load file");
 
-    c.process_js_file(
-        fm,
-        &handler,
-        &Options {
-            ..Default::default()
-        },
-    )
-    .expect("failed to process file");
+    let output = c
+        .process_js_file(
+            fm,
+            &handler,
+            &Options {
+                ..Default::default()
+            },
+        )
+        .expect("failed to process file");
+
+    println!("{}", output.code);
 }
