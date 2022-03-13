@@ -466,9 +466,11 @@ impl Pure<'_> {
                 true
             }
 
-            (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
+            (Expr::Ident(l), Expr::Ident(r)) => {
+                is_for_rel && self.options.unsafe_comps && l.sym < r.sym
+            }
 
-            (Expr::Ident(..), Expr::Ident(..)) => false,
+            (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
 
             (Expr::Ident(..), Expr::Lit(..))
             | (
