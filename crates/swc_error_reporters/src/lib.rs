@@ -65,7 +65,7 @@ impl SourceCode for MietteSourceCode<'_> {
         let src = self
             .0
             .with_snippet_of_span(span, |s| {
-                // SourceMap does not deallocate strings
+                // Safety: SourceMap does not deallocate strings
                 unsafe { transmute::<&str, &str>(s) }
             })
             .map_err(|_| MietteError::OutOfBounds)?;
