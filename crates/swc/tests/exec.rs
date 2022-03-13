@@ -1,15 +1,17 @@
 use std::{
+    fs,
     path::{Path, PathBuf},
     process::Command,
     sync::Arc,
 };
 
 use anyhow::{bail, Context, Error};
+use rayon::prelude::*;
 use swc::{
     config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
     try_with_handler, Compiler,
 };
-use swc_common::{sync::Lazy, SourceMap};
+use swc_common::SourceMap;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use testing::assert_eq;
@@ -121,7 +123,16 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
 
 #[testing::fixture("tests/exec/**/exec.js")]
 #[testing::fixture("tests/exec/**/exec.ts")]
-fn run_fixture_test(entry: PathBuf) {}
+fn run_fixture_test(entry: PathBuf) {
+    let matrix = create_matrix(&entry);
+    let input_code = fs::read_to_string(&entry).expect("failed to read entry file");
+    let expected_stdout = stdout_of(&input_code).expect("failed to get stdout");
+
+    matrix
+        .into_par_iter()
+        .map(|opts| test_file_with_opts(&entry, &opts, &expected_stdout).unwrap())
+        .collect::<Vec<_>>();
+}
 
 fn test_file_with_opts(entry: &Path, opts: &Options, expected_stdout: &str) -> Result<(), Error> {
     let cm = Arc::new(SourceMap::default());
