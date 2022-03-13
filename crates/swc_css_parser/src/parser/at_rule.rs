@@ -438,7 +438,7 @@ where
             _ => {
                 return Err(Error::new(
                     span,
-                    ErrorKind::Expected("string, url or function"),
+                    ErrorKind::Expected("string, url or function token"),
                 ))
             }
         };

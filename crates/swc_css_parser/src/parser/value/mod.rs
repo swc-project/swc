@@ -1910,7 +1910,10 @@ where
         let span = self.input.cur_span()?;
 
         if !is_one_of!(self, Url, Function) {
-            return Err(Error::new(span, ErrorKind::Expected("url or function")));
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("url or function (with 'url' or 'src' name) token"),
+            ));
         }
 
         match bump!(self) {
@@ -1958,7 +1961,10 @@ where
                 if &*function_name.to_ascii_lowercase() != "url"
                     && &*function_name.to_ascii_lowercase() != "src"
                 {
-                    return Err(Error::new(span, ErrorKind::Expected("'url' or 'src' name")));
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("'url' or 'src' name of a function token"),
+                    ));
                 }
 
                 let name = Ident {
