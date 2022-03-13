@@ -231,8 +231,26 @@ where
                     return None;
                 }
 
-                if !left_bin.right.is_ident() {
-                    return None;
+                match &*left_bin.right {
+                    Expr::Ident(..) | Expr::Lit(..) => {}
+                    Expr::Member(MemberExpr {
+                        obj,
+                        prop: MemberProp::Ident(..),
+                        ..
+                    }) => {
+                        if self.should_preserve_property_access(
+                            obj,
+                            super::unused::PropertyAccessOpts {
+                                allow_getter: false,
+                                only_ident: false,
+                            },
+                        ) {
+                            return None;
+                        }
+                    }
+                    _ => {
+                        return None;
+                    }
                 }
 
                 let right = match &mut *e_right {
