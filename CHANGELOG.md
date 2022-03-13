@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Implement more rules for `arrows`  (#3992) ([64ca5ba](https://github.com/swc-project/swc/commit/64ca5bae4d87b0aed82776d74e6aa5e2a712a35f))
 
+
+- **(es/minifier)** Compress more comparisons (#3996) ([a23af2d](https://github.com/swc-project/swc/commit/a23af2dea243a16a12ce09c778f6fd3d56da0382))
+
 ### Miscellaneous Tasks
 
 
