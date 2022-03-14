@@ -1149,7 +1149,6 @@ impl VisitMut for Prefixer {
                 same_content!("o", "-o-background-origin");
             }
 
-            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/background-size.js
             "background-size" => {
                 same_content!("webkit", "-webkit-background-size");
                 same_content!("o", "-o-background-size");
