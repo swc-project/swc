@@ -170,7 +170,7 @@ impl VisitMut for Prefixer {
 
         replace_function_name(&mut moz_new_value, "element", "-moz-element");
 
-        let o_new_value = n.value.clone();
+        let mut o_new_value = n.value.clone();
         let ms_new_value = n.value.clone();
 
         macro_rules! simple {
@@ -806,24 +806,24 @@ impl VisitMut for Prefixer {
 
             // TODO improve me for `filter` values https://github.com/postcss/autoprefixer/blob/main/test/cases/transition.css#L6
             "transition" => {
-                let mut value = n.value.clone();
+                replace_ident(&mut webkit_new_value, "transform", "-webkit-transform");
 
-                replace_ident(&mut value, "transform", "-webkit-transform");
+                same_content!("webkit", "-webkit-transition");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-webkit-transition".into(),
-                    raw: "-webkit-transition".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value,
-                    important: n.important.clone(),
-                });
+                replace_ident(&mut moz_new_value, "transform", "-moz-transform");
+
+                same_content!("moz", "-moz-transition");
+
+                replace_ident(&mut o_new_value, "transform", "-o-transform");
+
+                same_content!("o", "-o-transition");
             }
 
             "transition-property" => {
+                replace_ident(&mut webkit_new_value, "transform", "-webkit-transform");
+                replace_ident(&mut moz_new_value, "transform", "-moz-transform");
+                replace_ident(&mut o_new_value, "transform", "-o-transform");
+
                 same_content!("webkit", "-webkit-transition-property");
                 same_content!("moz", "-moz-transition-timing-function");
                 same_content!("o", "-o-transition-timing-function");
