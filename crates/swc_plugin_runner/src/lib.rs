@@ -18,8 +18,6 @@ mod memory_interop;
 mod transform_executor;
 
 // entrypoint fn swc calls to perform its transform via plugin.
-#[cfg(feature = "embedded_runtime")]
-pub fn apply_js_plugin(
 pub fn apply_transform_plugin(
     plugin_name: &str,
     path: &Path,
@@ -40,9 +38,4 @@ pub fn apply_transform_plugin(
             path.display()
         )
     })
-}
-
-#[cfg(feature = "native_runtime")]
-pub fn apply_js_plugin() {
-    unimplemented!("not implemented")
 }

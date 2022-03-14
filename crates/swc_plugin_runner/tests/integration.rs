@@ -87,7 +87,7 @@ fn internal() -> Result<(), Error> {
 
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
-        let program_bytes = swc_plugin_runner::apply_js_plugin(
+        let program_bytes = swc_plugin_runner::apply_transform_plugin(
             "internal-test",
             &path,
             &cache,
@@ -135,7 +135,7 @@ fn internal() -> Result<(), Error> {
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
         let _res = HANDLER.set(&handler, || {
-            swc_plugin_runner::apply_js_plugin(
+            swc_plugin_runner::apply_transform_plugin(
                 "internal-test",
                 &path,
                 &cache,
@@ -168,7 +168,7 @@ fn internal() -> Result<(), Error> {
         let mut serialized_program = Serialized::serialize(&program).expect("Should serializable");
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
 
-        serialized_program = swc_plugin_runner::apply_js_plugin(
+        serialized_program = swc_plugin_runner::apply_transform_plugin(
             "internal-test",
             &path,
             &cache,
@@ -180,7 +180,7 @@ fn internal() -> Result<(), Error> {
         .expect("Plugin should apply transform");
 
         // TODO: we'll need to apply 2 different plugins
-        serialized_program = swc_plugin_runner::apply_js_plugin(
+        serialized_program = swc_plugin_runner::apply_transform_plugin(
             "internal-test",
             &path,
             &cache,
