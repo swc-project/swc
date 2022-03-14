@@ -24,8 +24,6 @@ impl VisitMut for Prefixer {
     // TODO handle `@keyframes`
 
     // TODO handle `:any-link` pseudo
-    // TODO handle `:read-only` pseudo
-    // TODO handle `:read-write` pseudo
     // TODO handle `::file-selector-button` pseudo
     // TODO handle `::backdrop` pseudo
     // TODO handle `:fullscreen` pseudo
@@ -47,6 +45,8 @@ impl VisitMut for Prefixer {
         let mut new_prelude = n.prelude.clone();
 
         replace_pseudo_class_selector_name(&mut new_prelude, "autofill", "-webkit-autofill");
+        replace_pseudo_class_selector_name(&mut new_prelude, "read-only", "-moz-read-only");
+        replace_pseudo_class_selector_name(&mut new_prelude, "read-write", "-moz-read-write");
 
         if n.prelude != new_prelude {
             self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
