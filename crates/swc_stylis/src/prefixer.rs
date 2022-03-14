@@ -687,10 +687,34 @@ impl VisitMut for Prefixer {
             }
 
             "transform" => {
+                let has_3d_function = n.value.iter().any(|n| match n {
+                    ComponentValue::Function(Function { name, .. })
+                        if matches!(
+                            &*name.value.to_ascii_lowercase(),
+                            "matrix3d"
+                                | "translate3d"
+                                | "translatez"
+                                | "scale3d"
+                                | "scalez"
+                                | "rotate3d"
+                                | "rotatex"
+                                | "rotatey"
+                                | "rotatez"
+                                | "perspective"
+                        ) =>
+                    {
+                        true
+                    }
+                    _ => false,
+                });
+
                 same_content!(Prefix::Webkit, "-webkit-transform");
                 same_content!(Prefix::Moz, "-moz-transform");
-                same_content!(Prefix::Ms, "-ms-transform");
-                same_content!(Prefix::O, "-o-transform");
+
+                if !has_3d_function {
+                    same_content!(Prefix::Ms, "-ms-transform");
+                    same_content!(Prefix::O, "-o-transform");
+                }
             }
 
             "transform-origin" => {

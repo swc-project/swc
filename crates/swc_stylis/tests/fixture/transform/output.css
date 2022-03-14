@@ -15,8 +15,6 @@ a {
   transition: transform 1s;
   -webkit-transform: rotateX(45deg);
   -moz-transform: rotateX(45deg);
-  -ms-transform: rotateX(45deg);
-  -o-transform: rotateX(45deg);
   transform: rotateX(45deg);
 }
 b {
@@ -34,8 +32,6 @@ b {
 em {
   -webkit-transform: rotateZ(45deg);
   -moz-transform: rotateZ(45deg);
-  -ms-transform: rotateZ(45deg);
-  -o-transform: rotateZ(45deg);
   transform: rotateZ(45deg);
 }
 @keyframes anim {
@@ -51,4 +47,9 @@ em {
   -webkit-transform-style: flat;
   -moz-transform-style: flat;
   transform-style: flat;
+}
+.class {
+  -webkit-transform: perspective(500px) rotateY(3deg);
+  -moz-transform: perspective(500px) rotateY(3deg);
+  transform: perspective(500px) rotateY(3deg);
 }
