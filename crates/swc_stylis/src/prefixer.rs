@@ -165,10 +165,12 @@ impl VisitMut for Prefixer {
 
         replace_function_name(&mut webkit_new_value, "filter", "-webkit-filter");
         replace_function_name(&mut webkit_new_value, "image-set", "-webkit-image-set");
+        replace_function_name(&mut webkit_new_value, "calc", "-webkit-calc");
 
         let mut moz_new_value = n.value.clone();
 
         replace_function_name(&mut moz_new_value, "element", "-moz-element");
+        replace_function_name(&mut moz_new_value, "calc", "-moz-calc");
 
         let mut o_new_value = n.value.clone();
         let ms_new_value = n.value.clone();
@@ -238,6 +240,46 @@ impl VisitMut for Prefixer {
             }};
         }
 
+        macro_rules! passthrough {
+            () => {{
+                if n.value != webkit_new_value {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: webkit_new_value,
+                        important: n.important.clone(),
+                    });
+                }
+
+                if n.value != moz_new_value {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: moz_new_value,
+                        important: n.important.clone(),
+                    });
+                }
+
+                if n.value != o_new_value {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: o_new_value,
+                        important: n.important.clone(),
+                    });
+                }
+
+                if n.value != ms_new_value {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: ms_new_value,
+                        important: n.important.clone(),
+                    });
+                }
+            }};
+        }
+
         match &*name.to_lowercase() {
             "appearance" => {
                 same_content!("webkit", "-webkit-appearance");
@@ -289,6 +331,8 @@ impl VisitMut for Prefixer {
                             same_content!("o", "-o-animation-direction");
                         }
                     }
+                } else {
+                    passthrough!();
                 }
             }
 
@@ -321,6 +365,8 @@ impl VisitMut for Prefixer {
                     if &*value.to_lowercase() == "text" {
                         same_content!("webkit", "-webkit-background-clip");
                     }
+                } else {
+                    passthrough!()
                 }
             }
 
@@ -417,27 +463,27 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            "display" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &*value.to_lowercase() {
-                            "flex" => {
-                                same_name!("-webkit-box");
-                                same_name!("-webkit-flex");
-                                same_name!("-moz-box");
-                                same_name!("-ms-flexbox");
-                            }
-
-                            "inline-flex" => {
-                                same_name!("-webkit-inline-box");
-                                same_name!("-webkit-inline-flex");
-                                same_name!("-moz-inline-box");
-                                same_name!("-ms-inline-flexbox");
-                            }
-
-                            _ => {}
+            "display" if n.value.len() == 1 => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "flex" => {
+                            same_name!("-webkit-box");
+                            same_name!("-webkit-flex");
+                            same_name!("-moz-box");
+                            same_name!("-ms-flexbox");
                         }
+
+                        "inline-flex" => {
+                            same_name!("-webkit-inline-box");
+                            same_name!("-webkit-inline-flex");
+                            same_name!("-moz-inline-box");
+                            same_name!("-ms-inline-flexbox");
+                        }
+
+                        _ => {}
                     }
+                } else {
+                    passthrough!()
                 }
             }
 
@@ -540,6 +586,8 @@ impl VisitMut for Prefixer {
                         same_name!("-moz-crisp-edges");
                         same_name!("-o-pixelated");
                     }
+                } else {
+                    passthrough!()
                 }
             }
 
@@ -677,13 +725,13 @@ impl VisitMut for Prefixer {
                 same_content!("webkit", "-webkit-clip-path");
             }
 
-            "position" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        if &*value.to_lowercase() == "sticky" {
-                            same_name!("-webkit-sticky");
-                        }
+            "position" if n.value.len() == 1 => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    if &*value.to_lowercase() == "sticky" {
+                        same_name!("-webkit-sticky");
                     }
+                } else {
+                    passthrough!();
                 }
             }
 
@@ -789,18 +837,20 @@ impl VisitMut for Prefixer {
                             same_content!("webkit", "-webkit-text-decoration-skip-ink");
                         }
                     }
+                } else {
+                    passthrough!();
                 }
             }
 
-            "text-size-adjust" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        if &*value.to_lowercase() == "none" {
-                            same_content!("webkit", "-webkit-text-size-adjust");
-                            same_content!("moz", "-moz-text-size-adjust");
-                            same_content!("ms", "-ms-text-size-adjust");
-                        }
+            "text-size-adjust" if n.value.len() == 1 => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    if &*value.to_lowercase() == "none" {
+                        same_content!("webkit", "-webkit-text-size-adjust");
+                        same_content!("moz", "-moz-text-size-adjust");
+                        same_content!("ms", "-ms-text-size-adjust");
                     }
+                } else {
+                    passthrough!();
                 }
             }
 
@@ -848,71 +898,73 @@ impl VisitMut for Prefixer {
             }
 
             // TODO fix me, we should look at `direction` property https://github.com/postcss/autoprefixer/blob/main/lib/hacks/writing-mode.js
-            "writing-mode" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &*value.to_lowercase() {
-                            "none" => {
-                                same_content!("webkit", "-webkit-writing-mode");
-                                same_content!("ms", "-ms-writing-mode");
-                            }
-
-                            "vertical-lr" | "sideways-lr" => {
-                                same_content!("webkit", "-webkit-writing-mode");
-                                simple!("-ms-writing-mode", "tb");
-                            }
-
-                            "vertical-rl" | "sideways-rl" => {
-                                same_content!("webkit", "-webkit-writing-mode");
-                                simple!("-ms-writing-mode", "tb-rl");
-                            }
-
-                            "horizontal-tb" => {
-                                same_content!("webkit", "-webkit-writing-mode");
-                                simple!("-ms-writing-mode", "lr");
-                            }
-
-                            _ => {}
+            "writing-mode" if n.value.len() == 1 => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "none" => {
+                            same_content!("webkit", "-webkit-writing-mode");
+                            same_content!("ms", "-ms-writing-mode");
                         }
+
+                        "vertical-lr" | "sideways-lr" => {
+                            same_content!("webkit", "-webkit-writing-mode");
+                            simple!("-ms-writing-mode", "tb");
+                        }
+
+                        "vertical-rl" | "sideways-rl" => {
+                            same_content!("webkit", "-webkit-writing-mode");
+                            simple!("-ms-writing-mode", "tb-rl");
+                        }
+
+                        "horizontal-tb" => {
+                            same_content!("webkit", "-webkit-writing-mode");
+                            simple!("-ms-writing-mode", "lr");
+                        }
+
+                        _ => {}
                     }
+                } else {
+                    passthrough!();
                 }
             }
 
             "width" | "min-width" | "max-width" | "height" | "min-height" | "max-height"
             | "inline-size" | "min-inline-size" | "max-inline-size" | "block-size"
-            | "min-block-size" | "max-block-size" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &*value.to_lowercase() {
-                            "fit-content" => {
-                                same_name!("-webkit-fit-content");
-                                same_name!("-moz-fit-content");
-                            }
-
-                            "max-content" => {
-                                same_name!("-webkit-max-content");
-                                same_name!("-moz-max-content");
-                            }
-
-                            "min-content" => {
-                                same_name!("-webkit-min-content");
-                                same_name!("-moz-min-content");
-                            }
-
-                            "fill-available" | "fill" => {
-                                same_name!("-webkit-fill-available");
-                                same_name!("-moz-available");
-                            }
-
-                            "stretch" => {
-                                same_name!("-webkit-fill-available");
-                                same_name!("-moz-available");
-                                same_name!("fill-available");
-                            }
-
-                            _ => {}
+            | "min-block-size" | "max-block-size"
+                if n.value.len() == 1 =>
+            {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "fit-content" => {
+                            same_name!("-webkit-fit-content");
+                            same_name!("-moz-fit-content");
                         }
+
+                        "max-content" => {
+                            same_name!("-webkit-max-content");
+                            same_name!("-moz-max-content");
+                        }
+
+                        "min-content" => {
+                            same_name!("-webkit-min-content");
+                            same_name!("-moz-min-content");
+                        }
+
+                        "fill-available" | "fill" => {
+                            same_name!("-webkit-fill-available");
+                            same_name!("-moz-available");
+                        }
+
+                        "stretch" => {
+                            same_name!("-webkit-fill-available");
+                            same_name!("-moz-available");
+                            same_name!("fill-available");
+                        }
+
+                        _ => {}
                     }
+                } else {
+                    passthrough!();
                 }
             }
 
@@ -962,6 +1014,8 @@ impl VisitMut for Prefixer {
                         }
                         _ => {}
                     }
+                } else {
+                    passthrough!();
                 }
             }
 
@@ -1136,6 +1190,8 @@ impl VisitMut for Prefixer {
                         }
                         _ => {}
                     }
+                } else {
+                    passthrough!();
                 }
             }
 
@@ -1150,6 +1206,8 @@ impl VisitMut for Prefixer {
                         }
                         _ => {}
                     }
+                } else {
+                    passthrough!();
                 }
             }
 
@@ -1164,6 +1222,8 @@ impl VisitMut for Prefixer {
                         }
                         _ => {}
                     }
+                } else {
+                    passthrough!();
                 }
             }
 
@@ -1195,48 +1255,14 @@ impl VisitMut for Prefixer {
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid) and https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
-            // TODO handle `calc()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L395
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/cross-fade.js
             // TODO handle transform functions https://github.com/postcss/autoprefixer/blob/main/lib/hacks/transform-decl.js
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {
-                if n.value != webkit_new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: webkit_new_value,
-                        important: n.important.clone(),
-                    });
-                }
-
-                if n.value != moz_new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: moz_new_value,
-                        important: n.important.clone(),
-                    });
-                }
-
-                if n.value != o_new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: o_new_value,
-                        important: n.important.clone(),
-                    });
-                }
-
-                if n.value != ms_new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: ms_new_value,
-                        important: n.important.clone(),
-                    });
-                }
+                passthrough!();
             }
         }
     }

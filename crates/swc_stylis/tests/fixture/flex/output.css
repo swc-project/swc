@@ -171,7 +171,7 @@ a {
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex: calc(1em + 1px) 0 0;
+  -webkit-flex: -webkit-calc(1em + 1px) 0 0;
   -ms-flex: calc(1em + 1px) 0 0;
   flex: calc(1em + 1px) 0 0;
 }
