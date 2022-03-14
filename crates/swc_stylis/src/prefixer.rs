@@ -45,8 +45,21 @@ impl VisitMut for Prefixer {
         let mut new_prelude = n.prelude.clone();
 
         replace_pseudo_class_selector_name(&mut new_prelude, "autofill", "-webkit-autofill");
+        replace_pseudo_class_selector_name(&mut new_prelude, "any-link", "-webkit-any-link");
+
+        if n.prelude != new_prelude {
+            self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
+                span: DUMMY_SP,
+                prelude: new_prelude,
+                block: n.block.clone(),
+            }));
+        }
+
+        let mut new_prelude = n.prelude.clone();
+        
         replace_pseudo_class_selector_name(&mut new_prelude, "read-only", "-moz-read-only");
         replace_pseudo_class_selector_name(&mut new_prelude, "read-write", "-moz-read-write");
+        replace_pseudo_class_selector_name(&mut new_prelude, "any-link", "-moz-any-link");
 
         if n.prelude != new_prelude {
             self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
