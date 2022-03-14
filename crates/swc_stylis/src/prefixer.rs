@@ -25,9 +25,7 @@ impl VisitMut for Prefixer {
     // TODO handle declarations in `@media`/`@support`
     // TODO handle `@viewport`
     // TODO handle `@keyframes`
-
-    // TODO handle `::file-selector-button` pseudo
-    // TODO handle `::backdrop` pseudo
+    
     // TODO handle `::placeholder` pseudo
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
@@ -46,6 +44,8 @@ impl VisitMut for Prefixer {
         replace_pseudo_class_selector_name(&mut new_prelude, "autofill", "-webkit-autofill");
         replace_pseudo_class_selector_name(&mut new_prelude, "any-link", "-webkit-any-link");
         replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-webkit-full-screen");
+        replace_pseudo_element_selector_name(&mut new_prelude, "file-selector-button", "-webkit-file-upload-button");
+        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-ms-backdrop");
 
         if n.prelude != new_prelude {
             self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
@@ -67,7 +67,7 @@ impl VisitMut for Prefixer {
             "-moz-placeholder-shown",
         );
         replace_pseudo_element_selector_name(&mut new_prelude, "selection", "-moz-selection");
-        
+
         if n.prelude != new_prelude {
             self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
                 span: DUMMY_SP,
@@ -84,6 +84,8 @@ impl VisitMut for Prefixer {
             "placeholder-shown",
             "-ms-input-placeholder",
         );
+        replace_pseudo_element_selector_name(&mut new_prelude, "file-selector-button", "-ms-browse");
+        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-webkit-backdrop");
 
         if n.prelude != new_prelude {
             self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
