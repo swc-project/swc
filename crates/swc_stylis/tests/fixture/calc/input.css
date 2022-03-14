@@ -5,3 +5,7 @@
 .class {
     margin: calc(5% + 5px) calc(10% + 10px);
 }
+
+div {
+    background-size: calc(20px);
+}

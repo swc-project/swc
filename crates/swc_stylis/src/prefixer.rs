@@ -240,46 +240,6 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        macro_rules! pass_through {
-            () => {{
-                if n.value != webkit_new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: webkit_new_value,
-                        important: n.important.clone(),
-                    });
-                }
-
-                if n.value != moz_new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: moz_new_value,
-                        important: n.important.clone(),
-                    });
-                }
-
-                if n.value != o_new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: o_new_value,
-                        important: n.important.clone(),
-                    });
-                }
-
-                if n.value != ms_new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: ms_new_value,
-                        important: n.important.clone(),
-                    });
-                }
-            }};
-        }
-
         match &*name.to_lowercase() {
             "appearance" => {
                 same_content!("webkit", "-webkit-appearance");
@@ -332,8 +292,6 @@ impl VisitMut for Prefixer {
                         }
                     }
                 }
-
-                pass_through!();
             }
 
             "animation-fill-mode" => {
@@ -366,8 +324,6 @@ impl VisitMut for Prefixer {
                         same_content!("webkit", "-webkit-background-clip");
                     }
                 }
-
-                pass_through!()
             }
 
             "box-decoration-break" => {
@@ -439,28 +395,10 @@ impl VisitMut for Prefixer {
                 replace_ident(&mut webkit_new_value, "grab", "-webkit-grab");
                 replace_ident(&mut webkit_new_value, "grabbing", "-webkit-grabbing");
 
-                if n.value != webkit_new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: webkit_new_value,
-                        important: n.important.clone(),
-                    });
-                }
-
                 replace_ident(&mut moz_new_value, "zoom-in", "-moz-zoom-in");
                 replace_ident(&mut moz_new_value, "zoom-out", "-moz-zoom-out");
                 replace_ident(&mut moz_new_value, "grab", "-moz-grab");
                 replace_ident(&mut moz_new_value, "grabbing", "-moz-grabbing");
-
-                if n.value != moz_new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: moz_new_value,
-                        important: n.important.clone(),
-                    });
-                }
             }
 
             "display" if n.value.len() == 1 => {
@@ -483,8 +421,6 @@ impl VisitMut for Prefixer {
                         _ => {}
                     }
                 }
-
-                pass_through!()
             }
 
             // TODO improve old spec https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L330
@@ -587,8 +523,6 @@ impl VisitMut for Prefixer {
                         same_name!("-o-pixelated");
                     }
                 }
-
-                pass_through!()
             }
 
             "filter" => match &n.value[0] {
@@ -731,8 +665,6 @@ impl VisitMut for Prefixer {
                         same_name!("-webkit-sticky");
                     }
                 }
-
-                pass_through!();
             }
 
             "user-select" => {
@@ -838,8 +770,6 @@ impl VisitMut for Prefixer {
                         }
                     }
                 }
-
-                pass_through!();
             }
 
             "text-size-adjust" if n.value.len() == 1 => {
@@ -850,8 +780,6 @@ impl VisitMut for Prefixer {
                         same_content!("ms", "-ms-text-size-adjust");
                     }
                 }
-
-                pass_through!();
             }
 
             // TODO improve me for `filter` values https://github.com/postcss/autoprefixer/blob/main/test/cases/transition.css#L6
@@ -924,8 +852,6 @@ impl VisitMut for Prefixer {
                         _ => {}
                     }
                 }
-
-                pass_through!();
             }
 
             "width" | "min-width" | "max-width" | "height" | "min-height" | "max-height"
@@ -964,12 +890,10 @@ impl VisitMut for Prefixer {
                         _ => {}
                     }
                 }
-
-                pass_through!();
             }
 
             "touch-action" => {
-                let mut value = n.value.clone();
+                let mut value = ms_new_value.clone();
 
                 replace_ident(&mut value, "pan-x", "-ms-pan-x");
                 replace_ident(&mut value, "pan-y", "-ms-pan-y");
@@ -1015,8 +939,6 @@ impl VisitMut for Prefixer {
                         _ => {}
                     }
                 }
-
-                pass_through!();
             }
 
             "text-spacing" => {
@@ -1190,8 +1112,6 @@ impl VisitMut for Prefixer {
                         _ => {}
                     }
                 }
-
-                pass_through!();
             }
 
             "break-before" => {
@@ -1206,8 +1126,6 @@ impl VisitMut for Prefixer {
                         _ => {}
                     }
                 }
-
-                pass_through!();
             }
 
             "break-after" => {
@@ -1222,8 +1140,6 @@ impl VisitMut for Prefixer {
                         _ => {}
                     }
                 }
-
-                pass_through!();
             }
 
             "border-radius" => {
@@ -1260,9 +1176,43 @@ impl VisitMut for Prefixer {
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/cross-fade.js
             // TODO handle transform functions https://github.com/postcss/autoprefixer/blob/main/lib/hacks/transform-decl.js
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
-            _ => {
-                pass_through!();
-            }
+            _ => {}
+        }
+
+        if n.value != webkit_new_value {
+            self.added_declarations.push(Declaration {
+                span: n.span,
+                name: n.name.clone(),
+                value: webkit_new_value,
+                important: n.important.clone(),
+            });
+        }
+
+        if n.value != moz_new_value {
+            self.added_declarations.push(Declaration {
+                span: n.span,
+                name: n.name.clone(),
+                value: moz_new_value,
+                important: n.important.clone(),
+            });
+        }
+
+        if n.value != o_new_value {
+            self.added_declarations.push(Declaration {
+                span: n.span,
+                name: n.name.clone(),
+                value: o_new_value,
+                important: n.important.clone(),
+            });
+        }
+
+        if n.value != ms_new_value {
+            self.added_declarations.push(Declaration {
+                span: n.span,
+                name: n.name.clone(),
+                value: ms_new_value,
+                important: n.important.clone(),
+            });
         }
     }
 

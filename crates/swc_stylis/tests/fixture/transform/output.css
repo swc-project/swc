@@ -9,6 +9,9 @@ a {
   -webkit-transition: -webkit-transform 1s;
   -moz-transition: -moz-transform 1s;
   -o-transition: -o-transform 1s;
+  transition: -webkit-transform 1s;
+  transition: -moz-transform 1s;
+  transition: -o-transform 1s;
   transition: transform 1s;
   -webkit-transform: rotateX(45deg);
   -moz-transform: rotateX(45deg);

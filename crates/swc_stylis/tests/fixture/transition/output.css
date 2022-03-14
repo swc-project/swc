@@ -2,6 +2,9 @@ a {
   -webkit-transition: color 200ms, -webkit-transform 200ms;
   -moz-transition: color 200ms, -moz-transform 200ms;
   -o-transition: color 200ms, -o-transform 200ms;
+  transition: color 200ms, -webkit-transform 200ms;
+  transition: color 200ms, -moz-transform 200ms;
+  transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, transform 200ms;
   -webkit-transform: rotate(10deg);
   -moz-transform: rotate(10deg);
@@ -53,12 +56,18 @@ div {
   -webkit-transition: 200ms -webkit-transform;
   -moz-transition: 200ms -moz-transform;
   -o-transition: 200ms -o-transform;
+  transition: 200ms -webkit-transform;
+  transition: 200ms -moz-transform;
+  transition: 200ms -o-transform;
   transition: 200ms transform;
 }
 input[type=range]::-moz-range-thumb {
   -webkit-transition: color 200ms, -webkit-transform 200ms;
   -moz-transition: color 200ms, -moz-transform 200ms;
   -o-transition: color 200ms, -o-transform 200ms;
+  transition: color 200ms, -webkit-transform 200ms;
+  transition: color 200ms, -moz-transform 200ms;
+  transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, transform 200ms;
   -webkit-transform: rotate(10deg);
   -moz-transform: rotate(10deg);
@@ -86,6 +95,9 @@ button::-moz-submit-invalid {
   -webkit-transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
   -moz-transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
   -o-transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
+  transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
+  transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
+  transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
   transition: opacity 0.5s 2s, transform 0.5s 0.5s;
 }
 @supports (transition: opacity 0.5s 2s, transform 0.5s 0.5s) {
@@ -99,6 +111,9 @@ button::-moz-submit-invalid {
     -webkit-transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
     -moz-transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
     -o-transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
+    transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
+    transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
+    transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
     transition: opacity 0.5s 2s, transform 0.5s 0.5s;
   }
   button {
@@ -111,6 +126,9 @@ button::-moz-submit-invalid {
     -webkit-transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
     -moz-transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
     -o-transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
+    transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
+    transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
+    transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
     transition: opacity 0.5s 2s, transform 0.5s 0.5s;
   }
 }
@@ -123,6 +141,9 @@ button::-webkit-search-cancel-button {
   -webkit-transition: color 200ms, -webkit-transform 200ms;
   -moz-transition: color 200ms, -moz-transform 200ms;
   -o-transition: color 200ms, -o-transform 200ms;
+  transition: color 200ms, -webkit-transform 200ms;
+  transition: color 200ms, -moz-transform 200ms;
+  transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, transform 200ms;
   -webkit-transform: rotate(10deg);
   -moz-transform: rotate(10deg);
@@ -146,10 +167,16 @@ button::-webkit-search-cancel-button {
   -webkit-transition: color 200ms, -webkit-transform 200ms;
   -moz-transition: color 200ms, -moz-transform 200ms;
   -o-transition: color 200ms, -o-transform 200ms;
+  transition: color 200ms, -webkit-transform 200ms;
+  transition: color 200ms, -moz-transform 200ms;
+  transition: color 200ms, -o-transform 200ms;
   transition: color 200ms, transform 200ms;
   -webkit-transition: color 200ms, -webkit-transform 200ms, -webkit-transform 200ms;
   -moz-transition: color 200ms, -moz-transform 200ms, -webkit-transform 200ms;
   -o-transition: color 200ms, -o-transform 200ms, -webkit-transform 200ms;
+  transition: color 200ms, -webkit-transform 200ms, -webkit-transform 200ms;
+  transition: color 200ms, -moz-transform 200ms, -webkit-transform 200ms;
+  transition: color 200ms, -o-transform 200ms, -webkit-transform 200ms;
   transition: color 200ms, transform 200ms, -webkit-transform 200ms;
   -webkit-transform: rotate(10deg);
   -webkit-transform: rotate(10deg);
@@ -192,6 +219,9 @@ div {
   -webkit-transition-property: -webkit-transform;
   -moz-transition-timing-function: -moz-transform;
   -o-transition-timing-function: -o-transform;
+  transition-property: -webkit-transform;
+  transition-property: -moz-transform;
+  transition-property: -o-transform;
   transition-property: transform;
   -webkit-transform: rotate(10deg);
   -moz-transform: rotate(10deg);
