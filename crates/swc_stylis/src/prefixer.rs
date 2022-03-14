@@ -167,7 +167,7 @@ impl VisitMut for Prefixer {
             }
         };
 
-        // TODO make it lazy and avoid copy when unnecessary
+        // TODO make it lazy?
         let mut webkit_new_value = n.value.clone();
 
         replace_function_name(&mut webkit_new_value, "filter", "-webkit-filter");
