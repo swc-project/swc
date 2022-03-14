@@ -878,12 +878,12 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            "min-width" | "width" | "max-width" | "min-height" | "height" | "max-height"
-            | "min-block-size" | "min-inline-size" => {
+            "width" | "min-width" | "max-width" | "height" | "min-height" | "max-height"
+            | "inline-size" | "min-inline-size" | "max-inline-size" | "block-size"
+            | "min-block-size" | "max-block-size" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                         match &*value.to_lowercase() {
-                            // TODO better handle in more properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559
                             "fit-content" => {
                                 same_name!("-webkit-fit-content");
                                 same_name!("-moz-fit-content");
@@ -899,7 +899,7 @@ impl VisitMut for Prefixer {
                                 same_name!("-moz-min-content");
                             }
 
-                            "fill-available" => {
+                            "fill-available" | "fill" => {
                                 same_name!("-webkit-fill-available");
                                 same_name!("-moz-available");
                             }
@@ -1192,7 +1192,7 @@ impl VisitMut for Prefixer {
                 same_content!("moz", "-moz-border-radius-bottomleft");
             }
 
-            // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
+            // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid) and https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
             // TODO handle `calc()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L395
@@ -1202,7 +1202,6 @@ impl VisitMut for Prefixer {
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/cross-fade.js
             // TODO handle transform functions https://github.com/postcss/autoprefixer/blob/main/lib/hacks/transform-decl.js
             _ => {
-                // TODO fix me for non webkit prefixes
                 if n.value != webkit_new_value {
                     self.added_declarations.push(Declaration {
                         span: n.span,
