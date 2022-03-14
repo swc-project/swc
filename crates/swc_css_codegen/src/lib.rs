@@ -728,6 +728,9 @@ where
                     ComponentValue::SimpleBlock(_)
                     | ComponentValue::Function(_)
                     | ComponentValue::Color(Color::Function(_))
+                    | ComponentValue::Color(Color::AbsoluteColorBase(
+                        AbsoluteColorBase::Function(_),
+                    ))
                     | ComponentValue::Delimiter(_)
                     | ComponentValue::Str(_)
                     | ComponentValue::Url(_)
@@ -746,7 +749,9 @@ where
                                 !self.config.minify
                             }
                         }
-                        Some(ComponentValue::Color(Color::HexColor(_)))
+                        Some(ComponentValue::Color(Color::AbsoluteColorBase(
+                            AbsoluteColorBase::HexColor(_),
+                        )))
                         | Some(ComponentValue::Str(_)) => !self.config.minify,
                         Some(ComponentValue::Delimiter(_)) => false,
                         Some(ComponentValue::Number(n)) => {
@@ -781,7 +786,9 @@ where
                     },
                     _ => match next {
                         Some(ComponentValue::SimpleBlock(_))
-                        | Some(ComponentValue::Color(Color::HexColor(_))) => !self.config.minify,
+                        | Some(ComponentValue::Color(Color::AbsoluteColorBase(
+                            AbsoluteColorBase::HexColor(_),
+                        ))) => !self.config.minify,
                         Some(ComponentValue::Delimiter(_)) => false,
                         _ => true,
                     },
@@ -1207,8 +1214,18 @@ where
     #[emitter]
     fn emit_color(&mut self, n: &Color) -> Result {
         match n {
-            Color::HexColor(n) => emit!(self, n),
+            Color::AbsoluteColorBase(n) => emit!(self, n),
+            Color::CurrentColorOrSystemColor(n) => emit!(self, n),
             Color::Function(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_absolute_color_base(&mut self, n: &AbsoluteColorBase) -> Result {
+        match n {
+            AbsoluteColorBase::HexColor(n) => emit!(self, n),
+            AbsoluteColorBase::NamedColorOrTransparent(n) => emit!(self, n),
+            AbsoluteColorBase::Function(n) => emit!(self, n),
         }
     }
 
@@ -1250,6 +1267,7 @@ where
         match n {
             CmykComponent::Number(n) => emit!(self, n),
             CmykComponent::Percentage(n) => emit!(self, n),
+            CmykComponent::Function(n) => emit!(self, n),
         }
     }
 
