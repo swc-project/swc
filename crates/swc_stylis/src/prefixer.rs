@@ -26,8 +26,7 @@ impl VisitMut for Prefixer {
     // TODO handle `@viewport`
     // TODO handle `@keyframes`
 
-    // TODO handle `::placeholder` pseudo
-
+    // TODO improve legacy `::placeholder` pseudo
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         n.visit_mut_children_with(self);
 
