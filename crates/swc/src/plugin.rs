@@ -119,7 +119,7 @@ impl RustPlugins {
                     plugin_module = p.0.as_str()
                 );
                 let transform_span_guard = span.enter();
-                serialized = swc_plugin_runner::apply_js_plugin(
+                serialized = swc_plugin_runner::apply_transform_plugin(
                     &p.0,
                     &path,
                     &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
