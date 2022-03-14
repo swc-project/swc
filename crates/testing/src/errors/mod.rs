@@ -1,5 +1,7 @@
 use swc_common::errors::{DiagnosticBuilder, Emitter};
 
+mod stderr;
+
 pub(crate) fn multi_emitter(a: Box<dyn Emitter>, b: Box<dyn Emitter>) -> Box<dyn Emitter> {
     Box::new(MultiEmitter { a, b })
 }
