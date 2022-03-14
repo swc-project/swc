@@ -1171,7 +1171,7 @@ impl SourceMap {
             let lc = *lc;
 
             if pos == BytePos(u32::MAX) {
-                builder.add_raw(lc.line, lc.col, 0, 0, None, None);
+                builder.add_raw(lc.line, lc.col, 0, 0, Some(src_id), None);
                 continue;
             }
 
