@@ -25,7 +25,6 @@ impl VisitMut for Prefixer {
 
     // TODO handle `::file-selector-button` pseudo
     // TODO handle `::backdrop` pseudo
-    // TODO handle `:placeholder-shown` pseudo
     // TODO handle `::placeholder` pseudo
     // TODO handle `::selection` pseudo
 
@@ -60,6 +59,7 @@ impl VisitMut for Prefixer {
         replace_pseudo_class_selector_name(&mut new_prelude, "read-write", "-moz-read-write");
         replace_pseudo_class_selector_name(&mut new_prelude, "any-link", "-moz-any-link");
         replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-moz-full-screen");
+        replace_pseudo_class_selector_name(&mut new_prelude, "placeholder-shown", "-moz-placeholder-shown");
 
         if n.prelude != new_prelude {
             self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
@@ -72,6 +72,7 @@ impl VisitMut for Prefixer {
         let mut new_prelude = n.prelude.clone();
 
         replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-ms-fullscreen");
+        replace_pseudo_class_selector_name(&mut new_prelude, "placeholder-shown", "-ms-input-placeholder");
 
         if n.prelude != new_prelude {
             self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
