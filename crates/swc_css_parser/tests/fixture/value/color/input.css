@@ -164,4 +164,7 @@
     color: hsla(120deg calc(20% + 10%) 50%);
     color: hsla(120deg 40% calc(20% + 10%));
     color: hsl(120deg 40% 20% / calc(20% + 10%));
+    color: hwb(194 calc(20% + 10%) 0% / .5);
+    color: device-cmyk(0 calc(20%) 81% 30%);
+    color: color(display-p3 calc(1 + 2) 0.5 0);
 }

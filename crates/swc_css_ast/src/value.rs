@@ -98,6 +98,8 @@ pub enum CmykComponent {
     Number(Number),
     #[tag("Percentage")]
     Percentage(Percentage),
+    #[tag("Function")]
+    Function(Function),
 }
 
 #[ast_node]

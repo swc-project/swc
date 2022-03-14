@@ -176,6 +176,7 @@ define!({
     pub enum CmykComponent {
         Number(Number),
         Percentage(Percentage),
+        Function(Function),
     }
 
     pub enum Dimension {
