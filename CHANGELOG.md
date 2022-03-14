@@ -56,6 +56,9 @@
 
 
 
+- **(*)** Print diagnostics to stderr while testing (#4003) ([ee9a841](https://github.com/swc-project/swc/commit/ee9a841f33005c1ae287151952cf132a18b26de6))
+
+
 - **(es)** Add an execution test system (#3994) ([b22d084](https://github.com/swc-project/swc/commit/b22d084180b77508f5e940045eb1b7bb9cd5c99b))
 
 
