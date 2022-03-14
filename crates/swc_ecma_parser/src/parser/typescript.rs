@@ -376,6 +376,9 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
+        let is_in = self.parse_ts_modifier(&["in"], false)?.is_some();
+        let is_out = self.parse_ts_modifier(&["out"], false)?.is_some();
+
         let name = self.in_type().parse_ident_name()?;
         let constraint = self.eat_then_parse_ts_type(&tok!("extends"))?;
         let default = self.eat_then_parse_ts_type(&tok!('='))?;
@@ -383,6 +386,8 @@ impl<I: Tokens> Parser<I> {
         Ok(TsTypeParam {
             span: span!(self, start),
             name,
+            is_in,
+            is_out,
             constraint,
             default,
         })
