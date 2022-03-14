@@ -83,7 +83,9 @@ jobs:
 
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
-        run: cargo check --color always --all --all-targets
+        run: |
+          cargo check --color always --all-targets
+          cargo check --color always -p node
   test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
     runs-on: ${{ matrix.settings.os }}
@@ -118,7 +120,7 @@ jobs:
           - crate: swc
             os: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_native_runtime
           - crate: swc
             os: windows-latest
           - crate: swc_atoms
@@ -292,8 +294,6 @@ jobs:
             os: ubuntu-latest
           - crate: testing_macros
             os: ubuntu-latest
-          - crate: wasm
-            os: ubuntu-latest
 
     steps:
       - name: Handle line endings
@@ -346,7 +346,7 @@ jobs:
         run: |
           jest -v && mocha --version
 
-      - name: Run cargo test
+      - name: Run cargo test (${{ matrix.settings.crate }})
         run: |
           jest -v && mocha --version
           cargo test --color always -p ${{ matrix.settings.crate }}
@@ -380,7 +380,7 @@ jobs:
           crate: cargo-hack
           version: "0.5.7"
 
-      - name: Check compilation
+      - name: Check compilation (${{ matrix.settings.check }})
         if: matrix.settings.check
         working-directory: "crates/${{ matrix.settings.crate }}"
         run: "${{ matrix.settings.check }}"
