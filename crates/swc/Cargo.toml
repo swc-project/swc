@@ -30,6 +30,9 @@ node = ["napi", "napi-derive"]
 plugin_embedded_runtime = [
   "swc_plugin_runner/embedded_runtime",
 ]
+plugin_native_runtime = [
+  "swc_plugin_runner/native_runtime"
+]
 
 [dependencies]
 ahash = "0.7.4"
