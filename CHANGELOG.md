@@ -5,6 +5,9 @@
 
 
 
+- **(common)** Don't use `None` as source while generating source maps (#4007) ([0ad13d9](https://github.com/swc-project/swc/commit/0ad13d93f288e54f245b249920d74cfe13d1e969))
+
+
 - **(css/codegen)** Fix source maps (#3997) ([ece8d96](https://github.com/swc-project/swc/commit/ece8d962f86a9adadf02b425288308a2a06851fb))
 
 
