@@ -126,6 +126,8 @@
                     "value": "TProp",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": {
                     "type": "TsThisType",
                     "span": {

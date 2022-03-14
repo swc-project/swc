@@ -187,6 +187,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -244,6 +246,8 @@
             "value": "key",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsIndexedAccessType",
             "span": {
@@ -357,6 +361,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -611,6 +617,8 @@
             "value": "key",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeReference",
             "span": {
@@ -696,6 +704,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -845,6 +855,8 @@
               "value": "S",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -958,6 +970,8 @@
               "value": "key",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsIndexedAccessType",
               "span": {
@@ -1091,6 +1105,8 @@
               "value": "S",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -1164,6 +1180,8 @@
               "value": "L",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -1255,6 +1273,8 @@
               "value": "key",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsIndexedAccessType",
               "span": {
@@ -1388,6 +1408,8 @@
               "value": "S",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -1461,6 +1483,8 @@
               "value": "L",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsLiteralType",
               "span": {
@@ -1520,6 +1544,8 @@
               "value": "key",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsIndexedAccessType",
               "span": {

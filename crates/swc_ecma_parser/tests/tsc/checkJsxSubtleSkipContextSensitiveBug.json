@@ -173,6 +173,8 @@
               "value": "TResult",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -569,6 +571,8 @@
               "value": "TResult",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
