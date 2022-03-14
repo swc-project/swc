@@ -122,6 +122,15 @@ fn issue_706() {
     inline("tests/srcmap/issue-706/index.js").unwrap();
 }
 
+#[testing::fixture("tests/fixture/**/*.map")]
+fn validate_map(map_file: PathBuf) {
+    let content = fs::read_to_string(&map_file).unwrap();
+    if content.is_empty() {
+        return;
+    }
+    sourcemap::SourceMap::from_slice(content.as_bytes()).expect("failed to deserialize sourcemap");
+}
+
 #[cfg(feature = "node14-test")]
 #[testing::fixture("stacktrace/**/input/")]
 fn stacktrace(input_dir: PathBuf) {
