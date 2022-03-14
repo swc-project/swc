@@ -1265,12 +1265,36 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            "border-radius" => {
+                same_content!("-webkit-border-radius");
+                same_content!("-moz-border-radius");
+            }
+
+            "border-top-left-radius" => {
+                same_content!("-webkit-border-top-left-radius");
+                same_content!("-moz-border-radius-topleft");
+            }
+
+            "border-top-right-radius" => {
+                same_content!("-webkit-border-top-right-radius");
+                same_content!("-moz-border-radius-topright");
+            }
+
+            "border-bottom-right-radius" => {
+                same_content!("-webkit-border-bottom-right-radius");
+                same_content!("-moz-border-radius-bottomright");
+            }
+
+            "border-bottom-left-radius" => {
+                same_content!("-webkit-border-bottom-left-radius");
+                same_content!("-moz-border-radius-bottomleft");
+            }
+
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
             // TODO handle `calc()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L395
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
-            // TODO add `border-radius` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L59
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/cross-fade.js
