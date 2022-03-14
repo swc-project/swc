@@ -232,7 +232,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('out' type=inline),
+                Atom('out' type=static),
                 #1,
             ),
             VarUsageInfo {

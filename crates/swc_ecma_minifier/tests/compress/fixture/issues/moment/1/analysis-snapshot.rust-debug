@@ -36525,7 +36525,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('out' type=inline),
+                Atom('out' type=static),
                 #275,
             ),
             VarUsageInfo {
@@ -36564,7 +36564,7 @@ TestSnapshot {
         ),
         (
             (
-                Atom('out' type=inline),
+                Atom('out' type=static),
                 #276,
             ),
             VarUsageInfo {
