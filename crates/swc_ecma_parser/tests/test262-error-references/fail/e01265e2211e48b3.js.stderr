@@ -1,6 +1,6 @@
-error: Expected ';', got ')'
- --> $DIR/tests/test262-parser/fail/e01265e2211e48b3.js:1:19
-  |
-1 | for(let a = 0 in b);
-  |                   ^
 
+  x Expected ';', got ')'
+   ,-[$DIR/tests/test262-parser/fail/e01265e2211e48b3.js:2:1]
+ 2 | for(let a = 0 in b);
+   :                   ^
+   `----

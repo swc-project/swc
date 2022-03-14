@@ -1,6 +1,6 @@
-error: 'abstract' modifier must precede 'override' modifier.
- --> $DIR/tests/typescript-errors/class/override-with-abstract/input.ts:2:12
-  |
-2 |   override abstract show(): void
-  |            ^^^^^^^^
 
+  x 'abstract' modifier must precede 'override' modifier.
+   ,-[$DIR/tests/typescript-errors/class/override-with-abstract/input.ts:3:3]
+ 3 | override abstract show(): void
+   :          ^^^^^^^^
+   `----

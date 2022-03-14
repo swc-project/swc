@@ -1,84 +1,84 @@
-error: 'a' was used before it was defined
- 
-  |
-1 | alert(a);
-  |       ^
 
-error: 'a' was used before it was defined
- 
-  |
-3 | console.log(a);
-  |             ^
+  x 'a' was used before it was defined
+   ,----
+ 2 | alert(a);
+   :       ^
+   `----
 
-error: 'a' was used before it was defined
- 
-  |
-9 | obj[a];
-  |     ^
+  x 'a' was used before it was defined
+   ,----
+ 4 | console.log(a);
+   :             ^
+   `----
 
-error: 'a' was used before it was defined
-  
-   |
-11 | `${a}`;
-   |    ^
+  x 'a' was used before it was defined
+    ,----
+ 10 | obj[a];
+    :     ^
+    `----
 
-error: 'a' was used before it was defined
-  
-   |
-13 | [a];
-   |  ^
+  x 'a' was used before it was defined
+    ,----
+ 12 | `${a}`;
+    :    ^
+    `----
 
-error: 'a' was used before it was defined
-  
-   |
-15 | var x = a + "";
-   |         ^
+  x 'a' was used before it was defined
+    ,----
+ 14 | [a];
+    :  ^
+    `----
 
-error: 'a' was used before it was defined
-  
-   |
-18 |     [a]: "",
-   |      ^
+  x 'a' was used before it was defined
+    ,----
+ 16 | var x = a + "";
+    :         ^
+    `----
 
-error: 'b' was used before it was defined
-  
-   |
-25 |     alert(b);
-   |           ^
+  x 'a' was used before it was defined
+    ,----
+ 19 | [a]: "",
+    :  ^
+    `----
 
-error: 'a1' was used before it was defined
-  
-   |
-30 | console.log(a1);
-   |             ^^
+  x 'b' was used before it was defined
+    ,----
+ 26 | alert(b);
+    :       ^
+    `----
 
-error: 'a3' was used before it was defined
-  
-   |
-37 | console.log(a3);
-   |             ^^
+  x 'a1' was used before it was defined
+    ,----
+ 31 | console.log(a1);
+    :             ^^
+    `----
 
-error: 'a4' was used before it was defined
-  
-   |
-42 | console.log(a4);
-   |             ^^
+  x 'a3' was used before it was defined
+    ,----
+ 38 | console.log(a3);
+    :             ^^
+    `----
 
-error: 'a5' was used before it was defined
-  
-   |
-49 | console.log(a5);
-   |             ^^
+  x 'a4' was used before it was defined
+    ,----
+ 43 | console.log(a4);
+    :             ^^
+    `----
 
-error: 'a6' was used before it was defined
-  
-   |
-54 | console.log(a6);
-   |             ^^
+  x 'a5' was used before it was defined
+    ,----
+ 50 | console.log(a5);
+    :             ^^
+    `----
 
-error: 'a7' was used before it was defined
-  
-   |
-59 | console.log(a7);
-   |             ^^
+  x 'a6' was used before it was defined
+    ,----
+ 55 | console.log(a6);
+    :             ^^
+    `----
 
+  x 'a7' was used before it was defined
+    ,----
+ 60 | console.log(a7);
+    :             ^^
+    `----

@@ -62,6 +62,7 @@ fn shifted(file: PathBuf) {
 
         Ok(())
     })
+    .map_err(|_| ())
     .unwrap();
 }
 
@@ -206,6 +207,7 @@ fn run_spec(file: &Path, output_json: &Path) {
 
         Ok(())
     })
+    .map_err(|_| ())
     .unwrap();
 }
 

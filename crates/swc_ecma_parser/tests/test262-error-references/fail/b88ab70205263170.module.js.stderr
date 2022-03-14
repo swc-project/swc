@@ -1,6 +1,6 @@
-error: 'import', and 'export' cannot be used outside of module code
- --> $DIR/tests/test262-parser/fail/b88ab70205263170.module.js:1:2
-  |
-1 | {export {a};}
-  |  ^^^^^^
 
+  x 'import', and 'export' cannot be used outside of module code
+   ,-[$DIR/tests/test262-parser/fail/b88ab70205263170.module.js:2:1]
+ 2 | {export {a};}
+   :  ^^^^^^
+   `----

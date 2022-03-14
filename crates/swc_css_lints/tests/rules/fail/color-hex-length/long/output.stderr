@@ -1,18 +1,18 @@
-error: Hex color value '#FFF' should be written into: '#FFFFFF'.
- --> $DIR/tests/rules/fail/color-hex-length/long/input.css:2:12
-  |
-2 |     color: #FFF;
-  |            ^^^^
 
-error: Hex color value '#abcd' should be written into: '#aabbccdd'.
- --> $DIR/tests/rules/fail/color-hex-length/long/input.css:3:12
-  |
-3 |     color: #abcd;
-  |            ^^^^^
+  x Hex color value '#FFF' should be written into: '#FFFFFF'.
+   ,-[$DIR/tests/rules/fail/color-hex-length/long/input.css:3:5]
+ 3 | color: #FFF;
+   :        ^^^^
+   `----
 
-error: Hex color value '#123' should be written into: '#112233'.
- --> $DIR/tests/rules/fail/color-hex-length/long/input.css:4:12
-  |
-4 |     color: #123;
-  |            ^^^^
+  x Hex color value '#abcd' should be written into: '#aabbccdd'.
+   ,-[$DIR/tests/rules/fail/color-hex-length/long/input.css:4:5]
+ 4 | color: #abcd;
+   :        ^^^^^
+   `----
 
+  x Hex color value '#123' should be written into: '#112233'.
+   ,-[$DIR/tests/rules/fail/color-hex-length/long/input.css:5:5]
+ 5 | color: #123;
+   :        ^^^^
+   `----

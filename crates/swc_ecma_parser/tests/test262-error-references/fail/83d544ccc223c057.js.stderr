@@ -1,2 +1,6 @@
-error: Unexpected character '�'
 
+  x Unexpected character '�'
+   ,-[$DIR/tests/test262-parser/fail/83d544ccc223c057.js:2:1]
+ 2 | �
+   : ^
+   `----

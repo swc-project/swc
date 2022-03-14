@@ -1,6 +1,6 @@
-error: Unexpected token `,`. Expected identifier, string literal, numeric literal or [ for the computed key
- --> $DIR/tests/test262-parser/fail/8373e2a6865dc08c.js:1:15
-  |
-1 | class A {a(){},b(){}}
-  |               ^
 
+  x Unexpected token `,`. Expected identifier, string literal, numeric literal or [ for the computed key
+   ,-[$DIR/tests/test262-parser/fail/8373e2a6865dc08c.js:2:1]
+ 2 | class A {a(){},b(){}}
+   :               ^
+   `----

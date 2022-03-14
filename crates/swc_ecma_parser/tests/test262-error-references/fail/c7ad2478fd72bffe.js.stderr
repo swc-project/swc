@@ -1,6 +1,6 @@
-error: Declaration is now allowed
- --> $DIR/tests/test262-parser/fail/c7ad2478fd72bffe.js:1:13
-  |
-1 | for(a in b) function c(){}
-  |             ^^^^^^^^
 
+  x Declaration is now allowed
+   ,-[$DIR/tests/test262-parser/fail/c7ad2478fd72bffe.js:2:1]
+ 2 | for(a in b) function c(){}
+   :             ^^^^^^^^
+   `----

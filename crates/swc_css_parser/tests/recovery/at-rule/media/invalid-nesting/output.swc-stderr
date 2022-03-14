@@ -1,12 +1,12 @@
-error: Expected function or ident tokens
- --> $DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:21
-  |
-2 |     max-inline-size: 1024px;
-  |                     ^
 
-error: Unexpected character `';'`
- --> $DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:28
-  |
-2 |     max-inline-size: 1024px;
-  |                            ^
+  x Expected function or ident tokens
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:3:5]
+ 3 | max-inline-size: 1024px;
+   :                 ^
+   `----
 
+  x Unexpected character `';'`
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:3:5]
+ 3 | max-inline-size: 1024px;
+   :                        ^
+   `----

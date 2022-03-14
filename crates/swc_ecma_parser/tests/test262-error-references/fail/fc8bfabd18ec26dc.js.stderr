@@ -1,6 +1,6 @@
-error: Expected 4 hex characters
- --> $DIR/tests/test262-parser/fail/fc8bfabd18ec26dc.js:1:2
-  |
-1 | "\u0";
-  |  ^^^
 
+  x Expected 4 hex characters
+   ,-[$DIR/tests/test262-parser/fail/fc8bfabd18ec26dc.js:2:1]
+ 2 | "\u0";
+   :  ^^^
+   `----

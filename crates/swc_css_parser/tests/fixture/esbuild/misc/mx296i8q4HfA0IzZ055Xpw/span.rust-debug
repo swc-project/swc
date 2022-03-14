@@ -1,126 +1,126 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
-  |
-1 | a { value: url(\61bc) }
-  | ^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
-  |
-1 | a { value: url(\61bc) }
-  | ^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
-  |
-1 | a { value: url(\61bc) }
-  | ^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
-  |
-1 | a { value: url(\61bc) }
-  | ^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
-  |
-1 | a { value: url(\61bc) }
-  | ^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   : ^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
-  |
-1 | a { value: url(\61bc) }
-  | ^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   : ^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
-  |
-1 | a { value: url(\61bc) }
-  | ^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   : ^
+   `----
 
-error: TagNameSelector
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
-  |
-1 | a { value: url(\61bc) }
-  | ^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   : ^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
-  |
-1 | a { value: url(\61bc) }
-  | ^
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   : ^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:1
-  |
-1 | a { value: url(\61bc) }
-  | ^
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   : ^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:3
-  |
-1 | a { value: url(\61bc) }
-  |   ^^^^^^^^^^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   : ^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:5
-  |
-1 | a { value: url(\61bc) }
-  |     ^^^^^^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   :   ^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: StyleBlock
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:5
-  |
-1 | a { value: url(\61bc) }
-  |     ^^^^^^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   :     ^^^^^^^^^^^^^^^^^
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:5
-  |
-1 | a { value: url(\61bc) }
-  |     ^^^^^^^^^^^^^^^^^
+  x StyleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   :     ^^^^^^^^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:5
-  |
-1 | a { value: url(\61bc) }
-  |     ^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   :     ^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:5
-  |
-1 | a { value: url(\61bc) }
-  |     ^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   :     ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:12
-  |
-1 | a { value: url(\61bc) }
-  |            ^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   :     ^^^^^
+   `----
 
-error: Url
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:12
-  |
-1 | a { value: url(\61bc) }
-  |            ^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   :            ^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:12
-  |
-1 | a { value: url(\61bc) }
-  |            ^^^
+  x Url
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   :            ^^^^^^^^^^
+   `----
 
-error: UrlValue
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:16
-  |
-1 | a { value: url(\61bc) }
-  |                ^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   :            ^^^
+   `----
 
-error: UrlValueRaw
- --> $DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:1:16
-  |
-1 | a { value: url(\61bc) }
-  |                ^^^^^
+  x UrlValue
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   :                ^^^^^
+   `----
 
+  x UrlValueRaw
+   ,-[$DIR/tests/fixture/esbuild/misc/mx296i8q4HfA0IzZ055Xpw/input.css:2:1]
+ 2 | a { value: url(\61bc) }
+   :                ^^^^^
+   `----

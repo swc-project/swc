@@ -1,141 +1,126 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
-  |
-1 | / a:after { content: 'a\
-2 | | b' }
-  | |____^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
-  |
-1 | / a:after { content: 'a\
-2 | | b' }
-  | |____^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | ,-> a:after { content: 'a\
+ 3 | `-> b' }
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
-  |
-1 | / a:after { content: 'a\
-2 | | b' }
-  | |____^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | ,-> a:after { content: 'a\
+ 3 | `-> b' }
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
-  |
-1 | a:after { content: 'a\
-  | ^^^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | ,-> a:after { content: 'a\
+ 3 | `-> b' }
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
-  |
-1 | a:after { content: 'a\
-  | ^^^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   : ^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
-  |
-1 | a:after { content: 'a\
-  | ^^^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   : ^^^^^^^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
-  |
-1 | a:after { content: 'a\
-  | ^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   : ^^^^^^^
+   `----
 
-error: TagNameSelector
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
-  |
-1 | a:after { content: 'a\
-  | ^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   : ^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
-  |
-1 | a:after { content: 'a\
-  | ^
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   : ^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1
-  |
-1 | a:after { content: 'a\
-  | ^
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   : ^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:2
-  |
-1 | a:after { content: 'a\
-  |  ^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   : ^
+   `----
 
-error: PseudoClassSelector
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:2
-  |
-1 | a:after { content: 'a\
-  |  ^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   :  ^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:3
-  |
-1 | a:after { content: 'a\
-  |   ^^^^^
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   :  ^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:9
-  |
-1 |   a:after { content: 'a\
-  |  _________^
-2 | | b' }
-  | |____^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   :   ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
-  |
-1 |   a:after { content: 'a\
-  |  ___________^
-2 | | b' }
-  | |__^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | ,-> a:after { content: 'a\
+ 3 | `-> b' }
+   `----
 
-error: StyleBlock
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
-  |
-1 |   a:after { content: 'a\
-  |  ___________^
-2 | | b' }
-  | |__^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | ,-> a:after { content: 'a\
+ 3 | `-> b' }
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
-  |
-1 |   a:after { content: 'a\
-  |  ___________^
-2 | | b' }
-  | |__^
+  x StyleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | ,-> a:after { content: 'a\
+ 3 | `-> b' }
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
-  |
-1 | a:after { content: 'a\
-  |           ^^^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | ,-> a:after { content: 'a\
+ 3 | `-> b' }
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:11
-  |
-1 | a:after { content: 'a\
-  |           ^^^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   :           ^^^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:20
-  |
-1 |   a:after { content: 'a\
-  |  ____________________^
-2 | | b' }
-  | |__^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | a:after { content: 'a\
+   :           ^^^^^^^
+   `----
 
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:20
-  |
-1 |   a:after { content: 'a\
-  |  ____________________^
-2 | | b' }
-  | |__^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | ,-> a:after { content: 'a\
+ 3 | `-> b' }
+   `----
 
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:2:1]
+ 2 | ,-> a:after { content: 'a\
+ 3 | `-> b' }
+   `----

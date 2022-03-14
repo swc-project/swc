@@ -1,6 +1,6 @@
-error: Expression expected
- --> $DIR/tests/test262-parser/fail/6dabf190eea04883.js:1:8
-  |
-1 | (...a) + 1
-  |        ^
 
+  x Expression expected
+   ,-[$DIR/tests/test262-parser/fail/6dabf190eea04883.js:2:1]
+ 2 | (...a) + 1
+   :        ^
+   `----

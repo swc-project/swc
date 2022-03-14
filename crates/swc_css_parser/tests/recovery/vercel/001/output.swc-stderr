@@ -1,8 +1,12 @@
-error: Invalid selector
-  --> $DIR/tests/recovery/vercel/001/input.css:15:1
-   |
-15 | }
-   | ^
 
-error: Unexpected end of file
+  x Invalid selector
+    ,-[$DIR/tests/recovery/vercel/001/input.css:16:1]
+ 16 | }
+    : ^
+    `----
 
+  x Unexpected end of file
+   ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
+ 2 | @media (min-width: 935px) {
+   : ^
+   `----

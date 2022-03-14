@@ -1,6 +1,6 @@
-error: Unexpected console statement
- 
-  |
-1 | console.log('restricted');
-  | ^^^^^^^^^^^
 
+  x Unexpected console statement
+   ,----
+ 2 | console.log('restricted');
+   : ^^^^^^^^^^^
+   `----

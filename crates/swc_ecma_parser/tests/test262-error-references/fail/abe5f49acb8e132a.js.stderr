@@ -1,6 +1,6 @@
-error: Invalid unicode escape
- --> $DIR/tests/test262-parser/fail/abe5f49acb8e132a.js:1:2
-  |
-1 | "\u{FFZ}"
-  |  ^^^^^
 
+  x Invalid unicode escape
+   ,-[$DIR/tests/test262-parser/fail/abe5f49acb8e132a.js:2:1]
+ 2 | "\u{FFZ}"
+   :  ^^^^^
+   `----

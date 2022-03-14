@@ -1,6 +1,6 @@
-error: Expected 2 hex characters
- --> $DIR/tests/test262-parser/fail/3b473034dde14c98.js:1:2
-  |
-1 | "\xx";
-  |  ^^
 
+  x Expected 2 hex characters
+   ,-[$DIR/tests/test262-parser/fail/3b473034dde14c98.js:2:1]
+ 2 | "\xx";
+   :  ^^
+   `----

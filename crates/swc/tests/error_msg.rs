@@ -2,9 +2,9 @@ use std::path::{Path, PathBuf};
 
 use swc::{
     config::{IsModule, Options},
-    try_with_handler, Compiler,
+    try_with_handler, Compiler, HandlerOpts,
 };
-use swc_common::{sync::Lrc, FilePathMapping, SourceMap};
+use swc_common::{errors::ColorConfig, sync::Lrc, FilePathMapping, SourceMap};
 use testing::{NormalizedOutput, Tester};
 
 fn file(f: impl AsRef<Path>) -> NormalizedOutput {
@@ -52,27 +52,34 @@ fn fixture(input: PathBuf) {
     let output_path = input.parent().unwrap().join("output.swc-stderr");
 
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
-    let err = try_with_handler(cm.clone(), true, |handler| {
-        let c = Compiler::new(cm.clone());
+    let err = try_with_handler(
+        cm.clone(),
+        HandlerOpts {
+            skip_filename: true,
+            color: ColorConfig::Never,
+        },
+        |handler| {
+            let c = Compiler::new(cm.clone());
 
-        let fm = cm.load_file(&input).expect("failed to load file");
+            let fm = cm.load_file(&input).expect("failed to load file");
 
-        match c.process_js_file(
-            fm,
-            handler,
-            &Options {
-                swcrc: true,
-                is_module: IsModule::Unknown,
+            match c.process_js_file(
+                fm,
+                handler,
+                &Options {
+                    swcrc: true,
+                    is_module: IsModule::Unknown,
 
-                ..Default::default()
-            },
-        ) {
-            Ok(..) => {}
-            Err(err) => return Err(err),
-        }
+                    ..Default::default()
+                },
+            ) {
+                Ok(..) => {}
+                Err(err) => return Err(err),
+            }
 
-        Ok(())
-    })
+            Ok(())
+        },
+    )
     .expect_err("should fail");
 
     let output = NormalizedOutput::from(format!("{}", err));

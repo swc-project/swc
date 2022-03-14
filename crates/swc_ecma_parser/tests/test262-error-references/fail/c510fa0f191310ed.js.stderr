@@ -1,6 +1,6 @@
-error: Not a pattern
- --> $DIR/tests/test262-parser/fail/c510fa0f191310ed.js:1:6
-  |
-1 | ({a: b += 0} = {})
-  |      ^^^^^^
 
+  x Not a pattern
+   ,-[$DIR/tests/test262-parser/fail/c510fa0f191310ed.js:2:1]
+ 2 | ({a: b += 0} = {})
+   :      ^^^^^^
+   `----

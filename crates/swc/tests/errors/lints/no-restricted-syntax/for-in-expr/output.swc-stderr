@@ -1,6 +1,6 @@
-error: no 'for-in' expession
- 
-  |
-1 | for (var x in {}) {}
-  | ^^^^^^^^^^^^^^^^^^^^
 
+  x no 'for-in' expession
+   ,----
+ 2 | for (var x in {}) {}
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----

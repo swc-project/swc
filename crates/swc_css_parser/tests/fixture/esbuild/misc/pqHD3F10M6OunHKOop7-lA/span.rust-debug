@@ -1,60 +1,60 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1
-  |
-1 | .decl {}
-  | ^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1
-  |
-1 | .decl {}
-  | ^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:2:1]
+ 2 | .decl {}
+   : ^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1
-  |
-1 | .decl {}
-  | ^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:2:1]
+ 2 | .decl {}
+   : ^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1
-  |
-1 | .decl {}
-  | ^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:2:1]
+ 2 | .decl {}
+   : ^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1
-  |
-1 | .decl {}
-  | ^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:2:1]
+ 2 | .decl {}
+   : ^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1
-  |
-1 | .decl {}
-  | ^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:2:1]
+ 2 | .decl {}
+   : ^^^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1
-  |
-1 | .decl {}
-  | ^^^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:2:1]
+ 2 | .decl {}
+   : ^^^^^
+   `----
 
-error: ClassSelector
- --> $DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1
-  |
-1 | .decl {}
-  | ^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:2:1]
+ 2 | .decl {}
+   : ^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:2
-  |
-1 | .decl {}
-  |  ^^^^
+  x ClassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:2:1]
+ 2 | .decl {}
+   : ^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:7
-  |
-1 | .decl {}
-  |       ^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:2:1]
+ 2 | .decl {}
+   :  ^^^^
+   `----
 
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:2:1]
+ 2 | .decl {}
+   :       ^^
+   `----

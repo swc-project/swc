@@ -1,1074 +1,1073 @@
-error: Stylesheet
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:1
-  |
-1 | / @media screen and (color) {}
-2 | | @media only screen and (color) {}
-3 | | @media only screen and (min-width: 800px) {}
-4 | | @media screen and (min-width       :          800px        ) {}
-5 | | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-6 | | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-7 | |
-  | |_^
-
-error: Rule
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:1
-  |
-1 | @media screen and (color) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:1
-  |
-1 | @media screen and (color) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:1
-  |
-1 | @media screen and (color) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryList
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:8
-  |
-1 | @media screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:8
-  |
-1 | @media screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:8
-  |
-1 | @media screen and (color) {}
-  |        ^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:15
-  |
-1 | @media screen and (color) {}
-  |               ^^^
-
-error: MediaConditionWithoutOr
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:19
-  |
-1 | @media screen and (color) {}
-  |                   ^^^^^^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:19
-  |
-1 | @media screen and (color) {}
-  |                   ^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:19
-  |
-1 | @media screen and (color) {}
-  |                   ^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:19
-  |
-1 | @media screen and (color) {}
-  |                   ^^^^^^^
-
-error: MediaFeatureBoolean
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:19
-  |
-1 | @media screen and (color) {}
-  |                   ^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:20
-  |
-1 | @media screen and (color) {}
-  |                    ^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:20
-  |
-1 | @media screen and (color) {}
-  |                    ^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/media/feature/input.css:1:27
-  |
-1 | @media screen and (color) {}
-  |                           ^^
-
-error: Rule
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:1
-  |
-2 | @media only screen and (color) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:1
-  |
-2 | @media only screen and (color) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:1
-  |
-2 | @media only screen and (color) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryList
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:8
-  |
-2 | @media only screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:8
-  |
-2 | @media only screen and (color) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:8
-  |
-2 | @media only screen and (color) {}
-  |        ^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:13
-  |
-2 | @media only screen and (color) {}
-  |             ^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:20
-  |
-2 | @media only screen and (color) {}
-  |                    ^^^
-
-error: MediaConditionWithoutOr
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:24
-  |
-2 | @media only screen and (color) {}
-  |                        ^^^^^^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:24
-  |
-2 | @media only screen and (color) {}
-  |                        ^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:24
-  |
-2 | @media only screen and (color) {}
-  |                        ^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:24
-  |
-2 | @media only screen and (color) {}
-  |                        ^^^^^^^
-
-error: MediaFeatureBoolean
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:24
-  |
-2 | @media only screen and (color) {}
-  |                        ^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:25
-  |
-2 | @media only screen and (color) {}
-  |                         ^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:25
-  |
-2 | @media only screen and (color) {}
-  |                         ^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/media/feature/input.css:2:32
-  |
-2 | @media only screen and (color) {}
-  |                                ^^
-
-error: Rule
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:1
-  |
-3 | @media only screen and (min-width: 800px) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:1
-  |
-3 | @media only screen and (min-width: 800px) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:1
-  |
-3 | @media only screen and (min-width: 800px) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryList
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:8
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:8
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:8
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |        ^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:13
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |             ^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:20
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                    ^^^
-
-error: MediaConditionWithoutOr
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:24
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                        ^^^^^^^^^^^^^^^^^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:24
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                        ^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:24
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                        ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:24
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                        ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:24
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                        ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:25
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                         ^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:25
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                         ^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:36
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                                    ^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:36
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                                    ^^^^^
-
-error: Length
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:36
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                                    ^^^^^
-
-error: Number
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:36
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                                    ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:39
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                                       ^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/media/feature/input.css:3:43
-  |
-3 | @media only screen and (min-width: 800px) {}
-  |                                           ^^
-
-error: Rule
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:1
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:1
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:1
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryList
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:8
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:8
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:8
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |        ^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:15
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |               ^^^
-
-error: MediaConditionWithoutOr
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:19
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:19
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:19
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:19
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:19
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:20
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                    ^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:20
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                    ^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:47
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                                               ^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:47
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                                               ^^^^^
-
-error: Length
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:47
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                                               ^^^^^
-
-error: Number
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:47
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                                               ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:50
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                                                  ^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/media/feature/input.css:4:62
-  |
-4 | @media screen and (min-width       :          800px        ) {}
-  |                                                              ^^
-
-error: Rule
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:1
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:1
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:1
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryList
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:8
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:8
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:8
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |        ^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:15
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |               ^^^
-
-error: MediaConditionWithoutOr
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:19
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:19
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                   ^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:19
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                   ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:19
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                   ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:19
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                   ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:20
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                    ^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:20
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                    ^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:31
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                               ^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:31
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                               ^^^^^
-
-error: Length
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:31
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                               ^^^^^
-
-error: Number
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:31
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                               ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:34
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                  ^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:38
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                      ^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaAnd
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:38
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                      ^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:38
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                      ^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:42
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                          ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:42
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                          ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:42
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                          ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:43
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                           ^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:43
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                           ^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:54
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                      ^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:54
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                      ^^^^^
-
-error: Length
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:54
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                      ^^^^^
-
-error: Number
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:54
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                      ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:57
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                         ^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:61
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                             ^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaAnd
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:61
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                             ^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:61
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                             ^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:65
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                 ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:65
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                 ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:65
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                 ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:66
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                  ^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:66
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                  ^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:77
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                             ^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:77
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                             ^^^^^
-
-error: Length
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:77
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                             ^^^^^
-
-error: Number
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:77
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                             ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:80
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                                ^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/media/feature/input.css:5:84
-  |
-5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
-  |                                                                                    ^^
-
-error: Rule
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:1
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:1
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaRule
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:1
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryList
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:8
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:8
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:8
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |        ^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:15
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |               ^^^
-
-error: MediaConditionWithoutOr
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:19
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:19
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                   ^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:19
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                   ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:19
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                   ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:19
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                   ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:20
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                    ^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:20
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                    ^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:31
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                               ^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:31
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                               ^^^^^
-
-error: Length
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:31
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                               ^^^^^
-
-error: Number
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:31
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                               ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:34
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                  ^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:38
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                      ^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaAnd
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:38
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                      ^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:38
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                      ^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:42
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                          ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:42
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                          ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:42
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                          ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:43
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                           ^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:43
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                           ^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:54
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                      ^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:54
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                      ^^^^^
-
-error: Length
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:54
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                      ^^^^^
-
-error: Number
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:54
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                      ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:57
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                         ^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:61
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                             ^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaAnd
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:61
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                             ^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:61
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                             ^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:65
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                 ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:65
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                 ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:65
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                 ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:66
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                  ^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:66
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                  ^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:77
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                             ^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:77
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                             ^^^^^
-
-error: Length
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:77
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                             ^^^^^
-
-error: Number
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:77
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                             ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:80
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                ^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:84
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                    ^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaAnd
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:84
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                    ^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:84
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                    ^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:88
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                        ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:88
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                        ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:88
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                        ^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:89
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                         ^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:89
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                         ^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:100
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                                    ^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:100
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                                    ^^^^^
-
-error: Length
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:100
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                                    ^^^^^
-
-error: Number
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:100
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                                    ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:103
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                                       ^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/media/feature/input.css:6:106
-  |
-6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
-  |                                                                                                          ^^
 
+  x Stylesheet
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | ,-> @media screen and (color) {}
+ 3 | |   @media only screen and (color) {}
+ 4 | |   @media only screen and (min-width: 800px) {}
+ 5 | |   @media screen and (min-width       :          800px        ) {}
+ 6 | |   @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+ 7 | |   @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+ 8 | `-> 
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :        ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :               ^^^
+   `----
+
+  x MediaConditionWithoutOr
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :                   ^^^^^^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :                   ^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :                   ^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :                   ^^^^^^^
+   `----
+
+  x MediaFeatureBoolean
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :                   ^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :                    ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :                    ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media screen and (color) {}
+   :                           ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :        ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :             ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :                    ^^^
+   `----
+
+  x MediaConditionWithoutOr
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :                        ^^^^^^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :                        ^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :                        ^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :                        ^^^^^^^
+   `----
+
+  x MediaFeatureBoolean
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :                        ^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :                         ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :                         ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (color) {}
+   :                                ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :        ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :             ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                    ^^^
+   `----
+
+  x MediaConditionWithoutOr
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                         ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                         ^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                                    ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                                    ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                                    ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                                    ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                                       ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media only screen and (min-width: 800px) {}
+   :                                           ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :        ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :               ^^^
+   `----
+
+  x MediaConditionWithoutOr
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                    ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                    ^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                                               ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                                               ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                                               ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                                               ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                                                  ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width       :          800px        ) {}
+   :                                                              ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :        ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :               ^^^
+   `----
+
+  x MediaConditionWithoutOr
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                   ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                   ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                   ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                   ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                    ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                    ^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                               ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                               ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                               ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                               ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                  ^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                      ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaAnd
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                      ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                      ^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                          ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                          ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                          ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                           ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                           ^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                      ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                      ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                      ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                      ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                         ^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                             ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaAnd
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                             ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                             ^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                 ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                 ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                 ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                  ^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                             ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                             ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                             ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                             ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                                ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                                    ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaRule
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :        ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :               ^^^
+   `----
+
+  x MediaConditionWithoutOr
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                   ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                   ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                   ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                   ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                    ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                    ^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                               ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                               ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                               ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                               ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                  ^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                      ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaAnd
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                      ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                      ^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                          ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                          ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                          ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                           ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                           ^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                      ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                      ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                      ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                      ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                         ^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                             ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaAnd
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                             ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                             ^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                 ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                 ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                 ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                  ^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                             ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                             ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                             ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                             ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                ^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                    ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaAnd
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                    ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                    ^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                         ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                         ^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                                    ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                                    ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                                    ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                                    ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                                       ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:7:1]
+ 7 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                                          ^^
+   `----

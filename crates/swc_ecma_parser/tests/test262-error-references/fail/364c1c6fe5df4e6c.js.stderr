@@ -1,6 +1,6 @@
-error: Unexpected token `numeric literal`. Expected yield, an identifier, [ or {
- --> $DIR/tests/test262-parser/fail/364c1c6fe5df4e6c.js:1:15
-  |
-1 | try {} catch (42) {} 
-  |               ^^
 
+  x Unexpected token `numeric literal`. Expected yield, an identifier, [ or {
+   ,-[$DIR/tests/test262-parser/fail/364c1c6fe5df4e6c.js:2:1]
+ 2 | try {} catch (42) {}
+   :               ^^
+   `----

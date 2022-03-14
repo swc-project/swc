@@ -1,132 +1,132 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:1
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:1
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:1
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ImportRule
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:1
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ImportHref
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:9
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |         ^^^^^^^^^^^^^^
+  x ImportRule
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Url
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:9
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |         ^^^^^^^^^^^^^^
+  x ImportHref
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :         ^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:9
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |         ^^^
+  x Url
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :         ^^^^^^^^^^^^^^
+   `----
 
-error: UrlValue
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:13
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |             ^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :         ^^^
+   `----
 
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:13
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |             ^^^^^^^^^
+  x UrlValue
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :             ^^^^^^^^^
+   `----
 
-error: MediaQueryList
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:24
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :             ^^^^^^^^^
+   `----
 
-error: MediaQuery
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:24
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:24
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                        ^^^^^^
+  x MediaQuery
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:31
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                               ^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                        ^^^^^^
+   `----
 
-error: MediaConditionWithoutOr
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                               ^^^
+   `----
 
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  x MediaConditionWithoutOr
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                                   ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: MediaInParens
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                                   ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: MediaFeature
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  x MediaInParens
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                                   ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:35
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                   ^^^^^^^^^^^^^^^^^^^^^^^
+  x MediaFeature
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                                   ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: MediaFeatureName
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:36
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                    ^^^^^^^^^^^
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                                   ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:36
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                    ^^^^^^^^^^^
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                                    ^^^^^^^^^^^
+   `----
 
-error: MediaFeatureValue
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:48
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                                ^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                                    ^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:48
-  |
-1 | @import url("foo.css") screen and (orientation:landscape);
-  |                                                ^^^^^^^^^
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                                                ^^^^^^^^^
+   `----
 
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:2:1]
+ 2 | @import url("foo.css") screen and (orientation:landscape);
+   :                                                ^^^^^^^^^
+   `----

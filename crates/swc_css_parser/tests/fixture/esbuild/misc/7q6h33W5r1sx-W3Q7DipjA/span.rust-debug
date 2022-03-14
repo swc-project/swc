@@ -1,36 +1,36 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:1:1
-  |
-1 | @u\2cnknown;
-  | ^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:1:1
-  |
-1 | @u\2cnknown;
-  | ^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:2:1]
+ 2 | @u\2cnknown;
+   : ^^^^^^^^^^^^
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:1:1
-  |
-1 | @u\2cnknown;
-  | ^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:2:1]
+ 2 | @u\2cnknown;
+   : ^^^^^^^^^^^^
+   `----
 
-error: UnknownAtRule
- --> $DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:1:1
-  |
-1 | @u\2cnknown;
-  | ^^^^^^^^^^^^
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:2:1]
+ 2 | @u\2cnknown;
+   : ^^^^^^^^^^^^
+   `----
 
-error: AtRuleName
- --> $DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:1:2
-  |
-1 | @u\2cnknown;
-  |  ^^^^^^^^^^
+  x UnknownAtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:2:1]
+ 2 | @u\2cnknown;
+   : ^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:1:2
-  |
-1 | @u\2cnknown;
-  |  ^^^^^^^^^^
+  x AtRuleName
+   ,-[$DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:2:1]
+ 2 | @u\2cnknown;
+   :  ^^^^^^^^^^
+   `----
 
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/7q6h33W5r1sx-W3Q7DipjA/input.css:2:1]
+ 2 | @u\2cnknown;
+   :  ^^^^^^^^^^
+   `----

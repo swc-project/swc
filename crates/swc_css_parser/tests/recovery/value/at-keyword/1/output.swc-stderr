@@ -1,6 +1,6 @@
-error: Expected Declaration value
- --> $DIR/tests/recovery/value/at-keyword/1/input.css:1:12
-  |
-1 | a { value: @x\2c }
-  |            ^^^^^^
 
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/value/at-keyword/1/input.css:2:1]
+ 2 | a { value: @x\2c }
+   :            ^^^^^^
+   `----
