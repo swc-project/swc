@@ -233,6 +233,7 @@ impl VisitMut for Prefixer {
 
         // TODO check me with different prefixes on the same value
         replace_function_name(&mut new_value, "element", "-moz-element");
+        replace_function_name(&mut new_value, "filter", "-webkit-filter");
 
         if n.value != new_value {
             self.added_declarations.push(Declaration {
@@ -1268,7 +1269,6 @@ impl VisitMut for Prefixer {
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
             // TODO handle `calc()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L395
-            // TODO handle `filter()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L241
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
             // TODO add `border-radius` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L59
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
