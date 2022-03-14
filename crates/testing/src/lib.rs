@@ -24,6 +24,7 @@ use tracing_subscriber::EnvFilter;
 
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 
+mod errors;
 pub mod json;
 #[macro_use]
 mod macros;
