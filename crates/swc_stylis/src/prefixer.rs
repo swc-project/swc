@@ -144,6 +144,30 @@ impl VisitMut for Prefixer {
             return;
         }
 
+        let is_dashed_ident = match n.name {
+            DeclarationName::Ident(_) => false,
+            DeclarationName::DashedIdent(_) => true,
+        };
+
+        if is_dashed_ident {
+            return;
+        }
+
+        let name = match &n.name {
+            DeclarationName::Ident(ident) => &ident.value,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        // TODO make it lazy and avoid copy when unnecessary
+        let mut new_value = n.value.clone();
+
+        // TODO check me with different prefixes on the same value and different properties
+        replace_function_name(&mut new_value, "element", "-moz-element");
+        replace_function_name(&mut new_value, "filter", "-webkit-filter");
+        replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
+        
         macro_rules! simple {
             ($name:expr,$val:expr) => {{
                 let val = ComponentValue::Ident(Ident {
@@ -165,22 +189,6 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        macro_rules! complex {
-            ($name:expr,$val:expr) => {{
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: $val,
-                    important: n.important.clone(),
-                });
-            }};
-        }
-
         macro_rules! same_content {
             ($name:expr) => {{
                 let name = DeclarationName::Ident(Ident {
@@ -188,10 +196,11 @@ impl VisitMut for Prefixer {
                     value: $name.into(),
                     raw: $name.into(),
                 });
+              
                 self.added_declarations.push(Declaration {
                     span: n.span,
                     name,
-                    value: n.value.clone(),
+                    value: new_value.clone(),
                     important: n.important.clone(),
                 });
             }};
@@ -211,37 +220,6 @@ impl VisitMut for Prefixer {
                     important: n.important.clone(),
                 });
             }};
-        }
-
-        let is_dashed_ident = match n.name {
-            DeclarationName::Ident(_) => false,
-            DeclarationName::DashedIdent(_) => true,
-        };
-
-        if is_dashed_ident {
-            return;
-        }
-
-        let name = match &n.name {
-            DeclarationName::Ident(ident) => &ident.value,
-            _ => {
-                unreachable!();
-            }
-        };
-
-        let mut new_value = n.value.clone();
-
-        // TODO check me with different prefixes on the same value
-        replace_function_name(&mut new_value, "element", "-moz-element");
-        replace_function_name(&mut new_value, "filter", "-webkit-filter");
-
-        if n.value != new_value {
-            self.added_declarations.push(Declaration {
-                span: n.span,
-                name: n.name.clone(),
-                value: new_value,
-                important: n.important.clone(),
-            });
         }
 
         match &*name.to_lowercase() {
@@ -393,89 +371,11 @@ impl VisitMut for Prefixer {
                 same_content!("-moz-column-fill");
             }
 
-            "content" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
-            }
-
-            "list-style" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
-            }
-
-            "list-style-image" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
-            }
-
-            "background" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
-            }
-
-            "background-image" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
-            }
-
             "cursor" => {
-                let mut new_value = n.value.clone();
-
                 replace_ident(&mut new_value, "zoom-in", "-webkit-zoom-in");
                 replace_ident(&mut new_value, "zoom-out", "-webkit-zoom-out");
                 replace_ident(&mut new_value, "grab", "-webkit-grab");
                 replace_ident(&mut new_value, "grabbing", "-webkit-grabbing");
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
 
                 if n.value != new_value {
                     self.added_declarations.push(Declaration {
@@ -653,11 +553,7 @@ impl VisitMut for Prefixer {
             }
 
             "mask-image" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                complex!("-webkit-mask-image", new_value);
+                same_content!("-webkit-mask-image");
             }
 
             "mask-origin" => {
@@ -677,11 +573,7 @@ impl VisitMut for Prefixer {
             }
 
             "mask" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                complex!("-webkit-mask", new_value);
+                same_content!("-webkit-mask");
             }
 
             "mask-position" => {
@@ -1160,11 +1052,7 @@ impl VisitMut for Prefixer {
 
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/border-image.js
             "border-image" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                complex!("-webkit-border-image", new_value);
+                same_content!("-webkit-border-image");
                 same_content!("-moz-border-image");
                 same_content!("-o-border-image");
             }
@@ -1299,7 +1187,16 @@ impl VisitMut for Prefixer {
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/cross-fade.js
             // TODO handle transform functions https://github.com/postcss/autoprefixer/blob/main/lib/hacks/transform-decl.js
-            _ => {}
+            _ => {
+                if n.value != new_value {
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: new_value,
+                        important: n.important.clone(),
+                    });
+                }
+            }
         }
     }
 
