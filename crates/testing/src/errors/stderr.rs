@@ -34,7 +34,7 @@ struct TestStderr;
 
 impl fmt::Write for TestStderr {
     fn write_str(&mut self, s: &str) -> fmt::Result {
-        eprintln!("{}", s);
+        eprint!("{}", s);
 
         Ok(())
     }
