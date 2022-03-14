@@ -44,3 +44,6 @@
   animation: test reverse;
   animation: reverse test;
 }
+div {
+  animation-direction: var(--test);
+}
