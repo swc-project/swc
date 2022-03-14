@@ -2,7 +2,7 @@ use std::mem::take;
 
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
-use swc_css_utils::{replace_function_name, replace_ident};
+use swc_css_utils::{replace_function_name, replace_ident, replace_pseudo_class_selector_name};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn prefixer() -> impl VisitMut {
@@ -11,6 +11,8 @@ pub fn prefixer() -> impl VisitMut {
 
 #[derive(Default)]
 struct Prefixer {
+    in_stylesheet: bool,
+    added_rules: Vec<Rule>,
     in_simple_block: bool,
     added_declarations: Vec<Declaration>,
 }
@@ -24,13 +26,55 @@ impl VisitMut for Prefixer {
     // TODO handle `:any-link` pseudo
     // TODO handle `:read-only` pseudo
     // TODO handle `:read-write` pseudo
-    // TODO handle `:autofill` pseudo
     // TODO handle `::file-selector-button` pseudo
     // TODO handle `::backdrop` pseudo
     // TODO handle `:fullscreen` pseudo
     // TODO handle `:placeholder-shown` pseudo
     // TODO handle `::placeholder` pseudo
     // TODO handle `::selection` pseudo
+
+    fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
+        n.visit_mut_children_with(self);
+
+        if !self.in_stylesheet {
+            return;
+        }
+
+        if let QualifiedRulePrelude::Invalid(_) = n.prelude {
+            return;
+        }
+
+        let mut new_prelude = n.prelude.clone();
+
+        replace_pseudo_class_selector_name(&mut new_prelude, "autofill", "-webkit-autofill");
+
+        if n.prelude != new_prelude {
+            self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
+                span: DUMMY_SP,
+                prelude: new_prelude,
+                block: n.block.clone(),
+            }));
+        }
+    }
+
+    fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
+        let old_in_stylesheet = self.in_stylesheet;
+
+        self.in_stylesheet = true;
+
+        let mut new = vec![];
+
+        for mut n in take(&mut n.rules) {
+            n.visit_mut_children_with(self);
+
+            new.append(&mut self.added_rules);
+            new.push(n);
+        }
+
+        n.rules = new;
+
+        self.in_stylesheet = old_in_stylesheet;
+    }
 
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
