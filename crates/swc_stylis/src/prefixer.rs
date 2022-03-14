@@ -229,6 +229,20 @@ impl VisitMut for Prefixer {
             }
         };
 
+        let mut new_value = n.value.clone();
+
+        // TODO check me with different prefixes on the same value
+        replace_function_name(&mut new_value, "element", "-moz-element");
+
+        if n.value != new_value {
+            self.added_declarations.push(Declaration {
+                span: n.span,
+                name: n.name.clone(),
+                value: new_value,
+                important: n.important.clone(),
+            });
+        }
+
         match &*name.to_lowercase() {
             "appearance" => {
                 same_content!("-webkit-appearance");
@@ -1254,7 +1268,6 @@ impl VisitMut for Prefixer {
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
             // TODO handle `calc()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L395
-            // TODO handle `element()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L269
             // TODO handle `filter()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L241
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
             // TODO add `border-radius` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L59

@@ -1,0 +1,7 @@
+div {
+    background: element(#id);
+}
+
+div {
+    background: url(image.jpg), element(#id);
+}
