@@ -9,6 +9,7 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.42.0"
 
 [features]
+default = ["embedded_runtime"]
 # Where host _does not_ have its own runtime to execute webassembly.
 embedded_runtime = []
 # Where host have its own runtime to execute webassembly (browser, node.js..)
