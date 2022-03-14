@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 5133,
+    "end": 5239,
     "ctxt": 0
   },
   "rules": [
@@ -13032,6 +13032,285 @@
                     },
                     "value": 0.0,
                     "raw": "0"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 5134,
+        "end": 5238,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 5134,
+          "end": 5143,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 5134,
+              "end": 5143,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 5134,
+                  "end": 5143,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
+                    "span": {
+                      "start": 5134,
+                      "end": 5143,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 5135,
+                        "end": 5143,
+                        "ctxt": 0
+                      },
+                      "value": "relative",
+                      "raw": "relative"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 5144,
+          "end": 5238,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 5150,
+              "end": 5188,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 5150,
+                "end": 5155,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 5157,
+                  "end": 5188,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 5157,
+                    "end": 5160,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5161,
+                      "end": 5165,
+                      "ctxt": 0
+                    },
+                    "value": "from",
+                    "raw": "from"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5166,
+                      "end": 5175,
+                      "ctxt": 0
+                    },
+                    "value": "indianred",
+                    "raw": "indianred"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5176,
+                      "end": 5179,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5180,
+                      "end": 5183,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5184,
+                      "end": 5187,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 5194,
+              "end": 5235,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 5194,
+                "end": 5199,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 5201,
+                  "end": 5235,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 5201,
+                    "end": 5204,
+                    "ctxt": 0
+                  },
+                  "value": "lch",
+                  "raw": "lch"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5205,
+                      "end": 5209,
+                      "ctxt": 0
+                    },
+                    "value": "from",
+                    "raw": "from"
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 5210,
+                      "end": 5223,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 5210,
+                        "end": 5213,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 5214,
+                          "end": 5222,
+                          "ctxt": 0
+                        },
+                        "value": "--mygray",
+                        "raw": "--mygray"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 5224,
+                      "end": 5227,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 5224,
+                        "end": 5226,
+                        "ctxt": 0
+                      },
+                      "value": 62.0,
+                      "raw": "62"
+                    }
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5228,
+                      "end": 5230,
+                      "ctxt": 0
+                    },
+                    "value": 30.0,
+                    "raw": "30"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5231,
+                      "end": 5234,
+                      "ctxt": 0
+                    },
+                    "value": -34.0,
+                    "raw": "-34"
                   }
                 ]
               }

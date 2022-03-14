@@ -325,6 +325,30 @@ where
 
                 let mut is_legacy_syntax = true;
 
+                match cur!(self) {
+                    Token::Ident { value, .. } if &*value.to_lowercase() == "from" => {
+                        is_legacy_syntax = false;
+
+                        values.push(ComponentValue::Ident(self.parse()?));
+
+                        self.input.skip_ws()?;
+
+                        let color = match cur!(self) {
+                            Token::Function { value, .. }
+                                if matches!(&*value.to_lowercase(), "var" | "env") =>
+                            {
+                                ComponentValue::Function(self.parse()?)
+                            }
+                            _ => ComponentValue::Color(self.parse()?),
+                        };
+
+                        values.push(color);
+
+                        self.input.skip_ws()?;
+                    }
+                    _ => {}
+                }
+
                 match function_name {
                     "rgb" | "rgba" => {
                         let percentage_or_number_or_none = match cur!(self) {
@@ -655,6 +679,32 @@ where
                 }
             }
             "hwb" | "lab" | "lch" | "oklab" | "oklch" | "device-cmyk" => {
+                self.input.skip_ws()?;
+
+                match cur!(self) {
+                    Token::Ident { value, .. }
+                        if &*value.to_lowercase() == "from" && function_name != "device-cmyk" =>
+                    {
+                        values.push(ComponentValue::Ident(self.parse()?));
+
+                        self.input.skip_ws()?;
+
+                        let color = match cur!(self) {
+                            Token::Function { value, .. }
+                                if matches!(&*value.to_lowercase(), "var" | "env") =>
+                            {
+                                ComponentValue::Function(self.parse()?)
+                            }
+                            _ => ComponentValue::Color(self.parse()?),
+                        };
+
+                        values.push(color);
+
+                        self.input.skip_ws()?;
+                    }
+                    _ => {}
+                }
+
                 match function_name {
                     "hwb" => {
                         let hue_or_none = match cur!(self) {
@@ -981,6 +1031,28 @@ where
             }
             "color" => {
                 self.input.skip_ws()?;
+
+                match cur!(self) {
+                    Token::Ident { value, .. } if &*value.to_lowercase() == "from" => {
+                        values.push(ComponentValue::Ident(self.parse()?));
+
+                        self.input.skip_ws()?;
+
+                        let color = match cur!(self) {
+                            Token::Function { value, .. }
+                                if matches!(&*value.to_lowercase(), "var" | "env") =>
+                            {
+                                ComponentValue::Function(self.parse()?)
+                            }
+                            _ => ComponentValue::Color(self.parse()?),
+                        };
+
+                        values.push(color);
+
+                        self.input.skip_ws()?;
+                    }
+                    _ => {}
+                }
 
                 let mut is_custom_params = false;
                 let mut is_xyz = false;
@@ -1831,7 +1903,7 @@ where
     fn parse(&mut self) -> PResult<Color> {
         let span = self.input.cur_span()?;
 
-        if !is_one_of!(self, "#", "function") {
+        if !is_one_of!(self, "#", "function", "ident") {
             return Err(Error::new(
                 span,
                 ErrorKind::Expected("hash or function token"),
@@ -1840,6 +1912,15 @@ where
 
         match cur!(self) {
             tok!("#") => Ok(Color::HexColor(self.parse()?)),
+            Token::Ident { value, .. } => {
+                if !is_named_color(value) {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("known named color")));
+                }
+
+                Ok(Color::NamedColor(self.parse()?))
+            }
             tok!("function") => Ok(Color::Function(self.parse()?)),
             _ => {
                 unreachable!()
@@ -2804,7 +2885,7 @@ where
 
 fn is_math_function(name: &str) -> bool {
     matches!(
-        &*name.to_lowercase(),
+        &*name.to_ascii_lowercase(),
         "calc"
             | "sin"
             | "cos"
@@ -2826,6 +2907,160 @@ fn is_math_function(name: &str) -> bool {
             | "atan2"
             | "pow"
             | "log"
+    )
+}
+
+fn is_named_color(name: &str) -> bool {
+    matches!(
+        &*name.to_ascii_lowercase(),
+        "aliceblue"
+            | "antiquewhite"
+            | "aqua"
+            | "aquamarine"
+            | "azure"
+            | "beige"
+            | "bisque"
+            | "black"
+            | "blanchedalmond"
+            | "blue"
+            | "blueviolet"
+            | "brown"
+            | "burlywood"
+            | "cadetblue"
+            | "chartreuse"
+            | "chocolate"
+            | "coral"
+            | "cornflowerblue"
+            | "cornsilk"
+            | "crimson"
+            | "cyan"
+            | "darkblue"
+            | "darkcyan"
+            | "darkgoldenrod"
+            | "darkgray"
+            | "darkgreen"
+            | "darkgrey"
+            | "darkkhaki"
+            | "darkmagenta"
+            | "darkolivegreen"
+            | "darkorange"
+            | "darkorchid"
+            | "darkred"
+            | "darksalmon"
+            | "darkseagreen"
+            | "darkslateblue"
+            | "darkslategray"
+            | "darkslategrey"
+            | "darkturquoise"
+            | "darkviolet"
+            | "deeppink"
+            | "deepskyblue"
+            | "dimgray"
+            | "dimgrey"
+            | "dodgerblue"
+            | "firebrick"
+            | "floralwhite"
+            | "forestgreen"
+            | "fuchsia"
+            | "gainsboro"
+            | "ghostwhite"
+            | "gold"
+            | "goldenrod"
+            | "gray"
+            | "green"
+            | "greenyellow"
+            | "grey"
+            | "honeydew"
+            | "hotpink"
+            | "indianred"
+            | "indigo"
+            | "ivory"
+            | "khaki"
+            | "lavender"
+            | "lavenderblush"
+            | "lawngreen"
+            | "lemonchiffon"
+            | "lightblue"
+            | "lightcoral"
+            | "lightcyan"
+            | "lightgoldenrodyellow"
+            | "lightgray"
+            | "lightgreen"
+            | "lightgrey"
+            | "lightpink"
+            | "lightsalmon"
+            | "lightseagreen"
+            | "lightskyblue"
+            | "lightslategray"
+            | "lightslategrey"
+            | "lightsteelblue"
+            | "lightyellow"
+            | "lime"
+            | "limegreen"
+            | "linen"
+            | "magenta"
+            | "maroon"
+            | "mediumaquamarine"
+            | "mediumblue"
+            | "mediumorchid"
+            | "mediumpurple"
+            | "mediumseagreen"
+            | "mediumslateblue"
+            | "mediumspringgreen"
+            | "mediumturquoise"
+            | "mediumvioletred"
+            | "midnightblue"
+            | "mintcream"
+            | "mistyrose"
+            | "moccasin"
+            | "navajowhite"
+            | "navy"
+            | "oldlace"
+            | "olive"
+            | "olivedrab"
+            | "orange"
+            | "orangered"
+            | "orchid"
+            | "palegoldenrod"
+            | "palegreen"
+            | "paleturquoise"
+            | "palevioletred"
+            | "papayawhip"
+            | "peachpuff"
+            | "peru"
+            | "pink"
+            | "plum"
+            | "powderblue"
+            | "purple"
+            | "rebeccapurple"
+            | "red"
+            | "rosybrown"
+            | "royalblue"
+            | "saddlebrown"
+            | "salmon"
+            | "sandybrown"
+            | "seagreen"
+            | "seashell"
+            | "sienna"
+            | "silver"
+            | "skyblue"
+            | "slateblue"
+            | "slategray"
+            | "slategrey"
+            | "snow"
+            | "springgreen"
+            | "steelblue"
+            | "tan"
+            | "teal"
+            | "thistle"
+            | "tomato"
+            | "turquoise"
+            | "violet"
+            | "wheat"
+            | "white"
+            | "whitesmoke"
+            | "yellow"
+            | "yellowgreen"
     )
 }
 

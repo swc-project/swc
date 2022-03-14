@@ -154,6 +154,7 @@ define!({
 
     pub enum Color {
         HexColor(HexColor),
+        NamedColor(Ident),
         Function(Function),
     }
 

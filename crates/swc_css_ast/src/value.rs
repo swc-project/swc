@@ -62,6 +62,8 @@ pub enum Color {
     // TODO more
     #[tag("HexColor")]
     HexColor(HexColor),
+    #[tag("Ident")]
+    NamedColor(Ident),
     #[tag("Function")]
     Function(Function),
 }

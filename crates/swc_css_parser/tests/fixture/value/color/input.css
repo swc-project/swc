@@ -168,3 +168,8 @@
     color: device-cmyk(0 calc(20%) 81% 30%);
     color: color(display-p3 calc(1 + 2) 0.5 0);
 }
+
+.relative {
+    color: rgb(from indianred 255 255 255);
+    color: lch(from var(--mygray) 62% 30 -34);
+}
