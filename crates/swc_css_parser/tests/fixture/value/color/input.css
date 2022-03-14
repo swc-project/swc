@@ -154,3 +154,14 @@
     color: lab(45.060% 45.477 35.459);
     color: rgb(70.690% 26.851% 19.724%);
 }
+
+.calc {
+    color: rgba(calc(255 - 1), 255, 255, 1);
+    color: rgba(255, calc(255 - 1), 255, 1);
+    color: rgba(255, 255, calc(255 - 1), 1);
+    color: rgba(255, 255, 255, calc(1 - 1));
+    color: hsla(calc(120deg + 16deg) 100% 50%);
+    color: hsla(120deg calc(20% + 10%) 50%);
+    color: hsla(120deg 40% calc(20% + 10%));
+    color: hsl(120deg 40% 20% / calc(20% + 10%));
+}

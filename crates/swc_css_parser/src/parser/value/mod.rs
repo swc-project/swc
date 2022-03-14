@@ -330,6 +330,9 @@ where
                         let percentage_or_number_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
                             tok!("number") => ComponentValue::Number(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 is_legacy_syntax = false;
 
@@ -350,7 +353,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage, number or ident (with 'none' value) token",
+                                        "percentage, number, function (math functions) or ident \
+                                         (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -375,13 +379,17 @@ where
 
                                 ComponentValue::Ident(ident)
                             }
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             _ => {
                                 let span = self.input.cur_span()?;
 
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "number, dimension or ident (with 'none' value) token",
+                                        "number, dimension, function (math functions) or ident \
+                                         (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -417,6 +425,9 @@ where
                         let percentage_or_number = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
                             tok!("number") => ComponentValue::Number(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") if !is_legacy_syntax => {
                                 let ident: Ident = self.parse()?;
 
@@ -435,7 +446,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage, number or ident (with 'none' value) token",
+                                        "percentage, number, function (math functions) or ident \
+                                         (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -446,6 +458,9 @@ where
                     "hsl" | "hsla" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
 
@@ -464,7 +479,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "percentage, function (math functions) or ident (with \
+                                         'none' value) token",
                                     ),
                                 ));
                             }
@@ -499,6 +515,9 @@ where
                         let percentage_or_number = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
                             tok!("number") => ComponentValue::Number(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") if !is_legacy_syntax => {
                                 let ident: Ident = self.parse()?;
 
@@ -517,7 +536,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage, number or ident (with 'none' value) token",
+                                        "percentage, number, function (math functions) or ident \
+                                         (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -528,6 +548,9 @@ where
                     "hsl" | "hsla" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
 
@@ -546,7 +569,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "percentage, function (math functions) or ident (with \
+                                         'none' value) token",
                                     ),
                                 ));
                             }
@@ -570,12 +594,17 @@ where
                         tok!("number") | tok!("percentage") => {
                             ComponentValue::AlphaValue(self.parse()?)
                         }
+                        Token::Function { value, .. } if is_math_function(value) => {
+                            ComponentValue::Function(self.parse()?)
+                        }
                         _ => {
                             let span = self.input.cur_span()?;
 
                             return Err(Error::new(
                                 span,
-                                ErrorKind::Expected("percentage or number token"),
+                                ErrorKind::Expected(
+                                    "percentage, function (math functions) or number token",
+                                ),
                             ));
                         }
                     };
@@ -591,6 +620,9 @@ where
                     let alpha_value = match cur!(self) {
                         tok!("number") | tok!("percentage") => {
                             ComponentValue::AlphaValue(self.parse()?)
+                        }
+                        Token::Function { value, .. } if is_math_function(value) => {
+                            ComponentValue::Function(self.parse()?)
                         }
                         tok!("ident") => {
                             let ident: Ident = self.parse()?;
@@ -610,7 +642,8 @@ where
                             return Err(Error::new(
                                 span,
                                 ErrorKind::Expected(
-                                    "percentage, number or ident (with 'none' value) token",
+                                    "percentage, number, function (math functions) or ident (with \
+                                     'none' value) token",
                                 ),
                             ));
                         }
@@ -2705,6 +2738,33 @@ where
             }
         }
     }
+}
+
+fn is_math_function(name: &str) -> bool {
+    matches!(
+        &*name.to_lowercase(),
+        "calc"
+            | "sin"
+            | "cos"
+            | "tan"
+            | "asin"
+            | "acos"
+            | "atan"
+            | "sqrt"
+            | "exp"
+            | "abs"
+            | "sign"
+            | "min"
+            | "max"
+            | "hypot"
+            | "clamp"
+            | "round"
+            | "mod"
+            | "rem"
+            | "atan2"
+            | "pow"
+            | "log"
+    )
 }
 
 fn is_length_unit(unit: &str) -> bool {
