@@ -1400,6 +1400,8 @@ define!({
     pub struct TsTypeParam {
         pub span: Span,
         pub name: Ident,
+        pub is_in: bool,
+        pub is_out: bool,
         pub constraint: Option<Box<TsType>>,
         pub default: Option<Box<TsType>>,
     }

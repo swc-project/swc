@@ -374,10 +374,70 @@ impl<I: Tokens> Parser<I> {
     fn parse_ts_type_param(&mut self) -> PResult<TsTypeParam> {
         debug_assert!(self.input.syntax().typescript());
 
+        let mut is_in = false;
+        let mut is_out = false;
+
         let start = cur_pos!(self);
 
-        let is_in = self.parse_ts_modifier(&["in"], false)?.is_some();
-        let is_out = self.parse_ts_modifier(&["out"], false)?.is_some();
+        while is_one_of!(
+            self,
+            "public",
+            "private",
+            "protected",
+            "readonly",
+            "abstract",
+            "const",
+            "override",
+            "in",
+            "out"
+        ) {
+            // <out>
+            // <out, T>
+            // <out = number>
+            // <out extends number>
+            if peeked_is!(self, '>')
+                || peeked_is!(self, ',')
+                || peeked_is!(self, '=')
+                || peeked_is!(self, "extends")
+            {
+                break;
+            }
+
+            if eat!(self, "in") {
+                if is_in {
+                    self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("in")));
+                } else if is_out {
+                    self.emit_err(
+                        self.input.prev_span(),
+                        SyntaxError::TS1029(js_word!("in"), js_word!("out")),
+                    );
+                } else {
+                    is_in = true;
+                }
+            } else if eat!(self, "out") {
+                if is_out {
+                    self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("out")));
+                } else {
+                    is_out = true;
+                }
+            } else {
+                let modifier = self
+                    .parse_ts_modifier(
+                        &[
+                            "public",
+                            "private",
+                            "protected",
+                            "readonly",
+                            "abstract",
+                            "const",
+                            "override",
+                        ],
+                        false,
+                    )?
+                    .expect("unreachable");
+                self.emit_err(self.input.prev_span(), SyntaxError::TS1272(modifier.into()));
+            }
+        }
 
         let name = self.in_type().parse_ident_name()?;
         let constraint = self.eat_then_parse_ts_type(&tok!("extends"))?;
@@ -1528,6 +1588,8 @@ impl<I: Tokens> Parser<I> {
         Ok(TsTypeParam {
             span: span!(self, start),
             name,
+            is_in: false,
+            is_out: false,
             constraint,
             default: None,
         })
@@ -2123,6 +2185,8 @@ impl<I: Tokens> Parser<I> {
         let type_param = TsTypeParam {
             span: type_param_name.span(),
             name: type_param_name,
+            is_in: false,
+            is_out: false,
             constraint: None,
             default: None,
         };
