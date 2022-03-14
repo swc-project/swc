@@ -1903,15 +1903,44 @@ where
     fn parse(&mut self) -> PResult<Color> {
         let span = self.input.cur_span()?;
 
-        if !is_one_of!(self, "#", "function", "ident") {
-            return Err(Error::new(
-                span,
-                ErrorKind::Expected("hash or function token"),
-            ));
+        match cur!(self) {
+            // currentcolor | <system-color>
+            Token::Ident { value, .. }
+                if value.as_ref().eq_ignore_ascii_case("currentcolor")
+                    || is_system_color(value) =>
+            {
+                Ok(Color::CurrentColorOrSystemColor(self.parse()?))
+            }
+            // <device-cmyk()>
+            Token::Function { value, .. } if value.as_ref().eq_ignore_ascii_case("device-cmyk") => {
+                Ok(Color::Function(self.parse()?))
+            }
+            // <absolute-color-base>
+            _ => match self.parse() {
+                Ok(absolute_color_base) => Ok(Color::AbsoluteColorBase(absolute_color_base)),
+                Err(_) => {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected(
+                            "hash, ident (with named color, system color, 'transparent' or \
+                             'currentColor' value) or function (with color function name) token",
+                        ),
+                    ));
+                }
+            },
         }
+    }
+}
+
+impl<I> Parse<AbsoluteColorBase> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<AbsoluteColorBase> {
+        let span = self.input.cur_span()?;
 
         match cur!(self) {
-            tok!("#") => Ok(Color::HexColor(self.parse()?)),
+            tok!("#") => Ok(AbsoluteColorBase::HexColor(self.parse()?)),
             Token::Ident { value, .. } => {
                 if !(is_named_color(value) || value.as_ref().eq_ignore_ascii_case("transparent")) {
                     let span = self.input.cur_span()?;
@@ -1922,19 +1951,19 @@ where
                     ));
                 }
 
-                Ok(Color::NamedColorOrTransparent(self.parse()?))
+                Ok(AbsoluteColorBase::NamedColorOrTransparent(self.parse()?))
             }
-            Token::Function { value, .. } => {
-                if !is_color_function(value) {
-                    let span = self.input.cur_span()?;
-
-                    return Err(Error::new(span, ErrorKind::Expected("color functions")));
-                }
-
-                Ok(Color::Function(self.parse()?))
+            Token::Function { value, .. } if is_absolute_color_base_function(value) => {
+                Ok(AbsoluteColorBase::Function(self.parse()?))
             }
             _ => {
-                unreachable!()
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected(
+                        "hash, ident (with named color or 'transparent' value) or function (with \
+                         color function name) token",
+                    ),
+                ));
             }
         }
     }
@@ -2921,11 +2950,10 @@ fn is_math_function(name: &str) -> bool {
     )
 }
 
-fn is_color_function(name: &str) -> bool {
+fn is_absolute_color_base_function(name: &str) -> bool {
     matches!(
         &*name.to_ascii_lowercase(),
-        "device-cmyk"
-            | "rgb"
+        "rgb"
             | "rgba"
             | "hsl"
             | "hsla"
@@ -2937,6 +2965,96 @@ fn is_color_function(name: &str) -> bool {
             | "color"
             | "color-mix"
             | "color-contrast"
+    )
+}
+
+fn is_system_color(name: &str) -> bool {
+    matches!(
+        &*name.to_ascii_lowercase(),
+        "canvas"
+            | "canvastext"
+            | "linktext"
+            | "visitedtext"
+            | "activetext"
+            | "buttonface"
+            | "buttontext"
+            | "buttonborder"
+            | "field"
+            | "fieldtext"
+            | "highlight"
+            | "highlighttext"
+            | "selecteditem"
+            | "selecteditemtext"
+            | "mark"
+            | "marktext"
+            | "graytext"
+            // Deprecated
+            | "activeborder"
+            | "activecaption"
+            | "appWorkspace"
+            | "background"
+            | "buttonhighlight"
+            | "buttonshadow"
+            | "captiontext"
+            | "inactiveborder"
+            | "inactivecaption"
+            | "inactivecaptiontext"
+            | "infobackground"
+            | "infotext"
+            | "menu"
+            | "menutext"
+            | "scrollbar"
+            | "threeddarkshadow"
+            | "threedface"
+            | "threedhighlight"
+            | "threedlightshadow"
+            | "threedshadow"
+            | "window"
+            | "windowframe"
+            | "windowtext"
+            // Mozilla System Color Extensions
+            | "-moz-buttondefault"
+            | "-moz-buttonhoverface"
+            | "-moz-buttonhovertext"
+            | "-moz-cellhighlight"
+            | "-moz-cellhighlighttext"
+            | "-moz-combobox"
+            | "-moz-comboboxtext"
+            | "-moz-dialog"
+            | "-moz-dialogtext"
+            | "-moz-dragtargetzone"
+            | "-moz-eventreerow"
+            | "-moz-html-cellhighlight"
+            | "-moz-html-cellhighlighttext"
+            | "-moz-mac-accentdarkestshadow"
+            | "-moz-mac-accentdarkshadow"
+            | "-moz-mac-accentface"
+            | "-moz-mac-accentlightesthighlight"
+            | "-moz-mac-accentlightshadow"
+            | "-moz-mac-accentregularhighlight"
+            | "-moz-mac-accentregularshadow"
+            | "-moz-mac-chrome-active"
+            | "-moz-mac-chrome-inactive"
+            | "-moz-mac-focusring"
+            | "-moz-mac-menuselect"
+            | "-moz-mac-menushadow"
+            | "-moz-mac-menutextselect"
+            | "-moz-menuhover"
+            | "-moz-menuhovertext"
+            | "-moz-menubartext"
+            | "-moz-menubarhovertext"
+            | "-moz-nativehyperlinktext"
+            | "-moz-oddtreerow"
+            | "-moz-win-communicationstext"
+            | "-moz-win-mediatext"
+            | "-moz-win-accentcolor"
+            | "-moz-win-accentcolortext"
+            // Mozilla Color Preference Extensions
+            | "-moz-activehyperlinktext"
+            | "-moz-default-background-color"
+            | "-moz-default-color"
+            | "-moz-hyperlinktext"
+            | "-moz-visitedhyperlinktext"
     )
 }
 

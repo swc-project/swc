@@ -173,4 +173,10 @@
     color: rgb(from indianred 255 255 255);
     color: rgb(from transparent 255 255 255);
     color: lch(from var(--mygray) 62% 30 -34);
+    color: rgb(from Canvas 255 255 255);
+    color: rgb(from canvas 255 255 255);
+    color: rgb(from ActiveBorder 255 255 255);
+    color: rgb(from -moz-buttondefault 255 255 255);
+    color: rgb(from -moz-activehyperlinktext 255 255 255);
+    color: rgb(from currentColor 255 255 255);
 }

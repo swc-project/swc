@@ -176,7 +176,13 @@
  174 | |       color: rgb(from indianred 255 255 255);
  175 | |       color: rgb(from transparent 255 255 255);
  176 | |       color: lch(from var(--mygray) 62% 30 -34);
- 177 | `-> }
+ 177 | |       color: rgb(from Canvas 255 255 255);
+ 178 | |       color: rgb(from canvas 255 255 255);
+ 179 | |       color: rgb(from ActiveBorder 255 255 255);
+ 180 | |       color: rgb(from -moz-buttondefault 255 255 255);
+ 181 | |       color: rgb(from -moz-activehyperlinktext 255 255 255);
+ 182 | |       color: rgb(from currentColor 255 255 255);
+ 183 | `-> }
      `----
 
   x Rule
@@ -16398,7 +16404,13 @@
  174 | |       color: rgb(from indianred 255 255 255);
  175 | |       color: rgb(from transparent 255 255 255);
  176 | |       color: lch(from var(--mygray) 62% 30 -34);
- 177 | `-> }
+ 177 | |       color: rgb(from Canvas 255 255 255);
+ 178 | |       color: rgb(from canvas 255 255 255);
+ 179 | |       color: rgb(from ActiveBorder 255 255 255);
+ 180 | |       color: rgb(from -moz-buttondefault 255 255 255);
+ 181 | |       color: rgb(from -moz-activehyperlinktext 255 255 255);
+ 182 | |       color: rgb(from currentColor 255 255 255);
+ 183 | `-> }
      `----
 
   x QualifiedRule
@@ -16407,7 +16419,13 @@
  174 | |       color: rgb(from indianred 255 255 255);
  175 | |       color: rgb(from transparent 255 255 255);
  176 | |       color: lch(from var(--mygray) 62% 30 -34);
- 177 | `-> }
+ 177 | |       color: rgb(from Canvas 255 255 255);
+ 178 | |       color: rgb(from canvas 255 255 255);
+ 179 | |       color: rgb(from ActiveBorder 255 255 255);
+ 180 | |       color: rgb(from -moz-buttondefault 255 255 255);
+ 181 | |       color: rgb(from -moz-activehyperlinktext 255 255 255);
+ 182 | |       color: rgb(from currentColor 255 255 255);
+ 183 | `-> }
      `----
 
   x SelectorList
@@ -16452,7 +16470,13 @@
  174 | |       color: rgb(from indianred 255 255 255);
  175 | |       color: rgb(from transparent 255 255 255);
  176 | |       color: lch(from var(--mygray) 62% 30 -34);
- 177 | `-> }
+ 177 | |       color: rgb(from Canvas 255 255 255);
+ 178 | |       color: rgb(from canvas 255 255 255);
+ 179 | |       color: rgb(from ActiveBorder 255 255 255);
+ 180 | |       color: rgb(from -moz-buttondefault 255 255 255);
+ 181 | |       color: rgb(from -moz-activehyperlinktext 255 255 255);
+ 182 | |       color: rgb(from currentColor 255 255 255);
+ 183 | `-> }
      `----
 
   x ComponentValue
@@ -16836,5 +16860,725 @@
   x Number
      ,-[$DIR/tests/fixture/value/color/input.css:176:5]
  176 | color: lch(from var(--mygray) 62% 30 -34);
+     :                                      ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :            ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :            ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :                 ^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :                 ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :                 ^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :                        ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :                        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :                            ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :                            ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :                                ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:177:5]
+ 177 | color: rgb(from Canvas 255 255 255);
+     :                                ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :            ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :            ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :                 ^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :                 ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :                 ^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :                        ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :                        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :                            ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :                            ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :                                ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:178:5]
+ 178 | color: rgb(from canvas 255 255 255);
+     :                                ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :            ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :            ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :                 ^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :                 ^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :                 ^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :                              ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :                              ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :                                  ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :                                  ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :                                      ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:179:5]
+ 179 | color: rgb(from ActiveBorder 255 255 255);
+     :                                      ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :            ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :            ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :                 ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :                 ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :                 ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :                                    ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :                                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :                                        ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :                                        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :                                            ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:180:5]
+ 180 | color: rgb(from -moz-buttondefault 255 255 255);
+     :                                            ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :            ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :            ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :                 ^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :                 ^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :                 ^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :                                          ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :                                          ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :                                              ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :                                              ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :                                                  ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:181:5]
+ 181 | color: rgb(from -moz-activehyperlinktext 255 255 255);
+     :                                                  ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :            ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :            ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :                 ^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :                 ^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :                 ^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :                              ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :                              ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :                                  ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :                                  ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
+     :                                      ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:182:5]
+ 182 | color: rgb(from currentColor 255 255 255);
      :                                      ^^^
      `----

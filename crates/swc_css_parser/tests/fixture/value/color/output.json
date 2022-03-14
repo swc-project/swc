@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 5285,
+    "end": 5573,
     "ctxt": 0
   },
   "rules": [
@@ -13045,7 +13045,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 5134,
-        "end": 5284,
+        "end": 5572,
         "ctxt": 0
       },
       "prelude": {
@@ -13102,7 +13102,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 5144,
-          "end": 5284,
+          "end": 5572,
           "ctxt": 0
         },
         "name": "{",
@@ -13402,6 +13402,552 @@
                     },
                     "value": -34.0,
                     "raw": "-34"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 5287,
+              "end": 5322,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 5287,
+                "end": 5292,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 5294,
+                  "end": 5322,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 5294,
+                    "end": 5297,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5298,
+                      "end": 5302,
+                      "ctxt": 0
+                    },
+                    "value": "from",
+                    "raw": "from"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5303,
+                      "end": 5309,
+                      "ctxt": 0
+                    },
+                    "value": "Canvas",
+                    "raw": "Canvas"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5310,
+                      "end": 5313,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5314,
+                      "end": 5317,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5318,
+                      "end": 5321,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 5328,
+              "end": 5363,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 5328,
+                "end": 5333,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 5335,
+                  "end": 5363,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 5335,
+                    "end": 5338,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5339,
+                      "end": 5343,
+                      "ctxt": 0
+                    },
+                    "value": "from",
+                    "raw": "from"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5344,
+                      "end": 5350,
+                      "ctxt": 0
+                    },
+                    "value": "canvas",
+                    "raw": "canvas"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5351,
+                      "end": 5354,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5355,
+                      "end": 5358,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5359,
+                      "end": 5362,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 5369,
+              "end": 5410,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 5369,
+                "end": 5374,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 5376,
+                  "end": 5410,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 5376,
+                    "end": 5379,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5380,
+                      "end": 5384,
+                      "ctxt": 0
+                    },
+                    "value": "from",
+                    "raw": "from"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5385,
+                      "end": 5397,
+                      "ctxt": 0
+                    },
+                    "value": "ActiveBorder",
+                    "raw": "ActiveBorder"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5398,
+                      "end": 5401,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5402,
+                      "end": 5405,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5406,
+                      "end": 5409,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 5416,
+              "end": 5463,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 5416,
+                "end": 5421,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 5423,
+                  "end": 5463,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 5423,
+                    "end": 5426,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5427,
+                      "end": 5431,
+                      "ctxt": 0
+                    },
+                    "value": "from",
+                    "raw": "from"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5432,
+                      "end": 5450,
+                      "ctxt": 0
+                    },
+                    "value": "-moz-buttondefault",
+                    "raw": "-moz-buttondefault"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5451,
+                      "end": 5454,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5455,
+                      "end": 5458,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5459,
+                      "end": 5462,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 5469,
+              "end": 5522,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 5469,
+                "end": 5474,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 5476,
+                  "end": 5522,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 5476,
+                    "end": 5479,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5480,
+                      "end": 5484,
+                      "ctxt": 0
+                    },
+                    "value": "from",
+                    "raw": "from"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5485,
+                      "end": 5509,
+                      "ctxt": 0
+                    },
+                    "value": "-moz-activehyperlinktext",
+                    "raw": "-moz-activehyperlinktext"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5510,
+                      "end": 5513,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5514,
+                      "end": 5517,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5518,
+                      "end": 5521,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 5528,
+              "end": 5569,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 5528,
+                "end": 5533,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 5535,
+                  "end": 5569,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 5535,
+                    "end": 5538,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5539,
+                      "end": 5543,
+                      "ctxt": 0
+                    },
+                    "value": "from",
+                    "raw": "from"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5544,
+                      "end": 5556,
+                      "ctxt": 0
+                    },
+                    "value": "currentColor",
+                    "raw": "currentColor"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5557,
+                      "end": 5560,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5561,
+                      "end": 5564,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5565,
+                      "end": 5568,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
                   }
                 ]
               }

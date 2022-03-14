@@ -153,6 +153,12 @@ define!({
     }
 
     pub enum Color {
+        AbsoluteColorBase(AbsoluteColorBase),
+        CurrentColorOrSystemColor(Ident),
+        Function(Function),
+    }
+
+    pub enum AbsoluteColorBase {
         HexColor(HexColor),
         NamedColorOrTransparent(Ident),
         Function(Function),
