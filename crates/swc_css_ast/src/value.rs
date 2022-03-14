@@ -57,7 +57,8 @@ pub struct Function {
     pub value: Vec<ComponentValue>,
 }
 
-// TODO small AST improve for `CurrentColorOrSystemColor` and `NamedColorOrTransparent`
+// TODO small AST improve for `CurrentColorOrSystemColor` and
+// `NamedColorOrTransparent`
 #[ast_node]
 pub enum Color {
     #[tag("AbsoluteColorBase")]
