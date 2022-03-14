@@ -27,8 +27,8 @@ concurrent = [
 ]
 debug = ["swc_ecma_visit/debug"]
 node = ["napi", "napi-derive"]
-plugin = [
-  "swc_plugin_runner",
+plugin_embedded_runtime = [
+  "swc_plugin_runner/embedded_runtime",
 ]
 
 [dependencies]

@@ -454,7 +454,7 @@ impl Options {
             env_name: self.env_name.to_owned(),
         };
 
-        #[cfg(feature = "plugin")]
+        #[cfg(feature = "plugin_embedded_runtime")]
         if experimental.plugins.is_some() {
             swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
         }

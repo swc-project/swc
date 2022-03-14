@@ -776,7 +776,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.15"
+version = "0.17.17"
 dependencies = [
  "ahash",
  "anyhow",
@@ -816,7 +816,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.93.0"
+version = "0.94.0"
 dependencies = [
  "either",
  "enum_kind",
@@ -834,7 +834,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -845,7 +845,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "anyhow",
  "pmutil",
@@ -861,7 +861,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.72.0"
+version = "0.73.0"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -914,7 +914,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.33.0"
+version = "0.34.0"
 dependencies = [
  "swc_atoms",
  "swc_common",

@@ -1,13 +1,13 @@
 //! This module always exists because cfg attributes are not stabilized in
 //! expressions at the moment.
 
-#![cfg_attr(not(feature = "plugin"), allow(unused))]
+#![cfg_attr(not(feature = "plugin_embedded_runtime"), allow(unused))]
 
 use serde::{Deserialize, Serialize};
-#[cfg(feature = "plugin")]
+#[cfg(feature = "plugin_embedded_runtime")]
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver};
-#[cfg(not(feature = "plugin"))]
+#[cfg(not(feature = "plugin_embedded_runtime"))]
 use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
@@ -46,7 +46,7 @@ pub fn plugins(
     config: crate::config::JscExperimental,
     plugin_context: PluginContext,
 ) -> impl Fold {
-    #[cfg(feature = "plugin")]
+    #[cfg(feature = "plugin_embedded_runtime")]
     {
         RustPlugins {
             resolver,
@@ -55,7 +55,7 @@ pub fn plugins(
         }
     }
 
-    #[cfg(not(feature = "plugin"))]
+    #[cfg(not(feature = "plugin_embedded_runtime"))]
     {
         noop()
     }
@@ -69,7 +69,7 @@ struct RustPlugins {
 
 impl RustPlugins {
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
-    #[cfg(feature = "plugin")]
+    #[cfg(feature = "plugin_embedded_runtime")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
 
@@ -140,14 +140,14 @@ impl RustPlugins {
 impl Fold for RustPlugins {
     noop_fold_type!();
 
-    #[cfg(feature = "plugin")]
+    #[cfg(feature = "plugin_embedded_runtime")]
     fn fold_module(&mut self, n: Module) -> Module {
         self.apply(Program::Module(n))
             .expect("failed to invoke plugin")
             .expect_module()
     }
 
-    #[cfg(feature = "plugin")]
+    #[cfg(feature = "plugin_embedded_runtime")]
     fn fold_script(&mut self, n: Script) -> Script {
         self.apply(Program::Script(n))
             .expect("failed to invoke plugin")
