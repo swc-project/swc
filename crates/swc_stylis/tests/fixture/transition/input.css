@@ -93,3 +93,8 @@ div {
     transition-property: transform;
     transform: rotate(10deg);
 }
+
+div {
+    transition: calc(1s);
+}
+

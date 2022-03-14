@@ -229,3 +229,11 @@ div {
   -o-transform: rotate(10deg);
   transform: rotate(10deg);
 }
+div {
+  -webkit-transition: -webkit-calc(1s);
+  -moz-transition: -moz-calc(1s);
+  -o-transition: calc(1s);
+  transition: -webkit-calc(1s);
+  transition: -moz-calc(1s);
+  transition: calc(1s);
+}
