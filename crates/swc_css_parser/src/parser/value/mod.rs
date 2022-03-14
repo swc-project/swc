@@ -1913,15 +1913,26 @@ where
         match cur!(self) {
             tok!("#") => Ok(Color::HexColor(self.parse()?)),
             Token::Ident { value, .. } => {
-                if !is_named_color(value) {
+                if !(is_named_color(value) || value.as_ref().eq_ignore_ascii_case("transparent")) {
                     let span = self.input.cur_span()?;
 
-                    return Err(Error::new(span, ErrorKind::Expected("known named color")));
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("known named color or 'transparent' keyword"),
+                    ));
                 }
 
-                Ok(Color::NamedColor(self.parse()?))
+                Ok(Color::NamedColorOrTransparent(self.parse()?))
             }
-            tok!("function") => Ok(Color::Function(self.parse()?)),
+            Token::Function { value, .. } => {
+                if !is_color_function(value) {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("color functions")));
+                }
+
+                Ok(Color::Function(self.parse()?))
+            }
             _ => {
                 unreachable!()
             }
@@ -2907,6 +2918,25 @@ fn is_math_function(name: &str) -> bool {
             | "atan2"
             | "pow"
             | "log"
+    )
+}
+
+fn is_color_function(name: &str) -> bool {
+    matches!(
+        &*name.to_ascii_lowercase(),
+        "device-cmyk"
+            | "rgb"
+            | "rgba"
+            | "hsl"
+            | "hsla"
+            | "hwb"
+            | "lab"
+            | "lch"
+            | "oklab"
+            | "oklch"
+            | "color"
+            | "color-mix"
+            | "color-contrast"
     )
 }
 

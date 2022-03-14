@@ -59,11 +59,11 @@ pub struct Function {
 
 #[ast_node]
 pub enum Color {
-    // TODO more
     #[tag("HexColor")]
     HexColor(HexColor),
     #[tag("Ident")]
-    NamedColor(Ident),
+    // TODO improve me
+    NamedColorOrTransparent(Ident),
     #[tag("Function")]
     Function(Function),
 }

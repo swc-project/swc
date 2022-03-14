@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 0,
-    "end": 5239,
+    "end": 5285,
     "ctxt": 0
   },
   "rules": [
@@ -13045,7 +13045,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 5134,
-        "end": 5238,
+        "end": 5284,
         "ctxt": 0
       },
       "prelude": {
@@ -13102,7 +13102,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 5144,
-          "end": 5238,
+          "end": 5284,
           "ctxt": 0
         },
         "name": "{",
@@ -13202,7 +13202,7 @@
             "type": "Declaration",
             "span": {
               "start": 5194,
-              "end": 5235,
+              "end": 5234,
               "ctxt": 0
             },
             "name": {
@@ -13220,7 +13220,7 @@
                 "type": "Function",
                 "span": {
                   "start": 5201,
-                  "end": 5235,
+                  "end": 5234,
                   "ctxt": 0
                 },
                 "name": {
@@ -13230,8 +13230,8 @@
                     "end": 5204,
                     "ctxt": 0
                   },
-                  "value": "lch",
-                  "raw": "lch"
+                  "value": "rgb",
+                  "raw": "rgb"
                 },
                 "value": [
                   {
@@ -13245,17 +13245,108 @@
                     "raw": "from"
                   },
                   {
-                    "type": "Function",
+                    "type": "Ident",
                     "span": {
                       "start": 5210,
-                      "end": 5223,
+                      "end": 5221,
+                      "ctxt": 0
+                    },
+                    "value": "transparent",
+                    "raw": "transparent"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5222,
+                      "end": 5225,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5226,
+                      "end": 5229,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  },
+                  {
+                    "type": "Number",
+                    "span": {
+                      "start": 5230,
+                      "end": 5233,
+                      "ctxt": 0
+                    },
+                    "value": 255.0,
+                    "raw": "255"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 5240,
+              "end": 5281,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 5240,
+                "end": 5245,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 5247,
+                  "end": 5281,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 5247,
+                    "end": 5250,
+                    "ctxt": 0
+                  },
+                  "value": "lch",
+                  "raw": "lch"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 5251,
+                      "end": 5255,
+                      "ctxt": 0
+                    },
+                    "value": "from",
+                    "raw": "from"
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 5256,
+                      "end": 5269,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 5210,
-                        "end": 5213,
+                        "start": 5256,
+                        "end": 5259,
                         "ctxt": 0
                       },
                       "value": "var",
@@ -13265,8 +13356,8 @@
                       {
                         "type": "DashedIdent",
                         "span": {
-                          "start": 5214,
-                          "end": 5222,
+                          "start": 5260,
+                          "end": 5268,
                           "ctxt": 0
                         },
                         "value": "--mygray",
@@ -13277,15 +13368,15 @@
                   {
                     "type": "Percentage",
                     "span": {
-                      "start": 5224,
-                      "end": 5227,
+                      "start": 5270,
+                      "end": 5273,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 5224,
-                        "end": 5226,
+                        "start": 5270,
+                        "end": 5272,
                         "ctxt": 0
                       },
                       "value": 62.0,
@@ -13295,8 +13386,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 5228,
-                      "end": 5230,
+                      "start": 5274,
+                      "end": 5276,
                       "ctxt": 0
                     },
                     "value": 30.0,
@@ -13305,8 +13396,8 @@
                   {
                     "type": "Number",
                     "span": {
-                      "start": 5231,
-                      "end": 5234,
+                      "start": 5277,
+                      "end": 5280,
                       "ctxt": 0
                     },
                     "value": -34.0,
