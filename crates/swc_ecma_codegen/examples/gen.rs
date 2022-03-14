@@ -1,7 +1,13 @@
 /// Use memory allocator
 extern crate swc_node_base;
 
-use std::{env, fs, path::Path, time::Instant};
+use std::{
+    env,
+    fs::{self, File},
+    io::BufWriter,
+    path::Path,
+    time::Instant,
+};
 
 use swc_common::input::SourceFileInput;
 use swc_ecma_ast::*;
@@ -23,27 +29,29 @@ fn parse_and_gen(entry: &Path) {
             .parse_module()
             .expect("failed to parse input as a module");
 
-        let code = {
-            let mut buf = vec![];
-            let mut srcmap = vec![];
+        let mut code = vec![];
+        let mut srcmap = vec![];
 
-            {
-                let mut emitter = Emitter {
-                    cfg: swc_ecma_codegen::Config {
-                        ..Default::default()
-                    },
-                    cm: cm.clone(),
-                    comments: None,
-                    wr: JsWriter::new(cm, "\n", &mut buf, Some(&mut srcmap)),
-                };
+        {
+            let mut emitter = Emitter {
+                cfg: swc_ecma_codegen::Config {
+                    ..Default::default()
+                },
+                cm: cm.clone(),
+                comments: None,
+                wr: JsWriter::new(cm.clone(), "\n", &mut code, Some(&mut srcmap)),
+            };
 
-                emitter.emit_module(&m).unwrap();
-            }
+            emitter.emit_module(&m).unwrap();
+        }
 
-            String::from_utf8_lossy(&buf).to_string()
-        };
+        let srcmap = cm.build_source_map(&mut srcmap);
 
         fs::write("output.js", &code).unwrap();
+
+        let srcmap_file = File::create("output.js.map").unwrap();
+        let srcmap_wr = BufWriter::new(srcmap_file);
+        srcmap.to_writer(srcmap_wr).unwrap();
 
         Ok(())
     })
