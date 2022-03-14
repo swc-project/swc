@@ -71,3 +71,26 @@ where
 {
     node.visit_mut_with(&mut PseudoClassSelectorNameReplacer { from, to });
 }
+
+pub struct PseudoElementSelectorNameReplacer<'a> {
+    from: &'a str,
+    to: &'a str,
+}
+
+impl VisitMut for PseudoElementSelectorNameReplacer<'_> {
+    fn visit_mut_pseudo_element_selector(&mut self, n: &mut PseudoElementSelector) {
+        n.visit_mut_children_with(self);
+
+        if &*n.name.value.to_lowercase() == self.from {
+            n.name.value = self.to.into();
+            n.name.raw = self.to.into();
+        }
+    }
+}
+
+pub fn replace_pseudo_element_selector_name<N>(node: &mut N, from: &str, to: &str)
+where
+    N: for<'aa> VisitMutWith<PseudoElementSelectorNameReplacer<'aa>>,
+{
+    node.visit_mut_with(&mut PseudoElementSelectorNameReplacer { from, to });
+}

@@ -2,7 +2,10 @@ use std::mem::take;
 
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
-use swc_css_utils::{replace_function_name, replace_ident, replace_pseudo_class_selector_name};
+use swc_css_utils::{
+    replace_function_name, replace_ident, replace_pseudo_class_selector_name,
+    replace_pseudo_element_selector_name,
+};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn prefixer() -> impl VisitMut {
@@ -26,7 +29,6 @@ impl VisitMut for Prefixer {
     // TODO handle `::file-selector-button` pseudo
     // TODO handle `::backdrop` pseudo
     // TODO handle `::placeholder` pseudo
-    // TODO handle `::selection` pseudo
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         n.visit_mut_children_with(self);
@@ -54,13 +56,18 @@ impl VisitMut for Prefixer {
         }
 
         let mut new_prelude = n.prelude.clone();
-        
+
         replace_pseudo_class_selector_name(&mut new_prelude, "read-only", "-moz-read-only");
         replace_pseudo_class_selector_name(&mut new_prelude, "read-write", "-moz-read-write");
         replace_pseudo_class_selector_name(&mut new_prelude, "any-link", "-moz-any-link");
         replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-moz-full-screen");
-        replace_pseudo_class_selector_name(&mut new_prelude, "placeholder-shown", "-moz-placeholder-shown");
-
+        replace_pseudo_class_selector_name(
+            &mut new_prelude,
+            "placeholder-shown",
+            "-moz-placeholder-shown",
+        );
+        replace_pseudo_element_selector_name(&mut new_prelude, "selection", "-moz-selection");
+        
         if n.prelude != new_prelude {
             self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
                 span: DUMMY_SP,
@@ -72,7 +79,11 @@ impl VisitMut for Prefixer {
         let mut new_prelude = n.prelude.clone();
 
         replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-ms-fullscreen");
-        replace_pseudo_class_selector_name(&mut new_prelude, "placeholder-shown", "-ms-input-placeholder");
+        replace_pseudo_class_selector_name(
+            &mut new_prelude,
+            "placeholder-shown",
+            "-ms-input-placeholder",
+        );
 
         if n.prelude != new_prelude {
             self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
