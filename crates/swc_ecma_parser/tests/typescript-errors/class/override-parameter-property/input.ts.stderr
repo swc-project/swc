@@ -10,3 +10,9 @@
  3 | constructor(override public v: string)
    :                      ^^^^^^^^^^^^^^^^
    `----
+
+  x A parameter property is only allowed in a constructor implementation
+   ,-[$DIR/tests/typescript-errors/class/override-parameter-property/input.ts:3:3]
+ 3 | constructor(override public v: string)
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
