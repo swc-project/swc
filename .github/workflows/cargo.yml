@@ -122,7 +122,7 @@ jobs:
           - crate: swc
             os: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_native_runtime
+              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc
             os: windows-latest
           - crate: swc_atoms
@@ -302,8 +302,6 @@ jobs:
             os: ubuntu-latest
           - crate: wasm
             os: ubuntu-latest
-            check: |
-              cargo echo test skipped, check Wasm workflow instead
 
     steps:
       - name: Handle line endings
