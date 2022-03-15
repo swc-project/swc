@@ -64,6 +64,12 @@
 
 - **(es/minifier)** Cleanup (#4020) ([3173047](https://github.com/swc-project/swc/commit/3173047f589128c429d02b7cb128d80f0fd6e011))
 
+### Testing
+
+
+
+- **(es)** Add tests for fixed issues (#4036) ([71f7cf2](https://github.com/swc-project/swc/commit/71f7cf2011fd948a0c1d7c4268316f3c0103f2f3))
+
 ## [1.2.155] - 2022-03-14
 
 ### Bug Fixes
