@@ -237,12 +237,6 @@ where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer> + VisitWith<AssertValid>,
     {
-        match self.data {
-            Some(..) => {}
-            None => {
-                unreachable!()
-            }
-        }
         let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();
         let append_stmts = self.append_stmts.take();
@@ -887,11 +881,7 @@ where
 
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
-                        if let Some(usage) = self
-                            .data
-                            .as_ref()
-                            .and_then(|data| data.vars.get(&callee.to_id()))
-                        {
+                        if let Some(usage) = self.data.vars.get(&callee.to_id()) {
                             if !usage.reassigned() && usage.pure_fn {
                                 let args = args
                                     .take()

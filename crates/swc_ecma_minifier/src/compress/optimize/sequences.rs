@@ -1404,11 +1404,7 @@ where
                             }
                         };
 
-                        if let Some(usage) = self
-                            .data
-                            .as_ref()
-                            .and_then(|data| data.vars.get(&left_id.to_id()))
-                        {
+                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
                             if usage.inline_prevented {
                                 return Ok(false);
                             }

@@ -415,11 +415,7 @@ where
             return;
         }
 
-        if let Some(usage) = self
-            .data
-            .as_ref()
-            .and_then(|data| data.vars.get(&i.to_id()))
-        {
+        if let Some(usage) = self.data.vars.get(&i.to_id()) {
             if usage.declared_as_catch_param {
                 if cfg!(feature = "debug") {
                     tracing::trace!("inline: [x] Declared as a catch parameter");
