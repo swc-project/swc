@@ -290,10 +290,6 @@ impl Pure<'_> {
     pub(super) fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr) {
         self.optmize_known_logical_expr(n);
 
-        if !self.options.bools {
-            return;
-        }
-
         match n {
             Expr::Bin(BinExpr {
                 op: op!("&&") | op!("||"),
@@ -315,6 +311,10 @@ impl Pure<'_> {
             }
 
             _ => {}
+        }
+
+        if !self.options.bools {
+            return;
         }
 
         match n {
