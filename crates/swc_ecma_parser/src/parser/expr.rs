@@ -1901,6 +1901,10 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn check_assign_target(&mut self, expr: &Expr, deny_call: bool) {
+        if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
+            self.emit_err(expr.span(), SyntaxError::TS2406);
+        }
+
         // We follow behavior of tsc
         if self.input.syntax().typescript() && self.syntax().early_errors() {
             let is_eval_or_arguments = match *expr {
@@ -1932,8 +1936,6 @@ impl<'a, I: Tokens> Parser<I> {
             {
                 self.emit_err(expr.span(), SyntaxError::TS2406);
             }
-        } else if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
-            self.emit_err(expr.span(), SyntaxError::TS2406);
         }
     }
 }
