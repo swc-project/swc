@@ -320,14 +320,12 @@ where
             }
         }
 
-        let mut data = analyze(&*n, Some(self.marks));
-
         {
             let _timer = timer!("apply pure optimize");
 
             let mut visitor = pure_optimizer(
                 self.options,
-                Some(&data),
+                None,
                 self.marks,
                 M::force_str_for_tpl(),
                 self.pass > 1,
@@ -350,6 +348,8 @@ where
 
         {
             let _timer = timer!("apply full optimizer");
+
+            let mut data = analyze(&*n, Some(self.marks));
 
             // TODO: reset_opt_flags
             //
