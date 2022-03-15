@@ -36,5 +36,4 @@ swc_ecmascript = {path = "../swc_ecmascript"}
 tracing = {version = "0.1.32", features = ["release_max_level_off"]}
 wasm-bindgen = {version = "0.2", features = ["serde-serialize"]}
 wasmer = {version = "2.2.0", default-features = false}
-wasmer-cache = "2.2.0"
 wasmer-wasi = {version = "2.2.0", default-features = false}

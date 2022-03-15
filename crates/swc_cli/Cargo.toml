@@ -28,6 +28,8 @@ tracing-chrome = "0.4.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = {version = "0.3.9", features = ["env-filter"]}
 walkdir = "2"
+wasmer = "2.2.0"
+wasmer-wasi = "2.2.0"
 
 [dependencies.path-absolutize]
 features = ["once_cell_cache"]
