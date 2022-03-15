@@ -210,9 +210,6 @@ struct Optimizer<'a, M> {
     /// `visit_mut_module`.
     data: Option<&'a mut ProgramData>,
     ctx: Ctx,
-    /// In future: This will be used to `mark` node as done.
-    done: Mark,
-    done_ctxt: SyntaxContext,
 
     /// Closest label.
     ///
