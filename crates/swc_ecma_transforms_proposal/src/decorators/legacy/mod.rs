@@ -702,41 +702,23 @@ impl Legacy {
         });
 
         if !constructor_stmts.is_empty() {
-            {
-                // Create constructors as required
-
-                let has = c
-                    .class
+            let constructor = if let Some(c) = c.class.body.iter_mut().find_map(|m| match m {
+                ClassMember::Constructor(c @ Constructor { body: Some(..), .. }) => Some(c),
+                _ => None,
+            }) {
+                c
+            } else {
+                c.class
                     .body
-                    .iter()
-                    .any(|m| matches!(m, ClassMember::Constructor(..)));
-
-                if !has {
-                    c.class
-                        .body
-                        .push(ClassMember::Constructor(default_constructor(
-                            c.class.super_class.is_some(),
-                        )))
+                    .push(ClassMember::Constructor(default_constructor(
+                        c.class.super_class.is_some(),
+                    )));
+                if let ClassMember::Constructor(c) = c.class.body.last_mut().unwrap() {
+                    c
+                } else {
+                    unreachable!()
                 }
-            }
-
-            let constructor = c
-                .class
-                .body
-                .iter_mut()
-                .filter_map(|m| match m {
-                    ClassMember::Constructor(c) => Some(c),
-                    _ => None,
-                })
-                .next()
-                .unwrap();
-
-            if constructor.body.is_none() {
-                constructor.body = Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![],
-                });
-            }
+            };
 
             let decorate_stmts_insert_position = constructor
                 .body

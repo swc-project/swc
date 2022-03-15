@@ -6061,6 +6061,43 @@ test!(
   }), _class);"
 );
 
+test!(
+    ts(),
+    |_| decorators(Config {
+        legacy: true,
+        emit_metadata: false,
+    }),
+    issue_3979,
+    "
+class A {
+  @foo x = 1;
+  constructor()
+  constructor() {
+    console.log(123)
+  }
+}
+",
+    r#"
+var _class, _descriptor;
+let A = ((_class = class A {
+    constructor();
+    constructor(){
+        _initializerDefineProperty(this, "x", _descriptor, this);
+        console.log(123);
+    }
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "x", [
+    foo
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return 1;
+    }
+}), _class);
+"#
+);
+
 #[testing::fixture("tests/fixture/decorator/**/exec.ts")]
 fn fixture(input: PathBuf) {
     let code = fs::read_to_string(&input).expect("failed to read file");
