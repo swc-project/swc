@@ -49,7 +49,7 @@ pub fn init_default_trace_subscriber() {
         .with_target(false)
         .with_ansi(true)
         .with_env_filter(EnvFilter::from_env("SWC_LOG"))
-        .with_env_filter(EnvFilter::from_default_env().add_directive(tracing::Level::WARN.into()))
+        .with_env_filter(EnvFilter::from_default_env().add_directive(tracing::Level::ERROR.into()))
         .try_init();
 }
 
