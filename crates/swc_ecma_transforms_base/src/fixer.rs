@@ -814,6 +814,10 @@ impl Fixer<'_> {
 
     /// Wrap with a paren.
     fn wrap(&mut self, e: &mut Expr) {
+        if self.remove_only {
+            return;
+        }
+
         let span = e.span();
 
         let span = if let Some(span) = self.span_map.remove(&span) {
