@@ -325,6 +325,7 @@ where
 
             let mut visitor = pure_optimizer(
                 self.options,
+                None,
                 self.marks,
                 M::force_str_for_tpl(),
                 self.pass > 1,
@@ -348,11 +349,11 @@ where
         {
             let _timer = timer!("apply full optimizer");
 
+            let mut data = analyze(&*n, Some(self.marks));
+
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
-
-            let mut data = analyze(&*n, Some(self.marks));
 
             let mut visitor = optimizer(
                 self.marks,
