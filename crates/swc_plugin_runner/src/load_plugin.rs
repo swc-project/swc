@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use anyhow::{Context, Error};
 use parking_lot::Mutex;
-use wasmer::{imports, Exports, Function, Instance, LazyInit};
+use wasmer::{imports, ChainableNamedResolver, Function, Instance, LazyInit};
 use wasmer_wasi::{is_wasi_module, WasiState};
 
 use crate::{
@@ -81,8 +81,25 @@ pub fn load_plugin(
             let syntax_context_outer_fn_decl =
                 Function::new_native(wasmer_store, syntax_context_outer_proxy);
 
-            // Plugin binary can be either wasm32-wasi or wasm32-unknown-unknown
-            let import_object = if is_wasi_module(&module) {
+            let import_object = imports! {
+                "env" => {
+                    "__set_transform_result" => set_transform_result_fn_decl,
+                    "__emit_diagnostics" => emit_diagnostics_fn_decl,
+                    "__mark_fresh_proxy" => mark_fresh_fn_decl,
+                    "__mark_parent_proxy" => mark_parent_fn_decl,
+                    "__mark_is_builtin_proxy" => mark_is_builtin_fn_decl,
+                    "__mark_set_builtin_proxy" => mark_set_builtin_fn_decl,
+                    "__mark_is_descendant_of_proxy" => mark_is_descendant_of_fn_decl,
+                    "__mark_least_ancestor" => mark_least_ancestor_fn_decl,
+                    "__syntax_context_apply_mark_proxy" => syntax_context_apply_mark_fn_decl,
+                    "__syntax_context_remove_mark_proxy" => syntax_context_remove_mark_fn_decl,
+                    "__syntax_context_outer_proxy" => syntax_context_outer_fn_decl
+                }
+            };
+
+            // Plugin binary can be either wasm32-wasi or wasm32-unknown-unknown.
+            // Wasi specific env need to be initialized if given module targets wasm32-wasi.
+            let instance = if is_wasi_module(&module) {
                 // Create the `WasiEnv`.
                 let mut wasi_env = WasiState::new(
                     plugin_path
@@ -92,58 +109,15 @@ pub fn load_plugin(
                 )
                 .finalize()?;
 
-                // Generate an `ImportObject` from wasi_env
-                let mut import_object = wasi_env.import_object(&module)?;
-
-                // This'll inject few interfaces into plugin's namespace to let plugin
-                // communicate with host
-                let mut env = Exports::new();
-                env.insert("__set_transform_result", set_transform_result_fn_decl);
-                env.insert("__emit_diagnostics", emit_diagnostics_fn_decl);
-
-                env.insert("__mark_fresh_proxy", mark_fresh_fn_decl);
-                env.insert("__mark_parent_proxy", mark_parent_fn_decl);
-                env.insert("__mark_is_builtin_proxy", mark_is_builtin_fn_decl);
-                env.insert("__mark_set_builtin_proxy", mark_set_builtin_fn_decl);
-                env.insert(
-                    "__mark_is_descendant_of_proxy",
-                    mark_is_descendant_of_fn_decl,
-                );
-                env.insert("__mark_least_ancestor", mark_least_ancestor_fn_decl);
-                env.insert(
-                    "__syntax_context_apply_mark_proxy",
-                    syntax_context_apply_mark_fn_decl,
-                );
-                env.insert(
-                    "__syntax_context_remove_mark_proxy",
-                    syntax_context_remove_mark_fn_decl,
-                );
-                env.insert("__syntax_context_outer_proxy", syntax_context_outer_fn_decl);
-
-                import_object.register("env", env);
-                import_object
-            }
-            // Not able to detect wasi version in binary - assume plugin targets
-            // wasm32-unknown-unknown
-            else {
-                imports! {
-                    "env" => {
-                        "__set_transform_result" => set_transform_result_fn_decl,
-                        "__emit_diagnostics" => emit_diagnostics_fn_decl,
-                        "__mark_fresh_proxy" => mark_fresh_fn_decl,
-                        "__mark_parent_proxy" => mark_parent_fn_decl,
-                        "__mark_is_builtin_proxy" => mark_is_builtin_fn_decl,
-                        "__mark_set_builtin_proxy" => mark_set_builtin_fn_decl,
-                        "__mark_is_descendant_of_proxy" => mark_is_descendant_of_fn_decl,
-                        "__mark_least_ancestor" => mark_least_ancestor_fn_decl,
-                        "__syntax_context_apply_mark_proxy" => syntax_context_apply_mark_fn_decl,
-                        "__syntax_context_remove_mark_proxy" => syntax_context_remove_mark_fn_decl,
-                        "__syntax_context_outer_proxy" => syntax_context_outer_fn_decl
-                    }
-                }
+                // Generate an `ImportObject` from wasi_env, overwrite into imported_object
+                let wasi_env_import_object = wasi_env.import_object(&module)?;
+                let chained_resolver = import_object.chain_front(wasi_env_import_object);
+                Instance::new(&module, &chained_resolver)
+            } else {
+                Instance::new(&module, &import_object)
             };
 
-            Instance::new(&module, &import_object)
+            instance
                 .map(|i| (i, transform_result))
                 .context("Failed to create plugin instance")
         }
