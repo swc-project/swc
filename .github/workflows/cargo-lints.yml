@@ -50,5 +50,4 @@ jobs:
 
       - name: Check
         run: |
-          cargo clippy
-          cargo clippy -p node
+          cargo clippy --all

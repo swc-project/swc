@@ -83,9 +83,7 @@ jobs:
 
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
-        run: |
-          cargo check --color always --all-targets
-          cargo check --color always -p node
+        run: cargo check --color always --all --all-targets
   test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
     runs-on: ${{ matrix.settings.os }}
@@ -354,8 +352,7 @@ jobs:
         run: |
           jest -v && mocha --version
 
-      - name: Run cargo test (${{ matrix.settings.crate }})
-        if: matrix.settings.crate != 'wasm'
+      - name: Run cargo test
         run: |
           jest -v && mocha --version
           cargo test --color always -p ${{ matrix.settings.crate }}
@@ -389,7 +386,7 @@ jobs:
           crate: cargo-hack
           version: "0.5.7"
 
-      - name: Check compilation (${{ matrix.settings.check }})
+      - name: Check compilation
         if: matrix.settings.check
         working-directory: "crates/${{ matrix.settings.crate }}"
         run: "${{ matrix.settings.check }}"
