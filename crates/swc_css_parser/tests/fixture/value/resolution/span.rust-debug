@@ -1,949 +1,939 @@
-error: Stylesheet
-  --> $DIR/tests/fixture/value/resolution/input.css:1:1
-   |
-1  | / @media print and (min-resolution: 300dpi) {}
-2  | | @media print and (min-resolution: 300dpcm) {}
-3  | | @media print and (min-resolution: 300dppx) {}
-4  | | @media print and (min-resolution: 300x) {}
-...  |
-12 | |             url("large-balloons.jpg") 2x);
-13 | | }
-   | |__^
-
-error: Rule
- --> $DIR/tests/fixture/value/resolution/input.css:1:1
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/value/resolution/input.css:1:1
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaRule
- --> $DIR/tests/fixture/value/resolution/input.css:1:1
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryList
- --> $DIR/tests/fixture/value/resolution/input.css:1:8
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/value/resolution/input.css:1:8
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:1:8
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |        ^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:1:14
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |              ^^^
-
-error: MediaConditionWithoutOr
- --> $DIR/tests/fixture/value/resolution/input.css:1:18
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/value/resolution/input.css:1:18
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/value/resolution/input.css:1:18
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/value/resolution/input.css:1:18
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/value/resolution/input.css:1:18
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/value/resolution/input.css:1:19
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                   ^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:1:19
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                   ^^^^^^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/value/resolution/input.css:1:35
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                                   ^^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/value/resolution/input.css:1:35
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                                   ^^^^^^
-
-error: Resolution
- --> $DIR/tests/fixture/value/resolution/input.css:1:35
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                                   ^^^^^^
-
-error: Number
- --> $DIR/tests/fixture/value/resolution/input.css:1:35
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                                   ^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:1:38
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                                      ^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/value/resolution/input.css:1:43
-  |
-1 | @media print and (min-resolution: 300dpi) {}
-  |                                           ^^
-
-error: Rule
- --> $DIR/tests/fixture/value/resolution/input.css:2:1
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/value/resolution/input.css:2:1
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaRule
- --> $DIR/tests/fixture/value/resolution/input.css:2:1
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryList
- --> $DIR/tests/fixture/value/resolution/input.css:2:8
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/value/resolution/input.css:2:8
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:2:8
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |        ^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:2:14
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |              ^^^
-
-error: MediaConditionWithoutOr
- --> $DIR/tests/fixture/value/resolution/input.css:2:18
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/value/resolution/input.css:2:18
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/value/resolution/input.css:2:18
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/value/resolution/input.css:2:18
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/value/resolution/input.css:2:18
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/value/resolution/input.css:2:19
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                   ^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:2:19
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                   ^^^^^^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/value/resolution/input.css:2:35
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                                   ^^^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/value/resolution/input.css:2:35
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                                   ^^^^^^^
-
-error: Resolution
- --> $DIR/tests/fixture/value/resolution/input.css:2:35
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                                   ^^^^^^^
-
-error: Number
- --> $DIR/tests/fixture/value/resolution/input.css:2:35
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                                   ^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:2:38
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                                      ^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/value/resolution/input.css:2:44
-  |
-2 | @media print and (min-resolution: 300dpcm) {}
-  |                                            ^^
-
-error: Rule
- --> $DIR/tests/fixture/value/resolution/input.css:3:1
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/value/resolution/input.css:3:1
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaRule
- --> $DIR/tests/fixture/value/resolution/input.css:3:1
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryList
- --> $DIR/tests/fixture/value/resolution/input.css:3:8
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/value/resolution/input.css:3:8
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:3:8
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |        ^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:3:14
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |              ^^^
-
-error: MediaConditionWithoutOr
- --> $DIR/tests/fixture/value/resolution/input.css:3:18
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/value/resolution/input.css:3:18
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/value/resolution/input.css:3:18
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/value/resolution/input.css:3:18
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/value/resolution/input.css:3:18
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/value/resolution/input.css:3:19
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                   ^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:3:19
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                   ^^^^^^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/value/resolution/input.css:3:35
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                                   ^^^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/value/resolution/input.css:3:35
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                                   ^^^^^^^
-
-error: Resolution
- --> $DIR/tests/fixture/value/resolution/input.css:3:35
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                                   ^^^^^^^
-
-error: Number
- --> $DIR/tests/fixture/value/resolution/input.css:3:35
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                                   ^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:3:38
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                                      ^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/value/resolution/input.css:3:44
-  |
-3 | @media print and (min-resolution: 300dppx) {}
-  |                                            ^^
-
-error: Rule
- --> $DIR/tests/fixture/value/resolution/input.css:4:1
-  |
-4 | @media print and (min-resolution: 300x) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: AtRule
- --> $DIR/tests/fixture/value/resolution/input.css:4:1
-  |
-4 | @media print and (min-resolution: 300x) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaRule
- --> $DIR/tests/fixture/value/resolution/input.css:4:1
-  |
-4 | @media print and (min-resolution: 300x) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQueryList
- --> $DIR/tests/fixture/value/resolution/input.css:4:8
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaQuery
- --> $DIR/tests/fixture/value/resolution/input.css:4:8
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:4:8
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |        ^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:4:14
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |              ^^^
-
-error: MediaConditionWithoutOr
- --> $DIR/tests/fixture/value/resolution/input.css:4:18
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaConditionWithoutOrType
- --> $DIR/tests/fixture/value/resolution/input.css:4:18
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaInParens
- --> $DIR/tests/fixture/value/resolution/input.css:4:18
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeature
- --> $DIR/tests/fixture/value/resolution/input.css:4:18
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeaturePlain
- --> $DIR/tests/fixture/value/resolution/input.css:4:18
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                  ^^^^^^^^^^^^^^^^^^^^^^
-
-error: MediaFeatureName
- --> $DIR/tests/fixture/value/resolution/input.css:4:19
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                   ^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:4:19
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                   ^^^^^^^^^^^^^^
-
-error: MediaFeatureValue
- --> $DIR/tests/fixture/value/resolution/input.css:4:35
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                                   ^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/value/resolution/input.css:4:35
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                                   ^^^^
-
-error: Resolution
- --> $DIR/tests/fixture/value/resolution/input.css:4:35
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                                   ^^^^
-
-error: Number
- --> $DIR/tests/fixture/value/resolution/input.css:4:35
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                                   ^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:4:38
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                                      ^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/value/resolution/input.css:4:41
-  |
-4 | @media print and (min-resolution: 300x) {}
-  |                                         ^^
-
-error: Rule
-  --> $DIR/tests/fixture/value/resolution/input.css:6:1
-   |
-6  | / .box {
-7  | |     background-image: -webkit-image-set(
-8  | |             url("small-balloons.jpg") 1x,
-9  | |             url("large-balloons.jpg") 2x);
-...  |
-12 | |             url("large-balloons.jpg") 2x);
-13 | | }
-   | |_^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/value/resolution/input.css:6:1
-   |
-6  | / .box {
-7  | |     background-image: -webkit-image-set(
-8  | |             url("small-balloons.jpg") 1x,
-9  | |             url("large-balloons.jpg") 2x);
-...  |
-12 | |             url("large-balloons.jpg") 2x);
-13 | | }
-   | |_^
-
-error: SelectorList
- --> $DIR/tests/fixture/value/resolution/input.css:6:1
-  |
-6 | .box {
-  | ^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/value/resolution/input.css:6:1
-  |
-6 | .box {
-  | ^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/value/resolution/input.css:6:1
-  |
-6 | .box {
-  | ^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/value/resolution/input.css:6:1
-  |
-6 | .box {
-  | ^^^^
-
-error: ClassSelector
- --> $DIR/tests/fixture/value/resolution/input.css:6:1
-  |
-6 | .box {
-  | ^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:6:2
-  |
-6 | .box {
-  |  ^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/value/resolution/input.css:6:6
-   |
-6  |   .box {
-   |  ______^
-7  | |     background-image: -webkit-image-set(
-8  | |             url("small-balloons.jpg") 1x,
-9  | |             url("large-balloons.jpg") 2x);
-...  |
-12 | |             url("large-balloons.jpg") 2x);
-13 | | }
-   | |_^
-
-error: ComponentValue
- --> $DIR/tests/fixture/value/resolution/input.css:7:5
-  |
-7 | /     background-image: -webkit-image-set(
-8 | |             url("small-balloons.jpg") 1x,
-9 | |             url("large-balloons.jpg") 2x);
-  | |_________________________________________^
-
-error: StyleBlock
- --> $DIR/tests/fixture/value/resolution/input.css:7:5
-  |
-7 | /     background-image: -webkit-image-set(
-8 | |             url("small-balloons.jpg") 1x,
-9 | |             url("large-balloons.jpg") 2x);
-  | |_________________________________________^
-
-error: Declaration
- --> $DIR/tests/fixture/value/resolution/input.css:7:5
-  |
-7 | /     background-image: -webkit-image-set(
-8 | |             url("small-balloons.jpg") 1x,
-9 | |             url("large-balloons.jpg") 2x);
-  | |_________________________________________^
-
-error: DeclarationName
- --> $DIR/tests/fixture/value/resolution/input.css:7:5
-  |
-7 |     background-image: -webkit-image-set(
-  |     ^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:7:5
-  |
-7 |     background-image: -webkit-image-set(
-  |     ^^^^^^^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/value/resolution/input.css:7:23
-  |
-7 |       background-image: -webkit-image-set(
-  |  _______________________^
-8 | |             url("small-balloons.jpg") 1x,
-9 | |             url("large-balloons.jpg") 2x);
-  | |_________________________________________^
-
-error: Function
- --> $DIR/tests/fixture/value/resolution/input.css:7:23
-  |
-7 |       background-image: -webkit-image-set(
-  |  _______________________^
-8 | |             url("small-balloons.jpg") 1x,
-9 | |             url("large-balloons.jpg") 2x);
-  | |_________________________________________^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:7:23
-  |
-7 |     background-image: -webkit-image-set(
-  |                       ^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/value/resolution/input.css:8:13
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Url
- --> $DIR/tests/fixture/value/resolution/input.css:8:13
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:8:13
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |             ^^^
-
-error: UrlValue
- --> $DIR/tests/fixture/value/resolution/input.css:8:17
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |                 ^^^^^^^^^^^^^^^^^^^^
-
-error: Str
- --> $DIR/tests/fixture/value/resolution/input.css:8:17
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |                 ^^^^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/value/resolution/input.css:8:39
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |                                       ^^
-
-error: Dimension
- --> $DIR/tests/fixture/value/resolution/input.css:8:39
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |                                       ^^
-
-error: Resolution
- --> $DIR/tests/fixture/value/resolution/input.css:8:39
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |                                       ^^
-
-error: Number
- --> $DIR/tests/fixture/value/resolution/input.css:8:39
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |                                       ^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:8:40
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |                                        ^
-
-error: ComponentValue
- --> $DIR/tests/fixture/value/resolution/input.css:8:41
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |                                         ^
-
-error: Delimiter
- --> $DIR/tests/fixture/value/resolution/input.css:8:41
-  |
-8 |             url("small-balloons.jpg") 1x,
-  |                                         ^
-
-error: ComponentValue
- --> $DIR/tests/fixture/value/resolution/input.css:9:13
-  |
-9 |             url("large-balloons.jpg") 2x);
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Url
- --> $DIR/tests/fixture/value/resolution/input.css:9:13
-  |
-9 |             url("large-balloons.jpg") 2x);
-  |             ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:9:13
-  |
-9 |             url("large-balloons.jpg") 2x);
-  |             ^^^
-
-error: UrlValue
- --> $DIR/tests/fixture/value/resolution/input.css:9:17
-  |
-9 |             url("large-balloons.jpg") 2x);
-  |                 ^^^^^^^^^^^^^^^^^^^^
-
-error: Str
- --> $DIR/tests/fixture/value/resolution/input.css:9:17
-  |
-9 |             url("large-balloons.jpg") 2x);
-  |                 ^^^^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/value/resolution/input.css:9:39
-  |
-9 |             url("large-balloons.jpg") 2x);
-  |                                       ^^
-
-error: Dimension
- --> $DIR/tests/fixture/value/resolution/input.css:9:39
-  |
-9 |             url("large-balloons.jpg") 2x);
-  |                                       ^^
-
-error: Resolution
- --> $DIR/tests/fixture/value/resolution/input.css:9:39
-  |
-9 |             url("large-balloons.jpg") 2x);
-  |                                       ^^
-
-error: Number
- --> $DIR/tests/fixture/value/resolution/input.css:9:39
-  |
-9 |             url("large-balloons.jpg") 2x);
-  |                                       ^
-
-error: Ident
- --> $DIR/tests/fixture/value/resolution/input.css:9:40
-  |
-9 |             url("large-balloons.jpg") 2x);
-  |                                        ^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/value/resolution/input.css:10:5
-   |
-10 | /     background-image: image-set(
-11 | |             url("small-balloons.jpg") 1x,
-12 | |             url("large-balloons.jpg") 2x);
-   | |_________________________________________^
-
-error: StyleBlock
-  --> $DIR/tests/fixture/value/resolution/input.css:10:5
-   |
-10 | /     background-image: image-set(
-11 | |             url("small-balloons.jpg") 1x,
-12 | |             url("large-balloons.jpg") 2x);
-   | |_________________________________________^
-
-error: Declaration
-  --> $DIR/tests/fixture/value/resolution/input.css:10:5
-   |
-10 | /     background-image: image-set(
-11 | |             url("small-balloons.jpg") 1x,
-12 | |             url("large-balloons.jpg") 2x);
-   | |_________________________________________^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/value/resolution/input.css:10:5
-   |
-10 |     background-image: image-set(
-   |     ^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/value/resolution/input.css:10:5
-   |
-10 |     background-image: image-set(
-   |     ^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/value/resolution/input.css:10:23
-   |
-10 |       background-image: image-set(
-   |  _______________________^
-11 | |             url("small-balloons.jpg") 1x,
-12 | |             url("large-balloons.jpg") 2x);
-   | |_________________________________________^
-
-error: Function
-  --> $DIR/tests/fixture/value/resolution/input.css:10:23
-   |
-10 |       background-image: image-set(
-   |  _______________________^
-11 | |             url("small-balloons.jpg") 1x,
-12 | |             url("large-balloons.jpg") 2x);
-   | |_________________________________________^
-
-error: Ident
-  --> $DIR/tests/fixture/value/resolution/input.css:10:23
-   |
-10 |     background-image: image-set(
-   |                       ^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/value/resolution/input.css:11:13
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Url
-  --> $DIR/tests/fixture/value/resolution/input.css:11:13
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/value/resolution/input.css:11:13
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |             ^^^
-
-error: UrlValue
-  --> $DIR/tests/fixture/value/resolution/input.css:11:17
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |                 ^^^^^^^^^^^^^^^^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/value/resolution/input.css:11:17
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |                 ^^^^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/value/resolution/input.css:11:39
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |                                       ^^
-
-error: Dimension
-  --> $DIR/tests/fixture/value/resolution/input.css:11:39
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |                                       ^^
-
-error: Resolution
-  --> $DIR/tests/fixture/value/resolution/input.css:11:39
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |                                       ^^
-
-error: Number
-  --> $DIR/tests/fixture/value/resolution/input.css:11:39
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |                                       ^
-
-error: Ident
-  --> $DIR/tests/fixture/value/resolution/input.css:11:40
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |                                        ^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/value/resolution/input.css:11:41
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |                                         ^
-
-error: Delimiter
-  --> $DIR/tests/fixture/value/resolution/input.css:11:41
-   |
-11 |             url("small-balloons.jpg") 1x,
-   |                                         ^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/value/resolution/input.css:12:13
-   |
-12 |             url("large-balloons.jpg") 2x);
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Url
-  --> $DIR/tests/fixture/value/resolution/input.css:12:13
-   |
-12 |             url("large-balloons.jpg") 2x);
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/value/resolution/input.css:12:13
-   |
-12 |             url("large-balloons.jpg") 2x);
-   |             ^^^
-
-error: UrlValue
-  --> $DIR/tests/fixture/value/resolution/input.css:12:17
-   |
-12 |             url("large-balloons.jpg") 2x);
-   |                 ^^^^^^^^^^^^^^^^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/value/resolution/input.css:12:17
-   |
-12 |             url("large-balloons.jpg") 2x);
-   |                 ^^^^^^^^^^^^^^^^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/value/resolution/input.css:12:39
-   |
-12 |             url("large-balloons.jpg") 2x);
-   |                                       ^^
-
-error: Dimension
-  --> $DIR/tests/fixture/value/resolution/input.css:12:39
-   |
-12 |             url("large-balloons.jpg") 2x);
-   |                                       ^^
-
-error: Resolution
-  --> $DIR/tests/fixture/value/resolution/input.css:12:39
-   |
-12 |             url("large-balloons.jpg") 2x);
-   |                                       ^^
-
-error: Number
-  --> $DIR/tests/fixture/value/resolution/input.css:12:39
-   |
-12 |             url("large-balloons.jpg") 2x);
-   |                                       ^
-
-error: Ident
-  --> $DIR/tests/fixture/value/resolution/input.css:12:40
-   |
-12 |             url("large-balloons.jpg") 2x);
-   |                                        ^
 
+  x Stylesheet
+    ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+  2 | ,-> @media print and (min-resolution: 300dpi) {}
+  3 | |   @media print and (min-resolution: 300dpcm) {}
+  4 | |   @media print and (min-resolution: 300dppx) {}
+  5 | |   @media print and (min-resolution: 300x) {}
+  6 | |   
+  7 | |   .box {
+  8 | |       background-image: -webkit-image-set(
+  9 | |               url("small-balloons.jpg") 1x,
+ 10 | |               url("large-balloons.jpg") 2x);
+ 11 | |       background-image: image-set(
+ 12 | |               url("small-balloons.jpg") 1x,
+ 13 | |               url("large-balloons.jpg") 2x);
+ 14 | `-> }
+    `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaRule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :        ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :              ^^^
+   `----
+
+  x MediaConditionWithoutOr
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                   ^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                   ^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                                   ^^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                                   ^^^^^^
+   `----
+
+  x Resolution
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                                   ^^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                                   ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                                      ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpi) {}
+   :                                           ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaRule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :        ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :              ^^^
+   `----
+
+  x MediaConditionWithoutOr
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                   ^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                   ^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                                   ^^^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                                   ^^^^^^^
+   `----
+
+  x Resolution
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                                   ^^^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                                   ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                                      ^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dpcm) {}
+   :                                            ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaRule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :        ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :              ^^^
+   `----
+
+  x MediaConditionWithoutOr
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                   ^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                   ^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                                   ^^^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                                   ^^^^^^^
+   `----
+
+  x Resolution
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                                   ^^^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                                   ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                                      ^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300dppx) {}
+   :                                            ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaRule
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :        ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :              ^^^
+   `----
+
+  x MediaConditionWithoutOr
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionWithoutOrType
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                  ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                   ^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                   ^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                                   ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                                   ^^^^
+   `----
+
+  x Resolution
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                                   ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                                   ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                                      ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | @media print and (min-resolution: 300x) {}
+   :                                         ^^
+   `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+  7 | ,-> .box {
+  8 | |       background-image: -webkit-image-set(
+  9 | |               url("small-balloons.jpg") 1x,
+ 10 | |               url("large-balloons.jpg") 2x);
+ 11 | |       background-image: image-set(
+ 12 | |               url("small-balloons.jpg") 1x,
+ 13 | |               url("large-balloons.jpg") 2x);
+ 14 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+  7 | ,-> .box {
+  8 | |       background-image: -webkit-image-set(
+  9 | |               url("small-balloons.jpg") 1x,
+ 10 | |               url("large-balloons.jpg") 2x);
+ 11 | |       background-image: image-set(
+ 12 | |               url("small-balloons.jpg") 1x,
+ 13 | |               url("large-balloons.jpg") 2x);
+ 14 | `-> }
+    `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 | .box {
+   : ^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 | .box {
+   : ^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 | .box {
+   : ^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 | .box {
+   : ^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 | .box {
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 | .box {
+   :  ^^^
+   `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+  7 | ,-> .box {
+  8 | |       background-image: -webkit-image-set(
+  9 | |               url("small-balloons.jpg") 1x,
+ 10 | |               url("large-balloons.jpg") 2x);
+ 11 | |       background-image: image-set(
+ 12 | |               url("small-balloons.jpg") 1x,
+ 13 | |               url("large-balloons.jpg") 2x);
+ 14 | `-> }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:5]
+  8 | ,-> background-image: -webkit-image-set(
+  9 | |               url("small-balloons.jpg") 1x,
+ 10 | `->             url("large-balloons.jpg") 2x);
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:5]
+  8 | ,-> background-image: -webkit-image-set(
+  9 | |               url("small-balloons.jpg") 1x,
+ 10 | `->             url("large-balloons.jpg") 2x);
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:5]
+  8 | ,-> background-image: -webkit-image-set(
+  9 | |               url("small-balloons.jpg") 1x,
+ 10 | `->             url("large-balloons.jpg") 2x);
+    `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/resolution/input.css:8:5]
+ 8 | background-image: -webkit-image-set(
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:8:5]
+ 8 | background-image: -webkit-image-set(
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:5]
+  8 | ,-> background-image: -webkit-image-set(
+  9 | |               url("small-balloons.jpg") 1x,
+ 10 | `->             url("large-balloons.jpg") 2x);
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:5]
+  8 | ,-> background-image: -webkit-image-set(
+  9 | |               url("small-balloons.jpg") 1x,
+ 10 | `->             url("large-balloons.jpg") 2x);
+    `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:8:5]
+ 8 | background-image: -webkit-image-set(
+   :                   ^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Url
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   : ^^^
+   `----
+
+  x UrlValue
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   :     ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   :     ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   :                           ^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   :                           ^^
+   `----
+
+  x Resolution
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   :                           ^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   :                           ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   :                            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   :                             ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
+ 9 | url("small-balloons.jpg") 1x,
+   :                             ^
+   `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:13]
+ 10 | url("large-balloons.jpg") 2x);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Url
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:13]
+ 10 | url("large-balloons.jpg") 2x);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:13]
+ 10 | url("large-balloons.jpg") 2x);
+    : ^^^
+    `----
+
+  x UrlValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:13]
+ 10 | url("large-balloons.jpg") 2x);
+    :     ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:13]
+ 10 | url("large-balloons.jpg") 2x);
+    :     ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:13]
+ 10 | url("large-balloons.jpg") 2x);
+    :                           ^^
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:13]
+ 10 | url("large-balloons.jpg") 2x);
+    :                           ^^
+    `----
+
+  x Resolution
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:13]
+ 10 | url("large-balloons.jpg") 2x);
+    :                           ^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:13]
+ 10 | url("large-balloons.jpg") 2x);
+    :                           ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:13]
+ 10 | url("large-balloons.jpg") 2x);
+    :                            ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:5]
+ 11 | ,-> background-image: image-set(
+ 12 | |               url("small-balloons.jpg") 1x,
+ 13 | `->             url("large-balloons.jpg") 2x);
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:5]
+ 11 | ,-> background-image: image-set(
+ 12 | |               url("small-balloons.jpg") 1x,
+ 13 | `->             url("large-balloons.jpg") 2x);
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:5]
+ 11 | ,-> background-image: image-set(
+ 12 | |               url("small-balloons.jpg") 1x,
+ 13 | `->             url("large-balloons.jpg") 2x);
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:5]
+ 11 | background-image: image-set(
+    : ^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:5]
+ 11 | background-image: image-set(
+    : ^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:5]
+ 11 | ,-> background-image: image-set(
+ 12 | |               url("small-balloons.jpg") 1x,
+ 13 | `->             url("large-balloons.jpg") 2x);
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:5]
+ 11 | ,-> background-image: image-set(
+ 12 | |               url("small-balloons.jpg") 1x,
+ 13 | `->             url("large-balloons.jpg") 2x);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:5]
+ 11 | background-image: image-set(
+    :                   ^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Url
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    : ^^^
+    `----
+
+  x UrlValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    :     ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    :     ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    :                           ^^
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    :                           ^^
+    `----
+
+  x Resolution
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    :                           ^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    :                           ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    :                            ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    :                             ^
+    `----
+
+  x Delimiter
+    ,-[$DIR/tests/fixture/value/resolution/input.css:12:13]
+ 12 | url("small-balloons.jpg") 1x,
+    :                             ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:13:13]
+ 13 | url("large-balloons.jpg") 2x);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Url
+    ,-[$DIR/tests/fixture/value/resolution/input.css:13:13]
+ 13 | url("large-balloons.jpg") 2x);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/resolution/input.css:13:13]
+ 13 | url("large-balloons.jpg") 2x);
+    : ^^^
+    `----
+
+  x UrlValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:13:13]
+ 13 | url("large-balloons.jpg") 2x);
+    :     ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/value/resolution/input.css:13:13]
+ 13 | url("large-balloons.jpg") 2x);
+    :     ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/resolution/input.css:13:13]
+ 13 | url("large-balloons.jpg") 2x);
+    :                           ^^
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/value/resolution/input.css:13:13]
+ 13 | url("large-balloons.jpg") 2x);
+    :                           ^^
+    `----
+
+  x Resolution
+    ,-[$DIR/tests/fixture/value/resolution/input.css:13:13]
+ 13 | url("large-balloons.jpg") 2x);
+    :                           ^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/value/resolution/input.css:13:13]
+ 13 | url("large-balloons.jpg") 2x);
+    :                           ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/resolution/input.css:13:13]
+ 13 | url("large-balloons.jpg") 2x);
+    :                            ^
+    `----

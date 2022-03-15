@@ -9,9 +9,9 @@ use anyhow::{bail, Context, Error};
 use rayon::prelude::*;
 use swc::{
     config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
-    try_with_handler, Compiler,
+    try_with_handler, Compiler, HandlerOpts,
 };
-use swc_common::SourceMap;
+use swc_common::{errors::ColorConfig, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use testing::assert_eq;
@@ -172,19 +172,26 @@ fn test_file_with_opts(entry: &Path, opts: &Options, expected_stdout: &str) -> R
     let cm = Arc::new(SourceMap::default());
     let c = Compiler::new(cm.clone());
 
-    try_with_handler(cm.clone(), false, |handler| {
-        let fm = cm.load_file(entry).context("failed to load file")?;
+    try_with_handler(
+        cm.clone(),
+        HandlerOpts {
+            color: ColorConfig::Always,
+            ..Default::default()
+        },
+        |handler| {
+            let fm = cm.load_file(entry).context("failed to load file")?;
 
-        let res = c
-            .process_js_file(fm, handler, opts)
-            .context("failed to process file")?;
+            let res = c
+                .process_js_file(fm, handler, opts)
+                .context("failed to process file")?;
 
-        let actual_stdout = stdout_of(&res.code)?;
+            let actual_stdout = stdout_of(&res.code)?;
 
-        assert_eq!(expected_stdout, actual_stdout);
+            assert_eq!(expected_stdout, actual_stdout);
 
-        Ok(())
-    })
+            Ok(())
+        },
+    )
     .with_context(|| format!("failed to compile with opts: {:?}", opts))
 }
 
@@ -204,5 +211,9 @@ fn stdout_of(code: &str) -> Result<String, Error> {
         )
     }
 
-    Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
+    let s = String::from_utf8_lossy(&actual_output.stdout).to_string();
+    if s.trim().is_empty() {
+        bail!("empty stdout");
+    }
+    Ok(s)
 }

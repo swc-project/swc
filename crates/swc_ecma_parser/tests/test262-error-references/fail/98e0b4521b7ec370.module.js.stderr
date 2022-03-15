@@ -1,6 +1,6 @@
-error: Expected '{', got ';'
- --> $DIR/tests/test262-parser/fail/98e0b4521b7ec370.module.js:1:7
-  |
-1 | export;
-  |       ^
 
+  x Expected '{', got ';'
+   ,-[$DIR/tests/test262-parser/fail/98e0b4521b7ec370.module.js:2:1]
+ 2 | export;
+   :       ^
+   `----

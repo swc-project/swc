@@ -1,12 +1,13 @@
-error: Expected ';', '}' or <eof>
- --> $DIR/tests/test262-parser/fail/f0ab9eb343631ea4.js:1:4
-  |
-1 | a++``
-  |    ^
-  |
-note: This is the expression part of an expression statement
- --> $DIR/tests/test262-parser/fail/f0ab9eb343631ea4.js:1:1
-  |
-1 | a++``
-  | ^^^
 
+  x Expected ';', '}' or <eof>
+   ,-[$DIR/tests/test262-parser/fail/f0ab9eb343631ea4.js:2:1]
+ 2 | a++``
+   :    ^
+   `----
+
+Error: 
+  > This is the expression part of an expression statement
+   ,-[$DIR/tests/test262-parser/fail/f0ab9eb343631ea4.js:2:1]
+ 2 | a++``
+   : ^^^
+   `----

@@ -1,6 +1,6 @@
-error: Expected ',', got '{'
- --> $DIR/tests/test262-parser/fail/d5f84d71afd585da.js:1:17
-  |
-1 | ({ set: s(a, b) { } })
-  |                 ^
 
+  x Expected ',', got '{'
+   ,-[$DIR/tests/test262-parser/fail/d5f84d71afd585da.js:2:1]
+ 2 | ({ set: s(a, b) { } })
+   :                 ^
+   `----

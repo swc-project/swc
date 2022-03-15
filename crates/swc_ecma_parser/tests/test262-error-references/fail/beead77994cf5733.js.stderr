@@ -1,2 +1,6 @@
-error: Unexpected character '\u{8}'
 
+  x Unexpected character '\u{8}'
+   ,-[$DIR/tests/test262-parser/fail/beead77994cf5733.js:2:1]
+ 2 | 
+   : ^
+   `----

@@ -1,78 +1,78 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
-  |
-1 | [\2cns|attr] {}
-  | ^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
-  |
-1 | [\2cns|attr] {}
-  | ^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   : ^^^^^^^^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
-  |
-1 | [\2cns|attr] {}
-  | ^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   : ^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
-  |
-1 | [\2cns|attr] {}
-  | ^^^^^^^^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   : ^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
-  |
-1 | [\2cns|attr] {}
-  | ^^^^^^^^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   : ^^^^^^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
-  |
-1 | [\2cns|attr] {}
-  | ^^^^^^^^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   : ^^^^^^^^^^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
-  |
-1 | [\2cns|attr] {}
-  | ^^^^^^^^^^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   : ^^^^^^^^^^^^
+   `----
 
-error: AttributeSelector
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1
-  |
-1 | [\2cns|attr] {}
-  | ^^^^^^^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   : ^^^^^^^^^^^^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:2
-  |
-1 | [\2cns|attr] {}
-  |  ^^^^^^^^^^
+  x AttributeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   : ^^^^^^^^^^^^
+   `----
 
-error: NsPrefix
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:2
-  |
-1 | [\2cns|attr] {}
-  |  ^^^^^^
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   :  ^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:2
-  |
-1 | [\2cns|attr] {}
-  |  ^^^^^
+  x NsPrefix
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   :  ^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:8
-  |
-1 | [\2cns|attr] {}
-  |        ^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   :  ^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:14
-  |
-1 | [\2cns|attr] {}
-  |              ^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   :        ^^^^
+   `----
 
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:2:1]
+ 2 | [\2cns|attr] {}
+   :              ^^
+   `----

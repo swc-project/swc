@@ -1,36 +1,36 @@
-error: Expected ":"
- --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9
-  |
-6 |         color: green;
-  |         ^^^^^
 
-error: Expected ":"
-  --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13
-   |
-14 |             color: red 
-   |             ^^^^^
+  x Expected ":"
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:7:9]
+ 7 | color: green;
+   : ^^^^^
+   `----
 
-error: Expected ":"
-  --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:23:14
-   |
-23 |         ident;
-   |              ^
+  x Expected ":"
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:15:13]
+ 15 | color: red
+    : ^^^^^
+    `----
 
-error: Expected ":"
-  --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:31:18
-   |
-31 |             ident;
-   |                  ^
+  x Expected ":"
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:24:9]
+ 24 | ident;
+    :      ^
+    `----
 
-error: Invalid selector
-  --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:39:11
-   |
-39 |     & test;
-   |           ^
+  x Expected ":"
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
+ 32 | ident;
+    :      ^
+    `----
 
-error: Unexpected character `';'`
-  --> $DIR/tests/recovery/style-blocks-contents/basic/input.css:39:11
-   |
-39 |     & test;
-   |           ^
+  x Invalid selector
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:40:5]
+ 40 | & test;
+    :       ^
+    `----
 
+  x Unexpected character `';'`
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:40:5]
+ 40 | & test;
+    :       ^
+    `----

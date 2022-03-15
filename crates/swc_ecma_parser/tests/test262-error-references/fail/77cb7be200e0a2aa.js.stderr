@@ -1,2 +1,6 @@
-error: Unexpected character '\u{200c}'
 
+  x Unexpected character '\u{200c}'
+   ,-[$DIR/tests/test262-parser/fail/77cb7be200e0a2aa.js:2:1]
+ 2 | ‌ = []
+   : ^
+   `----

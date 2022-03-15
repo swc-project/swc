@@ -116,8 +116,8 @@ where
 
     #[emitter]
     fn emit_charset_rule(&mut self, n: &CharsetRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "charset");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "charset");
         // https://drafts.csswg.org/css2/#charset%E2%91%A0
         // @charset must be written literally, i.e., the 10 characters '@charset "'
         // (lowercase, no backslash escapes), followed by the encoding name, followed by
@@ -129,8 +129,8 @@ where
 
     #[emitter]
     fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "import");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "import");
 
         match n.href {
             ImportHref::Url(_) => {
@@ -156,10 +156,10 @@ where
 
         if let Some(supports) = &n.supports {
             formatting_space!(self);
-            write!(self, "supports");
-            write!(self, "(");
+            write_raw!(self, "supports");
+            write_raw!(self, "(");
             emit!(self, supports);
-            write!(self, ")");
+            write_raw!(self, ")");
         }
 
         if let Some(media) = &n.media {
@@ -188,16 +188,16 @@ where
 
     #[emitter]
     fn emit_font_face_rule(&mut self, n: &FontFaceRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "font-face");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "font-face");
         formatting_space!(self);
         emit!(self, n.block);
     }
 
     #[emitter]
     fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "keyframes");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "keyframes");
 
         match n.name {
             KeyframesName::Str(_) => {
@@ -258,8 +258,8 @@ where
 
     #[emitter]
     fn emit_layer_rule(&mut self, n: &LayerRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "layer");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "layer");
 
         if n.prelude.is_some() {
             space!(self);
@@ -277,8 +277,8 @@ where
 
     #[emitter]
     fn emit_media_rule(&mut self, n: &MediaRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "media");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "media");
 
         if n.media.is_some() {
             let need_space = match n.media.as_ref().unwrap().queries.get(0) {
@@ -404,9 +404,9 @@ where
     fn emit_media_in_parens(&mut self, n: &MediaInParens) -> Result {
         match n {
             MediaInParens::MediaCondition(n) => {
-                write!(self, lo_span_offset!(n.span, 1), "(");
+                write_raw!(self, lo_span_offset!(n.span, 1), "(");
                 emit!(self, n);
-                write!(self, hi_span_offset!(n.span, 1), ")");
+                write_raw!(self, hi_span_offset!(n.span, 1), ")");
             }
             MediaInParens::Feature(n) => emit!(self, n),
         }
@@ -421,7 +421,7 @@ where
             MediaFeature::RangeInterval(n) => n.span,
         };
 
-        write!(self, lo_span_offset!(span, 1), "(");
+        write_raw!(self, lo_span_offset!(span, 1), "(");
 
         match n {
             MediaFeature::Plain(n) => emit!(self, n),
@@ -430,7 +430,7 @@ where
             MediaFeature::RangeInterval(n) => emit!(self, n),
         }
 
-        write!(self, hi_span_offset!(span, 1), ")");
+        write_raw!(self, hi_span_offset!(span, 1), ")");
     }
 
     #[emitter]
@@ -453,7 +453,7 @@ where
     #[emitter]
     fn emit_media_feature_plain(&mut self, n: &MediaFeaturePlain) -> Result {
         emit!(self, n.name);
-        write!(self, ":");
+        write_raw!(self, ":");
         formatting_space!(self);
         emit!(self, n.value);
     }
@@ -467,7 +467,7 @@ where
     fn emit_media_feature_range(&mut self, n: &MediaFeatureRange) -> Result {
         emit!(self, n.left);
         formatting_space!(self);
-        write!(self, n.span, n.comparison.as_str());
+        write_raw!(self, n.span, n.comparison.as_str());
         formatting_space!(self);
         emit!(self, n.right);
     }
@@ -476,19 +476,19 @@ where
     fn emit_media_feature_range_interval(&mut self, n: &MediaFeatureRangeInterval) -> Result {
         emit!(self, n.left);
         formatting_space!(self);
-        write!(self, n.span, n.left_comparison.as_str());
+        write_raw!(self, n.span, n.left_comparison.as_str());
         formatting_space!(self);
         emit!(self, n.name);
         formatting_space!(self);
-        write!(self, n.span, n.right_comparison.as_str());
+        write_raw!(self, n.span, n.right_comparison.as_str());
         formatting_space!(self);
         emit!(self, n.right);
     }
 
     #[emitter]
     fn emit_supports_rule(&mut self, n: &SupportsRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "supports");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "supports");
 
         match n.condition.conditions.get(0) {
             Some(SupportsConditionType::SupportsInParens(_)) => {
@@ -547,9 +547,9 @@ where
     fn emit_supports_in_parens(&mut self, n: &SupportsInParens) -> Result {
         match n {
             SupportsInParens::SupportsCondition(n) => {
-                write!(self, lo_span_offset!(n.span, 1), "(");
+                write_raw!(self, lo_span_offset!(n.span, 1), "(");
                 emit!(self, n);
-                write!(self, hi_span_offset!(n.span, 1), ")");
+                write_raw!(self, hi_span_offset!(n.span, 1), ")");
             }
             SupportsInParens::Feature(n) => emit!(self, n),
             SupportsInParens::GeneralEnclosed(n) => emit!(self, n),
@@ -560,9 +560,9 @@ where
     fn emit_supports_feature(&mut self, n: &SupportsFeature) -> Result {
         match n {
             SupportsFeature::Declaration(n) => {
-                write!(self, lo_span_offset!(n.span, 1), "(");
+                write_raw!(self, lo_span_offset!(n.span, 1), "(");
                 emit!(self, n);
-                write!(self, hi_span_offset!(n.span, 1), ")");
+                write_raw!(self, hi_span_offset!(n.span, 1), ")");
             }
             SupportsFeature::Function(n) => emit!(self, n),
         }
@@ -578,8 +578,8 @@ where
 
     #[emitter]
     fn emit_page_rule(&mut self, n: &PageRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "page");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "page");
 
         if let Some(prelude) = &n.prelude {
             match prelude.selectors.get(0) {
@@ -621,13 +621,13 @@ where
 
     #[emitter]
     fn emit_page_selector_pseudo(&mut self, n: &PageSelectorPseudo) -> Result {
-        write!(self, ":");
+        write_raw!(self, ":");
         emit!(self, n.value);
     }
 
     #[emitter]
     fn emit_page_margin_rule(&mut self, n: &PageMarginRule) -> Result {
-        write!(self, "@");
+        write_raw!(self, "@");
         emit!(self, n.name);
         formatting_space!(self);
         emit!(self, n.block);
@@ -643,8 +643,8 @@ where
 
     #[emitter]
     fn emit_namespace_rule(&mut self, n: &NamespaceRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "namespace");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "namespace");
 
         let has_prefix = n.prefix.is_some();
         let is_uri_url = match n.uri {
@@ -674,8 +674,8 @@ where
 
     #[emitter]
     fn emit_nest_rule(&mut self, n: &NestRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "nest");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "nest");
         space!(self);
         emit!(self, n.prelude);
         formatting_space!(self);
@@ -684,16 +684,16 @@ where
 
     #[emitter]
     fn emit_viewport_rule(&mut self, n: &ViewportRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "viewport");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "viewport");
         formatting_space!(self);
         emit!(self, n.block);
     }
 
     #[emitter]
     fn emit_document_rule(&mut self, n: &DocumentRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "document");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "document");
         space!(self);
         self.emit_list(&n.matching_functions, ListFormat::CommaDelimited)?;
         formatting_space!(self);
@@ -728,6 +728,9 @@ where
                     ComponentValue::SimpleBlock(_)
                     | ComponentValue::Function(_)
                     | ComponentValue::Color(Color::Function(_))
+                    | ComponentValue::Color(Color::AbsoluteColorBase(
+                        AbsoluteColorBase::Function(_),
+                    ))
                     | ComponentValue::Delimiter(_)
                     | ComponentValue::Str(_)
                     | ComponentValue::Url(_)
@@ -746,7 +749,9 @@ where
                                 !self.config.minify
                             }
                         }
-                        Some(ComponentValue::Color(Color::HexColor(_)))
+                        Some(ComponentValue::Color(Color::AbsoluteColorBase(
+                            AbsoluteColorBase::HexColor(_),
+                        )))
                         | Some(ComponentValue::Str(_)) => !self.config.minify,
                         Some(ComponentValue::Delimiter(_)) => false,
                         Some(ComponentValue::Number(n)) => {
@@ -781,7 +786,9 @@ where
                     },
                     _ => match next {
                         Some(ComponentValue::SimpleBlock(_))
-                        | Some(ComponentValue::Color(Color::HexColor(_))) => !self.config.minify,
+                        | Some(ComponentValue::Color(Color::AbsoluteColorBase(
+                            AbsoluteColorBase::HexColor(_),
+                        ))) => !self.config.minify,
                         Some(ComponentValue::Delimiter(_)) => false,
                         _ => true,
                     },
@@ -799,12 +806,12 @@ where
     #[emitter]
     fn emit_function(&mut self, n: &Function) -> Result {
         emit!(self, n.name);
-        write!(self, "(");
+        write_raw!(self, "(");
         self.emit_list_of_component_values(
             &n.value,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
-        write!(self, ")");
+        write_raw!(self, ")");
     }
 
     #[emitter]
@@ -825,8 +832,8 @@ where
 
     #[emitter]
     fn emit_color_profile_rule(&mut self, n: &ColorProfileRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "color-profile");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "color-profile");
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
@@ -835,8 +842,8 @@ where
 
     #[emitter]
     fn emit_counter_style_rule(&mut self, n: &CounterStyleRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "counter-style");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "counter-style");
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
@@ -845,8 +852,8 @@ where
 
     #[emitter]
     fn emit_property_rule(&mut self, n: &PropertyRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
-        write!(self, "property");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, "property");
         space!(self);
         emit!(self, n.name);
         formatting_space!(self);
@@ -855,7 +862,7 @@ where
 
     #[emitter]
     fn emit_unknown_at_rule(&mut self, n: &UnknownAtRule) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "@");
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
         emit!(self, n.name);
 
         self.emit_list(&n.prelude, ListFormat::NotDelimited)?;
@@ -872,9 +879,9 @@ where
         if self.config.minify {
             let minified = minify_string(&*n.value);
 
-            write!(self, n.span, &minified);
+            write_str!(self, n.span, &minified);
         } else {
-            write!(self, n.span, &n.raw);
+            write_str!(self, n.span, &n.raw);
         }
     }
 
@@ -889,7 +896,7 @@ where
             }
         };
 
-        write!(self, lo_span_offset!(n.span, 1), &n.name.to_string());
+        write_raw!(self, lo_span_offset!(n.span, 1), &n.name.to_string());
 
         let len = n.value.len();
 
@@ -976,7 +983,7 @@ where
             }
         }
 
-        write!(self, hi_span_offset!(n.span, 1), ending);
+        write_raw!(self, hi_span_offset!(n.span, 1), ending);
     }
 
     #[emitter]
@@ -1034,7 +1041,7 @@ where
     #[emitter]
     fn emit_declaration(&mut self, n: &Declaration) -> Result {
         emit!(self, n.name);
-        write!(self, ":");
+        write_raw!(self, ":");
 
         let is_custom_property = match n.name {
             DeclarationName::DashedIdent(_) => true,
@@ -1090,33 +1097,33 @@ where
         value.push('!');
 
         if self.config.minify {
-            value.push_str("important");
+            value.push_str(&n.value.value.to_lowercase());
         } else {
             value.push_str(&n.value.raw);
         }
 
-        write!(self, n.span, &value);
+        write_raw!(self, n.span, &value);
     }
 
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
-        write!(self, n.span, &n.raw);
+        write_raw!(self, n.span, &n.raw);
     }
 
     #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
-        write!(self, n.span, &n.raw);
+        write_raw!(self, n.span, &n.raw);
     }
 
     #[emitter]
     fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
-        write!(self, n.span, &n.raw);
+        write_raw!(self, n.span, &n.raw);
     }
 
     #[emitter]
     fn emit_percentage(&mut self, n: &Percentage) -> Result {
         emit!(self, n.value);
-        write!(self, hi_span_offset!(n.span, 1), "%");
+        write_raw!(self, hi_span_offset!(n.span, 1), "%");
     }
 
     #[emitter]
@@ -1177,9 +1184,9 @@ where
     #[emitter]
     fn emit_integer(&mut self, n: &Integer) -> Result {
         if self.config.minify {
-            write!(self, n.span, &n.value.to_string());
+            write_raw!(self, n.span, &n.value.to_string());
         } else {
-            write!(self, n.span, &n.raw);
+            write_raw!(self, n.span, &n.raw);
         }
     }
 
@@ -1188,9 +1195,9 @@ where
         if self.config.minify {
             let minified = minify_numeric(n.value);
 
-            write!(self, n.span, &minified);
+            write_raw!(self, n.span, &minified);
         } else {
-            write!(self, n.span, &n.raw);
+            write_raw!(self, n.span, &n.raw);
         }
     }
 
@@ -1199,7 +1206,7 @@ where
         emit!(self, n.left);
 
         if let Some(right) = &n.right {
-            write!(self, "/");
+            write_raw!(self, "/");
             emit!(self, right);
         }
     }
@@ -1207,8 +1214,18 @@ where
     #[emitter]
     fn emit_color(&mut self, n: &Color) -> Result {
         match n {
-            Color::HexColor(n) => emit!(self, n),
+            Color::AbsoluteColorBase(n) => emit!(self, n),
+            Color::CurrentColorOrSystemColor(n) => emit!(self, n),
             Color::Function(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_absolute_color_base(&mut self, n: &AbsoluteColorBase) -> Result {
+        match n {
+            AbsoluteColorBase::HexColor(n) => emit!(self, n),
+            AbsoluteColorBase::NamedColorOrTransparent(n) => emit!(self, n),
+            AbsoluteColorBase::Function(n) => emit!(self, n),
         }
     }
 
@@ -1226,7 +1243,7 @@ where
             hex_color.push_str(&n.raw);
         }
 
-        write!(self, n.span, &hex_color);
+        write_raw!(self, n.span, &hex_color);
     }
 
     #[emitter]
@@ -1250,12 +1267,13 @@ where
         match n {
             CmykComponent::Number(n) => emit!(self, n),
             CmykComponent::Percentage(n) => emit!(self, n),
+            CmykComponent::Function(n) => emit!(self, n),
         }
     }
 
     #[emitter]
     fn emit_delimiter(&mut self, n: &Delimiter) -> Result {
-        write!(self, n.span, n.value.as_str());
+        write_raw!(self, n.span, n.value.as_str());
     }
 
     #[emitter]
@@ -1281,7 +1299,7 @@ where
             formatting_space!(self);
         }
 
-        write!(self, n.span, n.value.as_str());
+        write_raw!(self, n.span, n.value.as_str());
 
         if need_space {
             space!(self);
@@ -1311,9 +1329,9 @@ where
             CalcValue::Percentage(n) => emit!(self, n),
             CalcValue::Constant(n) => emit!(self, n),
             CalcValue::Sum(n) => {
-                write!(self, lo_span_offset!(n.span, 1), "(");
+                write_raw!(self, lo_span_offset!(n.span, 1), "(");
                 emit!(self, n);
-                write!(self, hi_span_offset!(n.span, 1), ")");
+                write_raw!(self, hi_span_offset!(n.span, 1), ")");
             }
             CalcValue::Function(n) => emit!(self, n),
         }
@@ -1330,25 +1348,25 @@ where
                 at_keyword.push('@');
                 at_keyword.push_str(raw);
 
-                write!(self, span, &at_keyword);
+                write_raw!(self, span, &at_keyword);
             }
             Token::Delim { value } => {
-                write!(self, span, &value.to_string());
+                write_raw!(self, span, &value.to_string());
             }
             Token::LParen => {
-                write!(self, span, "(");
+                write_raw!(self, span, "(");
             }
             Token::RParen => {
-                write!(self, span, ")");
+                write_raw!(self, span, ")");
             }
             Token::LBracket => {
-                write!(self, span, "[");
+                write_raw!(self, span, "[");
             }
             Token::RBracket => {
-                write!(self, span, "]");
+                write_raw!(self, span, "]");
             }
             Token::Number { raw, .. } => {
-                write!(self, span, raw);
+                write_raw!(self, span, raw);
             }
             Token::Percentage { raw, .. } => {
                 let mut percentage = String::new();
@@ -1356,7 +1374,7 @@ where
                 percentage.push_str(raw);
                 percentage.push('%');
 
-                write!(self, span, &percentage);
+                write_raw!(self, span, &percentage);
             }
             Token::Dimension {
                 raw_value,
@@ -1368,10 +1386,10 @@ where
                 dimension.push_str(raw_value);
                 dimension.push_str(raw_unit);
 
-                write!(self, span, &dimension);
+                write_raw!(self, span, &dimension);
             }
             Token::Ident { raw, .. } => {
-                write!(self, span, raw);
+                write_raw!(self, span, raw);
             }
             Token::Function { raw, .. } => {
                 let mut function = String::new();
@@ -1379,13 +1397,13 @@ where
                 function.push_str(raw);
                 function.push('(');
 
-                write!(self, span, &function);
+                write_raw!(self, span, &function);
             }
             Token::BadString { raw, .. } => {
-                write!(self, span, raw);
+                write_str!(self, span, raw);
             }
             Token::String { raw, .. } => {
-                write!(self, span, raw);
+                write_str!(self, span, raw);
             }
             Token::Url {
                 raw_name,
@@ -1403,7 +1421,7 @@ where
                 url.push_str(after);
                 url.push(')');
 
-                write!(self, span, &url);
+                write_str!(self, span, &url);
             }
             Token::BadUrl {
                 raw_name,
@@ -1417,22 +1435,22 @@ where
                 bad_url.push_str(raw_value);
                 bad_url.push(')');
 
-                write!(self, span, &bad_url);
+                write_str!(self, span, &bad_url);
             }
             Token::Comma => {
-                write!(self, span, ",");
+                write_raw!(self, span, ",");
             }
             Token::Semi => {
-                write!(self, span, ";");
+                write_raw!(self, span, ";");
             }
             Token::LBrace => {
-                write!(self, span, "{");
+                write_raw!(self, span, "{");
             }
             Token::RBrace => {
-                write!(self, span, "}");
+                write_raw!(self, span, "}");
             }
             Token::Colon => {
-                write!(self, span, ":");
+                write_raw!(self, span, ":");
             }
             Token::Hash { raw, .. } => {
                 let mut hash = String::new();
@@ -1440,16 +1458,16 @@ where
                 hash.push('#');
                 hash.push_str(raw);
 
-                write!(self, span, &hash);
+                write_raw!(self, span, &hash);
             }
             Token::WhiteSpace { value, .. } => {
-                write!(self, span, value);
+                write_str!(self, span, value);
             }
             Token::CDC => {
-                write!(self, span, "-->");
+                write_raw!(self, span, "-->");
             }
             Token::CDO => {
-                write!(self, span, "<!--");
+                write_raw!(self, span, "<!--");
             }
         }
     }
@@ -1466,25 +1484,25 @@ where
                     at_keyword.push('@');
                     at_keyword.push_str(raw);
 
-                    write!(self, span, &at_keyword);
+                    write_raw!(self, span, &at_keyword);
                 }
                 Token::Delim { value } => {
-                    write!(self, span, &value.to_string());
+                    write_raw!(self, span, &value.to_string());
                 }
                 Token::LParen => {
-                    write!(self, span, "(");
+                    write_raw!(self, span, "(");
                 }
                 Token::RParen => {
-                    write!(self, span, ")");
+                    write_raw!(self, span, ")");
                 }
                 Token::LBracket => {
-                    write!(self, span, "[");
+                    write_raw!(self, span, "[");
                 }
                 Token::RBracket => {
-                    write!(self, span, "]");
+                    write_raw!(self, span, "]");
                 }
                 Token::Number { raw, .. } => {
-                    write!(self, span, raw);
+                    write_raw!(self, span, raw);
                 }
                 Token::Percentage { raw, .. } => {
                     let mut percentage = String::new();
@@ -1492,7 +1510,7 @@ where
                     percentage.push_str(raw);
                     percentage.push('%');
 
-                    write!(self, span, &percentage);
+                    write_raw!(self, span, &percentage);
                 }
                 Token::Dimension {
                     raw_value,
@@ -1504,10 +1522,10 @@ where
                     dimension.push_str(raw_value);
                     dimension.push_str(raw_unit);
 
-                    write!(self, span, &dimension);
+                    write_raw!(self, span, &dimension);
                 }
                 Token::Ident { raw, .. } => {
-                    write!(self, span, raw);
+                    write_raw!(self, span, raw);
                 }
                 Token::Function { raw, .. } => {
                     let mut function = String::new();
@@ -1515,13 +1533,13 @@ where
                     function.push_str(raw);
                     function.push('(');
 
-                    write!(self, span, &function);
+                    write_raw!(self, span, &function);
                 }
                 Token::BadString { raw, .. } => {
-                    write!(self, span, raw);
+                    write_str!(self, span, raw);
                 }
                 Token::String { raw, .. } => {
-                    write!(self, span, raw);
+                    write_str!(self, span, raw);
                 }
                 Token::Url {
                     raw_name,
@@ -1539,7 +1557,7 @@ where
                     url.push_str(after);
                     url.push(')');
 
-                    write!(self, span, &url);
+                    write_str!(self, span, &url);
                 }
                 Token::BadUrl {
                     raw_name,
@@ -1553,22 +1571,22 @@ where
                     bad_url.push_str(raw_value);
                     bad_url.push(')');
 
-                    write!(self, span, &bad_url);
+                    write_str!(self, span, &bad_url);
                 }
                 Token::Comma => {
-                    write!(self, span, ",");
+                    write_raw!(self, span, ",");
                 }
                 Token::Semi => {
-                    write!(self, span, ";");
+                    write_raw!(self, span, ";");
                 }
                 Token::LBrace => {
-                    write!(self, span, "{");
+                    write_raw!(self, span, "{");
                 }
                 Token::RBrace => {
-                    write!(self, span, "}");
+                    write_raw!(self, span, "}");
                 }
                 Token::Colon => {
-                    write!(self, span, ":");
+                    write_raw!(self, span, ":");
                 }
                 Token::Hash { raw, .. } => {
                     let mut hash = String::new();
@@ -1576,16 +1594,16 @@ where
                     hash.push('#');
                     hash.push_str(raw);
 
-                    write!(self, span, &hash);
+                    write_raw!(self, span, &hash);
                 }
                 Token::WhiteSpace { value, .. } => {
-                    write!(self, span, value);
+                    write_str!(self, span, value);
                 }
                 Token::CDC => {
-                    write!(self, span, "-->");
+                    write_raw!(self, span, "-->");
                 }
                 Token::CDO => {
-                    write!(self, span, "<!--");
+                    write_raw!(self, span, "<!--");
                 }
             }
         }
@@ -1594,7 +1612,7 @@ where
     #[emitter]
     fn emit_url(&mut self, n: &Url) -> Result {
         emit!(self, n.name);
-        write!(self, "(");
+        write_raw!(self, "(");
 
         if let Some(value) = &n.value {
             emit!(self, value);
@@ -1610,7 +1628,7 @@ where
             }
         }
 
-        write!(self, ")");
+        write_raw!(self, ")");
     }
 
     #[emitter]
@@ -1639,7 +1657,7 @@ where
             url.push_str(&n.after);
         }
 
-        write!(self, n.span, &url);
+        write_str!(self, n.span, &url);
     }
 
     #[emitter]
@@ -1663,7 +1681,7 @@ where
             value.push_str(end);
         }
 
-        write!(self, n.span, &value);
+        write_raw!(self, n.span, &value);
     }
 
     #[emitter]
@@ -1741,12 +1759,12 @@ where
 
     #[emitter]
     fn emit_combinator(&mut self, n: &Combinator) -> Result {
-        write!(self, n.span, n.value.as_str());
+        write_raw!(self, n.span, n.value.as_str());
     }
 
     #[emitter]
     fn emit_nesting_selector(&mut self, n: &NestingSelector) -> Result {
-        write!(self, n.span, "&");
+        write_raw!(self, n.span, "&");
     }
 
     #[emitter]
@@ -1779,13 +1797,13 @@ where
             emit!(self, prefix);
         }
 
-        write!(self, hi_span_offset!(n.span, 1), "*");
+        write_raw!(self, hi_span_offset!(n.span, 1), "*");
     }
 
     #[emitter]
     fn emit_ns_prefix(&mut self, n: &NsPrefix) -> Result {
         emit!(self, n.prefix);
-        write!(self, hi_span_offset!(n.span, 1), "|");
+        write_raw!(self, hi_span_offset!(n.span, 1), "|");
     }
 
     #[emitter]
@@ -1799,19 +1817,19 @@ where
 
     #[emitter]
     fn emit_id_selector(&mut self, n: &IdSelector) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "#");
+        write_raw!(self, lo_span_offset!(n.span, 1), "#");
         emit!(self, n.text);
     }
 
     #[emitter]
     fn emit_class_selector(&mut self, n: &ClassSelector) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), ".");
+        write_raw!(self, lo_span_offset!(n.span, 1), ".");
         emit!(self, n.text);
     }
 
     #[emitter]
     fn emit_attribute_selector(&mut self, n: &AttributeSelector) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), "[");
+        write_raw!(self, lo_span_offset!(n.span, 1), "[");
         emit!(self, n.name);
 
         if n.matcher.is_some() {
@@ -1833,12 +1851,12 @@ where
             }
         }
 
-        write!(self, hi_span_offset!(n.span, 1), "]");
+        write_raw!(self, hi_span_offset!(n.span, 1), "]");
     }
 
     #[emitter]
     fn emit_attribute_selector_matcher(&mut self, n: &AttributeSelectorMatcher) -> Result {
-        write!(self, n.span, n.value.as_str());
+        write_raw!(self, n.span, n.value.as_str());
     }
 
     #[emitter]
@@ -1885,7 +1903,7 @@ where
                 an_plus_b_minified.push_str(&b.to_string());
             }
 
-            write!(self, n.span, &an_plus_b_minified);
+            write_raw!(self, n.span, &an_plus_b_minified);
         } else {
             let mut an_plus_b = String::new();
 
@@ -1898,19 +1916,19 @@ where
                 an_plus_b.push_str(b_raw);
             }
 
-            write!(self, n.span, &an_plus_b);
+            write_raw!(self, n.span, &an_plus_b);
         }
     }
 
     #[emitter]
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), ":");
+        write_raw!(self, lo_span_offset!(n.span, 1), ":");
         emit!(self, n.name);
 
         if let Some(children) = &n.children {
-            write!(self, "(");
+            write_raw!(self, "(");
             self.emit_list_pseudo_class_selector_children(children)?;
-            write!(self, ")");
+            write_raw!(self, ")");
         }
     }
 
@@ -1956,14 +1974,14 @@ where
 
     #[emitter]
     fn emit_pseudo_element_selector(&mut self, n: &PseudoElementSelector) -> Result {
-        write!(self, lo_span_offset!(n.span, 1), ":");
-        write!(self, lo_span_offset!(n.span, 2), ":");
+        write_raw!(self, lo_span_offset!(n.span, 1), ":");
+        write_raw!(self, lo_span_offset!(n.span, 2), ":");
         emit!(self, n.name);
 
         if let Some(children) = &n.children {
-            write!(self, "(");
+            write_raw!(self, "(");
             self.emit_list_pseudo_element_selector_children(children)?;
-            write!(self, ")");
+            write_raw!(self, ")");
         }
     }
 
@@ -2025,17 +2043,17 @@ where
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
             ListFormat::CommaDelimited => {
-                write!(self, ",");
+                write_raw!(self, ",");
                 formatting_space!(self);
             }
             ListFormat::SpaceDelimited => {
                 space!(self)
             }
             ListFormat::SemiDelimited => {
-                write!(self, ";")
+                write_raw!(self, ";")
             }
             ListFormat::DotDelimited => {
-                write!(self, ".");
+                write_raw!(self, ".");
             }
             _ => unreachable!(),
         }

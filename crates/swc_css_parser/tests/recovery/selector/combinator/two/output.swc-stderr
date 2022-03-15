@@ -1,6 +1,6 @@
-error: Invalid selector
- --> $DIR/tests/recovery/selector/combinator/two/input.css:1:8
-  |
-1 | span ~ + {}
-  |        ^
 
+  x Invalid selector
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:2:1]
+ 2 | span ~ + {}
+   :        ^
+   `----

@@ -1,6 +1,6 @@
-error: Expected a semicolon
- --> $DIR/tests/test262-parser/fail/c91a41d48af2ef00.js:1:6
-  |
-1 | var a.b;
-  |      ^
 
+  x Expected a semicolon
+   ,-[$DIR/tests/test262-parser/fail/c91a41d48af2ef00.js:2:1]
+ 2 | var a.b;
+   :      ^
+   `----

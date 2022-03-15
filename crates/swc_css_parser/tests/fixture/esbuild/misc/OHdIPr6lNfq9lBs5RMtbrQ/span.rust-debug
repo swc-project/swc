@@ -1,66 +1,66 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1
-  |
-1 | @keyframes \61 bc { from {} }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1
-  |
-1 | @keyframes \61 bc { from {} }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:2:1]
+ 2 | @keyframes \61 bc { from {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1
-  |
-1 | @keyframes \61 bc { from {} }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:2:1]
+ 2 | @keyframes \61 bc { from {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: KeyframesRule
- --> $DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1
-  |
-1 | @keyframes \61 bc { from {} }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:2:1]
+ 2 | @keyframes \61 bc { from {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: CustomIdent
- --> $DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:12
-  |
-1 | @keyframes \61 bc { from {} }
-  |            ^^^^^^
+  x KeyframesRule
+   ,-[$DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:2:1]
+ 2 | @keyframes \61 bc { from {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:19
-  |
-1 | @keyframes \61 bc { from {} }
-  |                   ^^^^^^^^^^^
+  x CustomIdent
+   ,-[$DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:2:1]
+ 2 | @keyframes \61 bc { from {} }
+   :            ^^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:21
-  |
-1 | @keyframes \61 bc { from {} }
-  |                     ^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:2:1]
+ 2 | @keyframes \61 bc { from {} }
+   :                   ^^^^^^^^^^^
+   `----
 
-error: KeyframeBlock
- --> $DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:21
-  |
-1 | @keyframes \61 bc { from {} }
-  |                     ^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:2:1]
+ 2 | @keyframes \61 bc { from {} }
+   :                     ^^^^^^^
+   `----
 
-error: KeyframeSelector
- --> $DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:21
-  |
-1 | @keyframes \61 bc { from {} }
-  |                     ^^^^
+  x KeyframeBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:2:1]
+ 2 | @keyframes \61 bc { from {} }
+   :                     ^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:21
-  |
-1 | @keyframes \61 bc { from {} }
-  |                     ^^^^
+  x KeyframeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:2:1]
+ 2 | @keyframes \61 bc { from {} }
+   :                     ^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:26
-  |
-1 | @keyframes \61 bc { from {} }
-  |                          ^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:2:1]
+ 2 | @keyframes \61 bc { from {} }
+   :                     ^^^^
+   `----
 
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:2:1]
+ 2 | @keyframes \61 bc { from {} }
+   :                          ^^
+   `----

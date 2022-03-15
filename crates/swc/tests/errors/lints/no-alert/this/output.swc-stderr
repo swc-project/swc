@@ -1,18 +1,18 @@
-error: Unexpected alert
- 
-  |
-1 | this.alert();
-  | ^^^^^^^^^^^^
 
-error: Unexpected alert
-  
-   |
-33 |         this.alert();
-   |         ^^^^^^^^^^^^
+  x Unexpected alert
+   ,----
+ 2 | this.alert();
+   : ^^^^^^^^^^^^
+   `----
 
-error: Unexpected alert
-  
-   |
-48 |         this.alert();
-   |         ^^^^^^^^^^^^
+  x Unexpected alert
+    ,----
+ 34 | this.alert();
+    : ^^^^^^^^^^^^
+    `----
 
+  x Unexpected alert
+    ,----
+ 49 | this.alert();
+    : ^^^^^^^^^^^^
+    `----

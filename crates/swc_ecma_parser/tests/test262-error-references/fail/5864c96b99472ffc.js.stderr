@@ -1,6 +1,6 @@
-error: Invalid access to super
- --> $DIR/tests/test262-parser/fail/5864c96b99472ffc.js:1:22
-  |
-1 | function f() { (super)() }
-  |                      ^
 
+  x Invalid access to super
+   ,-[$DIR/tests/test262-parser/fail/5864c96b99472ffc.js:2:1]
+ 2 | function f() { (super)() }
+   :                      ^
+   `----

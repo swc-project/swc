@@ -1,0 +1,55 @@
+/*! something */
+@charset 'utf-8';
+@page :left {
+    margin: 2em;
+}
+@media screen and (foo: 1) {
+    .class {
+        color: red;
+    }
+}
+
+*.class element#id[attr] [attr|="asd"][attr=value i]:pseudo::pseudo ~ :not(a, b) + :nth-child(odd):nth-child(2n + 1),
+svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+:has(> img) {
+    color: green;
+    /*filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img.png',sizingMethod='scale') alpha(opacity=80);*/
+    /*width: expression(1 + 2);*/
+    background:
+    ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
+    url(path/to.png) url( 'path/test.svg' )
+    u+123-456 u+123???
+    rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+}
+
+@media (device-aspect-ratio: 16/9) {
+    *|span:before {
+        --custom1: { something !important };
+        --custom2: ([]) !important;
+        background: element(#id);
+    }
+}
+
+@supports (box-shadow: 1px 2px black !important) {
+    .rule {
+        box-shadow: var(--something, fallback);
+    }
+}
+
+.-a#-b:-c::-d[-e][*|-f] {
+    -foo: 123;
+}
+
+<!-- /* CDO/CDC */ -->
+@import 'foo' screen;
+@keyframes 'anim' {
+    from  { color: red }
+    50.1% { color: green; background: green }
+    100%  { ;color: blue;; }
+}
+
+edge\ .c\61ases {
+    --empty-var: ;
+    --bad-var:;
+    number: 0.1.2.3;
+}

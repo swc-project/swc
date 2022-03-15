@@ -1,6 +1,6 @@
-error: Unexpected eof
- --> $DIR/tests/jsx/errors/wrong-opening-tag-fragment/input.js:1:15
-  |
-1 | <something></>
-  |               ^
 
+  x Unexpected eof
+   ,-[$DIR/tests/jsx/errors/wrong-opening-tag-fragment/input.js:2:1]
+ 2 | <something></>
+   :               ^
+   `----

@@ -1,6 +1,6 @@
-error: Unexpected token `prop`. Expected target
- --> $DIR/tests/test262-parser/fail/0817f13d2237d8d2.js:1:5
-  |
-1 | new.prop
-  |     ^^^^
 
+  x Unexpected token `prop`. Expected target
+   ,-[$DIR/tests/test262-parser/fail/0817f13d2237d8d2.js:2:1]
+ 2 | new.prop
+   :     ^^^^
+   `----

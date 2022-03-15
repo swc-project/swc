@@ -1,12 +1,12 @@
-error: Expected a semicolon
- --> $DIR/tests/test262-parser/fail/d6b39890287ec55d.js:1:6
-  |
-1 | var a[0]=0;
-  |      ^
 
-error: Cannot assign to this
- --> $DIR/tests/test262-parser/fail/d6b39890287ec55d.js:1:7
-  |
-1 | var a[0]=0;
-  |       ^
+  x Expected a semicolon
+   ,-[$DIR/tests/test262-parser/fail/d6b39890287ec55d.js:2:1]
+ 2 | var a[0]=0;
+   :      ^
+   `----
 
+  x Cannot assign to this
+   ,-[$DIR/tests/test262-parser/fail/d6b39890287ec55d.js:2:1]
+ 2 | var a[0]=0;
+   :       ^
+   `----

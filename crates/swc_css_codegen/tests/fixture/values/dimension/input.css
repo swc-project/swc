@@ -8,3 +8,7 @@ div {
 .fpp {
     padding: __ident__px __ident__;
 }
+
+.class {
+    width: 0.00254cm;
+}

@@ -1,6 +1,6 @@
-error: Expected ident or percentage token
- --> $DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:2:2
-  |
-2 |     10 {
-  |     ^^
 
+  x Expected ident or percentage token
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:3:5]
+ 3 | 10 {
+   : ^^
+   `----

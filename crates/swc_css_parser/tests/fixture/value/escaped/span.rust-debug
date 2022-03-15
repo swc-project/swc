@@ -1,117 +1,112 @@
-error: Stylesheet
- --> $DIR/tests/fixture/value/escaped/input.css:1:1
-  |
-1 | / table {
-2 | |     color: \red;
-3 | | }
-  | |__^
 
-error: Rule
- --> $DIR/tests/fixture/value/escaped/input.css:1:1
-  |
-1 | / table {
-2 | |     color: \red;
-3 | | }
-  | |_^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
+ 2 | ,-> table {
+ 3 | |       color: \red;
+ 4 | `-> }
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/value/escaped/input.css:1:1
-  |
-1 | / table {
-2 | |     color: \red;
-3 | | }
-  | |_^
+  x Rule
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
+ 2 | ,-> table {
+ 3 | |       color: \red;
+ 4 | `-> }
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/value/escaped/input.css:1:1
-  |
-1 | table {
-  | ^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
+ 2 | ,-> table {
+ 3 | |       color: \red;
+ 4 | `-> }
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/value/escaped/input.css:1:1
-  |
-1 | table {
-  | ^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
+ 2 | table {
+   : ^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/value/escaped/input.css:1:1
-  |
-1 | table {
-  | ^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
+ 2 | table {
+   : ^^^^^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/value/escaped/input.css:1:1
-  |
-1 | table {
-  | ^^^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
+ 2 | table {
+   : ^^^^^
+   `----
 
-error: TagNameSelector
- --> $DIR/tests/fixture/value/escaped/input.css:1:1
-  |
-1 | table {
-  | ^^^^^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
+ 2 | table {
+   : ^^^^^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/value/escaped/input.css:1:1
-  |
-1 | table {
-  | ^^^^^
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
+ 2 | table {
+   : ^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/value/escaped/input.css:1:1
-  |
-1 | table {
-  | ^^^^^
+  x WqName
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
+ 2 | table {
+   : ^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/value/escaped/input.css:1:7
-  |
-1 |   table {
-  |  _______^
-2 | |     color: \red;
-3 | | }
-  | |_^
+  x Ident
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
+ 2 | table {
+   : ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/value/escaped/input.css:2:5
-  |
-2 |     color: \red;
-  |     ^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
+ 2 | ,-> table {
+ 3 | |       color: \red;
+ 4 | `-> }
+   `----
 
-error: StyleBlock
- --> $DIR/tests/fixture/value/escaped/input.css:2:5
-  |
-2 |     color: \red;
-  |     ^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/escaped/input.css:3:5]
+ 3 | color: \red;
+   : ^^^^^^^^^^^
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/value/escaped/input.css:2:5
-  |
-2 |     color: \red;
-  |     ^^^^^^^^^^^
+  x StyleBlock
+   ,-[$DIR/tests/fixture/value/escaped/input.css:3:5]
+ 3 | color: \red;
+   : ^^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/value/escaped/input.css:2:5
-  |
-2 |     color: \red;
-  |     ^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/value/escaped/input.css:3:5]
+ 3 | color: \red;
+   : ^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/value/escaped/input.css:2:5
-  |
-2 |     color: \red;
-  |     ^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/escaped/input.css:3:5]
+ 3 | color: \red;
+   : ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/value/escaped/input.css:2:12
-  |
-2 |     color: \red;
-  |            ^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/value/escaped/input.css:3:5]
+ 3 | color: \red;
+   : ^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/value/escaped/input.css:2:12
-  |
-2 |     color: \red;
-  |            ^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/escaped/input.css:3:5]
+ 3 | color: \red;
+   :        ^^^^
+   `----
 
+  x Ident
+   ,-[$DIR/tests/fixture/value/escaped/input.css:3:5]
+ 3 | color: \red;
+   :        ^^^^
+   `----

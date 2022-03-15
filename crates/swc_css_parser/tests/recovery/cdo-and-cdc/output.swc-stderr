@@ -1,0 +1,12 @@
+
+  x Invalid selector
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:2:1]
+ 2 | <!-- 123 -->
+   :      ^
+   `----
+
+  x Expected whitespace, semicolon, EOF, at-keyword or ident token
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:6:1]
+ 6 | <!--
+   : ^^^^
+   `----

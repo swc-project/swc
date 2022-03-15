@@ -1,6 +1,6 @@
-error: Expected '(', got 'x'
- --> $DIR/tests/typescript-errors/class/get-set-asi-issue-2/input.ts:3:10
-  |
-3 |   static x() { return 0 }
-  |          ^
 
+  x Expected '(', got 'x'
+   ,-[$DIR/tests/typescript-errors/class/get-set-asi-issue-2/input.ts:4:3]
+ 4 | static x() { return 0 }
+   :        ^
+   `----

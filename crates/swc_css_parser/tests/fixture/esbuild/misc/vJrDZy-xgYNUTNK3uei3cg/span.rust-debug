@@ -1,66 +1,66 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:1
-  |
-1 | [b]{}
-  | ^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:1
-  |
-1 | [b]{}
-  | ^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:2:1]
+ 2 | [b]{}
+   : ^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:1
-  |
-1 | [b]{}
-  | ^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:2:1]
+ 2 | [b]{}
+   : ^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:1
-  |
-1 | [b]{}
-  | ^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:2:1]
+ 2 | [b]{}
+   : ^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:1
-  |
-1 | [b]{}
-  | ^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:2:1]
+ 2 | [b]{}
+   : ^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:1
-  |
-1 | [b]{}
-  | ^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:2:1]
+ 2 | [b]{}
+   : ^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:1
-  |
-1 | [b]{}
-  | ^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:2:1]
+ 2 | [b]{}
+   : ^^^
+   `----
 
-error: AttributeSelector
- --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:1
-  |
-1 | [b]{}
-  | ^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:2:1]
+ 2 | [b]{}
+   : ^^^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:2
-  |
-1 | [b]{}
-  |  ^
+  x AttributeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:2:1]
+ 2 | [b]{}
+   : ^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:2
-  |
-1 | [b]{}
-  |  ^
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:2:1]
+ 2 | [b]{}
+   :  ^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:1:4
-  |
-1 | [b]{}
-  |    ^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:2:1]
+ 2 | [b]{}
+   :  ^
+   `----
 
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/vJrDZy-xgYNUTNK3uei3cg/input.css:2:1]
+ 2 | [b]{}
+   :    ^^
+   `----

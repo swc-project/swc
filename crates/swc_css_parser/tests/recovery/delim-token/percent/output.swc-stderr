@@ -1,6 +1,6 @@
-error: Expected Declaration value
- --> $DIR/tests/recovery/delim-token/percent/input.css:2:11
-  |
-2 |     prop: %;
-  |           ^
 
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/delim-token/percent/input.css:3:5]
+ 3 | prop: %;
+   :       ^
+   `----

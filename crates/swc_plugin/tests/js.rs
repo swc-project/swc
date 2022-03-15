@@ -1,4 +1,4 @@
-//! Ensure that wrong macro definitions are catched by swc monorepo.
+//! Ensure that wrong macro definitions are caught by swc monorepo.
 
 use swc_ecma_visit::Fold;
 

@@ -1,72 +1,72 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1
-  |
-1 | @import url("foo.css") print;
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1
-  |
-1 | @import url("foo.css") print;
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1
-  |
-1 | @import url("foo.css") print;
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ImportRule
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1
-  |
-1 | @import url("foo.css") print;
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ImportHref
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:9
-  |
-1 | @import url("foo.css") print;
-  |         ^^^^^^^^^^^^^^
+  x ImportRule
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Url
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:9
-  |
-1 | @import url("foo.css") print;
-  |         ^^^^^^^^^^^^^^
+  x ImportHref
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   :         ^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:9
-  |
-1 | @import url("foo.css") print;
-  |         ^^^
+  x Url
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   :         ^^^^^^^^^^^^^^
+   `----
 
-error: UrlValue
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:13
-  |
-1 | @import url("foo.css") print;
-  |             ^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   :         ^^^
+   `----
 
-error: Str
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:13
-  |
-1 | @import url("foo.css") print;
-  |             ^^^^^^^^^
+  x UrlValue
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   :             ^^^^^^^^^
+   `----
 
-error: MediaQueryList
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:24
-  |
-1 | @import url("foo.css") print;
-  |                        ^^^^^
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   :             ^^^^^^^^^
+   `----
 
-error: MediaQuery
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:24
-  |
-1 | @import url("foo.css") print;
-  |                        ^^^^^
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   :                        ^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:24
-  |
-1 | @import url("foo.css") print;
-  |                        ^^^^^
+  x MediaQuery
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   :                        ^^^^^
+   `----
 
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:2:1]
+ 2 | @import url("foo.css") print;
+   :                        ^^^^^
+   `----

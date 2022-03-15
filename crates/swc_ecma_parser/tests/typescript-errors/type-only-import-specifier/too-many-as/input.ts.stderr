@@ -1,6 +1,6 @@
-error: Expected ',', got 'as'
- --> $DIR/tests/typescript-errors/type-only-import-specifier/too-many-as/input.ts:1:24
-  |
-1 | import { type as as as as } from 'mod'
-  |                        ^^
 
+  x Expected ',', got 'as'
+   ,-[$DIR/tests/typescript-errors/type-only-import-specifier/too-many-as/input.ts:2:1]
+ 2 | import { type as as as as } from 'mod'
+   :                        ^^
+   `----

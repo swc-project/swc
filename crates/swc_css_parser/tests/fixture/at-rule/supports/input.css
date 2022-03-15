@@ -118,3 +118,20 @@
       color: red
     }
 }
+
+@supports (animation-name: test) {
+    @-custom-keyframe anim {
+        from {
+            color: black;
+        }
+        to {
+            color: white
+        }
+    }
+}
+
+@supports selector(:focus-visible) {
+    a:focus-visible {
+        background: yellow;
+    }
+}

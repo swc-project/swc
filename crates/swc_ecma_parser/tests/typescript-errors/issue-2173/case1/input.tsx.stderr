@@ -1,6 +1,6 @@
-error: Unexpected token `HeaderAction`. Expected jsx identifier
- --> $DIR/tests/typescript-errors/issue-2173/case1/input.tsx:3:14
-  |
-3 |         ...(<HeaderAction>getCurrentAction()),
-  |              ^^^^^^^^^^^^
 
+  x Unexpected token `HeaderAction`. Expected jsx identifier
+   ,-[$DIR/tests/typescript-errors/issue-2173/case1/input.tsx:4:9]
+ 4 | ...(<HeaderAction>getCurrentAction()),
+   :      ^^^^^^^^^^^^
+   `----

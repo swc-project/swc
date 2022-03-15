@@ -1,2 +1,6 @@
-error: Unexpected end of file
 
+  x Unexpected end of file
+   ,-[$DIR/tests/recovery/value/number/eof/input.css:2:1]
+ 2 | a {
+   : ^
+   `----

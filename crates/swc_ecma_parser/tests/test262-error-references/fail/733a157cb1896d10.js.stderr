@@ -1,6 +1,6 @@
-error: Invalid access to super
- --> $DIR/tests/test262-parser/fail/733a157cb1896d10.js:3:15
-  |
-3 |         (super)();
-  |               ^
 
+  x Invalid access to super
+   ,-[$DIR/tests/test262-parser/fail/733a157cb1896d10.js:4:9]
+ 4 | (super)();
+   :       ^
+   `----

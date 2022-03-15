@@ -1,6 +1,6 @@
-error: Expected function or '(' token
- --> $DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:11
-  |
-1 | @supports display: flex {}
-  |           ^^^^^^^
 
+  x Expected function or '(' token
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:2:1]
+ 2 | @supports display: flex {}
+   :           ^^^^^^^
+   `----

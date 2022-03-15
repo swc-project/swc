@@ -1,6 +1,6 @@
-error: Expected number, ident or dimension token
- --> $DIR/tests/recovery/at-rule/media/feature-name-2/input.css:1:9
-  |
-1 | @media ("string") {}
-  |         ^^^^^^^^
 
+  x Expected number, ident or dimension token
+   ,-[$DIR/tests/recovery/at-rule/media/feature-name-2/input.css:2:1]
+ 2 | @media ("string") {}
+   :         ^^^^^^^^
+   `----

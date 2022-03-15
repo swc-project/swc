@@ -16,3 +16,147 @@ div {
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
             0 2px 4px -2px var(--tw-shadow-color);
 }
+* {
+  --x: ;
+}
+* {
+  --x: ;
+}
+* {
+  --x: ;
+}
+* {
+  --x: ;
+}
+* {
+  --x: !important;
+}
+* {
+  --x: !important;
+}
+* {
+  --x: !important;
+}
+* {
+  --x: !important;
+}
+* {
+  --x: !important;
+}
+* {
+  --x: !important;
+}
+* {
+  --x: !important;
+}
+* {
+  --x: !important;
+}
+* {
+  --x: y;
+}
+* {
+  --x: y;
+}
+* {
+  --x: y ;
+}
+* {
+  --x: y, ;
+}
+* {
+  --x: var(y,);
+}
+* {
+  --x: var(y, );
+}
+* {
+  --x: (y);
+}
+* {
+  --x: (y) ;
+}
+* {
+  --x: (y);
+}
+* {
+  --x: (y );
+}
+* {
+  --x: ( y);
+}
+* {
+  --x: f(y);
+}
+* {
+  --x: f(y) ;
+}
+* {
+  --x: f(y);
+}
+* {
+  --x: f(y );
+}
+* {
+  --x: f( y);
+}
+* {
+  --x: [y];
+}
+* {
+  --x: [y] ;
+}
+* {
+  --x: [y];
+}
+* {
+  --x: [y ];
+}
+* {
+  --x: [ y];
+}
+* {
+  --x: {y};
+}
+* {
+  --x: {y} ;
+}
+* {
+  --x: {y};
+}
+* {
+  --x: {y };
+}
+* {
+  --x: { y};
+}
+@supports (--x: y , z ) {
+  a {
+    color: red;
+  }
+}
+@supports (--x: ) {
+  a {
+    color: red;
+  }
+}
+@supports (--x: ) {
+  a {
+    color: red;
+  }
+}
+@supports ( --x ) {
+  a {
+    color: red;
+  }
+}
+@supports ( ) {
+  a {
+    color: red;
+  }
+}
+@supports ( . --x : y , z ) {
+  a {
+    color: red;
+  }
+}

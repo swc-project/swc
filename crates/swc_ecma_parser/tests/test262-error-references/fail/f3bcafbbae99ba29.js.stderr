@@ -1,6 +1,6 @@
-error: Unexpected token `}`. Expected identifier
- --> $DIR/tests/test262-parser/fail/f3bcafbbae99ba29.js:1:7
-  |
-1 | ({ 42 }) = obj
-  |       ^
 
+  x Unexpected token `}`. Expected identifier
+   ,-[$DIR/tests/test262-parser/fail/f3bcafbbae99ba29.js:2:1]
+ 2 | ({ 42 }) = obj
+   :       ^
+   `----

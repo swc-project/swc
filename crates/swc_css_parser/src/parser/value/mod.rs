@@ -325,11 +325,38 @@ where
 
                 let mut is_legacy_syntax = true;
 
+                match cur!(self) {
+                    Token::Ident { value, .. } if &*value.to_lowercase() == "from" => {
+                        is_legacy_syntax = false;
+
+                        values.push(ComponentValue::Ident(self.parse()?));
+
+                        self.input.skip_ws()?;
+
+                        let color = match cur!(self) {
+                            Token::Function { value, .. }
+                                if matches!(&*value.to_lowercase(), "var" | "env") =>
+                            {
+                                ComponentValue::Function(self.parse()?)
+                            }
+                            _ => ComponentValue::Color(self.parse()?),
+                        };
+
+                        values.push(color);
+
+                        self.input.skip_ws()?;
+                    }
+                    _ => {}
+                }
+
                 match function_name {
                     "rgb" | "rgba" => {
                         let percentage_or_number_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
                             tok!("number") => ComponentValue::Number(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 is_legacy_syntax = false;
 
@@ -350,7 +377,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage, number or ident (with 'none' value) token",
+                                        "percentage, number, function (math functions) or ident \
+                                         (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -375,13 +403,17 @@ where
 
                                 ComponentValue::Ident(ident)
                             }
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             _ => {
                                 let span = self.input.cur_span()?;
 
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "number, dimension or ident (with 'none' value) token",
+                                        "number, dimension, function (math functions) or ident \
+                                         (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -417,6 +449,9 @@ where
                         let percentage_or_number = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
                             tok!("number") => ComponentValue::Number(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") if !is_legacy_syntax => {
                                 let ident: Ident = self.parse()?;
 
@@ -435,7 +470,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage, number or ident (with 'none' value) token",
+                                        "percentage, number, function (math functions) or ident \
+                                         (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -446,6 +482,9 @@ where
                     "hsl" | "hsla" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
 
@@ -464,7 +503,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "percentage, function (math functions) or ident (with \
+                                         'none' value) token",
                                     ),
                                 ));
                             }
@@ -499,6 +539,9 @@ where
                         let percentage_or_number = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
                             tok!("number") => ComponentValue::Number(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") if !is_legacy_syntax => {
                                 let ident: Ident = self.parse()?;
 
@@ -517,7 +560,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage, number or ident (with 'none' value) token",
+                                        "percentage, number, function (math functions) or ident \
+                                         (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -528,6 +572,9 @@ where
                     "hsl" | "hsla" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
 
@@ -546,7 +593,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "percentage, function (math functions) or ident (with \
+                                         'none' value) token",
                                     ),
                                 ));
                             }
@@ -570,12 +618,17 @@ where
                         tok!("number") | tok!("percentage") => {
                             ComponentValue::AlphaValue(self.parse()?)
                         }
+                        Token::Function { value, .. } if is_math_function(value) => {
+                            ComponentValue::Function(self.parse()?)
+                        }
                         _ => {
                             let span = self.input.cur_span()?;
 
                             return Err(Error::new(
                                 span,
-                                ErrorKind::Expected("percentage or number token"),
+                                ErrorKind::Expected(
+                                    "percentage, function (math functions) or number token",
+                                ),
                             ));
                         }
                     };
@@ -591,6 +644,9 @@ where
                     let alpha_value = match cur!(self) {
                         tok!("number") | tok!("percentage") => {
                             ComponentValue::AlphaValue(self.parse()?)
+                        }
+                        Token::Function { value, .. } if is_math_function(value) => {
+                            ComponentValue::Function(self.parse()?)
                         }
                         tok!("ident") => {
                             let ident: Ident = self.parse()?;
@@ -610,7 +666,8 @@ where
                             return Err(Error::new(
                                 span,
                                 ErrorKind::Expected(
-                                    "percentage, number or ident (with 'none' value) token",
+                                    "percentage, number, function (math functions) or ident (with \
+                                     'none' value) token",
                                 ),
                             ));
                         }
@@ -622,11 +679,40 @@ where
                 }
             }
             "hwb" | "lab" | "lch" | "oklab" | "oklch" | "device-cmyk" => {
+                self.input.skip_ws()?;
+
+                match cur!(self) {
+                    Token::Ident { value, .. }
+                        if &*value.to_lowercase() == "from" && function_name != "device-cmyk" =>
+                    {
+                        values.push(ComponentValue::Ident(self.parse()?));
+
+                        self.input.skip_ws()?;
+
+                        let color = match cur!(self) {
+                            Token::Function { value, .. }
+                                if matches!(&*value.to_lowercase(), "var" | "env") =>
+                            {
+                                ComponentValue::Function(self.parse()?)
+                            }
+                            _ => ComponentValue::Color(self.parse()?),
+                        };
+
+                        values.push(color);
+
+                        self.input.skip_ws()?;
+                    }
+                    _ => {}
+                }
+
                 match function_name {
                     "hwb" => {
                         let hue_or_none = match cur!(self) {
                             tok!("number") | tok!("dimension") => {
                                 ComponentValue::Hue(self.parse()?)
+                            }
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
@@ -646,7 +732,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "number, dimension or ident (with 'none' value) token",
+                                        "number, dimension, function (math functions) or ident \
+                                         (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -657,6 +744,9 @@ where
                     "lab" | "lch" | "oklab" | "oklch" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
 
@@ -675,7 +765,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "percentage, function (math functions) or ident (with \
+                                         'none' value) token",
                                     ),
                                 ));
                             }
@@ -699,6 +790,9 @@ where
                     "hwb" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
 
@@ -717,7 +811,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "percentage, functions (math functions) or ident (with \
+                                         'none' value) token",
                                     ),
                                 ));
                             }
@@ -728,6 +823,9 @@ where
                     "lab" | "lch" | "oklab" | "oklch" => {
                         let number_or_none = match cur!(self) {
                             tok!("number") => ComponentValue::Number(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
 
@@ -746,7 +844,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "number or ident (with 'none' value) token",
+                                        "number, functions (math functions) or ident (with 'none' \
+                                         value) token",
                                     ),
                                 ));
                             }
@@ -770,6 +869,9 @@ where
                     "hwb" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
 
@@ -788,7 +890,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "percentage or ident (with 'none' value) token",
+                                        "percentage, functions (math functions) or ident (with \
+                                         'none' value) token",
                                     ),
                                 ));
                             }
@@ -799,6 +902,9 @@ where
                     "lab" | "oklab" => {
                         let number_or_none = match cur!(self) {
                             tok!("number") => ComponentValue::Number(self.parse()?),
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
 
@@ -817,7 +923,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "number or ident (with 'none' value) token",
+                                        "number, function (math functions) or ident (with 'none' \
+                                         value) token",
                                     ),
                                 ));
                             }
@@ -830,6 +937,9 @@ where
                             tok!("number") | tok!("dimension") => {
                                 ComponentValue::Hue(self.parse()?)
                             }
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
+                            }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
 
@@ -848,7 +958,8 @@ where
                                 return Err(Error::new(
                                     span,
                                     ErrorKind::Expected(
-                                        "number, dimension or ident (with 'none' value) token",
+                                        "number, dimension, functions (math functions) or ident \
+                                         (with 'none' value) token",
                                     ),
                                 ));
                             }
@@ -885,6 +996,9 @@ where
                         tok!("number") | tok!("percentage") => {
                             ComponentValue::AlphaValue(self.parse()?)
                         }
+                        Token::Function { value, .. } if is_math_function(value) => {
+                            ComponentValue::Function(self.parse()?)
+                        }
                         tok!("ident") if !matches!(function_name, "device-cmyk") => {
                             let ident: Ident = self.parse()?;
 
@@ -903,7 +1017,8 @@ where
                             return Err(Error::new(
                                 span,
                                 ErrorKind::Expected(
-                                    "percentage, number or ident (with 'none' value) token",
+                                    "percentage, number, functions (math) functions or ident \
+                                     (with 'none' value) token",
                                 ),
                             ));
                         }
@@ -916,6 +1031,28 @@ where
             }
             "color" => {
                 self.input.skip_ws()?;
+
+                match cur!(self) {
+                    Token::Ident { value, .. } if &*value.to_lowercase() == "from" => {
+                        values.push(ComponentValue::Ident(self.parse()?));
+
+                        self.input.skip_ws()?;
+
+                        let color = match cur!(self) {
+                            Token::Function { value, .. }
+                                if matches!(&*value.to_lowercase(), "var" | "env") =>
+                            {
+                                ComponentValue::Function(self.parse()?)
+                            }
+                            _ => ComponentValue::Color(self.parse()?),
+                        };
+
+                        values.push(color);
+
+                        self.input.skip_ws()?;
+                    }
+                    _ => {}
+                }
 
                 let mut is_custom_params = false;
                 let mut is_xyz = false;
@@ -954,6 +1091,9 @@ where
                 let number_or_percentage_or_none = match cur!(self) {
                     tok!("number") => ComponentValue::Number(self.parse()?),
                     tok!("percentage") if !is_xyz => ComponentValue::Percentage(self.parse()?),
+                    Token::Function { value, .. } if is_math_function(value) => {
+                        ComponentValue::Function(self.parse()?)
+                    }
                     tok!("ident") => {
                         let ident: Ident = self.parse()?;
 
@@ -971,7 +1111,10 @@ where
 
                         return Err(Error::new(
                             span,
-                            ErrorKind::Expected("percentage or ident (with 'none' value) token"),
+                            ErrorKind::Expected(
+                                "percentage, function (math functions) or ident (with 'none' \
+                                 value) token",
+                            ),
                         ));
                     }
                 };
@@ -986,6 +1129,9 @@ where
                             tok!("number") => ComponentValue::Number(self.parse()?),
                             tok!("percentage") if !is_xyz => {
                                 ComponentValue::Percentage(self.parse()?)
+                            }
+                            Token::Function { value, .. } if is_math_function(value) => {
+                                ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
@@ -1012,6 +1158,9 @@ where
                     let number_or_percentage_or_none = match cur!(self) {
                         tok!("number") => ComponentValue::Number(self.parse()?),
                         tok!("percentage") if !is_xyz => ComponentValue::Percentage(self.parse()?),
+                        Token::Function { value, .. } if is_math_function(value) => {
+                            ComponentValue::Function(self.parse()?)
+                        }
                         tok!("ident") => {
                             let ident: Ident = self.parse()?;
 
@@ -1030,7 +1179,8 @@ where
                             return Err(Error::new(
                                 span,
                                 ErrorKind::Expected(
-                                    "percentage or ident (with 'none' value) token",
+                                    "percentage, function (math functions) or ident (with 'none' \
+                                     value) token",
                                 ),
                             ));
                         }
@@ -1055,13 +1205,17 @@ where
 
                             ComponentValue::Ident(ident)
                         }
+                        Token::Function { value, .. } if is_math_function(value) => {
+                            ComponentValue::Function(self.parse()?)
+                        }
                         _ => {
                             let span = self.input.cur_span()?;
 
                             return Err(Error::new(
                                 span,
                                 ErrorKind::Expected(
-                                    "percentage or ident (with 'none' value) token",
+                                    "percentage, function (math functions) or ident (with 'none' \
+                                     value) token",
                                 ),
                             ));
                         }
@@ -1081,6 +1235,9 @@ where
                         tok!("number") | tok!("percentage") => {
                             ComponentValue::AlphaValue(self.parse()?)
                         }
+                        Token::Function { value, .. } if is_math_function(value) => {
+                            ComponentValue::Function(self.parse()?)
+                        }
                         tok!("ident") if !matches!(function_name, "device-cmyk") => {
                             let ident: Ident = self.parse()?;
 
@@ -1099,7 +1256,8 @@ where
                             return Err(Error::new(
                                 span,
                                 ErrorKind::Expected(
-                                    "percentage, number or ident (with 'none' value) token",
+                                    "percentage, number, function (math functions) or ident (with \
+                                     'none' value) token",
                                 ),
                             ));
                         }
@@ -1745,18 +1903,67 @@ where
     fn parse(&mut self) -> PResult<Color> {
         let span = self.input.cur_span()?;
 
-        if !is_one_of!(self, "#", "function") {
-            return Err(Error::new(
-                span,
-                ErrorKind::Expected("hash or function token"),
-            ));
+        match cur!(self) {
+            // currentcolor | <system-color>
+            Token::Ident { value, .. }
+                if value.as_ref().eq_ignore_ascii_case("currentcolor")
+                    || is_system_color(value) =>
+            {
+                Ok(Color::CurrentColorOrSystemColor(self.parse()?))
+            }
+            // <device-cmyk()>
+            Token::Function { value, .. } if value.as_ref().eq_ignore_ascii_case("device-cmyk") => {
+                Ok(Color::Function(self.parse()?))
+            }
+            // <absolute-color-base>
+            _ => match self.parse() {
+                Ok(absolute_color_base) => Ok(Color::AbsoluteColorBase(absolute_color_base)),
+                Err(_) => {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected(
+                            "hash, ident (with named color, system color, 'transparent' or \
+                             'currentColor' value) or function (with color function name) token",
+                        ),
+                    ));
+                }
+            },
         }
+    }
+}
+
+impl<I> Parse<AbsoluteColorBase> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<AbsoluteColorBase> {
+        let span = self.input.cur_span()?;
 
         match cur!(self) {
-            tok!("#") => Ok(Color::HexColor(self.parse()?)),
-            tok!("function") => Ok(Color::Function(self.parse()?)),
+            tok!("#") => Ok(AbsoluteColorBase::HexColor(self.parse()?)),
+            Token::Ident { value, .. } => {
+                if !(is_named_color(value) || value.as_ref().eq_ignore_ascii_case("transparent")) {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("known named color or 'transparent' keyword"),
+                    ));
+                }
+
+                Ok(AbsoluteColorBase::NamedColorOrTransparent(self.parse()?))
+            }
+            Token::Function { value, .. } if is_absolute_color_base_function(value) => {
+                Ok(AbsoluteColorBase::Function(self.parse()?))
+            }
             _ => {
-                unreachable!()
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected(
+                        "hash, ident (with named color or 'transparent' value) or function (with \
+                         color function name) token",
+                    ),
+                ));
             }
         }
     }
@@ -1835,18 +2042,27 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CmykComponent> {
-        if !is_one_of!(self, "number", "percentage") {
+        if !is_one_of!(self, "number", "percentage", "function") {
             let span = self.input.cur_span()?;
 
             return Err(Error::new(
                 span,
-                ErrorKind::Expected("number or percentage token"),
+                ErrorKind::Expected("number, function or percentage token"),
             ));
         }
 
         match cur!(self) {
             tok!("number") => Ok(CmykComponent::Number(self.parse()?)),
             tok!("percentage") => Ok(CmykComponent::Percentage(self.parse()?)),
+            Token::Function { value, .. } => {
+                if !is_math_function(value) {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("math function token")));
+                }
+
+                Ok(CmykComponent::Function(self.parse()?))
+            }
             _ => {
                 unreachable!()
             }
@@ -1910,7 +2126,10 @@ where
         let span = self.input.cur_span()?;
 
         if !is_one_of!(self, Url, Function) {
-            return Err(Error::new(span, ErrorKind::Expected("url or function")));
+            return Err(Error::new(
+                span,
+                ErrorKind::Expected("url or function (with 'url' or 'src' name) token"),
+            ));
         }
 
         match bump!(self) {
@@ -1958,7 +2177,10 @@ where
                 if &*function_name.to_ascii_lowercase() != "url"
                     && &*function_name.to_ascii_lowercase() != "src"
                 {
-                    return Err(Error::new(span, ErrorKind::Expected("'url' or 'src' name")));
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("'url' or 'src' name of a function token"),
+                    ));
                 }
 
                 let name = Ident {
@@ -2699,6 +2921,295 @@ where
             }
         }
     }
+}
+
+fn is_math_function(name: &str) -> bool {
+    matches!(
+        &*name.to_ascii_lowercase(),
+        "calc"
+            | "sin"
+            | "cos"
+            | "tan"
+            | "asin"
+            | "acos"
+            | "atan"
+            | "sqrt"
+            | "exp"
+            | "abs"
+            | "sign"
+            | "min"
+            | "max"
+            | "hypot"
+            | "clamp"
+            | "round"
+            | "mod"
+            | "rem"
+            | "atan2"
+            | "pow"
+            | "log"
+    )
+}
+
+fn is_absolute_color_base_function(name: &str) -> bool {
+    matches!(
+        &*name.to_ascii_lowercase(),
+        "rgb"
+            | "rgba"
+            | "hsl"
+            | "hsla"
+            | "hwb"
+            | "lab"
+            | "lch"
+            | "oklab"
+            | "oklch"
+            | "color"
+            | "color-mix"
+            | "color-contrast"
+    )
+}
+
+fn is_system_color(name: &str) -> bool {
+    matches!(
+        &*name.to_ascii_lowercase(),
+        "canvas"
+            | "canvastext"
+            | "linktext"
+            | "visitedtext"
+            | "activetext"
+            | "buttonface"
+            | "buttontext"
+            | "buttonborder"
+            | "field"
+            | "fieldtext"
+            | "highlight"
+            | "highlighttext"
+            | "selecteditem"
+            | "selecteditemtext"
+            | "mark"
+            | "marktext"
+            | "graytext"
+            // Deprecated
+            | "activeborder"
+            | "activecaption"
+            | "appWorkspace"
+            | "background"
+            | "buttonhighlight"
+            | "buttonshadow"
+            | "captiontext"
+            | "inactiveborder"
+            | "inactivecaption"
+            | "inactivecaptiontext"
+            | "infobackground"
+            | "infotext"
+            | "menu"
+            | "menutext"
+            | "scrollbar"
+            | "threeddarkshadow"
+            | "threedface"
+            | "threedhighlight"
+            | "threedlightshadow"
+            | "threedshadow"
+            | "window"
+            | "windowframe"
+            | "windowtext"
+            // Mozilla System Color Extensions
+            | "-moz-buttondefault"
+            | "-moz-buttonhoverface"
+            | "-moz-buttonhovertext"
+            | "-moz-cellhighlight"
+            | "-moz-cellhighlighttext"
+            | "-moz-combobox"
+            | "-moz-comboboxtext"
+            | "-moz-dialog"
+            | "-moz-dialogtext"
+            | "-moz-dragtargetzone"
+            | "-moz-eventreerow"
+            | "-moz-html-cellhighlight"
+            | "-moz-html-cellhighlighttext"
+            | "-moz-mac-accentdarkestshadow"
+            | "-moz-mac-accentdarkshadow"
+            | "-moz-mac-accentface"
+            | "-moz-mac-accentlightesthighlight"
+            | "-moz-mac-accentlightshadow"
+            | "-moz-mac-accentregularhighlight"
+            | "-moz-mac-accentregularshadow"
+            | "-moz-mac-chrome-active"
+            | "-moz-mac-chrome-inactive"
+            | "-moz-mac-focusring"
+            | "-moz-mac-menuselect"
+            | "-moz-mac-menushadow"
+            | "-moz-mac-menutextselect"
+            | "-moz-menuhover"
+            | "-moz-menuhovertext"
+            | "-moz-menubartext"
+            | "-moz-menubarhovertext"
+            | "-moz-nativehyperlinktext"
+            | "-moz-oddtreerow"
+            | "-moz-win-communicationstext"
+            | "-moz-win-mediatext"
+            | "-moz-win-accentcolor"
+            | "-moz-win-accentcolortext"
+            // Mozilla Color Preference Extensions
+            | "-moz-activehyperlinktext"
+            | "-moz-default-background-color"
+            | "-moz-default-color"
+            | "-moz-hyperlinktext"
+            | "-moz-visitedhyperlinktext"
+    )
+}
+
+fn is_named_color(name: &str) -> bool {
+    matches!(
+        &*name.to_ascii_lowercase(),
+        "aliceblue"
+            | "antiquewhite"
+            | "aqua"
+            | "aquamarine"
+            | "azure"
+            | "beige"
+            | "bisque"
+            | "black"
+            | "blanchedalmond"
+            | "blue"
+            | "blueviolet"
+            | "brown"
+            | "burlywood"
+            | "cadetblue"
+            | "chartreuse"
+            | "chocolate"
+            | "coral"
+            | "cornflowerblue"
+            | "cornsilk"
+            | "crimson"
+            | "cyan"
+            | "darkblue"
+            | "darkcyan"
+            | "darkgoldenrod"
+            | "darkgray"
+            | "darkgreen"
+            | "darkgrey"
+            | "darkkhaki"
+            | "darkmagenta"
+            | "darkolivegreen"
+            | "darkorange"
+            | "darkorchid"
+            | "darkred"
+            | "darksalmon"
+            | "darkseagreen"
+            | "darkslateblue"
+            | "darkslategray"
+            | "darkslategrey"
+            | "darkturquoise"
+            | "darkviolet"
+            | "deeppink"
+            | "deepskyblue"
+            | "dimgray"
+            | "dimgrey"
+            | "dodgerblue"
+            | "firebrick"
+            | "floralwhite"
+            | "forestgreen"
+            | "fuchsia"
+            | "gainsboro"
+            | "ghostwhite"
+            | "gold"
+            | "goldenrod"
+            | "gray"
+            | "green"
+            | "greenyellow"
+            | "grey"
+            | "honeydew"
+            | "hotpink"
+            | "indianred"
+            | "indigo"
+            | "ivory"
+            | "khaki"
+            | "lavender"
+            | "lavenderblush"
+            | "lawngreen"
+            | "lemonchiffon"
+            | "lightblue"
+            | "lightcoral"
+            | "lightcyan"
+            | "lightgoldenrodyellow"
+            | "lightgray"
+            | "lightgreen"
+            | "lightgrey"
+            | "lightpink"
+            | "lightsalmon"
+            | "lightseagreen"
+            | "lightskyblue"
+            | "lightslategray"
+            | "lightslategrey"
+            | "lightsteelblue"
+            | "lightyellow"
+            | "lime"
+            | "limegreen"
+            | "linen"
+            | "magenta"
+            | "maroon"
+            | "mediumaquamarine"
+            | "mediumblue"
+            | "mediumorchid"
+            | "mediumpurple"
+            | "mediumseagreen"
+            | "mediumslateblue"
+            | "mediumspringgreen"
+            | "mediumturquoise"
+            | "mediumvioletred"
+            | "midnightblue"
+            | "mintcream"
+            | "mistyrose"
+            | "moccasin"
+            | "navajowhite"
+            | "navy"
+            | "oldlace"
+            | "olive"
+            | "olivedrab"
+            | "orange"
+            | "orangered"
+            | "orchid"
+            | "palegoldenrod"
+            | "palegreen"
+            | "paleturquoise"
+            | "palevioletred"
+            | "papayawhip"
+            | "peachpuff"
+            | "peru"
+            | "pink"
+            | "plum"
+            | "powderblue"
+            | "purple"
+            | "rebeccapurple"
+            | "red"
+            | "rosybrown"
+            | "royalblue"
+            | "saddlebrown"
+            | "salmon"
+            | "sandybrown"
+            | "seagreen"
+            | "seashell"
+            | "sienna"
+            | "silver"
+            | "skyblue"
+            | "slateblue"
+            | "slategray"
+            | "slategrey"
+            | "snow"
+            | "springgreen"
+            | "steelblue"
+            | "tan"
+            | "teal"
+            | "thistle"
+            | "tomato"
+            | "turquoise"
+            | "violet"
+            | "wheat"
+            | "white"
+            | "whitesmoke"
+            | "yellow"
+            | "yellowgreen"
+    )
 }
 
 fn is_length_unit(unit: &str) -> bool {

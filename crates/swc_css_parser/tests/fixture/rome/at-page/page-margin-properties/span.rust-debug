@@ -1,130 +1,116 @@
-error: Stylesheet
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:1:1
-  |
-1 | / @page {
-2 | |     @top-center {
-3 | |         display: none;
-4 | |     }
-5 | | }
-6 | |
-  | |_^
 
-error: Rule
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:1:1
-  |
-1 | / @page {
-2 | |     @top-center {
-3 | |         display: none;
-4 | |     }
-5 | | }
-  | |_^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:1]
+ 2 | ,-> @page {
+ 3 | |   	@top-center {
+ 4 | |   		display: none;
+ 5 | |   	}
+ 6 | |   }
+ 7 | `-> 
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:1:1
-  |
-1 | / @page {
-2 | |     @top-center {
-3 | |         display: none;
-4 | |     }
-5 | | }
-  | |_^
+  x Rule
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:1]
+ 2 | ,-> @page {
+ 3 | |   	@top-center {
+ 4 | |   		display: none;
+ 5 | |   	}
+ 6 | `-> }
+   `----
 
-error: PageRule
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:1:1
-  |
-1 | / @page {
-2 | |     @top-center {
-3 | |         display: none;
-4 | |     }
-5 | | }
-  | |_^
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:1]
+ 2 | ,-> @page {
+ 3 | |   	@top-center {
+ 4 | |   		display: none;
+ 5 | |   	}
+ 6 | `-> }
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:1:7
-  |
-1 |   @page {
-  |  _______^
-2 | |     @top-center {
-3 | |         display: none;
-4 | |     }
-5 | | }
-  | |_^
+  x PageRule
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:1]
+ 2 | ,-> @page {
+ 3 | |   	@top-center {
+ 4 | |   		display: none;
+ 5 | |   	}
+ 6 | `-> }
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
-  |
-2 |       @top-center {
-  |  _____^
-3 | |         display: none;
-4 | |     }
-  | |_____^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:1]
+ 2 | ,-> @page {
+ 3 | |   	@top-center {
+ 4 | |   		display: none;
+ 5 | |   	}
+ 6 | `-> }
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
-  |
-2 |       @top-center {
-  |  _____^
-3 | |         display: none;
-4 | |     }
-  | |_____^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:5]
+ 3 | ,-> @top-center {
+ 4 | |   		display: none;
+ 5 | `-> 	}
+   `----
 
-error: PageMarginRule
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:2
-  |
-2 |       @top-center {
-  |  _____^
-3 | |         display: none;
-4 | |     }
-  | |_____^
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:5]
+ 3 | ,-> @top-center {
+ 4 | |   		display: none;
+ 5 | `-> 	}
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:3
-  |
-2 |     @top-center {
-  |      ^^^^^^^^^^
+  x PageMarginRule
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:5]
+ 3 | ,-> @top-center {
+ 4 | |   		display: none;
+ 5 | `-> 	}
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:14
-  |
-2 |       @top-center {
-  |  _________________^
-3 | |         display: none;
-4 | |     }
-  | |_____^
+  x Ident
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:5]
+ 3 | @top-center {
+   :  ^^^^^^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:3
-  |
-3 |         display: none;
-  |         ^^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:5]
+ 3 | ,-> @top-center {
+ 4 | |   		display: none;
+ 5 | `-> 	}
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:3
-  |
-3 |         display: none;
-  |         ^^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:4:9]
+ 4 | display: none;
+   : ^^^^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:3
-  |
-3 |         display: none;
-  |         ^^^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:4:9]
+ 4 | display: none;
+   : ^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:3
-  |
-3 |         display: none;
-  |         ^^^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:4:9]
+ 4 | display: none;
+   : ^^^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:12
-  |
-3 |         display: none;
-  |                  ^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:4:9]
+ 4 | display: none;
+   : ^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:3:12
-  |
-3 |         display: none;
-  |                  ^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:4:9]
+ 4 | display: none;
+   :          ^^^^
+   `----
 
+  x Ident
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:4:9]
+ 4 | display: none;
+   :          ^^^^
+   `----

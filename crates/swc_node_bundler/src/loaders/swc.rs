@@ -4,7 +4,7 @@ use anyhow::{bail, Context, Error};
 use helpers::Helpers;
 use swc::{
     config::{GlobalInliningPassEnvs, InputSourceMap, IsModule, JscConfig, TransformConfig},
-    try_with_handler,
+    try_with_handler, HandlerOpts,
 };
 use swc_atoms::JsWord;
 use swc_bundler::{Load, ModuleData};
@@ -280,8 +280,12 @@ impl SwcLoader {
 
 impl Load for SwcLoader {
     fn load(&self, name: &FileName) -> Result<ModuleData, Error> {
-        try_with_handler(self.compiler.cm.clone(), false, |handler| {
-            self.load_with_handler(handler, name)
-        })
+        try_with_handler(
+            self.compiler.cm.clone(),
+            HandlerOpts {
+                ..Default::default()
+            },
+            |handler| self.load_with_handler(handler, name),
+        )
     }
 }

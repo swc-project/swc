@@ -1,6 +1,6 @@
-error: Expression expected
- --> $DIR/tests/typescript-errors/parserSuperExpression2/input.ts:3:10
-  |
-3 |     super<T>(0);
-  |          ^
 
+  x Expression expected
+   ,-[$DIR/tests/typescript-errors/parserSuperExpression2/input.ts:4:5]
+ 4 | super<T>(0);
+   :      ^
+   `----

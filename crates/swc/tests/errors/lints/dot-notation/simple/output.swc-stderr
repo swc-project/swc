@@ -1,36 +1,36 @@
-error: ["a"] is better written in dot notation
- 
-  |
-1 | obj["a"];
-  |    ^^^^^
 
-error: ["b"] is better written in dot notation
- 
-  |
-3 | obj[obj2["b"]];
-  |         ^^^^^
+  x ["a"] is better written in dot notation
+   ,----
+ 2 | obj["a"];
+   :    ^^^^^
+   `----
 
-error: ['c'] is better written in dot notation
- 
-  |
-9 | obj['c'];
-  |    ^^^^^
+  x ["b"] is better written in dot notation
+   ,----
+ 4 | obj[obj2["b"]];
+   :         ^^^^^
+   `----
 
-error: ['d'] is better written in dot notation
-  
-   |
-11 | obj?.['d'];
-   |      ^^^^^
+  x ['c'] is better written in dot notation
+    ,----
+ 10 | obj['c'];
+    :    ^^^^^
+    `----
 
-error: ['e'] is better written in dot notation
-  
-   |
-13 | (obj)['e'];
-   |      ^^^^^
+  x ['d'] is better written in dot notation
+    ,----
+ 12 | obj?.['d'];
+    :      ^^^^^
+    `----
 
-error: ["x"] is better written in dot notation
-  
-   |
-15 | foo[call(my["x"])]
-   |            ^^^^^
+  x ['e'] is better written in dot notation
+    ,----
+ 14 | (obj)['e'];
+    :      ^^^^^
+    `----
 
+  x ["x"] is better written in dot notation
+    ,----
+ 16 | foo[call(my["x"])]
+    :            ^^^^^
+    `----

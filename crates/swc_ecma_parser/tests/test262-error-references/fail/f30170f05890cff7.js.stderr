@@ -1,12 +1,12 @@
-error: Not a pattern
- --> $DIR/tests/test262-parser/fail/f30170f05890cff7.js:1:2
-  |
-1 | (10, 20) => 00
-  |  ^^
 
-error: Not a pattern
- --> $DIR/tests/test262-parser/fail/f30170f05890cff7.js:1:6
-  |
-1 | (10, 20) => 00
-  |      ^^
+  x Not a pattern
+   ,-[$DIR/tests/test262-parser/fail/f30170f05890cff7.js:2:1]
+ 2 | (10, 20) => 00
+   :  ^^
+   `----
 
+  x Not a pattern
+   ,-[$DIR/tests/test262-parser/fail/f30170f05890cff7.js:2:1]
+ 2 | (10, 20) => 00
+   :      ^^
+   `----

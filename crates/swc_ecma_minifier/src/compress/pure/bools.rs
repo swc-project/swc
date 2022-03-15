@@ -1,7 +1,7 @@
 use std::mem::swap;
 
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 
@@ -466,9 +466,11 @@ impl Pure<'_> {
                 true
             }
 
-            (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
+            (Expr::Ident(l), Expr::Ident(r)) => {
+                is_for_rel && self.options.unsafe_comps && l.sym < r.sym
+            }
 
-            (Expr::Ident(..), Expr::Ident(..)) => false,
+            (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
 
             (Expr::Ident(..), Expr::Lit(..))
             | (
@@ -543,120 +545,6 @@ impl Pure<'_> {
                 }
             }
             _ => {}
-        }
-    }
-
-    ///
-    /// - `a === undefined || a === null` => `a == null`
-    pub(super) fn optimize_cmp_with_null_or_undefined(&mut self, e: &mut BinExpr) {
-        fn opt(
-            span: Span,
-            top_op: BinaryOp,
-            e_left: &mut Expr,
-            e_right: &mut Expr,
-        ) -> Option<BinExpr> {
-            let (cmp, op, left, right) = match &mut *e_left {
-                Expr::Bin(left_bin) => {
-                    if left_bin.op != op!("===") && left_bin.op != op!("!==") {
-                        return None;
-                    }
-
-                    if top_op == op!("&&") && left_bin.op == op!("===") {
-                        return None;
-                    }
-                    if top_op == op!("||") && left_bin.op == op!("!==") {
-                        return None;
-                    }
-
-                    if !left_bin.right.is_ident() {
-                        return None;
-                    }
-
-                    let right = match &mut *e_right {
-                        Expr::Bin(right_bin) => {
-                            if right_bin.op != left_bin.op {
-                                return None;
-                            }
-
-                            if !right_bin.right.eq_ignore_span(&left_bin.right) {
-                                return None;
-                            }
-
-                            &mut *right_bin.left
-                        }
-                        _ => return None,
-                    };
-
-                    (
-                        &mut left_bin.right,
-                        left_bin.op,
-                        &mut *left_bin.left,
-                        &mut *right,
-                    )
-                }
-                _ => return None,
-            };
-
-            let lt = left.get_type();
-            let rt = right.get_type();
-            if let Value::Known(lt) = lt {
-                if let Value::Known(rt) = rt {
-                    match (lt, rt) {
-                        (Type::Undefined, Type::Null) | (Type::Null, Type::Undefined) => {
-                            if op == op!("===") {
-                                tracing::debug!(
-                                    "Reducing `!== null || !== undefined` check to `!= null`"
-                                );
-                                return Some(BinExpr {
-                                    span,
-                                    op: op!("=="),
-                                    left: cmp.take(),
-                                    right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                                });
-                            } else {
-                                tracing::debug!(
-                                    "Reducing `=== null || === undefined` check to `== null`"
-                                );
-                                return Some(BinExpr {
-                                    span,
-                                    op: op!("!="),
-                                    left: cmp.take(),
-                                    right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                                });
-                            }
-                        }
-                        _ => {}
-                    }
-                }
-            }
-
-            None
-        }
-
-        if e.op == op!("||") || e.op == op!("&&") {
-            {
-                let res = opt(e.span, e.op, &mut e.left, &mut e.right);
-                if let Some(res) = res {
-                    self.changed = true;
-                    *e = res;
-                    return;
-                }
-            }
-
-            if let (Expr::Bin(left), right) = (&mut *e.left, &mut *e.right) {
-                if e.op == left.op {
-                    let res = opt(right.span(), e.op, &mut left.right, &mut *right);
-                    if let Some(res) = res {
-                        self.changed = true;
-                        *e = BinExpr {
-                            span: e.span,
-                            op: e.op,
-                            left: left.left.take(),
-                            right: Box::new(Expr::Bin(res)),
-                        };
-                    }
-                }
-            }
         }
     }
 }

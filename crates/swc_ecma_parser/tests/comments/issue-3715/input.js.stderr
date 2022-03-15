@@ -1,8 +1,9 @@
-note: Trailing (hi)
-  |
-note:  IMPORTANT_DO_NOT_REMOVE 
- --> $DIR/tests/comments/issue-3715/input.js:1:4
-  |
-1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
-  |    ^
 
+  > Trailing (hi)
+
+Error: 
+  >  IMPORTANT_DO_NOT_REMOVE
+   ,-[$DIR/tests/comments/issue-3715/input.js:2:1]
+ 2 | a() /* IMPORTANT_DO_NOT_REMOVE */;
+   :    ^
+   `----

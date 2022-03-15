@@ -1,6 +1,6 @@
-error: assignment property is invalid syntax
- --> $DIR/tests/test262-parser/fail/3d3e6ce2b81a224d.js:1:22
-  |
-1 | [[[[[[[[[[[[[[[[[[[[{a=b}]]]]]]]]]]]]]]]]]]]]
-  |                      ^^^
 
+  x assignment property is invalid syntax
+   ,-[$DIR/tests/test262-parser/fail/3d3e6ce2b81a224d.js:2:1]
+ 2 | [[[[[[[[[[[[[[[[[[[[{a=b}]]]]]]]]]]]]]]]]]]]]
+   :                      ^^^
+   `----

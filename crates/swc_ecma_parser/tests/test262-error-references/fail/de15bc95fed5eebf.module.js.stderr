@@ -1,6 +1,6 @@
-error: Unexpected token `a`. Expected a string literal
- --> $DIR/tests/test262-parser/fail/de15bc95fed5eebf.module.js:1:15
-  |
-1 | export * from a
-  |               ^
 
+  x Unexpected token `a`. Expected a string literal
+   ,-[$DIR/tests/test262-parser/fail/de15bc95fed5eebf.module.js:2:1]
+ 2 | export * from a
+   :               ^
+   `----

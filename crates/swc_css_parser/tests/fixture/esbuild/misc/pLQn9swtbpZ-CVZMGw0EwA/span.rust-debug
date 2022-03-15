@@ -1,72 +1,72 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1
-  |
-1 | :pseudo(cl\2css) {}
-  | ^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1
-  |
-1 | :pseudo(cl\2css) {}
-  | ^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1
-  |
-1 | :pseudo(cl\2css) {}
-  | ^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1
-  |
-1 | :pseudo(cl\2css) {}
-  | ^^^^^^^^^^^^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1
-  |
-1 | :pseudo(cl\2css) {}
-  | ^^^^^^^^^^^^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   : ^^^^^^^^^^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1
-  |
-1 | :pseudo(cl\2css) {}
-  | ^^^^^^^^^^^^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   : ^^^^^^^^^^^^^^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1
-  |
-1 | :pseudo(cl\2css) {}
-  | ^^^^^^^^^^^^^^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   : ^^^^^^^^^^^^^^^^
+   `----
 
-error: PseudoClassSelector
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1
-  |
-1 | :pseudo(cl\2css) {}
-  | ^^^^^^^^^^^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   : ^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:2
-  |
-1 | :pseudo(cl\2css) {}
-  |  ^^^^^^
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   : ^^^^^^^^^^^^^^^^
+   `----
 
-error: PseudoClassSelectorChildren
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:9
-  |
-1 | :pseudo(cl\2css) {}
-  |         ^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   :  ^^^^^^
+   `----
 
-error: Ident { value: Atom('cl,ss' type=inline), raw: Atom('cl\2css' type=inline) }
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:9
-  |
-1 | :pseudo(cl\2css) {}
-  |         ^^^^^^^
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   :         ^^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:18
-  |
-1 | :pseudo(cl\2css) {}
-  |                  ^^
+  x Ident { value: Atom('cl,ss' type=inline), raw: Atom('cl\2css' type=inline) }
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   :         ^^^^^^^
+   `----
 
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:2:1]
+ 2 | :pseudo(cl\2css) {}
+   :                  ^^
+   `----

@@ -58,23 +58,30 @@ pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, skip_filename: bool, op: F) -> Resul
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    try_with_handler(cm, skip_filename, |handler| {
-        //
-        let result = catch_unwind(AssertUnwindSafe(|| op(handler)));
+    try_with_handler(
+        cm,
+        swc::HandlerOpts {
+            skip_filename,
+            ..Default::default()
+        },
+        |handler| {
+            //
+            let result = catch_unwind(AssertUnwindSafe(|| op(handler)));
 
-        let p = match result {
-            Ok(v) => return v,
-            Err(v) => v,
-        };
+            let p = match result {
+                Ok(v) => return v,
+                Err(v) => v,
+            };
 
-        if let Some(s) = p.downcast_ref::<String>() {
-            Err(anyhow!("failed to handle: {}", s))
-        } else if let Some(s) = p.downcast_ref::<&str>() {
-            Err(anyhow!("failed to handle: {}", s))
-        } else {
-            Err(anyhow!("failed to handle with unknown panic message"))
-        }
-    })
+            if let Some(s) = p.downcast_ref::<String>() {
+                Err(anyhow!("failed to handle: {}", s))
+            } else if let Some(s) = p.downcast_ref::<&str>() {
+                Err(anyhow!("failed to handle: {}", s))
+            } else {
+                Err(anyhow!("failed to handle with unknown panic message"))
+            }
+        },
+    )
 }
 
 pub trait MapErr<T>: Into<Result<T, anyhow::Error>> {
