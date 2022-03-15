@@ -23,7 +23,7 @@ use swc_cached::regex::CachedRegex;
 pub use swc_common::chain;
 use swc_common::{
     collections::{AHashMap, AHashSet},
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
@@ -45,6 +45,7 @@ use swc_ecma_minifier::option::{
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
+    fixer::paren_remover,
     hygiene, modules,
     modules::{
         hoist::module_hoister, path::NodeImportResolver, rewriter::import_rewriter, util::Scope,
@@ -467,6 +468,7 @@ impl Options {
                 es_version,
                 source_map: cm.clone(),
             })),
+            paren_remover(comments.map(|v| v as &dyn Comments)),
             // Decorators may use type information
             Optional::new(
                 decorators(decorators::Config {
