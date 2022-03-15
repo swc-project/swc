@@ -28,11 +28,17 @@ tracing-chrome = "0.4.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = {version = "0.3.9", features = ["env-filter"]}
 walkdir = "2"
-wasmer = "2.2.0"
-wasmer-wasi = "2.2.0"
+wasmer = {version = "2.2.0", optional = true}
+wasmer-wasi = {version = "2.2.0", optional = true}
 
 [dependencies.path-absolutize]
 features = ["once_cell_cache"]
 version = "3.0.11"
 
 [features]
+default = ["plugin"]
+plugin = [
+  "swc/plugin",
+  "wasmer/default",
+  "wasmer-wasi/default",
+]
