@@ -520,7 +520,7 @@ where
                          there's no side effect and the number of arguments is 1"
                     );
                     return Some(Expr::New(NewExpr {
-                        span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                        span: DUMMY_SP,
                         callee: cons.callee.take(),
                         args: Some(args),
                         type_args: Default::default(),
@@ -554,7 +554,7 @@ where
             (Expr::Cond(cons), alt) if (*cons.alt).eq_ignore_span(&*alt) => {
                 tracing::debug!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
                 Some(Expr::Cond(CondExpr {
-                    span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                    span: DUMMY_SP,
                     test: Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
                         left: test.take(),

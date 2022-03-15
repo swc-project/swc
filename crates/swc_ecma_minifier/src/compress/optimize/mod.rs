@@ -5,7 +5,7 @@ use std::{fmt::Write, iter::once, mem::take};
 use retain_mut::RetainMut;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned,
+    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned,
     SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
@@ -64,8 +64,6 @@ where
         "top_retain should not contain empty string"
     );
 
-    let done = Mark::fresh(Mark::root());
-    let done_ctxt = SyntaxContext::empty().apply_mark(done);
     Optimizer {
         marks,
         changed: false,
@@ -80,8 +78,6 @@ where
         typeofs: Default::default(),
         data: Some(data),
         ctx: Default::default(),
-        done,
-        done_ctxt,
         label: Default::default(),
         mode,
         debug_infinite_loop,

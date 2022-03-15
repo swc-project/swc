@@ -65,7 +65,7 @@ where
                 tracing::debug!("evaluate: `Infinity` -> `1 / 0`");
                 self.changed = true;
                 *e = Expr::Bin(BinExpr {
-                    span: span.with_ctxt(self.done_ctxt),
+                    span: *span,
                     op: op!("/"),
                     left: Box::new(Expr::Lit(Lit::Num(Number {
                         span: DUMMY_SP,
