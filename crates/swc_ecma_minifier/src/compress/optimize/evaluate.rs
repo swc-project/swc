@@ -15,7 +15,7 @@ where
 {
     /// Evaluate expression if possible.
     ///
-    /// This method call apppropriate methods for each ast types.
+    /// This method call appropriate methods for each ast types.
     pub(super) fn evaluate(&mut self, e: &mut Expr) {
         self.eval_global_vars(e);
 
@@ -187,7 +187,7 @@ where
                             if let Some(v) = char::from_u32(v) {
                                 self.changed = true;
                                 tracing::debug!(
-                                    "evanluate: Evaluated `String.charCodeAt({})` as `{}`",
+                                    "evaluate: Evaluated `String.charCodeAt({})` as `{}`",
                                     char_code,
                                     v
                                 );
@@ -306,7 +306,7 @@ where
                 if let Known(l) = l {
                     if let Known(r) = r {
                         self.changed = true;
-                        tracing::debug!("evaluate: Evaulated `{:?} ** {:?}`", l, r);
+                        tracing::debug!("evaluate: Evaluated `{:?} ** {:?}`", l, r);
 
                         let value = l.powf(r);
                         *e = Expr::Lit(Lit::Num(Number {
