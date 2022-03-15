@@ -337,13 +337,9 @@ where
                             // If a variable named `NaN` is in scope, don't convert e into NaN.
                             if self
                                 .data
-                                .as_ref()
-                                .map(|data| {
-                                    data.vars
-                                        .iter()
-                                        .any(|(name, v)| v.declared && name.0 == js_word!("NaN"))
-                                })
-                                .unwrap_or(false)
+                                .vars
+                                .iter()
+                                .any(|(name, v)| v.declared && name.0 == js_word!("NaN"))
                             {
                                 return;
                             }
