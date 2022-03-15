@@ -3239,6 +3239,10 @@ fn escape_with_source(
     s: &str,
     single_quote: Option<bool>,
 ) -> String {
+    if span.is_dummy() {
+        return get_unquoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
+    }
+
     let orig = cm.span_to_snippet(span);
     let orig = match orig {
         Ok(orig) => orig,
