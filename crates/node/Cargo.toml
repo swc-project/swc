@@ -13,7 +13,7 @@ crate-type = ["cdylib"]
 
 [features]
 default = ["swc_v1", "plugin"]
-plugin = ["swc/plugin"]
+plugin = ["swc/plugin", "wasmer/default", "wasmer-wasi/default"]
 swc_v1 = ["swc_node_bundler/swc_v1"]
 swc_v2 = ["swc_node_bundler/swc_v2"]
 
@@ -43,3 +43,5 @@ tracing = { version = "0.1.32" , features = ["release_max_level_info"] }
 tracing-chrome = "0.4.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
+wasmer = {version = "2.2.0", default-features = false}
+wasmer-wasi = {version = "2.2.0", default-features = false}

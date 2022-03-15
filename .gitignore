@@ -55,3 +55,4 @@ pkg/
 /lab
 
 *.mm_profdata
+.tsbuildinfo

@@ -977,8 +977,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7fcd999463524c52659517fe2cea98493cfe485d10565e7b0fb07dbba7ad2753"
 dependencies = [
  "cfg-if 1.0.0",
+ "js-sys",
  "libc",
  "wasi 0.10.2+wasi-snapshot-preview1",
+ "wasm-bindgen",
 ]
 
 [[package]]
@@ -1661,6 +1663,8 @@ dependencies = [
  "tracing-chrome",
  "tracing-futures",
  "tracing-subscriber",
+ "wasmer",
+ "wasmer-wasi",
 ]
 
 [[package]]
@@ -3082,6 +3086,8 @@ dependencies = [
  "tracing-futures",
  "tracing-subscriber",
  "walkdir",
+ "wasmer",
+ "wasmer-wasi",
 ]
 
 [[package]]
@@ -4506,6 +4512,8 @@ dependencies = [
  "swc_ecmascript",
  "tracing",
  "wasm-bindgen",
+ "wasmer",
+ "wasmer-wasi",
 ]
 
 [[package]]
@@ -4598,6 +4606,7 @@ dependencies = [
  "wasmer-engine-universal",
  "wasmer-types",
  "wasmer-vm",
+ "wasmparser",
  "wat",
  "winapi",
 ]
@@ -4765,6 +4774,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5d9c4be9fba0cb769ae2466437d629427bb2494c9e134eacd15a6f8127a77dc2"
 dependencies = [
  "libc",
+ "slab",
  "thiserror",
  "tracing",
 ]
