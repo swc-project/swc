@@ -16,6 +16,12 @@
 
 - **(css)** Supports more color notations (#4009) ([a4bc092](https://github.com/swc-project/swc/commit/a4bc0927a0c44ba9d3219964d8548a0cf11d24ce))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Make bump-command check lazy (#4018) ([c27b84c](https://github.com/swc-project/swc/commit/c27b84c3f693ecae73cb0da74dd6f6178d8ab45e))
+
 ## [1.2.155] - 2022-03-14
 
 ### Bug Fixes
