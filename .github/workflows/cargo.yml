@@ -31,9 +31,11 @@ jobs:
         with:
           profile: minimal
 
-      - name: Install required tools
-        run: |
-          cargo install cargo-deny
+      - name: Install cargo-deny
+        uses: baptiste0928/cargo-install@v1.1.0
+        with:
+          crate: cargo-deny
+          version: "0.11.3"
 
       - name: Check licenses
         run: |
