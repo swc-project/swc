@@ -13,7 +13,7 @@ crate-type = ["cdylib"]
 
 [features]
 default = ["swc_v1", "plugin"]
-plugin = ["swc/plugin_embedded_runtime"]
+plugin = ["swc/plugin"]
 swc_v1 = ["swc_node_bundler/swc_v1"]
 swc_v2 = ["swc_node_bundler/swc_v2"]
 
