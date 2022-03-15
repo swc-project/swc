@@ -507,7 +507,7 @@ where
                     } else {
                         None
                     };
-                    
+
                     let value = escape_with_source(
                         &self.cm,
                         self.wr.target(),
