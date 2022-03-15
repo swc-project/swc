@@ -14,6 +14,17 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Fold + VisitMut {
         ctx: Default::default(),
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
+        remove_only: false,
+    })
+}
+
+pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Fold + VisitMut {
+    as_folder(Fixer {
+        comments,
+        ctx: Default::default(),
+        span_map: Default::default(),
+        in_for_stmt_head: Default::default(),
+        remove_only: true,
     })
 }
 
@@ -27,6 +38,8 @@ struct Fixer<'a> {
     span_map: AHashMap<Span, Span>,
 
     in_for_stmt_head: bool,
+
+    remove_only: bool,
 }
 
 #[repr(u8)]
