@@ -304,6 +304,8 @@ impl Pure<'_> {
         }
     }
 
+    /// Note: this method requires boolean context.
+    ///
     /// - `foo || 1` => `foo, 1`
     pub(super) fn optmize_known_logical_expr(&mut self, e: &mut Expr) {
         let bin_expr = match e {
@@ -327,6 +329,15 @@ impl Pure<'_> {
                     exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
                 });
                 e.visit_mut_with(self);
+                return;
+            }
+
+            // 1 || foo => foo
+            if let Value::Known(true) = bin_expr.left.as_pure_bool() {
+                self.changed = true;
+                tracing::debug!("evaluate: `true || foo` => `foo`");
+
+                *e = *bin_expr.right.take();
             }
         } else {
         }
