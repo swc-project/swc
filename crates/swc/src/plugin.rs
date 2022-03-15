@@ -1,13 +1,13 @@
 //! This module always exists because cfg attributes are not stabilized in
 //! expressions at the moment.
 
-#![cfg_attr(not(feature = "plugin_embedded_runtime"), allow(unused))]
+#![cfg_attr(not(feature = "plugin"), allow(unused))]
 
 use serde::{Deserialize, Serialize};
-#[cfg(feature = "plugin_embedded_runtime")]
+#[cfg(feature = "plugin")]
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeModulesResolver};
-#[cfg(not(feature = "plugin_embedded_runtime"))]
+#[cfg(not(feature = "plugin"))]
 use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{noop_fold_type, Fold};
 
@@ -46,7 +46,7 @@ pub fn plugins(
     config: crate::config::JscExperimental,
     plugin_context: PluginContext,
 ) -> impl Fold {
-    #[cfg(feature = "plugin_embedded_runtime")]
+    #[cfg(feature = "plugin")]
     {
         RustPlugins {
             resolver,
@@ -55,7 +55,7 @@ pub fn plugins(
         }
     }
 
-    #[cfg(not(feature = "plugin_embedded_runtime"))]
+    #[cfg(not(feature = "plugin"))]
     {
         noop()
     }
@@ -69,7 +69,7 @@ struct RustPlugins {
 
 impl RustPlugins {
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
-    #[cfg(feature = "plugin_embedded_runtime")]
+    #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
 
@@ -119,7 +119,7 @@ impl RustPlugins {
                     plugin_module = p.0.as_str()
                 );
                 let transform_span_guard = span.enter();
-                serialized = swc_plugin_runner::apply_transform_plugin(
+                serialized = swc_plugin_runner::apply_js_plugin(
                     &p.0,
                     &path,
                     &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
@@ -140,14 +140,14 @@ impl RustPlugins {
 impl Fold for RustPlugins {
     noop_fold_type!();
 
-    #[cfg(feature = "plugin_embedded_runtime")]
+    #[cfg(feature = "plugin")]
     fn fold_module(&mut self, n: Module) -> Module {
         self.apply(Program::Module(n))
             .expect("failed to invoke plugin")
             .expect_module()
     }
 
-    #[cfg(feature = "plugin_embedded_runtime")]
+    #[cfg(feature = "plugin")]
     fn fold_script(&mut self, n: Script) -> Script {
         self.apply(Program::Script(n))
             .expect("failed to invoke plugin")
