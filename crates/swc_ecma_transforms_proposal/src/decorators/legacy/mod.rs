@@ -10,7 +10,7 @@ use swc_ecma_utils::{
     prop_name_to_expr, prop_name_to_expr_value, quote_ident, replace_ident, undefined, ExprFactory,
     ModuleItemLike, StmtLike,
 };
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
 
 use self::metadata::{Metadata, ParamMetadata};
 use super::{contains_decorator, DecoratorFinder};
@@ -86,8 +86,6 @@ impl Visit for Legacy {
 
 /// TODO: VisitMut
 impl Fold for Legacy {
-    noop_fold_type!();
-
     fn fold_decl(&mut self, decl: Decl) -> Decl {
         let decl: Decl = decl.fold_children_with(self);
 

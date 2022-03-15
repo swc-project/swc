@@ -185,11 +185,7 @@ where
             for (idx, param) in params.iter().enumerate() {
                 let arg = e.args.get(idx).map(|v| &v.expr);
                 if let Pat::Ident(param) = &param {
-                    if let Some(usage) = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&param.to_id()))
-                    {
+                    if let Some(usage) = self.data.vars.get(&param.to_id()) {
                         if usage.reassigned() {
                             continue;
                         }
@@ -514,11 +510,7 @@ where
         // Don't create top-level variables.
         if !param_ids.is_empty() && self.ctx.in_top_level() {
             for pid in param_ids {
-                if let Some(usage) = self
-                    .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&pid.to_id()))
-                {
+                if let Some(usage) = self.data.vars.get(&pid.to_id()) {
                     if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
                         return false;
                     }

@@ -45,16 +45,10 @@ macro_rules! add_to {
 
         let enable = $b.load(Ordering::Relaxed);
         if enable {
-            $buf.extend(
-                STMTS
-                    .iter()
-                    .cloned()
-                    .map(|mut stmt| {
-                        stmt.visit_mut_with(&mut Marker($mark));
-                        stmt
-                    })
-                    .map(ModuleItem::Stmt),
-            )
+            $buf.extend(STMTS.iter().cloned().map(|mut stmt| {
+                stmt.visit_mut_with(&mut Marker($mark));
+                stmt
+            }))
         }
     }};
 }
@@ -146,7 +140,7 @@ macro_rules! define_helpers {
                 value
             }
 
-            fn build_helpers(&self) -> Vec<ModuleItem> {
+            fn build_helpers(&self) -> Vec<Stmt> {
                 let mut buf = vec![];
 
                 HELPERS.with(|helpers|{
@@ -303,7 +297,7 @@ pub fn inject_helpers() -> impl Fold + VisitMut {
 struct InjectHelpers;
 
 impl InjectHelpers {
-    fn mk_helpers(&self) -> Vec<ModuleItem> {
+    fn make_helpers_for_module(&self) -> Vec<ModuleItem> {
         let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
         if external {
             if self.is_helper_used() {
@@ -322,7 +316,23 @@ impl InjectHelpers {
             }
         } else {
             self.build_helpers()
+                .into_iter()
+                .map(ModuleItem::Stmt)
+                .collect()
         }
+    }
+
+    fn make_helpers_for_script(&self) -> Vec<Stmt> {
+        let external = HELPERS.with(|helper| helper.external());
+
+        if external {
+            panic!(
+                "Cannot use script with externalHelpers; There's no standard way to import other \
+                 modules"
+            );
+        }
+
+        self.build_helpers()
     }
 }
 
@@ -330,9 +340,15 @@ impl VisitMut for InjectHelpers {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, module: &mut Module) {
-        let helpers = self.mk_helpers();
+        let helpers = self.make_helpers_for_module();
 
         prepend_stmts(&mut module.body, helpers.into_iter());
+    }
+
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        let helpers = self.make_helpers_for_script();
+
+        prepend_stmts(&mut script.body, helpers.into_iter());
     }
 }
 

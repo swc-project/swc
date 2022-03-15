@@ -222,6 +222,7 @@ impl Evaluator {
         {
             e.visit_mut_with(&mut pure_optimizer(
                 &serde_json::from_str("{}").unwrap(),
+                None,
                 self.marks,
                 Eval::force_str_for_tpl(),
                 true,
