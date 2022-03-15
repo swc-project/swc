@@ -892,6 +892,34 @@ where
                     }
                 }
 
+                if let Expr::Ident(callee) = &**callee {
+                    if self.options.side_effects {
+                        if let Some(usage) = self
+                            .data
+                            .as_ref()
+                            .and_then(|data| data.vars.get(&callee.to_id()))
+                        {
+                            if !usage.reassigned() && usage.pure_fn {
+                                let args = args
+                                    .take()
+                                    .into_iter()
+                                    .filter_map(|mut arg| self.ignore_return_value(&mut arg.expr))
+                                    .map(Box::new)
+                                    .collect::<Vec<_>>();
+
+                                if args.is_empty() {
+                                    return None;
+                                }
+
+                                return Some(Expr::Seq(SeqExpr {
+                                    span: callee.span,
+                                    exprs: args,
+                                }));
+                            }
+                        }
+                    }
+                }
+
                 return Some(e.take());
             }
 
