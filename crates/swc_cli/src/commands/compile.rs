@@ -1,6 +1,6 @@
 use std::{
-    fs,
-    io::{self, BufRead},
+    fs::{self, File},
+    io::{self, BufRead, Write},
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -336,28 +336,60 @@ impl CompileOptions {
     fn execute_inner(&self) -> anyhow::Result<()> {
         let inputs = self.collect_inputs()?;
 
-        inputs.into_par_iter().try_for_each(
-            |InputContext {
-                 fm,
-                 options,
-                 compiler,
-                 file_path,
-             }| {
-                let result = try_with_handler(
-                    compiler.cm.clone(),
-                    HandlerOpts {
-                        color: ColorConfig::Always,
-                        skip_filename: false,
-                    },
-                    |handler| compiler.process_js_file(fm, handler, &options),
-                );
+        let execute = |compiler: Arc<Compiler>, fm: Arc<SourceFile>, options: Options| {
+            try_with_handler(
+                compiler.cm.clone(),
+                HandlerOpts {
+                    color: ColorConfig::Always,
+                    skip_filename: false,
+                },
+                |handler| compiler.process_js_file(fm, handler, &options),
+            )
+        };
 
-                match result {
-                    Ok(output) => emit_output(&output, &self.out_dir, &file_path),
-                    Err(e) => Err(e),
-                }
-            },
-        )
+        if let Some(single_out_file) = self.out_file.as_ref() {
+            let result: anyhow::Result<Vec<TransformOutput>> = inputs
+                .into_par_iter()
+                .map(
+                    |InputContext {
+                         compiler,
+                         fm,
+                         options,
+                         file_path: _,
+                     }| execute(compiler, fm, options),
+                )
+                .collect();
+
+            fs::create_dir_all(
+                single_out_file
+                    .parent()
+                    .expect("Parent should be available"),
+            )?;
+            let mut buf = File::create(single_out_file)?;
+
+            result?
+                .iter()
+                .try_for_each(|r| buf.write(r.code.as_bytes()).and(Ok(())))?;
+
+            buf.flush()
+                .context("Failed to write output into single file")
+        } else {
+            inputs.into_par_iter().try_for_each(
+                |InputContext {
+                     compiler,
+                     fm,
+                     options,
+                     file_path,
+                 }| {
+                    let result = execute(compiler, fm, options);
+
+                    match result {
+                        Ok(output) => emit_output(&output, &self.out_dir, &file_path),
+                        Err(e) => Err(e),
+                    }
+                },
+            )
+        }
     }
 }
 
