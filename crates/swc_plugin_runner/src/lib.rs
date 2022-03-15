@@ -43,7 +43,6 @@ pub fn apply_transform_plugin(
 }
 
 #[cfg(target_arch = "wasm32")]
-pub fn apply_transform_plugin(
-) -> Result<Serialized, Error> {
+pub fn apply_transform_plugin() -> Result<Serialized, Error> {
     unimplemented!("Not implemented yet");
 }
