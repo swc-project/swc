@@ -3136,8 +3136,8 @@ fn get_unquoted_utf16(
             '\u{000c}' => buf.push_str("\\f"),
             '\n' => buf.push_str("\\n"),
             '\r' => buf.push_str("\\r"),
-            '\t' => buf.push_str("\\t"),
             '\u{000b}' => buf.push_str("\\v"),
+            '\t' => buf.push_str("\\t"),
             '\\' => {
                 if iter.peek() == Some(&'\0') {
                     buf.push('\\');
@@ -3166,6 +3166,9 @@ fn get_unquoted_utf16(
             }
             '\u{2029}' => {
                 buf.push_str("\\u2029");
+            }
+            '\u{FEFF}' => {
+                buf.push_str("\\uFEFF");
             }
             _ => {
                 if !emit_non_ascii_as_unicode || c.is_ascii() {
