@@ -20,7 +20,7 @@ rayon = "1"
 relative-path = "1.6.1"
 serde = {version = "1", features = ["derive"]}
 serde_json = {version = "1", features = ["unbounded_depth"]}
-swc = {version = "0.152.0", path = "../swc", features = ["plugin_embedded_runtime"]}
+swc = {version = "0.152.0", path = "../swc", features = ["plugin"]}
 swc_common = {version = "0.17.5", path = "../swc_common"}
 swc_trace_macro = {version = "0.1.0", path = "../swc_trace_macro"}
 tracing = "0.1.32"
