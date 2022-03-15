@@ -1436,11 +1436,7 @@ where
                     _ => return Ok(false),
                 };
 
-                if let Some(usage) = self
-                    .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&left.to_id()))
-                {
+                if let Some(usage) = self.data.vars.get(&left.to_id()) {
                     if usage.ref_count != 1 {
                         return Ok(false);
                     }
