@@ -20,10 +20,11 @@ os:
 
 check:
   node:
-    - "check"
-    - "check --no-default-features --features swc_v2"
+    - "check --features plugin"
+    - "check --no-default-features --features plugin --features swc_v2"
   swc:
-    - "hack check --feature-powerset --no-dev-deps"
+    # plugin feature is verified by other tasks
+    - "hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin"
   swc_bundler:
     - "hack check --feature-powerset --no-dev-deps"
   swc_common:
