@@ -22,3 +22,7 @@ em {
 .class {
     transform-style: flat;
 }
+
+.class {
+    transform: perspective(500px) rotateY(3deg);
+}
