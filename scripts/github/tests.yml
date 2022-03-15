@@ -23,7 +23,7 @@ check:
     - "check"
     - "check --no-default-features --features swc_v2"
   swc:
-    - "hack check --feature-powerset --no-dev-deps"
+    - "hack check --feature-powerset --no-dev-deps --exclude-features plugin_native_runtime"
   swc_bundler:
     - "hack check --feature-powerset --no-dev-deps"
   swc_common:
@@ -45,3 +45,5 @@ check:
   swc_node_bundler:
     - "check"
     - "check --no-default-features --features swc_v2"
+  wasm:
+    - "echo test skipped, check Wasm workflow instead"

@@ -102,6 +102,8 @@ jobs:
             os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
+          - crate: fastmem
+            os: ubuntu-latest
           - crate: from_variant
             os: ubuntu-latest
           - crate: jsdoc
@@ -129,6 +131,8 @@ jobs:
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
+          - crate: swc_cached
+            os: ubuntu-latest
           - crate: swc_cli
             os: ubuntu-latest
           - crate: swc_cli
@@ -241,6 +245,8 @@ jobs:
             os: ubuntu-latest
           - crate: swc_eq_ignore_macros
             os: ubuntu-latest
+          - crate: swc_error_reporters
+            os: ubuntu-latest
           - crate: swc_estree_ast
             os: ubuntu-latest
           - crate: swc_estree_compat
@@ -294,6 +300,10 @@ jobs:
             os: ubuntu-latest
           - crate: testing_macros
             os: ubuntu-latest
+          - crate: wasm
+            os: ubuntu-latest
+            check: |
+              cargo echo test skipped, check Wasm workflow instead
 
     steps:
       - name: Handle line endings
@@ -347,6 +357,7 @@ jobs:
           jest -v && mocha --version
 
       - name: Run cargo test (${{ matrix.settings.crate }})
+        if: matrix.settings.crate != 'wasm'
         run: |
           jest -v && mocha --version
           cargo test --color always -p ${{ matrix.settings.crate }}
