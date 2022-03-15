@@ -136,9 +136,7 @@ where
                 ) => {
                     // TODO?
                     if let Expr::Ident(arg) = &**arg {
-                        if let Some(usage) =
-                            o.data.as_ref().and_then(|data| data.vars.get(&arg.to_id()))
-                        {
+                        if let Some(usage) = o.data.vars.get(&arg.to_id()) {
                             if !usage.declared {
                                 return false;
                             }

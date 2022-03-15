@@ -141,6 +141,7 @@ pub fn optimize(
         m.visit_mut_with(&mut postcompress_optimizer(options));
         m.visit_mut_with(&mut Repeat::new(pure_optimizer(
             options,
+            None,
             marks,
             Minification::force_str_for_tpl(),
             true,

@@ -74,21 +74,13 @@ where
         span.has_mark(self.marks.noinline)
     }
 
-    #[allow(unused)]
-    #[allow(clippy::wrong_self_convention)]
-    pub(super) fn is_done(&mut self, span: Span) -> bool {
-        span.has_mark(self.done)
-    }
-
     /// RAII guard to change context temporarically
     #[inline]
     pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'b, M> {
         if cfg!(debug_assertions) {
             let scope_ctxt = ctx.scope;
             if self.ctx.scope != scope_ctxt {
-                if let Some(data) = &self.data {
-                    data.scopes.get(&scope_ctxt).expect("scope not found");
-                }
+                self.data.scopes.get(&scope_ctxt).expect("scope not found");
             }
         }
 
