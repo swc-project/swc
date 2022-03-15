@@ -13,6 +13,8 @@ crate-type = ["cdylib"]
 
 [features]
 default = ["swc_v1"]
+# This feature exists to allow cargo operations
+plugin = []
 swc_v1 = []
 swc_v2 = []
 
