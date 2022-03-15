@@ -551,24 +551,24 @@ CONTENT\r
 }
 
 #[test]
-fn test_escape_without_source() {
+fn test_get_unquoted_utf16() {
     fn es2020(src: &str, expected: &str) {
         assert_eq!(
-            super::escape_without_source(src, EsVersion::Es2020, true, false),
+            super::get_unquoted_utf16(src, EsVersion::Es2020, true, false),
             expected
         )
     }
 
     fn es2020_nonascii(src: &str, expected: &str) {
         assert_eq!(
-            super::escape_without_source(src, EsVersion::Es2020, true, true),
+            super::get_unquoted_utf16(src, EsVersion::Es2020, true, true),
             expected
         )
     }
 
     fn es5(src: &str, expected: &str) {
         assert_eq!(
-            super::escape_without_source(src, EsVersion::Es5, true, true),
+            super::get_unquoted_utf16(src, EsVersion::Es5, true, true),
             expected
         )
     }
@@ -633,7 +633,7 @@ fn issue_1619_2() {
 #[test]
 fn issue_1619_3() {
     assert_eq!(
-        escape_without_source("\x00\x31", EsVersion::Es3, true, false),
+        get_unquoted_utf16("\x00\x31", EsVersion::Es3, true, false),
         "\\x001"
     );
 }
