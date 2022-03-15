@@ -893,7 +893,7 @@ where
                 }
 
                 if let Expr::Ident(callee) = &**callee {
-                    if self.options.side_effects {
+                    if self.options.reduce_vars && self.options.side_effects {
                         if let Some(usage) = self
                             .data
                             .as_ref()
