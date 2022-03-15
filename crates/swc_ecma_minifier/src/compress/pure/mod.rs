@@ -280,6 +280,8 @@ impl VisitMut for Pure<'_> {
 
         self.unsafe_optimize_fn_as_arrow(e);
 
+        self.optmize_known_logical_to_seq(e);
+
         self.eval_opt_chain(e);
 
         self.eval_number_call(e);

@@ -302,6 +302,9 @@ impl Pure<'_> {
             }
         }
     }
+
+    /// - `foo || 1` => `foo, 1`
+    pub(super) fn optmize_known_logical_to_seq(&mut self, e: &mut Expr) {}
 }
 
 /// Evaluation of strings.
