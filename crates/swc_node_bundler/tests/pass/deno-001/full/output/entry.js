@@ -357,9 +357,6 @@ class TextProtoReader {
     constructor(r){
         this.r = r;
     }
-    constructor(r){
-        this.r = r;
-    }
     async readLine() {
         const s = await this.readLineSlice();
         if (s === null) return null;
