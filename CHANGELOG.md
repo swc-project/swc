@@ -16,6 +16,9 @@
 
 - **(css)** Supports more color notations (#4009) ([a4bc092](https://github.com/swc-project/swc/commit/a4bc0927a0c44ba9d3219964d8548a0cf11d24ce))
 
+
+- **(css/prefixer)** Implement more rules for prefixer (#4013) ([4f6f244](https://github.com/swc-project/swc/commit/4f6f244170f2059e1b5a3765560b91c102e00a1b))
+
 ### Miscellaneous Tasks
 
 
