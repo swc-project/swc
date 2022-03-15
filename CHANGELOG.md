@@ -34,6 +34,12 @@
 
 - **(ci)** Fix auto-rebase script ([9b8b111](https://github.com/swc-project/swc/commit/9b8b11126480ae9b1160f3b5722fc4e27a05b025))
 
+### Refactor
+
+
+
+- **(es/minifier)** Cleanup (#4020) ([3173047](https://github.com/swc-project/swc/commit/3173047f589128c429d02b7cb128d80f0fd6e011))
+
 ## [1.2.155] - 2022-03-14
 
 ### Bug Fixes
