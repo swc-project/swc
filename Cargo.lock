@@ -3087,7 +3087,6 @@ dependencies = [
  "tracing-subscriber",
  "walkdir",
  "wasmer",
- "wasmer-cache",
  "wasmer-wasi",
 ]
 

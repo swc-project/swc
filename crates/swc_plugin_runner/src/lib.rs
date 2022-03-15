@@ -10,6 +10,7 @@ use once_cell::sync::Lazy;
 use swc_common::plugin::Serialized;
 use transform_executor::TransformExecutor;
 
+#[cfg(not(target_arch = "wasm32"))]
 pub mod cache;
 mod context;
 mod imported_fn;
@@ -18,6 +19,7 @@ mod memory_interop;
 mod transform_executor;
 
 // entrypoint fn swc calls to perform its transform via plugin.
+#[cfg(not(target_arch = "wasm32"))]
 pub fn apply_transform_plugin(
     plugin_name: &str,
     path: &Path,
@@ -38,4 +40,10 @@ pub fn apply_transform_plugin(
             path.display()
         )
     })
+}
+
+#[cfg(target_arch = "wasm32")]
+pub fn apply_transform_plugin(
+) -> Result<Serialized, Error> {
+    unimplemented!("Not implemented yet");
 }
