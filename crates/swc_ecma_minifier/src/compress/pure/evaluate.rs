@@ -2,6 +2,7 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, Value};
+use swc_ecma_visit::VisitMutWith;
 
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
@@ -304,7 +305,32 @@ impl Pure<'_> {
     }
 
     /// - `foo || 1` => `foo, 1`
-    pub(super) fn optmize_known_logical_to_seq(&mut self, e: &mut Expr) {}
+    pub(super) fn optmize_known_logical_to_seq(&mut self, e: &mut Expr) {
+        let bin_expr = match e {
+            Expr::Bin(
+                e @ BinExpr {
+                    op: op!("||") | op!("&&"),
+                    ..
+                },
+            ) => e,
+            _ => return,
+        };
+
+        if bin_expr.op == op!("||") {
+            // foo || 1 => foo, 1
+            if let Value::Known(true) = bin_expr.right.as_pure_bool() {
+                self.changed = true;
+                tracing::debug!("evaluate: `foo || true` => `foo, 1`");
+
+                *e = Expr::Seq(SeqExpr {
+                    span: bin_expr.span,
+                    exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
+                });
+                e.visit_mut_with(self);
+            }
+        } else {
+        }
+    }
 }
 
 /// Evaluation of strings.
