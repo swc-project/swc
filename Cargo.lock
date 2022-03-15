@@ -2950,7 +2950,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.152.0"
+version = "0.152.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3383,7 +3383,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.94.0"
+version = "0.94.1"
 dependencies = [
  "either",
  "enum_kind",
