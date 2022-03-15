@@ -95,6 +95,7 @@ fn add_test<F: FnOnce() + Send + 'static>(
             should_panic: No,
             compile_fail: false,
             no_run: false,
+            ignore_message: Default::default(),
         },
         testfn: DynTestFn(Box::new(f)),
     });
