@@ -494,38 +494,45 @@ where
 
         match node.kind {
             StrKind::Normal { contains_quote } => {
-                let single_quote = if contains_quote {
-                    is_single_quote(&self.cm, node.span)
-                } else {
-                    None
-                };
+                let is_invalid_use_strict = node.has_escape && &*node.value == "use strict";
 
-                let value = escape_with_source(
-                    &self.cm,
-                    self.wr.target(),
-                    node.span,
-                    &node.value,
-                    single_quote,
-                );
+                if self.cfg.minify && !is_invalid_use_strict {
+                    let value =
+                        get_unquoted_utf16(&node.value, self.wr.target(), false, false, true);
 
-                let single_quote = single_quote.unwrap_or(false);
-
-                if single_quote {
-                    punct!(node.span, "'");
                     self.wr.write_str_lit(DUMMY_SP, &value)?;
-                    punct!("'");
                 } else {
-                    punct!(node.span, "\"");
-                    self.wr.write_str_lit(DUMMY_SP, &value)?;
-                    punct!("\"");
+                    let single_quote = if contains_quote {
+                        is_single_quote(&self.cm, node.span)
+                    } else {
+                        None
+                    };
+                    
+                    let value = escape_with_source(
+                        &self.cm,
+                        self.wr.target(),
+                        node.span,
+                        &node.value,
+                        single_quote,
+                    );
+
+                    let single_quote = single_quote.unwrap_or(false);
+
+                    if single_quote {
+                        punct!(node.span, "'");
+                        self.wr.write_str_lit(DUMMY_SP, &value)?;
+                        punct!("'");
+                    } else {
+                        punct!(node.span, "\"");
+                        self.wr.write_str_lit(DUMMY_SP, &value)?;
+                        punct!("\"");
+                    }
                 }
             }
             StrKind::Synthesized => {
-                let value = get_unquoted_utf16(&node.value, self.wr.target(), false, false);
+                let value = get_unquoted_utf16(&node.value, self.wr.target(), false, false, true);
 
-                punct!(node.span, "\"");
                 self.wr.write_str_lit(DUMMY_SP, &value)?;
-                punct!("\"");
             }
         };
     }
@@ -3125,29 +3132,49 @@ fn get_unquoted_utf16(
     target: EsVersion,
     single_quote: bool,
     emit_non_ascii_as_unicode: bool,
+    pure_quotes: bool,
 ) -> String {
     let mut buf = String::with_capacity(v.len());
     let mut iter = v.chars().peekable();
 
+    let mut sq = 0;
+    let mut dq = 0;
+
     while let Some(c) = iter.next() {
         match c {
-            '\0' => buf.push_str("\\x00"),
+            '\x00' => {
+                let next = iter.peek();
+
+                match next {
+                    Some('1'..='9') => buf.push_str("\\x00"),
+                    _ => buf.push_str("\\0"),
+                }
+            }
             '\u{0008}' => buf.push_str("\\b"),
             '\u{000c}' => buf.push_str("\\f"),
             '\n' => buf.push_str("\\n"),
             '\r' => buf.push_str("\\r"),
             '\u{000b}' => buf.push_str("\\v"),
             '\t' => buf.push_str("\\t"),
-            '\\' => {
-                if iter.peek() == Some(&'\0') {
-                    buf.push('\\');
-                    iter.next();
-                } else {
-                    buf.push_str("\\\\")
+            '\\' => buf.push_str("\\\\"),
+            '\'' => {
+                if pure_quotes {
+                    sq += 1;
+
+                    buf.push('\'');
+                } else if single_quote {
+                    buf.push_str("\\'");
                 }
             }
-            '\'' if single_quote => buf.push_str("\\'"),
-            '"' if !single_quote => buf.push_str("\\\""),
+            '"' => {
+                if pure_quotes {
+                    dq += 1;
+
+                    buf.push('"');
+                } else if !single_quote {
+                    buf.push_str("\\\"");
+                }
+            }
             '\x01'..='\x0f' => {
                 let _ = write!(buf, "\\x0{:x}", c as u8);
             }
@@ -3155,7 +3182,6 @@ fn get_unquoted_utf16(
                 let _ = write!(buf, "\\x{:x}", c as u8);
             }
             '\x20'..='\x7e' => {
-                //
                 buf.push(c);
             }
             '\u{7f}'..='\u{ff}' => {
@@ -3195,7 +3221,15 @@ fn get_unquoted_utf16(
         }
     }
 
-    buf
+    if pure_quotes {
+        if dq > sq {
+            format!("'{}'", buf.replace('\'', "\\'"))
+        } else {
+            format!("\"{}\"", buf.replace('"', "\\\""))
+        }
+    } else {
+        buf
+    }
 }
 
 fn escape_with_source(
@@ -3209,7 +3243,7 @@ fn escape_with_source(
     let orig = match orig {
         Ok(orig) => orig,
         Err(v) => {
-            return get_unquoted_utf16(s, target, single_quote.unwrap_or(false), false);
+            return get_unquoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
         }
     };
 
@@ -3221,6 +3255,7 @@ fn escape_with_source(
             target,
             single_quote.unwrap_or(false),
             emit_non_ascii_as_unicode,
+            false,
         );
     }
 
@@ -3231,7 +3266,7 @@ fn escape_with_source(
     {
         orig = &orig[1..orig.len() - 1];
     } else if single_quote.is_some() {
-        return get_unquoted_utf16(s, target, single_quote.unwrap_or(false), false);
+        return get_unquoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
     }
 
     let mut buf = String::with_capacity(s.len());

@@ -1,1 +1,1 @@
-switch(a){default:(function(){b('c')}())}
+switch(a){default:(function(){b("c")}())}

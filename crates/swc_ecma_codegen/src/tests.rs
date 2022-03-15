@@ -133,7 +133,7 @@ pub(crate) fn assert_pretty(from: &str, to: &str) {
     );
 
     println!("Expected: {:?}", to);
-    println!("Actaul:   {:?}", out);
+    println!("Actual:   {:?}", out);
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
 
@@ -252,7 +252,7 @@ fn empty_named_export_from() {
 fn empty_named_export_from_min() {
     test_from_to_custom_config(
         "export { } from 'foo';",
-        "export{}from'foo'",
+        "export{}from\"foo\"",
         Config { minify: true },
         Default::default(),
     );
@@ -267,7 +267,7 @@ fn named_export_from() {
 fn named_export_from_min() {
     test_from_to_custom_config(
         "export { bar } from 'foo';",
-        "export{bar}from'foo'",
+        "export{bar}from\"foo\"",
         Config { minify: true },
         Default::default(),
     );
@@ -289,7 +289,7 @@ fn export_namespace_from() {
 fn export_namespace_from_min() {
     test_from_to_custom_config(
         "export * as Foo from 'foo';",
-        "export*as Foo from'foo'",
+        "export*as Foo from\"foo\"",
         Config { minify: true },
         Syntax::Es(EsConfig {
             ..EsConfig::default()
@@ -313,7 +313,7 @@ fn named_and_namespace_export_from() {
 fn named_and_namespace_export_from_min() {
     test_from_to_custom_config(
         "export * as Foo, { bar } from 'foo';",
-        "export*as Foo,{bar}from'foo'",
+        "export*as Foo,{bar}from\"foo\"",
         Config { minify: true },
         Syntax::Es(EsConfig {
             ..EsConfig::default()
@@ -554,21 +554,21 @@ CONTENT\r
 fn test_get_unquoted_utf16() {
     fn es2020(src: &str, expected: &str) {
         assert_eq!(
-            super::get_unquoted_utf16(src, EsVersion::Es2020, true, false),
+            super::get_unquoted_utf16(src, EsVersion::Es2020, true, false, false),
             expected
         )
     }
 
     fn es2020_nonascii(src: &str, expected: &str) {
         assert_eq!(
-            super::get_unquoted_utf16(src, EsVersion::Es2020, true, true),
+            super::get_unquoted_utf16(src, EsVersion::Es2020, true, true, false),
             expected
         )
     }
 
     fn es5(src: &str, expected: &str) {
         assert_eq!(
-            super::get_unquoted_utf16(src, EsVersion::Es5, true, true),
+            super::get_unquoted_utf16(src, EsVersion::Es5, true, true, false),
             expected
         )
     }
@@ -576,7 +576,7 @@ fn test_get_unquoted_utf16() {
     es2020("abcde", "abcde");
     es2020(
         "\x00\r\n\u{85}\u{2028}\u{2029};",
-        "\\x00\\r\\n\\x85\\u2028\\u2029;",
+        "\\0\\r\\n\\x85\\u2028\\u2029;",
     );
 
     es2020("\n", "\\n");
@@ -584,7 +584,7 @@ fn test_get_unquoted_utf16() {
 
     es2020("'string'", "\\'string\\'");
 
-    es2020("\u{0}", "\\x00");
+    es2020("\u{0}", "\\0");
     es2020("\u{1}", "\\x01");
 
     es2020("\u{1000}", "\u{1000}");
@@ -616,7 +616,7 @@ fn issue_1452_1() {
 fn issue_1619_1() {
     assert_min_target(
         "\"\\x00\" + \"\\x31\"",
-        "\"\\x00\"+\"\\x31\"",
+        "\"\\0\"+\"1\"",
         EsVersion::latest(),
     );
 }
@@ -625,7 +625,7 @@ fn issue_1619_1() {
 fn issue_1619_2() {
     assert_min_target(
         "\"\\x00\" + \"\\x31\"",
-        "\"\\x00\"+\"\\x31\"",
+        "\"\\0\"+\"1\"",
         EsVersion::latest(),
     );
 }
@@ -633,7 +633,7 @@ fn issue_1619_2() {
 #[test]
 fn issue_1619_3() {
     assert_eq!(
-        get_unquoted_utf16("\x00\x31", EsVersion::Es3, true, false),
+        get_unquoted_utf16("\x00\x31", EsVersion::Es3, true, false, false),
         "\\x001"
     );
 }

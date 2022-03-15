@@ -1,1 +1,1 @@
-switch(a){case'b':c();default:d();break}
+switch(a){case"b":c();default:d();break}

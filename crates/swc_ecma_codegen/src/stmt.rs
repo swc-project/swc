@@ -106,7 +106,7 @@ mod tests {
     fn import() {
         assert_min(
             "import colors, { color } from 'patterns/colors';",
-            "import colors,{color}from'patterns/colors'",
+            "import colors,{color}from\"patterns/colors\"",
         );
         assert_pretty(
             "import colors, { color } from 'patterns/colors';",
@@ -116,12 +116,12 @@ mod tests {
 
     #[test]
     fn issue_204_01() {
-        assert_min(r#"'\r\n';"#, r#"'\r\n'"#);
+        assert_min(r#"'\r\n';"#, r#""\r\n""#);
     }
 
     #[test]
     fn issue_204_02() {
-        assert_min(r#"const a = fn() + '\r\n';"#, r#"const a=fn()+'\r\n'"#);
+        assert_min(r#"const a = fn() + '\r\n';"#, r#"const a=fn()+"\r\n""#);
     }
 
     #[test]
@@ -148,7 +148,7 @@ const Link = 'Boo';",
     fn issue_266() {
         assert_min(
             "'Q' + +x1 + ',' + +y1 + ',' + (this._x1 = +x) + ',' + (this._y1 = +y);",
-            "'Q'+ +x1+','+ +y1+','+(this._x1=+x)+','+(this._y1=+y)",
+            "\"Q\"+ +x1+\",\"+ +y1+\",\"+(this._x1=+x)+\",\"+(this._y1=+y)",
         );
     }
 }
