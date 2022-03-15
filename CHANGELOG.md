@@ -46,6 +46,9 @@
 
 - **(es/minifier)** Drop noop calls (#4019) ([be09ea6](https://github.com/swc-project/swc/commit/be09ea6991165162fd9fa4cfce2ead4cdba0b0cf))
 
+
+- **(es/transforms/base)** Add `paren_remover` (#4034) ([3a4704f](https://github.com/swc-project/swc/commit/3a4704fe77d3d3533e2f1dc438c63c8058a1df51))
+
 ### Miscellaneous Tasks
 
 
