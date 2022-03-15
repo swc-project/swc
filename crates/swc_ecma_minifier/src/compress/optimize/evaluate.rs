@@ -37,8 +37,8 @@ where
         if let Expr::Ident(i) = e {
             if self
                 .data
-                .as_ref()
-                .and_then(|data| data.vars.get(&i.to_id()))
+                .vars
+                .get(&i.to_id())
                 .map(|var| var.declared)
                 .unwrap_or(false)
             {

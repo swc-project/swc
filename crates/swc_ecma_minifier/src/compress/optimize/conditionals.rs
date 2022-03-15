@@ -352,10 +352,8 @@ where
 
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
-                if let Some(data) = &self.data {
-                    if data.contains_unresolved(&**test) {
-                        return None;
-                    }
+                if self.data.contains_unresolved(&**test) {
+                    return None;
                 }
 
                 let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
@@ -367,8 +365,8 @@ where
 
                 let side_effect_free = self
                     .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&cons_callee.to_id()))
+                    .vars
+                    .get(&cons_callee.to_id())
                     .map(|v| v.is_fn_local && v.declared)
                     .unwrap_or(false);
 
