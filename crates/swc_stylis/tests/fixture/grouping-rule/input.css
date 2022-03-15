@@ -1,0 +1,37 @@
+.grid {
+    display: grid;
+}
+
+.a,
+.b,
+.c::selection,
+.d:read-only,
+.e::placeholder {
+    color: yellow;
+}
+
+::selection {
+    color: red;
+}
+
+:read-only {
+    color: black;
+}
+
+.f:read-write, .g:read-write {
+    background: #fff;
+}
+
+.example:any-link:read-only {
+    color: red;
+}
+
+.element1:focus,
+.element1:read-only {
+    background-color: red;
+}
+
+/* TODO fix me */
+.c::selection {
+    backface-visibility: visible;
+}

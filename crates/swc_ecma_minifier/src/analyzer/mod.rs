@@ -4,7 +4,7 @@ use swc_common::{
     SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
+use swc_ecma_utils::{find_ids, ident::IdentLike, Id, IsEmpty};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -111,6 +111,8 @@ pub(crate) struct VarUsageInfo {
     pub used_as_callee: bool,
 
     pub used_as_arg: bool,
+
+    pub pure_fn: bool,
 
     /// In `c = b`, `b` infects `c`.
     infects: Vec<Id>,
@@ -582,6 +584,10 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         self.declare_decl(&n.ident, true, None, true);
+
+        if n.function.body.is_empty() {
+            self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
+        }
 
         n.visit_children_with(self);
     }

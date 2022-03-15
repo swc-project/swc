@@ -5,7 +5,7 @@ use std::{fmt::Write, iter::once, mem::take};
 use retain_mut::RetainMut;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned,
+    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned,
     SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
@@ -64,8 +64,6 @@ where
         "top_retain should not contain empty string"
     );
 
-    let done = Mark::fresh(Mark::root());
-    let done_ctxt = SyntaxContext::empty().apply_mark(done);
     Optimizer {
         marks,
         changed: false,
@@ -78,10 +76,8 @@ where
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
         typeofs: Default::default(),
-        data: Some(data),
+        data,
         ctx: Default::default(),
-        done,
-        done_ctxt,
         label: Default::default(),
         mode,
         debug_infinite_loop,
@@ -208,11 +204,8 @@ struct Optimizer<'a, M> {
     ///
     /// This is calculated multiple time, but only once per one
     /// `visit_mut_module`.
-    data: Option<&'a mut ProgramData>,
+    data: &'a mut ProgramData,
     ctx: Ctx,
-    /// In future: This will be used to `mark` node as done.
-    done: Mark,
-    done_ctxt: SyntaxContext,
 
     /// Closest label.
     ///
@@ -244,12 +237,6 @@ where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer> + VisitWith<AssertValid>,
     {
-        match self.data {
-            Some(..) => {}
-            None => {
-                unreachable!()
-            }
-        }
         let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();
         let append_stmts = self.append_stmts.take();
@@ -888,6 +875,30 @@ where
                     if let Expr::Fn(f) = &mut **callee {
                         if f.function.body.is_empty() {
                             return None;
+                        }
+                    }
+                }
+
+                if let Expr::Ident(callee) = &**callee {
+                    if self.options.reduce_vars && self.options.side_effects {
+                        if let Some(usage) = self.data.vars.get(&callee.to_id()) {
+                            if !usage.reassigned() && usage.pure_fn {
+                                let args = args
+                                    .take()
+                                    .into_iter()
+                                    .filter_map(|mut arg| self.ignore_return_value(&mut arg.expr))
+                                    .map(Box::new)
+                                    .collect::<Vec<_>>();
+
+                                if args.is_empty() {
+                                    return None;
+                                }
+
+                                return Some(Expr::Seq(SeqExpr {
+                                    span: callee.span,
+                                    exprs: args,
+                                }));
+                            }
                         }
                     }
                 }
@@ -2824,11 +2835,7 @@ where
 
             if let Some(Expr::Invalid(..)) = var.init.as_deref() {
                 if let Pat::Ident(i) = &var.name {
-                    if let Some(usage) = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&i.id.to_id()))
-                    {
+                    if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
                         if usage.declared_as_catch_param {
                             var.init = None;
                             return true;

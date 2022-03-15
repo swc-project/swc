@@ -2,7 +2,10 @@ use std::mem::take;
 
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
-use swc_css_utils::{replace_function_name, replace_ident};
+use swc_css_utils::{
+    replace_function_name, replace_ident, replace_pseudo_class_selector_name,
+    replace_pseudo_element_selector_name,
+};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn prefixer() -> impl VisitMut {
@@ -11,8 +14,17 @@ pub fn prefixer() -> impl VisitMut {
 
 #[derive(Default)]
 struct Prefixer {
+    in_stylesheet: bool,
+    added_rules: Vec<Rule>,
     in_simple_block: bool,
     added_declarations: Vec<Declaration>,
+}
+
+pub enum Prefix {
+    Webkit,
+    Moz,
+    O,
+    Ms,
 }
 
 impl VisitMut for Prefixer {
@@ -21,16 +33,112 @@ impl VisitMut for Prefixer {
     // TODO handle `@viewport`
     // TODO handle `@keyframes`
 
-    // TODO handle `:any-link` pseudo
-    // TODO handle `:read-only` pseudo
-    // TODO handle `:read-write` pseudo
-    // TODO handle `:autofill` pseudo
-    // TODO handle `::file-selector-button` pseudo
-    // TODO handle `::backdrop` pseudo
-    // TODO handle `:fullscreen` pseudo
-    // TODO handle `:placeholder-shown` pseudo
-    // TODO handle `::placeholder` pseudo
-    // TODO handle `::selection` pseudo
+    // TODO improve legacy `::placeholder` pseudo
+    fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
+        n.visit_mut_children_with(self);
+
+        if !self.in_stylesheet {
+            return;
+        }
+
+        if let QualifiedRulePrelude::Invalid(_) = n.prelude {
+            return;
+        }
+
+        let mut new_prelude = n.prelude.clone();
+
+        replace_pseudo_class_selector_name(&mut new_prelude, "autofill", "-webkit-autofill");
+        replace_pseudo_class_selector_name(&mut new_prelude, "any-link", "-webkit-any-link");
+        replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-webkit-full-screen");
+        replace_pseudo_element_selector_name(
+            &mut new_prelude,
+            "file-selector-button",
+            "-webkit-file-upload-button",
+        );
+        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-ms-backdrop");
+        replace_pseudo_element_selector_name(
+            &mut new_prelude,
+            "placeholder",
+            "-ms-input-placeholder",
+        );
+
+        if n.prelude != new_prelude {
+            self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
+                span: DUMMY_SP,
+                prelude: new_prelude,
+                block: n.block.clone(),
+            }));
+        }
+
+        let mut new_prelude = n.prelude.clone();
+
+        replace_pseudo_class_selector_name(&mut new_prelude, "read-only", "-moz-read-only");
+        replace_pseudo_class_selector_name(&mut new_prelude, "read-write", "-moz-read-write");
+        replace_pseudo_class_selector_name(&mut new_prelude, "any-link", "-moz-any-link");
+        replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-moz-full-screen");
+        replace_pseudo_class_selector_name(
+            &mut new_prelude,
+            "placeholder-shown",
+            "-moz-placeholder-shown",
+        );
+        replace_pseudo_element_selector_name(&mut new_prelude, "selection", "-moz-selection");
+        replace_pseudo_element_selector_name(&mut new_prelude, "placeholder", "-moz-placeholder");
+
+        if n.prelude != new_prelude {
+            self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
+                span: DUMMY_SP,
+                prelude: new_prelude,
+                block: n.block.clone(),
+            }));
+        }
+
+        let mut new_prelude = n.prelude.clone();
+
+        replace_pseudo_class_selector_name(&mut new_prelude, "fullscreen", "-ms-fullscreen");
+        replace_pseudo_class_selector_name(
+            &mut new_prelude,
+            "placeholder-shown",
+            "-ms-input-placeholder",
+        );
+        replace_pseudo_element_selector_name(
+            &mut new_prelude,
+            "file-selector-button",
+            "-ms-browse",
+        );
+        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-webkit-backdrop");
+        replace_pseudo_element_selector_name(
+            &mut new_prelude,
+            "placeholder",
+            "-webkit-input-placeholder",
+        );
+
+        if n.prelude != new_prelude {
+            self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
+                span: DUMMY_SP,
+                prelude: new_prelude,
+                block: n.block.clone(),
+            }));
+        }
+    }
+
+    fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
+        let old_in_stylesheet = self.in_stylesheet;
+
+        self.in_stylesheet = true;
+
+        let mut new = vec![];
+
+        for mut n in take(&mut n.rules) {
+            n.visit_mut_children_with(self);
+
+            new.append(&mut self.added_rules);
+            new.push(n);
+        }
+
+        n.rules = new;
+
+        self.in_stylesheet = old_in_stylesheet;
+    }
 
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
@@ -41,6 +149,60 @@ impl VisitMut for Prefixer {
 
         if n.value.is_empty() {
             return;
+        }
+
+        let is_dashed_ident = match n.name {
+            DeclarationName::Ident(_) => false,
+            DeclarationName::DashedIdent(_) => true,
+        };
+
+        if is_dashed_ident {
+            return;
+        }
+
+        let name = match &n.name {
+            DeclarationName::Ident(ident) => &ident.value,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        // TODO make it lazy?
+        let mut webkit_new_value = n.value.clone();
+
+        replace_function_name(&mut webkit_new_value, "filter", "-webkit-filter");
+        replace_function_name(&mut webkit_new_value, "image-set", "-webkit-image-set");
+        replace_function_name(&mut webkit_new_value, "calc", "-webkit-calc");
+
+        let mut moz_new_value = n.value.clone();
+
+        replace_function_name(&mut moz_new_value, "element", "-moz-element");
+        replace_function_name(&mut moz_new_value, "calc", "-moz-calc");
+
+        let mut o_new_value = n.value.clone();
+        let ms_new_value = n.value.clone();
+
+        macro_rules! same_content {
+            ($prefix:expr,$name:expr) => {{
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: $name.into(),
+                    raw: $name.into(),
+                });
+                let new_value = match $prefix {
+                    Prefix::Webkit => webkit_new_value.clone(),
+                    Prefix::Moz => moz_new_value.clone(),
+                    Prefix::O => o_new_value.clone(),
+                    Prefix::Ms => ms_new_value.clone(),
+                };
+
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: new_value,
+                    important: n.important.clone(),
+                });
+            }};
         }
 
         macro_rules! simple {
@@ -64,38 +226,6 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        macro_rules! complex {
-            ($name:expr,$val:expr) => {{
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: $val,
-                    important: n.important.clone(),
-                });
-            }};
-        }
-
-        macro_rules! same_content {
-            ($name:expr) => {{
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: n.value.clone(),
-                    important: n.important.clone(),
-                });
-            }};
-        }
-
         macro_rules! same_name {
             ($name:expr) => {{
                 let val = Ident {
@@ -112,27 +242,11 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        let is_dashed_ident = match n.name {
-            DeclarationName::Ident(_) => false,
-            DeclarationName::DashedIdent(_) => true,
-        };
-
-        if is_dashed_ident {
-            return;
-        }
-
-        let name = match &n.name {
-            DeclarationName::Ident(ident) => &ident.value,
-            _ => {
-                unreachable!();
-            }
-        };
-
         match &*name.to_lowercase() {
             "appearance" => {
-                same_content!("-webkit-appearance");
-                same_content!("-moz-appearance");
-                same_content!("-ms-appearance");
+                same_content!(Prefix::Webkit, "-webkit-appearance");
+                same_content!(Prefix::Moz, "-moz-appearance");
+                same_content!(Prefix::Ms, "-ms-appearance");
             }
 
             "animation" => {
@@ -144,28 +258,28 @@ impl VisitMut for Prefixer {
                 });
 
                 if need_prefix {
-                    same_content!("-webkit-animation");
-                    same_content!("-moz-animation");
-                    same_content!("-o-animation");
+                    same_content!(Prefix::Webkit, "-webkit-animation");
+                    same_content!(Prefix::Moz, "-moz-animation");
+                    same_content!(Prefix::O, "-o-animation");
                 }
             }
 
             "animation-name" => {
-                same_content!("-webkit-animation-name");
-                same_content!("-moz-animation-name");
-                same_content!("-o-animation-name");
+                same_content!(Prefix::Webkit, "-webkit-animation-name");
+                same_content!(Prefix::Moz, "-moz-animation-name");
+                same_content!(Prefix::O, "-o-animation-name");
             }
 
             "animation-duration" => {
-                same_content!("-webkit-animation-duration");
-                same_content!("-moz-animation-duration");
-                same_content!("-o-animation-duration");
+                same_content!(Prefix::Webkit, "-webkit-animation-duration");
+                same_content!(Prefix::Moz, "-moz-animation-duration");
+                same_content!(Prefix::O, "-o-animation-duration");
             }
 
             "animation-delay" => {
-                same_content!("-webkit-animation-delay");
-                same_content!("-moz-animation-delay");
-                same_content!("-o-animation-delay");
+                same_content!(Prefix::Webkit, "-webkit-animation-delay");
+                same_content!(Prefix::Moz, "-moz-animation-delay");
+                same_content!(Prefix::O, "-o-animation-delay");
             }
 
             "animation-direction" => {
@@ -174,239 +288,139 @@ impl VisitMut for Prefixer {
                         "alternate-reverse" | "reverse" => {}
 
                         _ => {
-                            same_content!("-webkit-animation-direction");
-                            same_content!("-moz-animation-direction");
-                            same_content!("-o-animation-direction");
+                            same_content!(Prefix::Webkit, "-webkit-animation-direction");
+                            same_content!(Prefix::Moz, "-moz-animation-direction");
+                            same_content!(Prefix::O, "-o-animation-direction");
                         }
                     }
                 }
             }
 
             "animation-fill-mode" => {
-                same_content!("-webkit-animation-fill-mode");
-                same_content!("-moz-animation-fill-mode");
-                same_content!("-o-animation-fill-mode");
+                same_content!(Prefix::Webkit, "-webkit-animation-fill-mode");
+                same_content!(Prefix::Moz, "-moz-animation-fill-mode");
+                same_content!(Prefix::O, "-o-animation-fill-mode");
             }
 
             "animation-iteration-count" => {
-                same_content!("-webkit-animation-iteration-count");
-                same_content!("-moz-animation-iteration-count");
-                same_content!("-o-animation-iteration-count");
+                same_content!(Prefix::Webkit, "-webkit-animation-iteration-count");
+                same_content!(Prefix::Moz, "-moz-animation-iteration-count");
+                same_content!(Prefix::O, "-o-animation-iteration-count");
             }
 
             "animation-play-state" => {
-                same_content!("-webkit-animation-play-state");
-                same_content!("-moz-animation-play-state");
-                same_content!("-o-animation-play-state");
+                same_content!(Prefix::Webkit, "-webkit-animation-play-state");
+                same_content!(Prefix::Moz, "-moz-animation-play-state");
+                same_content!(Prefix::O, "-o-animation-play-state");
             }
 
             "animation-timing-function" => {
-                same_content!("-webkit-animation-timing-function");
-                same_content!("-moz-animation-timing-function");
-                same_content!("-o-animation-timing-function");
+                same_content!(Prefix::Webkit, "-webkit-animation-timing-function");
+                same_content!(Prefix::Moz, "-moz-animation-timing-function");
+                same_content!(Prefix::O, "-o-animation-timing-function");
             }
 
             "background-clip" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "text" {
-                        same_content!("-webkit-background-clip");
+                        same_content!(Prefix::Webkit, "-webkit-background-clip");
                     }
                 }
             }
 
             "box-decoration-break" => {
-                same_content!("-webkit-box-decoration-break");
+                same_content!(Prefix::Webkit, "-webkit-box-decoration-break");
             }
 
             "box-sizing" => {
-                same_content!("-webkit-box-sizing");
-                same_content!("-moz-box-sizing");
+                same_content!(Prefix::Webkit, "-webkit-box-sizing");
+                same_content!(Prefix::Moz, "-moz-box-sizing");
             }
 
             "color-adjust" => {
-                same_content!("-webkit-print-color-adjust");
+                same_content!(Prefix::Webkit, "-webkit-print-color-adjust");
             }
 
             "columns" => {
-                same_content!("-webkit-columns");
-                same_content!("-moz-columns");
+                same_content!(Prefix::Webkit, "-webkit-columns");
+                same_content!(Prefix::Moz, "-moz-columns");
             }
 
             "column-width" => {
-                same_content!("-webkit-column-width");
-                same_content!("-moz-column-width");
+                same_content!(Prefix::Webkit, "-webkit-column-width");
+                same_content!(Prefix::Moz, "-moz-column-width");
             }
 
             "column-gap" => {
-                same_content!("-webkit-column-gap");
-                same_content!("-moz-column-gap");
+                same_content!(Prefix::Webkit, "-webkit-column-gap");
+                same_content!(Prefix::Moz, "-moz-column-gap");
             }
 
             "column-rule" => {
-                same_content!("-webkit-column-rule");
-                same_content!("-moz-column-rule");
+                same_content!(Prefix::Webkit, "-webkit-column-rule");
+                same_content!(Prefix::Moz, "-moz-column-rule");
             }
 
             "column-rule-color" => {
-                same_content!("-webkit-column-rule-color");
-                same_content!("-moz-column-rule-color");
+                same_content!(Prefix::Webkit, "-webkit-column-rule-color");
+                same_content!(Prefix::Moz, "-moz-column-rule-color");
             }
 
             "column-rule-width" => {
-                same_content!("-webkit-column-rule-width");
-                same_content!("-moz-column-rule-width");
+                same_content!(Prefix::Webkit, "-webkit-column-rule-width");
+                same_content!(Prefix::Moz, "-moz-column-rule-width");
             }
 
             "column-count" => {
-                same_content!("-webkit-column-count");
-                same_content!("-moz-column-count");
+                same_content!(Prefix::Webkit, "-webkit-column-count");
+                same_content!(Prefix::Moz, "-moz-column-count");
             }
 
             "column-rule-style" => {
-                same_content!("-webkit-column-rule-style");
-                same_content!("-moz-column-rule-style");
+                same_content!(Prefix::Webkit, "-webkit-column-rule-style");
+                same_content!(Prefix::Moz, "-moz-column-rule-style");
             }
 
             "column-span" => {
-                same_content!("-webkit-column-span");
-                same_content!("-moz-column-span");
+                same_content!(Prefix::Webkit, "-webkit-column-span");
+                same_content!(Prefix::Moz, "-moz-column-span");
             }
 
             "column-fill" => {
-                same_content!("-webkit-column-fill");
-                same_content!("-moz-column-fill");
-            }
-
-            "content" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
-            }
-
-            "list-style" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
-            }
-
-            "list-style-image" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
-            }
-
-            "background" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
-            }
-
-            "background-image" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
+                same_content!(Prefix::Webkit, "-webkit-column-fill");
+                same_content!(Prefix::Moz, "-moz-column-fill");
             }
 
             "cursor" => {
-                let mut new_value = n.value.clone();
+                replace_ident(&mut webkit_new_value, "zoom-in", "-webkit-zoom-in");
+                replace_ident(&mut webkit_new_value, "zoom-out", "-webkit-zoom-out");
+                replace_ident(&mut webkit_new_value, "grab", "-webkit-grab");
+                replace_ident(&mut webkit_new_value, "grabbing", "-webkit-grabbing");
 
-                replace_ident(&mut new_value, "zoom-in", "-webkit-zoom-in");
-                replace_ident(&mut new_value, "zoom-out", "-webkit-zoom-out");
-                replace_ident(&mut new_value, "grab", "-webkit-grab");
-                replace_ident(&mut new_value, "grabbing", "-webkit-grabbing");
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
-
-                let mut new_value = n.value.clone();
-
-                replace_ident(&mut new_value, "zoom-in", "-moz-zoom-in");
-                replace_ident(&mut new_value, "zoom-out", "-moz-zoom-out");
-                replace_ident(&mut new_value, "grab", "-moz-grab");
-                replace_ident(&mut new_value, "grabbing", "-moz-grabbing");
-
-                if n.value != new_value {
-                    self.added_declarations.push(Declaration {
-                        span: n.span,
-                        name: n.name.clone(),
-                        value: new_value,
-                        important: n.important.clone(),
-                    });
-                }
+                replace_ident(&mut moz_new_value, "zoom-in", "-moz-zoom-in");
+                replace_ident(&mut moz_new_value, "zoom-out", "-moz-zoom-out");
+                replace_ident(&mut moz_new_value, "grab", "-moz-grab");
+                replace_ident(&mut moz_new_value, "grabbing", "-moz-grabbing");
             }
 
-            "display" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &*value.to_lowercase() {
-                            "flex" => {
-                                same_name!("-webkit-box");
-                                same_name!("-webkit-flex");
-                                same_name!("-moz-box");
-                                same_name!("-ms-flexbox");
-                            }
-
-                            "inline-flex" => {
-                                same_name!("-webkit-inline-box");
-                                same_name!("-webkit-inline-flex");
-                                same_name!("-moz-inline-box");
-                                same_name!("-ms-inline-flexbox");
-                            }
-
-                            _ => {}
+            "display" if n.value.len() == 1 => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "flex" => {
+                            same_name!("-webkit-box");
+                            same_name!("-webkit-flex");
+                            same_name!("-moz-box");
+                            same_name!("-ms-flexbox");
                         }
+
+                        "inline-flex" => {
+                            same_name!("-webkit-inline-box");
+                            same_name!("-webkit-inline-flex");
+                            same_name!("-moz-inline-box");
+                            same_name!("-ms-inline-flexbox");
+                        }
+
+                        _ => {}
                     }
                 }
             }
@@ -414,40 +428,40 @@ impl VisitMut for Prefixer {
             // TODO improve old spec https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L330
             // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "flex" => {
-                same_content!("-webkit-flex");
-                same_content!("-ms-flex");
+                same_content!(Prefix::Webkit, "-webkit-flex");
+                same_content!(Prefix::Ms, "-ms-flex");
             }
 
             "flex-grow" => {
-                same_content!("-webkit-box-flex");
-                same_content!("-webkit-flex-grow");
-                same_content!("-moz-box-flex");
-                same_content!("-ms-flex-positive");
+                same_content!(Prefix::Webkit, "-webkit-box-flex");
+                same_content!(Prefix::Webkit, "-webkit-flex-grow");
+                same_content!(Prefix::Moz, "-moz-box-flex");
+                same_content!(Prefix::Ms, "-ms-flex-positive");
             }
 
             "flex-shrink" => {
-                same_content!("-webkit-flex-shrink");
-                same_content!("-ms-flex-negative");
+                same_content!(Prefix::Webkit, "-webkit-flex-shrink");
+                same_content!(Prefix::Ms, "-ms-flex-negative");
             }
 
             "flex-basis" => {
-                same_content!("-webkit-flex-basis");
-                same_content!("-ms-flex-preferred-size");
+                same_content!(Prefix::Webkit, "-webkit-flex-basis");
+                same_content!(Prefix::Ms, "-ms-flex-preferred-size");
             }
 
             "flex-direction" => {
-                same_content!("-webkit-flex-direction");
-                same_content!("-ms-flex-direction");
+                same_content!(Prefix::Webkit, "-webkit-flex-direction");
+                same_content!(Prefix::Ms, "-ms-flex-direction");
             }
 
             "flex-wrap" => {
-                same_content!("-webkit-flex-wrap");
-                same_content!("-ms-flex-wrap");
+                same_content!(Prefix::Webkit, "-webkit-flex-wrap");
+                same_content!(Prefix::Ms, "-ms-flex-wrap");
             }
 
             "flex-flow" => {
-                same_content!("-webkit-flex-flow");
-                same_content!("-ms-flex-flow");
+                same_content!(Prefix::Webkit, "-webkit-flex-flow");
+                same_content!(Prefix::Ms, "-ms-flex-flow");
             }
 
             "justify-content" => {
@@ -465,8 +479,8 @@ impl VisitMut for Prefixer {
                             }
 
                             "justify" => {
-                                same_content!("-webkit-box-pack");
-                                same_content!("-ms-flex-pack");
+                                same_content!(Prefix::Webkit, "-webkit-box-pack");
+                                same_content!(Prefix::Ms, "-ms-flex-pack");
                             }
 
                             "space-between" => {
@@ -478,28 +492,28 @@ impl VisitMut for Prefixer {
                     }
                 }
 
-                same_content!("-webkit-justify-content");
+                same_content!(Prefix::Webkit, "-webkit-justify-content");
             }
 
             "order" => {
-                same_content!("-webkit-order");
-                same_content!("-ms-flex-order");
+                same_content!(Prefix::Webkit, "-webkit-order");
+                same_content!(Prefix::Ms, "-ms-flex-order");
             }
 
             "align-items" => {
-                same_content!("-webkit-align-items");
-                same_content!("-webkit-box-align");
-                same_content!("-ms-flex-align");
+                same_content!(Prefix::Webkit, "-webkit-align-items");
+                same_content!(Prefix::Webkit, "-webkit-box-align");
+                same_content!(Prefix::Ms, "-ms-flex-align");
             }
 
             "align-self" => {
-                same_content!("-webkit-align-self");
-                same_content!("-ms-flex-item-align");
+                same_content!(Prefix::Webkit, "-webkit-align-self");
+                same_content!(Prefix::Ms, "-ms-flex-item-align");
             }
 
             "align-content" => {
-                same_content!("-webkit-align-content");
-                same_content!("-ms-flex-line-pack");
+                same_content!(Prefix::Webkit, "-webkit-align-content");
+                same_content!(Prefix::Ms, "-ms-flex-line-pack");
             }
 
             "image-rendering" => {
@@ -519,155 +533,145 @@ impl VisitMut for Prefixer {
                 ComponentValue::Function(Function { name, .. })
                     if name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
                 _ => {
-                    same_content!("-webkit-filter");
+                    same_content!(Prefix::Webkit, "-webkit-filter");
                 }
             },
 
             "backdrop-filter" => {
-                same_content!("-webkit-backdrop-filter");
+                same_content!(Prefix::Webkit, "-webkit-backdrop-filter");
             }
 
             "mask-clip" => {
-                same_content!("-webkit-mask-clip");
+                same_content!(Prefix::Webkit, "-webkit-mask-clip");
             }
 
             // Fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/mask-composite.js
             "mask-composite" => {
-                same_content!("-webkit-mask-composite");
+                same_content!(Prefix::Webkit, "-webkit-mask-composite");
             }
 
             "mask-image" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                complex!("-webkit-mask-image", new_value);
+                same_content!(Prefix::Webkit, "-webkit-mask-image");
             }
 
             "mask-origin" => {
-                same_content!("-webkit-mask-origin");
+                same_content!(Prefix::Webkit, "-webkit-mask-origin");
             }
 
             "mask-repeat" => {
-                same_content!("-webkit-mask-repeat");
+                same_content!(Prefix::Webkit, "-webkit-mask-repeat");
             }
 
             "mask-border-repeat" => {
-                same_content!("-webkit-mask-border-repeat");
+                same_content!(Prefix::Webkit, "-webkit-mask-border-repeat");
             }
 
             "mask-border-source" => {
-                same_content!("-webkit-mask-border-source");
+                same_content!(Prefix::Webkit, "-webkit-mask-border-source");
             }
 
             "mask" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                complex!("-webkit-mask", new_value);
+                same_content!(Prefix::Webkit, "-webkit-mask");
             }
 
             "mask-position" => {
-                same_content!("-webkit-mask-position");
+                same_content!(Prefix::Webkit, "-webkit-mask-position");
             }
 
             "mask-size" => {
-                same_content!("-webkit-mask-size");
+                same_content!(Prefix::Webkit, "-webkit-mask-size");
             }
 
             "mask-border" => {
-                same_content!("-webkit-mask-box-image");
+                same_content!(Prefix::Webkit, "-webkit-mask-box-image");
             }
 
             "mask-border-outset" => {
-                same_content!("-webkit-mask-box-image-outset");
+                same_content!(Prefix::Webkit, "-webkit-mask-box-image-outset");
             }
 
             "mask-border-width" => {
-                same_content!("-webkit-mask-box-image-width");
+                same_content!(Prefix::Webkit, "-webkit-mask-box-image-width");
             }
 
             "mask-border-slice" => {
-                same_content!("-webkit-mask-box-image-slice");
+                same_content!(Prefix::Webkit, "-webkit-mask-box-image-slice");
             }
 
             "border-inline-start" => {
-                same_content!("-webkit-border-start");
-                same_content!("-moz-border-start");
+                same_content!(Prefix::Webkit, "-webkit-border-start");
+                same_content!(Prefix::Moz, "-moz-border-start");
             }
 
             "border-inline-end" => {
-                same_content!("-webkit-border-end");
-                same_content!("-moz-border-end");
+                same_content!(Prefix::Webkit, "-webkit-border-end");
+                same_content!(Prefix::Moz, "-moz-border-end");
             }
 
             "margin-inline-start" => {
-                same_content!("-webkit-margin-start");
-                same_content!("-moz-margin-start");
+                same_content!(Prefix::Webkit, "-webkit-margin-start");
+                same_content!(Prefix::Moz, "-moz-margin-start");
             }
 
             "margin-inline-end" => {
-                same_content!("-webkit-margin-end");
-                same_content!("-moz-margin-end");
+                same_content!(Prefix::Webkit, "-webkit-margin-end");
+                same_content!(Prefix::Moz, "-moz-margin-end");
             }
 
             "padding-inline-start" => {
-                same_content!("-webkit-padding-start");
-                same_content!("-moz-padding-start");
+                same_content!(Prefix::Webkit, "-webkit-padding-start");
+                same_content!(Prefix::Moz, "-moz-padding-start");
             }
 
             "padding-inline-end" => {
-                same_content!("-webkit-padding-end");
-                same_content!("-moz-padding-end");
+                same_content!(Prefix::Webkit, "-webkit-padding-end");
+                same_content!(Prefix::Moz, "-moz-padding-end");
             }
 
             "border-block-start" => {
-                same_content!("-webkit-border-before");
+                same_content!(Prefix::Webkit, "-webkit-border-before");
             }
 
             "border-block-end" => {
-                same_content!("-webkit-border-after");
+                same_content!(Prefix::Webkit, "-webkit-border-after");
             }
 
             "margin-block-start" => {
-                same_content!("-webkit-margin-before");
+                same_content!(Prefix::Webkit, "-webkit-margin-before");
             }
 
             "margin-block-end" => {
-                same_content!("-webkit-margin-after");
+                same_content!(Prefix::Webkit, "-webkit-margin-after");
             }
 
             "padding-block-start" => {
-                same_content!("-webkit-padding-before");
+                same_content!(Prefix::Webkit, "-webkit-padding-before");
             }
 
             "padding-block-end" => {
-                same_content!("-webkit-padding-after");
+                same_content!(Prefix::Webkit, "-webkit-padding-after");
             }
 
             "backface-visibility" => {
-                same_content!("-webkit-backface-visibility");
-                same_content!("-moz-backface-visibility");
+                same_content!(Prefix::Webkit, "-webkit-backface-visibility");
+                same_content!(Prefix::Moz, "-moz-backface-visibility");
             }
 
             "clip-path" => {
-                same_content!("-webkit-clip-path");
+                same_content!(Prefix::Webkit, "-webkit-clip-path");
             }
 
-            "position" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        if &*value.to_lowercase() == "sticky" {
-                            same_name!("-webkit-sticky");
-                        }
+            "position" if n.value.len() == 1 => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    if &*value.to_lowercase() == "sticky" {
+                        same_name!("-webkit-sticky");
                     }
                 }
             }
 
             "user-select" => {
-                same_content!("-webkit-user-select");
-                same_content!("-moz-user-select");
+                same_content!(Prefix::Webkit, "-webkit-user-select");
+                same_content!(Prefix::Moz, "-moz-user-select");
 
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
@@ -676,39 +680,63 @@ impl VisitMut for Prefixer {
                         }
                         "all" => {}
                         _ => {
-                            same_content!("-ms-user-select");
+                            same_content!(Prefix::Ms, "-ms-user-select");
                         }
                     }
                 }
             }
 
             "transform" => {
-                same_content!("-webkit-transform");
-                same_content!("-moz-transform");
-                same_content!("-ms-transform");
-                same_content!("-o-transform");
+                let has_3d_function = n.value.iter().any(|n| match n {
+                    ComponentValue::Function(Function { name, .. })
+                        if matches!(
+                            &*name.value.to_ascii_lowercase(),
+                            "matrix3d"
+                                | "translate3d"
+                                | "translatez"
+                                | "scale3d"
+                                | "scalez"
+                                | "rotate3d"
+                                | "rotatex"
+                                | "rotatey"
+                                | "rotatez"
+                                | "perspective"
+                        ) =>
+                    {
+                        true
+                    }
+                    _ => false,
+                });
+
+                same_content!(Prefix::Webkit, "-webkit-transform");
+                same_content!(Prefix::Moz, "-moz-transform");
+
+                if !has_3d_function {
+                    same_content!(Prefix::Ms, "-ms-transform");
+                    same_content!(Prefix::O, "-o-transform");
+                }
             }
 
             "transform-origin" => {
-                same_content!("-webkit-transform-origin");
-                same_content!("-moz-transform-origin");
-                same_content!("-ms-transform-origin");
-                same_content!("-o-transform-origin");
+                same_content!(Prefix::Webkit, "-webkit-transform-origin");
+                same_content!(Prefix::Moz, "-moz-transform-origin");
+                same_content!(Prefix::Ms, "-ms-transform-origin");
+                same_content!(Prefix::O, "-o-transform-origin");
             }
 
             "transform-style" => {
-                same_content!("-webkit-transform-style");
-                same_content!("-moz-transform-style");
+                same_content!(Prefix::Webkit, "-webkit-transform-style");
+                same_content!(Prefix::Moz, "-moz-transform-style");
             }
 
             "perspective" => {
-                same_content!("-webkit-perspective");
-                same_content!("-moz-perspective");
+                same_content!(Prefix::Webkit, "-webkit-perspective");
+                same_content!(Prefix::Moz, "-moz-perspective");
             }
 
             "perspective-origin" => {
-                same_content!("-webkit-perspective-origin");
-                same_content!("-moz-perspective-origin");
+                same_content!(Prefix::Webkit, "-webkit-perspective-origin");
+                same_content!(Prefix::Moz, "-moz-perspective-origin");
             }
 
             "text-decoration" => {
@@ -728,33 +756,33 @@ impl VisitMut for Prefixer {
                                     | "unset"
                             ) => {}
                         _ => {
-                            same_content!("-webkit-text-decoration");
-                            same_content!("-moz-text-decoration");
+                            same_content!(Prefix::Webkit, "-webkit-text-decoration");
+                            same_content!(Prefix::Moz, "-moz-text-decoration");
                         }
                     }
                 } else {
-                    same_content!("-webkit-text-decoration");
-                    same_content!("-moz-text-decoration");
+                    same_content!(Prefix::Webkit, "-webkit-text-decoration");
+                    same_content!(Prefix::Moz, "-moz-text-decoration");
                 }
             }
 
             "text-decoration-style" => {
-                same_content!("-webkit-text-decoration-style");
-                same_content!("-moz-text-decoration-style");
+                same_content!(Prefix::Webkit, "-webkit-text-decoration-style");
+                same_content!(Prefix::Moz, "-moz-text-decoration-style");
             }
 
             "text-decoration-color" => {
-                same_content!("-webkit-text-decoration-color");
-                same_content!("-moz-text-decoration-color");
+                same_content!(Prefix::Webkit, "-webkit-text-decoration-color");
+                same_content!(Prefix::Moz, "-moz-text-decoration-color");
             }
 
             "text-decoration-line" => {
-                same_content!("-webkit-text-decoration-line");
-                same_content!("-moz-text-decoration-line");
+                same_content!(Prefix::Webkit, "-webkit-text-decoration-line");
+                same_content!(Prefix::Moz, "-moz-text-decoration-line");
             }
 
             "text-decoration-skip" => {
-                same_content!("-webkit-text-decoration-skip");
+                same_content!(Prefix::Webkit, "-webkit-text-decoration-skip");
             }
 
             "text-decoration-skip-ink" => {
@@ -764,138 +792,134 @@ impl VisitMut for Prefixer {
                             simple!("-webkit-text-decoration-skip", "ink")
                         }
                         _ => {
-                            same_content!("-webkit-text-decoration-skip-ink");
+                            same_content!(Prefix::Webkit, "-webkit-text-decoration-skip-ink");
                         }
                     }
                 }
             }
 
-            "text-size-adjust" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        if &*value.to_lowercase() == "none" {
-                            same_content!("-webkit-text-size-adjust");
-                            same_content!("-moz-text-size-adjust");
-                            same_content!("-ms-text-size-adjust");
-                        }
+            "text-size-adjust" if n.value.len() == 1 => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    if &*value.to_lowercase() == "none" {
+                        same_content!(Prefix::Webkit, "-webkit-text-size-adjust");
+                        same_content!(Prefix::Moz, "-moz-text-size-adjust");
+                        same_content!(Prefix::Ms, "-ms-text-size-adjust");
                     }
                 }
             }
 
             // TODO improve me for `filter` values https://github.com/postcss/autoprefixer/blob/main/test/cases/transition.css#L6
             "transition" => {
-                let mut value = n.value.clone();
+                replace_ident(&mut webkit_new_value, "transform", "-webkit-transform");
 
-                replace_ident(&mut value, "transform", "-webkit-transform");
+                same_content!(Prefix::Webkit, "-webkit-transition");
 
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: "-webkit-transition".into(),
-                    raw: "-webkit-transition".into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value,
-                    important: n.important.clone(),
-                });
+                replace_ident(&mut moz_new_value, "transform", "-moz-transform");
+
+                same_content!(Prefix::Moz, "-moz-transition");
+
+                replace_ident(&mut o_new_value, "transform", "-o-transform");
+
+                same_content!(Prefix::O, "-o-transition");
             }
 
             "transition-property" => {
-                same_content!("-webkit-transition-property");
-                same_content!("-moz-transition-timing-function");
-                same_content!("-o-transition-timing-function");
+                replace_ident(&mut webkit_new_value, "transform", "-webkit-transform");
+                replace_ident(&mut moz_new_value, "transform", "-moz-transform");
+                replace_ident(&mut o_new_value, "transform", "-o-transform");
+
+                same_content!(Prefix::Webkit, "-webkit-transition-property");
+                same_content!(Prefix::Moz, "-moz-transition-timing-function");
+                same_content!(Prefix::O, "-o-transition-timing-function");
             }
 
             "transition-duration" => {
-                same_content!("-webkit-transition-duration");
-                same_content!("-moz-transition-duration");
-                same_content!("-o-transition-duration");
+                same_content!(Prefix::Webkit, "-webkit-transition-duration");
+                same_content!(Prefix::Moz, "-moz-transition-duration");
+                same_content!(Prefix::O, "-o-transition-duration");
             }
 
             "transition-delay" => {
-                same_content!("-webkit-transition-delay");
-                same_content!("-moz-transition-delay");
-                same_content!("-o-transition-delay");
+                same_content!(Prefix::Webkit, "-webkit-transition-delay");
+                same_content!(Prefix::Moz, "-moz-transition-delay");
+                same_content!(Prefix::O, "-o-transition-delay");
             }
 
             "transition-timing-function" => {
-                same_content!("-webkit-transition-timing-function");
-                same_content!("-moz-transition-timing-function");
-                same_content!("-o-transition-timing-function");
+                same_content!(Prefix::Webkit, "-webkit-transition-timing-function");
+                same_content!(Prefix::Moz, "-moz-transition-timing-function");
+                same_content!(Prefix::O, "-o-transition-timing-function");
             }
 
             // TODO fix me, we should look at `direction` property https://github.com/postcss/autoprefixer/blob/main/lib/hacks/writing-mode.js
-            "writing-mode" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &*value.to_lowercase() {
-                            "none" => {
-                                same_content!("-webkit-writing-mode");
-                                same_content!("-ms-writing-mode");
-                            }
-
-                            "vertical-lr" | "sideways-lr" => {
-                                same_content!("-webkit-writing-mode");
-                                simple!("-ms-writing-mode", "tb");
-                            }
-
-                            "vertical-rl" | "sideways-rl" => {
-                                same_content!("-webkit-writing-mode");
-                                simple!("-ms-writing-mode", "tb-rl");
-                            }
-
-                            "horizontal-tb" => {
-                                same_content!("-webkit-writing-mode");
-                                simple!("-ms-writing-mode", "lr");
-                            }
-
-                            _ => {}
+            "writing-mode" if n.value.len() == 1 => {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "none" => {
+                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            same_content!(Prefix::Ms, "-ms-writing-mode");
                         }
+
+                        "vertical-lr" | "sideways-lr" => {
+                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            simple!("-ms-writing-mode", "tb");
+                        }
+
+                        "vertical-rl" | "sideways-rl" => {
+                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            simple!("-ms-writing-mode", "tb-rl");
+                        }
+
+                        "horizontal-tb" => {
+                            same_content!(Prefix::Webkit, "-webkit-writing-mode");
+                            simple!("-ms-writing-mode", "lr");
+                        }
+
+                        _ => {}
                     }
                 }
             }
 
-            "min-width" | "width" | "max-width" | "min-height" | "height" | "max-height"
-            | "min-block-size" | "min-inline-size" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &*value.to_lowercase() {
-                            // TODO better handle in more properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559
-                            "fit-content" => {
-                                same_name!("-webkit-fit-content");
-                                same_name!("-moz-fit-content");
-                            }
-
-                            "max-content" => {
-                                same_name!("-webkit-max-content");
-                                same_name!("-moz-max-content");
-                            }
-
-                            "min-content" => {
-                                same_name!("-webkit-min-content");
-                                same_name!("-moz-min-content");
-                            }
-
-                            "fill-available" => {
-                                same_name!("-webkit-fill-available");
-                                same_name!("-moz-available");
-                            }
-
-                            "stretch" => {
-                                same_name!("-webkit-fill-available");
-                                same_name!("-moz-available");
-                                same_name!("fill-available");
-                            }
-
-                            _ => {}
+            "width" | "min-width" | "max-width" | "height" | "min-height" | "max-height"
+            | "inline-size" | "min-inline-size" | "max-inline-size" | "block-size"
+            | "min-block-size" | "max-block-size"
+                if n.value.len() == 1 =>
+            {
+                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
+                    match &*value.to_lowercase() {
+                        "fit-content" => {
+                            same_name!("-webkit-fit-content");
+                            same_name!("-moz-fit-content");
                         }
+
+                        "max-content" => {
+                            same_name!("-webkit-max-content");
+                            same_name!("-moz-max-content");
+                        }
+
+                        "min-content" => {
+                            same_name!("-webkit-min-content");
+                            same_name!("-moz-min-content");
+                        }
+
+                        "fill-available" | "fill" => {
+                            same_name!("-webkit-fill-available");
+                            same_name!("-moz-available");
+                        }
+
+                        "stretch" => {
+                            same_name!("-webkit-fill-available");
+                            same_name!("-moz-available");
+                            same_name!("fill-available");
+                        }
+
+                        _ => {}
                     }
                 }
             }
 
             "touch-action" => {
-                let mut value = n.value.clone();
+                let mut value = ms_new_value.clone();
 
                 replace_ident(&mut value, "pan-x", "-ms-pan-x");
                 replace_ident(&mut value, "pan-y", "-ms-pan-y");
@@ -916,11 +940,11 @@ impl VisitMut for Prefixer {
                     important: n.important.clone(),
                 });
 
-                same_content!("-ms-touch-action");
+                same_content!(Prefix::Ms, "-ms-touch-action");
             }
 
             "text-orientation" => {
-                same_content!("-webkit-text-orientation");
+                same_content!(Prefix::Webkit, "-webkit-text-orientation");
             }
 
             "unicode-bidi" => {
@@ -944,143 +968,138 @@ impl VisitMut for Prefixer {
             }
 
             "text-spacing" => {
-                same_content!("-ms-text-spacing");
+                same_content!(Prefix::Ms, "-ms-text-spacing");
             }
 
             "text-emphasis" => {
-                same_content!("-webkit-text-spacing");
+                same_content!(Prefix::Webkit, "-webkit-text-spacing");
             }
 
             "text-emphasis-position" => {
-                same_content!("-webkit-text-emphasis-position");
+                same_content!(Prefix::Webkit, "-webkit-text-emphasis-position");
             }
 
             "text-emphasis-style" => {
-                same_content!("-webkit-text-emphasis-style");
+                same_content!(Prefix::Webkit, "-webkit-text-emphasis-style");
             }
 
             "text-emphasis-color" => {
-                same_content!("-webkit-text-emphasis-color");
+                same_content!(Prefix::Webkit, "-webkit-text-emphasis-color");
             }
 
             "flow-into" => {
-                same_content!("-webkit-flow-into");
-                same_content!("-ms-flow-into");
+                same_content!(Prefix::Webkit, "-webkit-flow-into");
+                same_content!(Prefix::Ms, "-ms-flow-into");
             }
 
             "flow-from" => {
-                same_content!("-webkit-flow-from");
-                same_content!("-ms-flow-from");
+                same_content!(Prefix::Webkit, "-webkit-flow-from");
+                same_content!(Prefix::Ms, "-ms-flow-from");
             }
 
             "region-fragment" => {
-                same_content!("-webkit-region-fragment");
-                same_content!("-ms-region-fragment");
+                same_content!(Prefix::Webkit, "-webkit-region-fragment");
+                same_content!(Prefix::Ms, "-ms-region-fragment");
             }
 
             "scroll-snap-type" => {
-                same_content!("-webkit-scroll-snap-type");
-                same_content!("-ms-scroll-snap-type");
+                same_content!(Prefix::Webkit, "-webkit-scroll-snap-type");
+                same_content!(Prefix::Ms, "-ms-scroll-snap-type");
             }
 
             "scroll-snap-coordinate" => {
-                same_content!("-webkit-scroll-snap-coordinate");
-                same_content!("-ms-scroll-snap-coordinate");
+                same_content!(Prefix::Webkit, "-webkit-scroll-snap-coordinate");
+                same_content!(Prefix::Ms, "-ms-scroll-snap-coordinate");
             }
 
             "scroll-snap-destination" => {
-                same_content!("-webkit-scroll-snap-destination");
-                same_content!("-ms-scroll-snap-destination");
+                same_content!(Prefix::Webkit, "-webkit-scroll-snap-destination");
+                same_content!(Prefix::Ms, "-ms-scroll-snap-destination");
             }
 
             "scroll-snap-points-x" => {
-                same_content!("-webkit-scroll-snap-points-x");
-                same_content!("-ms-scroll-snap-points-x");
+                same_content!(Prefix::Webkit, "-webkit-scroll-snap-points-x");
+                same_content!(Prefix::Ms, "-ms-scroll-snap-points-x");
             }
 
             "scroll-snap-points-y" => {
-                same_content!("-webkit-scroll-snap-points-y");
-                same_content!("-ms-scroll-snap-points-y");
+                same_content!(Prefix::Webkit, "-webkit-scroll-snap-points-y");
+                same_content!(Prefix::Ms, "-ms-scroll-snap-points-y");
             }
 
             "text-align-last" => {
-                same_content!("-moz-text-align-last");
+                same_content!(Prefix::Moz, "-moz-text-align-last");
             }
 
             "text-overflow" => {
-                same_content!("-o-text-overflow");
+                same_content!(Prefix::O, "-o-text-overflow");
             }
 
             "shape-margin" => {
-                same_content!("-webkit-shape-margin");
+                same_content!(Prefix::Webkit, "-webkit-shape-margin");
             }
 
             "shape-outside" => {
-                same_content!("-webkit-shape-outside");
+                same_content!(Prefix::Webkit, "-webkit-shape-outside");
             }
 
             "shape-image-threshold" => {
-                same_content!("-webkit-shape-image-threshold");
+                same_content!(Prefix::Webkit, "-webkit-shape-image-threshold");
             }
 
             "object-fit" => {
-                same_content!("-o-object-fit");
+                same_content!(Prefix::O, "-o-object-fit");
             }
 
             "object-position" => {
-                same_content!("-o-object-position");
+                same_content!(Prefix::O, "-o-object-position");
             }
 
             "tab-size" => {
-                same_content!("-moz-tab-size");
-                same_content!("-o-tab-size");
+                same_content!(Prefix::Moz, "-moz-tab-size");
+                same_content!(Prefix::O, "-o-tab-size");
             }
 
             "hyphens" => {
-                same_content!("-webkit-hyphens");
-                same_content!("-moz-hyphens");
-                same_content!("-ms-hyphens");
+                same_content!(Prefix::Webkit, "-webkit-hyphens");
+                same_content!(Prefix::Moz, "-moz-hyphens");
+                same_content!(Prefix::Ms, "-ms-hyphens");
             }
 
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/border-image.js
             "border-image" => {
-                let mut new_value = n.value.clone();
-
-                replace_function_name(&mut new_value, "image-set", "-webkit-image-set");
-
-                complex!("-webkit-border-image", new_value);
-                same_content!("-moz-border-image");
-                same_content!("-o-border-image");
+                same_content!(Prefix::Webkit, "-webkit-border-image");
+                same_content!(Prefix::Moz, "-moz-border-image");
+                same_content!(Prefix::O, "-o-border-image");
             }
 
             "font-kerning" => {
-                same_content!("-webkit-font-kerning");
+                same_content!(Prefix::Webkit, "-webkit-font-kerning");
             }
 
             "font-feature-settings" => {
-                same_content!("-webkit-font-feature-settings");
-                same_content!("-moz-font-feature-settings");
+                same_content!(Prefix::Webkit, "-webkit-font-feature-settings");
+                same_content!(Prefix::Moz, "-moz-font-feature-settings");
             }
 
             "font-variant-ligatures" => {
-                same_content!("-webkit-font-variant-ligatures");
-                same_content!("-moz-font-variant-ligatures");
+                same_content!(Prefix::Webkit, "-webkit-font-variant-ligatures");
+                same_content!(Prefix::Moz, "-moz-font-variant-ligatures");
             }
 
             "font-language-override" => {
-                same_content!("-webkit-font-language-override");
-                same_content!("-moz-font-language-override");
+                same_content!(Prefix::Webkit, "-webkit-font-language-override");
+                same_content!(Prefix::Moz, "-moz-font-language-override");
             }
 
             "background-origin" => {
-                same_content!("-webkit-background-origin");
-                same_content!("-o-background-origin");
+                same_content!(Prefix::Webkit, "-webkit-background-origin");
+                same_content!(Prefix::O, "-o-background-origin");
             }
 
-            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/background-size.js
             "background-size" => {
-                same_content!("-webkit-background-size");
-                same_content!("-o-background-size");
+                same_content!(Prefix::Webkit, "-webkit-background-size");
+                same_content!(Prefix::O, "-o-background-size");
             }
 
             "overscroll-behavior" => {
@@ -1093,28 +1112,28 @@ impl VisitMut for Prefixer {
                             simple!("-ms-scroll-chaining", "none");
                         }
                         _ => {
-                            same_content!("-ms-scroll-chaining");
+                            same_content!(Prefix::Ms, "-ms-scroll-chaining");
                         }
                     }
                 } else {
-                    same_content!("-ms-scroll-chaining");
+                    same_content!(Prefix::Ms, "-ms-scroll-chaining");
                 }
             }
 
             "box-shadow" => {
-                same_content!("-webkit-box-shadow");
-                same_content!("-moz-box-shadow");
+                same_content!(Prefix::Webkit, "-webkit-box-shadow");
+                same_content!(Prefix::Moz, "-moz-box-shadow");
             }
 
             "forced-color-adjust" => {
-                same_content!("-ms-high-contrast-adjust");
+                same_content!(Prefix::Ms, "-ms-high-contrast-adjust");
             }
 
             "break-inside" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "auto" | "avoid" => {
-                            same_content!("-webkit-column-break-inside");
+                            same_content!(Prefix::Webkit, "-webkit-column-break-inside");
                         }
                         _ => {}
                     }
@@ -1125,7 +1144,7 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "auto" | "avoid" => {
-                            same_content!("-webkit-column-break-before");
+                            same_content!(Prefix::Webkit, "-webkit-column-break-before");
                         }
                         "column" => {
                             simple!("-webkit-column-break-before", "always");
@@ -1139,7 +1158,7 @@ impl VisitMut for Prefixer {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     match &*value.to_lowercase() {
                         "auto" | "avoid" => {
-                            same_content!("-webkit-column-break-after");
+                            same_content!(Prefix::Webkit, "-webkit-column-break-after");
                         }
                         "column" => {
                             simple!("-webkit-column-break-after", "always");
@@ -1149,19 +1168,76 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
+            "border-radius" => {
+                same_content!(Prefix::Webkit, "-webkit-border-radius");
+                same_content!(Prefix::Moz, "-moz-border-radius");
+            }
+
+            "border-top-left-radius" => {
+                same_content!(Prefix::Webkit, "-webkit-border-top-left-radius");
+                same_content!(Prefix::Moz, "-moz-border-radius-topleft");
+            }
+
+            "border-top-right-radius" => {
+                same_content!(Prefix::Webkit, "-webkit-border-top-right-radius");
+                same_content!(Prefix::Moz, "-moz-border-radius-topright");
+            }
+
+            "border-bottom-right-radius" => {
+                same_content!(Prefix::Webkit, "-webkit-border-bottom-right-radius");
+                same_content!(Prefix::Moz, "-moz-border-radius-bottomright");
+            }
+
+            "border-bottom-left-radius" => {
+                same_content!(Prefix::Webkit, "-webkit-border-bottom-left-radius");
+                same_content!(Prefix::Moz, "-moz-border-radius-bottomleft");
+            }
+
+            // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid) and https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559 and https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
-            // TODO handle `calc()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L395
-            // TODO handle `element()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L269
-            // TODO handle `filter()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L241
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
-            // TODO add `border-radius` https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L59
-            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/cross-fade.js
             // TODO handle transform functions https://github.com/postcss/autoprefixer/blob/main/lib/hacks/transform-decl.js
+            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {}
+        }
+
+        if n.value != webkit_new_value {
+            self.added_declarations.push(Declaration {
+                span: n.span,
+                name: n.name.clone(),
+                value: webkit_new_value,
+                important: n.important.clone(),
+            });
+        }
+
+        if n.value != moz_new_value {
+            self.added_declarations.push(Declaration {
+                span: n.span,
+                name: n.name.clone(),
+                value: moz_new_value,
+                important: n.important.clone(),
+            });
+        }
+
+        if n.value != o_new_value {
+            self.added_declarations.push(Declaration {
+                span: n.span,
+                name: n.name.clone(),
+                value: o_new_value,
+                important: n.important.clone(),
+            });
+        }
+
+        if n.value != ms_new_value {
+            self.added_declarations.push(Declaration {
+                span: n.span,
+                name: n.name.clone(),
+                value: ms_new_value,
+                important: n.important.clone(),
+            });
         }
     }
 

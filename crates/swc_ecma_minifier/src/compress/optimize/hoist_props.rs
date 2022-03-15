@@ -24,14 +24,13 @@ where
             // smart.
             if !self
                 .data
-                .as_ref()
-                .and_then(|data| {
-                    data.vars.get(&name.to_id()).map(|v| {
-                        !v.mutated
-                            && !v.reassigned_with_assignment
-                            && !v.reassigned_with_var_decl
-                            && !v.is_infected()
-                    })
+                .vars
+                .get(&name.to_id())
+                .map(|v| {
+                    !v.mutated
+                        && !v.reassigned_with_assignment
+                        && !v.reassigned_with_var_decl
+                        && !v.is_infected()
                 })
                 .unwrap_or(false)
             {
@@ -41,12 +40,9 @@ where
             // We should abort if unknown property is used.
             let mut unknown_used_props = self
                 .data
-                .as_ref()
-                .and_then(|data| {
-                    data.vars
-                        .get(&name.to_id())
-                        .map(|v| v.accessed_props.clone())
-                })
+                .vars
+                .get(&name.to_id())
+                .map(|v| v.accessed_props.clone())
                 .unwrap_or_default();
 
             if let Some(Expr::Object(init)) = n.init.as_deref() {
@@ -120,15 +116,14 @@ where
             // If the variable is used multiple time, just ignore it.
             if !self
                 .data
-                .as_ref()
-                .and_then(|data| {
-                    data.vars.get(&name.to_id()).map(|v| {
-                        v.ref_count == 1
-                            && v.has_property_access
-                            && v.is_fn_local
-                            && !v.executed_multiple_time
-                            && !v.used_in_cond
-                    })
+                .vars
+                .get(&name.to_id())
+                .map(|v| {
+                    v.ref_count == 1
+                        && v.has_property_access
+                        && v.is_fn_local
+                        && !v.executed_multiple_time
+                        && !v.used_in_cond
                 })
                 .unwrap_or(false)
             {
