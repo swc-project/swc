@@ -14,14 +14,17 @@ h1 {
   -webkit-border-image: -webkit-image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
   -moz-border-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
   -o-border-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+  border-image: -webkit-image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
   border-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
 }
 .class {
   -webkit-mask: -webkit-image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+  mask: -webkit-image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
   mask: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
 }
 .class {
   -webkit-mask-image: -webkit-image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
+  mask-image: -webkit-image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
   mask-image: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
 }
 .class {

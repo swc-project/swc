@@ -1,0 +1,11 @@
+div {
+    background: element(#id);
+}
+
+div {
+    background: url(image.jpg), element(#id);
+}
+
+div {
+    background: image-set(url("small-balloons.jpg") 1x, url("large-balloons.jpg") 2x), element(#id);
+}

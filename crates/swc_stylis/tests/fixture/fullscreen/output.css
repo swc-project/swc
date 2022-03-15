@@ -1,0 +1,12 @@
+:-webkit-full-screen a {
+  color: red;
+}
+:-moz-full-screen a {
+  color: red;
+}
+:-ms-fullscreen a {
+  color: red;
+}
+:fullscreen a {
+  color: red;
+}

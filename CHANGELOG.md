@@ -1,11 +1,29 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es)** Sort spans while preserving comments (#4011) ([b337c2e](https://github.com/swc-project/swc/commit/b337c2e2d4716520c3cf718b2037d299d9654bc5))
+
+
+- **(es/parser)** Report an error if `LeftHandSideExpression` is invalid (#4001) ([f8d6127](https://github.com/swc-project/swc/commit/f8d6127dd1a064e2d4b255dfc1894a1b9eb89f71))
+
 ### Features
 
 
 
 - **(css)** Supports more color notations (#4009) ([a4bc092](https://github.com/swc-project/swc/commit/a4bc0927a0c44ba9d3219964d8548a0cf11d24ce))
+
+
+- **(css/prefixer)** Implement more rules for prefixer (#4013) ([4f6f244](https://github.com/swc-project/swc/commit/4f6f244170f2059e1b5a3765560b91c102e00a1b))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Make bump-command check lazy (#4018) ([c27b84c](https://github.com/swc-project/swc/commit/c27b84c3f693ecae73cb0da74dd6f6178d8ab45e))
 
 ## [1.2.155] - 2022-03-14
 

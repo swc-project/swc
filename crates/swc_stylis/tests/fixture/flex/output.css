@@ -15,6 +15,8 @@ a {
   -ms-flex: 0 1 2;
   flex: 0 1 2;
   -webkit-transition: flex 200ms;
+  -moz-transition: flex 200ms;
+  -o-transition: flex 200ms;
   transition: flex 200ms;
 }
 .inline {
@@ -169,8 +171,10 @@ a {
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex: calc(1em + 1px) 0 0;
+  -webkit-flex: -webkit-calc(1em + 1px) 0 0;
   -ms-flex: calc(1em + 1px) 0 0;
+  flex: -webkit-calc(1em + 1px) 0 0;
+  flex: -moz-calc(1em + 1px) 0 0;
   flex: calc(1em + 1px) 0 0;
 }
 .h {
