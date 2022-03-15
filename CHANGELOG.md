@@ -11,6 +11,9 @@
 - **(es/decorator)** Remove `noop_fold_type` (#4022) ([0c8c3d7](https://github.com/swc-project/swc/commit/0c8c3d7d51e49ad9050224a8647ebc55a0262b35))
 
 
+- **(es/helpers)** Inject helpers for scripts (#4025) ([73c91d3](https://github.com/swc-project/swc/commit/73c91d34d5c6fcd869e99db02b0cf82f8e159224))
+
+
 - **(es/parser)** Report an error if `LeftHandSideExpression` is invalid (#4001) ([f8d6127](https://github.com/swc-project/swc/commit/f8d6127dd1a064e2d4b255dfc1894a1b9eb89f71))
 
 ### Features
