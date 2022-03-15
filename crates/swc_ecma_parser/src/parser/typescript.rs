@@ -3,7 +3,7 @@ use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
 use super::*;
-use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList};
+use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList, token::Keyword};
 
 impl<I: Tokens> Parser<I> {
     /// `tsNextTokenCanFollowModifier`
@@ -17,12 +17,7 @@ impl<I: Tokens> Parser<I> {
         // hasLineBreakUpNext() method...
         bump!(self);
         Ok(!self.input.had_line_break_before_cur()
-            && !is!(self, '(')
-            && !is!(self, ')')
-            && !is!(self, ':')
-            && !is!(self, '=')
-            && !is!(self, '?')
-            && !is!(self, '!'))
+            && !is_one_of!(self, '(', ')', ':', '=', '?', '!', ',', '>', "extends"))
     }
 
     /// Parses a modifier matching one the given modifier names.
@@ -39,7 +34,9 @@ impl<I: Tokens> Parser<I> {
 
         let pos = {
             let modifier = match *cur!(self, true)? {
-                Token::Word(Word::Ident(ref w)) => w,
+                Token::Word(ref w @ Word::Ident(..))
+                | Token::Word(ref w @ Word::Keyword(Keyword::In)) => w.cow(),
+
                 _ => return Ok(None),
             };
 
@@ -379,64 +376,42 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        while is_one_of!(
-            self,
-            "public",
-            "private",
-            "protected",
-            "readonly",
-            "abstract",
-            "const",
-            "override",
-            "in",
-            "out"
-        ) {
-            // <out>
-            // <out, T>
-            // <out = number>
-            // <out extends number>
-            if peeked_is!(self, '>')
-                || peeked_is!(self, ',')
-                || peeked_is!(self, '=')
-                || peeked_is!(self, "extends")
-            {
-                break;
-            }
-
-            if eat!(self, "in") {
-                if is_in {
-                    self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("in")));
-                } else if is_out {
-                    self.emit_err(
-                        self.input.prev_span(),
-                        SyntaxError::TS1029(js_word!("in"), js_word!("out")),
-                    );
-                } else {
-                    is_in = true;
+        while let Some(modifer) = self.parse_ts_modifier(
+            &[
+                "public",
+                "private",
+                "protected",
+                "readonly",
+                "abstract",
+                "const",
+                "override",
+                "in",
+                "out",
+            ],
+            false,
+        )? {
+            match modifer {
+                "in" => {
+                    if is_in {
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("in")));
+                    } else if is_out {
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1029(js_word!("in"), js_word!("out")),
+                        );
+                    } else {
+                        is_in = true;
+                    }
                 }
-            } else if eat!(self, "out") {
-                if is_out {
-                    self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("out")));
-                } else {
-                    is_out = true;
+                "out" => {
+                    if is_out {
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("out")));
+                    } else {
+                        is_out = true;
+                    }
                 }
-            } else {
-                let modifier = self
-                    .parse_ts_modifier(
-                        &[
-                            "public",
-                            "private",
-                            "protected",
-                            "readonly",
-                            "abstract",
-                            "const",
-                            "override",
-                        ],
-                        false,
-                    )?
-                    .expect("unreachable");
-                self.emit_err(self.input.prev_span(), SyntaxError::TS1272(modifier.into()));
-            }
+                other => self.emit_err(self.input.prev_span(), SyntaxError::TS1272(other.into())),
+            };
         }
 
         let name = self.in_type().parse_ident_name()?;
