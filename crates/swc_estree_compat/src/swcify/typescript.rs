@@ -61,9 +61,8 @@ impl Swcify for TSTypeParameter {
         TsTypeParam {
             span,
             name: Ident::new(self.name, span),
-            // TODO: support convert `in` and `out`
-            is_in: false,
-            is_out: false,
+            is_in: self.is_in,
+            is_out: self.is_out,
             constraint: self.constraint.swcify(ctx),
             default: self.default.swcify(ctx),
         }
