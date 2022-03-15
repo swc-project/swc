@@ -16,6 +16,9 @@
 
 - **(es/parser)** Report an error if `LeftHandSideExpression` is invalid (#4001) ([f8d6127](https://github.com/swc-project/swc/commit/f8d6127dd1a064e2d4b255dfc1894a1b9eb89f71))
 
+
+- **(es/parser)** Allow building with stable `rustc` (#4024) ([25e5ccc](https://github.com/swc-project/swc/commit/25e5ccc548260823c9ad78b607617440e04950d3))
+
 ### Features
 
 
