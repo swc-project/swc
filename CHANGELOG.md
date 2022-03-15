@@ -19,6 +19,9 @@
 
 - **(css/prefixer)** Implement more rules for prefixer (#4013) ([4f6f244](https://github.com/swc-project/swc/commit/4f6f244170f2059e1b5a3765560b91c102e00a1b))
 
+
+- **(es/minifier)** Drop noop calls (#4019) ([be09ea6](https://github.com/swc-project/swc/commit/be09ea6991165162fd9fa4cfce2ead4cdba0b0cf))
+
 ### Miscellaneous Tasks
 
 
