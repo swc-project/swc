@@ -76,7 +76,7 @@ where
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
         typeofs: Default::default(),
-        data: Some(data),
+        data,
         ctx: Default::default(),
         label: Default::default(),
         mode,
@@ -204,7 +204,7 @@ struct Optimizer<'a, M> {
     ///
     /// This is calculated multiple time, but only once per one
     /// `visit_mut_module`.
-    data: Option<&'a mut ProgramData>,
+    data: &'a mut ProgramData,
     ctx: Ctx,
 
     /// Closest label.
