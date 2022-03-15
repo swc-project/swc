@@ -12,7 +12,6 @@ use crate::{
         util::{always_terminates, negate_cost},
     },
     mode::Mode,
-    util::SpanExt,
     DISABLE_BUGGY_PASSES,
 };
 
@@ -296,9 +295,9 @@ where
             );
             self.changed = true;
             *s = Stmt::Expr(ExprStmt {
-                span: stmt.span.with_mark(self.done),
+                span: stmt.span,
                 expr: Box::new(Expr::Cond(CondExpr {
-                    span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                    span: DUMMY_SP,
                     test: stmt.test.take(),
                     cons: Box::new(cons.take()),
                     alt: Box::new(alt.take()),
@@ -453,7 +452,7 @@ where
                          arguments is 1"
                     );
                     return Some(Expr::Call(CallExpr {
-                        span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                        span: DUMMY_SP,
                         callee: cons.callee.take(),
                         args,
                         type_args: Default::default(),
@@ -463,7 +462,7 @@ where
                 if !side_effect_free && is_for_if_stmt {
                     tracing::debug!("Compressing if into cond while preserving side effects");
                     return Some(Expr::Cond(CondExpr {
-                        span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                        span: DUMMY_SP,
                         test: test.take(),
                         cons: Box::new(Expr::Call(cons.take())),
                         alt: Box::new(Expr::Call(alt.take())),
