@@ -6,7 +6,7 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver};
 use swc_ecma_transforms_compat::{
     es2015,
-    es2015::{arrow, destructuring, function_name, parameters},
+    es2015::{arrow, block_scoping, destructuring, function_name, parameters},
     es2017::async_to_generator,
     es2022::class_properties,
 };
@@ -3586,6 +3586,7 @@ fn exec_regenerator(input: PathBuf) {
                 class_properties(Some(t.comments.clone()), Default::default()),
                 async_to_generator(Default::default()),
                 es2015::for_of(Default::default()),
+                block_scoping(),
                 regenerator(Default::default(), top_level_mark)
             )
         },
