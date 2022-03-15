@@ -14,7 +14,9 @@ use swc::{
     config::{Config, Options},
     try_with_handler, Compiler, HandlerOpts, TransformOutput,
 };
-use swc_common::{errors::ColorConfig, sync::Lazy, FileName, FilePathMapping, SourceMap};
+use swc_common::{
+    errors::ColorConfig, sync::Lazy, FileName, FilePathMapping, SourceFile, SourceMap,
+};
 use swc_trace_macro::swc_trace;
 use walkdir::WalkDir;
 
@@ -260,104 +262,102 @@ fn collect_stdin_input() -> Option<String> {
     )
 }
 
+struct InputContext {
+    options: Options,
+    fm: Arc<SourceFile>,
+    compiler: Arc<Compiler>,
+    file_path: PathBuf,
+}
+
 #[swc_trace]
 impl CompileOptions {
-    fn execute_inner(&self) -> anyhow::Result<()> {
-        let stdin_input = collect_stdin_input();
+    /// Create canonical list of inputs to be processed across stdin / single
+    /// file / multiple files.
+    fn collect_inputs(&self) -> anyhow::Result<Vec<InputContext>> {
+        let compiler = COMPILER.clone();
 
+        let stdin_input = collect_stdin_input();
         if stdin_input.is_some() && !self.files.is_empty() {
             anyhow::bail!("Cannot specify inputs from stdin and files at the same time");
         }
 
-        if stdin_input.is_none() && self.files.is_empty() {
-            anyhow::bail!("Input is empty");
-        }
-
         if let Some(stdin_input) = stdin_input {
-            let span = tracing::span!(tracing::Level::INFO, "compile_stdin");
-            let stdin_span_guard = span.enter();
-            let comp = COMPILER.clone();
+            let options = build_transform_options(&self.config_file, &self.filename.as_deref())?;
 
-            let result = try_with_handler(
-                comp.cm.clone(),
-                HandlerOpts {
-                    color: swc_common::errors::ColorConfig::Always,
-                    skip_filename: false,
+            let fm = compiler.cm.new_source_file(
+                if options.filename.is_empty() {
+                    FileName::Anon
+                } else {
+                    FileName::Real(options.filename.clone().into())
                 },
-                |handler| {
-                    let options =
-                        build_transform_options(&self.config_file, &self.filename.as_deref())?;
-
-                    let fm = comp.cm.new_source_file(
-                        if options.filename.is_empty() {
-                            FileName::Anon
-                        } else {
-                            FileName::Real(options.filename.clone().into())
-                        },
-                        stdin_input,
-                    );
-
-                    comp.process_js_file(fm, handler, &options)
-                },
+                stdin_input,
             );
 
-            match result {
-                Ok(output) => emit_output(
-                    &output,
-                    &self.out_dir,
-                    self.filename.as_ref().unwrap_or(&PathBuf::from("unknown")),
-                )?,
-                Err(e) => return Err(e),
-            };
-
-            drop(stdin_span_guard);
-            return Ok(());
-        }
-
-        if !self.files.is_empty() {
-            let span = tracing::span!(tracing::Level::INFO, "compile_files");
-            let files_span_guard = span.enter();
+            return Ok(vec![InputContext {
+                options,
+                fm,
+                compiler,
+                file_path: self
+                    .filename
+                    .clone()
+                    .unwrap_or_else(|| PathBuf::from("unknown")),
+            }]);
+        } else if !self.files.is_empty() {
             let included_extensions = if let Some(extensions) = &self.extensions {
                 extensions.clone()
             } else {
                 DEFAULT_EXTENSIONS.iter().map(|v| v.to_string()).collect()
             };
 
-            let files = get_files_list(&self.files, &included_extensions, false)?;
-            let cm = COMPILER.clone();
-
-            let ret = files
-                .into_par_iter()
-                .try_for_each_with(cm, |compiler, file_path| {
-                    let result = try_with_handler(
-                        compiler.cm.clone(),
-                        HandlerOpts {
-                            color: ColorConfig::Always,
-                            skip_filename: false,
-                        },
-                        |handler| {
-                            let options =
-                                build_transform_options(&self.config_file, &Some(&file_path))?;
+            return get_files_list(&self.files, &included_extensions, false)?
+                .iter()
+                .map(|file_path| {
+                    build_transform_options(&self.config_file, &Some(file_path)).and_then(
+                        |options| {
                             let fm = compiler
                                 .cm
-                                .load_file(&file_path)
-                                .context("failed to load file")?;
-                            compiler.process_js_file(fm, handler, &options)
+                                .load_file(file_path)
+                                .context("failed to load file");
+                            fm.map(|fm| InputContext {
+                                options,
+                                fm,
+                                compiler: compiler.clone(),
+                                file_path: file_path.to_path_buf(),
+                            })
                         },
-                    );
-
-                    match result {
-                        Ok(output) => emit_output(&output, &self.out_dir, &file_path)?,
-                        Err(e) => return Err(e),
-                    };
-
-                    Ok(())
-                });
-            drop(files_span_guard);
-            return ret;
+                    )
+                })
+                .collect::<anyhow::Result<Vec<InputContext>>>();
         }
 
-        Ok(())
+        anyhow::bail!("Input is empty");
+    }
+
+    fn execute_inner(&self) -> anyhow::Result<()> {
+        let inputs = self.collect_inputs()?;
+
+        inputs.into_par_iter().try_for_each(
+            |InputContext {
+                 fm,
+                 options,
+                 compiler,
+                 file_path,
+             }| {
+                let result = try_with_handler(
+                    compiler.cm.clone(),
+                    HandlerOpts {
+                        color: ColorConfig::Always,
+                        skip_filename: false,
+                    },
+                    |handler| compiler.process_js_file(fm, handler, &options),
+                );
+
+                match result {
+                    Ok(output) => emit_output(&output, &self.out_dir, &file_path),
+                    Err(e) => Err(e),
+                }
+            },
+        )
     }
 }
 
