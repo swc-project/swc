@@ -11,6 +11,7 @@ use tracing::{span, Level};
 
 use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
+    analyzer::ProgramData,
     debug::{dump, AssertValid},
     marks::Marks,
     option::CompressOptions,
@@ -38,6 +39,7 @@ mod vars;
 #[allow(clippy::needless_lifetimes)]
 pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
+    data: Option<&'a ProgramData>,
     marks: Marks,
     force_str_for_tpl: bool,
     enable_everything: bool,
@@ -46,6 +48,7 @@ pub(crate) fn pure_optimizer<'a>(
     Pure {
         options,
         marks,
+        data,
         ctx: Ctx {
             force_str_for_tpl,
             ..Default::default()
@@ -60,6 +63,8 @@ pub(crate) fn pure_optimizer<'a>(
 struct Pure<'a> {
     options: &'a CompressOptions,
     marks: Marks,
+    #[allow(unused)]
+    data: Option<&'a ProgramData>,
     ctx: Ctx,
     changed: bool,
     enable_everything: bool,
@@ -153,13 +158,9 @@ impl Pure<'_> {
         if self.ctx.par_depth >= MAX_PAR_DEPTH * 2 || cfg!(target_arch = "wasm32") {
             for node in nodes {
                 let mut v = Pure {
-                    options: self.options,
-                    marks: self.marks,
-                    ctx: self.ctx,
                     changed: false,
-                    enable_everything: self.enable_everything,
-                    debug_infinite_loop: self.debug_infinite_loop,
                     bindings: self.bindings.clone(),
+                    ..*self
                 };
                 node.visit_mut_with(&mut v);
 
@@ -172,16 +173,13 @@ impl Pure<'_> {
                     .map(|node| {
                         GLOBALS.set(globals, || {
                             let mut v = Pure {
-                                options: self.options,
-                                marks: self.marks,
                                 ctx: Ctx {
                                     par_depth: self.ctx.par_depth + 1,
                                     ..self.ctx
                                 },
                                 changed: false,
-                                enable_everything: self.enable_everything,
-                                debug_infinite_loop: self.debug_infinite_loop,
                                 bindings: self.bindings.clone(),
+                                ..*self
                             };
                             node.visit_mut_with(&mut v);
 

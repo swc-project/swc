@@ -31,11 +31,7 @@ where
                 },
             };
 
-            if let Some(usage) = self
-                .data
-                .as_ref()
-                .and_then(|data| data.vars.get(&left.to_id()))
-            {
+            if let Some(usage) = self.data.vars.get(&left.to_id()) {
                 if !usage.declared
                     || !usage.is_fn_local
                     || usage.assign_count != 1

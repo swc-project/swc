@@ -81,11 +81,7 @@ where
             return;
         }
 
-        if let Some(scope) = self
-            .data
-            .as_ref()
-            .and_then(|data| data.scopes.get(&self.ctx.scope))
-        {
+        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
             if scope.has_eval_call || scope.has_with_stmt {
                 return;
             }
@@ -159,11 +155,7 @@ where
             }
         }
 
-        if let Some(scope) = self
-            .data
-            .as_ref()
-            .and_then(|data| data.scopes.get(&self.ctx.scope))
-        {
+        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
             if scope.has_eval_call || scope.has_with_stmt {
                 if cfg!(feature = "debug") {
                     tracing::trace!(
@@ -213,11 +205,7 @@ where
             return;
         }
 
-        if let Some(v) = self
-            .data
-            .as_ref()
-            .and_then(|data| data.vars.get(&i.to_id()).cloned())
-        {
+        if let Some(v) = self.data.vars.get(&i.to_id()).cloned() {
             if v.ref_count == 0
                 && v.usage_count == 0
                 && !v.reassigned_with_assignment
@@ -282,11 +270,7 @@ where
                     }
                 }
 
-                if let Some(usage) = self
-                    .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&e.to_id()))
-                {
+                if let Some(usage) = self.data.vars.get(&e.to_id()) {
                     if !usage.declared {
                         return true;
                     }
@@ -476,11 +460,7 @@ where
             return;
         }
 
-        if let Some(scope) = self
-            .data
-            .as_ref()
-            .and_then(|data| data.scopes.get(&self.ctx.scope))
-        {
+        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
             if scope.has_eval_call || scope.has_with_stmt {
                 return;
             }
@@ -502,8 +482,8 @@ where
                 // If it is not used, drop it.
                 if self
                     .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&ident.to_id()))
+                    .vars
+                    .get(&ident.to_id())
                     .map(|v| v.usage_count == 0 && !v.has_property_mutation)
                     .unwrap_or(false)
                 {
@@ -545,28 +525,21 @@ where
             return;
         }
 
-        if self
-            .data
-            .as_ref()
-            .map(|v| v.top.has_eval_call || v.top.has_with_stmt)
-            .unwrap_or(false)
-        {
+        if self.data.top.has_eval_call || self.data.top.has_with_stmt {
             return;
         }
 
         let used_arguments = self
             .data
-            .as_ref()
-            .map(|data| {
-                data.scopes.get(&self.ctx.scope).unwrap_or_else(|| {
-                    unreachable!(
-                        "scope should exist\nScopes: {:?};\nCtxt: {:?}",
-                        data.scopes, self.ctx.scope
-                    )
-                })
+            .scopes
+            .get(&self.ctx.scope)
+            .unwrap_or_else(|| {
+                unreachable!(
+                    "scope should exist\nScopes: {:?};\nCtxt: {:?}",
+                    self.data.scopes, self.ctx.scope
+                )
             })
-            .map(|scope| scope.used_arguments)
-            .unwrap_or(false);
+            .used_arguments;
 
         if cfg!(feature = "debug") {
             tracing::trace!(
@@ -603,11 +576,7 @@ where
                         return;
                     }
 
-                    if let Some(var) = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&i.to_id()))
-                    {
+                    if let Some(var) = self.data.vars.get(&i.to_id()) {
                         if var.is_fn_local
                             && var.usage_count == 0
                             && var.declared
@@ -647,18 +616,17 @@ where
         }
 
         if let Some(i) = &name {
-            if let Some(data) = &self.data {
-                let can_remove_ident = data
-                    .vars
-                    .get(&i.to_id())
-                    .map(|v| (v.ref_count == 0 && v.usage_count == 0) || v.var_kind.is_some())
-                    .unwrap_or(true);
+            let can_remove_ident = self
+                .data
+                .vars
+                .get(&i.to_id())
+                .map(|v| (v.ref_count == 0 && v.usage_count == 0) || v.var_kind.is_some())
+                .unwrap_or(true);
 
-                if can_remove_ident {
-                    self.changed = true;
-                    tracing::debug!("Removing ident of an class / function expression");
-                    *name = None;
-                }
+            if can_remove_ident {
+                self.changed = true;
+                tracing::debug!("Removing ident of an class / function expression");
+                *name = None;
             }
         }
     }

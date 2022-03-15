@@ -38,12 +38,7 @@ where
             );
         }
 
-        if self
-            .data
-            .as_ref()
-            .map(|v| v.top.has_eval_call)
-            .unwrap_or(false)
-        {
+        if self.data.top.has_eval_call {
             return;
         }
 
@@ -60,11 +55,7 @@ where
             }
 
             // Store variables if it's used only once
-            if let Some(usage) = self
-                .data
-                .as_ref()
-                .and_then(|data| data.vars.get(&i.to_id()))
-            {
+            if let Some(usage) = self.data.vars.get(&i.to_id()) {
                 if usage.declared_as_catch_param {
                     return;
                 }
@@ -255,11 +246,7 @@ where
                     }
 
                     if let Expr::Ident(v) = &**init {
-                        if let Some(v_usage) = self
-                            .data
-                            .as_ref()
-                            .and_then(|data| data.vars.get(&v.to_id()))
-                        {
+                        if let Some(v_usage) = self.data.vars.get(&v.to_id()) {
                             if v_usage.reassigned() {
                                 return;
                             }
@@ -351,11 +338,7 @@ where
             return;
         }
 
-        if let Some(usage) = self
-            .data
-            .as_ref()
-            .and_then(|data| data.vars.get(&i.to_id()))
-        {
+        if let Some(usage) = self.data.vars.get(&i.to_id()) {
             if !usage.reassigned() {
                 tracing::trace!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
@@ -428,20 +411,11 @@ where
             return;
         }
 
-        if self
-            .data
-            .as_ref()
-            .map(|data| data.top.has_eval_call || data.top.has_with_stmt)
-            .unwrap_or_default()
-        {
+        if self.data.top.has_eval_call || self.data.top.has_with_stmt {
             return;
         }
 
-        if let Some(usage) = self
-            .data
-            .as_ref()
-            .and_then(|data| data.vars.get(&i.to_id()))
-        {
+        if let Some(usage) = self.data.vars.get(&i.to_id()) {
             if usage.declared_as_catch_param {
                 if cfg!(feature = "debug") {
                     tracing::trace!("inline: [x] Declared as a catch parameter");
