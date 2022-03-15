@@ -80,9 +80,7 @@ where
         if cfg!(debug_assertions) {
             let scope_ctxt = ctx.scope;
             if self.ctx.scope != scope_ctxt {
-                if let Some(data) = &self.data {
-                    data.scopes.get(&scope_ctxt).expect("scope not found");
-                }
+                self.data.scopes.get(&scope_ctxt).expect("scope not found");
             }
         }
 

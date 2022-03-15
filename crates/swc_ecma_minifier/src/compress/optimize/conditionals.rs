@@ -471,10 +471,8 @@ where
             }
 
             (Expr::New(cons), Expr::New(alt)) => {
-                if let Some(data) = &self.data {
-                    if data.contains_unresolved(&**test) {
-                        return None;
-                    }
+                if self.data.contains_unresolved(&**test) {
+                    return None;
                 }
 
                 // TODO: Handle new expression with no args.
