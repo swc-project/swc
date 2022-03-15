@@ -502,6 +502,20 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
         e.visit_mut_children_with(self);
 
+        if e.exprs.iter().any(|e| e.is_seq()) {
+            let mut exprs = vec![];
+
+            for e in e.exprs.take() {
+                if let Expr::Seq(seq) = *e {
+                    exprs.extend(seq.exprs);
+                } else {
+                    exprs.push(e);
+                }
+            }
+
+            e.exprs = exprs;
+        }
+
         e.exprs.retain(|e| {
             if e.is_invalid() {
                 self.changed = true;
