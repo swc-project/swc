@@ -3276,10 +3276,6 @@ fn escape_with_source(
         return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
     }
 
-    if single_quote.is_some() && orig.len() <= 2 {
-        return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
-    }
-
     let mut buf = String::with_capacity(s.len());
     let mut orig_iter = orig.chars().peekable();
     let mut s_iter = s.chars();
