@@ -24,9 +24,12 @@ impl Default for YodaConfigMode {
 #[derive(Debug, Clone, Default, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct YodaConfig {
-    mode: Option<YodaConfigMode>,
-    except_range: Option<bool>,
-    only_equality: Option<bool>,
+    #[serde(default)]
+    mode: YodaConfigMode,
+    #[serde(default)]
+    except_range: bool,
+    #[serde(default)]
+    only_equality: bool,
 }
 
 pub fn yoda(config: &RuleConfig<YodaConfig>) -> Option<Box<dyn Rule>> {
@@ -51,9 +54,9 @@ impl Yoda {
 
         Self {
             expected_reaction: config.get_rule_reaction(),
-            mode: rule_config.mode.unwrap_or_default(),
-            only_equality: rule_config.only_equality.unwrap_or(false),
-            except_range: rule_config.except_range.unwrap_or(false),
+            mode: rule_config.mode,
+            only_equality: rule_config.only_equality,
+            except_range: rule_config.except_range,
         }
     }
 
