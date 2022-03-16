@@ -59,9 +59,8 @@
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
         "build:wasm": "npm-run-all \"pack -- build ./crates/wasm --scope swc {1} -t {2} --features plugin\" --",
-        "build:node": "napi build --platform --cargo-name node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p node",
-        "build": "npm-run-all build:ts \"build:node -- --release\"",
-        "build:dev": "npm-run-all build:ts build:node",
+        "build": "tsc -d && napi build --platform --cargo-name node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p node --release",
+        "build:dev": "tsc -d && napi build --platform --cargo-name node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p node",
         "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest node-swc/__tests__",
         "version": "napi version -p scripts/npm"
     },
