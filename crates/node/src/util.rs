@@ -14,6 +14,13 @@ use tracing_subscriber::{
     filter, prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, EnvFilter, Layer,
 };
 
+static TARGET_TRIPLE: &str = include_str!(concat!(env!("OUT_DIR"), "/triple.txt"));
+
+#[napi]
+pub fn get_target_triple() -> napi::Result<String> {
+    Ok(TARGET_TRIPLE.to_string())
+}
+
 #[napi]
 pub fn init_custom_trace_subscriber(
     mut env: Env,
