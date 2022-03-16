@@ -14,6 +14,7 @@ var _exportNames = {
 var swcHelpers = require("@swc/helpers");
 var _customRender = require("./customRender");
 var _react = swcHelpers.interopRequireWildcard(require("@testing-library/react"));
+// re-export everything
 Object.keys(_react).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
