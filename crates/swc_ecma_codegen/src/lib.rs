@@ -3199,8 +3199,7 @@ fn get_unquoted_utf16(
             _ => {
                 if c.is_ascii() {
                     buf.push(c);
-                }
-                else if c > '\u{FFFF}' {
+                } else if c > '\u{FFFF}' {
                     // if we've got this far the char isn't reserved and if the callee has specified
                     // we should output unicode for non-ascii chars then we have
                     // to make sure we output unicode that is safe for the target

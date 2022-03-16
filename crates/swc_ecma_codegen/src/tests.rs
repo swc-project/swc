@@ -590,6 +590,8 @@ fn test_get_unquoted_utf16() {
     es2020("\u{1000}", "\\u1000");
     es2020("\u{ff}", "\\xff");
     es2020("\u{10ffff}", "\\u{10FFFF}");
+    es2020("😀", "\\u{1F600}");
+    es5("ퟻ", "\\uD7FB");
 
     es2020_nonascii("\u{FEFF}abc", "\\uFEFFabc");
     es2020_nonascii("\u{10ffff}", "\\u{10FFFF}");
@@ -597,6 +599,8 @@ fn test_get_unquoted_utf16() {
     es5("\u{FEFF}abc", "\\uFEFFabc");
     es5("\u{10ffff}", "\\uDBFF\\uDFFF");
     es5("\u{FFFF}", "\\uFFFF");
+    es5("😀", "\\uD83D\\uDE00");
+    es5("ퟻ", "\\uD7FB");
 }
 
 #[test]
