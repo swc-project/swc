@@ -142,6 +142,65 @@ where
     node.visit_mut_with(&mut CrossFadeFunctionReplacerOnLegacyVariant { from, to });
 }
 
+pub struct ImageSetFunctionReplacerOnLegacyVariant<'a> {
+    from: &'a str,
+    to: &'a str,
+    in_function: bool,
+}
+
+impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
+    fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
+        n.visit_mut_children_with(self);
+
+        if !self.in_function {
+            return;
+        }
+
+        if let ComponentValue::Str(Str { value, raw, span }) = n {
+            *n = ComponentValue::Url(Url {
+                span: *span,
+                name: Ident {
+                    span: DUMMY_SP,
+                    value: "url".into(),
+                    raw: "url".into(),
+                },
+                value: Some(UrlValue::Str(Str {
+                    span: DUMMY_SP,
+                    value: value.as_ref().into(),
+                    raw: raw.as_ref().into(),
+                })),
+                modifiers: Some(vec![]),
+            })
+        }
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        let old_in_function = self.in_function;
+
+        self.in_function = true;
+
+        n.visit_mut_children_with(self);
+
+        if &*n.name.value.to_lowercase() == self.from {
+            n.name.value = self.to.into();
+            n.name.raw = self.to.into();
+        }
+
+        self.in_function = old_in_function;
+    }
+}
+
+pub fn replace_image_set_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+where
+    N: for<'aa> VisitMutWith<ImageSetFunctionReplacerOnLegacyVariant<'aa>>,
+{
+    node.visit_mut_with(&mut ImageSetFunctionReplacerOnLegacyVariant {
+        from,
+        to,
+        in_function: false,
+    });
+}
+
 impl VisitMut for Prefixer {
     // TODO handle `resolution` in media/supports at-rules
     // TODO handle declarations in `@media`/`@support`
@@ -286,7 +345,11 @@ impl VisitMut for Prefixer {
         let mut webkit_new_value = n.value.clone();
 
         replace_function_name(&mut webkit_new_value, "filter", "-webkit-filter");
-        replace_function_name(&mut webkit_new_value, "image-set", "-webkit-image-set");
+        replace_image_set_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "image-set",
+            "-webkit-image-set",
+        );
         replace_function_name(&mut webkit_new_value, "calc", "-webkit-calc");
         replace_cross_fade_function_on_legacy_variant(
             &mut webkit_new_value,
@@ -1318,7 +1381,6 @@ impl VisitMut for Prefixer {
 
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid) and https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559 and https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
-            // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
             // TODO handle transform functions https://github.com/postcss/autoprefixer/blob/main/lib/hacks/transform-decl.js

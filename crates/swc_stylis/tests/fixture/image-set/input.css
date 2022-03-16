@@ -33,3 +33,7 @@ h1 {
 .class {
     content: image-set('foo@1x.png' 1x, "foo@2x.png" 2x);
 }
+
+.broken {
+    content: image-set('foo@1x.png' 1x, "foo@2x.png" 2x) "test";
+}
