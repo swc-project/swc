@@ -3164,7 +3164,7 @@ fn get_quoted_utf16(
                 } else if single_quote {
                     buf.push_str("\\'");
                 } else {
-                    buf.push_str("'");
+                    buf.push('\'');
                 }
             }
             '"' => {
@@ -3175,7 +3175,7 @@ fn get_quoted_utf16(
                 } else if !single_quote {
                     buf.push_str("\\\"");
                 } else {
-                    buf.push_str("\"");
+                    buf.push('\"');
                 }
             }
             '\x01'..='\x0f' => {
