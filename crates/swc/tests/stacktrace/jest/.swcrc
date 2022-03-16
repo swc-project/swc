@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "transform": {
+            "hidden": {
+                "jest": true
+            }
+        },
+        "target": "es5"
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}
