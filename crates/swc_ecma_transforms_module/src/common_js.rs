@@ -7,7 +7,7 @@ use indexmap::IndexSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
-    FileName, Mark, Span, DUMMY_SP,
+    FileName, Mark, Span, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -291,6 +291,8 @@ impl Fold for CommonJs {
 
                     match item {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
+                            let span = export.span;
+
                             let mut scope_ref_mut = self.scope.borrow_mut();
                             let scope = &mut *scope_ref_mut;
 
@@ -333,9 +335,11 @@ impl Fold for CommonJs {
                                 exported_names = Some(exported_names_ident);
                             }
 
-                            let data = scope
+                            let mut data = scope
                                 .import_to_export(&export.src, true)
                                 .expect("Export should exists");
+                            data.span.lo = span.lo;
+                            data.span.hi = span.hi;
                             export_alls.entry(export.src.value.clone()).or_insert(data);
 
                             drop(scope_ref_mut);
@@ -845,6 +849,7 @@ impl Fold for CommonJs {
             let exported = export_alls.remove(&src);
             if let Some(export) = exported {
                 stmts.push(ModuleItem::Stmt(Scope::handle_export_all(
+                    export.span.with_ctxt(SyntaxContext::empty()),
                     quote_ident!("exports"),
                     exported_names.clone(),
                     export,

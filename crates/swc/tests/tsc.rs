@@ -5,7 +5,7 @@ use std::{
 
 use serde::de::DeserializeOwned;
 use swc::{
-    config::{Config, IsModule, JscConfig, Options},
+    config::{Config, IsModule, JscConfig, Options, SourceMapsConfig},
     Compiler,
 };
 use swc_ecma_ast::EsVersion;
@@ -125,6 +125,9 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                             external_helpers: true,
                             ..opts.config.jsc
                         },
+                        source_maps: Some(SourceMapsConfig::Bool(
+                            !input.to_string_lossy().contains("Unicode"),
+                        )),
                         ..opts.config
                     },
                     ..opts

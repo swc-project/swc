@@ -12,7 +12,9 @@ var _abstractBuilders = require("./AbstractBuilders");
 var _builderUtils = require("./Builder.utils");
 var _elementBuilder = require("./ElementBuilder");
 var _node = swcHelpers.interopRequireWildcard(require("./BodyNodesBuilder"));
-Object.keys(_node).forEach(function(key) {
+/**
+ * @deprecated use {Builder.body.node.img()}
+ */ Object.keys(_node).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
     if (key in exports && exports[key] === _node[key]) return;
