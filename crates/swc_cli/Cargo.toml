@@ -14,7 +14,7 @@ path = "./src/main.rs"
 
 [features]
 default = []
-plugin = ["swc/plugin", "wasmer/default", "wasmer-wasi/default"]
+plugin = ["swc/plugin", "swc_plugin_runner/filesystem_cache", "wasmer/default", "wasmer-wasi/default"]
 
 [dependencies]
 anyhow = "1.0.53"
@@ -34,6 +34,7 @@ tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 walkdir = "2"
 wasmer = { version = "2.2.0", optional = true }
 wasmer-wasi = { version = "2.2.0", optional = true }
+swc_plugin_runner = { version = "0.43.0", path = "../swc_plugin_runner", optional = true }
 
 [dependencies.path-absolutize]
 features = ["once_cell_cache"]
