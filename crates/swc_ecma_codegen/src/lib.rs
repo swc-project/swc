@@ -513,6 +513,7 @@ where
                         node.span,
                         &node.value,
                         single_quote,
+                        is_invalid_use_strict,
                     );
 
                     let single_quote = single_quote.unwrap_or(false);
@@ -3241,6 +3242,7 @@ fn escape_with_source(
     span: Span,
     s: &str,
     single_quote: Option<bool>,
+    is_invalid_use_strict: bool,
 ) -> String {
     if span.is_dummy() {
         return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
@@ -3253,6 +3255,10 @@ fn escape_with_source(
             return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
         }
     };
+
+    if is_invalid_use_strict {
+        return orig[1..orig.len() - 1].to_string();
+    }
 
     if target <= EsVersion::Es5 {
         let emit_non_ascii_as_unicode = orig.contains("\\u");

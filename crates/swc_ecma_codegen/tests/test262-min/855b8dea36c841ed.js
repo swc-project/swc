@@ -1,1 +1,1 @@
-(function(){'use strict';with(a);}())
+(function(){'use\x20strict';with(a);}())
