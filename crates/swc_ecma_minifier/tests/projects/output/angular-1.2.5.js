@@ -1849,7 +1849,7 @@
         var appBaseNoFile = stripFile(appBase);
         parseAbsoluteUrl(appBase, this, appBase), this.$$parse = function(url) {
             var pathUrl = beginsWith(appBaseNoFile, url);
-            if (!isString(pathUrl)) throw $locationMinErr("ipthprfx", "Invalid url \"{0}\", missing path prefix \"{1}\".", url, appBaseNoFile);
+            if (!isString(pathUrl)) throw $locationMinErr("ipthprfx", 'Invalid url "{0}", missing path prefix "{1}".', url, appBaseNoFile);
             parseAppUrl(pathUrl, this, appBase), this.$$path || (this.$$path = "/"), this.$$compose();
         }, this.$$compose = function() {
             var search = toKeyValue(this.$$search), hash = this.$$hash ? "#" + encodeUriSegment(this.$$hash) : "";
@@ -1863,7 +1863,7 @@
         var appBaseNoFile = stripFile(appBase);
         parseAbsoluteUrl(appBase, this, appBase), this.$$parse = function(url) {
             var path, url1, base, firstPathSegmentMatch, windowsFilePathExp, withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url), withoutHashUrl = "#" == withoutBaseUrl.charAt(0) ? beginsWith(hashPrefix, withoutBaseUrl) : this.$$html5 ? withoutBaseUrl : "";
-            if (!isString(withoutHashUrl)) throw $locationMinErr("ihshprfx", "Invalid url \"{0}\", missing hash prefix \"{1}\".", url, hashPrefix);
+            if (!isString(withoutHashUrl)) throw $locationMinErr("ihshprfx", 'Invalid url "{0}", missing hash prefix "{1}".', url, hashPrefix);
             parseAppUrl(withoutHashUrl, this, appBase), path = this.$$path, url1 = withoutHashUrl, base = appBase, windowsFilePathExp = /^\/?.*?:(\/.*)/, 0 === url1.indexOf(base) && (url1 = url1.replace(base, "")), this.$$path = windowsFilePathExp.exec(url1) ? path : (firstPathSegmentMatch = windowsFilePathExp.exec(path)) ? firstPathSegmentMatch[1] : path, this.$$compose();
         }, this.$$compose = function() {
             var search = toKeyValue(this.$$search), hash = this.$$hash ? "#" + encodeUriSegment(this.$$hash) : "";
@@ -2002,7 +2002,7 @@
     };
     var $parseMinErr = minErr("$parse"), promiseWarningCache = {};
     function ensureSafeMemberName(name, fullExpression) {
-        if ("constructor" === name) throw $parseMinErr("isecfld", "Referencing \"constructor\" field in Angular expressions is disallowed! Expression: {0}", fullExpression);
+        if ("constructor" === name) throw $parseMinErr("isecfld", 'Referencing "constructor" field in Angular expressions is disallowed! Expression: {0}', fullExpression);
         return name;
     }
     function ensureSafeObject(obj, fullExpression) {
@@ -2089,7 +2089,7 @@
         t: "\t",
         v: "\v",
         "'": "'",
-        "\"": "\""
+        '"': '"'
     }, Lexer = function(options) {
         this.options = options;
     };
@@ -2507,7 +2507,7 @@
         else {
             var code = "var l, fn, p;\n";
             forEach(pathKeys, function(key, index) {
-                ensureSafeMemberName(key, fullExp), code += "if(s === null || s === undefined) return s;\nl=s;\ns=" + (index ? "s" : "((k&&k.hasOwnProperty(\"" + key + "\"))?k:s)") + "[\"" + key + "\"];\n" + (options.unwrapPromises ? "if (s && s.then) {\n pw(\"" + fullExp.replace(/(["\r\n])/g, "\\$1") + "\");\n if (!(\"$$v\" in s)) {\n p=s;\n p.$$v = undefined;\n p.then(function(v) {p.$$v=v;});\n}\n s=s.$$v\n}\n" : "");
+                ensureSafeMemberName(key, fullExp), code += "if(s === null || s === undefined) return s;\nl=s;\ns=" + (index ? "s" : '((k&&k.hasOwnProperty("' + key + '"))?k:s)') + '["' + key + '"];\n' + (options.unwrapPromises ? 'if (s && s.then) {\n pw("' + fullExp.replace(/(["\r\n])/g, "\\$1") + '");\n if (!("$$v" in s)) {\n p=s;\n p.$$v = undefined;\n p.then(function(v) {p.$$v=v;});\n}\n s=s.$$v\n}\n' : "");
             }), code += "return s;";
             var evaledFnGetter = new Function("s", "k", "pw", code);
             evaledFnGetter.toString = function() {
@@ -2953,7 +2953,7 @@
                     return matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08").replace("\\*\\*", ".*").replace("\\*", "[^:/.?&;]*"), new RegExp("^" + matcher + "$");
                 }
                 if (isRegExp(matcher)) return new RegExp("^" + matcher.source + "$");
-                throw $sceMinErr("imatcher", "Matchers may only be \"self\", string patterns or RegExp objects");
+                throw $sceMinErr("imatcher", 'Matchers may only be "self", string patterns or RegExp objects');
             }(matcher1));
         }), adjustedMatchers;
     }
@@ -4158,7 +4158,7 @@
                         self.databound = $attrs.ngModel, self.init = function(ngModelCtrl_, nullOption_, unknownOption_) {
                             ngModelCtrl = ngModelCtrl_, nullOption = nullOption_, unknownOption = unknownOption_;
                         }, self.addOption = function(value) {
-                            assertNotHasOwnProperty(value, "\"option value\""), optionsMap[value] = !0, ngModelCtrl.$viewValue == value && ($element.val(value), unknownOption.parent() && unknownOption.remove());
+                            assertNotHasOwnProperty(value, '"option value"'), optionsMap[value] = !0, ngModelCtrl.$viewValue == value && ($element.val(value), unknownOption.parent() && unknownOption.remove());
                         }, self.removeOption = function(value) {
                             this.hasOption(value) && (delete optionsMap[value], ngModelCtrl.$viewValue == value && this.renderUnknownOption(value));
                         }, self.renderUnknownOption = function(val) {
@@ -4526,4 +4526,4 @@
             ] : []);
         }(document1, bootstrap1);
     });
-}(window, document), angular.$$csp() || angular.element(document).find("head").prepend("<style type=\"text/css\">@charset \"UTF-8\";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\\:form{display:block;}.ng-animate-start{border-spacing:1px 1px;-ms-zoom:1.0001;}.ng-animate-active{border-spacing:0px 0px;-ms-zoom:1;}</style>");
+}(window, document), angular.$$csp() || angular.element(document).find("head").prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\\:form{display:block;}.ng-animate-start{border-spacing:1px 1px;-ms-zoom:1.0001;}.ng-animate-active{border-spacing:0px 0px;-ms-zoom:1;}</style>');

@@ -326,18 +326,18 @@
     }();
     function zeroWidthElement(measure) {
         if (null == zwspSupported) {
-            var test = elt1("span", "​");
+            var test = elt1("span", "\u200B");
             removeChildrenAndAdd(measure, elt1("span", [
                 test,
                 document.createTextNode("x")
             ])), 0 != measure.firstChild.offsetHeight && (zwspSupported = test.offsetWidth <= 1 && test.offsetHeight > 2 && !(ie && ie_version < 8));
         }
-        var node = zwspSupported ? elt1("span", "​") : elt1("span", "\xa0", null, "display: inline-block; width: 1px; margin-right: -1px");
+        var node = zwspSupported ? elt1("span", "\u200B") : elt1("span", "\xa0", null, "display: inline-block; width: 1px; margin-right: -1px");
         return node.setAttribute("cm-text", ""), node;
     }
     function hasBadBidiRects(measure) {
         if (null != badBidiRects) return badBidiRects;
-        var txt = removeChildrenAndAdd(measure, document.createTextNode("AخA")), r0 = range1(txt, 0, 1).getBoundingClientRect(), r1 = range1(txt, 1, 2).getBoundingClientRect();
+        var txt = removeChildrenAndAdd(measure, document.createTextNode("A\u062EA")), r0 = range1(txt, 0, 1).getBoundingClientRect(), r1 = range1(txt, 1, 2).getBoundingClientRect();
         return removeChildren(measure), !!r0 && r0.left != r0.right && (badBidiRects = r1.right - r0.right < 3);
     }
     var e1, splitLinesAuto = 3 != "\n\nb".split(/\n/).length ? function(string) {
@@ -939,7 +939,7 @@
         return signal(cm, "renderLine", cm, lineView.line, builder.pre), builder.pre.className && (builder.textClass = joinClasses(builder.pre.className, builder.textClass || "")), builder;
     }
     function defaultSpecialCharPlaceholder(ch) {
-        var token = elt1("span", "•", "cm-invalidchar");
+        var token = elt1("span", "\u2022", "cm-invalidchar");
         return token.title = "\\u" + ch.charCodeAt(0).toString(16), token.setAttribute("aria-label", token.title), token;
     }
     function buildToken(builder, text, style, startStyle, endStyle, css, attributes) {
@@ -962,7 +962,7 @@
                     if ("\t" == m[0]) {
                         var tabSize = builder.cm.options.tabSize, tabWidth = tabSize - builder.col % tabSize;
                         (txt$1 = content.appendChild(elt1("span", spaceStr(tabWidth), "cm-tab"))).setAttribute("role", "presentation"), txt$1.setAttribute("cm-text", "\t"), builder.col += tabWidth;
-                    } else "\r" == m[0] || "\n" == m[0] ? ((txt$1 = content.appendChild(elt1("span", "\r" == m[0] ? "␍" : "␤", "cm-invalidchar"))).setAttribute("cm-text", m[0]), builder.col += 1) : ((txt$1 = builder.cm.options.specialCharPlaceholder(m[0])).setAttribute("cm-text", m[0]), ie && ie_version < 9 ? content.appendChild(elt1("span", [
+                    } else "\r" == m[0] || "\n" == m[0] ? ((txt$1 = content.appendChild(elt1("span", "\r" == m[0] ? "\u240D" : "\u2424", "cm-invalidchar"))).setAttribute("cm-text", m[0]), builder.col += 1) : ((txt$1 = builder.cm.options.specialCharPlaceholder(m[0])).setAttribute("cm-text", m[0]), ie && ie_version < 9 ? content.appendChild(elt1("span", [
                         txt$1
                     ])) : content.appendChild(txt$1), builder.col += 1);
                     builder.map.push(builder.pos, builder.pos + 1, txt$1), builder.pos++;
@@ -2015,7 +2015,7 @@
                 if (!signalDOMEvent(cm, "scrollCursorIntoView")) {
                     var display = cm.display, box = display.sizer.getBoundingClientRect(), doScroll = null;
                     if (rect.top + box.top < 0 ? doScroll = !0 : rect.bottom + box.top > (window.innerHeight || document.documentElement.clientHeight) && (doScroll = !1), null != doScroll && !phantom) {
-                        var scrollNode = elt1("div", "​", null, "position: absolute;\n                         top: " + (rect.top - display.viewOffset - paddingTop(cm.display)) + "px;\n                         height: " + (rect.bottom - rect.top + scrollGap(cm) + display.barHeight) + "px;\n                         left: " + rect.left + "px; width: " + Math.max(2, rect.right - rect.left) + "px;");
+                        var scrollNode = elt1("div", "\u200B", null, "position: absolute;\n                         top: " + (rect.top - display.viewOffset - paddingTop(cm.display)) + "px;\n                         height: " + (rect.bottom - rect.top + scrollGap(cm) + display.barHeight) + "px;\n                         left: " + rect.left + "px; width: " + Math.max(2, rect.right - rect.left) + "px;");
                         cm.display.lineSpace.appendChild(scrollNode), scrollNode.scrollIntoView(doScroll), cm.display.lineSpace.removeChild(scrollNode);
                     }
                 }
@@ -5085,7 +5085,7 @@
         if (ie && ie_version >= 9 && this.hasSelection === text || mac && /[\uf700-\uf7ff]/.test(text)) return cm.display.input.reset(), !1;
         if (cm.doc.sel == cm.display.selForContextMenu) {
             var first = text.charCodeAt(0);
-            if (8203 != first || prevInput || (prevInput = "​"), 8666 == first) return this.reset(), this.cm.execCommand("undo");
+            if (8203 != first || prevInput || (prevInput = "\u200B"), 8666 == first) return this.reset(), this.cm.execCommand("undo");
         }
         for(var same = 0, l = Math.min(prevInput.length, text.length); same < l && prevInput.charCodeAt(same) == text.charCodeAt(same);)++same;
         return runInOp(cm, function() {
@@ -5114,15 +5114,15 @@
         }
         function prepareSelectAllHack() {
             if (null != te.selectionStart) {
-                var selected = cm.somethingSelected(), extval = "​" + (selected ? te.value : "");
-                te.value = "⇚", te.value = extval, input.prevInput = selected ? "" : "​", te.selectionStart = 1, te.selectionEnd = extval.length, display.selForContextMenu = cm.doc.sel;
+                var selected = cm.somethingSelected(), extval = "\u200B" + (selected ? te.value : "");
+                te.value = "\u21DA", te.value = extval, input.prevInput = selected ? "" : "\u200B", te.selectionStart = 1, te.selectionEnd = extval.length, display.selForContextMenu = cm.doc.sel;
             }
         }
         function rehide() {
             if (input.contextMenuPending == rehide && (input.contextMenuPending = !1, input.wrapper.style.cssText = oldWrapperCSS, te.style.cssText = oldCSS, ie && ie_version < 9 && display.scrollbars.setScrollTop(display.scroller.scrollTop = scrollPos), null != te.selectionStart)) {
                 (!ie || ie && ie_version < 9) && prepareSelectAllHack();
                 var i = 0, poll = function() {
-                    display.selForContextMenu == cm.doc.sel && 0 == te.selectionStart && te.selectionEnd > 0 && "​" == input.prevInput ? operation(cm, selectAll)(cm) : i++ < 10 ? display.detectingSelectAll = setTimeout(poll, 500) : (display.selForContextMenu = null, display.input.reset());
+                    display.selForContextMenu == cm.doc.sel && 0 == te.selectionStart && te.selectionEnd > 0 && "\u200B" == input.prevInput ? operation(cm, selectAll)(cm) : i++ < 10 ? display.detectingSelectAll = setTimeout(poll, 500) : (display.selForContextMenu = null, display.input.reset());
                 };
                 display.detectingSelectAll = setTimeout(poll, 200);
             }

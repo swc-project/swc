@@ -83,7 +83,7 @@
             ")": "%29",
             "~": "%7E",
             "%20": "+",
-            "%00": "\x00"
+            "%00": "\0"
         };
         return encodeURIComponent(str).replace(/[!'\(\)~]|%20|%00/g, function(match) {
             return replace[match];

@@ -2,7 +2,7 @@ import { D, F, y, b as s } from "../index.f66dda46.js";
 var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK = "L", TEMPLATE = "P", SCRIPT = "S", applyTitleTemplate = function(title, template) {
     return template ? template.replace(/%s/g, title || "") : title;
 }, changeOrCreateMetaTag = function(meta) {
-    var result = document.head.querySelectorAll(meta.charset ? "meta[" + meta.keyword + "]" : "meta[" + meta.keyword + "=\"" + meta[meta.keyword] + "\"]");
+    var result = document.head.querySelectorAll(meta.charset ? "meta[" + meta.keyword + "]" : "meta[" + meta.keyword + '="' + meta[meta.keyword] + '"]');
     if (result[0]) meta.charset ? result[0].setAttribute(meta.keyword, meta.charset) : result[0].setAttribute("content", meta.content);
     else {
         var metaTag = document.createElement("meta");
@@ -38,7 +38,7 @@ var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK
                     });
                     if (newMeta) changeOrCreateMetaTag(newMeta);
                     else {
-                        var result = document.head.querySelectorAll(oldMeta.charset ? "meta[" + oldMeta.keyword + "]" : "meta[" + oldMeta.keyword + "=\"" + oldMeta[oldMeta.keyword] + "\"]");
+                        var result = document.head.querySelectorAll(oldMeta.charset ? "meta[" + oldMeta.keyword + "]" : "meta[" + oldMeta.keyword + '="' + oldMeta[oldMeta.keyword] + '"]');
                         document.head.removeChild(result[0]);
                     }
                 }
@@ -93,7 +93,7 @@ var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK
         options.type,
         options.hreflang, 
     ]), y(function() {
-        return hasMounted.current = !0, document.querySelectorAll("link[rel=\"" + options.rel + "\"]").forEach(function(x) {
+        return hasMounted.current = !0, document.querySelectorAll('link[rel="' + options.rel + '"]').forEach(function(x) {
             var found = !0;
             Object.keys(options).forEach(function(key) {
                 x.getAttribute(key) !== options[key] && (found = !1);
