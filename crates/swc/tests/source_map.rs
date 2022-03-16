@@ -4,7 +4,7 @@ use std::{
     env::temp_dir,
     fs,
     fs::{canonicalize, create_dir_all},
-    path::PathBuf,
+    path::{Path, PathBuf},
     process::{Command, Output},
     sync::Arc,
 };
@@ -131,8 +131,8 @@ fn validate_map(map_file: PathBuf) {
     sourcemap::SourceMap::from_slice(content.as_bytes()).expect("failed to deserialize sourcemap");
 }
 
-#[cfg(feature = "node14-test")]
-#[testing::fixture("stacktrace/**/input/")]
+#[cfg(not(target_os = "windows"))]
+#[testing::fixture("tests/stacktrace/**/input/")]
 fn stacktrace(input_dir: PathBuf) {
     let dir = input_dir.parent().unwrap();
     let output_dir = dir.join("output");
@@ -174,7 +174,7 @@ fn stacktrace(input_dir: PathBuf) {
 
                         println!("-----Compiled:\n{}\n-----", v.code);
 
-                        let stack_trace = node_stack_trace(&v.code)
+                        let stack_trace = node_stack_trace(entry.path(), &v.code)
                             .expect("failed to capture output of node -e 'generated code'");
 
                         stack_trace
@@ -191,16 +191,9 @@ fn stacktrace(input_dir: PathBuf) {
         .expect("failed");
 }
 
-fn node_stack_trace(code: &str) -> Result<NormalizedOutput, Error> {
-    let thread = std::thread::current();
-    let test_name = thread.name().expect("test thread should have a name");
-
-    let dir = temp_dir().join(test_name);
-
-    let _ = create_dir_all(&dir);
-
-    let test_file = dir.join("eval.js");
-    fs::write(&test_file, code.as_bytes()).context("faailed to write to test js")?;
+fn node_stack_trace(file: &Path, code: &str) -> Result<NormalizedOutput, Error> {
+    let test_file = file.with_file_name("_exec.js");
+    fs::write(&test_file, code.as_bytes()).context("failed to write to test js")?;
 
     let stack = Command::new("node")
         .arg("--enable-source-maps")
@@ -225,9 +218,8 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     eprintln!("\n\n\nStderr: {}\n\n\n", stderr);
     //
     let stacks = stderr
-        .split(|c| c == '\n')
-        .map(|s| s.trim())
-        .filter(|s| s.starts_with("->"))
+        .lines()
+        .filter(|s| !s.contains("(node:internal") && !s.contains("node_modules"))
         .collect::<Vec<_>>();
 
     let stacks = stacks.join("\n");

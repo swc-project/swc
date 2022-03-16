@@ -2954,7 +2954,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.153.0"
+version = "0.154.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3011,7 +3011,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.123.0"
+version = "0.124.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3068,7 +3068,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.27.0"
+version = "0.28.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3353,7 +3353,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.90.1"
+version = "0.91.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3413,7 +3413,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.107.0"
+version = "0.108.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3468,7 +3468,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.132.0"
+version = "0.133.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3567,7 +3567,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.92.0"
+version = "0.93.0"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3592,7 +3592,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.102.0"
+version = "0.103.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3643,7 +3643,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.94.0"
+version = "0.95.0"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3692,7 +3692,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.97.0"
+version = "0.98.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -3739,7 +3739,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.133.0"
+version = "0.134.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3783,7 +3783,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.73.0"
+version = "0.74.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3985,7 +3985,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.71.0"
+version = "0.72.0"
 dependencies = [
  "anyhow",
  "rayon",
@@ -4497,7 +4497,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.155"
+version = "1.2.156"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
