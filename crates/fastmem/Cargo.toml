@@ -11,4 +11,4 @@ version = "0.1.0"
 enable = ["rayon"]
 
 [dependencies]
-rayon = {version = "1", optional = true}
+rayon = { version = "1", optional = true }

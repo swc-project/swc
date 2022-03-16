@@ -17,15 +17,7 @@
 # this list would mean the nix crate, as well as any of its exclusive
 # dependencies not shared by any other crates, would be ignored, as the target
 # list here is effectively saying which targets you are building for.
-targets = [
-  # The triple can be any string, but only the target triples built in to
-  # rustc (as of 1.40) can be checked against actual config expressions
-  #{ triple = "x86_64-unknown-linux-musl" },
-  # You can also specify which target_features you promise are enabled for a
-  # particular target. target_features are currently not validated against
-  # the actual valid features supported by the target architecture.
-  #{ triple = "wasm32-unknown-unknown", features = ["atomics"] },
-]
+targets = []
 
 # This section is considered when running `cargo deny check advisories`
 # More documentation for the advisories section can be found here:
@@ -87,9 +79,7 @@ allow = [
 # List of explictly disallowed licenses
 # See https://spdx.org/licenses/ for list of possible licenses
 # [possible values: any SPDX 3.11 short identifier (+ optional exception)].
-deny = [
-  #"Nokia",
-]
+deny = []
 # Lint level for licenses considered copyleft
 copyleft = "deny"
 # Blanket approval or denial for OSI-approved or FSF Free/Libre licenses
@@ -111,11 +101,7 @@ default = "deny"
 confidence-threshold = 0.8
 # Allow 1 or more licenses on a per-crate basis, so that particular licenses
 # aren't accepted for every possible crate as with the normal allow list
-exceptions = [
-  # Each entry is the crate and version constraint, and its specific allow
-  # list
-  #{ allow = ["Zlib"], name = "adler32", version = "*" },
-]
+exceptions = []
 
 [[licenses.clarify]]
 # The name of the crate the clarification applies to
@@ -129,9 +115,7 @@ expression = "Apache-2.0 AND BSD-3-Clause"
 # when running the license check, otherwise the clarification will be ignored
 # and the crate will be checked normally, which may produce warnings or errors
 # depending on the rest of your configuration
-license-files = [
-  {path = "COPYRIGHT", hash = 972598577},
-]
+license-files = [{ path = "COPYRIGHT", hash = 972598577 }]
 
 # Some crates don't have (easily) machine readable licensing information,
 # adding a clarification entry for it allows you to manually specify the
@@ -160,9 +144,7 @@ ignore = false
 # One or more private registries that you might publish crates to, if a crate
 # is only published to private registries, and ignore is true, the crate will
 # not have its license(s) checked
-registries = [
-  #"https://sekretz.com/registry
-]
+registries = []
 
 # This section is considered when running `cargo deny check bans`.
 # More documentation about the 'bans' section can be found here:
@@ -179,30 +161,16 @@ wildcards = "allow"
 # * all - Both lowest-version and simplest-path are used
 highlight = "all"
 # List of crates that are allowed. Use with care!
-allow = [
-  #{ name = "ansi_term", version = "=0.11.0" },
-]
+allow = []
 # List of crates to deny
-deny = [
-  # Each entry the name of a crate and a version range. If version is
-  # not specified, all versions will be matched.
-  #{ name = "ansi_term", version = "=0.11.0" },
-  #
-  # Wrapper crates can optionally be specified to allow the crate when it
-  # is a direct dependency of the otherwise banned crate
-  #{ name = "ansi_term", version = "=0.11.0", wrappers = [] },
-]
+deny = []
 # Certain crates/versions that will be skipped when doing duplicate detection.
-skip = [
-  #{ name = "ansi_term", version = "=0.11.0" },
-]
+skip = []
 # Similarly to `skip` allows you to skip certain crates during duplicate
 # detection. Unlike skip, it also includes the entire tree of transitive
 # dependencies starting at the specified crate, up to a certain depth, which is
 # by default infinite
-skip-tree = [
-  #{ name = "ansi_term", version = "=0.11.0", depth = 20 },
-]
+skip-tree = []
 
 # This section is considered when running `cargo deny check sources`.
 # More documentation about the 'sources' section can be found here:
