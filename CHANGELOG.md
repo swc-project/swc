@@ -79,6 +79,12 @@
 
 - **(es)** Add tests for fixed issues (#4036) ([71f7cf2](https://github.com/swc-project/swc/commit/71f7cf2011fd948a0c1d7c4268316f3c0103f2f3))
 
+### Build
+
+
+
+- **(tsconfig)** Set `tsbuildinfo` filename (#4042) ([a1308c9](https://github.com/swc-project/swc/commit/a1308c9a16c651555acb2c6e082ce95519fda88e))
+
 ## [1.2.155] - 2022-03-14
 
 ### Bug Fixes
