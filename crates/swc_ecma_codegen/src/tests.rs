@@ -587,9 +587,9 @@ fn test_get_unquoted_utf16() {
     es2020("\u{0}", "\\0");
     es2020("\u{1}", "\\x01");
 
-    es2020("\u{1000}", "\u{1000}");
+    es2020("\u{1000}", "\\u1000");
     es2020("\u{ff}", "\\xff");
-    es2020("\u{10ffff}", "\u{10ffff}");
+    es2020("\u{10ffff}", "\\u{10FFFF}");
 
     es2020_nonascii("\u{FEFF}abc", "\\uFEFFabc");
     es2020_nonascii("\u{10ffff}", "\\u{10FFFF}");
