@@ -1,2 +1,2 @@
 // @target: es6
-var x = "\x00";
+var x = "\0";

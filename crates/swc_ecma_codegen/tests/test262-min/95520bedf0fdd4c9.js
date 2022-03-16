@@ -1,1 +1,1 @@
-function a(){b,c,d;if(e){throw'f'}}
+function a(){b,c,d;if(e){throw"f"}}

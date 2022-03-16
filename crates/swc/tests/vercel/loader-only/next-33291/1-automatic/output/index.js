@@ -108,7 +108,7 @@ export default function Home() {
                                 className: styles.card,
                                 children: [
                                     /*#__PURE__*/ _jsxDEV("h2", {
-                                        children: "Documentation →"
+                                        children: "Documentation \u2192"
                                     }, void 0, false, {
                                         fileName: "$DIR/tests/vercel/loader-only/next-33291/1-automatic/input/index.js",
                                         lineNumber: 37,
@@ -132,7 +132,7 @@ export default function Home() {
                                 className: styles.card,
                                 children: [
                                     /*#__PURE__*/ _jsxDEV("h2", {
-                                        children: "Learn →"
+                                        children: "Learn \u2192"
                                     }, void 0, false, {
                                         fileName: "$DIR/tests/vercel/loader-only/next-33291/1-automatic/input/index.js",
                                         lineNumber: 42,
@@ -156,7 +156,7 @@ export default function Home() {
                                 className: styles.card,
                                 children: [
                                     /*#__PURE__*/ _jsxDEV("h2", {
-                                        children: "Examples →"
+                                        children: "Examples \u2192"
                                     }, void 0, false, {
                                         fileName: "$DIR/tests/vercel/loader-only/next-33291/1-automatic/input/index.js",
                                         lineNumber: 50,
@@ -180,7 +180,7 @@ export default function Home() {
                                 className: styles.card,
                                 children: [
                                     /*#__PURE__*/ _jsxDEV("h2", {
-                                        children: "Deploy →"
+                                        children: "Deploy \u2192"
                                     }, void 0, false, {
                                         fileName: "$DIR/tests/vercel/loader-only/next-33291/1-automatic/input/index.js",
                                         lineNumber: 58,

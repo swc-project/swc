@@ -86,7 +86,7 @@
                     DEFAULT: level1
                 }, log1.level = function(lvl) {
                     if ("string" == typeof lvl) {
-                        if (!log1.levels.hasOwnProperty(lvl)) throw new Error("\"" + lvl + "\" in not a valid log level");
+                        if (!log1.levels.hasOwnProperty(lvl)) throw new Error('"' + lvl + '" in not a valid log level');
                         level1 = lvl;
                     }
                     return level1;
@@ -700,7 +700,7 @@
                 void 0 === options && (options = {});
                 var eventBusKey = options.eventBusKey;
                 if (eventBusKey) {
-                    if (!target[eventBusKey].nodeName) throw new Error("The eventBusKey \"" + eventBusKey + "\" does not refer to an element.");
+                    if (!target[eventBusKey].nodeName) throw new Error('The eventBusKey "' + eventBusKey + '" does not refer to an element.');
                     target.eventBusEl_ = target[eventBusKey];
                 } else target.eventBusEl_ = createEl("span", {
                     className: "vjs-event-bus"
@@ -1068,9 +1068,9 @@
                         }), _this5.clearingTimersOnDispose_ = !1;
                     }));
                 }, Component.registerComponent = function(name, ComponentToRegister) {
-                    if ("string" != typeof name || !name) throw new Error("Illegal component name, \"" + name + "\"; must be a non-empty string.");
+                    if ("string" != typeof name || !name) throw new Error('Illegal component name, "' + name + '"; must be a non-empty string.');
                     var reason, Tech = Component.getComponent("Tech"), isTech = Tech && Tech.isTech(ComponentToRegister), isComp = Component === ComponentToRegister || Component.prototype.isPrototypeOf(ComponentToRegister.prototype);
-                    if (isTech || !isComp) throw reason = isTech ? "techs must be registered using Tech.registerTech()" : "must be a Component subclass", new Error("Illegal component, \"" + name + "\"; " + reason + ".");
+                    if (isTech || !isComp) throw reason = isTech ? "techs must be registered using Tech.registerTech()" : "must be a Component subclass", new Error('Illegal component, "' + name + '"; ' + reason + ".");
                     name = toTitleCase$1(name), Component.components_ || (Component.components_ = {});
                     var Player = Component.getComponent("Player");
                     if ("Player" === name && Player && Player.players) {
@@ -1924,7 +1924,7 @@
                     var _this7 = this;
                     void 0 === options && (options = {});
                     var htmlTrackElement = this.createRemoteTextTrack(options);
-                    return !0 !== manualCleanup && !1 !== manualCleanup && (log$1.warn("Calling addRemoteTextTrack without explicitly setting the \"manualCleanup\" parameter to `true` is deprecated and default to `false` in future version of video.js"), manualCleanup = !0), this.remoteTextTrackEls().addTrackElement_(htmlTrackElement), this.remoteTextTracks().addTrack(htmlTrackElement.track), !0 !== manualCleanup && this.ready(function() {
+                    return !0 !== manualCleanup && !1 !== manualCleanup && (log$1.warn('Calling addRemoteTextTrack without explicitly setting the "manualCleanup" parameter to `true` is deprecated and default to `false` in future version of video.js'), manualCleanup = !0), this.remoteTextTrackEls().addTrackElement_(htmlTrackElement), this.remoteTextTracks().addTrack(htmlTrackElement.track), !0 !== manualCleanup && this.ready(function() {
                         return _this7.autoRemoteTextTracks_.addTrack(htmlTrackElement.track);
                     }), htmlTrackElement;
                 }, _proto.removeRemoteTextTrack = function(track) {
@@ -2212,7 +2212,7 @@
                     this.setSrc(url), url ? this.show() : this.hide();
                 }, _proto.setSrc = function(url) {
                     var backgroundImage = "";
-                    url && (backgroundImage = "url(\"" + url + "\")"), this.el_.style.backgroundImage = backgroundImage;
+                    url && (backgroundImage = 'url("' + url + '")'), this.el_.style.backgroundImage = backgroundImage;
                 }, _proto.handleClick = function(event) {
                     if (this.player_.controls()) {
                         var sourceIsEncrypted = this.player_.usingPlugin("eme") && this.player_.eme.sessions && this.player_.eme.sessions.length > 0;
@@ -2225,13 +2225,13 @@
                 monospace: "monospace",
                 sansSerif: "sans-serif",
                 serif: "serif",
-                monospaceSansSerif: "\"Andale Mono\", \"Lucida Console\", monospace",
-                monospaceSerif: "\"Courier New\", monospace",
+                monospaceSansSerif: '"Andale Mono", "Lucida Console", monospace',
+                monospaceSerif: '"Courier New", monospace',
                 proportionalSansSerif: "sans-serif",
                 proportionalSerif: "serif",
-                casual: "\"Comic Sans MS\", Impact, fantasy",
-                script: "\"Monotype Corsiva\", cursive",
-                smallcaps: "\"Andale Mono\", \"Lucida Console\", monospace, sans-serif"
+                casual: '"Comic Sans MS", Impact, fantasy',
+                script: '"Monotype Corsiva", cursive',
+                smallcaps: '"Andale Mono", "Lucida Console", monospace, sans-serif'
             };
             function constructColor(color, opacity) {
                 var hex;
@@ -4292,15 +4292,15 @@
                         id
                     ].join(" ").trim();
                     return [
-                        "<" + type + " id=\"" + id + "\" class=\"" + ("label" === type ? "vjs-label" : "") + "\">",
+                        "<" + type + ' id="' + id + '" class="' + ("label" === type ? "vjs-label" : "") + '">',
                         this.localize(config.label),
                         "</" + type + ">",
-                        "<select aria-labelledby=\"" + selectLabelledbyIds + "\">"
+                        '<select aria-labelledby="' + selectLabelledbyIds + '">'
                     ].concat(config.options.map(function(o) {
                         var optionId = id + "-" + o[1].replace(/\W+/g, "");
                         return [
-                            "<option id=\"" + optionId + "\" value=\"" + o[0] + "\" ",
-                            "aria-labelledby=\"" + selectLabelledbyIds + " " + optionId + "\">",
+                            '<option id="' + optionId + '" value="' + o[0] + '" ',
+                            'aria-labelledby="' + selectLabelledbyIds + " " + optionId + '">',
                             _this2.localize(o[1]),
                             "</option>"
                         ].join("");
@@ -4308,12 +4308,12 @@
                 }, _proto.createElFgColor_ = function() {
                     var legendId = "captions-text-legend-" + this.id_;
                     return [
-                        "<fieldset class=\"vjs-fg-color vjs-track-setting\">",
-                        "<legend id=\"" + legendId + "\">",
+                        '<fieldset class="vjs-fg-color vjs-track-setting">',
+                        '<legend id="' + legendId + '">',
                         this.localize("Text"),
                         "</legend>",
                         this.createElSelect_("color", legendId),
-                        "<span class=\"vjs-text-opacity vjs-opacity\">",
+                        '<span class="vjs-text-opacity vjs-opacity">',
                         this.createElSelect_("textOpacity", legendId),
                         "</span>",
                         "</fieldset>"
@@ -4321,12 +4321,12 @@
                 }, _proto.createElBgColor_ = function() {
                     var legendId = "captions-background-" + this.id_;
                     return [
-                        "<fieldset class=\"vjs-bg-color vjs-track-setting\">",
-                        "<legend id=\"" + legendId + "\">",
+                        '<fieldset class="vjs-bg-color vjs-track-setting">',
+                        '<legend id="' + legendId + '">',
                         this.localize("Background"),
                         "</legend>",
                         this.createElSelect_("backgroundColor", legendId),
-                        "<span class=\"vjs-bg-opacity vjs-opacity\">",
+                        '<span class="vjs-bg-opacity vjs-opacity">',
                         this.createElSelect_("backgroundOpacity", legendId),
                         "</span>",
                         "</fieldset>"
@@ -4334,12 +4334,12 @@
                 }, _proto.createElWinColor_ = function() {
                     var legendId = "captions-window-" + this.id_;
                     return [
-                        "<fieldset class=\"vjs-window-color vjs-track-setting\">",
-                        "<legend id=\"" + legendId + "\">",
+                        '<fieldset class="vjs-window-color vjs-track-setting">',
+                        '<legend id="' + legendId + '">',
                         this.localize("Window"),
                         "</legend>",
                         this.createElSelect_("windowColor", legendId),
-                        "<span class=\"vjs-window-opacity vjs-opacity\">",
+                        '<span class="vjs-window-opacity vjs-opacity">',
                         this.createElSelect_("windowOpacity", legendId),
                         "</span>",
                         "</fieldset>"
@@ -4357,13 +4357,13 @@
                     return createEl("div", {
                         className: "vjs-track-settings-font",
                         innerHTML: [
-                            "<fieldset class=\"vjs-font-percent vjs-track-setting\">",
+                            '<fieldset class="vjs-font-percent vjs-track-setting">',
                             this.createElSelect_("fontPercent", "", "legend"),
                             "</fieldset>",
-                            "<fieldset class=\"vjs-edge-style vjs-track-setting\">",
+                            '<fieldset class="vjs-edge-style vjs-track-setting">',
                             this.createElSelect_("edgeStyle", "", "legend"),
                             "</fieldset>",
-                            "<fieldset class=\"vjs-font-family vjs-track-setting\">",
+                            '<fieldset class="vjs-font-family vjs-track-setting">',
                             this.createElSelect_("fontFamily", "", "legend"),
                             "</fieldset>"
                         ].join("")
@@ -4373,11 +4373,11 @@
                     return createEl("div", {
                         className: "vjs-track-settings-controls",
                         innerHTML: [
-                            "<button type=\"button\" class=\"vjs-default-button\" title=\"" + defaultsDescription + "\">",
+                            '<button type="button" class="vjs-default-button" title="' + defaultsDescription + '">',
                             this.localize("Reset"),
-                            "<span class=\"vjs-control-text\"> " + defaultsDescription + "</span>",
+                            '<span class="vjs-control-text"> ' + defaultsDescription + "</span>",
                             "</button>",
-                            "<button type=\"button\" class=\"vjs-done-button\">" + this.localize("Done") + "</button>"
+                            '<button type="button" class="vjs-done-button">' + this.localize("Done") + "</button>"
                         ].join("")
                     });
                 }, _proto.content = function() {
@@ -5230,7 +5230,7 @@
                         }), _this.languages_ = languagesToLower;
                     } else _this.languages_ = Player.prototype.options_.languages;
                     _this.resetCache_(), _this.poster_ = options.poster || "", _this.controls_ = !!options.controls, tag.controls = !1, tag.removeAttribute("controls"), _this.changingSrc_ = !1, _this.playCallbacks_ = [], _this.playTerminatedQueue_ = [], tag.hasAttribute("autoplay") ? _this.autoplay(!0) : _this.autoplay(_this.options_.autoplay), options.plugins && Object.keys(options.plugins).forEach(function(name) {
-                        if ("function" != typeof _this[name]) throw new Error("plugin \"" + name + "\" does not exist");
+                        if ("function" != typeof _this[name]) throw new Error('plugin "' + name + '" does not exist');
                     }), _this.scrubbing_ = !1, _this.el_ = _this.createEl(), evented((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), {
                         eventBusKey: "el_"
                     }), _this.fsApi_.requestFullscreen && (on(global_document__WEBPACK_IMPORTED_MODULE_1___default(), _this.fsApi_.fullscreenchange, _this.boundDocumentFullscreenChange_), _this.on(_this.fsApi_.fullscreenchange, _this.boundDocumentFullscreenChange_)), _this.fluid_ && _this.on([
@@ -5288,7 +5288,7 @@
                 }, _proto.crossOrigin = function(value) {
                     if (!value) return this.techGet_("crossOrigin");
                     if ("anonymous" !== value && "use-credentials" !== value) {
-                        log$1.warn("crossOrigin must be \"anonymous\" or \"use-credentials\", given \"" + value + "\"");
+                        log$1.warn('crossOrigin must be "anonymous" or "use-credentials", given "' + value + '"');
                         return;
                     }
                     this.techCall_("setCrossOrigin", value);
@@ -5305,7 +5305,7 @@
                     }
                     var parsedVal = parseFloat(value);
                     if (isNaN(parsedVal)) {
-                        log$1.error("Improper value \"" + value + "\" supplied for for " + _dimension);
+                        log$1.error('Improper value "' + value + '" supplied for for ' + _dimension);
                         return;
                     }
                     this[privDimension] = parsedVal, this.updateStyleEl_();
@@ -5826,7 +5826,7 @@
                     for(var can, i = 0, j = this.options_.techOrder; i < j.length; i++){
                         var techName = j[i], tech = Tech1.getTech(techName);
                         if (tech || (tech = Component$1.getComponent(techName)), !tech) {
-                            log$1.error("The \"" + techName + "\" tech is undefined. Skipped browser support check for that tech.");
+                            log$1.error('The "' + techName + '" tech is undefined. Skipped browser support check for that tech.');
                             continue;
                         }
                         if (tech.isSupported() && (can = tech.canPlayType(type))) return can;
@@ -5840,7 +5840,7 @@
                         ];
                     }).filter(function(_ref) {
                         var techName = _ref[0], tech = _ref[1];
-                        return tech ? tech.isSupported() : (log$1.error("The \"" + techName + "\" tech is undefined. Skipped browser support check for that tech."), !1);
+                        return tech ? tech.isSupported() : (log$1.error('The "' + techName + '" tech is undefined. Skipped browser support check for that tech.'), !1);
                     }), findFirstPassingTechSourcePair = function(outerArray, innerArray, tester) {
                         var found;
                         return outerArray.some(function(outerChoice) {
@@ -6278,10 +6278,10 @@
                     var p = "string" == typeof plugin ? getPlugin(plugin) : plugin;
                     return "function" == typeof p && !Plugin.prototype.isPrototypeOf(p.prototype);
                 }, Plugin.registerPlugin = function(name, plugin) {
-                    if ("string" != typeof name) throw new Error("Illegal plugin name, \"" + name + "\", must be a string, was " + typeof name + ".");
-                    if (pluginExists(name)) log$1.warn("A plugin named \"" + name + "\" already exists. You may want to avoid re-registering plugins!");
-                    else if (Player1.prototype.hasOwnProperty(name)) throw new Error("Illegal plugin name, \"" + name + "\", cannot share a name with an existing player method!");
-                    if ("function" != typeof plugin) throw new Error("Illegal plugin for \"" + name + "\", must be a function, was " + typeof plugin + ".");
+                    if ("string" != typeof name) throw new Error('Illegal plugin name, "' + name + '", must be a string, was ' + typeof name + ".");
+                    if (pluginExists(name)) log$1.warn('A plugin named "' + name + '" already exists. You may want to avoid re-registering plugins!');
+                    else if (Player1.prototype.hasOwnProperty(name)) throw new Error('Illegal plugin name, "' + name + '", cannot share a name with an existing player method!');
+                    if ("function" != typeof plugin) throw new Error('Illegal plugin for "' + name + '", must be a function, was ' + typeof plugin + ".");
                     return pluginStorage[name] = plugin, name !== BASE_PLUGIN_NAME && (Plugin.isBasic(plugin) ? Player1.prototype[name] = createBasicPlugin(name, plugin) : Player1.prototype[name] = createPluginFactory(name, plugin)), plugin;
                 }, Plugin.deregisterPlugin = function(name) {
                     if (name === BASE_PLUGIN_NAME) throw new Error("Cannot de-register base plugin.");
@@ -6307,7 +6307,7 @@
             };
             function videojs(id, options, ready) {
                 var player = videojs.getPlayer(id);
-                if (player) return options && log$1.warn("Player \"" + id + "\" is already initialised. Options will not be applied."), ready && player.ready(ready), player;
+                if (player) return options && log$1.warn('Player "' + id + '" is already initialised. Options will not be applied.'), ready && player.ready(ready), player;
                 var el = "string" == typeof id ? $("#" + normalizeId(id)) : id;
                 if (!isEl(el)) throw new TypeError("The element or ID supplied is not valid. (videojs)");
                 return el.ownerDocument.defaultView && el.ownerDocument.body.contains(el) || log$1.warn("The element supplied is not included in the DOM"), options = options || {}, hooks("beforesetup").forEach(function(hookFunction) {
@@ -14352,11 +14352,11 @@
                         var audioGroup = this.media().attributes.AUDIO;
                         this.master().playlists.forEach(function(variant) {
                             (variant.attributes && variant.attributes.AUDIO) === audioGroup && variant !== _this9.media() && (variant.excludeUntil = 1 / 0);
-                        }), this.logger_("excluding audio group " + audioGroup + " as " + unsupportedAudio + " does not support codec(s): \"" + codecs.audio + "\"");
+                        }), this.logger_("excluding audio group " + audioGroup + " as " + unsupportedAudio + ' does not support codec(s): "' + codecs.audio + '"');
                     }
                     if (Object.keys(unsupportedCodecs).length) {
                         var message = Object.keys(unsupportedCodecs).reduce(function(acc, supporter) {
-                            return acc && (acc += ", "), acc += supporter + " does not support codec(s): \"" + unsupportedCodecs[supporter].join(",") + "\"";
+                            return acc && (acc += ", "), acc += supporter + ' does not support codec(s): "' + unsupportedCodecs[supporter].join(",") + '"';
                         }, "") + ".";
                         this.blacklistCurrentPlaylist({
                             playlist: this.media(),
@@ -14373,7 +14373,7 @@
                             "audio"
                         ].forEach(function(type) {
                             var newCodec = ((0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.kS)(_this9.sourceUpdater_.codecs[type] || "")[0] || {}).type, oldCodec = ((0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.kS)(codecs[type] || "")[0] || {}).type;
-                            newCodec && oldCodec && newCodec.toLowerCase() !== oldCodec.toLowerCase() && switchMessages.push("\"" + _this9.sourceUpdater_.codecs[type] + "\" -> \"" + codecs[type] + "\"");
+                            newCodec && oldCodec && newCodec.toLowerCase() !== oldCodec.toLowerCase() && switchMessages.push('"' + _this9.sourceUpdater_.codecs[type] + '" -> "' + codecs[type] + '"');
                         }), switchMessages.length) {
                             this.blacklistCurrentPlaylist({
                                 playlist: this.media(),
@@ -14415,9 +14415,9 @@
                             ids.push(variant.id);
                             var blacklistReasons = [], variantCodecs = codecsForPlaylist(_this11.masterPlaylistLoader_.master, variant), variantCodecCount = codecCount(variantCodecs);
                             if (variantCodecs.audio || variantCodecs.video) {
-                                if (variantCodecCount !== codecCount_ && blacklistReasons.push("codec count \"" + variantCodecCount + "\" !== \"" + codecCount_ + "\""), !_this11.sourceUpdater_.canChangeType()) {
+                                if (variantCodecCount !== codecCount_ && blacklistReasons.push('codec count "' + variantCodecCount + '" !== "' + codecCount_ + '"'), !_this11.sourceUpdater_.canChangeType()) {
                                     var variantVideoDetails = variantCodecs.video && (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.kS)(variantCodecs.video)[0] || null, variantAudioDetails = variantCodecs.audio && (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.kS)(variantCodecs.audio)[0] || null;
-                                    variantVideoDetails && videoDetails && variantVideoDetails.type.toLowerCase() !== videoDetails.type.toLowerCase() && blacklistReasons.push("video codec \"" + variantVideoDetails.type + "\" !== \"" + videoDetails.type + "\""), variantAudioDetails && audioDetails && variantAudioDetails.type.toLowerCase() !== audioDetails.type.toLowerCase() && blacklistReasons.push("audio codec \"" + variantAudioDetails.type + "\" !== \"" + audioDetails.type + "\"");
+                                    variantVideoDetails && videoDetails && variantVideoDetails.type.toLowerCase() !== videoDetails.type.toLowerCase() && blacklistReasons.push('video codec "' + variantVideoDetails.type + '" !== "' + videoDetails.type + '"'), variantAudioDetails && audioDetails && variantAudioDetails.type.toLowerCase() !== audioDetails.type.toLowerCase() && blacklistReasons.push('audio codec "' + variantAudioDetails.type + '" !== "' + audioDetails.type + '"');
                                 }
                                 blacklistReasons.length && (variant.excludeUntil = 1 / 0, _this11.logger_("blacklisting " + variant.id + ": " + blacklistReasons.join(" && ")));
                             }
@@ -14982,7 +14982,7 @@
                                     return Math.floor(1 / (1 / (this.bandwidth || 1) + (this.throughput > 0 ? 1 / this.throughput : 0)));
                                 },
                                 set: function() {
-                                    videojs.log.error("The \"systemBandwidth\" property is read-only");
+                                    videojs.log.error('The "systemBandwidth" property is read-only');
                                 }
                             }
                         }), this.options_.bandwidth && (this.bandwidth = this.options_.bandwidth), this.options_.throughput && (this.throughput = this.options_.throughput), Object.defineProperties(this.stats, {

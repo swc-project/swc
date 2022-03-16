@@ -11,9 +11,9 @@ Promise.all(assignAll).then(function() {
                         e += "'".concat(a.id, "', ");
                         var c = yield listOfUser(a.id);
                         c.forEach(function(b) {
-                            insertQuery += "INSERT INTO \"TABLE\"(\"UUID\", id, other_ids_here) VALUES ('".concat(uuidv4(), "', '").concat(a.id, "', now());");
+                            insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(a.id, "', now());");
                         });
-                    }, e = "DELETE FROM \"TABLE\" WHERE \"UUID\" IN ( ", obj)d(f);
+                    }, e = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', obj)d(f);
                 case 3:
                 case "end":
                     return a.stop();
@@ -31,7 +31,7 @@ export var listOfUser = function(d) {
         return b.wrap(function(a) {
             for(;;)switch(a.prev = a.next){
                 case 0:
-                    f = "Select Distinct id from \"TABLE\" Where id = '".concat(d, "' And user_id IS not null"), postgreSQL.query(f, null, function(a, b) {
+                    f = 'Select Distinct id from "TABLE" Where id = \''.concat(d, "' And user_id IS not null"), postgreSQL.query(f, null, function(a, b) {
                         a ? e(a) : c(b.rows);
                     });
                 case 2:

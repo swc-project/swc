@@ -1,5 +1,5 @@
 {
     do ;
-    while (false)
+    while (false);
     false;
 }
