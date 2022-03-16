@@ -9,5 +9,5 @@ if (a) {
 } else d;
 if (a) {
     do if (b) throw c;
-    while (a)
+    while (a);
 } else d;

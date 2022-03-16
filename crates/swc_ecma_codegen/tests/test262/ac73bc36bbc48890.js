@@ -1,2 +1,2 @@
-"use\x20strict";
+"use strict";
 with (a)b = c;
