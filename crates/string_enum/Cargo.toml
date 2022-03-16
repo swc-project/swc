@@ -15,7 +15,7 @@ proc-macro = true
 pmutil = "0.5.1"
 proc-macro2 = "1"
 quote = "1"
-swc_macros_common = {version = "0.3.2", path = "../swc_macros_common"}
+swc_macros_common = { version = "0.3.2", path = "../swc_macros_common" }
 
 [dependencies.syn]
 features = ["full", "parsing", "printing", "extra-traits"]
