@@ -12,21 +12,6 @@ pub fn prefixer() -> impl VisitMut {
     Prefixer::default()
 }
 
-#[derive(Default)]
-struct Prefixer {
-    in_stylesheet: bool,
-    added_rules: Vec<Rule>,
-    in_simple_block: bool,
-    added_declarations: Vec<Declaration>,
-}
-
-pub enum Prefix {
-    Webkit,
-    Moz,
-    O,
-    Ms,
-}
-
 pub struct CrossFadeFunctionReplacerOnLegacyVariant<'a> {
     from: &'a str,
     to: &'a str,
@@ -201,7 +186,33 @@ where
     });
 }
 
+#[derive(Default)]
+struct Prefixer {
+    in_stylesheet: bool,
+    in_keyframe_block: bool,
+    added_rules: Vec<Rule>,
+    in_simple_block: bool,
+    added_declarations: Vec<Declaration>,
+}
+
+pub enum Prefix {
+    Webkit,
+    Moz,
+    O,
+    Ms,
+}
+
 impl VisitMut for Prefixer {
+    fn visit_mut_keyframe_block(&mut self, n: &mut KeyframeBlock) {
+        let old_in_keyframe_block = self.in_keyframe_block;
+
+        self.in_keyframe_block = true;
+
+        n.visit_mut_children_with(self);
+
+        self.in_keyframe_block = old_in_keyframe_block;
+    }
+
     // TODO handle `resolution` in media/supports at-rules
     // TODO handle declarations in `@media`/`@support`
     // TODO handle `@viewport`
@@ -897,7 +908,10 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Moz, "-moz-transform");
 
                 if !has_3d_function {
-                    same_content!(Prefix::Ms, "-ms-transform");
+                    if !self.in_keyframe_block {
+                        same_content!(Prefix::Ms, "-ms-transform");
+                    }
+
                     same_content!(Prefix::O, "-o-transform");
                 }
             }
@@ -905,7 +919,11 @@ impl VisitMut for Prefixer {
             "transform-origin" => {
                 same_content!(Prefix::Webkit, "-webkit-transform-origin");
                 same_content!(Prefix::Moz, "-moz-transform-origin");
-                same_content!(Prefix::Ms, "-ms-transform-origin");
+
+                if !self.in_keyframe_block {
+                    same_content!(Prefix::Ms, "-ms-transform-origin");
+                }
+
                 same_content!(Prefix::O, "-o-transform-origin");
             }
 
@@ -1383,7 +1401,6 @@ impl VisitMut for Prefixer {
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
-            // TODO handle transform functions https://github.com/postcss/autoprefixer/blob/main/lib/hacks/transform-decl.js
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {}
         }
