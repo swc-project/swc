@@ -20,6 +20,9 @@
 - **(es/helpers)** Inject helpers for scripts (#4025) ([73c91d3](https://github.com/swc-project/swc/commit/73c91d34d5c6fcd869e99db02b0cf82f8e159224))
 
 
+- **(es/lints)** Fix false-positive of `duplicate-exports` (#4041) ([ba1c854](https://github.com/swc-project/swc/commit/ba1c854fb1685e581599da3e9f25a4e35a9279bc))
+
+
 - **(es/parser)** Report an error if `LeftHandSideExpression` is invalid (#4001) ([f8d6127](https://github.com/swc-project/swc/commit/f8d6127dd1a064e2d4b255dfc1894a1b9eb89f71))
 
 
@@ -58,6 +61,9 @@
 
 - **(ci)** Fix auto-rebase script ([9b8b111](https://github.com/swc-project/swc/commit/9b8b11126480ae9b1160f3b5722fc4e27a05b025))
 
+
+- **(ci)** Revert package scripts to fix publish action (#4039) ([eee8e0f](https://github.com/swc-project/swc/commit/eee8e0f7bb025fea83c6ba44a506799be061c2f6))
+
 ### Refactor
 
 
@@ -72,6 +78,12 @@
 
 
 - **(es)** Add tests for fixed issues (#4036) ([71f7cf2](https://github.com/swc-project/swc/commit/71f7cf2011fd948a0c1d7c4268316f3c0103f2f3))
+
+### Build
+
+
+
+- **(tsconfig)** Set `tsbuildinfo` filename (#4042) ([a1308c9](https://github.com/swc-project/swc/commit/a1308c9a16c651555acb2c6e082ce95519fda88e))
 
 ## [1.2.155] - 2022-03-14
 
