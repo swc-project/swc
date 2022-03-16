@@ -13,6 +13,7 @@ var _exportNames = {
 };
 var _customRender = require("./customRender");
 var _react = require("@testing-library/react");
+// re-export everything
 Object.keys(_react).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
