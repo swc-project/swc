@@ -54,7 +54,7 @@ impl Visit for DuplicateExports {
             DefaultDecl::Fn(FnExpr {
                 function: Function { body: None, .. },
                 ..
-            })
+            }) | DefaultDecl::TsInterfaceDecl(..)
         ) {
             return;
         }
