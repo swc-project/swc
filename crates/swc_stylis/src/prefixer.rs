@@ -1012,8 +1012,10 @@ impl VisitMut for Prefixer {
             }
 
             // TODO improve me for `filter` values https://github.com/postcss/autoprefixer/blob/main/test/cases/transition.css#L6
+            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/transition.js
             "transition" => {
                 replace_ident(&mut webkit_new_value, "transform", "-webkit-transform");
+                replace_ident(&mut webkit_new_value, "filter", "-webkit-filter");
 
                 same_content!(Prefix::Webkit, "-webkit-transition");
 
@@ -1400,7 +1402,6 @@ impl VisitMut for Prefixer {
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid) and https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559 and https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
-            // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {}
         }
