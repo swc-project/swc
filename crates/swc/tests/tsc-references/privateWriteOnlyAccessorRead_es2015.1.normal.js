@@ -1,94 +1,20 @@
-function _checkPrivateRedeclaration(obj, privateCollection) {
-    if (privateCollection.has(obj)) {
-        throw new TypeError("Cannot initialize the same private elements twice on an object");
-    }
-}
-function _classApplyDescriptorDestructureSet(receiver, descriptor) {
-    if (descriptor.set) {
-        if (!("__destrObj" in descriptor)) {
-            descriptor.__destrObj = {
-                set value (v){
-                    descriptor.set.call(receiver, v);
-                }
-            };
-        }
-        return descriptor.__destrObj;
-    } else {
-        if (!descriptor.writable) {
-            throw new TypeError("attempted to set read only private field");
-        }
-        return descriptor;
-    }
-}
-function _classApplyDescriptorGet(receiver, descriptor) {
-    if (descriptor.get) {
-        return descriptor.get.call(receiver);
-    }
-    return descriptor.value;
-}
-function _classApplyDescriptorSet(receiver, descriptor, value) {
-    if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-    } else {
-        if (!descriptor.writable) {
-            throw new TypeError("attempted to set read only private field");
-        }
-        descriptor.value = value;
-    }
-}
-function _classExtractFieldDescriptor(receiver, privateMap, action) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to " + action + " private field on non-instance");
-    }
-    return privateMap.get(receiver);
-}
-function _classPrivateFieldGet(receiver, privateMap) {
-    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get");
-    return _classApplyDescriptorGet(receiver, descriptor);
-}
-function _classPrivateFieldInit(obj, privateMap, value) {
-    _checkPrivateRedeclaration(obj, privateMap);
-    privateMap.set(obj, value);
-}
-function _classPrivateFieldSet(receiver, privateMap, value) {
-    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
-    _classApplyDescriptorSet(receiver, descriptor, value);
-    return value;
-}
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
-function _classPrivateFieldDestructureSet(receiver, privateMap) {
-    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set");
-    return _classApplyDescriptorDestructureSet(receiver, descriptor);
-}
-var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(), _valueCompound = new WeakMap();
+import * as swcHelpers from "@swc/helpers";
+var _value = /*#__PURE__*/ new WeakMap(), _valueRest = /*#__PURE__*/ new WeakMap(), _valueOne = /*#__PURE__*/ new WeakMap(), _valueCompound = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 class Test {
     m() {
         const foo = {
             bar: 1
         };
-        console.log(_classPrivateFieldGet(this, _value)); // error
-        _classPrivateFieldSet(this, _value, {
+        console.log(swcHelpers.classPrivateFieldGet(this, _value)); // error
+        swcHelpers.classPrivateFieldSet(this, _value, {
             foo
         }); // ok
-        _classPrivateFieldSet(this, _value, {
+        swcHelpers.classPrivateFieldSet(this, _value, {
             foo
         }); // ok
-        _classPrivateFieldGet(this, _value).foo = foo; // error
-        ({ o: _classPrivateFieldDestructureSet(this, _value).value  } = {
+        swcHelpers.classPrivateFieldGet(this, _value).foo = foo; // error
+        ({ o: swcHelpers.classPrivateFieldDestructureSet(this, _value).value  } = {
             o: {
                 foo
             }
@@ -96,42 +22,42 @@ class Test {
         var _tmp;
         _tmp = {
             foo
-        }, _classPrivateFieldDestructureSet(this, _value).value = _extends({}, _tmp), _tmp; //ok
-        ({ foo: _classPrivateFieldGet(this, _value).foo  } = {
+        }, swcHelpers.classPrivateFieldDestructureSet(this, _value).value = swcHelpers.extends({}, _tmp), _tmp; //ok
+        ({ foo: swcHelpers.classPrivateFieldGet(this, _value).foo  } = {
             foo
         }); //error
         var _tmp1;
         _tmp1 = {
             foo
-        }, _classPrivateFieldGet(this, _value).foo = _extends({}, _tmp1.foo), ({ foo: {} ,  } = _tmp1), _tmp1; //error
+        }, swcHelpers.classPrivateFieldGet(this, _value).foo = swcHelpers.extends({}, _tmp1.foo), ({ foo: {} ,  } = _tmp1), _tmp1; //error
         let r = {
-            o: _classPrivateFieldGet(this, _value)
+            o: swcHelpers.classPrivateFieldGet(this, _value)
         }; //error
-        [_classPrivateFieldDestructureSet(this, _valueOne).value, ..._classPrivateFieldDestructureSet(this, _valueRest).value] = [
+        [swcHelpers.classPrivateFieldDestructureSet(this, _valueOne).value, ...swcHelpers.classPrivateFieldDestructureSet(this, _valueRest).value] = [
             1,
             2,
             3
         ];
         let arr = [
-            _classPrivateFieldGet(this, _valueOne),
-            ..._classPrivateFieldGet(this, _valueRest)
+            swcHelpers.classPrivateFieldGet(this, _valueOne),
+            ...swcHelpers.classPrivateFieldGet(this, _valueRest)
         ];
-        _classPrivateFieldSet(this, _valueCompound, _classPrivateFieldGet(this, _valueCompound) + 3);
+        swcHelpers.classPrivateFieldSet(this, _valueCompound, swcHelpers.classPrivateFieldGet(this, _valueCompound) + 3);
     }
     constructor(){
-        _classPrivateFieldInit(this, _value, {
+        swcHelpers.classPrivateFieldInit(this, _value, {
             get: void 0,
             set: set_value
         });
-        _classPrivateFieldInit(this, _valueRest, {
+        swcHelpers.classPrivateFieldInit(this, _valueRest, {
             get: void 0,
             set: set_valueRest
         });
-        _classPrivateFieldInit(this, _valueOne, {
+        swcHelpers.classPrivateFieldInit(this, _valueOne, {
             get: void 0,
             set: set_valueOne
         });
-        _classPrivateFieldInit(this, _valueCompound, {
+        swcHelpers.classPrivateFieldInit(this, _valueCompound, {
             get: void 0,
             set: set_valueCompound
         });

@@ -68,7 +68,7 @@ struct RustPlugins {
 }
 
 impl RustPlugins {
-    #[tracing::instrument(level = "trace", skip_all, name = "apply_plugins")]
+    #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
     #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
@@ -88,7 +88,7 @@ impl RustPlugins {
         if let Some(plugins) = &self.plugins {
             for p in plugins {
                 let span = tracing::span!(
-                    tracing::Level::TRACE,
+                    tracing::Level::INFO,
                     "serialize_context",
                     plugin_module = p.0.as_str()
                 );
@@ -114,12 +114,12 @@ impl RustPlugins {
                 drop(context_span_guard);
 
                 let span = tracing::span!(
-                    tracing::Level::TRACE,
+                    tracing::Level::INFO,
                     "execute_plugin_runner",
                     plugin_module = p.0.as_str()
                 );
                 let transform_span_guard = span.enter();
-                serialized = swc_plugin_runner::apply_js_plugin(
+                serialized = swc_plugin_runner::apply_transform_plugin(
                     &p.0,
                     &path,
                     &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,

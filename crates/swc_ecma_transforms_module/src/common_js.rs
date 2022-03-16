@@ -7,7 +7,7 @@ use indexmap::IndexSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
-    FileName, Mark, Span, DUMMY_SP,
+    FileName, Mark, Span, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -36,6 +36,7 @@ pub fn common_js(
         scope,
         in_top_level: Default::default(),
         resolver: Resolver::Default,
+        vars: Default::default(),
     }
 }
 
@@ -54,6 +55,7 @@ pub fn common_js_with_resolver(
         scope,
         in_top_level: Default::default(),
         resolver: Resolver::Real { base, resolver },
+        vars: Default::default(),
     }
 }
 
@@ -136,6 +138,7 @@ struct CommonJs {
     scope: Rc<RefCell<Scope>>,
     in_top_level: bool,
     resolver: Resolver,
+    vars: Rc<RefCell<Vec<VarDeclarator>>>,
 }
 
 /// TODO: VisitMut
@@ -146,7 +149,7 @@ impl Fold for CommonJs {
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut emitted_esmodule = false;
-        let mut stmts = Vec::with_capacity(items.len() + 4);
+        let mut stmts = Vec::with_capacity(items.len() + 5);
         let mut extra_stmts = Vec::with_capacity(items.len());
 
         if self.config.strict_mode && !has_use_strict(&items) {
@@ -288,6 +291,8 @@ impl Fold for CommonJs {
 
                     match item {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
+                            let span = export.span;
+
                             let mut scope_ref_mut = self.scope.borrow_mut();
                             let scope = &mut *scope_ref_mut;
 
@@ -330,9 +335,11 @@ impl Fold for CommonJs {
                                 exported_names = Some(exported_names_ident);
                             }
 
-                            let data = scope
+                            let mut data = scope
                                 .import_to_export(&export.src, true)
                                 .expect("Export should exists");
+                            data.span.lo = span.lo;
+                            data.span.hi = span.hi;
                             export_alls.entry(export.src.value.clone()).or_insert(data);
 
                             drop(scope_ref_mut);
@@ -620,23 +627,24 @@ impl Fold for CommonJs {
                                     }
                                 };
 
-                                let is_reexport = export.src.is_some()
-                                    || scope
-                                        .idents
-                                        .contains_key(&(orig.sym.clone(), orig.span.ctxt()));
-
                                 drop(scope);
 
                                 let old = self.in_top_level;
 
-                                // When we are in top level we make import not lazy.
-                                let is_top_level = if lazy { !is_reexport } else { true };
-                                self.in_top_level = is_top_level;
-
                                 let value = match imported {
-                                    Some(ref imported) => Box::new(
-                                        imported.clone().unwrap().make_member(orig.clone()),
-                                    ),
+                                    Some(ref imported) => {
+                                        let receiver = if lazy {
+                                            Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: imported.clone().unwrap().as_callee(),
+                                                args: vec![],
+                                                type_args: Default::default(),
+                                            })
+                                        } else {
+                                            Expr::Ident(imported.clone().unwrap())
+                                        };
+                                        Box::new(receiver.make_member(orig.clone()))
+                                    }
                                     None => Box::new(Expr::Ident(orig.clone()).fold_with(self)),
                                 };
 
@@ -695,15 +703,33 @@ impl Fold for CommonJs {
             }
         }
 
-        let mut scope_ref_mut = self.scope.borrow_mut();
-        let scope = &mut *scope_ref_mut;
-
         if !initialized.is_empty() {
             stmts.extend(initialize_to_undefined(
                 quote_ident!("exports"),
                 initialized,
             ));
         }
+
+        let vars = self.vars_take();
+
+        if !vars.is_empty() {
+            let var_stmt = Stmt::Decl(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vars,
+                }
+                .into(),
+            )
+            .into();
+
+            stmts.push(var_stmt);
+        }
+
+        let mut scope_ref_mut = self.scope.borrow_mut();
+        let scope = &mut *scope_ref_mut;
+
         let scope = &mut *scope;
         for (src, import) in scope.imports.drain(..) {
             let lazy = if scope.lazy_blacklist.contains(&src) {
@@ -823,6 +849,7 @@ impl Fold for CommonJs {
             let exported = export_alls.remove(&src);
             if let Some(export) = exported {
                 stmts.push(ModuleItem::Stmt(Scope::handle_export_all(
+                    export.span.with_ctxt(SyntaxContext::empty()),
                     quote_ident!("exports"),
                     exported_names.clone(),
                     export,
@@ -895,8 +922,24 @@ impl ModulePass for CommonJs {
         self.scope.borrow_mut()
     }
 
+    fn resolver(&self) -> &Resolver {
+        &self.resolver
+    }
+
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
         handle_dynamic_import(span, args, !self.config.no_interop)
+    }
+
+    fn vars(&mut self) -> Ref<Vec<VarDeclarator>> {
+        self.vars.borrow()
+    }
+
+    fn vars_mut(&mut self) -> RefMut<Vec<VarDeclarator>> {
+        self.vars.borrow_mut()
+    }
+
+    fn vars_take(&mut self) -> Vec<VarDeclarator> {
+        self.vars.take()
     }
 }
 

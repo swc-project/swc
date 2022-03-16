@@ -1,30 +1,12 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 var _this = this;
-var MyTestClass = // @target: esnext
+// @target: esnext
 // @useDefineForClassFields: false
-/*#__PURE__*/ function() {
+var MyTestClass = /*#__PURE__*/ function() {
     "use strict";
     function MyTestClass() {
         var _this1 = this;
-        _classCallCheck(this, MyTestClass);
+        swcHelpers.classCallCheck(this, MyTestClass);
         this.someFunc = function() {
             //type of 'this' in member variable initializer is the class instance type
             var t = _this1;
@@ -35,18 +17,28 @@ var MyTestClass = // @target: esnext
         var p;
         this.canary = 3;
     }
-    _createClass(MyTestClass, [
-        {
-            //type of 'this' in member function param list is the class instance type
-            key: "memberFunc",
-            value: function memberFunc() {
-                var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
-                var t;
-                //type of 'this' in member function body is the class instance type
-                var p = this;
-                var p;
-            }
-        },
+    var _proto = MyTestClass.prototype;
+    //type of 'this' in member function param list is the class instance type
+    _proto.memberFunc = function memberFunc() {
+        var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
+        var t;
+        //type of 'this' in member function body is the class instance type
+        var p = this;
+        var p;
+    };
+    //type of 'this' in static function param list is constructor function type
+    MyTestClass.staticFn = function staticFn() {
+        var t1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
+        var t1;
+        var t1 = MyTestClass;
+        t1.staticCanary;
+        //type of 'this' in static function body is constructor function type
+        var p = this;
+        var p;
+        var p = MyTestClass;
+        p.staticCanary;
+    };
+    swcHelpers.createClass(MyTestClass, [
         {
             key: "prop",
             get: //type of 'this' in member accessor(get and set) body is the class instance type
@@ -63,21 +55,6 @@ var MyTestClass = // @target: esnext
             }
         }
     ], [
-        {
-            key: "staticFn",
-            value: //type of 'this' in static function param list is constructor function type
-            function staticFn() {
-                var t1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
-                var t1;
-                var t1 = MyTestClass;
-                t1.staticCanary;
-                //type of 'this' in static function body is constructor function type
-                var p = this;
-                var p;
-                var p = MyTestClass;
-                p.staticCanary;
-            }
-        },
         {
             key: "staticProp",
             get: function get() {
@@ -103,7 +80,7 @@ var MyGenericTestClass = /*#__PURE__*/ function() {
     "use strict";
     function MyGenericTestClass() {
         var _this2 = this;
-        _classCallCheck(this, MyGenericTestClass);
+        swcHelpers.classCallCheck(this, MyGenericTestClass);
         this.someFunc = function() {
             //type of 'this' in member variable initializer is the class instance type
             var t = _this2;
@@ -114,18 +91,28 @@ var MyGenericTestClass = /*#__PURE__*/ function() {
         var p;
         this.canary = 3;
     }
-    _createClass(MyGenericTestClass, [
-        {
-            //type of 'this' in member function param list is the class instance type
-            key: "memberFunc",
-            value: function memberFunc() {
-                var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
-                var t;
-                //type of 'this' in member function body is the class instance type
-                var p = this;
-                var p;
-            }
-        },
+    var _proto = MyGenericTestClass.prototype;
+    //type of 'this' in member function param list is the class instance type
+    _proto.memberFunc = function memberFunc() {
+        var t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
+        var t;
+        //type of 'this' in member function body is the class instance type
+        var p = this;
+        var p;
+    };
+    //type of 'this' in static function param list is constructor function type
+    MyGenericTestClass.staticFn = function staticFn() {
+        var t2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
+        var t2;
+        var t2 = MyGenericTestClass;
+        t2.staticCanary;
+        //type of 'this' in static function body is constructor function type
+        var p = this;
+        var p;
+        var p = MyGenericTestClass;
+        p.staticCanary;
+    };
+    swcHelpers.createClass(MyGenericTestClass, [
         {
             key: "prop",
             get: //type of 'this' in member accessor(get and set) body is the class instance type
@@ -142,21 +129,6 @@ var MyGenericTestClass = /*#__PURE__*/ function() {
             }
         }
     ], [
-        {
-            key: "staticFn",
-            value: //type of 'this' in static function param list is constructor function type
-            function staticFn() {
-                var t2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this;
-                var t2;
-                var t2 = MyGenericTestClass;
-                t2.staticCanary;
-                //type of 'this' in static function body is constructor function type
-                var p = this;
-                var p;
-                var p = MyGenericTestClass;
-                p.staticCanary;
-            }
-        },
         {
             key: "staticProp",
             get: function get() {

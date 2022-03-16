@@ -1,6 +1,6 @@
-error: Expected "("
- --> $DIR/tests/recovery/at-rule/import/no-semi/input.css:1:24
-  |
-1 | @import url('http://') :root {}
-  |                        ^
 
+  x Expected "("
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:2:1]
+ 2 | @import url('http://') :root {}
+   :                        ^
+   `----

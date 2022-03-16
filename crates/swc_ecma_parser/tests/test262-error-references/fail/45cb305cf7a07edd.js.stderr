@@ -1,6 +1,6 @@
-error: A `set` accessor must have exactly one parameter
- --> $DIR/tests/test262-parser/fail/45cb305cf7a07edd.js:1:8
-  |
-1 | ({ set prop() {} })
-  |        ^^^^
 
+  x A `set` accessor must have exactly one parameter
+   ,-[$DIR/tests/test262-parser/fail/45cb305cf7a07edd.js:2:1]
+ 2 | ({ set prop() {} })
+   :        ^^^^
+   `----

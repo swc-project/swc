@@ -19,11 +19,11 @@ var A;
             this.y = y;
         }
     }
-    A1.Point = Point2;
     Point2.Origin = {
         x: 0,
         y: 0
     };
+    A1.Point = Point2;
     (function(Point3) {
         var Origin = Point3.Origin = "";
     })(Point2 = A1.Point || (A1.Point = {}));

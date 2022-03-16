@@ -1,11 +1,8 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
+// Index notation should resolve to the type of a declared property with that same name
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 var c;
 var r1 = c.toString();

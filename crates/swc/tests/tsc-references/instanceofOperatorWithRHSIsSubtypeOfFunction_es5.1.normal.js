@@ -1,18 +1,12 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var x;
 var f1;
 var f2;
 var f3;
 var f4;
-var r1 = _instanceof(x, f1);
-var r2 = _instanceof(x, f2);
-var r3 = _instanceof(x, f3);
-var r4 = _instanceof(x, f4);
-var r5 = _instanceof(x, null);
-var r6 = _instanceof(x, undefined);
+var r1 = swcHelpers._instanceof(x, f1);
+var r2 = swcHelpers._instanceof(x, f2);
+var r3 = swcHelpers._instanceof(x, f3);
+var r4 = swcHelpers._instanceof(x, f4);
+var r5 = swcHelpers._instanceof(x, null);
+var r6 = swcHelpers._instanceof(x, undefined);

@@ -11,7 +11,7 @@ var ClassA = function ClassA1() {
     "use strict";
     _classCallCheck(this, ClassA1);
 };
-module.exports = (function() {
+module.exports = function() {
     var obj, key, value, ClassB1 = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
@@ -33,4 +33,4 @@ module.exports = (function() {
         configurable: !0,
         writable: !0
     }) : obj[key] = value, ClassB1;
-})();
+}();

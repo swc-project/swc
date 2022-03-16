@@ -4,13 +4,4 @@ class BigGreeter extends React.Component {
         return React.createElement("div", null, "Default hi");
     }
 }
-React.createElement(BigGreeter, {
-    prop1: "hello"
-}), React.createElement(BigGreeter, {
-    ref: (input)=>{
-        this.textInput = input;
-    }
-}), React.createElement(BigGreeter, {
-    "data-extra": "hi"
-});
 export { };

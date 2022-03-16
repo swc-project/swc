@@ -64,4 +64,8 @@ pub(crate) trait VarDataLike: Sized {
     fn add_infects(&mut self, other: Id);
 
     fn prevent_inline(&mut self);
+
+    fn mark_initialized_with_safe_value(&mut self);
+
+    fn mark_as_pure_fn(&mut self);
 }

@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 // @strict: true
 function f1(x, y, z) {
     if (x) {
@@ -99,22 +81,18 @@ function get(key, obj) {
     }
     return 0;
 }
-var EventEmitter = // Repro from #44093
-/*#__PURE__*/ function() {
+// Repro from #44093
+var EventEmitter = /*#__PURE__*/ function() {
     "use strict";
     function EventEmitter() {
-        _classCallCheck(this, EventEmitter);
+        swcHelpers.classCallCheck(this, EventEmitter);
     }
-    _createClass(EventEmitter, [
-        {
-            key: "off",
-            value: function off() {
-                for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
-                    args[_key] = arguments[_key];
-                }
-            }
+    var _proto = EventEmitter.prototype;
+    _proto.off = function off() {
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+            args[_key] = arguments[_key];
         }
-    ]);
+    };
     return EventEmitter;
 }();
 function once(emittingObject, eventName) {
@@ -136,27 +114,23 @@ function fx3(obj, key) {
     var x1 = obj[key]; // Error
     var x2 = obj && obj[key];
 }
-var TableBaseEnum = // Repro from #44166
-/*#__PURE__*/ function() {
+// Repro from #44166
+var TableBaseEnum = /*#__PURE__*/ function() {
     "use strict";
     function TableBaseEnum() {
-        _classCallCheck(this, TableBaseEnum);
+        swcHelpers.classCallCheck(this, TableBaseEnum);
     }
-    _createClass(TableBaseEnum, [
-        {
-            key: "m",
-            value: function m() {
-                var iSpec = null;
-                iSpec[null]; // Error, object possibly undefined
-                iSpec[null]; // Error, object possibly undefined
-                if (iSpec === undefined) {
-                    return;
-                }
-                iSpec[null];
-                iSpec[null];
-            }
+    var _proto = TableBaseEnum.prototype;
+    _proto.m = function m() {
+        var iSpec = null;
+        iSpec[null]; // Error, object possibly undefined
+        iSpec[null]; // Error, object possibly undefined
+        if (iSpec === undefined) {
+            return;
         }
-    ]);
+        iSpec[null];
+        iSpec[null];
+    };
     return TableBaseEnum;
 }();
 // Repros from #45145
@@ -166,20 +140,13 @@ function f10(x, y) {
 var SqlTable = /*#__PURE__*/ function() {
     "use strict";
     function SqlTable() {
-        _classCallCheck(this, SqlTable);
+        swcHelpers.classCallCheck(this, SqlTable);
     }
-    _createClass(SqlTable, [
-        {
-            key: "validateRow",
-            value: function validateRow(_row) {}
-        },
-        {
-            key: "insertRow",
-            value: function insertRow(row) {
-                this.validateRow(row);
-            }
-        }
-    ]);
+    var _proto = SqlTable.prototype;
+    _proto.validateRow = function validateRow(_row) {};
+    _proto.insertRow = function insertRow(row) {
+        this.validateRow(row);
+    };
     return SqlTable;
 }();
 function update(control, key, value) {

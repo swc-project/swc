@@ -1,6 +1,6 @@
-error: Expected ident
- --> $DIR/tests/test262-parser/fail/4d117d87d4a40541.js:1:10
-  |
-1 | continue 2;
-  |          ^
 
+  x Expected ident
+   ,-[$DIR/tests/test262-parser/fail/4d117d87d4a40541.js:2:1]
+ 2 | continue 2;
+   :          ^
+   `----

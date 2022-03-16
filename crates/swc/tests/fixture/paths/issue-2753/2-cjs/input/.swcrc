@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "target": "es2020",
+        "baseUrl": ".",
+        "paths": {
+            "@src/*": [
+                "./src/*"
+            ]
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

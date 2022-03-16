@@ -1,5 +1,5 @@
-var _foo = new WeakMap();
-let Foo = function() {
+var _foo = /*#__PURE__*/ new WeakMap();
+let Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
         _classCallCheck(this, Foo);

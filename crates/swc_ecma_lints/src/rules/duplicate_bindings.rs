@@ -1,6 +1,10 @@
 use std::collections::hash_map::Entry;
 
-use swc_common::{collections::AHashMap, errors::HANDLER, Span};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    errors::HANDLER,
+    Span,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -11,39 +15,69 @@ pub fn duplicate_bindings() -> Box<dyn Rule> {
     visitor_rule(DuplicateBindings::default())
 }
 
+#[derive(Debug, Default, Clone, Copy)]
+struct BindingInfo {
+    span: Span,
+    unique: bool,
+}
+
 #[derive(Debug, Default)]
 struct DuplicateBindings {
-    bindings: AHashMap<Id, Span>,
+    bindings: AHashMap<Id, BindingInfo>,
+    type_bindings: AHashSet<Id>,
 
     var_decl_kind: Option<VarDeclKind>,
     is_pat_decl: bool,
+
+    is_module: bool,
 }
 
 impl DuplicateBindings {
     /// Add a binding.
-    fn add(&mut self, id: &Ident, check_for_var_kind: bool) {
-        if check_for_var_kind {
-            if let Some(VarDeclKind::Var) = self.var_decl_kind {
-                return;
-            }
-        }
-
+    fn add(&mut self, id: &Ident, unique: bool) {
         match self.bindings.entry(id.to_id()) {
             Entry::Occupied(mut prev) => {
-                HANDLER.with(|handler| {
-                    handler
-                        .struct_span_err(id.span, "Duplicate binding")
-                        .span_note(*prev.get(), &format!("{} was declared at here", id.sym))
-                        .emit();
-                });
+                if unique || prev.get().unique {
+                    let name = &id.sym;
+
+                    HANDLER.with(|handler| {
+                        handler
+                            .struct_span_err(
+                                id.span,
+                                &format!("the name `{}` is defined multiple times", name),
+                            )
+                            .span_label(
+                                prev.get().span,
+                                &format!("previous definition of `{}` here", name),
+                            )
+                            .span_label(id.span, &format!("`{}` redefined here", name))
+                            .emit();
+                    });
+                }
 
                 // Next span.
-                *prev.get_mut() = id.span;
+                if unique || !prev.get().unique {
+                    *prev.get_mut() = BindingInfo {
+                        span: id.span,
+                        unique,
+                    }
+                }
             }
             Entry::Vacant(e) => {
-                e.insert(id.span);
+                e.insert(BindingInfo {
+                    span: id.span,
+                    unique,
+                });
             }
         }
+    }
+
+    /// `const` or `let`
+    fn is_unique_var_kind(&self) -> bool {
+        matches!(
+            self.var_decl_kind,
+            Some(VarDeclKind::Const) | Some(VarDeclKind::Let)
+        )
     }
 }
 
@@ -54,12 +88,25 @@ impl Visit for DuplicateBindings {
         p.visit_children_with(self);
 
         if self.is_pat_decl {
-            self.add(&p.key, true);
+            self.add(&p.key, self.is_unique_var_kind());
         }
     }
 
+    fn visit_catch_clause(&mut self, c: &CatchClause) {
+        let old_var_decl_kind = self.var_decl_kind.take();
+        let old_is_pat_decl = self.is_pat_decl;
+
+        self.var_decl_kind = Some(VarDeclKind::Var);
+        self.is_pat_decl = true;
+
+        c.visit_children_with(self);
+
+        self.is_pat_decl = old_is_pat_decl;
+        self.var_decl_kind = old_var_decl_kind;
+    }
+
     fn visit_class_decl(&mut self, d: &ClassDecl) {
-        self.add(&d.ident, false);
+        self.add(&d.ident, true);
 
         d.visit_children_with(self);
     }
@@ -79,7 +126,7 @@ impl Visit for DuplicateBindings {
 
     fn visit_fn_decl(&mut self, d: &FnDecl) {
         if d.function.body.is_some() {
-            self.add(&d.ident, false);
+            self.add(&d.ident, self.is_module);
         }
 
         d.visit_children_with(self);
@@ -88,19 +135,34 @@ impl Visit for DuplicateBindings {
     fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier) {
         s.visit_children_with(self);
 
-        self.add(&s.local, false);
+        if !self.type_bindings.contains(&s.local.to_id()) {
+            self.add(&s.local, true);
+        }
     }
 
     fn visit_import_named_specifier(&mut self, s: &ImportNamedSpecifier) {
         s.visit_children_with(self);
 
-        self.add(&s.local, false);
+        if !s.is_type_only && !self.type_bindings.contains(&s.local.to_id()) {
+            self.add(&s.local, true);
+        }
     }
 
     fn visit_import_star_as_specifier(&mut self, s: &ImportStarAsSpecifier) {
         s.visit_children_with(self);
 
-        self.add(&s.local, false);
+        if !self.type_bindings.contains(&s.local.to_id()) {
+            self.add(&s.local, true);
+        }
+    }
+
+    fn visit_module(&mut self, m: &Module) {
+        m.visit_with(&mut TypeCollector {
+            type_bindings: &mut self.type_bindings,
+        });
+
+        self.is_module = true;
+        m.visit_children_with(self);
     }
 
     fn visit_pat(&mut self, p: &Pat) {
@@ -108,9 +170,17 @@ impl Visit for DuplicateBindings {
 
         if let Pat::Ident(p) = p {
             if self.is_pat_decl {
-                self.add(&p.id, true);
+                self.add(&p.id, self.is_unique_var_kind());
             }
         }
+    }
+
+    fn visit_script(&mut self, s: &Script) {
+        s.visit_with(&mut TypeCollector {
+            type_bindings: &mut self.type_bindings,
+        });
+
+        s.visit_children_with(self);
     }
 
     fn visit_var_decl(&mut self, d: &VarDecl) {
@@ -124,5 +194,19 @@ impl Visit for DuplicateBindings {
 
         self.is_pat_decl = old_is_pat_decl;
         self.var_decl_kind = old_var_decl_kind;
+    }
+}
+
+struct TypeCollector<'a> {
+    type_bindings: &'a mut AHashSet<Id>,
+}
+
+impl Visit for TypeCollector<'_> {
+    fn visit_ts_entity_name(&mut self, n: &TsEntityName) {
+        n.visit_children_with(self);
+
+        if let TsEntityName::Ident(ident) = n {
+            self.type_bindings.insert(ident.to_id());
+        }
     }
 }

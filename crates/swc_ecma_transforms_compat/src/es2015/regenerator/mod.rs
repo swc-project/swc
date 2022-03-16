@@ -10,6 +10,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 
 use self::{case::CaseHandler, hoist::hoist};
 
@@ -26,6 +27,7 @@ pub struct Config {
     pub import_path: Option<JsWord>,
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn regenerator(config: Config, top_level_mark: Mark) -> impl Fold + VisitMut {
     as_folder(Regenerator {
         config,
@@ -64,6 +66,7 @@ fn require_rt(global_mark: Mark, rt: Ident, src: Option<JsWord>) -> Stmt {
     }))
 }
 
+#[swc_trace]
 impl Regenerator {
     fn visit_mut_stmt_like<T>(&mut self, items: &mut Vec<T>)
     where
@@ -98,6 +101,7 @@ impl Regenerator {
     }
 }
 
+#[swc_trace]
 impl VisitMut for Regenerator {
     noop_visit_mut_type!();
 
@@ -314,6 +318,7 @@ impl VisitMut for Regenerator {
     }
 }
 
+#[swc_trace]
 impl Regenerator {
     fn visit_mut_fn(
         &mut self,

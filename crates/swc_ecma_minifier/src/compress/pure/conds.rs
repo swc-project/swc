@@ -5,12 +5,9 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 
 use super::Pure;
-use crate::{compress::util::negate_cost, debug::dump, mode::Mode, util::make_bool};
+use crate::{compress::util::negate_cost, debug::dump, util::make_bool};
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     ///
     /// - `foo ? bar : false` => `!!foo && bar`
     /// - `!foo ? true : bar` => `!foo || bar`

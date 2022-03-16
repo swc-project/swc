@@ -12,6 +12,7 @@ mod edge_default_param;
 mod safari_id_destructuring_collision_in_function_expression;
 mod template_literal_caching;
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn bugfixes() -> impl Fold {
     chain!(
         async_arrows_in_class(),

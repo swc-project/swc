@@ -1,6 +1,7 @@
-error: Unexpected token `}`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
- --> $DIR/tests/test262-parser/fail/80d1e106056a576f.js:1:21
-  |
-1 | function *a(){yield*}
-  |                     ^
 
+  x Unexpected token `}`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
+  | for template literal, (, or an identifier
+   ,-[$DIR/tests/test262-parser/fail/80d1e106056a576f.js:2:1]
+ 2 | function *a(){yield*}
+   :                     ^
+   `----

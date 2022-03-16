@@ -55,11 +55,9 @@
                 BigInt("0x1000000000000"),
                 BigInt("0x100000000000000"),
                 BigInt("0x10000000000000000")
-            ];
-            a1 = new Uint16Array([
+            ], bytesToNumber = (a1 = new Uint16Array([
                 65484
-            ]), 255 === (b1 = new Uint8Array(a1.buffer, a1.byteOffset, a1.byteLength))[0] || b1[0];
-            var bytesToNumber = function(bytes, _temp) {
+            ]), 255 === (b1 = new Uint8Array(a1.buffer, a1.byteOffset, a1.byteLength))[0] || b1[0], function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
                 var fn = le ? "reduce" : "reduceRight", number = (bytes[fn] ? bytes[fn] : Array.prototype[fn]).call(bytes, function(total, byte, i) {
@@ -71,7 +69,7 @@
                     (number = BigInt(number)) > max && (number -= max, number -= max, number -= BigInt(2));
                 }
                 return Number(number);
-            }, numberToBytes = function(number, _temp2) {
+            }), numberToBytes = function(number, _temp2) {
                 var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
                 ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0);
                 for(var byteCount = Math.ceil((number = BigInt(number)).toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
@@ -857,16 +855,16 @@
                 }
                 function loadFunc() {
                     if (!aborted) {
-                        clearTimeout(timeoutTimer), status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status;
+                        clearTimeout(timeoutTimer);
                         var status, response = failureResponse, err = null;
-                        return 0 !== status ? (response = {
-                            body: (function() {
+                        return 0 !== (status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status) ? (response = {
+                            body: function() {
                                 var body = void 0;
                                 if (body = xhr.response ? xhr.response : xhr.responseText || getXml(xhr), isJson) try {
                                     body = JSON.parse(body);
                                 } catch (e) {}
                                 return body;
-                            })(),
+                            }(),
                             statusCode: status,
                             method: method,
                             headers: {},
@@ -910,9 +908,9 @@
                 } catch (e) {}
                 return null;
             }
-            module.exports = createXHR, module.exports.default = createXHR, createXHR.XMLHttpRequest = window.XMLHttpRequest || function() {}, createXHR.XDomainRequest = "withCredentials" in new createXHR.XMLHttpRequest() ? createXHR.XMLHttpRequest : window.XDomainRequest, (function(array, iterator) {
+            module.exports = createXHR, module.exports.default = createXHR, createXHR.XMLHttpRequest = window.XMLHttpRequest || function() {}, createXHR.XDomainRequest = "withCredentials" in new createXHR.XMLHttpRequest() ? createXHR.XMLHttpRequest : window.XDomainRequest, function(array, iterator) {
                 for(var i = 0; i < array.length; i++)iterator(array[i]);
-            })([
+            }([
                 "get",
                 "put",
                 "post",
@@ -974,7 +972,7 @@
             }
             DOMParser.prototype.parseFromString = function(source, mimeType) {
                 var options = this.options, sax = new XMLReader(), domBuilder1 = options.domBuilder || new DOMHandler(), errorHandler1 = options.errorHandler, locator1 = options.locator, defaultNSMap = options.xmlns || {}, isHTML = /\/x?html?$/.test(mimeType), entityMap = isHTML ? entities.HTML_ENTITIES : entities.XML_ENTITIES;
-                return locator1 && domBuilder1.setDocumentLocator(locator1), sax.errorHandler = (function(errorImpl, domBuilder, locator) {
+                return locator1 && domBuilder1.setDocumentLocator(locator1), sax.errorHandler = function(errorImpl, domBuilder, locator) {
                     if (!errorImpl) {
                         if (domBuilder instanceof DOMHandler) return domBuilder;
                         errorImpl = domBuilder;
@@ -989,7 +987,7 @@
                         } || function() {};
                     }
                     return locator = locator || {}, build("warning"), build("error"), build("fatalError"), errorHandler;
-                })(errorHandler1, domBuilder1, locator1), sax.domBuilder = options.domBuilder || domBuilder1, isHTML && (defaultNSMap[""] = NAMESPACE.HTML), defaultNSMap.xml = defaultNSMap.xml || NAMESPACE.XML, source && "string" == typeof source ? sax.parse(source, defaultNSMap, entityMap) : sax.errorHandler.error("invalid doc source"), domBuilder1.doc;
+                }(errorHandler1, domBuilder1, locator1), sax.domBuilder = options.domBuilder || domBuilder1, isHTML && (defaultNSMap[""] = NAMESPACE.HTML), defaultNSMap.xml = defaultNSMap.xml || NAMESPACE.XML, source && "string" == typeof source ? sax.parse(source, defaultNSMap, entityMap) : sax.errorHandler.error("invalid doc source"), domBuilder1.doc;
             }, DOMHandler.prototype = {
                 startDocument: function() {
                     this.doc = new DOMImplementation().createDocument(null, null, null), this.locator && (this.doc.documentURI = this.locator.systemId);
@@ -1582,7 +1580,7 @@
                     attr && this.removeAttributeNode(attr);
                 },
                 appendChild: function(newChild1) {
-                    return newChild1.nodeType === DOCUMENT_FRAGMENT_NODE ? this.insertBefore(newChild1, null) : (function(parentNode, newChild) {
+                    return newChild1.nodeType === DOCUMENT_FRAGMENT_NODE ? this.insertBefore(newChild1, null) : function(parentNode, newChild) {
                         var cp = newChild.parentNode;
                         if (cp) {
                             var pre = parentNode.lastChild;
@@ -1591,7 +1589,7 @@
                         }
                         var pre = parentNode.lastChild;
                         return newChild.parentNode = parentNode, newChild.previousSibling = pre, newChild.nextSibling = null, pre ? pre.nextSibling = newChild : parentNode.firstChild = newChild, parentNode.lastChild = newChild, _onUpdateChild(parentNode.ownerDocument, parentNode, newChild), newChild;
-                    })(this, newChild1);
+                    }(this, newChild1);
                 },
                 setAttributeNode: function(newAttr) {
                     return this.attributes.setNamedItem(newAttr);
@@ -2141,14 +2139,14 @@
             ParseError.prototype = new Error(), ParseError.prototype.name = ParseError.name, XMLReader.prototype = {
                 parse: function(source1, defaultNSMap, entityMap1) {
                     var domBuilder2 = this.domBuilder;
-                    domBuilder2.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), (function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
+                    domBuilder2.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
                         function entityReplacer(a) {
                             var k = a.slice(1, -1);
-                            return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? (function(code) {
+                            return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? function(code) {
                                 if (!(code > 65535)) return String.fromCharCode(code);
                                 var surrogate1 = 55296 + ((code -= 65536) >> 10), surrogate2 = 56320 + (1023 & code);
                                 return String.fromCharCode(surrogate1, surrogate2);
-                            })(parseInt(k.substr(1).replace("x", "0x"))) : (errorHandler.error("entity not found:" + a), a);
+                            }(parseInt(k.substr(1).replace("x", "0x"))) : (errorHandler.error("entity not found:" + a), a);
                         }
                         function appendText(end) {
                             if (end > start) {
@@ -2209,7 +2207,7 @@
                             }
                             end1 > start ? start = end1 : appendText(Math.max(tagStart, start) + 1);
                         }
-                    })(source1, defaultNSMap, entityMap1, domBuilder2, this.errorHandler), domBuilder2.endDocument();
+                    }(source1, defaultNSMap, entityMap1, domBuilder2, this.errorHandler), domBuilder2.endDocument();
                 }
             }, ElementAttributes.prototype = {
                 setTagName: function(tagName) {
@@ -3145,8 +3143,8 @@
                 }, {}), Object.keys(o).map(function(k) {
                     return o[k];
                 })).map(function(playlist) {
-                    var key;
-                    return key = "discontinuity", playlist.discontinuityStarts = playlist.segments.reduce(function(a, e, i) {
+                    var l, key;
+                    return l = playlist.segments, key = "discontinuity", playlist.discontinuityStarts = l.reduce(function(a, e, i) {
                         return e[key] && a.push(i), a;
                     }, []), playlist;
                 });
@@ -3908,7 +3906,7 @@
                     input2 = input2.replace(/^\s+/, "");
                 }
                 if (skipWhitespace(), cue1.startTime = consumeTimeStamp(), skipWhitespace(), "-->" !== input2.substr(0, 3)) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed time stamp (time stamps must be separated by '-->'): " + oInput);
-                input2 = input2.substr(3), skipWhitespace(), cue1.endTime = consumeTimeStamp(), skipWhitespace(), (function(input, cue) {
+                input2 = input2.substr(3), skipWhitespace(), cue1.endTime = consumeTimeStamp(), skipWhitespace(), function(input, cue) {
                     var settings = new Settings();
                     parseOptions(input, function(k, v) {
                         switch(k){
@@ -3984,7 +3982,7 @@
                         end: "end",
                         right: "end"
                     }, cue.align);
-                })(input2, cue1);
+                }(input2, cue1);
             }
             ParsingError.prototype = _objCreate(Error.prototype), ParsingError.prototype.constructor = ParsingError, ParsingError.Errors = {
                 BadSignature: {
@@ -4537,7 +4535,7 @@
                     unicodeBidi: "plaintext"
                 };
                 this.applyStyles(styles, this.cueDiv), this.div = window.document.createElement("div"), styles = {
-                    direction: (function(cueDiv) {
+                    direction: function(cueDiv) {
                         var nodeStack1 = [], text1 = "";
                         if (!cueDiv || !cueDiv.childNodes) return "ltr";
                         function pushNodes(nodeStack, node) {
@@ -4554,7 +4552,7 @@
                         }
                         for(pushNodes(nodeStack1, cueDiv); text1 = nextTextNode(nodeStack1);)for(var i1 = 0; i1 < text1.length; i1++)if (isStrongRTLChar(text1.charCodeAt(i1))) return "rtl";
                         return "ltr";
-                    })(this.cueDiv),
+                    }(this.cueDiv),
                     writingMode: "" === cue.vertical ? "horizontal-tb" : "lr" === cue.vertical ? "vertical-lr" : "vertical-rl",
                     unicodeBidi: "plaintext",
                     textAlign: "middle" === cue.align ? "center" : cue.align,
@@ -5455,7 +5453,7 @@
             }
             exports.Buffer = Buffer, exports.SlowBuffer = function(length) {
                 return +length != length && (length = 0), Buffer.alloc(+length);
-            }, exports.INSPECT_MAX_BYTES = 50, exports.kMaxLength = 2147483647, Buffer.TYPED_ARRAY_SUPPORT = (function() {
+            }, exports.INSPECT_MAX_BYTES = 50, exports.kMaxLength = 2147483647, Buffer.TYPED_ARRAY_SUPPORT = function() {
                 try {
                     var arr = new Uint8Array(1), proto = {
                         foo: function() {
@@ -5466,7 +5464,7 @@
                 } catch (e) {
                     return !1;
                 }
-            })(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
+            }(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
                 enumerable: !0,
                 get: function() {
                     if (Buffer.isBuffer(this)) return this.buffer;

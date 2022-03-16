@@ -73,7 +73,7 @@ where
     }
 
     pub(super) fn emit_leading_comments_of_span(&mut self, span: Span, is_hi: bool) -> Result {
-        if span.is_dummy() {
+        if span.is_dummy_ignoring_cmt() {
             return Ok(());
         }
 

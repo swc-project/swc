@@ -18,7 +18,7 @@ use swc_ecma_transforms_compat::{
 use swc_ecma_transforms_module::common_js;
 use swc_ecma_transforms_optimization::simplify::inlining;
 use swc_ecma_transforms_proposal::{decorators, decorators::Config};
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{test, test_exec, Tester};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::Fold;
 
@@ -37,21 +37,24 @@ fn syntax(decorators_before_export: bool) -> Syntax {
     })
 }
 
-fn tr() -> impl Fold {
+fn tr(t: &Tester) -> impl Fold {
     chain!(
         decorators(Default::default()),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     )
 }
 
-fn ts_transform() -> impl Fold {
-    simple_strip(Config {
-        legacy: true,
-        ..Default::default()
-    })
+fn ts_transform(t: &Tester) -> impl Fold {
+    simple_strip(
+        t,
+        Config {
+            legacy: true,
+            ..Default::default()
+        },
+    )
 }
 
-fn simple_strip(config: Config) -> impl Fold {
+fn simple_strip(t: &Tester, config: Config) -> impl Fold {
     let mark = Mark::fresh(Mark::root());
     chain!(
         decorators(config),
@@ -63,18 +66,25 @@ fn simple_strip(config: Config) -> impl Fold {
             },
             mark
         ),
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                set_public_fields: true,
+                ..Default::default()
+            }
+        )
     )
 }
 
 /// Folder for `transformation_*` tests
-fn transformation() -> impl Fold {
-    simple_strip(Default::default())
+fn transformation(t: &Tester) -> impl Fold {
+    simple_strip(t, Default::default())
 }
 
 // transformation_declaration
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_declaration,
     r#"
 @dec()
@@ -102,7 +112,7 @@ let A = _decorate([dec()], function (_initialize) {
 // transformation_initialize_after_super_multiple
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_initialize_after_super_multiple,
     r#"
 @dec
@@ -165,7 +175,7 @@ let B = _decorate([dec], function (_initialize, _A) {
 // transformation_export_default_anonymous
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_export_default_anonymous,
     r#"
 export default @dec() class {}
@@ -191,7 +201,7 @@ export default _decorate([dec()], function (_initialize) {
 // transformation_initialize_after_super_statement
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_initialize_after_super_statement,
     r#"
 @dec
@@ -226,7 +236,7 @@ let B = _decorate([dec], function (_initialize, _A) {
 // element_descriptors_created_own_method_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_created_own_method_exec,
     r#"
 function pushElement(e) {
@@ -263,7 +273,7 @@ expect(Object.getOwnPropertyDescriptor(new A(), "foo")).toEqual({
 // finishers_return_class_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     finishers_return_class_exec,
     r#"
 class C {}
@@ -288,7 +298,7 @@ expect(A).toBe(C);
 // misc_method_name_not_shadow
 test!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     misc_method_name_not_shadow,
     r#"
 var method = 1;
@@ -330,7 +340,7 @@ let Foo = _decorate([decorator], function (_initialize) {
 // element_descriptors_original_class_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_original_class_exec,
     r#"
 var el = null;
@@ -358,7 +368,7 @@ expect(el.elements).toHaveLength(3);
 // duplicated_keys_create_existing_element_with_extras_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_create_existing_element_with_extras_exec,
     r#"
 function decorate(el) {
@@ -392,7 +402,7 @@ expect(() => {
 // finishers_no_in_extras_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     finishers_no_in_extras_exec,
     r#"
 class C {}
@@ -422,7 +432,7 @@ expect(() => {
 // duplicated_keys_computed_keys_same_value
 test!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_computed_keys_same_value,
     r#"
 @(_ => desc = _)
@@ -471,7 +481,7 @@ let Foo = _decorate([_ => desc = _], function (_initialize) {
 // transformation_only_decorated
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_only_decorated,
     r#"
 class B {
@@ -494,7 +504,7 @@ class B {
 // ordering_finishers_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     ordering_finishers_exec,
     r#"
 var log = [];
@@ -537,7 +547,7 @@ expect(log).toEqual(numsFrom0to9);
 // transformation_initiailzer_after_super_bug_8808
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_initiailzer_after_super_bug_8808,
     r#"
 @decorator(parameter)
@@ -571,7 +581,7 @@ let Sub = _decorate([decorator(parameter)], function (_initialize, _Super) {
 // duplicated_keys_original_method_overwritten_no_decorators_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_original_method_overwritten_no_decorators_exec,
     r#"
 var el;
@@ -596,7 +606,7 @@ expect(A.prototype.method()).toBe(2);
 // transformation_arguments
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_arguments,
     r#"
 @dec(a, b, ...c)
@@ -631,7 +641,7 @@ let A = _decorate([dec(a, b, ...c)], function (_initialize) {
 // duplicated_keys_original_method_overwritten_both_decorated_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_original_method_overwritten_both_decorated_exec,
     r#"
 expect(() => {
@@ -655,7 +665,7 @@ test_exec!(
     // Babel 7.3.0 fails
     ignore,
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     ordering_field_initializers_after_methods_exec,
     r#"
 var counter = 0;
@@ -691,7 +701,7 @@ expect(counter).toBe(2);
 // misc_to_primitive_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     misc_to_primitive_exec,
     r#"
 let calls = 0;
@@ -717,7 +727,7 @@ expect(calls).toBe(1);
 // transformation_initialize_after_super_expression
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_initialize_after_super_expression,
     r#"
 @dec
@@ -752,7 +762,7 @@ let B = _decorate([dec], function (_initialize, _A) {
 // element_descriptors_not_reused_field_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_not_reused_field_exec,
     r#"
 var dec1, dec2;
@@ -774,7 +784,7 @@ expect(dec1.initializer).toBe(dec2.initializer);
 // transformation_export_default_named
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_export_default_named,
     r#"
 export default @dec() class Foo {}
@@ -801,7 +811,7 @@ export { Foo as default };
 // element_descriptors_original_own_field_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_original_own_field_exec,
     r#"
 var el = null;
@@ -832,7 +842,7 @@ expect(el.initializer()).toBe(val);
 // ordering_decorators_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     ordering_decorators_exec,
     r#"
 var log = [];
@@ -873,7 +883,7 @@ expect(log).toEqual(numsFrom0to23);
 // element_descriptors_default_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_default_exec,
     r#"
 function decorate(el) {
@@ -896,7 +906,7 @@ expect(Foo.prototype.bar).toBe(2);
 // element_descriptors_original_prototype_method_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_original_prototype_method_exec,
     r#"
 var el = null;
@@ -923,7 +933,7 @@ expect(el).toEqual(Object.defineProperty({
 // misc_method_name_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     misc_method_name_exec,
     r#"
 function decorator() {}
@@ -941,7 +951,7 @@ expect(Foo.prototype.method.name).toBe("method");
 test!(
     ignore,
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_strict_directive,
     r#"
 (() => {
@@ -1011,7 +1021,7 @@ test!(
 // element_descriptors_created_static_method_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_created_static_method_exec,
     r#"
 function pushElement(e) {
@@ -1048,7 +1058,7 @@ expect(Object.getOwnPropertyDescriptor(A, "foo")).toEqual({
 // misc_method_name_not_shadow_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     misc_method_name_not_shadow_exec,
     r#"
 function decorator() {}
@@ -1071,7 +1081,7 @@ expect(Foo.prototype.method.name).toBe("method");
 // duplicated_keys_original_method_overwritten_second_decorated_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_original_method_overwritten_second_decorated_exec,
     r#"
 expect(() => {
@@ -1092,7 +1102,7 @@ expect(() => {
 // duplicated_keys_get_set_both_decorated_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_get_set_both_decorated_exec,
     r#"
 function dec(el) { return el }
@@ -1112,7 +1122,7 @@ expect(() => {
 // duplicated_keys_original_method_overwritten_first_decorated_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_original_method_overwritten_first_decorated_exec,
     r#"
 expect(() => {
@@ -1133,7 +1143,7 @@ expect(() => {
 // element_descriptors_created_prototype_field_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_created_prototype_field_exec,
     r#"
 function pushElement(e) {
@@ -1171,7 +1181,7 @@ expect(Object.getOwnPropertyDescriptor(A.prototype, "foo")).toEqual({
 // transformation_extends
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_extends,
     r#"
 @dec class A extends B {}
@@ -1202,7 +1212,7 @@ let A = _decorate([dec], function (_initialize, _B) {
 // transformation_extends_await
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_extends_await,
     r#"
 async function g() {
@@ -1236,7 +1246,7 @@ async function g() {
 // transformation_extends_yield
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_extends_yield,
     r#"
 function* g() {
@@ -1270,7 +1280,7 @@ function* g() {
 // element_descriptors_created_static_field_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_created_static_field_exec,
     r#"
 function pushElement(e) {
@@ -1309,7 +1319,7 @@ expect(Object.getOwnPropertyDescriptor(A, "foo")).toEqual({
 // element_descriptors_created_own_field_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_created_own_field_exec,
     r#"
 function pushElement(e) {
@@ -1348,7 +1358,7 @@ expect(Object.getOwnPropertyDescriptor(new A(), "foo")).toEqual({
 // element_descriptors_not_reused_method_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_not_reused_method_exec,
     r#"
 var dec1, dec2;
@@ -1370,7 +1380,7 @@ expect(dec1.descriptor.value).toBe(dec2.descriptor.value);
 // element_descriptors_not_reused_class_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_not_reused_class_exec,
     r#"
 var dec1, dec2;
@@ -1387,7 +1397,7 @@ expect(dec1).not.toBe(dec2);
 // duplicated_keys_computed_keys_same_ast_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_computed_keys_same_ast_exec,
     r#"
 var i = 0;
@@ -1424,7 +1434,7 @@ expect(i).toBe(2);
 // transformation_initialize_after_super_bug_8931
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_initialize_after_super_bug_8931,
     r#"
 @dec
@@ -1465,7 +1475,7 @@ test_exec!(
     // Babel 7.3.0 fails
     ignore,
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     ordering_static_field_initializers_after_methods_exec,
     r#"
 var counter = 0;
@@ -1497,7 +1507,7 @@ expect(counter).toBe(2);
 // element_descriptors_original_static_method_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_original_static_method_exec,
     r#"
 var el = null;
@@ -1524,7 +1534,7 @@ expect(el).toEqual(Object.defineProperty({
 // duplicated_keys_extras_duplicated_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_extras_duplicated_exec,
     r#"
 function decorate(el) {
@@ -1565,7 +1575,7 @@ expect(() => {
 // duplicated_keys_extras_same_as_return_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_extras_same_as_return_exec,
     r#"
 function decorate(el) {
@@ -1605,7 +1615,7 @@ expect(() => {
 // finishers_class_as_parameter_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     finishers_class_as_parameter_exec,
     r#"
 var C;
@@ -1630,7 +1640,7 @@ expect(C).toBe(A);
 // duplicated_keys_moved_and_created_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_moved_and_created_exec,
     r#"
 var value1, value2 = {};
@@ -1672,7 +1682,7 @@ expect(Foo.prototype.bar).toBe(value2);
 // transformation_expression
 test!(
     syntax(false),
-    |_| transformation(),
+    |t| transformation(t),
     transformation_expression,
     r#"
 (@dec() class {});
@@ -1699,7 +1709,7 @@ _decorate([dec()], function (_initialize) {
 // duplicated_keys_original_method_prototype_and_static_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_original_method_prototype_and_static_exec,
     r#"
 var el;
@@ -1726,7 +1736,7 @@ expect(A.method()).toBe(2);
 // duplicated_keys_computed_keys_same_ast
 test!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_computed_keys_same_ast,
     r#"
 @(_ => desc = _)
@@ -1775,7 +1785,7 @@ let Foo = _decorate([_ => desc = _], function (_initialize) {
 // element_descriptors_created_prototype_method_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_created_prototype_method_exec,
     r#"
 function pushElement(e) {
@@ -1811,7 +1821,7 @@ expect(Object.getOwnPropertyDescriptor(A.prototype, "foo")).toEqual({
 // duplicated_keys_create_existing_element_from_method_decorator_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_create_existing_element_from_method_decorator_exec,
     r#"
 function decorate() {
@@ -1843,7 +1853,7 @@ expect(() => {
 // element_descriptors_original_static_field_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_original_static_field_exec,
     r#"
 var el = null;
@@ -1873,7 +1883,7 @@ expect(el.initializer()).toBe(val);
 // duplicated_keys_coalesce_get_set_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_coalesce_get_set_exec,
     r#"
 var el, el1;
@@ -1905,7 +1915,7 @@ expect(desc.set()).toBe(2);
 // transformation_extends_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     transformation_extends_exec,
     r#"
 class B {}
@@ -1921,7 +1931,7 @@ expect(new A).toBeInstanceOf(B);
 // duplicated_keys_create_existing_element_from_class_decorator_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_create_existing_element_from_class_decorator_exec,
     r#"
 function pushElement(e) {
@@ -1951,7 +1961,7 @@ expect(() => {
 // duplicated_keys_computed_keys_same_value_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     duplicated_keys_computed_keys_same_value_exec,
     r#"
 var i = 0;
@@ -1990,7 +2000,7 @@ expect(j).toBe(1);
 // element_descriptors_original_own_field_without_initiailzer_exec
 test_exec!(
     syntax(false),
-    |_| tr(),
+    |t| tr(t),
     element_descriptors_original_own_field_without_initiailzer_exec,
     r#"
 var el = null;
@@ -2018,12 +2028,12 @@ expect(el).toEqual(Object.defineProperty({
 // legacy_class_constructors_return_new_constructor
 test_exec!(
     syntax(true),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_constructors_return_new_constructor_exec,
     r#"
@@ -2047,10 +2057,13 @@ expect(typeof Parent.prototype.child).toBe("function");
 // legacy_regression_10264
 test!(
     syntax(true),
-    |_| simple_strip(decorators::Config {
-        legacy: true,
-        ..Default::default()
-    }),
+    |t| simple_strip(
+        t,
+        decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }
+    ),
     legacy_regression_10264,
     r#"
 function myDecorator(decoratee) {}
@@ -2074,7 +2087,7 @@ export { _class1 as default }
 //// legacy_regression_7030
 //test!(
 //    syntax(false),
-//    |_| tr(r#"{
+//    |t| tr(r#"{
 //  "presets": ["env"]
 //}
 //"#),
@@ -2177,11 +2190,11 @@ export { _class1 as default }
 //// legacy_class_static_methods_numeric_props
 //test_exec!(
 //    syntax(false),
-//    |_| tr(r#"{
+//    |t| tr(r#"{
 //  "presets": ["env"],
 //  "plugins": [
 //    ["proposal-decorators", { "legacy": true }],
-//    [class_properties(Default::default()), { "loose":
+//    [class_properties(Some(t.comments.clone()),Default::default()), { "loose":
 // true }]  ]
 //}
 //"#),
@@ -2204,11 +2217,11 @@ export { _class1 as default }
 //// legacy_class_prototype_properties_mutate_descriptor
 //test_exec!(
 //    syntax(false),
-//    |_| tr(r#"{
+//    |t| tr(r#"{
 //  "presets": ["env"],
 //  "plugins": [
 //    ["proposal-decorators", { "legacy": true }],
-//    [class_properties(Default::default()), { "loose":
+//    [class_properties(Some(t.comments.clone()),Default::default()), { "loose":
 // true }]  ]
 //}
 //"#),
@@ -2339,11 +2352,11 @@ export { _class1 as default }
 //// legacy_object_properties_mutate_descriptor
 //test_exec!(
 //    syntax(false),
-//    |_| tr(r#"{
+//    |t| tr(r#"{
 //  "presets": ["env"],
 //  "plugins": [
 //    ["proposal-decorators", { "legacy": true }],
-//    [class_properties(Default::default()), { "loose":
+//    [class_properties(Some(t.comments.clone()),Default::default()), { "loose":
 // true }]  ]
 //}
 //"#),
@@ -2475,12 +2488,12 @@ export default @dec class A {}
 // legacy_class_prototype_methods_numeric_props
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_prototype_methods_numeric_props_exec,
     r#"
@@ -2501,12 +2514,12 @@ class Example {
 // legacy_class_static_properties_mutate_descriptor
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_static_properties_mutate_descriptor_exec,
     r#"
@@ -2616,12 +2629,12 @@ expect(Example._).toBe("__8__");
 // legacy_class_static_methods_string_props
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_static_methods_string_props_exec,
     r#"
@@ -2642,12 +2655,12 @@ class Example {
 // legacy_class_prototype_properties_string_literal_properties
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_prototype_properties_string_literal_properties_exec,
     r#"
@@ -2687,12 +2700,12 @@ expect(inst["a-prop"]).toBeUndefined();
 // legacy_class_prototype_methods_mutate_descriptor
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_prototype_methods_mutate_descriptor_exec,
     r#"
@@ -2820,12 +2833,12 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_object_properties_numeric_props_exec,
     r#"
@@ -2877,12 +2890,12 @@ export { A as default }
 // legacy_class_prototype_properties_return_descriptor
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_prototype_properties_return_descriptor_exec,
     r#"
@@ -2994,12 +3007,12 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_object_properties_string_props_exec,
     r#"
@@ -3022,12 +3035,12 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_object_properties_return_descriptor_exec,
     r#"
@@ -3135,12 +3148,12 @@ expect(inst._).toBe("__8__");
 // legacy_class_prototype_methods_string_props
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_prototype_methods_string_props_exec,
     r#"
@@ -3161,12 +3174,12 @@ class Example {
 // legacy_regression_8041
 test!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_regression_8041,
     r#"
@@ -3191,12 +3204,12 @@ export default class {
 // legacy_class_prototype_methods_return_descriptor
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_prototype_methods_return_descriptor_exec,
     r#"
@@ -3326,12 +3339,12 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_object_ordering_reverse_order_exec,
     r#"
@@ -3370,12 +3383,12 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_object_methods_numeric_props_exec,
     r#"
@@ -3397,12 +3410,12 @@ const inst = {
 // legacy_class_static_properties_return_descriptor
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_static_properties_return_descriptor_exec,
     r#"
@@ -3517,12 +3530,12 @@ test_exec!(
     // below correctly.
     ignore,
     syntax(true),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_export_default_exec,
     r#"
@@ -3547,12 +3560,12 @@ expect(calls).toEqual(["Foo"]);
 // legacy_class_ordering_reverse_order
 test_exec!(
     syntax(true),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_ordering_reverse_order_exec,
     r#"
@@ -3594,12 +3607,12 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(true),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_object_methods_mutate_descriptor_exec,
     r#"
@@ -3723,12 +3736,12 @@ expect(inst._()).toBe("__8__");
 // legacy_class_static_methods_return_descriptor
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_static_methods_return_descriptor_exec,
     r#"
@@ -3855,12 +3868,12 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_object_methods_return_descriptor_exec,
     r#"
@@ -3986,12 +3999,12 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_object_methods_string_props_exec,
     r#"
@@ -4014,12 +4027,12 @@ const inst = {
 // legacy_class_prototype_properties_child_classes_properties
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_prototype_properties_child_classes_properties_exec,
     r#"
@@ -4057,12 +4070,12 @@ expect(inst.prop2).toBe("__4__");
 // legacy_class_static_methods_mutate_descriptor
 test_exec!(
     syntax(false),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     legacy_class_static_methods_mutate_descriptor_exec,
     r#"
@@ -4292,10 +4305,13 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| simple_strip(Config {
-        legacy: true,
-        ..Default::default()
-    }),
+    |t| simple_strip(
+        t,
+        Config {
+            legacy: true,
+            ..Default::default()
+        }
+    ),
     issue_823_1,
     "import {Debounce} from 'lodash-decorators';
 class Person {
@@ -4309,17 +4325,17 @@ class Person {
 
 const p = new Person();
 p.save();",
-    "var _class;
-var _class1, _dec;
+    "var _Person;
+var _class, _dec;
 import { Debounce } from 'lodash-decorators';
-let Person = ((_class1 = (_class = class Person {
+let Person = ((_class = (_Person = class Person {
     save() {
         console.log('Hello World!');
     }
-}, _class.debounceTime = 500, _class)) || _class1, _dec = Debounce(_class1.debounceTime), \
-     _applyDecoratedDescriptor(_class1.prototype, 'save', [
+}, _Person.debounceTime = 500, _Person)) || _class, _dec = Debounce(_class.debounceTime), \
+     _applyDecoratedDescriptor(_class.prototype, 'save', [
     _dec
-], Object.getOwnPropertyDescriptor(_class1.prototype, 'save'), _class1.prototype), _class1);
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
 const p = new Person();
 p.save();"
 );
@@ -4329,11 +4345,14 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| {
-        simple_strip(Config {
-            legacy: true,
-            ..Default::default()
-        })
+    |t| {
+        simple_strip(
+            t,
+            Config {
+                legacy: true,
+                ..Default::default()
+            },
+        )
         // classes(Some(t.comments.clone())),
     },
     issue_823_2,
@@ -4349,17 +4368,17 @@ class Person {
 
 const p = new Person();
 p.save();",
-    "var _class;
-var _class1, _dec;
+    "var _Person;
+var _class, _dec;
 import { Debounce } from 'lodash-decorators';
-let Person = ((_class1 = (_class = class Person {
+let Person = ((_class = (_Person = class Person {
     save() {
         console.log('Hello World!');
     }
-}, _class.debounceTime = 500, _class)) || _class1, _dec = Debounce(_class1.debounceTime), \
-     _applyDecoratedDescriptor(_class1.prototype, 'save', [
+}, _Person.debounceTime = 500, _Person)) || _class, _dec = Debounce(_class.debounceTime), \
+     _applyDecoratedDescriptor(_class.prototype, 'save', [
     _dec
-], Object.getOwnPropertyDescriptor(_class1.prototype, 'save'), _class1.prototype), _class1);
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
 const p = new Person();
 p.save();
 "
@@ -4371,10 +4390,13 @@ test!(
         ..Default::default()
     }),
     |t| chain!(
-        simple_strip(Config {
-            legacy: true,
-            ..Default::default()
-        }),
+        simple_strip(
+            t,
+            Config {
+                legacy: true,
+                ..Default::default()
+            }
+        ),
         classes(Some(t.comments.clone()), Default::default()),
     ),
     issue_823_3,
@@ -4390,10 +4412,10 @@ class Person {
 
 const p = new Person();
 p.save();",
-    "var _class;
-var _class1, _dec;
+    "var _Person;
+var _class, _dec;
 import { Debounce } from 'lodash-decorators';
-let Person = ((_class1 = (_class = function() {
+let Person = ((_class = (_Person = function() {
     'use strict';
     function Person1() {
         _classCallCheck(this, Person1);
@@ -4407,17 +4429,17 @@ let Person = ((_class1 = (_class = function() {
         }
     ]);
     return Person1;
-}(), _class.debounceTime = 500, _class)) || _class1, _dec = Debounce(_class1.debounceTime), \
-     _applyDecoratedDescriptor(_class1.prototype, 'save', [
+}(), _Person.debounceTime = 500, _Person)) || _class, _dec = Debounce(_class.debounceTime), \
+     _applyDecoratedDescriptor(_class.prototype, 'save', [
     _dec
-], Object.getOwnPropertyDescriptor(_class1.prototype, 'save'), _class1.prototype), _class1);
+], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
 const p = new Person();
 p.save();"
 );
 
 test!(
     ts(),
-    |_| ts_transform(),
+    |t| ts_transform(t),
     issue_862_1,
     "
  @Entity()
@@ -4509,7 +4531,7 @@ export let Product = _class = _dec6(((_class = class Product extends Timestamped
 
 test!(
     ts(),
-    |_| ts_transform(),
+    |t| ts_transform(t),
     issue_862_2,
     "@Entity()
 export class Product extends TimestampedEntity {
@@ -4539,7 +4561,7 @@ export class Product extends TimestampedEntity {
 
 test_exec!(
     ts(),
-    |_| ts_transform(),
+    |t| ts_transform(t),
     issue_862_3,
     "var log: number[] = [];
 function push(x: number) { log.push(x); return x; }
@@ -4563,7 +4585,7 @@ expect(log).toEqual(nums)"
 
 test!(
     ts(),
-    |_| ts_transform(),
+    |t| ts_transform(t),
     issue_863_1,
     "class ProductController {
   @bar()
@@ -4586,7 +4608,7 @@ let ProductController = ((_class = class ProductController {
 
 test_exec!(
     ts(),
-    |_| ts_transform(),
+    |t| ts_transform(t),
     issue_863_2,
     "const logs: number[] = [];
 
@@ -4620,12 +4642,15 @@ c.findById(100);
 
 test!(
     ts(),
-    |_| chain!(
+    |t| chain!(
         inlining::inlining(inlining::Config {}),
-        simple_strip(Config {
-            legacy: true,
-            ..Default::default()
-        }),
+        simple_strip(
+            t,
+            Config {
+                legacy: true,
+                ..Default::default()
+            }
+        ),
     ),
     issue_879_1,
     "export default class X {
@@ -5144,7 +5169,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default())
     ),
     decorators_legacy_interop_local_define_property,
@@ -5986,10 +6011,13 @@ test_exec!(
         decorators: true,
         ..Default::default()
     }),
-    |_| simple_strip(Config {
-        legacy: true,
-        emit_metadata: true,
-    }),
+    |t| simple_strip(
+        t,
+        Config {
+            legacy: true,
+            emit_metadata: true,
+        }
+    ),
     issue_1362_1,
     "
     const { IsString } = require('class-validator');
@@ -6033,6 +6061,43 @@ test!(
   }), _class);"
 );
 
+test!(
+    ts(),
+    |_| decorators(Config {
+        legacy: true,
+        emit_metadata: false,
+    }),
+    issue_3979,
+    "
+class A {
+  @foo x = 1;
+  constructor()
+  constructor() {
+    console.log(123)
+  }
+}
+",
+    r#"
+var _class, _descriptor;
+let A = ((_class = class A {
+    constructor();
+    constructor(){
+        _initializerDefineProperty(this, "x", _descriptor, this);
+        console.log(123);
+    }
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "x", [
+    foo
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return 1;
+    }
+}), _class);
+"#
+);
+
 #[testing::fixture("tests/fixture/decorator/**/exec.ts")]
 fn fixture(input: PathBuf) {
     let code = fs::read_to_string(&input).expect("failed to read file");
@@ -6043,7 +6108,7 @@ fn fixture(input: PathBuf) {
             decorators: true,
             ..Default::default()
         }),
-        |_| {
+        |_t| {
             let top_level_mark = Mark::fresh(Mark::root());
 
             chain!(

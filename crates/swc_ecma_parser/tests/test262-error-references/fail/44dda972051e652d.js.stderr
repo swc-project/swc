@@ -1,6 +1,6 @@
-error: A `get` accessor cannot have parameters
- --> $DIR/tests/test262-parser/fail/44dda972051e652d.js:1:11
-  |
-1 | class A { get prop(x) {} }
-  |           ^^^
 
+  x A `get` accessor cannot have parameters
+   ,-[$DIR/tests/test262-parser/fail/44dda972051e652d.js:2:1]
+ 2 | class A { get prop(x) {} }
+   :           ^^^
+   `----

@@ -1,0 +1,6 @@
+
+  x Unexpected invalid position '@import' rule.
+   ,-[$DIR/tests/rules/fail/no-invalid-position-at-import-rule/default/at-layer-rule/input.css:7:1]
+ 7 | @import "kumiko.css";
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----

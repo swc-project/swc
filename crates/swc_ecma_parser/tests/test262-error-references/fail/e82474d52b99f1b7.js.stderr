@@ -1,6 +1,6 @@
-error: Expected '{', got 'numeric literal'
- --> $DIR/tests/test262-parser/fail/e82474d52b99f1b7.js:1:14
-  |
-1 | function a() 1 // expression closure is not supported
-  |              ^
 
+  x Expected '{', got 'numeric literal'
+   ,-[$DIR/tests/test262-parser/fail/e82474d52b99f1b7.js:2:1]
+ 2 | function a() 1 // expression closure is not supported
+   :              ^
+   `----

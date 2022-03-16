@@ -78,8 +78,8 @@ where
             }) => true,
             Pat::Ident(i) => self
                 .data
-                .as_ref()
-                .and_then(|v| v.vars.get(&i.id.to_id()))
+                .vars
+                .get(&i.id.to_id())
                 .map(|v| v.declared_count >= 2)
                 .unwrap_or(false),
             _ => true,

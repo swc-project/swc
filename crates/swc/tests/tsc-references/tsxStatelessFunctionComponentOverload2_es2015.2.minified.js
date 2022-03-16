@@ -1,36 +1,25 @@
-function _extends() {
-    return (_extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source)Object.prototype.hasOwnProperty.call(source, key) && (target[key] = source[key]);
-        }
-        return target;
-    }).apply(this, arguments);
-}
-const React = require("react");
+import * as swcHelpers from "@swc/helpers";
+require("react");
 let obj = {
     yy: 10,
     yy1: "hello"
 }, obj1 = {
     yy: !0
 }, defaultObj;
-React.createElement(OneThing, null), React.createElement(OneThing, _extends({}, obj)), React.createElement(OneThing, _extends({}, {})), React.createElement(OneThing, _extends({}, obj1, obj)), React.createElement(OneThing, _extends({}, obj1, {
+OneThing, OneThing, swcHelpers.extends({}, obj), OneThing, swcHelpers.extends({}, {}), OneThing, swcHelpers.extends({}, obj1, obj), OneThing, swcHelpers.extends({}, obj1, {
     yy: 42
 }, {
     yy1: "hi"
-})), React.createElement(OneThing, _extends({}, obj1, {
+}), OneThing, swcHelpers.extends({}, obj1, {
     yy: 10000,
     yy1: "true"
-})), React.createElement(OneThing, _extends({}, defaultObj, {
+}), OneThing, swcHelpers.extends({}, defaultObj, {
     yy: !0
-}, obj)), React.createElement(OneThing, {
-    "ignore-prop": 100
-}), React.createElement(OneThing, _extends({}, {
+}, obj), OneThing, OneThing, swcHelpers.extends({}, {
     "ignore-prop": 200
-})), React.createElement(OneThing, _extends({}, {
+}), OneThing, swcHelpers.extends({}, {
     yy: 500,
     "ignore-prop": "hello"
 }, {
     yy1: "boo"
-}));
-export { };
+});

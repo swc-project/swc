@@ -1,57 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-function _extends() {
-    _extends = Object.assign || function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source){
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
-function _objectSpread(target) {
-    for(var i = 1; i < arguments.length; i++){
-        var source = arguments[i] != null ? arguments[i] : {};
-        var ownKeys = Object.keys(source);
-        if (typeof Object.getOwnPropertySymbols === "function") {
-            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-            }));
-        }
-        ownKeys.forEach(function(key) {
-            _defineProperty(target, key, source[key]);
-        });
-    }
-    return target;
-}
+import * as swcHelpers from "@swc/helpers";
 // Only equality operators are allowed with unknown
 function f10(x) {
     x == 5;
@@ -76,7 +23,7 @@ function f20(x) {
     if (typeof x === "string" || typeof x === "number") {
         x; // string | number
     }
-    if (_instanceof(x, Error)) {
+    if (swcHelpers._instanceof(x, Error)) {
         x; // Error
     }
     if (isFunction(x)) {
@@ -133,16 +80,16 @@ function f25() {
 }
 // Spread of unknown causes result to be unknown
 function f26(x, y, z) {
-    var o1 = _objectSpread({
+    var o1 = swcHelpers.objectSpread({
         a: 42
     }, x); // { a: number }
-    var o2 = _objectSpread({
+    var o2 = swcHelpers.objectSpread({
         a: 42
     }, x, y); // unknown
-    var o3 = _objectSpread({
+    var o3 = swcHelpers.objectSpread({
         a: 42
     }, x, y, z); // any
-    var o4 = _objectSpread({
+    var o4 = swcHelpers.objectSpread({
         a: 42
     }, z); // any
 }
@@ -150,11 +97,12 @@ function f26(x, y, z) {
 function f27() {}
 // Rest type cannot be created from unknown
 function f28(x) {
-    var a = _extends({}, x); // Error
+    var a = swcHelpers.extends({}, x); // Error
 }
+// Class properties of type unknown don't need definite assignment
 var C1 = function C1() {
     "use strict";
-    _classCallCheck(this, C1);
+    swcHelpers.classCallCheck(this, C1);
 };
 // Type parameter with explicit 'unknown' constraint not assignable to '{}'
 function f30(t, u) {

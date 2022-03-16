@@ -9,20 +9,21 @@ use std::{
     usize,
 };
 
-use anyhow::{bail, Context, Error};
+use anyhow::{bail, Error};
 use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
-use regex::Regex;
 use serde::{
     de::{Unexpected, Visitor},
     Deserialize, Deserializer, Serialize, Serializer,
 };
 use swc_atoms::JsWord;
+use swc_cached::regex::CachedRegex;
 pub use swc_common::chain;
 use swc_common::{
     collections::{AHashMap, AHashSet},
+    comments::SingleThreadedComments,
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
@@ -64,8 +65,9 @@ use swc_ecma_visit::{Fold, VisitMutWith};
 use self::util::BoolOrObject;
 use crate::{
     builder::PassBuilder,
+    dropped_comments_preserver::dropped_comments_preserver,
     plugin::{PluginConfig, PluginContext},
-    SwcComments, SwcImportResolver,
+    SwcImportResolver,
 };
 
 #[cfg(test)]
@@ -257,6 +259,8 @@ impl Default for InputSourceMap {
 
 impl Options {
     /// `parse`: `(syntax, target, is_module)`
+    ///
+    /// `parse` should use `comments`.
     #[allow(clippy::too_many_arguments)]
     pub fn build_as_input<'a, P>(
         &self,
@@ -268,7 +272,7 @@ impl Options {
         handler: &Handler,
         is_module: IsModule,
         config: Option<Config>,
-        comments: Option<&'a SwcComments>,
+        comments: Option<&'a SingleThreadedComments>,
         custom_before_pass: impl FnOnce(&Program) -> P,
     ) -> Result<BuiltInput<impl 'a + swc_ecma_visit::Fold>, Error>
     where
@@ -293,10 +297,11 @@ impl Options {
             minify: mut js_minify,
             experimental,
             lints,
+            preserve_all_comments,
             ..
         } = config.jsc;
 
-        let assumptions = assumptions.unwrap_or_else(|| {
+        let mut assumptions = assumptions.unwrap_or_else(|| {
             if loose {
                 Assumptions::all()
             } else {
@@ -314,17 +319,20 @@ impl Options {
 
         let mut program = parse(syntax, es_version, is_module)?;
 
+        let mut transform = transform.unwrap_or_default();
+
         // Do a resolver pass before everything.
         //
         // We do this before creating custom passses, so custom passses can use the
         // variable management system based on the syntax contexts.
         if syntax.typescript() {
+            assumptions.set_class_methods = !transform.use_define_for_class_fields;
+            assumptions.set_public_class_fields = !transform.use_define_for_class_fields;
+
             program.visit_mut_with(&mut ts_resolver(top_level_mark));
         } else {
             program.visit_mut_with(&mut resolver_with_mark(top_level_mark));
         }
-
-        let mut transform = transform.unwrap_or_default();
 
         if program.is_module() {
             js_minify = js_minify.map(|c| {
@@ -362,7 +370,11 @@ impl Options {
 
         let regenerator = transform.regenerator.clone();
 
-        let preserve_comments = js_minify.as_ref().map(|v| v.format.comments.clone());
+        let preserve_comments = if preserve_all_comments {
+            Some(BoolOrObject::from(true))
+        } else {
+            js_minify.as_ref().map(|v| v.format.comments.clone())
+        };
 
         if syntax.typescript() {
             transform.legacy_decorator = true;
@@ -443,7 +455,9 @@ impl Options {
         };
 
         #[cfg(feature = "plugin")]
-        swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
+        if experimental.plugins.is_some() {
+            swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
+        }
 
         let pass = chain!(
             lint_to_fold(swc_ecma_lints::rules::all(LintParams {
@@ -474,6 +488,7 @@ impl Options {
                             treat_const_enum_as_enum: transform.treat_const_enum_as_enum,
                             ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
                         },
+                        use_define_for_class_fields: !assumptions.set_public_class_fields,
                         ..Default::default()
                     },
                     comments,
@@ -489,7 +504,11 @@ impl Options {
                 syntax.jsx()
             ),
             pass,
-            Optional::new(jest::jest(), transform.hidden.jest)
+            Optional::new(jest::jest(), transform.hidden.jest),
+            Optional::new(
+                dropped_comments_preserver(comments.cloned()),
+                preserve_all_comments
+            ),
         );
 
         Ok(BuiltInput {
@@ -505,6 +524,7 @@ impl Options {
             input_source_map: config.input_source_map.clone(),
             output_path: output_path.map(|v| v.to_path_buf()),
             source_file_name,
+            comments: comments.cloned(),
             preserve_comments,
         })
     }
@@ -879,7 +899,17 @@ impl Config {
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
     pub fn adjust(&mut self, file: &Path) {
-        if let Some(Syntax::Typescript(TsConfig { tsx, .. })) = &mut self.jsc.syntax {
+        if let Some(Syntax::Typescript(TsConfig { tsx, dts, .. })) = &mut self.jsc.syntax {
+            let is_dts = file
+                .file_name()
+                .and_then(|f| f.to_str())
+                .map(|s| s.ends_with(".d.ts"))
+                .unwrap_or(false);
+
+            if is_dts {
+                *dts = true;
+            }
+
             let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
             if is_ts {
                 *tsx = false;
@@ -891,34 +921,23 @@ impl Config {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FileMatcher {
-    Regex(String),
+    None,
+    Regex(CachedRegex),
     Multi(Vec<FileMatcher>),
 }
 
 impl Default for FileMatcher {
     fn default() -> Self {
-        Self::Regex(String::from(""))
+        Self::None
     }
 }
 
 impl FileMatcher {
     pub fn matches(&self, filename: &Path) -> Result<bool, Error> {
-        static CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> =
-            Lazy::new(Default::default);
-
         match self {
-            FileMatcher::Regex(ref s) => {
-                if s.is_empty() {
-                    return Ok(false);
-                }
+            FileMatcher::None => Ok(false),
 
-                if !CACHE.contains_key(&*s) {
-                    let re = Regex::new(s).with_context(|| format!("invalid regex: {}", s))?;
-                    CACHE.insert(s.clone(), re);
-                }
-
-                let re = CACHE.get(&*s).unwrap();
-
+            FileMatcher::Regex(re) => {
                 let filename = if cfg!(target_os = "windows") {
                     filename.to_string_lossy().replace('\\', "/")
                 } else {
@@ -977,6 +996,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 
     pub source_file_name: Option<String>,
 
+    pub comments: Option<SingleThreadedComments>,
     pub preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
 
     pub inline_sources_content: bool,
@@ -1021,6 +1041,9 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub lints: LintConfig,
+
+    #[serde(default)]
+    pub preserve_all_comments: bool,
 }
 
 /// `jsc.experimental` in `.swcrc`
@@ -1056,7 +1079,7 @@ impl Merge for JscExperimental {
 }
 
 /// `paths` section of `tsconfig.json`.
-pub type Paths = AHashMap<String, Vec<String>>;
+pub type Paths = IndexMap<String, Vec<String>, ahash::RandomState>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1192,6 +1215,9 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub treat_const_enum_as_enum: bool,
+
+    #[serde(default)]
+    pub use_define_for_class_fields: bool,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
@@ -1546,14 +1572,31 @@ impl Merge for swc_ecma_preset_env::Config {
 
 impl Merge for JscConfig {
     fn merge(&mut self, from: &Self) {
+        self.assumptions.merge(&from.assumptions);
         self.syntax.merge(&from.syntax);
         self.transform.merge(&from.transform);
-        self.target.merge(&from.target);
         self.external_helpers.merge(&from.external_helpers);
+        self.target.merge(&from.target);
+        self.loose.merge(&from.loose);
         self.keep_class_names.merge(&from.keep_class_names);
         self.paths.merge(&from.paths);
         self.minify.merge(&from.minify);
         self.experimental.merge(&from.experimental);
+        self.preserve_all_comments
+            .merge(&from.preserve_all_comments)
+    }
+}
+
+impl<K, V, S> Merge for IndexMap<K, V, S>
+where
+    K: Clone + Eq + std::hash::Hash,
+    V: Clone,
+    S: Clone + BuildHasher,
+{
+    fn merge(&mut self, from: &Self) {
+        if self.is_empty() {
+            *self = (*from).clone();
+        }
     }
 }
 
@@ -1629,6 +1672,34 @@ impl Merge for swc_ecma_parser::TsConfig {
     fn merge(&mut self, from: &Self) {
         self.tsx |= from.tsx;
         self.decorators |= from.decorators;
+    }
+}
+
+impl Merge for Assumptions {
+    fn merge(&mut self, from: &Self) {
+        self.array_like_is_iterable |= from.array_like_is_iterable;
+        self.constant_reexports |= from.constant_reexports;
+        self.constant_super |= from.constant_super;
+        self.enumerable_module_meta |= from.enumerable_module_meta;
+        self.ignore_function_length |= from.ignore_function_length;
+        self.ignore_function_name |= from.ignore_function_name;
+        self.ignore_to_primitive_hint |= from.ignore_to_primitive_hint;
+        self.iterable_is_array |= from.iterable_is_array;
+        self.mutable_template_object |= from.mutable_template_object;
+        self.no_class_calls |= from.no_class_calls;
+        self.no_document_all |= from.no_document_all;
+        self.no_incomplete_ns_import_detection |= from.no_incomplete_ns_import_detection;
+        self.no_new_arrows |= from.no_new_arrows;
+        self.object_rest_no_symbols |= from.object_rest_no_symbols;
+        self.private_fields_as_properties |= from.private_fields_as_properties;
+        self.pure_getters |= from.pure_getters;
+        self.set_class_methods |= from.set_class_methods;
+        self.set_computed_properties |= from.set_computed_properties;
+        self.set_public_class_fields |= from.set_public_class_fields;
+        self.set_spread_properties |= from.set_spread_properties;
+        self.skip_for_of_iterator_closing |= from.skip_for_of_iterator_closing;
+        self.super_is_callable_constructor |= from.super_is_callable_constructor;
+        self.ts_enum_is_readonly |= from.ts_enum_is_readonly;
     }
 }
 

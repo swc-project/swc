@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // all errors imported modules conflict with local variables
 var A;
 (function(A1) {
@@ -22,7 +18,7 @@ var X;
 (function(X1) {
     var Y = function Y() {
         "use strict";
-        _classCallCheck(this, Y);
+        swcHelpers.classCallCheck(this, Y);
     };
     X1.Y = Y;
 })(X || (X = {}));

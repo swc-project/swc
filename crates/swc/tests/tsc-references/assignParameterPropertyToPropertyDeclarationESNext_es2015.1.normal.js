@@ -11,37 +11,35 @@ class C {
     }
     constructor(foo){
         this.foo = foo;
-        this.qux // should error
-         = this.bar;
-        this.bar // should error
-         = this.foo;
-        this.quiz // ok
-         = this.bar;
-        this.quench // ok
-         = this.m1();
-        this.quanch // should error
-         = this.m3();
+        this.qux = this.bar // should error
+        ;
+        this.bar = this.foo // should error
+        ;
+        this.quiz = this.bar // ok
+        ;
+        this.quench = this.m1() // ok
+        ;
+        this.quanch = this.m3() // should error
+        ;
         this.m3 = function() {};
-        this.quim // should error
-         = this.baz;
-        this.baz // should error
-         = this.foo;
-        this.quid // ok
-         = this.baz;
+        this.quim = this.baz // should error
+        ;
+        this.baz = this.foo;
+        this.quid = this.baz // ok
+        ;
     }
 }
 class D extends C {
     constructor(...args){
         super(...args);
-        this.quill // ok
-         = this.foo;
+        this.quill = this.foo // ok
+        ;
     }
 }
 class E {
     constructor(foo2){
         this.foo2 = foo2;
-        this.bar // both ok
-         = ()=>this.foo1 + this.foo2
+        this.bar = ()=>this.foo1 + this.foo2
         ;
         this.foo1 = '';
     }

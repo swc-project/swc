@@ -217,12 +217,12 @@
     };
     function createElement(type, config1, children) {
         var propName, props = {}, key = null, ref = null, self = null, source = null;
-        if (null != config1) for(propName in hasValidRef(config1) && (ref = config1.ref, (function(config) {
+        if (null != config1) for(propName in hasValidRef(config1) && (ref = config1.ref, function(config) {
             if ("string" == typeof config.ref && ReactCurrentOwner.current && config.__self && ReactCurrentOwner.current.stateNode !== config.__self) {
                 var componentName = getComponentName(ReactCurrentOwner.current.type);
                 didWarnAboutStringRefs[componentName] || (error1("Component \"%s\" contains the string ref \"%s\". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref", componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
             }
-        })(config1)), hasValidKey(config1) && (key = "" + config1.key), self = void 0 === config1.__self ? null : config1.__self, source = void 0 === config1.__source ? null : config1.__source, config1)hasOwnProperty$1.call(config1, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config1[propName]);
+        }(config1)), hasValidKey(config1) && (key = "" + config1.key), self = void 0 === config1.__self ? null : config1.__self, source = void 0 === config1.__source ? null : config1.__source, config1)hasOwnProperty$1.call(config1, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config1[propName]);
         var childrenLength = arguments.length - 2;
         if (1 === childrenLength) props.children = children;
         else if (childrenLength > 1) {
@@ -270,11 +270,11 @@
     }
     function getElementKey(element, index) {
         if ("object" == typeof element && null !== element && null != element.key) {
-            var escaperLookup;
-            return escaperLookup = {
+            var key, escaperLookup;
+            return key = "" + element.key, escaperLookup = {
                 "=": "=0",
                 ":": "=2"
-            }, "$" + ("" + element.key).replace(/[=:]/g, function(match) {
+            }, "$" + key.replace(/[=:]/g, function(match) {
                 return escaperLookup[match];
             });
         }
@@ -377,7 +377,7 @@
         if (void 0 !== frame) return frame;
         reentry = !0;
         var previousPrepareStackTrace = Error.prepareStackTrace;
-        Error.prepareStackTrace = void 0, previousDispatcher = ReactCurrentDispatcher$1.current, ReactCurrentDispatcher$1.current = null, (function() {
+        Error.prepareStackTrace = void 0, previousDispatcher = ReactCurrentDispatcher$1.current, ReactCurrentDispatcher$1.current = null, function() {
             if (0 === disabledDepth) {
                 prevLog = console.log, prevInfo = console.info, prevWarn = console.warn, prevError = console.error, prevGroup = console.group, prevGroupCollapsed = console.groupCollapsed, prevGroupEnd = console.groupEnd;
                 var props = {
@@ -397,7 +397,7 @@
                 });
             }
             disabledDepth++;
-        })();
+        }();
         try {
             if (construct) {
                 var Fake = function() {
@@ -443,7 +443,7 @@
                 }
             }
         } finally{
-            reentry = !1, ReactCurrentDispatcher$1.current = previousDispatcher, (function() {
+            reentry = !1, ReactCurrentDispatcher$1.current = previousDispatcher, function() {
                 if (disabledDepth--, 0 === disabledDepth) {
                     var props = {
                         configurable: !0,
@@ -475,7 +475,7 @@
                     });
                 }
                 disabledDepth < 0 && error1("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
-            })(), Error.prepareStackTrace = previousPrepareStackTrace;
+            }(), Error.prepareStackTrace = previousPrepareStackTrace;
         }
         var name = fn ? fn.displayName || fn.name : "", syntheticFrame = name ? describeBuiltInComponentFrame(name) : "";
         return "function" == typeof fn && componentFrameCache.set(fn, syntheticFrame), syntheticFrame;
@@ -612,7 +612,7 @@
         var element = createElement.apply(this, arguments);
         if (null == element) return element;
         if (validType) for(var i1 = 2; i1 < arguments.length; i1++)validateChildKeys(arguments[i1], type);
-        return type === exports.Fragment ? (function(fragment) {
+        return type === exports.Fragment ? function(fragment) {
             for(var keys = Object.keys(fragment.props), i = 0; i < keys.length; i++){
                 var key = keys[i];
                 if ("children" !== key && "key" !== key) {
@@ -621,7 +621,7 @@
                 }
             }
             null !== fragment.ref && (setCurrentlyValidatingElement$1(fragment), error1("Invalid attribute `ref` supplied to `React.Fragment`."), setCurrentlyValidatingElement$1(null));
-        })(element) : validatePropTypes(element), element;
+        }(element) : validatePropTypes(element), element;
     }
     var didWarnAboutDeprecatedCreateFactory = !1;
     if ("object" == typeof performance && "function" == typeof performance.now) {

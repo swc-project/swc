@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 // @strictNullChecks: true
 // @declaration: true
 function error(message) {
@@ -58,34 +40,21 @@ function check(x) {
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    _createClass(C, [
-        {
-            key: "void1",
-            value: function void1() {
-                throw new Error();
-            }
-        },
-        {
-            key: "void2",
-            value: function void2() {
-                while(true){}
-            }
-        },
-        {
-            key: "never1",
-            value: function never1() {
-                throw new Error();
-            }
-        },
-        {
-            key: "never2",
-            value: function never2() {
-                while(true){}
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.void1 = function void1() {
+        throw new Error();
+    };
+    _proto.void2 = function void2() {
+        while(true){}
+    };
+    _proto.never1 = function never1() {
+        throw new Error();
+    };
+    _proto.never2 = function never2() {
+        while(true){}
+    };
     return C;
 }();
 function f1(x) {

@@ -25,7 +25,7 @@ export class D {
     /**
      * @return {U}
      */ get f1() {
-        return(/** @type {*} */ (null));
+        return /** @type {*} */ (null);
     }
     /**
      * @param {U} _p
@@ -33,7 +33,7 @@ export class D {
     /**
      * @return {U}
      */ get f2() {
-        return(/** @type {*} */ (null));
+        return /** @type {*} */ (null);
     }
     /**
      * @param {U} _p

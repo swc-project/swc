@@ -1,96 +1,64 @@
-error: `b` used as parameter more than once
- 
-  |
-1 | const foo = (a, b, b) => {};
-  |                    ^
-  |
-note: previous definition of `b` here
- 
-  |
-1 | const foo = (a, b, b) => {};
-  |                 ^
 
-error: `b` used as parameter more than once
- 
-  |
-2 | (a, b, b) => {};
-  |        ^
-  |
-note: previous definition of `b` here
- 
-  |
-2 | (a, b, b) => {};
-  |     ^
+  x the name `b` is bound more than once in this parameter list
+   ,----
+ 2 | const foo = (a, b, b) => {};
+   :                 |  |
+   :                 |  `-- used as parameter more than once
+   :                 `-- previous definition here
+   `----
 
-error: `b` used as parameter more than once
- 
-  |
-3 | ((a, b, b) => {})();
-  |         ^
-  |
-note: previous definition of `b` here
- 
-  |
-3 | ((a, b, b) => {})();
-  |      ^
+  x the name `b` is bound more than once in this parameter list
+   ,----
+ 3 | (a, b, b) => {};
+   :     |  |
+   :     |  `-- used as parameter more than once
+   :     `-- previous definition here
+   `----
 
-error: `b` used as parameter more than once
- 
-  |
-6 |     constructor(a, b, b) {}
-  |                       ^
-  |
-note: previous definition of `b` here
- 
-  |
-6 |     constructor(a, b, b) {}
-  |                    ^
+  x the name `b` is bound more than once in this parameter list
+   ,----
+ 4 | ((a, b, b) => {})();
+   :      |  |
+   :      |  `-- used as parameter more than once
+   :      `-- previous definition here
+   `----
 
-error: `b` used as parameter more than once
- 
-  |
-8 |     foo = (a, b, b) => {};
-  |                  ^
-  |
-note: previous definition of `b` here
- 
-  |
-8 |     foo = (a, b, b) => {};
-  |               ^
+  x the name `b` is bound more than once in this parameter list
+   ,----
+ 7 | constructor(a, b, b) {}
+   :                |  |
+   :                |  `-- used as parameter more than once
+   :                `-- previous definition here
+   `----
 
-error: `b` used as parameter more than once
-  
-   |
-10 |     bar(a, b, b) {}
-   |               ^
-   |
-note: previous definition of `b` here
-  
-   |
-10 |     bar(a, b, b) {}
-   |            ^
+  x the name `b` is bound more than once in this parameter list
+   ,----
+ 9 | foo = (a, b, b) => {};
+   :           |  |
+   :           |  `-- used as parameter more than once
+   :           `-- previous definition here
+   `----
 
-error: `b` used as parameter more than once
-  
-   |
-14 |     foo(a, b, b) {},
-   |               ^
-   |
-note: previous definition of `b` here
-  
-   |
-14 |     foo(a, b, b) {},
-   |            ^
+  x the name `b` is bound more than once in this parameter list
+    ,----
+ 11 | bar(a, b, b) {}
+    :        |  |
+    :        |  `-- used as parameter more than once
+    :        `-- previous definition here
+    `----
 
-error: `b` used as parameter more than once
-  
-   |
-15 |     bar: function (a, b, b) {},
-   |                          ^
-   |
-note: previous definition of `b` here
-  
-   |
-15 |     bar: function (a, b, b) {},
-   |                       ^
+  x the name `b` is bound more than once in this parameter list
+    ,----
+ 15 | foo(a, b, b) {},
+    :        |  |
+    :        |  `-- used as parameter more than once
+    :        `-- previous definition here
+    `----
 
+  x the name `b` is bound more than once in this parameter list
+    ,----
+ 16 | bar: function (a, b, b) {},
+    :                   |  |
+    :                   |  `-- used as parameter more than once
+    :                   `-- previous definition here
+    `----

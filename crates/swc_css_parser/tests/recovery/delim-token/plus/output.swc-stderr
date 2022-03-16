@@ -1,18 +1,18 @@
-error: Expected Declaration value
- --> $DIR/tests/recovery/delim-token/plus/input.css:2:11
-  |
-2 |     prop: +;
-  |           ^
 
-error: Expected Declaration value
- --> $DIR/tests/recovery/delim-token/plus/input.css:3:14
-  |
-3 |     prop1: 1 + 2;
-  |              ^
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop: +;
+   :       ^
+   `----
 
-error: Expected Declaration value
- --> $DIR/tests/recovery/delim-token/plus/input.css:4:19
-  |
-4 |     prop2: func(1 + 2);
-  |                   ^
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop1: 1 + 2;
+   :          ^
+   `----
 
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:5:5]
+ 5 | prop2: func(1 + 2);
+   :               ^
+   `----

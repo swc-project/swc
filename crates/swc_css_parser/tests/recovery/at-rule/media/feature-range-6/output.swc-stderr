@@ -1,6 +1,6 @@
-error: Expected left comparison operator should be equal right comparison operator
- --> $DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:8
-  |
-1 | @media (400px >= width <= 700px) {}
-  |        ^
 
+  x Expected left comparison operator should be equal right comparison operator
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:2:1]
+ 2 | @media (400px >= width <= 700px) {}
+   :        ^
+   `----

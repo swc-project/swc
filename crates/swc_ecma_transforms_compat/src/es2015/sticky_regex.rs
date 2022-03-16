@@ -5,6 +5,7 @@ use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 sticky regex to an ES5 RegExp constructor
 ///
@@ -20,6 +21,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// ```js
 /// new RegExp("o+", "y")
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn sticky_regex() -> impl 'static + Fold + VisitMut {
     as_folder(StickyRegex)
 }
@@ -34,6 +36,7 @@ impl Parallel for StickyRegex {
     }
 }
 
+#[swc_trace]
 #[parallel]
 impl VisitMut for StickyRegex {
     noop_visit_mut_type!();

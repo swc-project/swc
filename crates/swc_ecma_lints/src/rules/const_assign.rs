@@ -27,9 +27,15 @@ impl ConstAssign {
                 handler
                     .struct_span_err(
                         id.span,
-                        "Cannot reassign to a variable declared with `const`",
+                        "cannot reassign to a variable declared with `const`",
                     )
-                    .span_note(decl_span, &format!("{} was declared here", id.sym))
+                    .span_label(decl_span, "const variable was declared here")
+                    .span_suggestion(
+                        decl_span,
+                        "consider making this variable mutable",
+                        format!("let {}", id.sym),
+                    )
+                    .span_label(id.span, "cannot reassign")
                     .emit();
             });
         }
@@ -86,6 +92,8 @@ struct Collector<'a> {
 }
 
 impl Visit for Collector<'_> {
+    noop_visit_type!();
+
     fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
         p.visit_children_with(self);
 

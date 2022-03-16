@@ -1,29 +1,13 @@
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var Foo = function() {
     "use strict";
-    var Constructor, protoProps, staticProps;
     function Foo() {
-        !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, Foo);
+        swcHelpers.classCallCheck(this, Foo);
     }
-    return protoProps = [
-        {
-            key: "bar",
-            value: function() {
-                this.hasData() && this.data.toLocaleLowerCase();
-            }
-        },
-        {
-            key: "hasData",
-            value: function() {
-                return !0;
-            }
-        }
-    ], _defineProperties((Constructor = Foo).prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Foo;
+    var _proto = Foo.prototype;
+    return _proto.bar = function() {
+        this.hasData() && this.data.toLocaleLowerCase();
+    }, _proto.hasData = function() {
+        return !0;
+    }, Foo;
 }();

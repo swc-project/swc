@@ -1,6 +1,6 @@
-error: Expected ',', got 'numeric literal'
- --> $DIR/tests/test262-parser/fail/3425ca087ec1adb1.js:1:19
-  |
-1 | var {x: y = yield 3} = z;
-  |                   ^
 
+  x Expected ',', got 'numeric literal'
+   ,-[$DIR/tests/test262-parser/fail/3425ca087ec1adb1.js:2:1]
+ 2 | var {x: y = yield 3} = z;
+   :                   ^
+   `----

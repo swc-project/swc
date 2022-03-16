@@ -9,7 +9,7 @@ var A, B;
         x: 0,
         y: 0
     };
-}, (function(B1) {
+}, function(B1) {
     function Point1() {
         return {
             x: 0,
@@ -20,4 +20,4 @@ var A, B;
         x: 0,
         y: 0
     }, B1.Point = Point1;
-})(B || (B = {}));
+}(B || (B = {}));

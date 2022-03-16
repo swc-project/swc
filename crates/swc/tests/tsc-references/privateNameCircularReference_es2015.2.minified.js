@@ -1,2 +1,1 @@
-var _key;
-new WeakMap(), new WeakMap(), _key = "#baz";
+import * as swcHelpers from "@swc/helpers";

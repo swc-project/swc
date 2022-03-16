@@ -1,14 +1,6 @@
-function _checkPrivateRedeclaration(obj, privateCollection) {
-    if (privateCollection.has(obj)) {
-        throw new TypeError("Cannot initialize the same private elements twice on an object");
-    }
-}
-function _classPrivateFieldInit(obj, privateMap, value) {
-    _checkPrivateRedeclaration(obj, privateMap);
-    privateMap.set(obj, value);
-}
+import * as swcHelpers from "@swc/helpers";
 var _brand_check_brand = new WeakSet();
-var _unused = new WeakMap(), _brand = new WeakMap();
+var _unused = /*#__PURE__*/ new WeakMap(), _brand = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @noUnusedLocals: true
 // @target: esnext, es2022
@@ -18,11 +10,11 @@ class Foo {
         return _brand_check_brand.has(v);
     }
     constructor(){
-        _classPrivateFieldInit(this, _unused, {
+        swcHelpers.classPrivateFieldInit(this, _unused, {
             writable: true,
             value: void 0 // expect unused error
         });
-        _classPrivateFieldInit(this, _brand, {
+        swcHelpers.classPrivateFieldInit(this, _brand, {
             writable: true,
             value: void _brand_check_brand.add(this)
         }) // expect no error

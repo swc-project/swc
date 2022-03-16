@@ -1,13 +1,7 @@
 var anyVar;
-function _taggedTemplateLiteral(strings, raw) {
-    return raw || (raw = strings.slice(0)), Object.freeze(Object.defineProperties(strings, {
-        raw: {
-            value: Object.freeze(raw)
-        }
-    }));
-}
+import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -16,7 +10,7 @@ function _templateObject() {
     }, data;
 }
 function _templateObject1() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -25,7 +19,7 @@ function _templateObject1() {
     }, data;
 }
 function _templateObject2() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -34,7 +28,7 @@ function _templateObject2() {
     }, data;
 }
 function _templateObject3() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -43,7 +37,7 @@ function _templateObject3() {
     }, data;
 }
 function _templateObject4() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -52,7 +46,7 @@ function _templateObject4() {
     }, data;
 }
 function _templateObject5() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -62,7 +56,7 @@ function _templateObject5() {
     }, data;
 }
 function _templateObject6() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -72,7 +66,7 @@ function _templateObject6() {
     }, data;
 }
 function _templateObject7() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -82,7 +76,7 @@ function _templateObject7() {
     }, data;
 }
 function _templateObject8() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         " ",
         ""
@@ -92,7 +86,7 @@ function _templateObject8() {
     }, data;
 }
 function _templateObject9() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -102,7 +96,7 @@ function _templateObject9() {
     }, data;
 }
 function _templateObject10() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         ""
@@ -112,7 +106,7 @@ function _templateObject10() {
     }, data;
 }
 function _templateObject11() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -123,7 +117,7 @@ function _templateObject11() {
     }, data;
 }
 function _templateObject12() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -134,7 +128,7 @@ function _templateObject12() {
     }, data;
 }
 function _templateObject13() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -145,7 +139,7 @@ function _templateObject13() {
     }, data;
 }
 function _templateObject14() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -156,7 +150,7 @@ function _templateObject14() {
     }, data;
 }
 function _templateObject15() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -167,7 +161,7 @@ function _templateObject15() {
     }, data;
 }
 function _templateObject16() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -178,7 +172,7 @@ function _templateObject16() {
     }, data;
 }
 function _templateObject17() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         ""
     ]);
@@ -187,7 +181,7 @@ function _templateObject17() {
     }, data;
 }
 function _templateObject18() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -198,7 +192,7 @@ function _templateObject18() {
     }, data;
 }
 function _templateObject19() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -209,7 +203,7 @@ function _templateObject19() {
     }, data;
 }
 function _templateObject20() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -220,7 +214,7 @@ function _templateObject20() {
     }, data;
 }
 function _templateObject21() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -231,7 +225,7 @@ function _templateObject21() {
     }, data;
 }
 function _templateObject22() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -242,7 +236,7 @@ function _templateObject22() {
     }, data;
 }
 function _templateObject23() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "",
         "",
         "",
@@ -262,7 +256,7 @@ function someGenerics9(strs, a, b, c) {
 }
 !function(strs, n) {}(_templateObject(), function(n) {
     return n;
-}), (function(strs, n) {})(_templateObject1(), function(n, x) {
+}), function(strs, n) {}(_templateObject1(), function(n, x) {
     return n;
 }), someGenerics3(_templateObject2(), function() {
     return "";

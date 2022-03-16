@@ -57,11 +57,25 @@ pub struct Function {
     pub value: Vec<ComponentValue>,
 }
 
+// TODO small AST improve for `CurrentColorOrSystemColor` and
+// `NamedColorOrTransparent`
 #[ast_node]
 pub enum Color {
-    // TODO more
+    #[tag("AbsoluteColorBase")]
+    AbsoluteColorBase(AbsoluteColorBase),
+    #[tag("Ident")]
+    CurrentColorOrSystemColor(Ident),
+    // <device-cmyk()> only
+    #[tag("Function")]
+    Function(Function),
+}
+
+#[ast_node]
+pub enum AbsoluteColorBase {
     #[tag("HexColor")]
     HexColor(HexColor),
+    #[tag("Ident")]
+    NamedColorOrTransparent(Ident),
     #[tag("Function")]
     Function(Function),
 }
@@ -74,6 +88,32 @@ pub struct HexColor {
     pub value: JsWord,
     /// Does **not** include `#`
     pub raw: JsWord,
+}
+
+#[ast_node]
+pub enum AlphaValue {
+    #[tag("Number")]
+    Number(Number),
+    #[tag("Percentage")]
+    Percentage(Percentage),
+}
+
+#[ast_node]
+pub enum Hue {
+    #[tag("Number")]
+    Number(Number),
+    #[tag("Angle")]
+    Angle(Angle),
+}
+
+#[ast_node]
+pub enum CmykComponent {
+    #[tag("Number")]
+    Number(Number),
+    #[tag("Percentage")]
+    Percentage(Percentage),
+    #[tag("Function")]
+    Function(Function),
 }
 
 #[ast_node]

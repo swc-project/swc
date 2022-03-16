@@ -1,5 +1,6 @@
 use std::{cell::RefCell, path::PathBuf, rc::Rc};
 
+use swc_cached::regex::CachedRegex;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{
@@ -19,7 +20,7 @@ use swc_ecma_transforms_module::{
     common_js::common_js,
     hoist::module_hoister,
     import_analysis::import_analyzer,
-    util::{Config, Lazy, Scope},
+    util::{Config, Lazy, LazyObjectConfig, Scope},
 };
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
 use swc_ecma_visit::Fold;
@@ -477,7 +478,7 @@ let diffLevel = 0;
 exports.diffLevel = diffLevel;
 
 function diff() {
-  if (!(exports.diffLevel = diffLevel = +diffLevel + 1)) {
+  if (!(exports.diffLevel = ++diffLevel)) {
     console.log("hey");
   }
 }
@@ -807,10 +808,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.f = exports.e = exports.c = exports.a = exports.test = void 0;
+var ref;
 var test = 2;
 exports.test = test;
 exports.test = test = 5;
-exports.test = test = +test + 1;
+ref = test++, exports.test = test, ref;
 
 (function () {
   var test1 = 2;
@@ -1594,41 +1596,39 @@ var Bar = _interopRequireWildcard(require("bar"));
 
 var _baz = require("baz");
 
-_foo.default = (42, (function() {
+_foo.default = (42, function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
-})());
-Bar = (43, (function() {
+}());
+Bar = (43, function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
-})());
-_baz.Baz = (44, (function() {
+}());
+_baz.Baz = (44, function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
-})());
+}());
 ({ Foo  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
-})()));
+}()));
 ({ Bar  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
-})()));
+}()));
 ({ Baz  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
-})()));
+}()));
 ({ prop: Foo  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
-})()));
+}()));
 ({ prop: Bar  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
-})()));
+}()));
 ({ prop: Baz  } = ( {
-}, (function() {
+}, function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
-})()));
-
-
+}()));
 "#
 );
 
@@ -2471,7 +2471,7 @@ let diffLevel = 0;
 exports.diffLevel = diffLevel;
 
 function diff() {
-  if (!(exports.diffLevel = diffLevel = +diffLevel - 1)) {
+  if (!(exports.diffLevel = --diffLevel)) {
     console.log("hey");
   }
 }
@@ -3758,6 +3758,119 @@ function _foo() {
 
 function use() {
   console.log(_foo().default);
+}
+"#
+);
+
+// lazy_import_all_from_object_config
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Object(LazyObjectConfig {
+            patterns: vec![CachedRegex::new(".").unwrap()],
+        }),
+        ..Default::default()
+    }),
+    lazy_import_all_from_object_config,
+    r#"
+import { local } from "./local";
+import { external } from "external";
+
+function use() {
+  local(external);
+}
+"#,
+    r#"
+"use strict";
+
+function _local() {
+  const data = require("./local");
+  _local = function () {
+    return data;
+  };
+  return data;
+}
+
+function _external() {
+  const data = require("external");
+  _external = function () {
+    return data;
+  };
+  return data;
+}
+
+function use() {
+  _local().local(_external().external);
+}
+"#
+);
+
+// lazy_import_only_allowed_from_object_config
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Object(LazyObjectConfig {
+            patterns: vec![CachedRegex::new("^test$").unwrap()],
+        }),
+        ..Default::default()
+    }),
+    lazy_import_only_allowed_from_object_config,
+    r#"
+import { local } from "./local";
+import { external } from "external_test";
+import { test } from "test";
+
+function use() {
+  local(external(test));
+}
+"#,
+    r#"
+"use strict";
+var _local = require("./local");
+var _externalTest = require("external_test");
+
+function _test() {
+  const data = require("test");
+  _test = function () {
+    return data;
+  };
+  return data;
+}
+
+function use() {
+  (0, _local).local((0, _externalTest).external(_test().test));
+}
+"#
+);
+
+// lazy_export_named
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Bool(true),
+        ..Default::default()
+    }),
+    lazy_export_named,
+    r#"
+export { named1 } from "external";
+"#,
+    r#"
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "named1", {
+    enumerable: true,
+    get: function() {
+        return _external().named1;
+    }
+});
+function _external() {
+    const data = require("external");
+    _external = function() {
+        return data;
+    };
+    return data;
 }
 "#
 );

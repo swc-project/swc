@@ -7,7 +7,7 @@ use swc_trace_macro::swc_trace;
 
 struct ClassStaticBlock;
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 pub fn static_blocks() -> impl Fold + VisitMut {
     as_folder(ClassStaticBlock)
 }
@@ -49,12 +49,9 @@ impl ClassStaticBlock {
         PrivateProp {
             span: DUMMY_SP,
             is_static: true,
-            is_abstract: false,
             is_optional: false,
             is_override: false,
             readonly: false,
-            computed: false,
-            definite: false,
             type_ann: None,
             decorators: Vec::new(),
             accessibility: None,

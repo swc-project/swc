@@ -1,96 +1,96 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:1
-  |
-1 | @page { color: red; @top-left {} }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:1
-  |
-1 | @page { color: red; @top-left {} }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:1
-  |
-1 | @page { color: red; @top-left {} }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: PageRule
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:1
-  |
-1 | @page { color: red; @top-left {} }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:7
-  |
-1 | @page { color: red; @top-left {} }
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x PageRule
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:9
-  |
-1 | @page { color: red; @top-left {} }
-  |         ^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:9
-  |
-1 | @page { color: red; @top-left {} }
-  |         ^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :         ^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:9
-  |
-1 | @page { color: red; @top-left {} }
-  |         ^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :         ^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:9
-  |
-1 | @page { color: red; @top-left {} }
-  |         ^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :         ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:16
-  |
-1 | @page { color: red; @top-left {} }
-  |                ^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :         ^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:16
-  |
-1 | @page { color: red; @top-left {} }
-  |                ^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :                ^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:21
-  |
-1 | @page { color: red; @top-left {} }
-  |                     ^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :                ^^^
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:21
-  |
-1 | @page { color: red; @top-left {} }
-  |                     ^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :                     ^^^^^^^^^^^^
+   `----
 
-error: PageMarginRule
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:21
-  |
-1 | @page { color: red; @top-left {} }
-  |                     ^^^^^^^^^^^^
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :                     ^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:22
-  |
-1 | @page { color: red; @top-left {} }
-  |                      ^^^^^^^^
+  x PageMarginRule
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :                     ^^^^^^^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:31
-  |
-1 | @page { color: red; @top-left {} }
-  |                               ^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :                      ^^^^^^^^
+   `----
 
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:2:1]
+ 2 | @page { color: red; @top-left {} }
+   :                               ^^
+   `----

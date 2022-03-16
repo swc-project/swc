@@ -1,9 +1,14 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-var A = function A() {
+import * as swcHelpers from "@swc/helpers";
+// @allowJs: true
+// @checkJs: true
+// @target: esnext
+// @outDir: out
+// @Filename: foo.js
+/**
+ * @constructor
+ */ var A = function A() {
     "use strict";
-    _classCallCheck(this, A);
-};
+    swcHelpers.classCallCheck(this, A);
+} /**
+ * @extends {A}
+ */ ;

@@ -1,7 +1,7 @@
 !function(root, factory) {
     "object" == typeof exports && "object" == typeof module ? module.exports = factory() : "function" == typeof define && define.amd ? define([], factory) : "object" == typeof exports ? exports.Quagga = factory() : root.Quagga = factory();
 }(window, function() {
-    return (function(modules) {
+    return function(modules) {
         var installedModules = {};
         function __webpack_require__(moduleId) {
             if (installedModules[moduleId]) return installedModules[moduleId].exports;
@@ -44,7 +44,7 @@
         }, __webpack_require__.o = function(object, property) {
             return Object.prototype.hasOwnProperty.call(object, property);
         }, __webpack_require__.p = "/", __webpack_require__(__webpack_require__.s = 89);
-    })([
+    }([
         function(module, exports) {
             module.exports = function(obj, key, value) {
                 return key in obj ? Object.defineProperty(obj, key, {
@@ -260,18 +260,18 @@
                         for(var sum = 0, i = init; i <= end; i++)sum += i * hist1[i];
                         return sum;
                     }
-                    return (function() {
+                    return function() {
                         var p1, p2, p12, m1, m2, m12, vet = [
                             0
                         ], max = (1 << bitsPerPixel1) - 1;
-                        hist1 = (function(imageWrapper, bitsPerPixel) {
+                        hist1 = function(imageWrapper, bitsPerPixel) {
                             bitsPerPixel || (bitsPerPixel = 8);
                             for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, hist = new Int32Array(1 << bitsPerPixel); length--;)hist[imageData[length] >> bitShift]++;
                             return hist;
-                        })(imageWrapper2, bitsPerPixel1);
+                        }(imageWrapper2, bitsPerPixel1);
                         for(var k = 1; k < max; k++)p1 = px(0, k), p2 = px(k + 1, max), p12 = p1 * p2, 0 === p12 && (p12 = 1), m1 = mx(0, k) * p2, m2 = mx(k + 1, max) * p1, m12 = m1 - m2, vet[k] = m12 * m12 / p12;
                         return array_helper.a.maxIndex(vet);
-                    })() << 8 - bitsPerPixel1;
+                    }() << 8 - bitsPerPixel1;
                 }(imageWrapper1);
                 return !function(imageWrapper, threshold, targetWrapper) {
                     targetWrapper || (targetWrapper = imageWrapper);
@@ -454,9 +454,7 @@
         },
         function(module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(83), _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__), _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3), _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__), _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4), _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__), gl_vec2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7);
-            __webpack_require__.n(gl_vec2__WEBPACK_IMPORTED_MODULE_4__);
-            var _cv_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8), _array_helper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(10), vec2 = {
+            var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(83), _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__), _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3), _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__), _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4), _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__), gl_vec2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7), _cv_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8), _array_helper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(10), vec2 = {
                 clone: gl_vec2__WEBPACK_IMPORTED_MODULE_4__.clone
             };
             function assertNumberPositive(val) {
@@ -580,11 +578,11 @@
                                 0,
                                 0,
                                 0
-                            ], result = [], ctx = canvas.getContext("2d");
+                            ], ctx = canvas.getContext("2d");
                             if (!ctx) throw new Error("Unable to get canvas context");
                             for(var frame = ctx.getImageData(from.x, from.y, this.size.x, this.size.y), data = frame.data, length = this.data.length; length--;){
-                                hsv[0] = this.data[length] * adjustedScale, result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb);
-                                var pos = 4 * length, _result = result, _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
+                                hsv[0] = this.data[length] * adjustedScale;
+                                var pos = 4 * length, _result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb), _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
                                 data[pos] = _result2[0], data[pos + 1] = _result2[1], data[pos + 2] = _result2[2], data[pos + 3] = 255;
                             }
                             ctx.putImageData(frame, from.x, from.y);
@@ -732,7 +730,7 @@
                             return _trace(current, color, label, edgelabel);
                         },
                         contourTracing: function(sy1, sx1, label1, color1, edgelabel1) {
-                            return (function(sy, sx, label, color, edgelabel) {
+                            return function(sy, sx, label, color, edgelabel) {
                                 var Cv, P, ldir, Fv = null, current = {
                                     cx: sx,
                                     cy: sy,
@@ -745,7 +743,7 @@
                                     Fv.prev = Cv.prev, Cv.prev.next = Fv;
                                 }
                                 return Fv;
-                            })(sy1, sx1, label1, color1, edgelabel1);
+                            }(sy1, sx1, label1, color1, edgelabel1);
                         }
                     };
                 }
@@ -760,11 +758,7 @@
         function(module, __webpack_exports__, __webpack_require__) {
             "use strict";
             (function(global) {
-                var _config, _currentImageWrapper, _skelImageWrapper, _subImageWrapper, _labelImageWrapper, _patchGrid, _patchLabelGrid, _imageToPatchGrid, _binaryImageWrapper, _patchSize, _inputImageWrapper, _skeletonizer, gl_vec2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
-                __webpack_require__.n(gl_vec2__WEBPACK_IMPORTED_MODULE_0__);
-                var gl_mat2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(34);
-                __webpack_require__.n(gl_mat2__WEBPACK_IMPORTED_MODULE_1__);
-                var _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11), _common_cv_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9), _rasterizer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(87), _tracer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(21), _skeletonizer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(88), _canvasContainer = {
+                var _config, _currentImageWrapper, _skelImageWrapper, _subImageWrapper, _labelImageWrapper, _patchGrid, _patchLabelGrid, _imageToPatchGrid, _binaryImageWrapper, _patchSize, _inputImageWrapper, _skeletonizer, gl_vec2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7), gl_mat2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(34), _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11), _common_cv_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9), _rasterizer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(87), _tracer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(21), _skeletonizer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(88), _canvasContainer = {
                     ctx: {
                         binary: null
                     },
@@ -837,7 +831,7 @@
                     if (moments1.length >= 2) {
                         for(k = 0; k < moments1.length; k++)moments1[k].m00 > minComponentWeight && eligibleMoments.push(moments1[k]);
                         if (eligibleMoments.length >= 2) {
-                            for(k = 0, matchingMoments = (function(moments) {
+                            for(k = 0, matchingMoments = function(moments) {
                                 var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, 0.9), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
                                     return e.getPoints().length;
                                 }), points = [], result = [];
@@ -846,7 +840,7 @@
                                     for(var i = 0; i < points.length; i++)result.push(points[i].point);
                                 }
                                 return result;
-                            })(eligibleMoments), avg = 0; k < matchingMoments.length; k++)avg += matchingMoments[k].rad;
+                            }(eligibleMoments), avg = 0; k < matchingMoments.length; k++)avg += matchingMoments[k].rad;
                             matchingMoments.length > 1 && matchingMoments.length >= eligibleMoments.length / 4 * 3 && matchingMoments.length > moments1.length / 4 && (avg /= matchingMoments.length, patch = {
                                 index: patchPos[1] * _numPatches.x + patchPos[0],
                                 pos: {
@@ -965,7 +959,7 @@
                                 return el.val >= 5;
                             });
                         }(maxLabel1);
-                        return 0 === topLabels1.length ? null : (function(topLabels, maxLabel) {
+                        return 0 === topLabels1.length ? null : function(topLabels, maxLabel) {
                             var i, j, sum, patch, box, patches = [], boxes = [], hsv = [
                                 0,
                                 1,
@@ -983,7 +977,7 @@
                                 });
                             }
                             return boxes;
-                        })(topLabels1, maxLabel1);
+                        }(topLabels1, maxLabel1);
                     },
                     checkImageConstraints: function(inputStream, config) {
                         var patchSize, area, width = inputStream.getWidth(), height = inputStream.getHeight(), thisHalfSample = config.halfSample ? 0.5 : 1;
@@ -2565,8 +2559,7 @@
         },
         function(module, exports) {
             module.exports = function(out, scale) {
-                scale = scale || 1;
-                var r = 2 * Math.random() * Math.PI, z = 2 * Math.random() - 1, zScale = Math.sqrt(1 - z * z) * scale;
+                var r = 2 * Math.random() * Math.PI, z = 2 * Math.random() - 1, zScale = Math.sqrt(1 - z * z) * (scale = scale || 1);
                 return out[0] = Math.cos(r) * zScale, out[1] = Math.sin(r) * zScale, out[2] = z * scale, out;
             };
         },
@@ -5473,15 +5466,15 @@
                                 decodedCodes.push(code), result1.push(code.code % 10), code.code >= 10 && (codeFrequency1 |= 1 << 4 - i1), 4 !== i1 && (offset = this._nextSet(this._row, code.end), offset = this._nextUnset(this._row, offset));
                             }
                             if (5 !== result1.length) return null;
-                            if ((function(result) {
+                            if (function(result) {
                                 for(var length = result.length, sum = 0, i = length - 2; i >= 0; i -= 2)sum += result[i];
                                 sum *= 3;
                                 for(var _i = length - 1; _i >= 0; _i -= 2)sum += result[_i];
                                 return (sum *= 3) % 10;
-                            })(result1) !== (function(codeFrequency) {
+                            }(result1) !== function(codeFrequency) {
                                 for(var i = 0; i < 10; i++)if (codeFrequency === CHECK_DIGIT_ENCODINGS[i]) return i;
                                 return null;
-                            })(codeFrequency1)) return null;
+                            }(codeFrequency1)) return null;
                             var startInfo = this._findStart();
                             return {
                                 code: result1.join(""),
@@ -6504,7 +6497,7 @@
                                 y: (box1[3][1] - box1[2][1]) / 2 + box1[2][1]
                             }
                         ])[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2)), lineAngle1 = Math.atan2(line2[1].y - line2[0].y, line2[1].x - line2[0].x);
-                        return null === (line2 = (function(line, angle, ext) {
+                        return null === (line2 = function(line, angle, ext) {
                             function extendLine(amount) {
                                 var extension = {
                                     y: amount * Math.sin(angle),
@@ -6514,14 +6507,14 @@
                             }
                             for(extendLine(ext); ext > 1 && (!inputImageWrapper1.inImageWithBorder(line[0]) || !inputImageWrapper1.inImageWithBorder(line[1]));)extendLine(-(ext -= Math.ceil(ext / 2)));
                             return line;
-                        })(line2, lineAngle1, Math.floor(0.1 * lineLength))) ? null : (null === (result2 = tryDecode(line2)) && (result2 = (function(box, line, lineAngle) {
+                        }(line2, lineAngle1, Math.floor(0.1 * lineLength))) ? null : (null === (result2 = tryDecode(line2)) && (result2 = function(box, line, lineAngle) {
                             var i, dir, extension, sideLength = Math.sqrt(Math.pow(box[1][0] - box[0][0], 2) + Math.pow(box[1][1] - box[0][1], 2)), result = null, xdir = Math.sin(lineAngle), ydir = Math.cos(lineAngle);
                             for(i = 1; i < 16 && null === result; i++)extension = {
                                 y: (dir = sideLength / 16 * i * (i % 2 == 0 ? -1 : 1)) * xdir,
                                 x: dir * ydir
                             }, line[0].y += extension.x, line[0].x -= extension.y, line[1].y += extension.x, line[1].x -= extension.y, result = tryDecode(line);
                             return result;
-                        })(box2, line2, lineAngle1)), null === result2) ? null : (result2 && config.debug.drawScanline && ctx && image_debug.a.drawPath(line2, {
+                        }(box2, line2, lineAngle1)), null === result2) ? null : (result2 && config.debug.drawScanline && ctx && image_debug.a.drawPath(line2, {
                             x: "x",
                             y: "y"
                         }, ctx, {
@@ -6535,12 +6528,12 @@
                             threshold: result2.barcodeLine.threshold
                         });
                     }
-                    return (function() {
+                    return function() {
                         if ("undefined" != typeof document) {
                             var $debug = document.querySelector("#debug.detection");
                             _canvas.dom.frequency = document.querySelector("canvas.frequency"), !_canvas.dom.frequency && (_canvas.dom.frequency = document.createElement("canvas"), _canvas.dom.frequency.className = "frequency", $debug && $debug.appendChild(_canvas.dom.frequency)), _canvas.ctx.frequency = _canvas.dom.frequency.getContext("2d"), _canvas.dom.pattern = document.querySelector("canvas.patternBuffer"), !_canvas.dom.pattern && (_canvas.dom.pattern = document.createElement("canvas"), _canvas.dom.pattern.className = "patternBuffer", $debug && $debug.appendChild(_canvas.dom.pattern)), _canvas.ctx.pattern = _canvas.dom.pattern.getContext("2d"), _canvas.dom.overlay = document.querySelector("canvas.drawingBuffer"), _canvas.dom.overlay && (_canvas.ctx.overlay = _canvas.dom.overlay.getContext("2d"));
                         }
-                    })(), initReaders(), (function() {
+                    }(), initReaders(), function() {
                         if ("undefined" != typeof document) {
                             var i, vis = [
                                 {
@@ -6554,7 +6547,7 @@
                             ];
                             for(i = 0; i < vis.length; i++)!0 === vis[i].prop ? vis[i].node.style.display = "block" : vis[i].node.style.display = "none";
                         }
-                    })(), {
+                    }(), {
                         decodeFromBoundingBox: function(box) {
                             return _decodeFromBoundingBox(box);
                         },
@@ -6570,10 +6563,10 @@
                             };
                         },
                         decodeFromImage: function(inputImageWrapper) {
-                            return (function(imageWrapper) {
+                            return function(imageWrapper) {
                                 for(var result = null, i = 0; i < _barcodeReaders.length && null === result; i++)result = _barcodeReaders[i].decodeImage ? _barcodeReaders[i].decodeImage(imageWrapper) : null;
                                 return result;
-                            })(inputImageWrapper);
+                            }(inputImageWrapper);
                         },
                         registerReader: function(name, reader) {
                             if (READERS[name]) throw new Error("cannot register existing reader", name);
@@ -6947,7 +6940,7 @@
                                 }, http.onerror = reject, http.send();
                             });
                         })(src).then(readToBuffer).then(function(buffer) {
-                            return (function(file) {
+                            return function(file) {
                                 var selectedTags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags, dataView = new DataView(file), length = file.byteLength, exifTags = selectedTags.reduce(function(result, selectedTag) {
                                     var exifTag = Object.keys(ExifTags).filter(function(tag) {
                                         return ExifTags[tag] === selectedTag;
@@ -6961,7 +6954,7 @@
                                     offset += 2 + dataView.getUint16(offset + 2);
                                 }
                                 return !1;
-                            })(buffer, tags);
+                            }(buffer, tags);
                         }) : Promise.resolve(null);
                     })(directory, [
                         "orientation"

@@ -1,30 +1,22 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-var C = // @target: ES5
+import * as swcHelpers from "@swc/helpers";
+// @target: ES5
 // no errors
-/*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    _createClass(C, [
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
+        return this.foo;
+    };
+    C.foo = function foo() {
+        return this.foo;
+    };
+    C.bar = function bar() {
+        this.foo();
+    };
+    swcHelpers.createClass(C, [
         {
             key: "y",
             get: function get() {
@@ -32,12 +24,6 @@ var C = // @target: ES5
             },
             set: function set(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                return this.foo;
             }
         }
     ], [
@@ -48,30 +34,37 @@ var C = // @target: ES5
             },
             set: function set(x) {
                 this.y = this.x;
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                return this.foo;
-            }
-        },
-        {
-            key: "bar",
-            value: function bar() {
-                this.foo();
             }
         }
     ]);
     return C;
 }();
-var C2 = // added level of function nesting
-/*#__PURE__*/ function() {
+// added level of function nesting
+var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {
-        _classCallCheck(this, C2);
+        swcHelpers.classCallCheck(this, C2);
     }
-    _createClass(C2, [
+    var _proto = C2.prototype;
+    _proto.foo = function foo() {
+        var _this = this;
+        (function() {
+            return _this.foo;
+        });
+    };
+    C2.foo = function foo() {
+        var _this = this;
+        (function() {
+            return _this.foo;
+        });
+    };
+    C2.bar = function bar() {
+        var _this = this;
+        (function() {
+            return _this.foo();
+        });
+    };
+    swcHelpers.createClass(C2, [
         {
             key: "y",
             get: function get() {
@@ -85,15 +78,6 @@ var C2 = // added level of function nesting
                 var _this = this;
                 (function() {
                     _this.y = _this.x;
-                });
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                var _this = this;
-                (function() {
-                    return _this.foo;
                 });
             }
         }
@@ -111,24 +95,6 @@ var C2 = // added level of function nesting
                 var _this = this;
                 (function() {
                     _this.y = _this.x;
-                });
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                var _this = this;
-                (function() {
-                    return _this.foo;
-                });
-            }
-        },
-        {
-            key: "bar",
-            value: function bar() {
-                var _this = this;
-                (function() {
-                    return _this.foo();
                 });
             }
         }

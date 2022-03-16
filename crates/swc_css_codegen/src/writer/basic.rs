@@ -1,26 +1,63 @@
-use std::{
-    fmt::{Result, Write},
-    str::from_utf8,
-};
+use std::fmt::{Result, Write};
 
-use swc_common::Span;
+use swc_common::{BytePos, LineCol, Span};
 
 use super::CssWriter;
 
-pub struct BasicCssWriterConfig<'a> {
-    pub indent: &'a str,
+pub enum IndentType {
+    Tab,
+    Space,
+}
+
+impl Default for IndentType {
+    fn default() -> Self {
+        IndentType::Space
+    }
+}
+
+pub enum LineFeed {
+    LF,
+    CRLF,
+}
+
+impl Default for LineFeed {
+    fn default() -> Self {
+        LineFeed::LF
+    }
+}
+
+pub struct BasicCssWriterConfig {
+    pub indent_type: IndentType,
+    pub indent_width: i32,
+    pub linefeed: LineFeed,
+}
+
+impl Default for BasicCssWriterConfig {
+    fn default() -> Self {
+        BasicCssWriterConfig {
+            indent_type: IndentType::default(),
+            indent_width: 2,
+            linefeed: LineFeed::default(),
+        }
+    }
 }
 
 pub struct BasicCssWriter<'a, W>
 where
     W: Write,
 {
+    line_start: bool,
     line: usize,
     col: usize,
 
+    indent_type: &'a str,
     indent_level: usize,
+    linefeed: &'a str,
 
-    config: BasicCssWriterConfig<'a>,
+    srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
+
+    config: BasicCssWriterConfig,
+
     w: W,
 }
 
@@ -28,26 +65,86 @@ impl<'a, W> BasicCssWriter<'a, W>
 where
     W: Write,
 {
-    pub fn new(writer: W, config: BasicCssWriterConfig<'a>) -> Self {
+    pub fn new(
+        writer: W,
+        srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
+        config: BasicCssWriterConfig,
+    ) -> Self {
+        let indent_type = match config.indent_type {
+            IndentType::Tab => "\t",
+            IndentType::Space => " ",
+        };
+        let linefeed = match config.linefeed {
+            LineFeed::LF => "\n",
+            LineFeed::CRLF => "\r\n",
+        };
+
         BasicCssWriter {
-            config,
-            w: writer,
+            line_start: true,
             line: 0,
             col: 0,
+
+            indent_type,
             indent_level: 0,
+            linefeed,
+
+            config,
+            srcmap,
+
+            w: writer,
         }
     }
 
-    /// Applies indents if we are at the start of a line.
-    fn apply_indent(&mut self) -> Result {
-        if self.col == 0 {
-            for _ in 0..self.indent_level {
-                self.col += self.config.indent.len();
-                self.w.write_str(self.config.indent)?;
+    fn write(&mut self, span: Option<Span>, data: &str) -> Result {
+        if !data.is_empty() {
+            if self.line_start {
+                self.write_indent_string()?;
+                self.line_start = false;
+            }
+
+            if let Some(span) = span {
+                if !span.is_dummy() {
+                    self.srcmap(span.lo())
+                }
+            }
+
+            self.raw_write(data)?;
+
+            if let Some(span) = span {
+                if !span.is_dummy() {
+                    self.srcmap(span.hi())
+                }
             }
         }
 
         Ok(())
+    }
+
+    fn write_indent_string(&mut self) -> Result {
+        for _ in 0..(self.config.indent_width * self.indent_level as i32) {
+            self.raw_write(self.indent_type)?;
+        }
+
+        Ok(())
+    }
+
+    fn raw_write(&mut self, data: &str) -> Result {
+        self.w.write_str(data)?;
+        self.col += data.chars().count();
+
+        Ok(())
+    }
+
+    fn srcmap(&mut self, byte_pos: BytePos) {
+        if let Some(ref mut srcmap) = self.srcmap {
+            srcmap.push((
+                byte_pos,
+                LineCol {
+                    line: self.line as _,
+                    col: self.col as _,
+                },
+            ))
+        }
     }
 }
 
@@ -55,115 +152,58 @@ impl<W> CssWriter for BasicCssWriter<'_, W>
 where
     W: Write,
 {
-    fn write_punct(&mut self, _span: Option<Span>, punct: &str) -> Result {
-        debug_assert!(
-            !punct.contains('\n'),
-            "punct should not contain newline characters"
-        );
-
-        self.apply_indent()?;
-        self.col += punct.len();
-        self.w.write_str(punct)?;
-
-        Ok(())
-    }
-
     fn write_space(&mut self) -> Result {
-        self.w.write_char(' ')
+        self.write_raw(None, " ")
     }
 
-    fn write_str(&mut self, span: Option<Span>, text: &str) -> Result {
-        let mut new_string = String::new();
-
-        let mut dq = 0;
-        let mut sq = 0;
-
-        for c in text.chars() {
-            match c {
-                // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
-                '\0' => {
-                    new_string.push('\u{FFFD}');
-                }
-                // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F, the
-                // character escaped as code point.
-                '\x01'..='\x1F' | '\x7F' => {
-                    static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
-
-                    let b3;
-                    let b4;
-                    let char_as_u8 = c as u8;
-
-                    let bytes = if char_as_u8 > 0x0f {
-                        let high = (char_as_u8 >> 4) as usize;
-                        let low = (char_as_u8 & 0x0f) as usize;
-
-                        b4 = [b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' '];
-
-                        &b4[..]
-                    } else {
-                        b3 = [b'\\', HEX_DIGITS[c as usize], b' '];
-
-                        &b3[..]
-                    };
-
-                    new_string.push_str(from_utf8(bytes).unwrap());
-                }
-                // If the character is '"' (U+0022) or "\" (U+005C), the escaped character.
-                // We avoid escaping `"` to better string compression - we count the quantity of
-                // quotes to choose the best default quotes
-                '\\' => {
-                    new_string.push_str("\\\\");
-                }
-                '"' => {
-                    dq += 1;
-
-                    new_string.push(c);
-                }
-                '\'' => {
-                    sq += 1;
-
-                    new_string.push(c);
-                }
-                // Otherwise, the character itself.
-                _ => {
-                    new_string.push(c);
-                }
-            };
-        }
-
-        if dq > sq {
-            self.write_raw_char(span, '\'')?;
-            self.write_raw(span, &new_string.replace('\'', "\\'"))?;
-            self.write_raw_char(span, '\'')?;
-        } else {
-            self.write_raw_char(span, '"')?;
-            self.write_raw(span, &new_string.replace('"', "\\\""))?;
-            self.write_raw_char(span, '"')?;
+    fn write_newline(&mut self) -> Result {
+        if !self.line_start {
+            self.raw_write(self.linefeed)?;
+            self.line += 1;
+            self.col = 0;
+            self.line_start = true;
         }
 
         Ok(())
     }
 
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result {
-        for c in text.chars() {
-            self.write_raw_char(span, c)?;
+        debug_assert!(
+            !text.contains('\n'),
+            "write_raw should not contains new lines, got '{}'",
+            text,
+        );
+
+        self.write(span, text)?;
+
+        Ok(())
+    }
+
+    fn write_str(&mut self, span: Span, s: &str) -> Result {
+        if !s.is_empty() {
+            let mut lines = s.split('\n').peekable();
+            let mut lo_byte_pos = span.lo();
+
+            while let Some(line) = lines.next() {
+                if !span.is_dummy() {
+                    self.srcmap(lo_byte_pos)
+                }
+
+                self.raw_write(line)?;
+
+                if lines.peek().is_some() {
+                    self.raw_write("\n")?;
+                    self.line += 1;
+                    self.col = 0;
+
+                    if !span.is_dummy() {
+                        lo_byte_pos = lo_byte_pos + BytePos((line.len() + 1) as u32);
+                    }
+                } else if !span.is_dummy() {
+                    self.srcmap(span.hi());
+                }
+            }
         }
-
-        Ok(())
-    }
-
-    fn write_raw_char(&mut self, _span: Option<Span>, c: char) -> Result {
-        self.col += c.len_utf8();
-        self.w.write_char(c)?;
-
-        Ok(())
-    }
-
-    fn write_newline(&mut self) -> Result {
-        self.line += 1;
-        self.col = 0;
-
-        self.w.write_char('\n')?;
 
         Ok(())
     }
@@ -173,6 +213,11 @@ where
     }
 
     fn decrease_indent(&mut self) {
+        debug_assert!(
+            (self.indent_level as i32) >= 0,
+            "indent should zero or greater than zero",
+        );
+
         self.indent_level -= 1;
     }
 }

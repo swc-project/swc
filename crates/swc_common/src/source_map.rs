@@ -663,6 +663,38 @@ impl SourceMap {
         sp
     }
 
+    /// Extend the given `Span` to just after the next occurrence of `c`.
+    /// Return the same span if no character could be found or if an error
+    /// occurred while retrieving the code snippet.
+    pub fn span_extend_to_next_char(&self, sp: Span, c: char) -> Span {
+        if let Ok(next_source) = self.span_to_next_source(sp) {
+            let next_source = next_source.split(c).next().unwrap_or("").trim_end();
+            if !next_source.is_empty() && !next_source.contains('\n') {
+                return sp.with_hi(BytePos(sp.hi().0 + next_source.len() as u32));
+            }
+        }
+
+        sp
+    }
+
+    /// Extend the given `Span` to just after the next occurrence of `pat`
+    /// when surrounded by whitespace. Return the same span if no character
+    /// could be found or if an error occurred while retrieving the code
+    /// snippet.
+    pub fn span_extend_to_next_str(&self, sp: Span, pat: &str, accept_newlines: bool) -> Span {
+        for ws in &[" ", "\t", "\n"] {
+            let pat = pat.to_owned() + ws;
+            if let Ok(next_source) = self.span_to_next_source(sp) {
+                let next_source = next_source.split(&pat).next().unwrap_or("").trim_end();
+                if !next_source.is_empty() && (!next_source.contains('\n') || accept_newlines) {
+                    return sp.with_hi(BytePos(sp.hi().0 + next_source.len() as u32));
+                }
+            }
+        }
+
+        sp
+    }
+
     /// Given a `Span`, try to get a shorter span ending before the first
     /// occurrence of `c` `char`
     ///
@@ -1131,10 +1163,15 @@ impl SourceMap {
 
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
+
+            if pos.is_reserved_for_comments() {
+                continue;
+            }
+
             let lc = *lc;
 
             if pos == BytePos(u32::MAX) {
-                builder.add_raw(lc.line, lc.col, 0, 0, None, None);
+                builder.add_raw(lc.line, lc.col, 0, 0, Some(src_id), None);
                 continue;
             }
 

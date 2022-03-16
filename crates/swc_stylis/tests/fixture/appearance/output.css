@@ -1,0 +1,12 @@
+a {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+b {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  -ms-appearance: auto;
+  appearance: auto;
+}

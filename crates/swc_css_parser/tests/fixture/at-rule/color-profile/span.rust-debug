@@ -1,210 +1,199 @@
-error: Stylesheet
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:1:1
-  |
-1 | / @color-profile --fogra39 {
-2 | |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-3 | | }
-4 | |
-5 | | @color-profile device-cmyk {
-6 | |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-7 | | }
-  | |__^
 
-error: Rule
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:1:1
-  |
-1 | / @color-profile --fogra39 {
-2 | |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-3 | | }
-  | |_^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:1]
+ 2 | ,-> @color-profile --fogra39 {
+ 3 | |       src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+ 4 | |   }
+ 5 | |   
+ 6 | |   @color-profile device-cmyk {
+ 7 | |       src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+ 8 | `-> }
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:1:1
-  |
-1 | / @color-profile --fogra39 {
-2 | |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-3 | | }
-  | |_^
+  x Rule
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:1]
+ 2 | ,-> @color-profile --fogra39 {
+ 3 | |       src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+ 4 | `-> }
+   `----
 
-error: ColorProfileRule
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:1:1
-  |
-1 | / @color-profile --fogra39 {
-2 | |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-3 | | }
-  | |_^
+  x AtRule
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:1]
+ 2 | ,-> @color-profile --fogra39 {
+ 3 | |       src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+ 4 | `-> }
+   `----
 
-error: ColorProfileName
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:1:16
-  |
-1 | @color-profile --fogra39 {
-  |                ^^^^^^^^^
+  x ColorProfileRule
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:1]
+ 2 | ,-> @color-profile --fogra39 {
+ 3 | |       src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+ 4 | `-> }
+   `----
 
-error: DashedIdent
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:1:16
-  |
-1 | @color-profile --fogra39 {
-  |                ^^^^^^^^^
+  x ColorProfileName
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:1]
+ 2 | @color-profile --fogra39 {
+   :                ^^^^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:1:26
-  |
-1 |   @color-profile --fogra39 {
-  |  __________________________^
-2 | |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-3 | | }
-  | |_^
+  x DashedIdent
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:1]
+ 2 | @color-profile --fogra39 {
+   :                ^^^^^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:2:5
-  |
-2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:1]
+ 2 | ,-> @color-profile --fogra39 {
+ 3 | |       src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+ 4 | `-> }
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:2:5
-  |
-2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:3:5]
+ 3 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:2:5
-  |
-2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-  |     ^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:3:5]
+ 3 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:2:5
-  |
-2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-  |     ^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:3:5]
+ 3 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:2:10
-  |
-2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:3:5]
+ 3 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^
+   `----
 
-error: Url
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:2:10
-  |
-2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:3:5]
+ 3 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:2:10
-  |
-2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-  |          ^^^
+  x Url
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:3:5]
+ 3 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: UrlValue
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:2:14
-  |
-2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:3:5]
+ 3 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^
+   `----
 
-error: Str
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:2:14
-  |
-2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x UrlValue
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:3:5]
+ 3 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Rule
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:5:1
-  |
-5 | / @color-profile device-cmyk {
-6 | |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-7 | | }
-  | |_^
+  x Str
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:3:5]
+ 3 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:5:1
-  |
-5 | / @color-profile device-cmyk {
-6 | |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-7 | | }
-  | |_^
+  x Rule
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:1]
+ 6 | ,-> @color-profile device-cmyk {
+ 7 | |       src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+ 8 | `-> }
+   `----
 
-error: ColorProfileRule
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:5:1
-  |
-5 | / @color-profile device-cmyk {
-6 | |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-7 | | }
-  | |_^
+  x AtRule
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:1]
+ 6 | ,-> @color-profile device-cmyk {
+ 7 | |       src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+ 8 | `-> }
+   `----
 
-error: ColorProfileName
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:5:16
-  |
-5 | @color-profile device-cmyk {
-  |                ^^^^^^^^^^^
+  x ColorProfileRule
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:1]
+ 6 | ,-> @color-profile device-cmyk {
+ 7 | |       src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+ 8 | `-> }
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:5:16
-  |
-5 | @color-profile device-cmyk {
-  |                ^^^^^^^^^^^
+  x ColorProfileName
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:1]
+ 6 | @color-profile device-cmyk {
+   :                ^^^^^^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:5:28
-  |
-5 |   @color-profile device-cmyk {
-  |  ____________________________^
-6 | |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-7 | | }
-  | |_^
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:1]
+ 6 | @color-profile device-cmyk {
+   :                ^^^^^^^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:6:5
-  |
-6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:1]
+ 6 | ,-> @color-profile device-cmyk {
+ 7 | |       src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+ 8 | `-> }
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:6:5
-  |
-6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:7:5]
+ 7 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:6:5
-  |
-6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-  |     ^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:7:5]
+ 7 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:6:5
-  |
-6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-  |     ^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:7:5]
+ 7 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:6:10
-  |
-6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:7:5]
+ 7 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^
+   `----
 
-error: Url
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:6:10
-  |
-6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:7:5]
+ 7 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:6:10
-  |
-6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-  |          ^^^
+  x Url
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:7:5]
+ 7 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: UrlValue
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:6:14
-  |
-6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:7:5]
+ 7 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^
+   `----
 
-error: Str
- --> $DIR/tests/fixture/at-rule/color-profile/input.css:6:14
-  |
-6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x UrlValue
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:7:5]
+ 7 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
+  x Str
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:7:5]
+ 7 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

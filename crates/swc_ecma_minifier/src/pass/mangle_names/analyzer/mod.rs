@@ -1,5 +1,6 @@
+use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::collections::{AHashMap, AHashSet};
+use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -7,7 +8,6 @@ use tracing::trace;
 
 use self::scope::Scope;
 use super::rename_map::RenameMap;
-use crate::pass::compute_char_freq::CharFreqInfo;
 
 mod scope;
 
@@ -18,16 +18,13 @@ pub(super) struct Analyzer {
 }
 
 impl Analyzer {
-    pub(super) fn into_rename_map(
-        mut self,
-        freq: &CharFreqInfo,
-        preserved: &AHashSet<Id>,
-    ) -> AHashMap<Id, JsWord> {
+    pub(super) fn into_rename_map(mut self, preserved: &FxHashSet<Id>) -> AHashMap<Id, JsWord> {
         let mut map = RenameMap::default();
 
+        self.scope.prepare_renaming();
+
         let preserved_symbols = preserved.iter().cloned().map(|v| v.0).collect();
-        self.scope
-            .rename(freq, &mut map, preserved, &preserved_symbols);
+        self.scope.rename(&mut map, preserved, &preserved_symbols);
 
         map.into_map()
     }

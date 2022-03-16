@@ -1,11 +1,11 @@
 function foo() {
     class X {
         m() {
-            return (function() {
+            return function() {
                 class Y {
                 }
                 return new Y();
-            })();
+            }();
         }
     }
     var x1 = new X();

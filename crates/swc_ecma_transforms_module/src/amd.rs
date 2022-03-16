@@ -30,6 +30,7 @@ pub fn amd(config: Config) -> impl Fold {
         exports: Default::default(),
 
         resolver: Resolver::Default,
+        vars: Default::default(),
     }
 }
 
@@ -45,6 +46,7 @@ pub fn amd_with_resolver(
         exports: Default::default(),
 
         resolver: Resolver::Real { base, resolver },
+        vars: Default::default(),
     }
 }
 
@@ -55,6 +57,8 @@ struct Amd {
     exports: Exports,
 
     resolver: Resolver,
+
+    vars: RefCell<Vec<VarDeclarator>>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -85,7 +89,7 @@ impl Fold for Amd {
 
         // Inserted after initializing exported names to undefined.
         let mut extra_stmts = vec![];
-        let mut stmts = Vec::with_capacity(items.len() + 2);
+        let mut stmts = Vec::with_capacity(items.len() + 3);
         if self.config.config.strict_mode && !has_use_strict(&items) {
             stmts.push(use_strict());
         }
@@ -453,6 +457,22 @@ impl Fold for Amd {
             }
         }
 
+        let vars = self.vars_take();
+
+        if !vars.is_empty() {
+            let var_stmt = Stmt::Decl(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vars,
+                }
+                .into(),
+            );
+
+            stmts.push(var_stmt);
+        }
+
         // ====================
         //  Handle imports
         // ====================
@@ -515,10 +535,12 @@ impl Fold for Amd {
         };
 
         for export in export_alls {
+            let span = export.span;
             let export = scope
                 .import_to_export(&export.src, true)
                 .expect("Export should exists");
             stmts.push(Scope::handle_export_all(
+                span,
                 exports_ident.clone(),
                 exported_names.clone(),
                 export,
@@ -669,8 +691,24 @@ impl ModulePass for Amd {
         self.scope.borrow_mut()
     }
 
+    fn resolver(&self) -> &Resolver {
+        &self.resolver
+    }
+
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
         handle_dynamic_import(span, args)
+    }
+
+    fn vars(&mut self) -> Ref<Vec<VarDeclarator>> {
+        self.vars.borrow()
+    }
+
+    fn vars_mut(&mut self) -> RefMut<Vec<VarDeclarator>> {
+        self.vars.borrow_mut()
+    }
+
+    fn vars_take(&mut self) -> Vec<VarDeclarator> {
+        self.vars.take()
     }
 }
 

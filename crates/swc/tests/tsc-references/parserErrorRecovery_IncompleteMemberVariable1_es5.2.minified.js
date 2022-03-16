@@ -1,27 +1,14 @@
 var Shapes;
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 !function(Shapes1) {
     var Point = function() {
         "use strict";
-        var Constructor, protoProps, staticProps;
         function Point(x, y) {
-            (function(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-            })(this, Point), this.x = x, this.y = y;
+            swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
         }
-        return Constructor = Point, protoProps = [
-            {
-                key: "getDist",
-                value: function() {
-                    return Math.sqrt(this.x * this.x + this.y * this.y);
-                }
-            }
-        ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Point;
+        return Point.prototype.getDist = function() {
+            return Math.sqrt(this.x * this.x + this.y * this.y);
+        }, Point;
     }();
-    Shapes1.Point = Point, Point.origin = new Point(0, 0);
+    Point.origin = new Point(0, 0), Shapes1.Point = Point;
 }(Shapes || (Shapes = {})), new Shapes.Point(3, 4).getDist();

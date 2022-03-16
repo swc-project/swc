@@ -11,9 +11,9 @@ use tracing::{span, Level};
 
 use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
+    analyzer::ProgramData,
     debug::{dump, AssertValid},
     marks::Marks,
-    mode::Mode,
     option::CompressOptions,
     util::ModuleItemExt,
     MAX_PAR_DEPTH,
@@ -36,43 +36,45 @@ mod strings;
 mod unsafes;
 mod vars;
 
-pub(crate) fn pure_optimizer<'a, M>(
+#[allow(clippy::needless_lifetimes)]
+pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
+    data: Option<&'a ProgramData>,
     marks: Marks,
-    mode: &'a M,
+    force_str_for_tpl: bool,
     enable_everything: bool,
     debug_infinite_loop: bool,
-) -> impl 'a + VisitMut + Repeated
-where
-    M: Mode,
-{
+) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
         marks,
-        ctx: Default::default(),
+        data,
+        ctx: Ctx {
+            force_str_for_tpl,
+            ..Default::default()
+        },
         changed: Default::default(),
         enable_everything,
-        mode,
         debug_infinite_loop,
         bindings: Default::default(),
     }
 }
 
-struct Pure<'a, M> {
+struct Pure<'a> {
     options: &'a CompressOptions,
     marks: Marks,
+    #[allow(unused)]
+    data: Option<&'a ProgramData>,
     ctx: Ctx,
     changed: bool,
     enable_everything: bool,
-
-    mode: &'a M,
 
     debug_infinite_loop: bool,
 
     bindings: Option<Arc<AHashSet<Id>>>,
 }
 
-impl<M> Repeated for Pure<'_, M> {
+impl Repeated for Pure<'_> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -84,10 +86,7 @@ impl<M> Repeated for Pure<'_, M> {
     }
 }
 
-impl<M> Pure<'_, M>
-where
-    M: Mode,
-{
+impl Pure<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: ModuleItemExt + Take,
@@ -154,19 +153,14 @@ where
     /// Visit `nodes`, maybe in parallel.
     fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
     where
-        N: for<'aa> VisitMutWith<Pure<'aa, M>> + Send + Sync,
+        N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
         if self.ctx.par_depth >= MAX_PAR_DEPTH * 2 || cfg!(target_arch = "wasm32") {
             for node in nodes {
                 let mut v = Pure {
-                    options: self.options,
-                    marks: self.marks,
-                    ctx: self.ctx,
                     changed: false,
-                    enable_everything: self.enable_everything,
-                    mode: self.mode,
-                    debug_infinite_loop: self.debug_infinite_loop,
                     bindings: self.bindings.clone(),
+                    ..*self
                 };
                 node.visit_mut_with(&mut v);
 
@@ -179,17 +173,13 @@ where
                     .map(|node| {
                         GLOBALS.set(globals, || {
                             let mut v = Pure {
-                                options: self.options,
-                                marks: self.marks,
                                 ctx: Ctx {
                                     par_depth: self.ctx.par_depth + 1,
                                     ..self.ctx
                                 },
                                 changed: false,
-                                enable_everything: self.enable_everything,
-                                mode: self.mode,
-                                debug_infinite_loop: self.debug_infinite_loop,
                                 bindings: self.bindings.clone(),
+                                ..*self
                             };
                             node.visit_mut_with(&mut v);
 
@@ -204,10 +194,7 @@ where
     }
 }
 
-impl<M> VisitMut for Pure<'_, M>
-where
-    M: Mode,
-{
+impl VisitMut for Pure<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
@@ -226,8 +213,6 @@ where
         e.visit_mut_children_with(self);
 
         self.compress_cmp_with_long_op(e);
-
-        self.optimize_cmp_with_null_or_undefined(e);
 
         if e.op == op!(bin, "+") {
             self.concat_tpl(&mut e.left, &mut e.right);
@@ -293,6 +278,8 @@ where
             }
         }
 
+        self.unsafe_optimize_fn_as_arrow(e);
+
         self.eval_opt_chain(e);
 
         self.eval_number_call(e);
@@ -343,6 +330,7 @@ where
             &mut s.expr,
             DropOpts {
                 drop_zero: true,
+                drop_global_refs_if_unused: true,
                 drop_str_lit: false,
             },
         );
@@ -456,6 +444,7 @@ where
                     e,
                     DropOpts {
                         drop_zero: true,
+                        drop_global_refs_if_unused: true,
                         drop_str_lit: true,
                         ..Default::default()
                     },
@@ -536,6 +525,7 @@ where
                     &mut **e,
                     DropOpts {
                         drop_zero: false,
+                        drop_global_refs_if_unused: false,
                         drop_str_lit: true,
                     },
                 );

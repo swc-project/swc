@@ -1,63 +1,37 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-var Entry = // @noEmit: true
+import * as swcHelpers from "@swc/helpers";
+// @noEmit: true
 // @allowJs: true
 // @checkJs: true
 // @lib: esnext
 // @Filename: bug25127.js
-/*#__PURE__*/ function() {
+var Entry = /*#__PURE__*/ function() {
     "use strict";
     function Entry() {
-        _classCallCheck(this, Entry);
+        swcHelpers.classCallCheck(this, Entry);
         this.c = 1;
     }
-    _createClass(Entry, [
-        {
-            /**
+    var _proto = Entry.prototype;
+    /**
      * @param {any} x
      * @return {this is Entry}
-     */ key: "isInit",
-            value: function isInit(x) {
-                return true;
-            }
-        }
-    ]);
+     */ _proto.isInit = function isInit(x) {
+        return true;
+    };
     return Entry;
 }();
 var Group = /*#__PURE__*/ function() {
     "use strict";
     function Group() {
-        _classCallCheck(this, Group);
+        swcHelpers.classCallCheck(this, Group);
         this.d = 'no';
     }
-    _createClass(Group, [
-        {
-            /**
+    var _proto = Group.prototype;
+    /**
      * @param {any} x
      * @return {false}
-     */ key: "isInit",
-            value: function isInit(x) {
-                return false;
-            }
-        }
-    ]);
+     */ _proto.isInit = function isInit(x) {
+        return false;
+    };
     return Group;
 }();
 /** @param {Entry | Group} chunk */ function f(chunk) {

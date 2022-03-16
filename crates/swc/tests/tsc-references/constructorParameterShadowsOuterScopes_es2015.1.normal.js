@@ -5,16 +5,16 @@
 var x = 1;
 class C {
     constructor(x1){
-        this.b // error, evaluated in scope of constructor, cannot reference x
-         = x;
+        this.b = x // error, evaluated in scope of constructor, cannot reference x
+        ;
         x1 = 2; // error, x is string
     }
 }
 var y = 1;
 class D {
     constructor(x){
-        this.b // error, evaluated in scope of constructor, cannot reference y
-         = y;
+        this.b = y // error, evaluated in scope of constructor, cannot reference y
+        ;
         var y1 = "";
     }
 }

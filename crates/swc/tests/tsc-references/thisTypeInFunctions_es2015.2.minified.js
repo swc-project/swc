@@ -19,9 +19,8 @@ let impl = {
     a: 12,
     explicitVoid2: ()=>this.a
     ,
-    explicitVoid1 () {
-        return 12;
-    },
+    explicitVoid1: ()=>12
+    ,
     explicitStructural () {
         return this.a;
     },
@@ -62,8 +61,7 @@ let reconstructed = {
     explicitProperty: c.explicitProperty,
     explicitVoid: c.explicitVoid
 };
-reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstructed.explicitVoid)(12), (x)=>x + this.y
-;
+reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstructed.explicitVoid)(12);
 let explicitCFunction, explicitPropertyFunction;
 c.explicitC = explicitCFunction, c.explicitC = function(m) {
     return this.n + m;

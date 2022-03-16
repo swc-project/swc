@@ -5,6 +5,7 @@ pub use self::object_rest_spread::object_rest_spread;
 
 pub mod object_rest_spread;
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn es2018(c: Config) -> impl Fold {
     object_rest_spread(c.object_rest_spread)
 }

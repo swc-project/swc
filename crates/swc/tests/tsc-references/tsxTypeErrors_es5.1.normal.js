@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 //@jsx: preserve
 // A built-in element (OK)
 var a1 = /*#__PURE__*/ React.createElement("div", {
@@ -23,9 +19,10 @@ var a3 = /*#__PURE__*/ React.createElement("div", {
 var e1 = /*#__PURE__*/ React.createElement("imag", {
     src: "bar.jpg"
 });
+// A custom type
 var MyClass = function MyClass() {
     "use strict";
-    _classCallCheck(this, MyClass);
+    swcHelpers.classCallCheck(this, MyClass);
 };
 // Let's use it
 // TODO: Error on missing 'reqd'

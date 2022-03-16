@@ -1,4 +1,4 @@
-let Foo = function() {
+let Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
         _classCallCheck(this, Foo);
@@ -13,5 +13,4 @@ let Foo = function() {
     ]);
     return Foo;
 }();
-function foo() {
-}
+function foo() {}

@@ -694,7 +694,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
     ),
     decorators_legacy_interop_strict,

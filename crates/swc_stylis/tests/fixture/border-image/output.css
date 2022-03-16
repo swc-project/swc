@@ -1,0 +1,6 @@
+.class {
+  -webkit-border-image: fill;
+  -moz-border-image: fill;
+  -o-border-image: fill;
+  border-image: fill;
+}

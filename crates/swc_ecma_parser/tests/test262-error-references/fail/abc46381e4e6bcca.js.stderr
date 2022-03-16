@@ -1,12 +1,12 @@
-error: Invalid character in identifier
- --> $DIR/tests/test262-parser/fail/abc46381e4e6bcca.js:1:5
-  |
-1 | var \uD83B\uDE00
-  |     ^^^^^^
 
-error: Invalid character in identifier
- --> $DIR/tests/test262-parser/fail/abc46381e4e6bcca.js:1:11
-  |
-1 | var \uD83B\uDE00
-  |           ^^^^^^
+  x Invalid character in identifier
+   ,-[$DIR/tests/test262-parser/fail/abc46381e4e6bcca.js:2:1]
+ 2 | var \uD83B\uDE00
+   :     ^^^^^^
+   `----
 
+  x Invalid character in identifier
+   ,-[$DIR/tests/test262-parser/fail/abc46381e4e6bcca.js:2:1]
+ 2 | var \uD83B\uDE00
+   :           ^^^^^^
+   `----

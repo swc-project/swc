@@ -49,6 +49,9 @@ define!({
         Ratio(Ratio),
         UnicodeRange(UnicodeRange),
         Color(Color),
+        AlphaValue(AlphaValue),
+        Hue(Hue),
+        CmykComponent(CmykComponent),
         Delimiter(Delimiter),
 
         CalcSum(CalcSum),
@@ -110,8 +113,13 @@ define!({
 
     pub struct QualifiedRule {
         pub span: Span,
-        pub prelude: SelectorList,
+        pub prelude: QualifiedRulePrelude,
         pub block: SimpleBlock,
+    }
+
+    pub enum QualifiedRulePrelude {
+        SelectorList(SelectorList),
+        Invalid(Tokens),
     }
 
     pub enum StyleBlock {
@@ -145,7 +153,14 @@ define!({
     }
 
     pub enum Color {
+        AbsoluteColorBase(AbsoluteColorBase),
+        CurrentColorOrSystemColor(Ident),
+        Function(Function),
+    }
+
+    pub enum AbsoluteColorBase {
         HexColor(HexColor),
+        NamedColorOrTransparent(Ident),
         Function(Function),
     }
 
@@ -153,6 +168,22 @@ define!({
         pub span: Span,
         pub value: JsWord,
         pub raw: JsWord,
+    }
+
+    pub enum AlphaValue {
+        Number(Number),
+        Percentage(Percentage),
+    }
+
+    pub enum Hue {
+        Number(Number),
+        Angle(Angle),
+    }
+
+    pub enum CmykComponent {
+        Number(Number),
+        Percentage(Percentage),
+        Function(Function),
     }
 
     pub enum Dimension {
@@ -455,9 +486,7 @@ define!({
 
     pub enum Rule {
         QualifiedRule(QualifiedRule),
-
         AtRule(AtRule),
-
         Invalid(Tokens),
     }
 
@@ -617,6 +646,7 @@ define!({
         pub span: Span,
         pub modifier: Option<Ident>,
         pub media_type: Option<Ident>,
+        pub keyword: Option<Ident>,
         pub condition: Option<MediaConditionType>,
     }
 
@@ -650,16 +680,19 @@ define!({
 
     pub struct MediaNot {
         pub span: Span,
+        pub keyword: Ident,
         pub condition: MediaInParens,
     }
 
     pub struct MediaAnd {
         pub span: Span,
+        pub keyword: Ident,
         pub condition: MediaInParens,
     }
 
     pub struct MediaOr {
         pub span: Span,
+        pub keyword: Ident,
         pub condition: MediaInParens,
     }
 
@@ -766,16 +799,19 @@ define!({
 
     pub struct SupportsNot {
         pub span: Span,
+        pub keyword: Ident,
         pub condition: SupportsInParens,
     }
 
     pub struct SupportsAnd {
         pub span: Span,
+        pub keyword: Ident,
         pub condition: SupportsInParens,
     }
 
     pub struct SupportsOr {
         pub span: Span,
+        pub keyword: Ident,
         pub condition: SupportsInParens,
     }
 

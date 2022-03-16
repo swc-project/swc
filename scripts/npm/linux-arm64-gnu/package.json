@@ -12,6 +12,9 @@
         "swc.linux-arm64-gnu.node",
         "swc"
     ],
+    "libc": [
+        "glibc"
+    ],
     "description": "Super-fast alternative for babel",
     "keywords": [
         "swc",

@@ -1,0 +1,12 @@
+
+  x Invalid selector
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested/input.css:4:5]
+ 4 | & test;
+   :       ^
+   `----
+
+  x Unexpected character `';'`
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested/input.css:4:5]
+ 4 | & test;
+   :       ^
+   `----

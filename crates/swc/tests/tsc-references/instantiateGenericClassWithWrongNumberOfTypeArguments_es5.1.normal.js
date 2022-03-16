@@ -1,16 +1,14 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
+// it is always an error to provide a type argument list whose count does not match the type parameter list
+// both of these attempts to construct a type is an error
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 var c = new C();
 var D = function D() {
     "use strict";
-    _classCallCheck(this, D);
+    swcHelpers.classCallCheck(this, D);
 };
 // BUG 794238
 var d = new D();

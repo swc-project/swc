@@ -20,12 +20,4 @@ class RC4 extends React.Component {
         return null;
     }
 }
-var EmptyRCComp = RC3 || RC4, PartRCComp = RC1 || RC4;
-React.createElement(RC1 || RC2, {
-    x: "Hi"
-}), React.createElement(EmptyRCComp, null), React.createElement(EmptyRCComp, {
-    "data-prop": "hello"
-}), React.createElement(PartRCComp, null), React.createElement(PartRCComp, {
-    "data-extra": "hello"
-});
 export { };

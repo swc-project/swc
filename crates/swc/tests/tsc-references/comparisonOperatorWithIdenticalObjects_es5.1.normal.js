@@ -1,149 +1,53 @@
-function _assertThisInitialized(self) {
-    if (self === void 0) {
-        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-    return self;
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-}
-function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-        throw new TypeError("Super expression must either be null or a function");
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-            value: subClass,
-            writable: true,
-            configurable: true
-        }
-    });
-    if (superClass) _setPrototypeOf(subClass, superClass);
-}
-function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-        return call;
-    }
-    return _assertThisInitialized(self);
-}
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
-        return o;
-    };
-    return _setPrototypeOf(o, p);
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
-function _isNativeReflectConstruct() {
-    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === "function") return true;
-    try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-function _createSuper(Derived) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct();
-    return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
-        if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf(this).constructor;
-            result = Reflect.construct(Super, arguments, NewTarget);
-        } else {
-            result = Super.apply(this, arguments);
-        }
-        return _possibleConstructorReturn(this, result);
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 var A1 = /*#__PURE__*/ function() {
     "use strict";
     function A1() {
-        _classCallCheck(this, A1);
+        swcHelpers.classCallCheck(this, A1);
     }
-    _createClass(A1, [
-        {
-            key: "fn",
-            value: function fn(a) {
-                return null;
-            }
-        }
-    ]);
+    var _proto = A1.prototype;
+    _proto.fn = function fn(a) {
+        return null;
+    };
     return A1;
 }();
 var B1 = /*#__PURE__*/ function() {
     "use strict";
     function B1() {
-        _classCallCheck(this, B1);
+        swcHelpers.classCallCheck(this, B1);
     }
-    _createClass(B1, [
-        {
-            key: "fn",
-            value: function fn(b) {
-                return null;
-            }
-        }
-    ]);
+    var _proto = B1.prototype;
+    _proto.fn = function fn(b) {
+        return null;
+    };
     return B1;
 }();
 var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
-        _classCallCheck(this, Base);
+        swcHelpers.classCallCheck(this, Base);
     }
-    _createClass(Base, [
-        {
-            key: "fn",
-            value: function fn(b) {
-                return null;
-            }
-        }
-    ]);
+    var _proto = Base.prototype;
+    _proto.fn = function fn(b) {
+        return null;
+    };
     return Base;
 }();
 var A2 = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(A2, Base);
-    var _super = _createSuper(A2);
+    swcHelpers.inherits(A2, Base);
+    var _super = swcHelpers.createSuper(A2);
     function A2() {
-        _classCallCheck(this, A2);
+        swcHelpers.classCallCheck(this, A2);
         return _super.apply(this, arguments);
     }
     return A2;
 }(Base);
 var B2 = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(B2, Base);
-    var _super = _createSuper(B2);
+    swcHelpers.inherits(B2, Base);
+    var _super = swcHelpers.createSuper(B2);
     function B2() {
-        _classCallCheck(this, B2);
+        swcHelpers.classCallCheck(this, B2);
         return _super.apply(this, arguments);
     }
     return B2;

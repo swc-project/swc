@@ -1,0 +1,50 @@
+.class {
+  -webkit-columns: auto;
+  -moz-columns: auto;
+  columns: auto;
+}
+.class {
+  -webkit-column-count: auto;
+  -moz-column-count: auto;
+  column-count: auto;
+}
+.class {
+  -webkit-column-fill: auto;
+  -moz-column-fill: auto;
+  column-fill: auto;
+}
+.class {
+  -webkit-column-gap: auto;
+  -moz-column-gap: auto;
+  column-gap: auto;
+}
+.class {
+  -webkit-column-rule: auto;
+  -moz-column-rule: auto;
+  column-rule: auto;
+}
+.class {
+  -webkit-column-rule-color: auto;
+  -moz-column-rule-color: auto;
+  column-rule-color: auto;
+}
+.class {
+  -webkit-column-rule-style: auto;
+  -moz-column-rule-style: auto;
+  column-rule-style: auto;
+}
+.class {
+  -webkit-column-rule-width: auto;
+  -moz-column-rule-width: auto;
+  column-rule-width: auto;
+}
+.class {
+  -webkit-column-span: auto;
+  -moz-column-span: auto;
+  column-span: auto;
+}
+.class {
+  -webkit-column-width: auto;
+  -moz-column-width: auto;
+  column-width: auto;
+}

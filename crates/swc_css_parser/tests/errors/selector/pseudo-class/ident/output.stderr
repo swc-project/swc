@@ -1,6 +1,0 @@
-error: Expected function or ident tokens
- --> $DIR/tests/errors/selector/pseudo-class/ident/input.css:1:2
-  |
-1 | : first-child {
-  |  ^
-

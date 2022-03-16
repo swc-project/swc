@@ -9,7 +9,7 @@ use napi::{
     Env, Task,
 };
 use swc::{config::ParseOptions, Compiler};
-use swc_common::FileName;
+use swc_common::{comments::Comments, FileName};
 
 use crate::{
     get_compiler,
@@ -43,6 +43,12 @@ impl Task for ParseTask {
             .cm
             .new_source_file(self.filename.clone(), self.src.clone());
 
+        let comments = if options.comments {
+            Some(self.c.comments() as &dyn Comments)
+        } else {
+            None
+        };
+
         let program = try_with(self.c.cm.clone(), false, |handler| {
             self.c.parse_js(
                 fm,
@@ -50,7 +56,7 @@ impl Task for ParseTask {
                 options.target,
                 options.syntax,
                 options.is_module,
-                options.comments,
+                comments,
             )
         })
         .convert_err()?;
@@ -81,13 +87,20 @@ impl Task for ParseFileTask {
                     .load_file(&self.path)
                     .context("failed to read module")?;
 
+                let c = self.c.comments().clone();
+                let comments = if options.comments {
+                    Some(&c as &dyn Comments)
+                } else {
+                    None
+                };
+
                 self.c.parse_js(
                     fm,
                     handler,
                     options.target,
                     options.syntax,
                     options.is_module,
-                    options.comments,
+                    comments,
                 )
             })
         })
@@ -146,13 +159,20 @@ pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::
     let program = try_with(c.cm.clone(), false, |handler| {
         c.run(|| {
             let fm = c.cm.new_source_file(filename, src);
+
+            let comments = if options.comments {
+                Some(c.comments() as &dyn Comments)
+            } else {
+                None
+            };
+
             c.parse_js(
                 fm,
                 handler,
                 options.target,
                 options.syntax,
                 options.is_module,
-                options.comments,
+                comments,
             )
         })
     })
@@ -173,13 +193,19 @@ pub fn parse_file_sync(path: String, opts: Buffer) -> napi::Result<String> {
                 c.cm.load_file(Path::new(path.as_str()))
                     .expect("failed to read program file");
 
+            let comments = if options.comments {
+                Some(c.comments() as &dyn Comments)
+            } else {
+                None
+            };
+
             c.parse_js(
                 fm,
                 handler,
                 options.target,
                 options.syntax,
                 options.is_module,
-                options.comments,
+                comments,
             )
         })
     }

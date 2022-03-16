@@ -1,0 +1,47 @@
+.class {
+  cursor: none;
+}
+.class {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
+}
+.class {
+  cursor: url(cursor_1.png) 4 12, -webkit-grab;
+  cursor: url(cursor_1.png) 4 12, -moz-grab;
+  cursor: url(cursor_1.png) 4 12, grab;
+}
+.class {
+  cursor: -webkit-image-set(url(foo.jpg) 2x), pointer;
+  cursor: image-set(url(foo.jpg) 2x), pointer;
+}
+.class {
+  cursor: -webkit-image-set(url(foo.jpg) 2x), -webkit-grab;
+  cursor: image-set(url(foo.jpg) 2x), -moz-grab;
+  cursor: image-set(url(foo.jpg) 2x), grab;
+}
+.class {
+  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), -webkit-image-set(url(foo.jpg) 2x) 5 5, -webkit-grab;
+  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), image-set(url(foo.jpg) 2x) 5 5, -moz-grab;
+  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), image-set(url(foo.jpg) 2x) 5 5, grab;
+}
+.class {
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: zoom-in;
+}
+.class {
+  cursor: -webkit-zoom-out;
+  cursor: -moz-zoom-out;
+  cursor: zoom-out;
+}
+.class {
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
+}
+.class {
+  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), IMAGE_SET(url(foo.jpg) 2x) 5 5, -webkit-grab;
+  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), IMAGE_SET(url(foo.jpg) 2x) 5 5, -moz-grab;
+  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), IMAGE_SET(url(foo.jpg) 2x) 5 5, GRAB;
+}

@@ -368,3 +368,17 @@ macro_rules! syntax_error {
         return Err(err.into());
     }};
 }
+
+macro_rules! debug_tracing {
+    ($p:expr, $name:tt) => {{
+        #[cfg(feature = "debug")]
+        {
+            tracing::span!(
+                tracing::Level::ERROR,
+                $name,
+                cur = tracing::field::debug(&$p.input.cur())
+            )
+            .entered()
+        }
+    }};
+}

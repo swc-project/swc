@@ -1,12 +1,13 @@
-error: Cannot reassign to a variable declared with `const`
- 
-  |
-5 | a = 600;
-  | ^
-  |
-note: a was declared here
- 
-  |
-1 | const a = 500;
-  |       ^
 
+  x cannot reassign to a variable declared with `const`
+   ,-[2:1]
+ 2 | const a = 500;
+   :       |
+   :       `-- const variable was declared here
+ 3 | 
+ 4 | 
+ 5 | 
+ 6 | a = 600;
+   : |
+   : `-- cannot reassign
+   `----

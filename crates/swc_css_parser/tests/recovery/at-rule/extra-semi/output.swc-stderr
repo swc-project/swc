@@ -1,0 +1,12 @@
+
+  x Invalid selector
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+ 2 | @import "x.css";;
+   :                 ^
+   `----
+
+  x Unexpected character `';'`
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+ 2 | @import "x.css";;
+   :                 ^
+   `----

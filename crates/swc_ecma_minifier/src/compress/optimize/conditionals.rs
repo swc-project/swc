@@ -12,7 +12,6 @@ use crate::{
         util::{always_terminates, negate_cost},
     },
     mode::Mode,
-    util::SpanExt,
     DISABLE_BUGGY_PASSES,
 };
 
@@ -296,9 +295,9 @@ where
             );
             self.changed = true;
             *s = Stmt::Expr(ExprStmt {
-                span: stmt.span.with_mark(self.done),
+                span: stmt.span,
                 expr: Box::new(Expr::Cond(CondExpr {
-                    span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                    span: DUMMY_SP,
                     test: stmt.test.take(),
                     cons: Box::new(cons.take()),
                     alt: Box::new(alt.take()),
@@ -353,6 +352,10 @@ where
 
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
+                if self.data.contains_unresolved(&**test) {
+                    return None;
+                }
+
                 let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
                 //
 
@@ -362,8 +365,8 @@ where
 
                 let side_effect_free = self
                     .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&cons_callee.to_id()))
+                    .vars
+                    .get(&cons_callee.to_id())
                     .map(|v| v.is_fn_local && v.declared)
                     .unwrap_or(false);
 
@@ -447,7 +450,7 @@ where
                          arguments is 1"
                     );
                     return Some(Expr::Call(CallExpr {
-                        span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                        span: DUMMY_SP,
                         callee: cons.callee.take(),
                         args,
                         type_args: Default::default(),
@@ -457,7 +460,7 @@ where
                 if !side_effect_free && is_for_if_stmt {
                     tracing::debug!("Compressing if into cond while preserving side effects");
                     return Some(Expr::Cond(CondExpr {
-                        span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                        span: DUMMY_SP,
                         test: test.take(),
                         cons: Box::new(Expr::Call(cons.take())),
                         alt: Box::new(Expr::Call(alt.take())),
@@ -468,6 +471,10 @@ where
             }
 
             (Expr::New(cons), Expr::New(alt)) => {
+                if self.data.contains_unresolved(&**test) {
+                    return None;
+                }
+
                 // TODO: Handle new expression with no args.
 
                 if cons.callee.eq_ignore_span(&alt.callee)
@@ -509,7 +516,7 @@ where
                          there's no side effect and the number of arguments is 1"
                     );
                     return Some(Expr::New(NewExpr {
-                        span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                        span: DUMMY_SP,
                         callee: cons.callee.take(),
                         args: Some(args),
                         type_args: Default::default(),
@@ -543,7 +550,7 @@ where
             (Expr::Cond(cons), alt) if (*cons.alt).eq_ignore_span(&*alt) => {
                 tracing::debug!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
                 Some(Expr::Cond(CondExpr {
-                    span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                    span: DUMMY_SP,
                     test: Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
                         left: test.take(),

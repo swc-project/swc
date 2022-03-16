@@ -1,51 +1,29 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-var C1 = // @declaration: true
-/*#__PURE__*/ function() {
+import * as swcHelpers from "@swc/helpers";
+// @declaration: true
+var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1(x) {
-        _classCallCheck(this, C1);
+        swcHelpers.classCallCheck(this, C1);
     }
-    _createClass(C1, [
-        {
-            key: "f",
-            value: function f(x) {
-                return undefined;
-            }
-        }
-    ]);
+    var _proto = C1.prototype;
+    _proto.f = function f(x) {
+        return undefined;
+    };
     return C1;
 }();
 var C2 = function C2() {
     "use strict";
-    _classCallCheck(this, C2);
+    swcHelpers.classCallCheck(this, C2);
 };
 var C3 = function C3() {
     "use strict";
-    _classCallCheck(this, C3);
+    swcHelpers.classCallCheck(this, C3);
 };
 var C4 = /*#__PURE__*/ function() {
     "use strict";
     function C4() {
         var _this = this;
-        _classCallCheck(this, C4);
+        swcHelpers.classCallCheck(this, C4);
         this.x1 = {
             a: this
         };
@@ -61,42 +39,29 @@ var C4 = /*#__PURE__*/ function() {
             return _this;
         };
     }
-    _createClass(C4, [
-        {
-            key: "f1",
-            value: function f1() {
-                return {
-                    a: this
-                };
+    var _proto = C4.prototype;
+    _proto.f1 = function f1() {
+        return {
+            a: this
+        };
+    };
+    _proto.f2 = function f2() {
+        return [
+            this
+        ];
+    };
+    _proto.f3 = function f3() {
+        return [
+            {
+                a: this
             }
-        },
-        {
-            key: "f2",
-            value: function f2() {
-                return [
-                    this
-                ];
-            }
-        },
-        {
-            key: "f3",
-            value: function f3() {
-                return [
-                    {
-                        a: this
-                    }
-                ];
-            }
-        },
-        {
-            key: "f4",
-            value: function f4() {
-                var _this = this;
-                return function() {
-                    return _this;
-                };
-            }
-        }
-    ]);
+        ];
+    };
+    _proto.f4 = function f4() {
+        var _this = this;
+        return function() {
+            return _this;
+        };
+    };
     return C4;
 }();

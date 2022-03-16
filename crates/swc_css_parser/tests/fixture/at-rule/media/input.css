@@ -113,3 +113,19 @@
 @media    {}
 
 @media tty {}
+
+@media print {
+    html
+    main {
+        color: orange;
+    }
+}
+
+@media print {
+    html,
+    main {
+        color: orange;
+    }
+}
+
+@media (NOT (color)) OR (hover) {}

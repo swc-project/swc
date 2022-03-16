@@ -1,7 +1,8 @@
+import * as swcHelpers from "@swc/helpers";
 var C = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
-C.s = C.#method(), console.log(C.s);
+C.s = swcHelpers.classStaticPrivateMethodGet(C, C, function() {
+    return 42;
+}).call(C), console.log(C.s);

@@ -19,5 +19,4 @@ const lion = new class extends Animal {
         super(...args), this.sound = "RAWR!";
     }
 };
-lion.makeSound() // with [[Define]]: Expected "RAWR!" but got "rustling noise in the bushes"
-;
+lion.makeSound();

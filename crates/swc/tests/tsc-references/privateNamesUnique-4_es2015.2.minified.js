@@ -1,1 +1,2 @@
-new WeakMap(), a;
+import * as swcHelpers from "@swc/helpers";
+a;

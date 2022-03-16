@@ -1849,19 +1849,19 @@ class BufferFullError extends Error {
     }
 }
 class PartialReadError extends Deno.errors.UnexpectedEof {
+    name = "PartialReadError";
     constructor(){
         super("Encountered UnexpectedEof, data only partially read");
-        this.name = "PartialReadError";
     }
 }
 class BufReader {
+    r = 0;
+    w = 0;
+    eof = false;
     static create(r, size = DEFAULT_BUF_SIZE) {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
     constructor(rd, size = DEFAULT_BUF_SIZE){
-        this.r = 0;
-        this.w = 0;
-        this.eof = false;
         if (size < MIN_BUF_SIZE) {
             size = MIN_BUF_SIZE;
         }
@@ -2064,6 +2064,8 @@ class BufReader {
     }
 }
 class AbstractBufBase {
+    usedBufferBytes = 0;
+    err = null;
     size() {
         return this.buf.byteLength;
     }
@@ -2072,10 +2074,6 @@ class AbstractBufBase {
     }
     buffered() {
         return this.usedBufferBytes;
-    }
-    constructor(){
-        this.usedBufferBytes = 0;
-        this.err = null;
     }
 }
 class BufWriter extends AbstractBufBase {
@@ -2247,11 +2245,11 @@ class WriterHandler extends BaseHandler {
     #encoder = new TextEncoder();
 }
 class FileHandler extends WriterHandler {
+    _encoder = new TextEncoder();
     #unloadCallback = ()=>this.destroy()
     ;
     constructor(levelName, options){
         super(levelName, options);
-        this._encoder = new TextEncoder();
         this._filename = options.filename;
         this._mode = options.mode ? options.mode : "a";
         this._openOptions = {
@@ -5851,10 +5849,10 @@ class ADLMap {
     }
 }
 class TaskManifest {
+    lastExecution = null;
+    trackedFiles = new ADLMap([], (k1, k2)=>k1 === k2
+    );
     constructor(data){
-        this.lastExecution = null;
-        this.trackedFiles = new ADLMap([], (k1, k2)=>k1 === k2
-        );
         this.trackedFiles = new ADLMap(data.trackedFiles, (k1, k2)=>k1 === k2
         );
         this.lastExecution = data.lastExecution;
@@ -5908,8 +5906,8 @@ async function statPath(path36) {
     }
 }
 class Task {
+    taskManifest = null;
     constructor(taskParams){
-        this.taskManifest = null;
         this.name = taskParams.name;
         this.action = taskParams.action;
         this.description = taskParams.description;
@@ -6036,11 +6034,11 @@ class Task {
     }
 }
 class TrackedFile {
+    path = "";
     #getHash;
     #getTimestamp;
+    fromTask = null;
     constructor(fileParams){
-        this.path = "";
-        this.fromTask = null;
         this.path = mod3.posix.resolve(fileParams.path);
         this.#getHash = fileParams.getHash || getFileSha1Sum;
         this.#getTimestamp = fileParams.getTimestamp || getFileTimestamp;

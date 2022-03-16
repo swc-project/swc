@@ -1,108 +1,108 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:1
-  |
-1 | @keyframes name { 100% { color: red } }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:1
-  |
-1 | @keyframes name { 100% { color: red } }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:1
-  |
-1 | @keyframes name { 100% { color: red } }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: KeyframesRule
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:1
-  |
-1 | @keyframes name { 100% { color: red } }
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: CustomIdent
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:12
-  |
-1 | @keyframes name { 100% { color: red } }
-  |            ^^^^
+  x KeyframesRule
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:17
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                 ^^^^^^^^^^^^^^^^^^^^^^^
+  x CustomIdent
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :            ^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:19
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                   ^^^^^^^^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                 ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: KeyframeBlock
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:19
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                   ^^^^^^^^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                   ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: KeyframeSelector
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:19
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                   ^^^^
+  x KeyframeBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                   ^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Percentage
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:19
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                   ^^^^
+  x KeyframeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                   ^^^^
+   `----
 
-error: Number
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:19
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                   ^^^
+  x Percentage
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                   ^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:24
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                        ^^^^^^^^^^^^^^
+  x Number
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                   ^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:26
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                          ^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                        ^^^^^^^^^^^^^^
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:26
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                          ^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                          ^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:26
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                          ^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                          ^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:26
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                          ^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                          ^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:33
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                                 ^^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                          ^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:33
-  |
-1 | @keyframes name { 100% { color: red } }
-  |                                 ^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                                 ^^^
+   `----
 
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:2:1]
+ 2 | @keyframes name { 100% { color: red } }
+   :                                 ^^^
+   `----

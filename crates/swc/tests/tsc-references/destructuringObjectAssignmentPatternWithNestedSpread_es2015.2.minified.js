@@ -1,22 +1,11 @@
 var _c;
+import * as swcHelpers from "@swc/helpers";
 let a, d;
-(function(source, excluded) {
-    if (null == source) return {};
-    var key, i, target = function(source, excluded) {
-        if (null == source) return {};
-        var key, i, target = {}, sourceKeys = Object.keys(source);
-        for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
-        return target;
-    }(source, excluded);
-    if (Object.getOwnPropertySymbols) {
-        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], excluded.indexOf(key) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
-    }
-})((_c = {
+_c = {
     x: {
         a: 1,
         y: 2
     }
-}).x, [
+}, swcHelpers.objectWithoutProperties(_c.x, [
     "a"
 ]), { x: { a  } = d  } = _c;

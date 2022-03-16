@@ -1,25 +1,21 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
+// @allowJs: true
+// @checkJs: true
+// @target: es5
+// @outDir: ./out
+// @declaration: true
+// @filename: index1.js
+// merge type alias and alias (should error, see #32367)
 var Cls = function Cls() {
     "use strict";
-    _classCallCheck(this, Cls);
-    // @allowJs: true
-    // @checkJs: true
-    // @target: es5
-    // @outDir: ./out
-    // @declaration: true
-    // @filename: index1.js
-    // merge type alias and alias (should error, see #32367)
+    swcHelpers.classCallCheck(this, Cls);
     this.x = 12;
 };
 Cls.y = "ok";
 export default Cls;
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 /**
  * @typedef {string | number} default

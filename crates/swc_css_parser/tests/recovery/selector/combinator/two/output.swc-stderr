@@ -1,0 +1,6 @@
+
+  x Invalid selector
+   ,-[$DIR/tests/recovery/selector/combinator/two/input.css:2:1]
+ 2 | span ~ + {}
+   :        ^
+   `----

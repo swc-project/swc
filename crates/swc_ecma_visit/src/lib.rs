@@ -284,7 +284,7 @@ where
         #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let visitor_name = std::any::type_name::<V>();
-            tracing::span!(tracing::Level::TRACE, "as_folder", visitor = visitor_name).entered()
+            tracing::span!(tracing::Level::INFO, "as_folder", visitor = visitor_name).entered()
         };
         n.visit_mut_with(&mut self.0);
         n
@@ -543,13 +543,10 @@ define!({
         pub type_ann: Option<TsTypeAnn>,
         pub is_static: bool,
         pub decorators: Vec<Decorator>,
-        pub computed: bool,
         pub accessibility: Option<Accessibility>,
-        pub is_abstract: bool,
         pub is_optional: bool,
         pub is_override: bool,
         pub readonly: bool,
-        pub definite: bool,
     }
     pub struct ClassMethod {
         pub span: Span,

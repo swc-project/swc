@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(loadModule);
 // @module: commonjs
@@ -11,7 +7,7 @@ var _marked = regeneratorRuntime.mark(loadModule);
 // @filename: defaultPath.ts
 export var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 import("".concat(directory, "\\").concat(moduleFile));
 import(getSpecifier());
@@ -25,7 +21,7 @@ p1.then(function(zero) {
 var j;
 var p3 = import(j = getSpecifier());
 function loadModule(directories) {
-    var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, directory, path;
+    var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _$directory, path;
     return regeneratorRuntime.wrap(function loadModule$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -37,8 +33,8 @@ function loadModule(directories) {
                     _ctx.next = 13;
                     break;
                 }
-                directory = _step.value;
-                path = "".concat(directory, "\\moduleFile");
+                _$directory = _step.value;
+                path = "".concat(_$directory, "\\moduleFile");
                 _ctx.next = 8;
                 return path;
             case 8:

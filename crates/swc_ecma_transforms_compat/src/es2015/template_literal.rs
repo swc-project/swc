@@ -10,7 +10,9 @@ use swc_ecma_utils::{
     is_literal, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn template_literal(c: Config) -> impl Fold + VisitMut {
     as_folder(TemplateLiteral {
         c,
@@ -43,6 +45,7 @@ impl Parallel for TemplateLiteral {
     }
 }
 
+#[swc_trace]
 #[parallel]
 impl VisitMut for TemplateLiteral {
     noop_visit_mut_type!();

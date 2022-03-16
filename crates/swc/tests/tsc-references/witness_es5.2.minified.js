@@ -1,28 +1,12 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 var co2, cnd1, or1, or2, or3, and1, and3, propAcc1, M2, InitClass = function() {
     "use strict";
     function InitClass() {
-        _classCallCheck(this, InitClass), this.x = this.x;
+        swcHelpers.classCallCheck(this, InitClass), this.x = this.x;
     }
-    return _createClass(InitClass, [
-        {
-            key: "fn",
-            value: function() {
-                this.x;
-            }
-        }
-    ]), InitClass;
+    return InitClass.prototype.fn = function() {
+        this.x;
+    }, InitClass;
 }();
 function fnReturn1() {
     return fnReturn1();
@@ -42,28 +26,16 @@ fnCall();
 var C = function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    return _createClass(C, [
-        {
-            key: "fn1",
-            value: function() {
-                return new (this.fn1())();
-            }
-        },
-        {
-            key: "fn2",
-            value: function() {
-                return new (this.fn2());
-            }
-        },
-        {
-            key: "fn3",
-            value: function() {
-                return new (void 0)(this.fn3);
-            }
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.fn1 = function() {
+        return new (this.fn1())();
+    }, _proto.fn2 = function() {
+        return new (this.fn2());
+    }, _proto.fn3 = function() {
+        return new (void 0)(this.fn3);
+    }, C;
 }();
 function fn5() {
     return new (void 0)(fn5);
@@ -75,11 +47,11 @@ var propAcc1 = {
 (M2 || (M2 = {})).x = M2.x;
 var C2 = function() {
     "use strict";
-    _classCallCheck(this, C2), this.n = this.n;
+    swcHelpers.classCallCheck(this, C2), this.n = this.n;
 };
 new C2().n;
 var C3 = function() {
     "use strict";
-    _classCallCheck(this, C3);
+    swcHelpers.classCallCheck(this, C3);
 };
 C3.q = C3.q, C3.q;

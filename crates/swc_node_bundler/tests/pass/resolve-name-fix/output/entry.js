@@ -1088,7 +1088,7 @@ var load69 = __swcpack_require__.bind(void 0, function(module, exports) {
         if (!isObject(proto) && proto !== null) throw TypeError(proto + ": can't set as prototype!");
     };
     module.exports = {
-        set: Object.setPrototypeOf || ('__proto__' in {} ? (function(test, buggy, set) {
+        set: Object.setPrototypeOf || ('__proto__' in {} ? function(test, buggy, set) {
             try {
                 set = load19()(Function.call, load48().f(Object.prototype, '__proto__').set, 2);
                 set(test, []);
@@ -1102,7 +1102,7 @@ var load69 = __swcpack_require__.bind(void 0, function(module, exports) {
                 else set(O, proto);
                 return O;
             };
-        })({}, false) : undefined),
+        }({}, false) : undefined),
         check: check
     };
 });

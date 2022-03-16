@@ -1,3 +1,6 @@
+import * as swcHelpers from "@swc/helpers";
 class C {
 }
-C.s = C.#method(), console.log(C.s);
+C.s = swcHelpers.classStaticPrivateMethodGet(C, C, function() {
+    return 42;
+}).call(C), console.log(C.s);

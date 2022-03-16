@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @allowJs: true
 // @checkJs: true
 // @outDir: ./out
@@ -33,8 +29,13 @@ module.exports = {
 };
 // @filename: index.js
 var ref = require('./module.js'), taskGroups = ref.taskGroups, taskNameToGroup = ref.taskNameToGroup;
-var MainThreadTasks = function MainThreadTasks(x, y) {
+/** @typedef {import('./module.js').TaskGroup} TaskGroup */ /**
+ * @typedef TaskNode
+ * @prop {TaskNode[]} children
+ * @prop {TaskNode|undefined} parent
+ * @prop {TaskGroup} group
+ */ /** @typedef {{timers: Map<string, TaskNode>}} PriorTaskData */ var MainThreadTasks = function MainThreadTasks(x, y) {
     "use strict";
-    _classCallCheck(this, MainThreadTasks);
+    swcHelpers.classCallCheck(this, MainThreadTasks);
 };
 module.exports = MainThreadTasks;

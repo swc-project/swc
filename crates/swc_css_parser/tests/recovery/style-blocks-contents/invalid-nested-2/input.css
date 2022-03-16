@@ -1,0 +1,12 @@
+.class {
+    color: red;
+    & test;
+    background: red
+}
+
+article {
+    color: green;
+    & { color: blue; }
+    color: red;
+    &.foo { color: yellow; } /* valid! */
+}

@@ -1,1433 +1,1420 @@
-error: Stylesheet
-  --> $DIR/tests/fixture/rome/selectors/input.css:1:1
-   |
-1  | / div, div + #id, div ~ #id, div > #id {
-2  | |
-3  | | }
-4  | |
-...  |
-38 | | ::pseudo-elem(a, b) {
-39 | | }
-   | |__^
-
-error: Rule
- --> $DIR/tests/fixture/rome/selectors/input.css:1:1
-  |
-1 | / div, div + #id, div ~ #id, div > #id {
-2 | |
-3 | | }
-  | |_^
-
-error: QualifiedRule
- --> $DIR/tests/fixture/rome/selectors/input.css:1:1
-  |
-1 | / div, div + #id, div ~ #id, div > #id {
-2 | |
-3 | | }
-  | |_^
-
-error: SelectorList
- --> $DIR/tests/fixture/rome/selectors/input.css:1:1
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:1
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  | ^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:1
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  | ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:1
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  | ^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:1
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  | ^^^
-
-error: WqName
- --> $DIR/tests/fixture/rome/selectors/input.css:1:1
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  | ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/selectors/input.css:1:1
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  | ^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:6
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |      ^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:6
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |      ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:6
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |      ^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:6
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |      ^^^
-
-error: WqName
- --> $DIR/tests/fixture/rome/selectors/input.css:1:6
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |      ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/selectors/input.css:1:6
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |      ^^^
-
-error: Combinator
- --> $DIR/tests/fixture/rome/selectors/input.css:1:10
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |          ^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:12
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |            ^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:12
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |            ^^^
-
-error: IdSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:12
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |            ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/selectors/input.css:1:12
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |            ^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:17
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                 ^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:17
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                 ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:17
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                 ^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:17
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                 ^^^
-
-error: WqName
- --> $DIR/tests/fixture/rome/selectors/input.css:1:17
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                 ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/selectors/input.css:1:17
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                 ^^^
-
-error: Combinator
- --> $DIR/tests/fixture/rome/selectors/input.css:1:21
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                     ^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:23
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                       ^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:23
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                       ^^^
-
-error: IdSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:23
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                       ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/selectors/input.css:1:23
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                       ^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:28
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                            ^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:28
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                            ^^^
-
-error: TypeSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:28
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                            ^^^
-
-error: TagNameSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:28
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                            ^^^
-
-error: WqName
- --> $DIR/tests/fixture/rome/selectors/input.css:1:28
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                            ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/selectors/input.css:1:28
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                            ^^^
-
-error: Combinator
- --> $DIR/tests/fixture/rome/selectors/input.css:1:32
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                                ^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:34
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                                  ^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:34
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                                  ^^^
-
-error: IdSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:1:34
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                                  ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/selectors/input.css:1:34
-  |
-1 | div, div + #id, div ~ #id, div > #id {
-  |                                  ^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/selectors/input.css:1:38
-  |
-1 |   div, div + #id, div ~ #id, div > #id {
-  |  ______________________________________^
-2 | |
-3 | | }
-  | |_^
-
-error: Rule
- --> $DIR/tests/fixture/rome/selectors/input.css:5:1
-  |
-5 | / .escaped\.class\.name {
-6 | |
-7 | | }
-  | |_^
-
-error: QualifiedRule
- --> $DIR/tests/fixture/rome/selectors/input.css:5:1
-  |
-5 | / .escaped\.class\.name {
-6 | |
-7 | | }
-  | |_^
-
-error: SelectorList
- --> $DIR/tests/fixture/rome/selectors/input.css:5:1
-  |
-5 | .escaped\.class\.name {
-  | ^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:5:1
-  |
-5 | .escaped\.class\.name {
-  | ^^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:5:1
-  |
-5 | .escaped\.class\.name {
-  | ^^^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:5:1
-  |
-5 | .escaped\.class\.name {
-  | ^^^^^^^^^^^^^^^^^^^^^
-
-error: ClassSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:5:1
-  |
-5 | .escaped\.class\.name {
-  | ^^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/selectors/input.css:5:2
-  |
-5 | .escaped\.class\.name {
-  |  ^^^^^^^^^^^^^^^^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/selectors/input.css:5:23
-  |
-5 |   .escaped\.class\.name {
-  |  _______________________^
-6 | |
-7 | | }
-  | |_^
-
-error: Rule
-  --> $DIR/tests/fixture/rome/selectors/input.css:9:1
-   |
-9  | / .class + * {
-10 | |
-11 | | }
-   | |_^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/rome/selectors/input.css:9:1
-   |
-9  | / .class + * {
-10 | |
-11 | | }
-   | |_^
-
-error: SelectorList
- --> $DIR/tests/fixture/rome/selectors/input.css:9:1
-  |
-9 | .class + * {
-  | ^^^^^^^^^^
-
-error: ComplexSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:9:1
-  |
-9 | .class + * {
-  | ^^^^^^^^^^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:9:1
-  |
-9 | .class + * {
-  | ^^^^^^
-
-error: SubclassSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:9:1
-  |
-9 | .class + * {
-  | ^^^^^^
-
-error: ClassSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:9:1
-  |
-9 | .class + * {
-  | ^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/selectors/input.css:9:2
-  |
-9 | .class + * {
-  |  ^^^^^
-
-error: Combinator
- --> $DIR/tests/fixture/rome/selectors/input.css:9:8
-  |
-9 | .class + * {
-  |        ^
-
-error: CompoundSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:9:10
-  |
-9 | .class + * {
-  |          ^
-
-error: TypeSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:9:10
-  |
-9 | .class + * {
-  |          ^
-
-error: UniversalSelector
- --> $DIR/tests/fixture/rome/selectors/input.css:9:10
-  |
-9 | .class + * {
-  |          ^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:9:12
-   |
-9  |   .class + * {
-   |  ____________^
-10 | |
-11 | | }
-   | |_^
-
-error: Rule
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
-   |
-13 | / a[title] {
-14 | |   color: purple;
-15 | | }
-   | |_^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
-   |
-13 | / a[title] {
-14 | |   color: purple;
-15 | | }
-   | |_^
-
-error: SelectorList
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
-   |
-13 | a[title] {
-   | ^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
-   |
-13 | a[title] {
-   | ^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
-   |
-13 | a[title] {
-   | ^^^^^^^^
-
-error: TypeSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
-   |
-13 | a[title] {
-   | ^
-
-error: TagNameSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
-   |
-13 | a[title] {
-   | ^
-
-error: WqName
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
-   |
-13 | a[title] {
-   | ^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:1
-   |
-13 | a[title] {
-   | ^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:2
-   |
-13 | a[title] {
-   |  ^^^^^^^
-
-error: AttributeSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:2
-   |
-13 | a[title] {
-   |  ^^^^^^^
-
-error: WqName
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:3
-   |
-13 | a[title] {
-   |   ^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:3
-   |
-13 | a[title] {
-   |   ^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:13:10
-   |
-13 |   a[title] {
-   |  __________^
-14 | |   color: purple;
-15 | | }
-   | |_^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:14:3
-   |
-14 |   color: purple;
-   |   ^^^^^^^^^^^^^
-
-error: StyleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:14:3
-   |
-14 |   color: purple;
-   |   ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/rome/selectors/input.css:14:3
-   |
-14 |   color: purple;
-   |   ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/rome/selectors/input.css:14:3
-   |
-14 |   color: purple;
-   |   ^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:14:3
-   |
-14 |   color: purple;
-   |   ^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:14:10
-   |
-14 |   color: purple;
-   |          ^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:14:10
-   |
-14 |   color: purple;
-   |          ^^^^^^
-
-error: Rule
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
-   |
-17 | / a[title = "title"] {
-18 | |   color: purple;
-19 | | }
-   | |_^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
-   |
-17 | / a[title = "title"] {
-18 | |   color: purple;
-19 | | }
-   | |_^
-
-error: SelectorList
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
-   |
-17 | a[title = "title"] {
-   | ^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
-   |
-17 | a[title = "title"] {
-   | ^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
-   |
-17 | a[title = "title"] {
-   | ^^^^^^^^^^^^^^^^^^
-
-error: TypeSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
-   |
-17 | a[title = "title"] {
-   | ^
-
-error: TagNameSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
-   |
-17 | a[title = "title"] {
-   | ^
-
-error: WqName
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
-   |
-17 | a[title = "title"] {
-   | ^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:1
-   |
-17 | a[title = "title"] {
-   | ^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:2
-   |
-17 | a[title = "title"] {
-   |  ^^^^^^^^^^^^^^^^^
-
-error: AttributeSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:2
-   |
-17 | a[title = "title"] {
-   |  ^^^^^^^^^^^^^^^^^
-
-error: WqName
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:3
-   |
-17 | a[title = "title"] {
-   |   ^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:3
-   |
-17 | a[title = "title"] {
-   |   ^^^^^
-
-error: AttributeSelectorMatcher
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:9
-   |
-17 | a[title = "title"] {
-   |         ^
-
-error: AttributeSelectorValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:11
-   |
-17 | a[title = "title"] {
-   |           ^^^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:11
-   |
-17 | a[title = "title"] {
-   |           ^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:17:20
-   |
-17 |   a[title = "title"] {
-   |  ____________________^
-18 | |   color: purple;
-19 | | }
-   | |_^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:18:3
-   |
-18 |   color: purple;
-   |   ^^^^^^^^^^^^^
-
-error: StyleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:18:3
-   |
-18 |   color: purple;
-   |   ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/rome/selectors/input.css:18:3
-   |
-18 |   color: purple;
-   |   ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/rome/selectors/input.css:18:3
-   |
-18 |   color: purple;
-   |   ^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:18:3
-   |
-18 |   color: purple;
-   |   ^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:18:10
-   |
-18 |   color: purple;
-   |          ^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:18:10
-   |
-18 |   color: purple;
-   |          ^^^^^^
-
-error: Rule
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
-   |
-21 | / a[title~="title" i] {
-22 | |   color: purple;
-23 | | }
-   | |_^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
-   |
-21 | / a[title~="title" i] {
-22 | |   color: purple;
-23 | | }
-   | |_^
-
-error: SelectorList
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
-   |
-21 | a[title~="title" i] {
-   | ^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
-   |
-21 | a[title~="title" i] {
-   | ^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
-   |
-21 | a[title~="title" i] {
-   | ^^^^^^^^^^^^^^^^^^^
-
-error: TypeSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
-   |
-21 | a[title~="title" i] {
-   | ^
-
-error: TagNameSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
-   |
-21 | a[title~="title" i] {
-   | ^
-
-error: WqName
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
-   |
-21 | a[title~="title" i] {
-   | ^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:1
-   |
-21 | a[title~="title" i] {
-   | ^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:2
-   |
-21 | a[title~="title" i] {
-   |  ^^^^^^^^^^^^^^^^^^
-
-error: AttributeSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:2
-   |
-21 | a[title~="title" i] {
-   |  ^^^^^^^^^^^^^^^^^^
-
-error: WqName
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:3
-   |
-21 | a[title~="title" i] {
-   |   ^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:3
-   |
-21 | a[title~="title" i] {
-   |   ^^^^^
-
-error: AttributeSelectorMatcher
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:8
-   |
-21 | a[title~="title" i] {
-   |        ^^
-
-error: AttributeSelectorValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:10
-   |
-21 | a[title~="title" i] {
-   |          ^^^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:10
-   |
-21 | a[title~="title" i] {
-   |          ^^^^^^^
-
-error: AttributeSelectorModifier
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:18
-   |
-21 | a[title~="title" i] {
-   |                  ^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:18
-   |
-21 | a[title~="title" i] {
-   |                  ^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:21:21
-   |
-21 |   a[title~="title" i] {
-   |  _____________________^
-22 | |   color: purple;
-23 | | }
-   | |_^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:22:3
-   |
-22 |   color: purple;
-   |   ^^^^^^^^^^^^^
-
-error: StyleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:22:3
-   |
-22 |   color: purple;
-   |   ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/rome/selectors/input.css:22:3
-   |
-22 |   color: purple;
-   |   ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/rome/selectors/input.css:22:3
-   |
-22 |   color: purple;
-   |   ^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:22:3
-   |
-22 |   color: purple;
-   |   ^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:22:10
-   |
-22 |   color: purple;
-   |          ^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:22:10
-   |
-22 |   color: purple;
-   |          ^^^^^^
-
-error: Rule
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
-   |
-25 | / a[title = "title"][href*="image/*" S] {
-26 | |     color: purple;
-27 | | }
-   | |_^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
-   |
-25 | / a[title = "title"][href*="image/*" S] {
-26 | |     color: purple;
-27 | | }
-   | |_^
-
-error: SelectorList
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: TypeSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   | ^
-
-error: TagNameSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   | ^
-
-error: WqName
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   | ^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:1
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   | ^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:2
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |  ^^^^^^^^^^^^^^^^^
-
-error: AttributeSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:2
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |  ^^^^^^^^^^^^^^^^^
-
-error: WqName
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:3
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |   ^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:3
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |   ^^^^^
-
-error: AttributeSelectorMatcher
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:9
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |         ^
-
-error: AttributeSelectorValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:11
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |           ^^^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:11
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |           ^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:19
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |                   ^^^^^^^^^^^^^^^^^^^
-
-error: AttributeSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:19
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |                   ^^^^^^^^^^^^^^^^^^^
-
-error: WqName
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:20
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |                    ^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:20
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |                    ^^^^
-
-error: AttributeSelectorMatcher
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:24
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |                        ^^
-
-error: AttributeSelectorValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:26
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |                          ^^^^^^^^^
-
-error: Str
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:26
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |                          ^^^^^^^^^
-
-error: AttributeSelectorModifier
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:36
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |                                    ^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:36
-   |
-25 | a[title = "title"][href*="image/*" S] {
-   |                                    ^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:25:39
-   |
-25 |   a[title = "title"][href*="image/*" S] {
-   |  _______________________________________^
-26 | |     color: purple;
-27 | | }
-   | |_^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:26:2
-   |
-26 |     color: purple;
-   |     ^^^^^^^^^^^^^
-
-error: StyleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:26:2
-   |
-26 |     color: purple;
-   |     ^^^^^^^^^^^^^
-
-error: Declaration
-  --> $DIR/tests/fixture/rome/selectors/input.css:26:2
-   |
-26 |     color: purple;
-   |     ^^^^^^^^^^^^^
-
-error: DeclarationName
-  --> $DIR/tests/fixture/rome/selectors/input.css:26:2
-   |
-26 |     color: purple;
-   |     ^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:26:2
-   |
-26 |     color: purple;
-   |     ^^^^^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/selectors/input.css:26:9
-   |
-26 |     color: purple;
-   |            ^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:26:9
-   |
-26 |     color: purple;
-   |            ^^^^^^
-
-error: Rule
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
-   |
-29 | / p:nth-last-of-type(2) {
-30 | | }
-   | |_^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
-   |
-29 | / p:nth-last-of-type(2) {
-30 | | }
-   | |_^
-
-error: SelectorList
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
-   |
-29 | p:nth-last-of-type(2) {
-   | ^^^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
-   |
-29 | p:nth-last-of-type(2) {
-   | ^^^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
-   |
-29 | p:nth-last-of-type(2) {
-   | ^^^^^^^^^^^^^^^^^^^^^
-
-error: TypeSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
-   |
-29 | p:nth-last-of-type(2) {
-   | ^
-
-error: TagNameSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
-   |
-29 | p:nth-last-of-type(2) {
-   | ^
-
-error: WqName
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
-   |
-29 | p:nth-last-of-type(2) {
-   | ^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:1
-   |
-29 | p:nth-last-of-type(2) {
-   | ^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:2
-   |
-29 | p:nth-last-of-type(2) {
-   |  ^^^^^^^^^^^^^^^^^^^^
-
-error: PseudoClassSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:2
-   |
-29 | p:nth-last-of-type(2) {
-   |  ^^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:3
-   |
-29 | p:nth-last-of-type(2) {
-   |   ^^^^^^^^^^^^^^^^
-
-error: PseudoClassSelectorChildren
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:20
-   |
-29 | p:nth-last-of-type(2) {
-   |                    ^
-
-error: AnPlusB
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:20
-   |
-29 | p:nth-last-of-type(2) {
-   |                    ^
-
-error: AnPlusBNotation
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:20
-   |
-29 | p:nth-last-of-type(2) {
-   |                    ^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:29:23
-   |
-29 |   p:nth-last-of-type(2) {
-   |  _______________________^
-30 | | }
-   | |_^
-
-error: Rule
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:1
-   |
-32 | / :lang(en, ko) {
-33 | | }
-   | |_^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:1
-   |
-32 | / :lang(en, ko) {
-33 | | }
-   | |_^
-
-error: SelectorList
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:1
-   |
-32 | :lang(en, ko) {
-   | ^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:1
-   |
-32 | :lang(en, ko) {
-   | ^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:1
-   |
-32 | :lang(en, ko) {
-   | ^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:1
-   |
-32 | :lang(en, ko) {
-   | ^^^^^^^^^^^^^
-
-error: PseudoClassSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:1
-   |
-32 | :lang(en, ko) {
-   | ^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:2
-   |
-32 | :lang(en, ko) {
-   |  ^^^^
-
-error: PseudoClassSelectorChildren
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:7
-   |
-32 | :lang(en, ko) {
-   |       ^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:7
-   |
-32 | :lang(en, ko) {
-   |       ^^
-
-error: PseudoClassSelectorChildren
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:9
-   |
-32 | :lang(en, ko) {
-   |         ^
-
-error: Delimiter
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:9
-   |
-32 | :lang(en, ko) {
-   |         ^
-
-error: PseudoClassSelectorChildren
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:11
-   |
-32 | :lang(en, ko) {
-   |           ^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:11
-   |
-32 | :lang(en, ko) {
-   |           ^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:32:15
-   |
-32 |   :lang(en, ko) {
-   |  _______________^
-33 | | }
-   | |_^
-
-error: Rule
-  --> $DIR/tests/fixture/rome/selectors/input.css:35:1
-   |
-35 | / ::pseudo-elem() {
-36 | | }
-   | |_^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/rome/selectors/input.css:35:1
-   |
-35 | / ::pseudo-elem() {
-36 | | }
-   | |_^
-
-error: SelectorList
-  --> $DIR/tests/fixture/rome/selectors/input.css:35:1
-   |
-35 | ::pseudo-elem() {
-   | ^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:35:1
-   |
-35 | ::pseudo-elem() {
-   | ^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:35:1
-   |
-35 | ::pseudo-elem() {
-   | ^^^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:35:1
-   |
-35 | ::pseudo-elem() {
-   | ^^^^^^^^^^^^^^^
-
-error: PseudoElementSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:35:1
-   |
-35 | ::pseudo-elem() {
-   | ^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:35:3
-   |
-35 | ::pseudo-elem() {
-   |   ^^^^^^^^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:35:17
-   |
-35 |   ::pseudo-elem() {
-   |  _________________^
-36 | | }
-   | |_^
-
-error: Rule
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:1
-   |
-38 | / ::pseudo-elem(a, b) {
-39 | | }
-   | |_^
-
-error: QualifiedRule
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:1
-   |
-38 | / ::pseudo-elem(a, b) {
-39 | | }
-   | |_^
-
-error: SelectorList
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:1
-   |
-38 | ::pseudo-elem(a, b) {
-   | ^^^^^^^^^^^^^^^^^^^
-
-error: ComplexSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:1
-   |
-38 | ::pseudo-elem(a, b) {
-   | ^^^^^^^^^^^^^^^^^^^
-
-error: CompoundSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:1
-   |
-38 | ::pseudo-elem(a, b) {
-   | ^^^^^^^^^^^^^^^^^^^
-
-error: SubclassSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:1
-   |
-38 | ::pseudo-elem(a, b) {
-   | ^^^^^^^^^^^^^^^^^^^
-
-error: PseudoElementSelector
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:1
-   |
-38 | ::pseudo-elem(a, b) {
-   | ^^^^^^^^^^^^^^^^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:3
-   |
-38 | ::pseudo-elem(a, b) {
-   |   ^^^^^^^^^^^
-
-error: PseudoElementSelectorChildren
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:15
-   |
-38 | ::pseudo-elem(a, b) {
-   |               ^
-
-error: Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:15
-   |
-38 | ::pseudo-elem(a, b) {
-   |               ^
-
-error: PseudoElementSelectorChildren
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:16
-   |
-38 | ::pseudo-elem(a, b) {
-   |                ^
-
-error: Comma
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:16
-   |
-38 | ::pseudo-elem(a, b) {
-   |                ^
-
-error: PseudoElementSelectorChildren
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:17
-   |
-38 | ::pseudo-elem(a, b) {
-   |                 ^
-
-error: WhiteSpace { value: Atom(' ' type=inline) }
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:17
-   |
-38 | ::pseudo-elem(a, b) {
-   |                 ^
-
-error: PseudoElementSelectorChildren
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:18
-   |
-38 | ::pseudo-elem(a, b) {
-   |                  ^
-
-error: Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:18
-   |
-38 | ::pseudo-elem(a, b) {
-   |                  ^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/selectors/input.css:38:21
-   |
-38 |   ::pseudo-elem(a, b) {
-   |  _____________________^
-39 | | }
-   | |_^
 
+  x Stylesheet
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+  2 | ,-> div, div + #id, div ~ #id, div > #id {
+  3 | |   
+  4 | |   }
+  5 | |   
+  6 | |   .escaped\.class\.name {
+  7 | |   
+  8 | |   }
+  9 | |   
+ 10 | |   .class + * {
+ 11 | |   
+ 12 | |   }
+ 13 | |   
+ 14 | |   a[title] {
+ 15 | |     color: purple;
+ 16 | |   }
+ 17 | |   
+ 18 | |   a[title = "title"] {
+ 19 | |     color: purple;
+ 20 | |   }
+ 21 | |   
+ 22 | |   a[title~="title" i] {
+ 23 | |     color: purple;
+ 24 | |   }
+ 25 | |   
+ 26 | |   a[title = "title"][href*="image/*" S] {
+ 27 | |   	color: purple;
+ 28 | |   }
+ 29 | |   
+ 30 | |   p:nth-last-of-type(2) {
+ 31 | |   }
+ 32 | |   
+ 33 | |   :lang(en, ko) {
+ 34 | |   }
+ 35 | |   
+ 36 | |   ::pseudo-elem() {
+ 37 | |   }
+ 38 | |   
+ 39 | |   ::pseudo-elem(a, b) {
+ 40 | `-> }
+    `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | ,-> div, div + #id, div ~ #id, div > #id {
+ 3 | |   
+ 4 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | ,-> div, div + #id, div ~ #id, div > #id {
+ 3 | |   
+ 4 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   : ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   : ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   : ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   : ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   : ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   : ^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :      ^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :      ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :      ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :      ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :      ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :      ^^^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :          ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :            ^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :            ^^^
+   `----
+
+  x IdSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :            ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :            ^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                 ^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                 ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                 ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                 ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                 ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                 ^^^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                     ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                       ^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                       ^^^
+   `----
+
+  x IdSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                       ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                       ^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                            ^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                            ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                            ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                            ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                            ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                            ^^^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                                ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                                  ^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                                  ^^^
+   `----
+
+  x IdSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                                  ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | div, div + #id, div ~ #id, div > #id {
+   :                                  ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:2:1]
+ 2 | ,-> div, div + #id, div ~ #id, div > #id {
+ 3 | |   
+ 4 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:6:1]
+ 6 | ,-> .escaped\.class\.name {
+ 7 | |   
+ 8 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:6:1]
+ 6 | ,-> .escaped\.class\.name {
+ 7 | |   
+ 8 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:6:1]
+ 6 | .escaped\.class\.name {
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:6:1]
+ 6 | .escaped\.class\.name {
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:6:1]
+ 6 | .escaped\.class\.name {
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:6:1]
+ 6 | .escaped\.class\.name {
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:6:1]
+ 6 | .escaped\.class\.name {
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:6:1]
+ 6 | .escaped\.class\.name {
+   :  ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/selectors/input.css:6:1]
+ 6 | ,-> .escaped\.class\.name {
+ 7 | |   
+ 8 | `-> }
+   `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | ,-> .class + * {
+ 11 | |   
+ 12 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | ,-> .class + * {
+ 11 | |   
+ 12 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | .class + * {
+    : ^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | .class + * {
+    : ^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | .class + * {
+    : ^^^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | .class + * {
+    : ^^^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | .class + * {
+    : ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | .class + * {
+    :  ^^^^^
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | .class + * {
+    :        ^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | .class + * {
+    :          ^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | .class + * {
+    :          ^
+    `----
+
+  x UniversalSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | .class + * {
+    :          ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:10:1]
+ 10 | ,-> .class + * {
+ 11 | |   
+ 12 | `-> }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | ,-> a[title] {
+ 15 | |     color: purple;
+ 16 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | ,-> a[title] {
+ 15 | |     color: purple;
+ 16 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | a[title] {
+    : ^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | a[title] {
+    : ^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | a[title] {
+    : ^^^^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | a[title] {
+    : ^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | a[title] {
+    : ^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | a[title] {
+    : ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | a[title] {
+    : ^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | a[title] {
+    :  ^^^^^^^
+    `----
+
+  x AttributeSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | a[title] {
+    :  ^^^^^^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | a[title] {
+    :   ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | a[title] {
+    :   ^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:1]
+ 14 | ,-> a[title] {
+ 15 | |     color: purple;
+ 16 | `-> }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:15:3]
+ 15 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:15:3]
+ 15 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:15:3]
+ 15 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:15:3]
+ 15 | color: purple;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:15:3]
+ 15 | color: purple;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:15:3]
+ 15 | color: purple;
+    :        ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:15:3]
+ 15 | color: purple;
+    :        ^^^^^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | ,-> a[title = "title"] {
+ 19 | |     color: purple;
+ 20 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | ,-> a[title = "title"] {
+ 19 | |     color: purple;
+ 20 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    : ^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    : ^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    : ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    : ^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    :  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x AttributeSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    :  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    :   ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    :   ^^^^^
+    `----
+
+  x AttributeSelectorMatcher
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    :         ^
+    `----
+
+  x AttributeSelectorValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    :           ^^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | a[title = "title"] {
+    :           ^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:1]
+ 18 | ,-> a[title = "title"] {
+ 19 | |     color: purple;
+ 20 | `-> }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:19:3]
+ 19 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:19:3]
+ 19 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:19:3]
+ 19 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:19:3]
+ 19 | color: purple;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:19:3]
+ 19 | color: purple;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:19:3]
+ 19 | color: purple;
+    :        ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:19:3]
+ 19 | color: purple;
+    :        ^^^^^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | ,-> a[title~="title" i] {
+ 23 | |     color: purple;
+ 24 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | ,-> a[title~="title" i] {
+ 23 | |     color: purple;
+ 24 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    : ^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    : ^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    : ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    : ^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    :  ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AttributeSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    :  ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    :   ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    :   ^^^^^
+    `----
+
+  x AttributeSelectorMatcher
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    :        ^^
+    `----
+
+  x AttributeSelectorValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    :          ^^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    :          ^^^^^^^
+    `----
+
+  x AttributeSelectorModifier
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    :                  ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | a[title~="title" i] {
+    :                  ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:1]
+ 22 | ,-> a[title~="title" i] {
+ 23 | |     color: purple;
+ 24 | `-> }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:23:3]
+ 23 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:23:3]
+ 23 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:23:3]
+ 23 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:23:3]
+ 23 | color: purple;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:23:3]
+ 23 | color: purple;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:23:3]
+ 23 | color: purple;
+    :        ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:23:3]
+ 23 | color: purple;
+    :        ^^^^^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | ,-> a[title = "title"][href*="image/*" S] {
+ 27 | |   	color: purple;
+ 28 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | ,-> a[title = "title"][href*="image/*" S] {
+ 27 | |   	color: purple;
+ 28 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    : ^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    : ^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    : ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    : ^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x AttributeSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :   ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :   ^^^^^
+    `----
+
+  x AttributeSelectorMatcher
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :         ^
+    `----
+
+  x AttributeSelectorValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :           ^^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :           ^^^^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :                   ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AttributeSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :                   ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :                    ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :                    ^^^^
+    `----
+
+  x AttributeSelectorMatcher
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :                        ^^
+    `----
+
+  x AttributeSelectorValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :                          ^^^^^^^^^
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :                          ^^^^^^^^^
+    `----
+
+  x AttributeSelectorModifier
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :                                    ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | a[title = "title"][href*="image/*" S] {
+    :                                    ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:1]
+ 26 | ,-> a[title = "title"][href*="image/*" S] {
+ 27 | |   	color: purple;
+ 28 | `-> }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:27:5]
+ 27 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:27:5]
+ 27 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:27:5]
+ 27 | color: purple;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:27:5]
+ 27 | color: purple;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:27:5]
+ 27 | color: purple;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:27:5]
+ 27 | color: purple;
+    :        ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:27:5]
+ 27 | color: purple;
+    :        ^^^^^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | ,-> p:nth-last-of-type(2) {
+ 31 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | ,-> p:nth-last-of-type(2) {
+ 31 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    : ^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    : ^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    : ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    : ^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    :  ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PseudoClassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    :  ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    :   ^^^^^^^^^^^^^^^^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    :                    ^
+    `----
+
+  x AnPlusB
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    :                    ^
+    `----
+
+  x AnPlusBNotation
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | p:nth-last-of-type(2) {
+    :                    ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:30:1]
+ 30 | ,-> p:nth-last-of-type(2) {
+ 31 | `-> }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | ,-> :lang(en, ko) {
+ 34 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | ,-> :lang(en, ko) {
+ 34 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    : ^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    : ^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    : ^^^^^^^^^^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    : ^^^^^^^^^^^^^
+    `----
+
+  x PseudoClassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    :  ^^^^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    :       ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    :       ^^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    :         ^
+    `----
+
+  x Delimiter
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    :         ^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    :           ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | :lang(en, ko) {
+    :           ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:33:1]
+ 33 | ,-> :lang(en, ko) {
+ 34 | `-> }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:36:1]
+ 36 | ,-> ::pseudo-elem() {
+ 37 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:36:1]
+ 36 | ,-> ::pseudo-elem() {
+ 37 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:36:1]
+ 36 | ::pseudo-elem() {
+    : ^^^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:36:1]
+ 36 | ::pseudo-elem() {
+    : ^^^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:36:1]
+ 36 | ::pseudo-elem() {
+    : ^^^^^^^^^^^^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:36:1]
+ 36 | ::pseudo-elem() {
+    : ^^^^^^^^^^^^^^^
+    `----
+
+  x PseudoElementSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:36:1]
+ 36 | ::pseudo-elem() {
+    : ^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:36:1]
+ 36 | ::pseudo-elem() {
+    :   ^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:36:1]
+ 36 | ,-> ::pseudo-elem() {
+ 37 | `-> }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ,-> ::pseudo-elem(a, b) {
+ 40 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ,-> ::pseudo-elem(a, b) {
+ 40 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x PseudoElementSelector
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    :   ^^^^^^^^^^^
+    `----
+
+  x PseudoElementSelectorChildren
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    :               ^
+    `----
+
+  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    :               ^
+    `----
+
+  x PseudoElementSelectorChildren
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    :                ^
+    `----
+
+  x Comma
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    :                ^
+    `----
+
+  x PseudoElementSelectorChildren
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    :                 ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    :                 ^
+    `----
+
+  x PseudoElementSelectorChildren
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    :                  ^
+    `----
+
+  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ::pseudo-elem(a, b) {
+    :                  ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:39:1]
+ 39 | ,-> ::pseudo-elem(a, b) {
+ 40 | `-> }
+    `----

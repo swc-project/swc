@@ -1,12 +1,12 @@
-error: Expected Declaration value
- --> $DIR/tests/recovery/delim-token/hash/input.css:2:12
-  |
-2 |     color: ##;
-  |            ^
 
-error: Expected Declaration value
- --> $DIR/tests/recovery/delim-token/hash/input.css:2:13
-  |
-2 |     color: ##;
-  |             ^
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/delim-token/hash/input.css:3:5]
+ 3 | color: ##;
+   :        ^
+   `----
 
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/delim-token/hash/input.css:3:5]
+ 3 | color: ##;
+   :         ^
+   `----

@@ -6,11 +6,11 @@
 const React = require('react');
 class Button extends React.Component {
     render() {
-        return(/*#__PURE__*/ React.createElement("div", null, "My Button"));
+        return /*#__PURE__*/ React.createElement("div", null, "My Button");
     }
 }
 function Comp(p) {
-    return(/*#__PURE__*/ React.createElement("div", null, p.b));
+    return /*#__PURE__*/ React.createElement("div", null, p.b);
 }
 // Error: no children specified
 let k = /*#__PURE__*/ React.createElement(Comp, {

@@ -1,12 +1,8 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 module.exports = Point;
 var Bar = function Bar(input) {
     "use strict";
-    _classCallCheck(this, Bar);
+    swcHelpers.classCallCheck(this, Bar);
 };
 export { Bar };
 // @filename: usage.ts
@@ -20,7 +16,7 @@ export var y = {
 };
 export var Bar2 = function Bar2(input) {
     "use strict";
-    _classCallCheck(this, Bar2);
+    swcHelpers.classCallCheck(this, Bar2);
 };
 export var shim = {
     Bar: Bar2

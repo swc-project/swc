@@ -1,43 +1,21 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _foo = foo;
-var C = // @target: es6
-/*#__PURE__*/ function() {
+// @target: es6
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    _createClass(C, [
-        {
-            key: _foo,
-            value: regeneratorRuntime.mark(function value() {
-                return regeneratorRuntime.wrap(function value$(_ctx) {
-                    while(1)switch(_ctx.prev = _ctx.next){
-                        case 0:
-                        case "end":
-                            return _ctx.stop();
-                    }
-                }, value);
-            })
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto[_foo] = regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    });
     return C;
 }();

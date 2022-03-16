@@ -1,16 +1,15 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
+// Two call or construct signatures are considered identical when they have the same number of type parameters and, considering those 
+// parameters pairwise identical, have identical type parameter constraints, identical number of parameters with identical kind(required, 
+// optional or rest) and types, and identical return types.
 var B = function B(x, y) {
     "use strict";
-    _classCallCheck(this, B);
+    swcHelpers.classCallCheck(this, B);
     return null;
 };
 var C = function C(x, y) {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
     return null;
 };
 var a;

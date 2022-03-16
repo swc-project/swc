@@ -6,7 +6,7 @@ use swc::{
     config::{JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
     try_with_handler, Compiler,
 };
-use swc_common::{FileName, FilePathMapping, SourceMap};
+use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
 use swc_ecmascript::ast::{EsVersion, Program};
 use wasm_bindgen::prelude::*;
 
@@ -20,16 +20,24 @@ pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), false, |handler| {
-        let opts: JsMinifyOptions = opts.into_serde().context("failed to parse options")?;
+    try_with_handler(
+        c.cm.clone(),
+        swc::HandlerOpts {
+            ..Default::default()
+        },
+        |handler| {
+            c.run(|| {
+                let opts: JsMinifyOptions = opts.into_serde().context("failed to parse options")?;
 
-        let fm = c.cm.new_source_file(FileName::Anon, s.into());
-        let program = c
-            .minify(fm, handler, &opts)
-            .context("failed to minify file")?;
+                let fm = c.cm.new_source_file(FileName::Anon, s.into());
+                let program = c
+                    .minify(fm, handler, &opts)
+                    .context("failed to minify file")?;
 
-        JsValue::from_serde(&program).context("failed to serialize json")
-    })
+                JsValue::from_serde(&program).context("failed to serialize json")
+            })
+        },
+    )
     .map_err(convert_err)
 }
 
@@ -39,23 +47,39 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), false, |handler| {
-        let opts: ParseOptions = opts.into_serde().context("failed to parse options")?;
+    try_with_handler(
+        c.cm.clone(),
+        swc::HandlerOpts {
+            ..Default::default()
+        },
+        |handler| {
+            c.run(|| {
+                let opts: ParseOptions = opts.into_serde().context("failed to parse options")?;
 
-        let fm = c.cm.new_source_file(FileName::Anon, s.into());
-        let program = c
-            .parse_js(
-                fm,
-                handler,
-                opts.target,
-                opts.syntax,
-                opts.is_module,
-                opts.comments,
-            )
-            .context("failed to parse code")?;
+                let fm = c.cm.new_source_file(FileName::Anon, s.into());
 
-        JsValue::from_serde(&program).context("failed to serialize json")
-    })
+                let cmts = c.comments().clone();
+                let comments = if opts.comments {
+                    Some(&cmts as &dyn Comments)
+                } else {
+                    None
+                };
+
+                let program = c
+                    .parse_js(
+                        fm,
+                        handler,
+                        opts.target,
+                        opts.syntax,
+                        opts.is_module,
+                        comments,
+                    )
+                    .context("failed to parse code")?;
+
+                JsValue::from_serde(&program).context("failed to serialize json")
+            })
+        },
+    )
     .map_err(convert_err)
 }
 
@@ -65,30 +89,38 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), false, |_handler| {
-        let opts: Options = opts.into_serde().context("failed to parse options")?;
+    try_with_handler(
+        c.cm.clone(),
+        swc::HandlerOpts {
+            ..Default::default()
+        },
+        |_handler| {
+            c.run(|| {
+                let opts: Options = opts.into_serde().context("failed to parse options")?;
 
-        let program: Program = s.into_serde().context("failed to deserialize program")?;
+                let program: Program = s.into_serde().context("failed to deserialize program")?;
 
-        let s = c
-            .print(
-                &program,
-                None,
-                None,
-                true,
-                opts.codegen_target().unwrap_or(EsVersion::Es2020),
-                opts.source_maps
-                    .clone()
-                    .unwrap_or(SourceMapsConfig::Bool(false)),
-                &Default::default(),
-                None,
-                opts.config.minify,
-                None,
-            )
-            .context("failed to print code")?;
+                let s = c
+                    .print(
+                        &program,
+                        None,
+                        None,
+                        true,
+                        opts.codegen_target().unwrap_or(EsVersion::Es2020),
+                        opts.source_maps
+                            .clone()
+                            .unwrap_or(SourceMapsConfig::Bool(false)),
+                        &Default::default(),
+                        None,
+                        opts.config.minify,
+                        None,
+                    )
+                    .context("failed to print code")?;
 
-        JsValue::from_serde(&s).context("failed to serialize json")
-    })
+                JsValue::from_serde(&s).context("failed to serialize json")
+            })
+        },
+    )
     .map_err(convert_err)
 }
 
@@ -98,23 +130,31 @@ pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
-    try_with_handler(c.cm.clone(), false, |handler| {
-        let opts: Options = opts.into_serde().context("failed to parse options")?;
+    try_with_handler(
+        c.cm.clone(),
+        swc::HandlerOpts {
+            ..Default::default()
+        },
+        |handler| {
+            c.run(|| {
+                let opts: Options = opts.into_serde().context("failed to parse options")?;
 
-        let fm = c.cm.new_source_file(
-            if opts.filename.is_empty() {
-                FileName::Anon
-            } else {
-                FileName::Real(opts.filename.clone().into())
-            },
-            s.into(),
-        );
-        let out = c
-            .process_js_file(fm, handler, &opts)
-            .context("failed to process js file")?;
+                let fm = c.cm.new_source_file(
+                    if opts.filename.is_empty() {
+                        FileName::Anon
+                    } else {
+                        FileName::Real(opts.filename.clone().into())
+                    },
+                    s.into(),
+                );
+                let out = c
+                    .process_js_file(fm, handler, &opts)
+                    .context("failed to process input file")?;
 
-        JsValue::from_serde(&out).context("failed to serialize json")
-    })
+                JsValue::from_serde(&out).context("failed to serialize json")
+            })
+        },
+    )
     .map_err(convert_err)
 }
 

@@ -38,7 +38,7 @@ where
             // TODO: remove `}`
             // <EOF-token>
             // Return the list of rules.
-            if is!(self, EOF) || is!(self, "}") {
+            if is_one_of!(self, EOF, "}") {
                 return Ok(rules);
             }
 
@@ -78,25 +78,30 @@ where
                     match qualified_rule {
                         Ok(i) => rules.push(Rule::QualifiedRule(i)),
                         Err(err) => {
-                            if is!(self, "}") {
-                                self.errors.push(err);
-                                self.input.reset(&state);
+                            self.errors.push(err);
+                            self.input.reset(&state);
 
-                                let start_pos = self.input.cur_span()?.lo;
+                            let span = self.input.cur_span()?;
+                            let mut tokens = vec![];
 
-                                let mut tokens = vec![];
+                            while !is_one_of!(self, EOF, "}") {
+                                let token = self.input.bump()?;
 
-                                while !is_one_of!(self, EOF, "}") {
-                                    tokens.extend(self.input.bump()?);
+                                tokens.extend(token);
+
+                                if is!(self, ";") {
+                                    let token = self.input.bump()?;
+
+                                    tokens.extend(token);
+
+                                    break;
                                 }
-
-                                rules.push(Rule::Invalid(Tokens {
-                                    span: span!(self, start_pos),
-                                    tokens,
-                                }));
-                            } else {
-                                return Err(err);
                             }
+
+                            rules.push(Rule::Invalid(Tokens {
+                                span: span!(self, span.lo),
+                                tokens,
+                            }));
                         }
                     };
                 }
@@ -111,15 +116,18 @@ where
 {
     fn parse(&mut self) -> PResult<QualifiedRule> {
         let span = self.input.cur_span()?;
-        let mut prelude = SelectorList {
+        // Create a new qualified rule with its prelude initially set to an empty list,
+        // and its value initially set to nothing.
+        let mut prelude = QualifiedRulePrelude::Invalid(Tokens {
             span: Default::default(),
-            children: vec![],
-        };
+            tokens: vec![],
+        });
 
         // Repeatedly consume the next input token:
         loop {
             // <EOF-token>
-            // Return the list of rules.
+            // This is a parse error. Return nothing.
+            // But we return for error recovery blocks
             if is!(self, EOF) {
                 let span = self.input.cur_span()?;
 
@@ -146,7 +154,35 @@ where
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the qualified rule’s prelude.
                 _ => {
-                    prelude = self.parse()?;
+                    let state = self.input.state();
+
+                    prelude = match self.parse() {
+                        Ok(selector_list) => QualifiedRulePrelude::SelectorList(selector_list),
+                        Err(err) => {
+                            self.errors.push(err);
+                            self.input.reset(&state);
+
+                            let span = self.input.cur_span()?;
+                            let mut tokens = vec![];
+
+                            while !is_one_of!(self, EOF, "{") {
+                                if is!(self, ";") {
+                                    let span = self.input.cur_span()?;
+
+                                    return Err(Error::new(span, ErrorKind::UnexpectedChar(';')));
+                                }
+
+                                let token = self.input.bump()?;
+
+                                tokens.extend(token);
+                            }
+
+                            QualifiedRulePrelude::Invalid(Tokens {
+                                span: span!(self, span.lo),
+                                tokens,
+                            })
+                        }
+                    };
                 }
             }
         }
@@ -195,13 +231,13 @@ where
                 // it to decls.
                 tok!("ident") => {
                     let state = self.input.state();
-                    let span = self.input.cur_span()?;
                     let prop = match self.parse() {
                         Ok(v) => StyleBlock::Declaration(v),
                         Err(err) => {
                             self.errors.push(err);
                             self.input.reset(&state);
 
+                            let span = self.input.cur_span()?;
                             let mut tokens = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
@@ -233,17 +269,27 @@ where
                 // returned, append it to rules.
                 tok!("&") => {
                     let state = self.input.state();
-                    let span = self.input.cur_span()?;
                     let qualified_rule = match self.parse() {
                         Ok(v) => StyleBlock::QualifiedRule(v),
                         Err(err) => {
                             self.errors.push(err);
                             self.input.reset(&state);
 
+                            let span = self.input.cur_span()?;
                             let mut tokens = vec![];
 
-                            while !is_one_of!(self, EOF, ";", "}") {
-                                tokens.extend(self.input.bump()?);
+                            while !is_one_of!(self, EOF, "}") {
+                                let token = self.input.bump()?;
+
+                                tokens.extend(token);
+
+                                if is!(self, ";") {
+                                    let token = self.input.bump()?;
+
+                                    tokens.extend(token);
+
+                                    break;
+                                }
                             }
 
                             StyleBlock::Invalid(Tokens {
@@ -278,8 +324,16 @@ where
                     let mut tokens = vec![];
 
                     // TODO fix me
-                    while !is_one_of!(self, EOF, ";", "}") {
+                    while !is_one_of!(self, EOF, "}") {
                         tokens.extend(self.input.bump()?);
+
+                        if is!(self, ";") {
+                            let token = self.input.bump()?;
+
+                            tokens.extend(token);
+
+                            break;
+                        }
                     }
 
                     declarations.push(StyleBlock::Invalid(Tokens {
@@ -319,7 +373,10 @@ where
                 '['
             }
             _ => {
-                unreachable!();
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("'{', '(' or '[' token"),
+                ));
             }
         };
         // Create a simple block with its associated token set to the current input
@@ -466,7 +523,7 @@ where
                             return Ok(ComponentValue::Url(self.parse()?));
                         }
                         "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab"
-                        | "oklch" | "color" => {
+                        | "oklch" | "color" | "device-cmyk" | "color-mix" | "color-contrast" => {
                             return Ok(ComponentValue::Color(self.parse()?));
                         }
                         _ => {
@@ -511,7 +568,7 @@ where
                     }
 
                     tok!("#") => {
-                        return Ok(ComponentValue::Color(Color::HexColor(self.parse()?)));
+                        return Ok(ComponentValue::Color(self.parse()?));
                     }
 
                     _ => {}
@@ -561,7 +618,8 @@ where
         let mut declarations = vec![];
 
         loop {
-            if is!(self, EOF) {
+            // TODO: remove `}`
+            if is_one_of!(self, EOF, "}") {
                 return Ok(declarations);
             }
 
@@ -586,8 +644,18 @@ where
 
                             let mut tokens = vec![];
 
-                            while !is_one_of!(self, EOF, ";", "}") {
-                                tokens.extend(self.input.bump()?);
+                            while !is_one_of!(self, EOF, "}") {
+                                let token = self.input.bump()?;
+
+                                tokens.extend(token);
+
+                                if is!(self, ";") {
+                                    let token = self.input.bump()?;
+
+                                    tokens.extend(token);
+
+                                    break;
+                                }
                             }
 
                             DeclarationOrAtRule::Invalid(Tokens {
@@ -598,11 +666,6 @@ where
                     };
 
                     declarations.push(prop);
-                }
-
-                // TODO refactor me
-                tok!("}") => {
-                    break;
                 }
 
                 // anything else
@@ -619,8 +682,16 @@ where
                     let mut tokens = vec![];
 
                     // TODO fix me
-                    while !is_one_of!(self, EOF, ";", "}") {
+                    while !is_one_of!(self, EOF, "}") {
                         tokens.extend(self.input.bump()?);
+
+                        if is!(self, ";") {
+                            let token = self.input.bump()?;
+
+                            tokens.extend(token);
+
+                            break;
+                        }
                     }
 
                     declarations.push(DeclarationOrAtRule::Invalid(Tokens {
@@ -630,8 +701,6 @@ where
                 }
             }
         }
-
-        Ok(declarations)
     }
 }
 

@@ -1,2 +1,2 @@
-require("react").createElement(1, null);
+require("react");
 export { };

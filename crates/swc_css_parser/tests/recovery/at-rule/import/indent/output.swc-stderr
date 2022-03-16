@@ -1,6 +1,6 @@
-error: Expected string, url or function
- --> $DIR/tests/recovery/at-rule/import/indent/input.css:1:9
-  |
-1 | @import foo-bar;
-  |         ^^^^^^^
 
+  x Expected string, url or function token
+   ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:2:1]
+ 2 | @import foo-bar;
+   :         ^^^^^^^
+   `----

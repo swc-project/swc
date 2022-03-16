@@ -3,26 +3,27 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "rust port of babel and closure compiler."
 documentation = "https://rustdoc.swc.rs/swc_ecma_transforms_typescript/"
 edition = "2021"
+include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_ecma_transforms_typescript"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.89.2"
+version = "0.98.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde = {version = "1.0.118", features = ["derive"]}
-swc_atoms = {version = "0.2", path = "../swc_atoms"}
-swc_common = {version = "0.17.0", path = "../swc_common"}
-swc_ecma_ast = {version = "0.68.0", path = "../swc_ecma_ast"}
-swc_ecma_transforms_base = {version = "0.63.0", path = "../swc_ecma_transforms_base"}
-swc_ecma_transforms_react = {version = "0.86.0", path = "../swc_ecma_transforms_react"}
-swc_ecma_utils = {version = "0.69.0", path = "../swc_ecma_utils"}
-swc_ecma_visit = {version = "0.54.0", path = "../swc_ecma_visit"}
+serde = { version = "1.0.118", features = ["derive"] }
+swc_atoms = { version = "0.2", path = "../swc_atoms" }
+swc_common = { version = "0.17.0", path = "../swc_common" }
+swc_ecma_ast = { version = "0.70.0", path = "../swc_ecma_ast" }
+swc_ecma_transforms_base = { version = "0.68.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_react = { version = "0.95.0", path = "../swc_ecma_transforms_react" }
+swc_ecma_utils = { version = "0.73.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.56.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_codegen = {version = "0.93.0", path = "../swc_ecma_codegen"}
-swc_ecma_parser = {version = "0.91.0", path = "../swc_ecma_parser"}
-swc_ecma_transforms_compat = {version = "0.75.0", path = "../swc_ecma_transforms_compat"}
-swc_ecma_transforms_proposal = {version = "0.82.0", path = "../swc_ecma_transforms_proposal"}
-swc_ecma_transforms_testing = {version = "0.65.0", path = "../swc_ecma_transforms_testing"}
-testing = {version = "0.18.0", path = "../testing"}
+swc_ecma_codegen = { version = "0.96.0", path = "../swc_ecma_codegen" }
+swc_ecma_parser = { version = "0.94.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms_compat = { version = "0.81.0", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_proposal = { version = "0.89.0", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_testing = { version = "0.70.0", path = "../swc_ecma_transforms_testing" }
+testing = { version = "0.19.0", path = "../testing" }

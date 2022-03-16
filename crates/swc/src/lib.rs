@@ -105,6 +105,7 @@
 //!
 //! See [swc_ecma_minifier::eval::Evaluator].
 #![deny(unused)]
+#![allow(clippy::too_many_arguments)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
 pub extern crate swc_atoms as atoms;
@@ -112,21 +113,25 @@ pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
 use std::{
+    env, fmt,
     fs::{read_to_string, File},
     io::Write,
     mem::take,
     path::{Path, PathBuf},
-    sync::{Arc, Mutex},
+    sync::Arc,
 };
 
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
 use common::{
     collections::AHashMap,
-    errors::{EmitterWriter, HANDLER},
+    comments::SingleThreadedComments,
+    errors::{ColorConfig, HANDLER},
+    Span,
 };
 use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
 use once_cell::sync::Lazy;
+use parking_lot::Mutex;
 use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
@@ -156,6 +161,9 @@ use swc_ecma_transforms::{
     resolver_with_mark,
 };
 use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
+use swc_error_reporters::{
+    GraphicalReportHandler, GraphicalTheme, PrettyEmitter, PrettyEmitterConfig,
+};
 pub use swc_node_comments::SwcComments;
 use tracing::instrument;
 
@@ -166,6 +174,7 @@ use crate::config::{
 
 mod builder;
 pub mod config;
+mod dropped_comments_preserver;
 mod plugin;
 pub mod resolver {
     use std::path::PathBuf;
@@ -212,10 +221,7 @@ struct LockedWriter(Arc<Mutex<Vec<u8>>>);
 
 impl Write for LockedWriter {
     fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
-        let mut lock = self
-            .0
-            .lock()
-            .expect("failed to get lock while trying to report error");
+        let mut lock = self.0.lock();
 
         lock.extend_from_slice(buf);
 
@@ -227,12 +233,60 @@ impl Write for LockedWriter {
     }
 }
 
+impl fmt::Write for LockedWriter {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        self.write(s.as_bytes()).map_err(|_| fmt::Error)?;
+
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct HandlerOpts {
+    /// [ColorConfig::Auto] is the default, and it will print colors unless the
+    /// environment variable `NO_COLOR` is not 1.
+    pub color: ColorConfig,
+
+    /// Defaults to `false`.
+    pub skip_filename: bool,
+}
+
+impl Default for HandlerOpts {
+    fn default() -> Self {
+        Self {
+            color: ColorConfig::Auto,
+            skip_filename: false,
+        }
+    }
+}
+
+fn to_miette_reporter(color: ColorConfig) -> GraphicalReportHandler {
+    match color {
+        ColorConfig::Auto => {
+            if cfg!(target_arch = "wasm32") {
+                return to_miette_reporter(ColorConfig::Always);
+            }
+
+            static ENABLE: Lazy<bool> =
+                Lazy::new(|| !env::var("NO_COLOR").map(|s| s == "1").unwrap_or(false));
+
+            if *ENABLE {
+                to_miette_reporter(ColorConfig::Always)
+            } else {
+                to_miette_reporter(ColorConfig::Never)
+            }
+        }
+        ColorConfig::Always => GraphicalReportHandler::default(),
+        ColorConfig::Never => GraphicalReportHandler::default().with_theme(GraphicalTheme::none()),
+    }
+}
+
 /// Try operation with a [Handler] and prints the errors as a [String] wrapped
 /// by [Err].
 #[instrument(level = "trace", skip_all)]
 pub fn try_with_handler<F, Ret>(
     cm: Lrc<SourceMap>,
-    skip_filename: bool,
+    config: HandlerOpts,
     op: F,
 ) -> Result<Ret, Error>
 where
@@ -240,15 +294,22 @@ where
 {
     let wr = Box::new(LockedWriter::default());
 
-    let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false, true).skip_filename(skip_filename);
-    let handler = Handler::with_emitter(true, false, Box::new(e_wr));
+    let emitter = PrettyEmitter::new(
+        cm,
+        wr.clone(),
+        to_miette_reporter(config.color),
+        PrettyEmitterConfig {
+            skip_filename: config.skip_filename,
+        },
+    );
+    // let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false,
+    // true).skip_filename(skip_filename);
+    let handler = Handler::with_emitter(true, false, Box::new(emitter));
 
     let ret = HANDLER.set(&handler, || op(&handler));
 
     if handler.has_errors() {
-        let mut lock =
-            wr.0.lock()
-                .expect("reference to handler should not exist in this point");
+        let mut lock = wr.0.lock();
         let error = take(&mut *lock);
 
         let msg = String::from_utf8(error).expect("error string should be utf8");
@@ -424,48 +485,24 @@ impl Compiler {
         target: EsVersion,
         syntax: Syntax,
         is_module: IsModule,
-        parse_comments: bool,
+        comments: Option<&dyn Comments>,
     ) -> Result<Program, Error> {
         self.run(|| {
             let mut error = false;
 
             let mut errors = vec![];
             let program_result = match is_module {
-                IsModule::Bool(true) => parse_file_as_module(
-                    &fm,
-                    syntax,
-                    target,
-                    if parse_comments {
-                        Some(&self.comments)
-                    } else {
-                        None
-                    },
-                    &mut errors,
-                )
-                .map(Program::Module),
-                IsModule::Bool(false) => parse_file_as_script(
-                    &fm,
-                    syntax,
-                    target,
-                    if parse_comments {
-                        Some(&self.comments)
-                    } else {
-                        None
-                    },
-                    &mut errors,
-                )
-                .map(Program::Script),
-                IsModule::Unknown => parse_file_as_program(
-                    &fm,
-                    syntax,
-                    target,
-                    if parse_comments {
-                        Some(&self.comments)
-                    } else {
-                        None
-                    },
-                    &mut errors,
-                ),
+                IsModule::Bool(true) => {
+                    parse_file_as_module(&fm, syntax, target, comments, &mut errors)
+                        .map(Program::Module)
+                }
+                IsModule::Bool(false) => {
+                    parse_file_as_script(&fm, syntax, target, comments, &mut errors)
+                        .map(Program::Script)
+                }
+                IsModule::Unknown => {
+                    parse_file_as_program(&fm, syntax, target, comments, &mut errors)
+                }
             };
 
             for e in errors {
@@ -505,57 +542,12 @@ impl Compiler {
         source_map_names: &AHashMap<BytePos, JsWord>,
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
-        preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+        comments: Option<&dyn Comments>,
     ) -> Result<TransformOutput, Error>
     where
         T: Node + VisitWith<IdentCollector>,
     {
         self.run(|| {
-            let preserve_comments = preserve_comments.unwrap_or({
-                if minify {
-                    BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
-                } else {
-                    BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
-                }
-            });
-
-            let span = node.span();
-
-            match preserve_comments {
-                BoolOrObject::Bool(true)
-                | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
-
-                BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
-                    let preserve_excl = |pos: &BytePos, vc: &mut Vec<Comment>| -> bool {
-                        if *pos < span.lo || *pos >= span.hi {
-                            return true;
-                        }
-
-                        // Preserve license comments.
-                        if vc.iter().any(|c| c.text.contains("@license")) {
-                            return true;
-                        }
-
-                        vc.retain(|c: &Comment| c.text.starts_with('!'));
-                        !vc.is_empty()
-                    };
-                    self.comments.leading.retain(preserve_excl);
-                    self.comments.trailing.retain(preserve_excl);
-                }
-
-                BoolOrObject::Bool(false) => {
-                    let remove_all_in_range = |pos: &BytePos, _: &mut Vec<Comment>| -> bool {
-                        if *pos < span.lo || *pos >= span.hi {
-                            return true;
-                        }
-
-                        false
-                    };
-                    self.comments.leading.retain(remove_all_in_range);
-                    self.comments.trailing.retain(remove_all_in_range);
-                }
-            }
-
             let mut src_map_buf = vec![];
 
             let src = {
@@ -579,7 +571,7 @@ impl Compiler {
 
                     let mut emitter = Emitter {
                         cfg: swc_ecma_codegen::Config { minify },
-                        comments: if minify { None } else { Some(&self.comments) },
+                        comments,
                         cm: self.cm.clone(),
                         wr,
                     };
@@ -590,6 +582,14 @@ impl Compiler {
                 // Invalid utf8 is valid in javascript world.
                 String::from_utf8(buf).expect("invalid utf8 character detected")
             };
+
+            if cfg!(debug_assertions)
+                && !src_map_buf.is_empty()
+                && src_map_buf.iter().all(|(bp, _)| *bp == BytePos(0))
+            {
+                panic!("The module contains only dummy spans");
+            }
+
             let (code, map) = match source_map {
                 SourceMapsConfig::Bool(v) => {
                     if v {
@@ -697,6 +697,97 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
     }
 }
 
+pub fn minify_global_comments(
+    comments: &SwcComments,
+    span: Span,
+    minify: bool,
+    preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+) {
+    let preserve_comments = preserve_comments.unwrap_or({
+        if minify {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
+        } else {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
+        }
+    });
+
+    match preserve_comments {
+        BoolOrObject::Bool(true)
+        | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
+
+        BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
+            let preserve_excl = |pos: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                if *pos < span.lo || *pos >= span.hi {
+                    return true;
+                }
+
+                // Preserve license comments.
+                if vc.iter().any(|c| c.text.contains("@license")) {
+                    return true;
+                }
+
+                vc.retain(|c: &Comment| c.text.starts_with('!'));
+                !vc.is_empty()
+            };
+            comments.leading.retain(preserve_excl);
+            comments.trailing.retain(preserve_excl);
+        }
+
+        BoolOrObject::Bool(false) => {
+            let remove_all_in_range = |pos: &BytePos, _: &mut Vec<Comment>| -> bool {
+                if *pos < span.lo || *pos >= span.hi {
+                    return true;
+                }
+
+                false
+            };
+            comments.leading.retain(remove_all_in_range);
+            comments.trailing.retain(remove_all_in_range);
+        }
+    }
+}
+
+pub fn minify_file_comments(
+    comments: &SingleThreadedComments,
+    minify: bool,
+    preserve_comments: Option<BoolOrObject<JsMinifyCommentOption>>,
+) {
+    let preserve_comments = preserve_comments.unwrap_or({
+        if minify {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments)
+        } else {
+            BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments)
+        }
+    });
+
+    match preserve_comments {
+        BoolOrObject::Bool(true)
+        | BoolOrObject::Obj(JsMinifyCommentOption::PreserveAllComments) => {}
+
+        BoolOrObject::Obj(JsMinifyCommentOption::PreserveSomeComments) => {
+            let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                // Preserve license comments.
+                if vc.iter().any(|c| c.text.contains("@license")) {
+                    return true;
+                }
+
+                vc.retain(|c: &Comment| c.text.starts_with('!'));
+                !vc.is_empty()
+            };
+            let (mut l, mut t) = comments.borrow_all_mut();
+
+            l.retain(preserve_excl);
+            t.retain(preserve_excl);
+        }
+
+        BoolOrObject::Bool(false) => {
+            let (mut l, mut t) = comments.borrow_all_mut();
+            l.clear();
+            t.clear();
+        }
+    }
+}
+
 /// High-level apis.
 impl Compiler {
     pub fn new(cm: Arc<SourceMap>) -> Self {
@@ -707,7 +798,7 @@ impl Compiler {
         }
     }
 
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Option<Config>, Error> {
         static CUR_DIR: Lazy<PathBuf> = Lazy::new(|| {
             if cfg!(target_arch = "wasm32") {
@@ -813,7 +904,7 @@ impl Compiler {
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn parse_js_as_input<'a, P>(
         &'a self,
         fm: Lrc<SourceFile>,
@@ -821,12 +912,13 @@ impl Compiler {
         handler: &'a Handler,
         opts: &Options,
         name: &FileName,
+        comments: Option<&'a SingleThreadedComments>,
         before_pass: impl 'a + FnOnce(&Program) -> P,
     ) -> Result<Option<BuiltInput<impl 'a + swc_ecma_visit::Fold>>, Error>
     where
         P: 'a + swc_ecma_visit::Fold,
     {
-        self.run(|| {
+        self.run(move || {
             let config = self.read_config(opts, name)?;
             let config = match config {
                 Some(v) => v,
@@ -838,14 +930,21 @@ impl Compiler {
                 name,
                 move |syntax, target, is_module| match program {
                     Some(v) => Ok(v),
-                    _ => self.parse_js(fm.clone(), handler, target, syntax, is_module, true),
+                    _ => self.parse_js(
+                        fm.clone(),
+                        handler,
+                        target,
+                        syntax,
+                        is_module,
+                        comments.as_ref().map(|v| v as _),
+                    ),
                 },
                 opts.output_path.as_deref(),
                 opts.source_file_name.clone(),
                 handler,
                 opts.is_module,
                 Some(config),
-                Some(&self.comments),
+                comments,
                 before_pass,
             )?;
             Ok(Some(built))
@@ -861,7 +960,7 @@ impl Compiler {
         })
     }
 
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn transform(
         &self,
         handler: &Handler,
@@ -889,21 +988,22 @@ impl Compiler {
     ///
     /// This means, you can use `noop_visit_type`, `noop_fold_type` and
     /// `noop_visit_mut_type` in your visitor to reduce the binary size.
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn process_js_with_custom_pass<P1, P2>(
         &self,
         fm: Arc<SourceFile>,
         program: Option<Program>,
         handler: &Handler,
         opts: &Options,
-        custom_before_pass: impl FnOnce(&Program) -> P1,
-        custom_after_pass: impl FnOnce(&Program) -> P2,
+        custom_before_pass: impl FnOnce(&Program, &SingleThreadedComments) -> P1,
+        custom_after_pass: impl FnOnce(&Program, &SingleThreadedComments) -> P2,
     ) -> Result<TransformOutput, Error>
     where
         P1: swc_ecma_visit::Fold,
         P2: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
+            let comments = SingleThreadedComments::default();
             let config = self.run(|| {
                 self.parse_js_as_input(
                     fm.clone(),
@@ -911,7 +1011,8 @@ impl Compiler {
                     handler,
                     opts,
                     &fm.name,
-                    custom_before_pass,
+                    Some(&comments),
+                    |program| custom_before_pass(program, &comments),
                 )
             })?;
             let config = match config {
@@ -921,7 +1022,7 @@ impl Compiler {
                 }
             };
 
-            let pass = chain!(config.pass, custom_after_pass(&config.program));
+            let pass = chain!(config.pass, custom_after_pass(&config.program, &comments));
 
             let config = BuiltInput {
                 program: config.program,
@@ -937,6 +1038,7 @@ impl Compiler {
                 source_file_name: config.source_file_name,
                 preserve_comments: config.preserve_comments,
                 inline_sources_content: config.inline_sources_content,
+                comments: config.comments,
             };
 
             let orig = if config.source_maps.enabled() {
@@ -947,20 +1049,20 @@ impl Compiler {
 
             self.process_js_inner(handler, orig.as_ref(), config)
         })
-        .context("failed to process js file")
+        .context("failed to process input file")
     }
 
-    #[tracing::instrument(level = "trace", skip(self, handler, opts))]
+    #[tracing::instrument(level = "info", skip(self, handler, opts))]
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
         handler: &Handler,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.process_js_with_custom_pass(fm, None, handler, opts, |_| noop(), |_| noop())
+        self.process_js_with_custom_pass(fm, None, handler, opts, |_, _| noop(), |_, _| noop())
     }
 
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn minify(
         &self,
         fm: Arc<SourceFile>,
@@ -1012,6 +1114,8 @@ impl Compiler {
                 }
             }
 
+            let comments = SingleThreadedComments::default();
+
             let module = self
                 .parse_js(
                     fm.clone(),
@@ -1023,11 +1127,10 @@ impl Compiler {
                         decorators_before_export: true,
                         import_assertions: true,
                         private_in_object: true,
-
                         ..Default::default()
                     }),
                     IsModule::Bool(true),
-                    true,
+                    Some(&comments),
                 )
                 .context("failed to parse input file")?
                 .expect_module();
@@ -1052,7 +1155,7 @@ impl Compiler {
                 let mut module = swc_ecma_minifier::optimize(
                     module,
                     self.cm.clone(),
-                    Some(&self.comments),
+                    Some(&comments),
                     None,
                     &min_opts,
                     &swc_ecma_minifier::option::ExtraOptions { top_level_mark },
@@ -1061,8 +1164,10 @@ impl Compiler {
                 if !is_mangler_enabled {
                     module.visit_mut_with(&mut hygiene())
                 }
-                module.fold_with(&mut fixer(Some(&self.comments as &dyn Comments)))
+                module.fold_with(&mut fixer(Some(&comments as &dyn Comments)))
             });
+
+            minify_file_comments(&comments, true, Some(opts.format.comments.clone()));
 
             self.print(
                 &module,
@@ -1074,7 +1179,7 @@ impl Compiler {
                 &source_map_names,
                 orig.as_ref(),
                 true,
-                Some(opts.format.comments.clone()),
+                Some(&comments),
             )
         })
     }
@@ -1082,7 +1187,7 @@ impl Compiler {
     /// You can use custom pass with this method.
     ///
     /// There exists a [PassBuilder] to help building custom passes.
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     pub fn process_js(
         &self,
         handler: &Handler,
@@ -1092,10 +1197,17 @@ impl Compiler {
         let loc = self.cm.lookup_char_pos(program.span().lo());
         let fm = loc.file;
 
-        self.process_js_with_custom_pass(fm, Some(program), handler, opts, |_| noop(), |_| noop())
+        self.process_js_with_custom_pass(
+            fm,
+            Some(program),
+            handler,
+            opts,
+            |_, _| noop(),
+            |_, _| noop(),
+        )
     }
 
-    #[tracing::instrument(level = "trace", skip_all)]
+    #[tracing::instrument(level = "info", skip_all)]
     fn process_js_inner(
         &self,
         handler: &Handler,
@@ -1122,6 +1234,10 @@ impl Compiler {
                 })
             });
 
+            if let Some(comments) = &config.comments {
+                minify_file_comments(comments, config.minify, config.preserve_comments);
+            }
+
             self.print(
                 &program,
                 config.source_file_name.as_deref(),
@@ -1132,13 +1248,13 @@ impl Compiler {
                 &source_map_names,
                 orig,
                 config.minify,
-                config.preserve_comments,
+                config.comments.as_ref().map(|v| v as _),
             )
         })
     }
 }
 
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
     fn convert_json_err(e: serde_json::Error) -> Error {
         let line = e.line();

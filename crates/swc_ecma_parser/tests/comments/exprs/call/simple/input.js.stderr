@@ -1,16 +1,18 @@
-note: Trailing (hi)
-  |
-note: post: 9
- --> $DIR/tests/comments/exprs/call/simple/input.js:1:9
-  |
-1 | test(123/*post: 9*/, 456/*post: 10*/);
-  |         ^
 
-note: Trailing (hi)
-  |
-note: post: 10
- --> $DIR/tests/comments/exprs/call/simple/input.js:1:25
-  |
-1 | test(123/*post: 9*/, 456/*post: 10*/);
-  |                         ^
+  > Trailing (hi)
 
+Error: 
+  > post: 9
+   ,-[$DIR/tests/comments/exprs/call/simple/input.js:2:1]
+ 2 | test(123/*post: 9*/, 456/*post: 10*/);
+   :         ^
+   `----
+
+  > Trailing (hi)
+
+Error: 
+  > post: 10
+   ,-[$DIR/tests/comments/exprs/call/simple/input.js:2:1]
+ 2 | test(123/*post: 9*/, 456/*post: 10*/);
+   :                         ^
+   `----

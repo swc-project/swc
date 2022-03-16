@@ -9,9 +9,13 @@ use swc::{
         BuiltInput, Config, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
         TransformConfig,
     },
-    Compiler, TransformOutput,
+    minify_file_comments, Compiler, TransformOutput,
 };
-use swc_common::{chain, comments::Comment, BytePos, FileName};
+use swc_common::{
+    chain,
+    comments::{Comment, SingleThreadedComments},
+    BytePos, FileName,
+};
 use swc_ecma_ast::{EsVersion, *};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
@@ -250,7 +254,7 @@ fn issue_406() {
     let s = file("tests/projects/issue-406/input.js").unwrap();
     println!("{}", s);
 
-    assert!(s.contains("return true"));
+    assert!(s.contains("return("));
 }
 
 #[test]
@@ -287,7 +291,7 @@ fn issue_414() {
 fn issue_415() {
     let s = file("tests/projects/issue-415/input.js").unwrap();
 
-    assert!(s.replace(' ', "").contains("return(/*#__PURE__*/"));
+    assert!(s.replace(' ', "").contains("return/*#__PURE__*/"));
 }
 
 #[test]
@@ -341,7 +345,7 @@ fn env_entry_chrome_49() {
 
     println!("{}", f);
 
-    assert_eq!(f.lines().count(), 78);
+    assert_eq!(f.lines().count(), 83);
 }
 
 #[test]
@@ -353,7 +357,7 @@ fn env_entry_chrome_71() {
 
     println!("{}", f);
 
-    assert_eq!(f.lines().count(), 7);
+    assert_eq!(f.lines().count(), 9);
 }
 
 #[test]
@@ -365,7 +369,7 @@ fn env_query_chrome_71() {
 
     println!("{}", f);
 
-    assert_eq!(f.lines().count(), 7);
+    assert_eq!(f.lines().count(), 9);
 }
 
 #[test]
@@ -705,6 +709,7 @@ fn should_visit() {
                 "
                 .into(),
             );
+            let comments = SingleThreadedComments::default();
             let config = c
                 .parse_js_as_input(
                     fm.clone(),
@@ -725,6 +730,7 @@ fn should_visit() {
                         ..Default::default()
                     },
                     &fm.name,
+                    Some(&comments),
                     |_| noop(),
                 )
                 .unwrap()
@@ -746,6 +752,7 @@ fn should_visit() {
                 source_file_name: config.source_file_name,
                 preserve_comments: config.preserve_comments,
                 inline_sources_content: config.inline_sources_content,
+                comments: config.comments,
             };
 
             if config.minify {
@@ -765,6 +772,8 @@ fn should_visit() {
                 })
             });
 
+            minify_file_comments(&comments, config.minify, config.preserve_comments);
+
             Ok(c.print(
                 &program,
                 None,
@@ -776,7 +785,7 @@ fn should_visit() {
                 None,
                 // TODO: figure out sourcemaps
                 config.minify,
-                config.preserve_comments,
+                Some(&comments),
             )
             .unwrap()
             .code)
@@ -820,6 +829,13 @@ fn tests(input_dir: PathBuf) {
                         swcrc: true,
                         is_module: IsModule::Bool(true),
                         output_path: Some(output.join(entry.file_name())),
+                        config: Config {
+                            jsc: JscConfig {
+                                external_helpers: true,
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
 
                         ..Default::default()
                     },

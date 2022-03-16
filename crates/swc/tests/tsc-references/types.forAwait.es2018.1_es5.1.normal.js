@@ -1,144 +1,10 @@
-function AsyncGenerator(gen) {
-    var front, back;
-    function send(key, arg) {
-        return new Promise(function(resolve, reject) {
-            var request = {
-                key: key,
-                arg: arg,
-                resolve: resolve,
-                reject: reject,
-                next: null
-            };
-            if (back) {
-                back = back.next = request;
-            } else {
-                front = back = request;
-                resume(key, arg);
-            }
-        });
-    }
-    function resume(key, arg) {
-        try {
-            var result = gen[key](arg);
-            var value = result.value;
-            var wrappedAwait = value instanceof _AwaitValue;
-            Promise.resolve(wrappedAwait ? value.wrapped : value).then(function(arg) {
-                if (wrappedAwait) {
-                    resume("next", arg);
-                    return;
-                }
-                settle(result.done ? "return" : "normal", arg);
-            }, function(err) {
-                resume("throw", err);
-            });
-        } catch (err) {
-            settle("throw", err);
-        }
-    }
-    function settle(type, value) {
-        switch(type){
-            case "return":
-                front.resolve({
-                    value: value,
-                    done: true
-                });
-                break;
-            case "throw":
-                front.reject(value);
-                break;
-            default:
-                front.resolve({
-                    value: value,
-                    done: false
-                });
-                break;
-        }
-        front = front.next;
-        if (front) {
-            resume(front.key, front.arg);
-        } else {
-            back = null;
-        }
-    }
-    this._invoke = send;
-    if (typeof gen.return !== "function") {
-        this.return = undefined;
-    }
-}
-if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
-        return this;
-    };
-}
-AsyncGenerator.prototype.next = function(arg) {
-    return this._invoke("next", arg);
-};
-AsyncGenerator.prototype.throw = function(arg) {
-    return this._invoke("throw", arg);
-};
-AsyncGenerator.prototype.return = function(arg) {
-    return this._invoke("return", arg);
-};
-function _asyncIterator(iterable) {
-    var method;
-    if (typeof Symbol === "function") {
-        if (Symbol.asyncIterator) {
-            method = iterable[Symbol.asyncIterator];
-            if (method != null) return method.call(iterable);
-        }
-        if (Symbol.iterator) {
-            method = iterable[Symbol.iterator];
-            if (method != null) return method.call(iterable);
-        }
-    }
-    throw new TypeError("Object is not async iterable");
-}
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-    try {
-        var info = gen[key](arg);
-        var value = info.value;
-    } catch (error) {
-        reject(error);
-        return;
-    }
-    if (info.done) {
-        resolve(value);
-    } else {
-        Promise.resolve(value).then(_next, _throw);
-    }
-}
-function _asyncToGenerator(fn) {
-    return function() {
-        var self = this, args = arguments;
-        return new Promise(function(resolve, reject) {
-            var gen = fn.apply(self, args);
-            function _next(value) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-            }
-            function _throw(err) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-            }
-            _next(undefined);
-        });
-    };
-}
-function _awaitAsyncGenerator(value) {
-    return new _AwaitValue(value);
-}
-function _AwaitValue(value) {
-    this.wrapped = value;
-}
-function _wrapAsyncGenerator(fn) {
-    return function() {
-        return new AsyncGenerator(fn.apply(this, arguments));
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 function f1() {
     return _f1.apply(this, arguments);
 }
 function _f1() {
-    _f1 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _f1 = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x, _iteratorAbruptCompletion1, _didIteratorError1, _iteratorError1, _iterator1, _step1, _value1, x1, _iteratorAbruptCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _value2, x2, _iteratorAbruptCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, _value3, _iteratorAbruptCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, _value4, _iteratorAbruptCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, _value5;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -146,7 +12,7 @@ function _f1() {
                     ;
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 2;
-                    _iterator = _asyncIterator(asyncIterable);
+                    _iterator = swcHelpers.asyncIterator(asyncIterable);
                 case 4:
                     _ctx.next = 6;
                     return _iterator.next();
@@ -194,7 +60,7 @@ function _f1() {
                 case 27:
                     _iteratorAbruptCompletion1 = false, _didIteratorError1 = false;
                     _ctx.prev = 28;
-                    _iterator1 = _asyncIterator(iterable);
+                    _iterator1 = swcHelpers.asyncIterator(iterable);
                 case 30:
                     _ctx.next = 32;
                     return _iterator1.next();
@@ -242,7 +108,7 @@ function _f1() {
                 case 53:
                     _iteratorAbruptCompletion2 = false, _didIteratorError2 = false;
                     _ctx.prev = 54;
-                    _iterator2 = _asyncIterator(iterableOfPromise);
+                    _iterator2 = swcHelpers.asyncIterator(iterableOfPromise);
                 case 56:
                     _ctx.next = 58;
                     return _iterator2.next();
@@ -290,7 +156,7 @@ function _f1() {
                 case 79:
                     _iteratorAbruptCompletion3 = false, _didIteratorError3 = false;
                     _ctx.prev = 80;
-                    _iterator3 = _asyncIterator(asyncIterable);
+                    _iterator3 = swcHelpers.asyncIterator(asyncIterable);
                 case 82:
                     _ctx.next = 84;
                     return _iterator3.next();
@@ -338,7 +204,7 @@ function _f1() {
                 case 105:
                     _iteratorAbruptCompletion4 = false, _didIteratorError4 = false;
                     _ctx.prev = 106;
-                    _iterator4 = _asyncIterator(iterable);
+                    _iterator4 = swcHelpers.asyncIterator(iterable);
                 case 108:
                     _ctx.next = 110;
                     return _iterator4.next();
@@ -386,7 +252,7 @@ function _f1() {
                 case 131:
                     _iteratorAbruptCompletion5 = false, _didIteratorError5 = false;
                     _ctx.prev = 132;
-                    _iterator5 = _asyncIterator(iterableOfPromise);
+                    _iterator5 = swcHelpers.asyncIterator(iterableOfPromise);
                 case 134:
                     _ctx.next = 136;
                     return _iterator5.next();
@@ -516,7 +382,7 @@ function f2() {
     return _f2.apply(this, arguments);
 }
 function _f2() {
-    _f2 = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _f2 = swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x, _iteratorAbruptCompletion6, _didIteratorError6, _iteratorError6, _iterator6, _step6, _value6, x3, _iteratorAbruptCompletion7, _didIteratorError7, _iteratorError7, _iterator7, _step7, _value7, x4, _iteratorAbruptCompletion8, _didIteratorError8, _iteratorError8, _iterator8, _step8, _value8, _iteratorAbruptCompletion9, _didIteratorError9, _iteratorError9, _iterator9, _step9, _value9, _iteratorAbruptCompletion10, _didIteratorError10, _iteratorError10, _iterator10, _step10, _value10;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -524,10 +390,10 @@ function _f2() {
                     ;
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 2;
-                    _iterator = _asyncIterator(asyncIterable);
+                    _iterator = swcHelpers.asyncIterator(asyncIterable);
                 case 4:
                     _ctx.next = 6;
-                    return _awaitAsyncGenerator(_iterator.next());
+                    return swcHelpers.awaitAsyncGenerator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;
@@ -572,10 +438,10 @@ function _f2() {
                 case 27:
                     _iteratorAbruptCompletion6 = false, _didIteratorError6 = false;
                     _ctx.prev = 28;
-                    _iterator6 = _asyncIterator(iterable);
+                    _iterator6 = swcHelpers.asyncIterator(iterable);
                 case 30:
                     _ctx.next = 32;
-                    return _awaitAsyncGenerator(_iterator6.next());
+                    return swcHelpers.awaitAsyncGenerator(_iterator6.next());
                 case 32:
                     if (!(_iteratorAbruptCompletion6 = !(_step6 = _ctx.sent).done)) {
                         _ctx.next = 37;
@@ -620,10 +486,10 @@ function _f2() {
                 case 53:
                     _iteratorAbruptCompletion7 = false, _didIteratorError7 = false;
                     _ctx.prev = 54;
-                    _iterator7 = _asyncIterator(iterableOfPromise);
+                    _iterator7 = swcHelpers.asyncIterator(iterableOfPromise);
                 case 56:
                     _ctx.next = 58;
-                    return _awaitAsyncGenerator(_iterator7.next());
+                    return swcHelpers.awaitAsyncGenerator(_iterator7.next());
                 case 58:
                     if (!(_iteratorAbruptCompletion7 = !(_step7 = _ctx.sent).done)) {
                         _ctx.next = 63;
@@ -668,10 +534,10 @@ function _f2() {
                 case 79:
                     _iteratorAbruptCompletion8 = false, _didIteratorError8 = false;
                     _ctx.prev = 80;
-                    _iterator8 = _asyncIterator(asyncIterable);
+                    _iterator8 = swcHelpers.asyncIterator(asyncIterable);
                 case 82:
                     _ctx.next = 84;
-                    return _awaitAsyncGenerator(_iterator8.next());
+                    return swcHelpers.awaitAsyncGenerator(_iterator8.next());
                 case 84:
                     if (!(_iteratorAbruptCompletion8 = !(_step8 = _ctx.sent).done)) {
                         _ctx.next = 89;
@@ -716,10 +582,10 @@ function _f2() {
                 case 105:
                     _iteratorAbruptCompletion9 = false, _didIteratorError9 = false;
                     _ctx.prev = 106;
-                    _iterator9 = _asyncIterator(iterable);
+                    _iterator9 = swcHelpers.asyncIterator(iterable);
                 case 108:
                     _ctx.next = 110;
-                    return _awaitAsyncGenerator(_iterator9.next());
+                    return swcHelpers.awaitAsyncGenerator(_iterator9.next());
                 case 110:
                     if (!(_iteratorAbruptCompletion9 = !(_step9 = _ctx.sent).done)) {
                         _ctx.next = 115;
@@ -764,10 +630,10 @@ function _f2() {
                 case 131:
                     _iteratorAbruptCompletion10 = false, _didIteratorError10 = false;
                     _ctx.prev = 132;
-                    _iterator10 = _asyncIterator(iterableOfPromise);
+                    _iterator10 = swcHelpers.asyncIterator(iterableOfPromise);
                 case 134:
                     _ctx.next = 136;
-                    return _awaitAsyncGenerator(_iterator10.next());
+                    return swcHelpers.awaitAsyncGenerator(_iterator10.next());
                 case 136:
                     if (!(_iteratorAbruptCompletion10 = !(_step10 = _ctx.sent).done)) {
                         _ctx.next = 141;

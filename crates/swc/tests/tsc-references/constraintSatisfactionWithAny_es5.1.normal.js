@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // any is not a valid type argument unless there is no constraint, or the constraint is any
 function foo(x) {
     return null;
@@ -24,23 +20,31 @@ foo(b);
 foo2(b);
 //foo3<any>(b);
 foo4(b);
+//function foo5<T extends String, U extends T>(x: T, y: U): T { return null; }
+//foo5(a, a);
+//foo5<any, any>(b, b);
 var C = function C(x) {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
     this.x = x;
 };
 var c1 = new C(a);
 var c2 = new C(b);
 var C2 = function C2(x) {
     "use strict";
-    _classCallCheck(this, C2);
+    swcHelpers.classCallCheck(this, C2);
     this.x = x;
 };
 var c3 = new C2(a);
 var c4 = new C2(b);
+//class C3<T extends T[]> {
+//    constructor(public x: T) { }
+//}
+//var c5 = new C3(a);
+//var c6 = new C3<any>(b);
 var C4 = function C4(x) {
     "use strict";
-    _classCallCheck(this, C4);
+    swcHelpers.classCallCheck(this, C4);
     this.x = x;
 };
 var c7 = new C4(a);

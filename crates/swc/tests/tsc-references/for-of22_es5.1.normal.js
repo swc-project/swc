@@ -1,49 +1,25 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
+//@target: ES6
 var Foo = function Foo() {
     "use strict";
-    _classCallCheck(this, Foo);
+    swcHelpers.classCallCheck(this, Foo);
 };
 var _iterator = Symbol.iterator;
 var FooIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooIterator() {
-        _classCallCheck(this, FooIterator);
+        swcHelpers.classCallCheck(this, FooIterator);
     }
-    _createClass(FooIterator, [
-        {
-            key: "next",
-            value: function next() {
-                return {
-                    value: new Foo,
-                    done: false
-                };
-            }
-        },
-        {
-            key: _iterator,
-            value: function value() {
-                return this;
-            }
-        }
-    ]);
+    var _proto = FooIterator.prototype;
+    _proto.next = function next() {
+        return {
+            value: new Foo,
+            done: false
+        };
+    };
+    _proto[_iterator] = function() {
+        return this;
+    };
     return FooIterator;
 }();
 v;

@@ -4,6 +4,7 @@ use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 shorthand properties to ES5
 ///
@@ -39,6 +40,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 ///   }
 /// };
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn shorthand() -> impl 'static + Fold + VisitMut {
     as_folder(Shorthand)
 }
@@ -54,6 +56,7 @@ impl Parallel for Shorthand {
     fn merge(&mut self, _: Self) {}
 }
 
+#[swc_trace]
 #[parallel]
 impl VisitMut for Shorthand {
     noop_visit_mut_type!();

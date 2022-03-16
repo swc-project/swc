@@ -5,12 +5,6 @@ class MyComponent extends React.Component {
         return React.createElement(AnyComponent, null);
     }
 }
-React.createElement(MyComponent, {
-    AnyComponent: ()=>React.createElement("button", null, "test")
-});
 class MyButtonComponent extends React.Component {
 }
-React.createElement(MyComponent, {
-    AnyComponent: MyButtonComponent
-});
 export { };

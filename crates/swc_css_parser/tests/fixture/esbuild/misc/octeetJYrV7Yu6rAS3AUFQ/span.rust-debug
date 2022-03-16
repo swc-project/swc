@@ -1,60 +1,60 @@
-error: Stylesheet
- --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
-  |
-1 | .selector\ {}
-  | ^^^^^^^^^^^^^
 
-error: Rule
- --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
-  |
-1 | .selector\ {}
-  | ^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:2:1]
+ 2 | .selector\ {}
+   : ^^^^^^^^^^^^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
-  |
-1 | .selector\ {}
-  | ^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:2:1]
+ 2 | .selector\ {}
+   : ^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
-  |
-1 | .selector\ {}
-  | ^^^^^^^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:2:1]
+ 2 | .selector\ {}
+   : ^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
-  |
-1 | .selector\ {}
-  | ^^^^^^^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:2:1]
+ 2 | .selector\ {}
+   : ^^^^^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
-  |
-1 | .selector\ {}
-  | ^^^^^^^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:2:1]
+ 2 | .selector\ {}
+   : ^^^^^^^^^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
-  |
-1 | .selector\ {}
-  | ^^^^^^^^^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:2:1]
+ 2 | .selector\ {}
+   : ^^^^^^^^^^^
+   `----
 
-error: ClassSelector
- --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1
-  |
-1 | .selector\ {}
-  | ^^^^^^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:2:1]
+ 2 | .selector\ {}
+   : ^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:2
-  |
-1 | .selector\ {}
-  |  ^^^^^^^^^^
+  x ClassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:2:1]
+ 2 | .selector\ {}
+   : ^^^^^^^^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:12
-  |
-1 | .selector\ {}
-  |            ^^
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:2:1]
+ 2 | .selector\ {}
+   :  ^^^^^^^^^^
+   `----
 
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:2:1]
+ 2 | .selector\ {}
+   :            ^^
+   `----

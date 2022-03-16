@@ -6,6 +6,7 @@ use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-computed-properties`
 ///
@@ -38,6 +39,7 @@ use swc_ecma_visit::{
 ///
 /// TODO(kdy1): cache reference like (_f = f, mutatorMap[_f].get = function(){})
 ///     instead of (mutatorMap[f].get = function(){}
+#[tracing::instrument(level = "info", skip_all)]
 pub fn computed_properties(c: Config) -> impl Fold {
     as_folder(ComputedProps {
         c,
@@ -59,6 +61,7 @@ struct ComputedProps {
     c: Config,
 }
 
+#[swc_trace]
 impl VisitMut for ComputedProps {
     noop_visit_mut_type!();
 
@@ -338,6 +341,7 @@ impl Visit for ComplexVisitor {
     }
 }
 
+#[swc_trace]
 impl ComputedProps {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where

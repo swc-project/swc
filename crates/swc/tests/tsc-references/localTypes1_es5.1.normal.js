@@ -1,88 +1,4 @@
-function _assertThisInitialized(self) {
-    if (self === void 0) {
-        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-    return self;
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-}
-function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-        throw new TypeError("Super expression must either be null or a function");
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-            value: subClass,
-            writable: true,
-            configurable: true
-        }
-    });
-    if (superClass) _setPrototypeOf(subClass, superClass);
-}
-function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-        return call;
-    }
-    return _assertThisInitialized(self);
-}
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
-        return o;
-    };
-    return _setPrototypeOf(o, p);
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
-function _isNativeReflectConstruct() {
-    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === "function") return true;
-    try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-function _createSuper(Derived) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct();
-    return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result;
-        if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf(this).constructor;
-            result = Reflect.construct(Super, arguments, NewTarget);
-        } else {
-            result = Super.apply(this, arguments);
-        }
-        return _possibleConstructorReturn(this, result);
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 // @target: es5
 function f1() {
     var E;
@@ -93,7 +9,7 @@ function f1() {
     })(E || (E = {}));
     var C = function C() {
         "use strict";
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
     };
     var a = [
         new C()
@@ -111,7 +27,7 @@ function f2() {
         })(E || (E = {}));
         var C = function C() {
             "use strict";
-            _classCallCheck(this, C);
+            swcHelpers.classCallCheck(this, C);
         };
         var a = [
             new C()
@@ -132,7 +48,7 @@ function f3(b) {
         if (b) {
             var C = function C() {
                 "use strict";
-                _classCallCheck(this, C);
+                swcHelpers.classCallCheck(this, C);
             };
             var a = [
                 new C()
@@ -142,7 +58,7 @@ function f3(b) {
         } else {
             var A1 = function A1() {
                 "use strict";
-                _classCallCheck(this, A1);
+                swcHelpers.classCallCheck(this, A1);
             };
             var c = [
                 new A1()
@@ -162,7 +78,7 @@ function f5() {
         })(E || (E = {}));
         var C = function C() {
             "use strict";
-            _classCallCheck(this, C);
+            swcHelpers.classCallCheck(this, C);
         };
         return new C();
     };
@@ -175,7 +91,7 @@ function f5() {
         })(E || (E = {}));
         var C = function C() {
             "use strict";
-            _classCallCheck(this, C);
+            swcHelpers.classCallCheck(this, C);
         };
         return new C();
     };
@@ -183,7 +99,7 @@ function f5() {
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        _classCallCheck(this, A);
+        swcHelpers.classCallCheck(this, A);
         var E;
         (function(E) {
             E[E["A"] = 0] = "A";
@@ -191,25 +107,23 @@ var A = /*#__PURE__*/ function() {
             E[E["C"] = 2] = "C";
         })(E || (E = {}));
         var C = function C() {
-            _classCallCheck(this, C);
+            swcHelpers.classCallCheck(this, C);
         };
     }
-    _createClass(A, [
-        {
-            key: "m",
-            value: function m() {
-                var E;
-                (function(E) {
-                    E[E["A"] = 0] = "A";
-                    E[E["B"] = 1] = "B";
-                    E[E["C"] = 2] = "C";
-                })(E || (E = {}));
-                var C = function C() {
-                    _classCallCheck(this, C);
-                };
-                return new C();
-            }
-        },
+    var _proto = A.prototype;
+    _proto.m = function m() {
+        var E;
+        (function(E) {
+            E[E["A"] = 0] = "A";
+            E[E["B"] = 1] = "B";
+            E[E["C"] = 2] = "C";
+        })(E || (E = {}));
+        var C = function C() {
+            swcHelpers.classCallCheck(this, C);
+        };
+        return new C();
+    };
+    swcHelpers.createClass(A, [
         {
             key: "p",
             get: function get() {
@@ -220,7 +134,7 @@ var A = /*#__PURE__*/ function() {
                     E[E["C"] = 2] = "C";
                 })(E || (E = {}));
                 var C = function C() {
-                    _classCallCheck(this, C);
+                    swcHelpers.classCallCheck(this, C);
                 };
                 return new C();
             }
@@ -232,10 +146,10 @@ function f6() {
     var g = function g() {
         var B = /*#__PURE__*/ function(A) {
             "use strict";
-            _inherits(B, A);
-            var _super = _createSuper(B);
+            swcHelpers.inherits(B, A);
+            var _super = swcHelpers.createSuper(B);
             function B() {
-                _classCallCheck(this, B);
+                swcHelpers.classCallCheck(this, B);
                 return _super.apply(this, arguments);
             }
             return B;
@@ -243,10 +157,10 @@ function f6() {
         function h() {
             var C = /*#__PURE__*/ function(B) {
                 "use strict";
-                _inherits(C, B);
-                var _super = _createSuper(C);
+                swcHelpers.inherits(C, B);
+                var _super = swcHelpers.createSuper(C);
                 function C() {
-                    _classCallCheck(this, C);
+                    swcHelpers.classCallCheck(this, C);
                     return _super.apply(this, arguments);
                 }
                 return C;
@@ -261,7 +175,7 @@ function f6() {
     };
     var A2 = function A2() {
         "use strict";
-        _classCallCheck(this, A2);
+        swcHelpers.classCallCheck(this, A2);
     };
     return g();
 }

@@ -10,9 +10,11 @@ Object.defineProperty(exports, "render", {
 });
 var _exportNames = {
     render: true
-  };
+};
 var _customRender = require("./customRender");
 var _react = require("@testing-library/react");
+// re-ordering the export wildcard from case 1 should make no difference to output
+// re-export everything
 Object.keys(_react).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;

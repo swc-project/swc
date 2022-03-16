@@ -21,6 +21,11 @@ impl VisitMut for Merger {
             .iter()
             .any(|s| matches!(s, ModuleItem::ModuleDecl(..)));
 
+        // Fast-path
+        if !was_module {
+            return;
+        }
+
         stmts.visit_mut_children_with(self);
 
         // Merge exports

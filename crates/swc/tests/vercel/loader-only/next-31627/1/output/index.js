@@ -6,7 +6,7 @@ export default function Home() {
     useEffect(function() {
         new MyClass();
     }, []);
-    return(/*#__PURE__*/ _jsxs("svg", {
+    return /*#__PURE__*/ _jsxs("svg", {
         children: [
             /*#__PURE__*/ _jsxs("g", {
                 className: "group",
@@ -23,7 +23,7 @@ export default function Home() {
                 ]
             })
         ]
-    }));
+    });
 };
 var MyClass = function MyClass() {
     "use strict";

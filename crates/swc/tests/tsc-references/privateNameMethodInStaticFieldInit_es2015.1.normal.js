@@ -1,21 +1,13 @@
-function _checkPrivateRedeclaration(obj, privateCollection) {
-    if (privateCollection.has(obj)) {
-        throw new TypeError("Cannot initialize the same private elements twice on an object");
-    }
-}
-function _classPrivateMethodInit(obj, privateSet) {
-    _checkPrivateRedeclaration(obj, privateSet);
-    privateSet.add(obj);
-}
-var _method = new WeakSet();
+import * as swcHelpers from "@swc/helpers";
+var _ref, _method = /*#__PURE__*/ new WeakSet();
 // @target: es2015
 class C {
     constructor(){
-        _classPrivateMethodInit(this, _method);
+        swcHelpers.classPrivateMethodInit(this, _method);
     }
 }
+C.s = swcHelpers.classPrivateMethodGet(_ref = new C(), _method, method).call(_ref);
 function method() {
     return 42;
 }
-C.s = new C().#method();
 console.log(C.s);

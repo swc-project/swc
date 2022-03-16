@@ -4,6 +4,7 @@ use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{private_ident, UsageFinder};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-function-name`
 ///
@@ -22,6 +23,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// }
 /// var Foo = (class Foo {});
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn function_name() -> impl 'static + Copy + Fold + VisitMut {
     as_folder(FnName)
 }
@@ -50,6 +52,7 @@ fn prepare(i: Ident) -> Ident {
     i
 }
 
+#[swc_trace]
 #[parallel]
 impl VisitMut for FnName {
     noop_visit_mut_type!();

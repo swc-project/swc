@@ -15,11 +15,13 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 
 // TODO: currently swc behaves like babel with
 // `ignoreFunctionLength` and `pureGetters` on
 
 /// `@babel/plugin-proposal-object-rest-spread`
+#[tracing::instrument(level = "info", skip_all)]
 pub fn object_rest_spread(c: Config) -> impl Fold + VisitMut {
     chain!(
         as_folder(ObjectRest {
@@ -176,6 +178,7 @@ struct RestVisitor {
     found: bool,
 }
 
+#[swc_trace]
 impl Visit for RestVisitor {
     noop_visit_type!();
 
@@ -202,6 +205,7 @@ where
     v.found
 }
 
+#[swc_trace]
 #[fast_path(RestVisitor)]
 impl VisitMut for ObjectRest {
     noop_visit_mut_type!();
@@ -452,6 +456,7 @@ impl VisitMut for ObjectRest {
     }
 }
 
+#[swc_trace]
 impl ObjectRest {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -905,6 +910,7 @@ impl ObjectRest {
     }
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 fn object_without_properties(
     obj: Box<Expr>,
     excluded_props: Vec<Option<ExprOrSpread>>,
@@ -981,6 +987,7 @@ fn object_without_properties(
     })
 }
 
+#[tracing::instrument(level = "info", skip_all)]
 fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
     props
         .iter()
@@ -1032,6 +1039,7 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
 ///  - `{ x4: {}  }` -> `{}`
 struct PatSimplifier;
 
+#[swc_trace]
 impl VisitMut for PatSimplifier {
     noop_visit_mut_type!();
 
@@ -1068,6 +1076,7 @@ impl Parallel for ObjectSpread {
     fn merge(&mut self, _: Self) {}
 }
 
+#[swc_trace]
 #[parallel]
 impl VisitMut for ObjectSpread {
     noop_visit_mut_type!();

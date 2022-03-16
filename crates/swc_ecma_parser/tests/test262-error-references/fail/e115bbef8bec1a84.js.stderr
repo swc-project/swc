@@ -1,6 +1,6 @@
-error: Not a pattern
- --> $DIR/tests/test262-parser/fail/e115bbef8bec1a84.js:1:17
-  |
-1 | function *g(){ (yield) => 42 }
-  |                 ^^^^^
 
+  x Not a pattern
+   ,-[$DIR/tests/test262-parser/fail/e115bbef8bec1a84.js:2:1]
+ 2 | function *g(){ (yield) => 42 }
+   :                 ^^^^^
+   `----

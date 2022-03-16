@@ -82,6 +82,9 @@ impl<'a, I: Tokens> Parser<I> {
         Type: IsDirective + From<Stmt>,
     {
         trace_cur!(self, parse_stmt_like);
+
+        let _tracing = debug_tracing!(self, "parse_stmt_like");
+
         let start = cur_pos!(self);
         let decorators = self.parse_decorators(true)?;
 
@@ -198,12 +201,12 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
                 }
                 return self
-                    .parse_class_decl(start, start, decorators)
+                    .parse_class_decl(start, start, decorators, false)
                     .map(Stmt::from);
             }
 
             tok!("if") => {
-                return self.parse_if_stmt();
+                return self.parse_if_stmt().map(Stmt::If);
             }
 
             tok!("return") => {
@@ -412,18 +415,37 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_if_stmt(&mut self) -> PResult<Stmt> {
+    /// Utility function used to parse large if else statements iteratively.
+    ///
+    /// THis function is recursive, but it is very cheap so stack overflow will
+    /// not occur.
+    fn adjust_if_else_clause(&mut self, cur: &mut IfStmt, alt: Box<Stmt>) {
+        cur.span = span!(self, cur.span.lo);
+
+        if let Some(Stmt::If(prev_alt)) = cur.alt.as_deref_mut() {
+            self.adjust_if_else_clause(prev_alt, alt)
+        } else {
+            debug_assert_eq!(cur.alt, None);
+            cur.alt = Some(alt);
+        }
+    }
+
+    fn parse_if_stmt(&mut self) -> PResult<IfStmt> {
         let start = cur_pos!(self);
 
         assert_and_bump!(self, "if");
 
         expect!(self, '(');
-        let test = self.include_in_expr(true).parse_expr()?;
+        let ctx = Context {
+            ignore_else_clause: false,
+            ..self.ctx()
+        };
+        let test = self.with_ctx(ctx).include_in_expr(true).parse_expr()?;
         if !eat!(self, ')') {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
             let span = span!(self, start);
-            return Ok(Stmt::If(IfStmt {
+            return Ok(IfStmt {
                 span,
                 test,
                 cons: Box::new(Stmt::Expr(ExprStmt {
@@ -431,7 +453,7 @@ impl<'a, I: Tokens> Parser<I> {
                     expr: Box::new(Expr::Invalid(Invalid { span })),
                 })),
                 alt: Default::default(),
-            }));
+            });
         }
 
         let cons = {
@@ -439,22 +461,75 @@ impl<'a, I: Tokens> Parser<I> {
             if !self.ctx().strict && is!(self, "function") {
                 // TODO: report error?
             }
-            self.parse_stmt(false).map(Box::new)?
+            let ctx = Context {
+                ignore_else_clause: false,
+                ..self.ctx()
+            };
+            self.with_ctx(ctx).parse_stmt(false).map(Box::new)?
         };
 
-        let alt = if eat!(self, "else") {
-            Some(self.parse_stmt(false).map(Box::new)?)
-        } else {
+        // We parse `else` branch iteratively, to avoid stack overflow
+        // See https://github.com/swc-project/swc/pull/3961
+
+        let alt = if self.ctx().ignore_else_clause {
             None
-        };
+        } else {
+            let mut cur = None;
+
+            let ctx = Context {
+                ignore_else_clause: true,
+                ..self.ctx()
+            };
+
+            let last = loop {
+                if !eat!(self, "else") {
+                    break None;
+                }
+
+                if !is!(self, "if") {
+                    let ctx = Context {
+                        ignore_else_clause: false,
+                        ..self.ctx()
+                    };
+
+                    // As we eat `else` above, we need to parse statement once.
+                    let last = self.with_ctx(ctx).parse_stmt(false)?;
+                    break Some(last);
+                }
+
+                // We encountered `else if`
+
+                let alt = self.with_ctx(ctx).parse_if_stmt()?;
+
+                match &mut cur {
+                    Some(cur) => {
+                        self.adjust_if_else_clause(cur, Box::new(Stmt::If(alt)));
+                    }
+                    _ => {
+                        cur = Some(alt);
+                    }
+                }
+            };
+
+            match cur {
+                Some(mut cur) => {
+                    if let Some(last) = last {
+                        self.adjust_if_else_clause(&mut cur, Box::new(last));
+                    }
+                    Some(Stmt::If(cur))
+                }
+                _ => last,
+            }
+        }
+        .map(Box::new);
 
         let span = span!(self, start);
-        Ok(Stmt::If(IfStmt {
+        Ok(IfStmt {
             span,
             test,
             cons,
             alt,
-        }))
+        })
     }
 
     fn parse_return_stmt(&mut self) -> PResult<Stmt> {
@@ -809,7 +884,8 @@ impl<'a, I: Tokens> Parser<I> {
                 // typescript allows `declare` vars not to have initializers.
                 if self.ctx().in_declare {
                     None
-                } else if kind == VarDeclKind::Const && self.ctx().strict {
+                } else if kind == VarDeclKind::Const && self.ctx().strict && !self.ctx().in_declare
+                {
                     self.emit_err(
                         span!(self, start),
                         SyntaxError::ConstDeclarationsRequireInitialization,
@@ -1919,16 +1995,33 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(expected = "await isn't allowed in non-async function")]
     fn await_in_function_in_script() {
         let src = "function foo (p) { await p; }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
     }
 
     #[test]
-    #[should_panic(expected = "await isn't allowed in non-async function")]
     fn await_in_function_in_program() {
         let src = "function foo (p) { await p; }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
+    }
+
+    #[test]
+    #[should_panic(expected = "await isn't allowed in non-async function")]
+    fn await_in_nested_async_function_in_module() {
+        let src = "async function foo () { function bar(x = await) {} }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
+    }
+
+    #[test]
+    fn await_in_nested_async_function_in_script() {
+        let src = "async function foo () { function bar(x = await) {} }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
+    }
+
+    #[test]
+    fn await_in_nested_async_function_in_program() {
+        let src = "async function foo () { function bar(x = await) {} }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
     }
 
@@ -2214,10 +2307,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(
-        expected = "A string literal cannot be used as an imported binding.\n- Did you mean \
-                    `import { \"str\" as foo }`?"
-    )]
+    #[should_panic(expected = "A string literal cannot be used as an imported binding.")]
     fn error_for_string_literal_is_import_binding() {
         let src = "import { \"str\" } from \"mod\"";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());

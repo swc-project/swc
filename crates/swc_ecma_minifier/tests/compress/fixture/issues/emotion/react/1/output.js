@@ -445,9 +445,9 @@
                                 copy(replace(element.value, "@", "@" + WEBKIT), element, "")
                             ], callback1);
                         case Enum_RULESET:
-                            if (element.length) return (function(array, callback) {
+                            if (element.length) return function(array, callback) {
                                 return array.map(callback).join("");
-                            })(element.props, function(value) {
+                            }(element.props, function(value) {
                                 var value3;
                                 switch(value3 = value, (value3 = /(::plac\w+|:read-\w+)/.exec(value3)) ? value3[0] : value3){
                                     case ":read-only":
@@ -618,7 +618,7 @@
                     styles: styles,
                     next: cursor
                 };
-            }, emotion_element_99289b21_browser_esm_hasOwnProperty = Object.prototype.hasOwnProperty, EmotionCacheContext = (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
+            }, EmotionCacheContext = (Object.prototype.hasOwnProperty, (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
                 var key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])");
@@ -674,7 +674,7 @@
                 return cache.sheet.hydrate(nodesToHydrate), cache;
             }({
                 key: "css"
-            }) : null);
+            }) : null));
             EmotionCacheContext.Provider;
             var emotion_element_99289b21_browser_esm_ThemeContext = (0, react.createContext)({});
             __webpack_require__(8679);
@@ -793,9 +793,9 @@
         8418: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             function _slicedToArray(arr1, i1) {
-                return (function(arr) {
+                return function(arr) {
                     if (Array.isArray(arr)) return arr;
-                })(arr1) || (function(arr, i) {
+                }(arr1) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
                         for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
@@ -809,9 +809,9 @@
                         }
                     }
                     return _arr;
-                })(arr1, i1) || (function() {
+                }(arr1, i1) || function() {
                     throw new TypeError("Invalid attempt to destructure non-iterable instance");
-                })();
+                }();
             }
             exports.default = void 0;
             var obj, _react = (obj = __webpack_require__(7294)) && obj.__esModule ? obj : {

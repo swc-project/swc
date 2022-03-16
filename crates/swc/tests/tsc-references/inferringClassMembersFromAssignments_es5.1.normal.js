@@ -1,33 +1,15 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-var C = // @out: output.js
+import * as swcHelpers from "@swc/helpers";
+// @out: output.js
 // @allowJs: true
 // @checkJs: true
 // @noImplicitAny: true
 // @strictNullChecks: true
 // @filename: a.js
-/*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         var _this = this;
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
         this.prop = function() {
             if (Math.random()) {
                 _this.inPropertyDeclaration = 0;
@@ -42,91 +24,71 @@ var C = // @out: output.js
         }
         this.inMultiple = 0;
     }
-    _createClass(C, [
-        {
-            key: "method",
-            value: function method() {
-                var _this = this;
-                if (Math.random()) {
-                    this.inMethod = 0;
-                    this.inMethodNullable = null;
-                } else {
-                    this.inMethod = "string";
-                    this.inMethodNullable = undefined;
-                }
-                this.inMultiple = "string";
-                this.inMultipleMethods = "string";
-                var action = function() {
-                    if (Math.random()) {
-                        _this.inNestedArrowFunction = 0;
-                    } else {
-                        _this.inNestedArrowFunction = "string";
-                    }
-                };
-            }
-        },
-        {
-            key: "get",
-            value: function get() {
-                if (Math.random()) {
-                    this.inGetter = 0;
-                } else {
-                    this.inGetter = "string";
-                }
-                this.inMultiple = false;
-                this.inMultipleMethods = false;
-            }
-        },
-        {
-            key: "set",
-            value: function set() {
-                if (Math.random()) {
-                    this.inSetter = 0;
-                } else {
-                    this.inSetter = "string";
-                }
-            }
+    var _proto = C.prototype;
+    _proto.method = function method() {
+        var _this = this;
+        if (Math.random()) {
+            this.inMethod = 0;
+            this.inMethodNullable = null;
+        } else {
+            this.inMethod = "string";
+            this.inMethodNullable = undefined;
         }
-    ], [
-        {
-            key: "method",
-            value: function method() {
-                var _this = this;
-                if (Math.random()) {
-                    this.inStaticMethod = 0;
-                } else {
-                    this.inStaticMethod = "string";
-                }
-                var action = function() {
-                    if (Math.random()) {
-                        _this.inStaticNestedArrowFunction = 0;
-                    } else {
-                        _this.inStaticNestedArrowFunction = "string";
-                    }
-                };
+        this.inMultiple = "string";
+        this.inMultipleMethods = "string";
+        var action = function() {
+            if (Math.random()) {
+                _this.inNestedArrowFunction = 0;
+            } else {
+                _this.inNestedArrowFunction = "string";
             }
-        },
-        {
-            key: "get",
-            value: function get() {
-                if (Math.random()) {
-                    this.inStaticGetter = 0;
-                } else {
-                    this.inStaticGetter = "string";
-                }
-            }
-        },
-        {
-            key: "set",
-            value: function set() {
-                if (Math.random()) {
-                    this.inStaticSetter = 0;
-                } else {
-                    this.inStaticSetter = "string";
-                }
-            }
+        };
+    };
+    _proto.get = function get() {
+        if (Math.random()) {
+            this.inGetter = 0;
+        } else {
+            this.inGetter = "string";
         }
-    ]);
+        this.inMultiple = false;
+        this.inMultipleMethods = false;
+    };
+    _proto.set = function set() {
+        if (Math.random()) {
+            this.inSetter = 0;
+        } else {
+            this.inSetter = "string";
+        }
+    };
+    C.method = function method() {
+        var _this = this;
+        if (Math.random()) {
+            this.inStaticMethod = 0;
+        } else {
+            this.inStaticMethod = "string";
+        }
+        var action = function() {
+            if (Math.random()) {
+                _this.inStaticNestedArrowFunction = 0;
+            } else {
+                _this.inStaticNestedArrowFunction = "string";
+            }
+        };
+    };
+    C.get = function get() {
+        if (Math.random()) {
+            this.inStaticGetter = 0;
+        } else {
+            this.inStaticGetter = "string";
+        }
+    };
+    C.set = function set() {
+        if (Math.random()) {
+            this.inStaticSetter = 0;
+        } else {
+            this.inStaticSetter = "string";
+        }
+    };
     return C;
 }();
 C.prop = function() {

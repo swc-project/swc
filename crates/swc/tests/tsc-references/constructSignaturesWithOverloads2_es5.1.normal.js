@@ -1,11 +1,9 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
+// No errors expected for basic overloads of construct signatures with merged declarations
+// clodules
 var C = function C(x) {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 (function(C) {
     var x = C.x = 1;
@@ -13,7 +11,7 @@ var C = function C(x) {
 var r1 = new C(1, '');
 var C2 = function C2(x) {
     "use strict";
-    _classCallCheck(this, C2);
+    swcHelpers.classCallCheck(this, C2);
 };
 (function(C2) {
     var x = C2.x = 1;

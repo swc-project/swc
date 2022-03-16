@@ -1,77 +1,71 @@
-error: Stylesheet
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:1
-  |
-1 | / @page {
-2 | |     DISPLAY: none;
-3 | | }
-  | |__^
 
-error: Rule
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:1
-  |
-1 | / @page {
-2 | |     DISPLAY: none;
-3 | | }
-  | |_^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:1]
+ 2 | ,-> @page {
+ 3 | |   	DISPLAY: none;
+ 4 | `-> }
+   `----
 
-error: AtRule
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:1
-  |
-1 | / @page {
-2 | |     DISPLAY: none;
-3 | | }
-  | |_^
+  x Rule
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:1]
+ 2 | ,-> @page {
+ 3 | |   	DISPLAY: none;
+ 4 | `-> }
+   `----
 
-error: PageRule
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:1
-  |
-1 | / @page {
-2 | |     DISPLAY: none;
-3 | | }
-  | |_^
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:1]
+ 2 | ,-> @page {
+ 3 | |   	DISPLAY: none;
+ 4 | `-> }
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:7
-  |
-1 |   @page {
-  |  _______^
-2 | |     DISPLAY: none;
-3 | | }
-  | |_^
+  x PageRule
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:1]
+ 2 | ,-> @page {
+ 3 | |   	DISPLAY: none;
+ 4 | `-> }
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:2
-  |
-2 |     DISPLAY: none;
-  |     ^^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:1]
+ 2 | ,-> @page {
+ 3 | |   	DISPLAY: none;
+ 4 | `-> }
+   `----
 
-error: Declaration
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:2
-  |
-2 |     DISPLAY: none;
-  |     ^^^^^^^^^^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:3:5]
+ 3 | DISPLAY: none;
+   : ^^^^^^^^^^^^^
+   `----
 
-error: DeclarationName
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:2
-  |
-2 |     DISPLAY: none;
-  |     ^^^^^^^
+  x Declaration
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:3:5]
+ 3 | DISPLAY: none;
+   : ^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:2
-  |
-2 |     DISPLAY: none;
-  |     ^^^^^^^
+  x DeclarationName
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:3:5]
+ 3 | DISPLAY: none;
+   : ^^^^^^^
+   `----
 
-error: ComponentValue
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:11
-  |
-2 |     DISPLAY: none;
-  |              ^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:3:5]
+ 3 | DISPLAY: none;
+   : ^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:11
-  |
-2 |     DISPLAY: none;
-  |              ^^^^
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:3:5]
+ 3 | DISPLAY: none;
+   :          ^^^^
+   `----
 
+  x Ident
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:3:5]
+ 3 | DISPLAY: none;
+   :          ^^^^
+   `----

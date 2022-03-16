@@ -1,6 +1,12 @@
-error: Expected function or ident tokens
- --> $DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:11
-  |
-2 |     color: teal;
-  |           ^
 
+  x Expected function or ident tokens
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
+ 3 | color: teal;
+   :       ^
+   `----
+
+  x Unexpected character `';'`
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
+ 3 | color: teal;
+   :            ^
+   `----

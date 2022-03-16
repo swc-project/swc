@@ -18,5 +18,5 @@ for(;;);
 for(;;);
 for(;;);
 for(;;);
-for(new Array();;);
 for(;;);
+for(new Array();;);

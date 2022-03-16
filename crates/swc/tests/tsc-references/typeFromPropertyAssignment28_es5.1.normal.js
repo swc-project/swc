@@ -1,11 +1,12 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
+// @noEmit: true
+// @allowJs: true
+// @checkJs: true
+// @Filename: a.js
+// mixed prototype-assignment+class declaration
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
     this.p = 1;
 };
 // Property assignment does nothing.

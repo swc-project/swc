@@ -3,7 +3,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::chain;
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, template_literal},
@@ -15,12 +15,6 @@ use swc_ecma_transforms_compat::{
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
 use swc_ecma_visit::Fold;
 
-fn ts() -> Syntax {
-    Syntax::Typescript(TsConfig {
-        ..Default::default()
-    })
-}
-
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
         ..Default::default()
@@ -31,7 +25,7 @@ fn tr(t: &Tester) -> impl Fold {
     chain!(
         resolver(),
         function_name(),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping(),
         reserved_words(false),
@@ -160,10 +154,10 @@ function (Bar) {
 
 test!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         function_name(),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
     ),
     private_class_method,
     r#"
@@ -409,7 +403,7 @@ function withContext(ComposedComponent) {
     r#"
 function withContext(ComposedComponent) {
   var _WithContext
-  return _WithContext = (function(Component) {
+  return _WithContext = function(Component) {
       'use strict';
       _inherits(WithContext, Component);
       var _super = _createSuper(WithContext);
@@ -418,7 +412,7 @@ function withContext(ComposedComponent) {
         return _super.apply(this, arguments);
       }
       return WithContext;
-    })(Component),
+    }(Component),
     _defineProperty(_WithContext, 'propTypes', {
       context: PropTypes.shape({
         addCss: PropTypes.func,
@@ -990,7 +984,7 @@ var Foo = function Foo() {
   _classCallCheck(this, Foo);
   _defineProperty(this, "bar", foo);
   var foo1 = "foo";
-  var baz = "baz";
+  var _$baz = "baz";
 };
 
 _defineProperty(Foo, "bar", baz);
@@ -1450,12 +1444,12 @@ var Outer = function Outer() {
     value: void 0
   });
 
-  var Test = function (_super) {
-    _inherits(Test, _super);
-    var _super1 = _createSuper(Test);
+  var Test = function (_superClass) {
+    _inherits(Test, _superClass);
+    var _super = _createSuper(Test);
     function Test() {
       _classCallCheck(this, Test);
-      return _super1.apply(this, arguments);
+      return _super.apply(this, arguments);
     }
 
     return Test;
@@ -2797,7 +2791,10 @@ var _x = {
 
 test!(
     syntax(),
-    |_| chain!(resolver(), class_properties(Default::default())),
+    |t| chain!(
+        resolver(),
+        class_properties(Some(t.comments.clone()), Default::default())
+    ),
     issue_308,
     "function bar(props) {}
 class Foo {
@@ -2827,7 +2824,7 @@ test!(
     syntax(),
     |t| chain!(
         resolver(),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default())
     ),
     issue_342,
@@ -2854,9 +2851,9 @@ let Foo = function Foo(bar) {
 
 test!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
     issue_443,
@@ -2883,7 +2880,10 @@ _defineProperty(foo, 'MODE', MODE);"
 // public_regression_t7364
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        async_to_generator(Default::default())
+    ),
     public_regression_t7364,
     r#"
 class MyClass {
@@ -2939,7 +2939,10 @@ export default class MyClass3 {
 // private_regression_t6719
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), block_scoping()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     private_regression_t6719,
     r#"
 function withContext(ComposedComponent) {
@@ -2980,7 +2983,7 @@ function withContext(ComposedComponent) {
 );
 
 // public_foobar
-//test!(syntax(),|_| tr("{
+//test!(syntax(),|t| tr("{
 //  "plugins": [ "proposal-class-properties"],
 //  "presets": ["env"]
 //}
@@ -3023,7 +3026,10 @@ function withContext(ComposedComponent) {
 // private_reevaluated
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), block_scoping()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     private_reevaluated,
     r#"
 function classFactory() {
@@ -3084,7 +3090,10 @@ function classFactory() {
 // private_static
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), block_scoping()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     private_static,
     r#"
 class Foo {
@@ -3131,7 +3140,7 @@ expect(Foo.test()).toBe("foo");
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -3171,7 +3180,10 @@ var Foo = function Foo(props) {
 // private_static_inherited
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), block_scoping()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     private_static_inherited,
     r#"
 class Base {
@@ -3250,7 +3262,7 @@ class Sub2 extends Base {}
 // private_destructuring_object_pattern_1_exec
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     private_destructuring_object_pattern_1_exec,
     r#"
 class Foo {
@@ -3277,7 +3289,10 @@ expect(foo.z).toBe('bar');
 // private_static_undefined
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), block_scoping()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     private_static_undefined,
     r#"
 class Foo {
@@ -3317,7 +3332,7 @@ var _bar = {
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -3352,7 +3367,10 @@ var Foo = function Foo(props) {
 // private_regression_t2983
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), block_scoping()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     private_regression_t2983,
     r#"
 call(class {
@@ -3387,9 +3405,9 @@ export { _class1 as default }
 // private_regression_t7364
 test!(
     syntax(),
-    |_| chain!(
-        class_properties(Default::default()),
-        async_to_generator(),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        async_to_generator(Default::default()),
         block_scoping()
     ),
     private_regression_t7364,
@@ -3459,7 +3477,7 @@ export { MyClass3 as default };
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -3495,7 +3513,7 @@ var Foo = function Foo(props) {
 // regression_8882_exec
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     regression_8882_exec,
     r#"
 const classes = [];
@@ -3526,7 +3544,7 @@ for(let i=0; i<= 10; ++i) {
 
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     regression_8882_exec_2,
     r#"
 const classes = [];
@@ -3557,7 +3575,7 @@ for(let i=0; i<= 10; ++i) {
 
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     private_field_reinitialized,
     r#"
 class Base {
@@ -3577,9 +3595,9 @@ expect(() => new Derived(foo)).toThrow()
 );
 
 //// regression_6154
-//test!(syntax(),|_| tr("{
+//test!(syntax(),|t| tr("{
 //  "presets": ["env"],
-//  "plugins": class_properties(Default::default())
+//  "plugins": class_properties(Some(t.comments.clone()),Default::default())
 //}
 //"), regression_6154, r#"
 //class Test {
@@ -3685,7 +3703,10 @@ expect(() => new Derived(foo)).toThrow()
 // private_static_export
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), block_scoping()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     private_static_export,
     r#"
 export class MyClass {
@@ -3717,7 +3738,7 @@ export { MyClass2 as default }
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_edgest_case,
@@ -3746,7 +3767,7 @@ _defineProperty(A, _x, void 0);
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_false_alarm,
@@ -3767,7 +3788,10 @@ _defineProperty(A, "A", 123)
 // regression_6153
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), arrow()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        arrow()
+    ),
     regression_6153,
     r#"
 () => {
@@ -3872,7 +3896,10 @@ var qux = (function () {
 // regression_7371
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), arrow()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        arrow()
+    ),
     regression_7371,
     r#"
 "use strict";
@@ -4081,7 +4108,7 @@ new ComputedField();
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     private_optional_chain_call,
     r#"
 class A {
@@ -4111,7 +4138,7 @@ class A {
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     private_optional_chain_member,
     r#"
 class MyClass {
@@ -4141,7 +4168,7 @@ class MyClass {
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -4228,7 +4255,7 @@ function () {
 // regression_8882
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     regression_8882,
     r#"
 const classes = [];
@@ -4281,7 +4308,7 @@ for(let i = 0; i <= 10; ++i){
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -4314,7 +4341,7 @@ var Foo = function Foo(props) {
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     staic_private_destructuring_array_pattern,
     r#"
 class A {
@@ -4344,7 +4371,7 @@ class A {
 // public_static_super_exec
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     public_static_super_exec,
     r#"
 class A {
@@ -4370,7 +4397,7 @@ expect(getPropA()).toBe(1);
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -4404,7 +4431,10 @@ var Foo = function Foo(props) {
 // private_non_block_arrow_func
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), block_scoping()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     private_non_block_arrow_func,
     r#"
 export default param =>
@@ -4444,7 +4474,7 @@ export default ((param)=>{
 // regression_8110
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     regression_8110,
     r#"
 const field = Symbol('field');
@@ -4468,7 +4498,7 @@ class A{
 // public_computed_without_block_exec
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     public_computed_without_block_exec,
     r#"
 const createClass = (k) => class { [k()] = 2 };
@@ -4483,7 +4513,7 @@ expect(instance.foo).toBe(2);
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         exponentation(),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping(),
@@ -4514,7 +4544,7 @@ var Foo = function Foo() {
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default())
     ),
     static_property_tdz_general,
@@ -4541,7 +4571,10 @@ _defineProperty(C, _ref, 3);
 // public_native_classes
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), block_scoping()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     public_native_classes,
     r#"
 class Foo {
@@ -4592,7 +4625,10 @@ test!(
     // Seems useless, while being hard to implement.
     ignore,
     syntax(),
-    |_| chain!(class_properties(Default::default()), block_scoping()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     private_static_infer_name,
     r#"
 var Foo = class {
@@ -4614,7 +4650,10 @@ var Foo = (_temp = _class = class Foo {}, _num = {
 // regression_7951
 test!(
     syntax(),
-    |_| chain!(resolver(), class_properties(Default::default())),
+    |t| chain!(
+        resolver(),
+        class_properties(Some(t.comments.clone()), Default::default())
+    ),
     regression_7951,
     r#"
 export class Foo extends Bar {
@@ -4640,7 +4679,10 @@ _defineProperty(Foo, "foo", {});
 // private_native_classes
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), block_scoping()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        block_scoping()
+    ),
     private_native_classes,
     r#"
 class Foo {
@@ -4688,7 +4730,7 @@ var _foo = {
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -4714,7 +4756,7 @@ var createClass = (k)=>{
 // private_destructuring_array_pattern_2_exec
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     private_destructuring_array_pattern_2_exec,
     r#"
 class Foo {
@@ -4740,7 +4782,7 @@ expect(foo.getClient()).toEqual(['bar', 'baz', 'quu']);
 test!(
     syntax(),
     |t| chain!(
-        class_properties(Default::default()),
+        class_properties(Some(t.comments.clone()), Default::default()),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping()
     ),
@@ -4791,7 +4833,7 @@ _defineProperty(B, "getPropA", () => _get(_getPrototypeOf(B), "prop", B));
 // private_destructuring_array_pattern_exec
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     private_destructuring_array_pattern_exec,
     r#"
 class Foo {
@@ -4815,7 +4857,7 @@ expect(foo.getClient()).toBe('bar');
 // private_destructuring_array_pattern_1_exec
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     private_destructuring_array_pattern_1_exec,
     r#"
 class Foo {
@@ -4840,38 +4882,8 @@ expect(foo.y).toBe('bar');
 );
 
 test!(
-    ts(),
-    |_| chain!(resolver(), class_properties(Default::default())),
-    issue_890_1,
-    "const DURATION = 1000
-
-export class HygieneTest {
-  private readonly duration: number = DURATION
-
-  constructor(duration?: number) {
-    this.duration = duration ?? DURATION
-  }
-
-  getDuration() {
-    return this.duration
-  }
-}",
-    "const DURATION = 1000;
-export class HygieneTest {
-    getDuration() {
-        return this.duration;
-    }
-    constructor(duration: number){
-        _defineProperty(this, 'duration', DURATION);
-        this.duration = duration ?? DURATION;
-    }
-}",
-    ok_if_code_eq
-);
-
-test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1306_1,
     r#"
   class Animal {
@@ -4905,7 +4917,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1306_2,
     r#"
 class Animal {
@@ -4939,7 +4951,7 @@ class Animal {
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1333_1,
     "
   class Foo {
@@ -4973,7 +4985,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1333_2,
     "
   class Test {
@@ -5156,7 +5168,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1333_3,
     "
     class Test {
@@ -5214,7 +5226,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1333_4,
     "
   class Test {
@@ -5259,7 +5271,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1333_5,
     "
     class Test {
@@ -5287,7 +5299,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1333_6,
     "
     class Test {
@@ -5315,7 +5327,7 @@ test!(
 
 test!(
     syntax(),
-    |_| { class_properties(Default::default()) },
+    |t| { class_properties(Some(t.comments.clone()), Default::default()) },
     issue_1660_1,
     "
     console.log(class { run() { } });
@@ -5330,7 +5342,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_3055_1,
     "
 export class Node {
@@ -5369,7 +5381,7 @@ function baz(child) {}
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_3618,
     "
 class MyClass {
@@ -5404,7 +5416,10 @@ function set_b(x) {}
 
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        async_to_generator(Default::default())
+    ),
     issue_1694_1,
     "
     class MyClass {
@@ -5432,7 +5447,10 @@ test!(
 
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        async_to_generator(Default::default())
+    ),
     issue_1694_2,
     "
 class MyClass {
@@ -5458,7 +5476,10 @@ class MyClass {
 
 test!(
     syntax(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        async_to_generator(Default::default())
+    ),
     issue_1702_1,
     "
     class Foo {
@@ -5506,7 +5527,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1711_1,
     "
     class Foo {
@@ -5538,7 +5559,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1742_1,
     "
     class Foo {
@@ -5562,8 +5583,8 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| chain!(
-        class_properties(Default::default()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
         template_literal(Default::default())
     ),
     issue_1742_2,
@@ -5589,7 +5610,7 @@ test_exec!(
 
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     new_target_in_class_prop,
     "
 class Foo {
@@ -5606,7 +5627,7 @@ expect(foo.baz).toBe(undefined);
 
 test_exec!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     class_field_evalutaion_order,
     "
 class Foo {
@@ -5623,7 +5644,7 @@ expect(() => new Foo()).not.toThrow();
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1742_3,
     "
     class Foo {
@@ -5667,7 +5688,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1869_1,
     "
     class TestClass {
@@ -5697,7 +5718,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_1869_2,
     "
     var _class;
@@ -5731,7 +5752,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_2021_1,
     "
     class Item extends Component {
@@ -5754,7 +5775,7 @@ test!(
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_3229_1,
     "
 class A {
@@ -5787,7 +5808,7 @@ class A {
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_3229_2,
     "
 class A {
@@ -5822,7 +5843,7 @@ class A {
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_3368,
     "
 class A {
@@ -5867,7 +5888,7 @@ function bar() {}
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     nested_class_in_arrow,
     "
 const a = () => class {
@@ -5900,7 +5921,7 @@ const a = ()=>{
 
 test!(
     syntax(),
-    |_| class_properties(Default::default()),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_2481,
     "
 class Foo {
@@ -5928,10 +5949,13 @@ var _prop2 = {
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config {
-        constant_super: true,
-        ..Default::default()
-    }),
+    |t| class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            constant_super: true,
+            ..Default::default()
+        }
+    ),
     constant_super_complex_super,
     "
 class A extends class B {} {
@@ -5949,10 +5973,13 @@ _defineProperty(A, 'x', _B.x);
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config {
-        constant_super: true,
-        ..Default::default()
-    }),
+    |t| class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            constant_super: true,
+            ..Default::default()
+        }
+    ),
     constant_super_field,
     "
 class A extends B {
@@ -5974,10 +6001,13 @@ _defineProperty(A, 'foo', B.bar)
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config {
-        no_document_all: true,
-        ..Default::default()
-    }),
+    |t| class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            no_document_all: true,
+            ..Default::default()
+        }
+    ),
     private_optional_chain_member_loose,
     r#"
 class MyClass {
@@ -6005,10 +6035,13 @@ class MyClass {
 
 test_exec!(
     syntax(),
-    |_| class_properties(class_properties::Config {
-        set_public_fields: true,
-        ..Default::default()
-    }),
+    |t| class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            set_public_fields: true,
+            ..Default::default()
+        }
+    ),
     set_public_fields_initialization_order,
     r#"
 const actualOrder = [];
@@ -6054,10 +6087,13 @@ expect(inst[9]).toBe(15);
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config {
-        set_public_fields: true,
-        ..Default::default()
-    }),
+    |t| class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            set_public_fields: true,
+            ..Default::default()
+        }
+    ),
     set_public_fields_computed,
     r#"
 const foo = "foo";
@@ -6119,12 +6155,15 @@ MyClass[_ref3] = "247";
 
 test!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
-        class_properties(class_properties::Config {
-            set_public_fields: true,
-            ..Default::default()
-        })
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                set_public_fields: true,
+                ..Default::default()
+            }
+        )
     ),
     set_public_constructor_collision,
     r#"
@@ -6157,10 +6196,13 @@ Foo.bar = baz;
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config {
-        set_public_fields: true,
-        ..Default::default()
-    }),
+    |t| class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            set_public_fields: true,
+            ..Default::default()
+        }
+    ),
     set_public_static_undefined,
     r#"
 class Foo {
@@ -6176,10 +6218,13 @@ Foo.bar = void 0;
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config {
-        private_as_properties: true,
-        ..Default::default()
-    }),
+    |t| class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            private_as_properties: true,
+            ..Default::default()
+        }
+    ),
     private_as_properties_basic,
     r#"
 class Cl {
@@ -6243,10 +6288,13 @@ function set_privateFieldValue(newValue) {
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config {
-        private_as_properties: true,
-        ..Default::default()
-    }),
+    |t| class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            private_as_properties: true,
+            ..Default::default()
+        }
+    ),
     private_as_properties_static,
     r#"
 class Cl {
@@ -6277,10 +6325,13 @@ function get_bar() {}
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config {
-        private_as_properties: true,
-        ..Default::default()
-    }),
+    |t| class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            private_as_properties: true,
+            ..Default::default()
+        }
+    ),
     private_as_properties_getter_only,
     r#"
 class Cl {
@@ -6323,11 +6374,14 @@ function get_privateFieldValue() {
 
 test!(
     syntax(),
-    |_| class_properties(class_properties::Config {
-        private_as_properties: true,
-        set_public_fields: true,
-        ..Default::default()
-    }),
+    |t| class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            private_as_properties: true,
+            set_public_fields: true,
+            ..Default::default()
+        }
+    ),
     loose_update,
     r#"
 class Cl {
@@ -6439,7 +6493,7 @@ fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| class_properties(Default::default()),
+        |t| class_properties(Some(t.comments.clone()), Default::default()),
         &src,
     );
 }

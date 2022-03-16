@@ -28,21 +28,6 @@ function noRouter() {
     throw new Error(message);
 }
 class ServerRouter {
-    constructor(pathname, query, as, { isFallback  }, isReady, basePath, locale, locales, defaultLocale, domainLocales, isPreview, isLocaleDomain){
-        this.route = pathname.replace(/\/$/, "") || "/";
-        this.pathname = pathname;
-        this.query = query;
-        this.asPath = as;
-        this.isFallback = isFallback;
-        this.basePath = basePath;
-        this.locale = locale;
-        this.locales = locales;
-        this.defaultLocale = defaultLocale;
-        this.isReady = isReady;
-        this.domainLocales = domainLocales;
-        this.isPreview = !!isPreview;
-        this.isLocaleDomain = !!isLocaleDomain;
-    }
     push() {
         noRouter();
     }
@@ -61,8 +46,24 @@ class ServerRouter {
     beforePopState() {
         noRouter();
     }
+    constructor(pathname, query, as, { isFallback  }, isReady, basePath, locale, locales, defaultLocale, domainLocales, isPreview, isLocaleDomain){
+        this.route = pathname.replace(/\/$/, "") || "/";
+        this.pathname = pathname;
+        this.query = query;
+        this.asPath = as;
+        this.isFallback = isFallback;
+        this.basePath = basePath;
+        this.locale = locale;
+        this.locales = locales;
+        this.defaultLocale = defaultLocale;
+        this.isReady = isReady;
+        this.domainLocales = domainLocales;
+        this.isPreview = !!isPreview;
+        this.isLocaleDomain = !!isLocaleDomain;
+    }
 }
 function enhanceComponents(options, App, Component) {
+    // For backwards compatibility
     if (typeof options === "function") {
         return {
             App,
@@ -88,7 +89,7 @@ function checkRedirectValues(redirect, req, method) {
         errors.push(`\`permanent\` must be \`true\` or \`false\``);
     } else if (hasStatusCode && !allowedStatusCodes.has(statusCode)) {
         errors.push(`\`statusCode\` must undefined or one of ${[
-            ...allowedStatusCodes
+            ...allowedStatusCodes, 
         ].join(", ")}`);
     }
     const destinationType = typeof destination;
@@ -104,9 +105,13 @@ function checkRedirectValues(redirect, req, method) {
     }
 }
 export async function renderToHTML(req, res, pathname, query, renderOpts) {
+    // In dev we invalidate the cache by appending a timestamp to the resource URL.
+    // This is a workaround to fix https://github.com/vercel/next.js/issues/5860
+    // TODO: remove this workaround when https://bugs.webkit.org/show_bug.cgi?id=187726 is fixed.
     renderOpts.devOnlyCacheBusterQueryString = renderOpts.dev ? renderOpts.devOnlyCacheBusterQueryString || `?ts=${Date.now()}` : "";
+    // don't modify original query object
     query = Object.assign({}, query);
-    const { err , dev =false , ampPath ="" , App , Document , pageConfig ={} , Component , buildManifest , fontManifest , reactLoadableManifest , ErrorDebug , getStaticProps , getStaticPaths , getServerSideProps , isDataReq , params , previewProps , basePath , devOnlyCacheBusterQueryString , supportsDynamicHTML , concurrentFeatures  } = renderOpts;
+    const { err , dev =false , ampPath ="" , App , Document , pageConfig ={} , Component , buildManifest , fontManifest , reactLoadableManifest , ErrorDebug , getStaticProps , getStaticPaths , getServerSideProps , isDataReq , params , previewProps , basePath , devOnlyCacheBusterQueryString , supportsDynamicHTML , concurrentFeatures ,  } = renderOpts;
     const getFontDefinition = (url)=>{
         if (fontManifest) {
             return getFontDefinitionFromManifest(url, fontManifest);
@@ -147,7 +152,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     for (const methodName of [
         "getStaticProps",
         "getServerSideProps",
-        "getStaticPaths"
+        "getStaticPaths", 
     ]){
         if (Component[methodName]) {
             throw new Error(`page ${pathname} ${methodName} ${GSSP_COMPONENT_MEMBER_ERROR}`);
@@ -184,12 +189,14 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             throw new Error(`The default export is not a React Component in page: "/_document"`);
         }
         if (isAutoExport || isFallback) {
+            // remove query values except ones that will be set during export
             query = {
                 ...query.amp ? {
                     amp: query.amp
                 } : {}
             };
-            asPath = `${pathname}${req.url.endsWith("/") && pathname !== "/" && !pageIsDynamic ? "/" : ""}`;
+            asPath = `${pathname}${// ensure trailing slash is present for non-dynamic auto-export pages
+            req.url.endsWith("/") && pathname !== "/" && !pageIsDynamic ? "/" : ""}`;
             req.url = pathname;
         }
         if (pathname === "/404" && (hasPageGetInitialProps || getServerSideProps)) {
@@ -199,13 +206,17 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             throw new Error(`\`pages${pathname}\` ${STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR}`);
         }
     }
-    await Loadable.preloadAll();
+    await Loadable.preloadAll(); // Make sure all dynamic imports are loaded
     let isPreview;
     let previewData;
     if ((isSSG || getServerSideProps) && !isFallback) {
+        // Reads of this are cached on the `req` object, so this should resolve
+        // instantly. There's no need to pass this data down from a previous
+        // invoke, where we'd have to consider server & serverless.
         previewData = tryGetPreviewData(req, res, previewProps);
         isPreview = previewData !== false;
     }
+    // url will always be set
     const routerIsReady = !!(getServerSideProps || hasPageGetInitialProps || !defaultAppGetInitialProps && !isSSG);
     const router = new ServerRouter(pathname, query, asPath, {
         isFallback: isFallback
@@ -315,6 +326,8 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                 defaultLocale: renderOpts.defaultLocale
             });
         } catch (staticPropsError) {
+            // remove not found error code to prevent triggering legacy
+            // 404 rendering
             if (staticPropsError && staticPropsError.code === "ENOENT") {
                 delete staticPropsError.code;
             }
@@ -357,6 +370,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             renderOpts.isRedirect = true;
         }
         if ((dev || isBuildTimeSSG) && !renderOpts.isNotFound && !isSerializableProps(pathname, "getStaticProps", data.props)) {
+            // this fn should throw an error instead of ever returning `false`
             throw new Error("invariant: getStaticProps did not return valid props. Please report this.");
         }
         if ("revalidate" in data) {
@@ -366,21 +380,30 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                 } else if (data.revalidate <= 0) {
                     throw new Error(`A page's revalidate option can not be less than or equal to zero for ${req.url}. A revalidate option of zero means to revalidate after _every_ request, and implies stale data cannot be tolerated.` + `\n\nTo never revalidate, you can set revalidate to \`false\` (only ran once at build-time).` + `\nTo revalidate as soon as possible, you can set the value to \`1\`.`);
                 } else if (data.revalidate > 31536000) {
+                    // if it's greater than a year for some reason error
                     console.warn(`Warning: A page's revalidate option was set to more than a year for ${req.url}. This may have been done in error.` + `\nTo only run getStaticProps at build-time and not revalidate at runtime, you can set \`revalidate\` to \`false\`!`);
                 }
             } else if (data.revalidate === true) {
+                // When enabled, revalidate after 1 second. This value is optimal for
+                // the most up-to-date page possible, but without a 1-to-1
+                // request-refresh ratio.
                 data.revalidate = 1;
             } else if (data.revalidate === false || typeof data.revalidate === "undefined") {
+                // By default, we never revalidate.
                 data.revalidate = false;
             } else {
                 throw new Error(`A page's revalidate option must be seconds expressed as a natural number. Mixed numbers and strings cannot be used. Received '${JSON.stringify(data.revalidate)}' for ${req.url}`);
             }
         } else {
-            data.revalidate = false;
+            // By default, we never revalidate.
+            (data).revalidate = false;
         }
         props1.pageProps = Object.assign({}, props1.pageProps, "props" in data ? data.props : undefined);
-        renderOpts.revalidate = "revalidate" in data ? data.revalidate : undefined;
+        // pass up revalidate and props for export
+        // TODO: change this to a different passing mechanism
+        (renderOpts).revalidate = "revalidate" in data ? data.revalidate : undefined;
         renderOpts.pageData = props1;
+        // this must come after revalidate is added to renderOpts
         if (renderOpts.isNotFound) {
             return null;
         }
@@ -421,6 +444,8 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             });
             canAccessRes = false;
         } catch (serverSidePropsError) {
+            // remove not found error code to prevent triggering legacy
+            // 404 rendering
             if (isError(serverSidePropsError) && serverSidePropsError.code === "ENOENT") {
                 delete serverSidePropsError.code;
             }
@@ -462,6 +487,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             data.props = await data.props;
         }
         if ((dev || isBuildTimeSSG) && !isSerializableProps(pathname, "getServerSideProps", data.props)) {
+            // this fn should throw an error instead of ever returning `false`
             throw new Error("invariant: getServerSideProps did not return valid props. Please report this.");
         }
         props1.pageProps = Object.assign({}, props1.pageProps, data.props);
@@ -470,16 +496,26 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     if (!isSSG && !getServerSideProps && process.env.NODE_ENV !== "production" && Object.keys(props1?.pageProps || {}).includes("url")) {
         console.warn(`The prop \`url\` is a reserved prop in Next.js for legacy reasons and will be overridden on page ${pathname}\n` + `See more info here: https://nextjs.org/docs/messages/reserved-page-prop`);
     }
+    // Avoid rendering page un-necessarily for getServerSideProps data request
+    // and getServerSideProps/getStaticProps redirects
     if (isDataReq && !isSSG || renderOpts.isRedirect) {
         return RenderResult.fromStatic(JSON.stringify(props1));
     }
+    // We don't call getStaticProps or getServerSideProps while generating
+    // the fallback so make sure to set pageProps to an empty object
     if (isFallback) {
         props1.pageProps = {};
     }
+    // the response might be finished on the getInitialProps call
     if (isResSent(res) && !isSSG) return null;
+    // we preload the buildManifest for auto-export dynamic pages
+    // to speed up hydrating query values
     let filteredBuildManifest = buildManifest;
     if (isAutoExport && pageIsDynamic) {
         const page = denormalizePagePath(normalizePagePath(pathname));
+        // This code would be much cleaner using `immer` and directly pushing into
+        // the result from `getPageFiles`, we could maybe consider that in the
+        // future.
         if (page in filteredBuildManifest.pages) {
             filteredBuildManifest = {
                 ...filteredBuildManifest,
@@ -488,7 +524,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                     [page]: [
                         ...filteredBuildManifest.pages[page],
                         ...filteredBuildManifest.lowPriorityFiles.filter((f)=>f.includes("_buildManifest")
-                        )
+                        ), 
                     ]
                 },
                 lowPriorityFiles: filteredBuildManifest.lowPriorityFiles.filter((f)=>!f.includes("_buildManifest")
@@ -496,7 +532,19 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             };
         }
     }
-    const generateStaticHTML = supportsDynamicHTML !== true;
+    /**
+     * Rules of Static & Dynamic HTML:
+     *
+     *    1.) We must generate static HTML unless the caller explicitly opts
+     *        in to dynamic HTML support.
+     *
+     *    2.) If dynamic HTML support is requested, we must honor that request
+     *        or throw an error. It is the sole responsibility of the caller to
+     *        ensure they aren't e.g. requesting dynamic HTML for an AMP page.
+     *
+     * These rules help ensure that other existing features like request caching,
+     * coalescing, and ISR continue working as intended.
+     */ const generateStaticHTML = supportsDynamicHTML !== true;
     const renderDocument = async ()=>{
         if (Document.getInitialProps) {
             const renderPage = (options = {})=>{
@@ -526,6 +574,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                 renderPage
             };
             const docProps = await loadGetInitialProps(Document, documentCtx);
+            // the response might be finished on the getInitialProps call
             if (isResSent(res) && !isSSG) return null;
             if (!docProps || typeof docProps.html !== "string") {
                 const message = `"${getDisplayName(Document)}.getInitialProps()" should resolve to an object with a "html" prop set with a valid html string`;
@@ -577,7 +626,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     }
     const hybridAmp = ampState.hybrid;
     const docComponentsRendered = {};
-    const { assetPrefix , buildId , customServer , defaultLocale , disableOptimizedLoading , domainLocales , locale , locales , runtimeConfig  } = renderOpts;
+    const { assetPrefix , buildId , customServer , defaultLocale , disableOptimizedLoading , domainLocales , locale , locales , runtimeConfig ,  } = renderOpts;
     const htmlProps1 = {
         __NEXT_DATA__: {
             props: props1,
@@ -612,6 +661,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         hybridAmp,
         dynamicImports: Array.from(dynamicImports),
         assetPrefix,
+        // Only enabled in production as development mode has features relying on HMR (style injection for example)
         unstable_runtimeJS: process.env.NODE_ENV === "production" ? pageConfig.unstable_runtimeJS : undefined,
         unstable_JsPreload: pageConfig.unstable_JsPreload,
         devOnlyCacheBusterQueryString,
@@ -663,8 +713,8 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         piperFromArray(prefix),
         documentResult.bodyResult,
         piperFromArray([
-            documentHTML.substring(renderTargetIdx + BODY_RENDER_TARGET.length)
-        ])
+            documentHTML.substring(renderTargetIdx + BODY_RENDER_TARGET.length), 
+        ]), 
     ];
     const postProcessors = (generateStaticHTML ? [
         inAmpMode ? async (html)=>{
@@ -683,6 +733,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             });
         } : null,
         renderOpts.optimizeCss ? async (html)=>{
+            // eslint-disable-next-line import/no-extraneous-dependencies
             const Critters = require("critters");
             const cssOptimizer = new Critters({
                 ssrMode: true,
@@ -697,7 +748,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         } : null,
         inAmpMode || hybridAmp ? async (html)=>{
             return html.replace(/&amp;amp=1/g, "&amp=1");
-        } : null
+        } : null, 
     ] : []).filter(Boolean);
     if (generateStaticHTML || postProcessors.length > 0) {
         let html = await piperToString(chainPipers(pipers));
@@ -732,6 +783,7 @@ function renderToStream(element, generateStaticHTML) {
     return new Promise((resolve, reject)=>{
         let underlyingStream = null;
         const stream = new Writable({
+            // Use the buffer from the underlying stream
             highWaterMark: 0,
             write (chunk, encoding, callback) {
                 if (!underlyingStream) {
@@ -757,6 +809,9 @@ function renderToStream(element, generateStaticHTML) {
             }
             underlyingStream.resolve(err);
         });
+        // React uses `flush` to prevent stream middleware like gzip from buffering to the
+        // point of harming streaming performance, so we make sure to expose it and forward it.
+        // See: https://github.com/reactwg/react-18/discussions/91
         Object.defineProperty(stream, "flush", {
             value: ()=>{
                 if (!underlyingStream) {

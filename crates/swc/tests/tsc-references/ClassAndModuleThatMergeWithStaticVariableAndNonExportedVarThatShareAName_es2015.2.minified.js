@@ -6,14 +6,14 @@ var A;
 }).Origin = {
     x: 0,
     y: 0
-}, (function(A1) {
+}, function(A1) {
     class Point {
         constructor(x, y){
             this.x = x, this.y = y;
         }
     }
-    A1.Point = Point, Point.Origin = {
+    Point.Origin = {
         x: 0,
         y: 0
-    };
-})(A || (A = {}));
+    }, A1.Point = Point;
+}(A || (A = {}));

@@ -9,6 +9,7 @@ use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use swc_trace_macro::swc_trace;
 
 pub(super) struct SuperCallFinder {
     mode: Option<SuperFoldingMode>,
@@ -16,6 +17,7 @@ pub(super) struct SuperCallFinder {
     in_complex: bool,
 }
 
+#[swc_trace]
 impl SuperCallFinder {
     ///
     /// - `None`: if no `super()` is found or super() is last call
@@ -63,6 +65,7 @@ macro_rules! mark_as_complex {
     };
 }
 
+#[swc_trace]
 impl Visit for SuperCallFinder {
     noop_visit_type!();
 
@@ -159,6 +162,7 @@ pub(super) struct ConstructorFolder<'a> {
     pub super_var: Option<Ident>,
     /// True when recursing into other function or class.
     pub ignore_return: bool,
+    pub super_is_callable_constructor: bool,
 }
 
 /// `None`: `return _possibleConstructorReturn`
@@ -170,6 +174,7 @@ pub(super) enum SuperFoldingMode {
     Var,
 }
 
+#[swc_trace]
 impl VisitMut for ConstructorFolder<'_> {
     noop_visit_mut_type!();
 
@@ -201,26 +206,39 @@ impl VisitMut for ConstructorFolder<'_> {
         }) = expr
         {
             let right = match self.super_var.clone() {
-                Some(super_var) => Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: if self.is_constructor_default {
-                        super_var.make_member(quote_ident!("apply")).as_callee()
-                    } else {
-                        super_var.make_member(quote_ident!("call")).as_callee()
-                    },
-                    args: if self.is_constructor_default {
-                        vec![
-                            ThisExpr { span: DUMMY_SP }.as_arg(),
-                            quote_ident!("arguments").as_arg(),
-                        ]
-                    } else {
-                        let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
-                        call_args.extend(args.take());
+                Some(super_var) => {
+                    let call = Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: if self.is_constructor_default {
+                            super_var.make_member(quote_ident!("apply")).as_callee()
+                        } else {
+                            super_var.make_member(quote_ident!("call")).as_callee()
+                        },
+                        args: if self.is_constructor_default {
+                            vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                quote_ident!("arguments").as_arg(),
+                            ]
+                        } else {
+                            let mut call_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
+                            call_args.extend(args.take());
 
-                        call_args
-                    },
-                    type_args: Default::default(),
-                })),
+                            call_args
+                        },
+                        type_args: Default::default(),
+                    }));
+
+                    if self.super_is_callable_constructor {
+                        Box::new(Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left: call,
+                            op: op!("||"),
+                            right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                        }))
+                    } else {
+                        call
+                    }
+                }
 
                 None => Box::new(make_possible_return_value(ReturningMode::Prototype {
                     class_name: self.class_name.clone(),
@@ -439,6 +457,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
         wrap_with_assertion: bool,
     }
 
+    #[swc_trace]
     impl VisitMut for Replacer {
         noop_visit_mut_type!();
 

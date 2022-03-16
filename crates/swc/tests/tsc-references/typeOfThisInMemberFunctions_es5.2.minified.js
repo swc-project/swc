@@ -1,61 +1,20 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 var C = function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    return _createClass(C, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ], [
-        {
-            key: "bar",
-            value: function() {}
-        }
-    ]), C;
+    return C.prototype.foo = function() {}, C.bar = function() {}, C;
 }(), D = function() {
     "use strict";
     function D() {
-        _classCallCheck(this, D);
+        swcHelpers.classCallCheck(this, D);
     }
-    return _createClass(D, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ], [
-        {
-            key: "bar",
-            value: function() {}
-        }
-    ]), D;
+    return D.prototype.foo = function() {}, D.bar = function() {}, D;
 }(), E = function() {
     "use strict";
     function E() {
-        _classCallCheck(this, E);
+        swcHelpers.classCallCheck(this, E);
     }
-    return _createClass(E, [
-        {
-            key: "foo",
-            value: function() {}
-        }
-    ], [
-        {
-            key: "bar",
-            value: function() {}
-        }
-    ]), E;
+    return E.prototype.foo = function() {}, E.bar = function() {}, E;
 }();

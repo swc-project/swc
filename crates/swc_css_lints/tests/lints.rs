@@ -34,7 +34,8 @@ fn pass(input: PathBuf) {
 
         let mut rules = get_rules(&LintParams {
             lint_config: &lint_config,
-        });
+        })
+        .unwrap();
 
         HANDLER.set(&handler, || {
             rules.lint_stylesheet(&stylesheet);
@@ -75,7 +76,8 @@ fn fail(input: PathBuf) {
 
         let mut rules = get_rules(&LintParams {
             lint_config: &lint_config,
-        });
+        })
+        .unwrap();
 
         HANDLER.set(&handler, || {
             rules.lint_stylesheet(&stylesheet);

@@ -6,7 +6,7 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver};
 use swc_ecma_transforms_compat::{
     es2015,
-    es2015::{arrow, destructuring, function_name, parameters},
+    es2015::{arrow, block_scoping, destructuring, function_name, parameters},
     es2017::async_to_generator,
     es2022::class_properties,
 };
@@ -45,7 +45,7 @@ fn tr() -> impl Fold {
         parameters(Default::default()),
         destructuring(destructuring::Config { loose: false }),
         function_name(),
-        async_to_generator(),
+        async_to_generator(Default::default()),
         fixer(None)
     )
 }
@@ -688,7 +688,7 @@ return (new B(20)).print().then(() => console.log('Done'));"
 
 test_exec!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_400_2,
     "class A {
     constructor() {
@@ -719,7 +719,7 @@ return (new B(20)).print().then(() => console.log('Done'));"
 test_exec!(
     syntax(),
     |t| chain!(
-        async_to_generator(),
+        async_to_generator(Default::default()),
         es2015(
             Mark::fresh(Mark::root()),
             Some(t.comments.clone()),
@@ -743,8 +743,8 @@ return (new A()).print();"
 //// regression_7178
 //test!(
 //    syntax(),
-//    |_| chain!(jsx(), jsc_constant_elements(), async_to_generator(),),
-//    regression_7178,
+//    |_| chain!(jsx(), jsc_constant_elements(),
+// async_to_generator(Default::default()),),    regression_7178,
 //    r#"
 //const title = "Neem contact op";
 //
@@ -780,7 +780,7 @@ return (new A()).print();"
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     bluebird_coroutines_named_expression,
     r#"
 var foo = async function bar() {
@@ -813,7 +813,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     export_async_lone_export,
     r#"
 export async function foo () { }
@@ -843,7 +843,7 @@ function _foo() {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     bluebird_coroutines_arrow_function,
     r#"
 (async () => { await foo(); })()
@@ -866,7 +866,7 @@ test!(
     // Optimization
     ignore,
     syntax(),
-    |_| chain!(async_to_generator(), arrow()),
+    |_| chain!(async_to_generator(Default::default()), arrow()),
     regression_t7194,
     r#"
 function f() {
@@ -916,7 +916,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| chain!(resolver(), async_to_generator()),
+    |_| chain!(resolver(), async_to_generator(Default::default())),
     async_to_generator_shadowed_promise,
     r#"
 let Promise;
@@ -947,7 +947,7 @@ function foo() {
 // async_to_generator_object_method_with_arrows
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_to_generator_object_method_with_arrows,
     r#"
 class Class {
@@ -1013,7 +1013,7 @@ class Class {
 // async_to_generator_object_method
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_to_generator_object_method,
     r#"
 let obj = {
@@ -1043,7 +1043,7 @@ let obj = {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     bluebird_coroutines_class,
     r#"
 class Foo {
@@ -1073,7 +1073,7 @@ test!(
     ignore,
     syntax(),
     |_| chain!(
-        async_to_generator(),
+        async_to_generator(Default::default()),
         //regenerator(),
         arrow(),
     ),
@@ -1233,7 +1233,7 @@ regeneratorRuntime.mark(function _callee4() {
 // async_to_generator_named_expression
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_to_generator_named_expression,
     r#"
 var foo = async function bar() {
@@ -1262,8 +1262,8 @@ function () {
 //// async_to_generator_async_iife_with_regenerator_spec
 //test!(
 //    syntax(),
-//    |_| chain!(async_to_generator(), arrow(), regenerator(),),
-//    async_to_generator_async_iife_with_regenerator_spec,
+//    |_| chain!(async_to_generator(Default::default()), arrow(),
+// regenerator(),),    async_to_generator_async_iife_with_regenerator_spec,
 //    r#"
 //(async function() { await 'ok' })();
 //(async () => { await 'ok' })();
@@ -1355,7 +1355,7 @@ function () {
 // async_to_generator_async_arrow_in_method
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_to_generator_async_arrow_in_method,
     r#"
 let TestClass = {
@@ -1394,7 +1394,7 @@ let TestClass = {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     bluebird_coroutines_statement,
     r#"
 async function foo() {
@@ -1422,7 +1422,7 @@ function foo() {
 test!(
     syntax(),
     |_| chain!(
-        async_to_generator(),
+        async_to_generator(Default::default()),
         parameters(Default::default()),
         destructuring(destructuring::Config { loose: false }),
     ),
@@ -1468,7 +1468,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     export_async_default_arrow_export,
     r#"
 export default async () => { return await foo(); }
@@ -1496,7 +1496,7 @@ exports.default = _default;
 // async_to_generator_function_arity
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_to_generator_function_arity,
     r#"
 async function one(a, b = 1) {}
@@ -1567,7 +1567,7 @@ function _six() {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_to_generator_object_method_with_super_caching,
     r#"
 class Foo extends class {} {
@@ -1602,7 +1602,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     export_async_default_export,
     r#"
 export default async function myFunc() {}
@@ -1631,7 +1631,7 @@ function _myFunc() {
 // async_to_generator_async
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_to_generator_async,
     r#"
 class Foo {
@@ -1657,7 +1657,7 @@ class Foo {
 // regression_8783
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     regression_8783,
     r#"
 (async function poll() {
@@ -1685,7 +1685,7 @@ test!(
 // async_to_generator_deeply_nested_asyncs
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_to_generator_deeply_nested_asyncs,
     r#"
 async function s(x, ...args) {
@@ -1750,7 +1750,7 @@ test!(
     // TODO: Enable this test after implementing es6 module pass.
     ignore,
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     export_async_import_and_export,
     r#"
 import bar from 'bar';
@@ -1785,7 +1785,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| chain!(resolver(), async_to_generator()),
+    |_| chain!(resolver(), async_to_generator(Default::default())),
     async_to_generator_shadowed_promise_nested,
     r#"
 let Promise;
@@ -1837,7 +1837,7 @@ function foo() {
 // regression_4599
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     regression_4599,
     r#"
 async () => await promise
@@ -1862,7 +1862,7 @@ _asyncToGenerator(function* () {
 // regression_4943_exec
 test_exec!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     regression_4943_exec,
     r#"
 "use strict";
@@ -1885,7 +1885,7 @@ return foo().then(() => {
 // regression_8783_exec
 test_exec!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     regression_8783_exec,
     r#"
 let log = [];
@@ -1910,7 +1910,7 @@ return main.then(() => {
 test!(
     ignore,
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     bluebird_coroutines_expression,
     r#"
 var foo = async function () {
@@ -1939,7 +1939,7 @@ function () {
 // async_to_generator_expression
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_to_generator_expression,
     r#"
 var foo = async function () {
@@ -1996,7 +1996,7 @@ function () {
 // async_to_generator_statement
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_to_generator_statement,
     r#"
 async function foo() {
@@ -2022,7 +2022,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |_| chain!(resolver(), async_to_generator()),
+    |_| chain!(resolver(), async_to_generator(Default::default())),
     async_to_generator_shadowed_promise_import,
     r#"
 import Promise from 'somewhere';
@@ -2052,7 +2052,7 @@ function foo() {
 // async_to_generator_parameters
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_to_generator_parameters,
     r#"
 async function foo(bar) {
@@ -2076,7 +2076,7 @@ function _foo() {
 // regression_t6882_exec
 test_exec!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     regression_t6882_exec,
     r#"
 foo();
@@ -2089,7 +2089,7 @@ async function foo() {}
 // async_to_generator_parameters
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_600,
     r#"
 async function foo() {
@@ -2112,7 +2112,7 @@ function _foo() {
 
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1036_1,
     "
     const x = async function() {
@@ -2155,7 +2155,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1036_2,
     "
     const x = async function() {
@@ -2171,7 +2171,7 @@ test_exec!(
 
 test!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1216_1,
     "
     const source = Math.random() < 2 ? 'matilda' : 'fred';
@@ -2218,7 +2218,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1125_1,
     "
 async function test() {
@@ -2251,7 +2251,7 @@ test()
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1341_1,
     "
     class A {
@@ -2291,7 +2291,10 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        async_to_generator(Default::default())
+    ),
     issue_1341_1_exec,
     "
     class A {
@@ -2312,7 +2315,7 @@ test_exec!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1341_2,
     "
   class A {
@@ -2344,7 +2347,10 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| chain!(class_properties(Default::default()), async_to_generator()),
+    |t| chain!(
+        class_properties(Some(t.comments.clone()), Default::default()),
+        async_to_generator(Default::default())
+    ),
     issue_1341_2_exec,
     "
   class A {
@@ -2361,7 +2367,7 @@ test_exec!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1455_1,
     "
     const obj = {
@@ -2404,7 +2410,7 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1575_1,
     "
   const obj = {
@@ -2421,7 +2427,10 @@ test_exec!(
     Syntax::default(),
     |_| {
         let mark = Mark::fresh(Mark::root());
-        chain!(async_to_generator(), regenerator(Default::default(), mark))
+        chain!(
+            async_to_generator(Default::default()),
+            regenerator(Default::default(), mark)
+        )
     },
     issue_1575_2,
     "
@@ -2437,7 +2446,7 @@ test_exec!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1722_1,
     "
     (async function main() {
@@ -2461,7 +2470,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1721_1,
     "
     async function main() {
@@ -2508,7 +2517,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1721_2_async_generator,
     "
     async function* lol() {
@@ -2532,7 +2541,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1684_1,
     "
     const cache = {}
@@ -2571,7 +2580,7 @@ test!(
     |_| {
         let top_level_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(),
+            async_to_generator(Default::default()),
             regenerator(Default::default(), top_level_mark)
         )
     },
@@ -2630,7 +2639,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1752_1,
     "
     async function* generate() {
@@ -2658,7 +2667,7 @@ test_exec!(
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_1918_1,
     "
     let counter = 0;
@@ -2698,7 +2707,7 @@ test_exec!(
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_2402_1,
     "
 function MyClass(item) {
@@ -2722,7 +2731,7 @@ test!(
     |_| {
         let top_level_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(),
+            async_to_generator(Default::default()),
             regenerator(Default::default(), top_level_mark)
         )
     },
@@ -2750,7 +2759,7 @@ function MyClass(item) {
     this.item = item;
     console.log('Constructor | this.item', this.item);
 }
-MyClass.prototype.fun = (function() {
+MyClass.prototype.fun = function() {
     var _fun = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -2767,7 +2776,7 @@ MyClass.prototype.fun = (function() {
         return _fun.apply(this, arguments);
     }
     return fun;
-})();
+}();
 const tmp = new MyClass({
     foo: 'bar'
 });
@@ -2779,7 +2788,7 @@ tmp.fun().then((res)=>{
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_2305_1,
     "
     function MyClass () {}
@@ -2814,7 +2823,7 @@ test!(
     |_| {
         let top_level_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(),
+            async_to_generator(Default::default()),
             regenerator(Default::default(), top_level_mark)
         )
     },
@@ -2851,7 +2860,7 @@ function MyClass() {
 MyClass.prototype.handle = function() {
     console.log('this is MyClass handle');
 };
-MyClass.prototype.init = (function() {
+MyClass.prototype.init = function() {
     var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(param1) {
         var a;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -2878,7 +2887,7 @@ MyClass.prototype.init = (function() {
     return function(param1) {
         return _ref.apply(this, arguments);
     };
-})();
+}();
 const myclass = new MyClass();
 myclass.handle();
   "
@@ -2889,7 +2898,7 @@ test!(
     |_| {
         let top_level_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(),
+            async_to_generator(Default::default()),
             regenerator(Default::default(), top_level_mark)
         )
     },
@@ -2967,7 +2976,7 @@ test!(
     |_| {
         let top_level_mark = Mark::fresh(Mark::root());
         chain!(
-            async_to_generator(),
+            async_to_generator(Default::default()),
             regenerator(Default::default(), top_level_mark)
         )
     },
@@ -3020,7 +3029,7 @@ export default async function() {
 
 test_exec!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     function_parameters,
     "
 class A {
@@ -3043,7 +3052,7 @@ expect(a.doTest()).resolves.toEqual(3);
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     function_length_issue_3135_1,
     r#"
 async function foo(x, y, ...z) {
@@ -3065,7 +3074,7 @@ function _foo() {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     function_length_issue_3135_2,
     r#"
 async function* foo(x, y, ...z) {
@@ -3087,7 +3096,7 @@ function _foo() {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     function_length_issue_3135_3,
     r#"
 const foo = async function (x, y, ...z) {
@@ -3108,7 +3117,7 @@ const foo = /*#__PURE__*/ function () {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     function_length_issue_3135_4,
     r#"
 const foo = async function* (x, y, ...z) {
@@ -3129,7 +3138,7 @@ const foo = /*#__PURE__*/ function () {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     function_length_issue_3135_5,
     r#"
 const foo = async function foo(x, y, ...z) {
@@ -3157,7 +3166,7 @@ const foo = function () {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     function_length_issue_3135_6,
     r#"
 const foo = async function* foo(x, y, ...z) {
@@ -3185,7 +3194,7 @@ const foo = function () {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     function_length_issue_3135_7,
     r#"
 const foo = async (x, y, ...z) => {
@@ -3210,7 +3219,7 @@ test!(
     // TODO: resolve bind issue
     ignore,
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_wrap_this,
     r#"
 const foo = async (x, y, ...z) => {
@@ -3234,7 +3243,7 @@ test!(
     // TODO: arguments
     ignore,
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_wrap_arguments,
     r#"
 function foo() {
@@ -3264,7 +3273,7 @@ test!(
     // TODO: super and new.target
     ignore,
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_wrap_super_and_new_target,
     r#"
 class Foo {
@@ -3317,7 +3326,7 @@ class Foo {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     export_default_async_nested_1,
     "
 export default async function foo(x) {
@@ -3349,7 +3358,7 @@ function _foo() {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     export_default_async_nested_2,
     "
 export default async function (x) {
@@ -3388,7 +3397,7 @@ function _ref() {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_with_optional_params,
     "
 (async function (a = 10, ...rest) {})();
@@ -3402,7 +3411,7 @@ _asyncToGenerator(function*(a = 10, ...rest) {})();
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     issue_2895,
     "
 export class Quirk {
@@ -3432,7 +3441,7 @@ export class Quirk {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     super_field_update,
     "
 class Foo {
@@ -3462,7 +3471,7 @@ class Foo {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     microbundle_835,
     "
 class A extends B {
@@ -3487,7 +3496,7 @@ class A extends B {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     super_update,
     "
 class A extends B {
@@ -3527,7 +3536,7 @@ class A extends B {
 
 test!(
     Syntax::default(),
-    |_| async_to_generator(),
+    |_| async_to_generator(Default::default()),
     async_with_optional_params_2,
     "
 const Z = (f) => ((x) => f((y) => x(x)(y)))((x) => f((y) => x(x)(y)));
@@ -3553,11 +3562,11 @@ fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| {
+        |t| {
             chain!(
                 resolver(),
-                class_properties(Default::default()),
-                async_to_generator()
+                class_properties(Some(t.comments.clone()), Default::default()),
+                async_to_generator(Default::default())
             )
         },
         &input,
@@ -3569,14 +3578,15 @@ fn exec_regenerator(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
-        |_| {
+        |t| {
             let top_level_mark = Mark::fresh(Mark::root());
 
             chain!(
                 resolver(),
-                class_properties(Default::default()),
-                async_to_generator(),
+                class_properties(Some(t.comments.clone()), Default::default()),
+                async_to_generator(Default::default()),
                 es2015::for_of(Default::default()),
+                block_scoping(),
                 regenerator(Default::default(), top_level_mark)
             )
         },

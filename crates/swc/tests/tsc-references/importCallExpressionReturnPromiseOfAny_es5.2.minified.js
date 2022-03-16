@@ -1,6 +1,7 @@
+import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function(directories) {
-    var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, directory, path;
+    var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _$directory, path;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -10,7 +11,7 @@ var _marked = regeneratorRuntime.mark(function(directories) {
                     _ctx.next = 13;
                     break;
                 }
-                return directory = _step.value, path = "".concat(directory, "\\moduleFile"), _ctx.next = 8, path;
+                return _$directory = _step.value, path = "".concat(_$directory, "\\moduleFile"), _ctx.next = 8, path;
             case 8:
                 _ctx.t0 = _ctx.sent, import(_ctx.t0);
             case 10:
@@ -54,9 +55,7 @@ var _marked = regeneratorRuntime.mark(function(directories) {
 });
 export var C = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 import("".concat(directory, "\\").concat(moduleFile)), import(getSpecifier());
 var p1 = import(ValidSomeCondition() ? "./0" : "externalModule"), p1 = import(getSpecifier());

@@ -473,11 +473,18 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| {
+    |t| {
         let mark = Mark::fresh(Mark::root());
         chain!(
             resolver_with_mark(mark),
             strip(mark),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    set_public_fields: true,
+                    ..Default::default()
+                }
+            ),
             dce(Default::default()),
             inlining(Default::default())
         )
@@ -548,10 +555,10 @@ test!(
             decorators(Default::default()),
             resolver_with_mark(mark),
             strip(mark),
-            class_properties(Default::default()),
+            class_properties(Some(t.comments.clone()), Default::default()),
             simplifier(Default::default()),
             es2018(Default::default()),
-            es2017(),
+            es2017(Default::default()),
             es2016(),
             es2015(
                 Mark::fresh(Mark::root()),

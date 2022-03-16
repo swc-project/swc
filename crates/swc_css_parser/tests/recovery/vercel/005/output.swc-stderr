@@ -1,0 +1,12 @@
+
+  x Expected ":"
+   ,-[$DIR/tests/recovery/vercel/005/input.css:5:5]
+ 5 | border-radius: 7px;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Expected ":"
+   ,-[$DIR/tests/recovery/vercel/005/input.css:9:5]
+ 9 | __ident__
+   : ^^^^^^^^^
+   `----

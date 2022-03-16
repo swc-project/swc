@@ -1,16 +1,5 @@
 var TypeScript;
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 !function(TypeScript1) {
     !function(CompilerDiagnostics) {
         var debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
@@ -26,134 +15,62 @@ function _createClass(Constructor, protoProps, staticProps) {
     var NullLogger = function() {
         "use strict";
         function NullLogger() {
-            _classCallCheck(this, NullLogger);
+            swcHelpers.classCallCheck(this, NullLogger);
         }
-        return _createClass(NullLogger, [
-            {
-                key: "information",
-                value: function() {
-                    return !1;
-                }
-            },
-            {
-                key: "debug",
-                value: function() {
-                    return !1;
-                }
-            },
-            {
-                key: "warning",
-                value: function() {
-                    return !1;
-                }
-            },
-            {
-                key: "error",
-                value: function() {
-                    return !1;
-                }
-            },
-            {
-                key: "fatal",
-                value: function() {
-                    return !1;
-                }
-            },
-            {
-                key: "log",
-                value: function(s) {}
-            }
-        ]), NullLogger;
+        var _proto = NullLogger.prototype;
+        return _proto.information = function() {
+            return !1;
+        }, _proto.debug = function() {
+            return !1;
+        }, _proto.warning = function() {
+            return !1;
+        }, _proto.error = function() {
+            return !1;
+        }, _proto.fatal = function() {
+            return !1;
+        }, _proto.log = function(s) {}, NullLogger;
     }();
     TypeScript1.NullLogger = NullLogger;
     var LoggerAdapter = function() {
         "use strict";
         function LoggerAdapter(logger) {
-            _classCallCheck(this, LoggerAdapter), this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
+            swcHelpers.classCallCheck(this, LoggerAdapter), this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
         }
-        return _createClass(LoggerAdapter, [
-            {
-                key: "information",
-                value: function() {
-                    return this._information;
-                }
-            },
-            {
-                key: "debug",
-                value: function() {
-                    return this._debug;
-                }
-            },
-            {
-                key: "warning",
-                value: function() {
-                    return this._warning;
-                }
-            },
-            {
-                key: "error",
-                value: function() {
-                    return this._error;
-                }
-            },
-            {
-                key: "fatal",
-                value: function() {
-                    return this._fatal;
-                }
-            },
-            {
-                key: "log",
-                value: function(s) {
-                    this.logger.log(s);
-                }
-            }
-        ]), LoggerAdapter;
+        var _proto = LoggerAdapter.prototype;
+        return _proto.information = function() {
+            return this._information;
+        }, _proto.debug = function() {
+            return this._debug;
+        }, _proto.warning = function() {
+            return this._warning;
+        }, _proto.error = function() {
+            return this._error;
+        }, _proto.fatal = function() {
+            return this._fatal;
+        }, _proto.log = function(s) {
+            this.logger.log(s);
+        }, LoggerAdapter;
     }();
     TypeScript1.LoggerAdapter = LoggerAdapter;
     var BufferedLogger = function() {
         "use strict";
         function BufferedLogger() {
-            _classCallCheck(this, BufferedLogger), this.logContents = [];
+            swcHelpers.classCallCheck(this, BufferedLogger), this.logContents = [];
         }
-        return _createClass(BufferedLogger, [
-            {
-                key: "information",
-                value: function() {
-                    return !1;
-                }
-            },
-            {
-                key: "debug",
-                value: function() {
-                    return !1;
-                }
-            },
-            {
-                key: "warning",
-                value: function() {
-                    return !1;
-                }
-            },
-            {
-                key: "error",
-                value: function() {
-                    return !1;
-                }
-            },
-            {
-                key: "fatal",
-                value: function() {
-                    return !1;
-                }
-            },
-            {
-                key: "log",
-                value: function(s) {
-                    this.logContents.push(s);
-                }
-            }
-        ]), BufferedLogger;
+        var _proto = BufferedLogger.prototype;
+        return _proto.information = function() {
+            return !1;
+        }, _proto.debug = function() {
+            return !1;
+        }, _proto.warning = function() {
+            return !1;
+        }, _proto.error = function() {
+            return !1;
+        }, _proto.fatal = function() {
+            return !1;
+        }, _proto.log = function(s) {
+            this.logContents.push(s);
+        }, BufferedLogger;
     }();
     TypeScript1.BufferedLogger = BufferedLogger, TypeScript1.timeFunction = function(logger, funcDescription, func) {
         var start = +new Date(), result = func(), end = +new Date();

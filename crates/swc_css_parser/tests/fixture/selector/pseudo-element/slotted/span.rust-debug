@@ -1,266 +1,265 @@
-error: Stylesheet
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1
-  |
-1 | / ::slotted(*) {}
-2 | | ::slotted(span) {}
-3 | | ::slotted(   span   ) {}
-  | |_________________________^
 
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1
-  |
-1 | ::slotted(*) {}
-  | ^^^^^^^^^^^^^^^
+  x Stylesheet
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ,-> ::slotted(*) {}
+ 3 | |   ::slotted(span) {}
+ 4 | `-> ::slotted(   span   ) {}
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1
-  |
-1 | ::slotted(*) {}
-  | ^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   : ^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1
-  |
-1 | ::slotted(*) {}
-  | ^^^^^^^^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   : ^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1
-  |
-1 | ::slotted(*) {}
-  | ^^^^^^^^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   : ^^^^^^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1
-  |
-1 | ::slotted(*) {}
-  | ^^^^^^^^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   : ^^^^^^^^^^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1
-  |
-1 | ::slotted(*) {}
-  | ^^^^^^^^^^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   : ^^^^^^^^^^^^
+   `----
 
-error: PseudoElementSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1
-  |
-1 | ::slotted(*) {}
-  | ^^^^^^^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   : ^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:3
-  |
-1 | ::slotted(*) {}
-  |   ^^^^^^^
+  x PseudoElementSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   : ^^^^^^^^^^^^
+   `----
 
-error: PseudoElementSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:11
-  |
-1 | ::slotted(*) {}
-  |           ^
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   :   ^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:11
-  |
-1 | ::slotted(*) {}
-  |           ^
+  x PseudoElementSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   :           ^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:11
-  |
-1 | ::slotted(*) {}
-  |           ^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   :           ^
+   `----
 
-error: UniversalSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:11
-  |
-1 | ::slotted(*) {}
-  |           ^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   :           ^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:14
-  |
-1 | ::slotted(*) {}
-  |              ^^
+  x UniversalSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   :           ^
+   `----
 
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1
-  |
-2 | ::slotted(span) {}
-  | ^^^^^^^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
+ 2 | ::slotted(*) {}
+   :              ^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1
-  |
-2 | ::slotted(span) {}
-  | ^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   : ^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1
-  |
-2 | ::slotted(span) {}
-  | ^^^^^^^^^^^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   : ^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1
-  |
-2 | ::slotted(span) {}
-  | ^^^^^^^^^^^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   : ^^^^^^^^^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1
-  |
-2 | ::slotted(span) {}
-  | ^^^^^^^^^^^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   : ^^^^^^^^^^^^^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1
-  |
-2 | ::slotted(span) {}
-  | ^^^^^^^^^^^^^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   : ^^^^^^^^^^^^^^^
+   `----
 
-error: PseudoElementSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1
-  |
-2 | ::slotted(span) {}
-  | ^^^^^^^^^^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   : ^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:3
-  |
-2 | ::slotted(span) {}
-  |   ^^^^^^^
+  x PseudoElementSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   : ^^^^^^^^^^^^^^^
+   `----
 
-error: PseudoElementSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:11
-  |
-2 | ::slotted(span) {}
-  |           ^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   :   ^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:11
-  |
-2 | ::slotted(span) {}
-  |           ^^^^
+  x PseudoElementSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   :           ^^^^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:11
-  |
-2 | ::slotted(span) {}
-  |           ^^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   :           ^^^^
+   `----
 
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:11
-  |
-2 | ::slotted(span) {}
-  |           ^^^^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   :           ^^^^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:11
-  |
-2 | ::slotted(span) {}
-  |           ^^^^
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   :           ^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:11
-  |
-2 | ::slotted(span) {}
-  |           ^^^^
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   :           ^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:17
-  |
-2 | ::slotted(span) {}
-  |                 ^^
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   :           ^^^^
+   `----
 
-error: Rule
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1
-  |
-3 | ::slotted(   span   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
+ 3 | ::slotted(span) {}
+   :                 ^^
+   `----
 
-error: QualifiedRule
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1
-  |
-3 | ::slotted(   span   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  x Rule
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SelectorList
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1
-  |
-3 | ::slotted(   span   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: ComplexSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1
-  |
-3 | ::slotted(   span   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1
-  |
-3 | ::slotted(   span   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: SubclassSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1
-  |
-3 | ::slotted(   span   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: PseudoElementSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1
-  |
-3 | ::slotted(   span   ) {}
-  | ^^^^^^^^^^^^^^^^^^^^^
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:3
-  |
-3 | ::slotted(   span   ) {}
-  |   ^^^^^^^
+  x PseudoElementSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
 
-error: PseudoElementSelectorChildren
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:14
-  |
-3 | ::slotted(   span   ) {}
-  |              ^^^^
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   :   ^^^^^^^
+   `----
 
-error: CompoundSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:14
-  |
-3 | ::slotted(   span   ) {}
-  |              ^^^^
+  x PseudoElementSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   :              ^^^^
+   `----
 
-error: TypeSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:14
-  |
-3 | ::slotted(   span   ) {}
-  |              ^^^^
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   :              ^^^^
+   `----
 
-error: TagNameSelector
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:14
-  |
-3 | ::slotted(   span   ) {}
-  |              ^^^^
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   :              ^^^^
+   `----
 
-error: WqName
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:14
-  |
-3 | ::slotted(   span   ) {}
-  |              ^^^^
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   :              ^^^^
+   `----
 
-error: Ident
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:14
-  |
-3 | ::slotted(   span   ) {}
-  |              ^^^^
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   :              ^^^^
+   `----
 
-error: SimpleBlock
- --> $DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:23
-  |
-3 | ::slotted(   span   ) {}
-  |                       ^^
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   :              ^^^^
+   `----
 
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:4:1]
+ 4 | ::slotted(   span   ) {}
+   :                       ^^
+   `----

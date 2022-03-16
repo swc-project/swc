@@ -186,6 +186,16 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 55,
+                "end": 58,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -532,7 +542,7 @@
             "type": "Tokens",
             "span": {
               "start": 171,
-              "end": 172,
+              "end": 173,
               "ctxt": 0
             },
             "tokens": [
@@ -544,6 +554,15 @@
                   "ctxt": 0
                 },
                 "token": "LParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 172,
+                  "end": 173,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -582,7 +601,7 @@
             "type": "Tokens",
             "span": {
               "start": 189,
-              "end": 190,
+              "end": 191,
               "ctxt": 0
             },
             "tokens": [
@@ -594,6 +613,15 @@
                   "ctxt": 0
                 },
                 "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 190,
+                  "end": 191,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -670,7 +698,7 @@
             "type": "Tokens",
             "span": {
               "start": 206,
-              "end": 207,
+              "end": 208,
               "ctxt": 0
             },
             "tokens": [
@@ -682,6 +710,15 @@
                   "ctxt": 0
                 },
                 "token": "LBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 207,
+                  "end": 208,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -720,7 +757,7 @@
             "type": "Tokens",
             "span": {
               "start": 224,
-              "end": 225,
+              "end": 226,
               "ctxt": 0
             },
             "tokens": [
@@ -732,6 +769,15 @@
                   "ctxt": 0
                 },
                 "token": "RBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 225,
+                  "end": 226,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -868,6 +914,16 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 263,
+                "end": 266,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -910,6 +966,16 @@
                     "start": 302,
                     "end": 332,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 302,
+                      "end": 305,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -1411,6 +1477,7 @@
               "value": "�all",
               "raw": "\\0 all"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -1913,6 +1980,16 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 574,
+                "end": 577,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -1997,6 +2074,16 @@
               },
               "value": "screen",
               "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 621,
+                "end": 624,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -2284,6 +2371,16 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 724,
+                "end": 727,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -2326,6 +2423,16 @@
                     "start": 760,
                     "end": 790,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 760,
+                      "end": 763,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -2423,6 +2530,16 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 805,
+                "end": 808,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -2465,6 +2582,16 @@
                     "start": 834,
                     "end": 864,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 834,
+                      "end": 837,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -2562,6 +2689,16 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 880,
+                "end": 883,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -2636,6 +2773,7 @@
                   },
                   "modifier": null,
                   "mediaType": null,
+                  "keyword": null,
                   "condition": {
                     "type": "MediaCondition",
                     "span": {
@@ -2742,6 +2880,16 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 958,
+                "end": 961,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -2816,6 +2964,7 @@
                   },
                   "modifier": null,
                   "mediaType": null,
+                  "keyword": null,
                   "condition": {
                     "type": "MediaCondition",
                     "span": {
@@ -3202,6 +3351,16 @@
               "end": 1166,
               "ctxt": 0
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 1148,
+                "end": 1151,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "Declaration",
               "span": {
@@ -3299,6 +3458,16 @@
               "start": 1208,
               "end": 1228,
               "ctxt": 0
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 1208,
+                "end": 1211,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "Declaration",
@@ -3398,6 +3567,16 @@
               "end": 1303,
               "ctxt": 0
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 1270,
+                "end": 1273,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "Declaration",
               "span": {
@@ -3495,6 +3674,16 @@
               "start": 1345,
               "end": 1374,
               "ctxt": 0
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 1345,
+                "end": 1348,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "Declaration",
@@ -3612,6 +3801,16 @@
               "end": 1433,
               "ctxt": 0
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 1416,
+                "end": 1419,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "Declaration",
               "span": {
@@ -3710,6 +3909,16 @@
               "end": 1512,
               "ctxt": 0
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 1475,
+                "end": 1478,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "Declaration",
               "span": {
@@ -3788,6 +3997,16 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 1528,
+                "end": 1531,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -3830,6 +4049,16 @@
                     "start": 1564,
                     "end": 1593,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1564,
+                      "end": 1567,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -3946,6 +4175,16 @@
               "start": 1635,
               "end": 1680,
               "ctxt": 0
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 1635,
+                "end": 1638,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "Declaration",
@@ -7185,7 +7424,7 @@
             "type": "Tokens",
             "span": {
               "start": 2439,
-              "end": 2455,
+              "end": 2456,
               "ctxt": 0
             },
             "tokens": [
@@ -7251,6 +7490,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2455,
+                  "end": 2456,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -7358,7 +7606,7 @@
             "type": "Tokens",
             "span": {
               "start": 2492,
-              "end": 2508,
+              "end": 2509,
               "ctxt": 0
             },
             "tokens": [
@@ -7424,6 +7672,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2508,
+                  "end": 2509,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -7562,7 +7819,7 @@
             "type": "Tokens",
             "span": {
               "start": 2545,
-              "end": 2561,
+              "end": 2562,
               "ctxt": 0
             },
             "tokens": [
@@ -7628,6 +7885,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2561,
+                  "end": 2562,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -7704,7 +7970,7 @@
             "type": "Tokens",
             "span": {
               "start": 2598,
-              "end": 2614,
+              "end": 2615,
               "ctxt": 0
             },
             "tokens": [
@@ -7770,6 +8036,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2614,
+                  "end": 2615,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -7877,7 +8152,7 @@
             "type": "Tokens",
             "span": {
               "start": 2651,
-              "end": 2667,
+              "end": 2668,
               "ctxt": 0
             },
             "tokens": [
@@ -7939,6 +8214,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2667,
+                  "end": 2668,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -8046,7 +8330,7 @@
             "type": "Tokens",
             "span": {
               "start": 2704,
-              "end": 2720,
+              "end": 2721,
               "ctxt": 0
             },
             "tokens": [
@@ -8112,6 +8396,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2720,
+                  "end": 2721,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -8219,7 +8512,7 @@
             "type": "Tokens",
             "span": {
               "start": 2757,
-              "end": 2773,
+              "end": 2774,
               "ctxt": 0
             },
             "tokens": [
@@ -8285,6 +8578,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2773,
+                  "end": 2774,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -8392,7 +8694,7 @@
             "type": "Tokens",
             "span": {
               "start": 2810,
-              "end": 2826,
+              "end": 2827,
               "ctxt": 0
             },
             "tokens": [
@@ -8458,6 +8760,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2826,
+                  "end": 2827,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -8722,7 +9033,7 @@
             "type": "Tokens",
             "span": {
               "start": 2916,
-              "end": 2932,
+              "end": 2933,
               "ctxt": 0
             },
             "tokens": [
@@ -8784,6 +9095,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2932,
+                  "end": 2933,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -8891,7 +9211,7 @@
             "type": "Tokens",
             "span": {
               "start": 2969,
-              "end": 2985,
+              "end": 2986,
               "ctxt": 0
             },
             "tokens": [
@@ -8957,6 +9277,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2985,
+                  "end": 2986,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9064,7 +9393,7 @@
             "type": "Tokens",
             "span": {
               "start": 3022,
-              "end": 3038,
+              "end": 3039,
               "ctxt": 0
             },
             "tokens": [
@@ -9130,6 +9459,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3038,
+                  "end": 3039,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9237,7 +9575,7 @@
             "type": "Tokens",
             "span": {
               "start": 3075,
-              "end": 3091,
+              "end": 3092,
               "ctxt": 0
             },
             "tokens": [
@@ -9303,6 +9641,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3091,
+                  "end": 3092,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9410,7 +9757,7 @@
             "type": "Tokens",
             "span": {
               "start": 3128,
-              "end": 3144,
+              "end": 3145,
               "ctxt": 0
             },
             "tokens": [
@@ -9472,6 +9819,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3144,
+                  "end": 3145,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9579,7 +9935,7 @@
             "type": "Tokens",
             "span": {
               "start": 3181,
-              "end": 3197,
+              "end": 3198,
               "ctxt": 0
             },
             "tokens": [
@@ -9633,6 +9989,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3197,
+                  "end": 3198,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9740,7 +10105,7 @@
             "type": "Tokens",
             "span": {
               "start": 3234,
-              "end": 3250,
+              "end": 3251,
               "ctxt": 0
             },
             "tokens": [
@@ -9806,6 +10171,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3250,
+                  "end": 3251,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -9913,7 +10287,7 @@
             "type": "Tokens",
             "span": {
               "start": 3287,
-              "end": 3303,
+              "end": 3304,
               "ctxt": 0
             },
             "tokens": [
@@ -9979,6 +10353,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3303,
+                  "end": 3304,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -10086,7 +10469,7 @@
             "type": "Tokens",
             "span": {
               "start": 3340,
-              "end": 3356,
+              "end": 3357,
               "ctxt": 0
             },
             "tokens": [
@@ -10148,6 +10531,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3356,
+                  "end": 3357,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -10255,7 +10647,7 @@
             "type": "Tokens",
             "span": {
               "start": 3393,
-              "end": 3409,
+              "end": 3410,
               "ctxt": 0
             },
             "tokens": [
@@ -10321,6 +10713,15 @@
                     "raw": "value"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3409,
+                  "end": 3410,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -10569,6 +10970,7 @@
               "value": "screen\t",
               "raw": "screen\\9 "
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -10617,6 +11019,7 @@
               "value": "�screen,screen\t",
               "raw": "\\0screen\\,screen\\9 "
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -10665,6 +11068,7 @@
               "value": "�screen",
               "raw": "\\0screen"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -10712,6 +11116,16 @@
               },
               "value": "screen",
               "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 3550,
+                "end": 3553,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -11166,6 +11580,16 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 3671,
+                "end": 3674,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -11214,6 +11638,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -11299,6 +11724,7 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -11336,6 +11762,7 @@
                   },
                   "modifier": null,
                   "mediaType": null,
+                  "keyword": null,
                   "condition": {
                     "type": "MediaCondition",
                     "span": {
@@ -11685,7 +12112,7 @@
             "type": "Tokens",
             "span": {
               "start": 3871,
-              "end": 3872,
+              "end": 3873,
               "ctxt": 0
             },
             "tokens": [
@@ -11697,6 +12124,15 @@
                   "ctxt": 0
                 },
                 "token": "LParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3872,
+                  "end": 3873,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -11735,7 +12171,7 @@
             "type": "Tokens",
             "span": {
               "start": 3889,
-              "end": 3890,
+              "end": 3891,
               "ctxt": 0
             },
             "tokens": [
@@ -11747,6 +12183,15 @@
                   "ctxt": 0
                 },
                 "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3890,
+                  "end": 3891,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -11823,7 +12268,7 @@
             "type": "Tokens",
             "span": {
               "start": 3906,
-              "end": 3907,
+              "end": 3908,
               "ctxt": 0
             },
             "tokens": [
@@ -11835,6 +12280,15 @@
                   "ctxt": 0
                 },
                 "token": "LBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3907,
+                  "end": 3908,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -11873,7 +12327,7 @@
             "type": "Tokens",
             "span": {
               "start": 3924,
-              "end": 3925,
+              "end": 3926,
               "ctxt": 0
             },
             "tokens": [
@@ -11885,6 +12339,15 @@
                   "ctxt": 0
                 },
                 "token": "RBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3925,
+                  "end": 3926,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -12259,6 +12722,16 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 4017,
+                "end": 4020,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -12324,6 +12797,16 @@
               },
               "value": "all",
               "raw": "all"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 4069,
+                "end": 4072,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -12401,6 +12884,7 @@
             },
             "modifier": null,
             "mediaType": null,
+            "keyword": null,
             "condition": {
               "type": "MediaCondition",
               "span": {
@@ -12819,6 +13303,16 @@
               "value": "all",
               "raw": "all"
             },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 4222,
+                "end": 4225,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
             "condition": {
               "type": "MediaConditionWithoutOr",
               "span": {
@@ -12861,6 +13355,16 @@
                     "start": 4261,
                     "end": 4291,
                     "ctxt": 0
+                  },
+                  "keyword": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 4261,
+                      "end": 4264,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
                   },
                   "condition": {
                     "type": "MediaFeaturePlain",
@@ -13270,7 +13774,7 @@
             "type": "Tokens",
             "span": {
               "start": 4402,
-              "end": 4403,
+              "end": 4404,
               "ctxt": 0
             },
             "tokens": [
@@ -13282,6 +13786,15 @@
                   "ctxt": 0
                 },
                 "token": "LParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4403,
+                  "end": 4404,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -13320,7 +13833,7 @@
             "type": "Tokens",
             "span": {
               "start": 4420,
-              "end": 4421,
+              "end": 4422,
               "ctxt": 0
             },
             "tokens": [
@@ -13332,6 +13845,15 @@
                   "ctxt": 0
                 },
                 "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4421,
+                  "end": 4422,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -13408,7 +13930,7 @@
             "type": "Tokens",
             "span": {
               "start": 4437,
-              "end": 4438,
+              "end": 4439,
               "ctxt": 0
             },
             "tokens": [
@@ -13420,6 +13942,15 @@
                   "ctxt": 0
                 },
                 "token": "LBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4438,
+                  "end": 4439,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -13458,7 +13989,7 @@
             "type": "Tokens",
             "span": {
               "start": 4455,
-              "end": 4456,
+              "end": 4457,
               "ctxt": 0
             },
             "tokens": [
@@ -13470,6 +14001,15 @@
                   "ctxt": 0
                 },
                 "token": "RBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4456,
+                  "end": 4457,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }
@@ -13508,6 +14048,16 @@
               },
               "value": "screen",
               "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 4475,
+                "end": 4478,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
             },
             "condition": {
               "type": "MediaConditionWithoutOr",
@@ -13612,6 +14162,7 @@
               "value": "screen",
               "raw": "screen"
             },
+            "keyword": null,
             "condition": null
           }
         ]
@@ -13649,6 +14200,7 @@
                   },
                   "modifier": null,
                   "mediaType": null,
+                  "keyword": null,
                   "condition": {
                     "type": "MediaCondition",
                     "span": {
@@ -14793,7 +15345,7 @@
             "type": "Tokens",
             "span": {
               "start": 4768,
-              "end": 4782,
+              "end": 4783,
               "ctxt": 0
             },
             "tokens": [
@@ -14872,6 +15424,15 @@
                     "raw": "black"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4782,
+                  "end": 4783,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           },
@@ -14941,7 +15502,7 @@
             "type": "Tokens",
             "span": {
               "start": 4836,
-              "end": 4853,
+              "end": 4854,
               "ctxt": 0
             },
             "tokens": [
@@ -15039,6 +15600,15 @@
                     "raw": "100"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 4853,
+                  "end": 4854,
+                  "ctxt": 0
+                },
+                "token": "Semi"
               }
             ]
           }

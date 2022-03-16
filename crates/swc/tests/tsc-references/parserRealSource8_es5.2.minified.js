@@ -1,13 +1,5 @@
 var TypeScript;
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 !function(TypeScript1) {
     var pushAssignScope = function(scope, context, type, classType, fnc) {
         var chain = new ScopeChain(null, context.scopeChain, scope);
@@ -96,29 +88,20 @@ function _defineProperties(target, props) {
         return walker.options.goChildren = go, ast;
     }, AssignScopeContext = function(scopeChain, typeFlow, modDeclChain) {
         "use strict";
-        _classCallCheck(this, AssignScopeContext), this.scopeChain = scopeChain, this.typeFlow = typeFlow, this.modDeclChain = modDeclChain;
+        swcHelpers.classCallCheck(this, AssignScopeContext), this.scopeChain = scopeChain, this.typeFlow = typeFlow, this.modDeclChain = modDeclChain;
     };
     TypeScript1.AssignScopeContext = AssignScopeContext, TypeScript1.pushAssignScope = pushAssignScope, TypeScript1.popAssignScope = popAssignScope, TypeScript1.instanceCompare = instanceCompare, TypeScript1.instanceFilterStop = instanceFilterStop;
     var ScopeSearchFilter = function() {
         "use strict";
-        var Constructor, protoProps, staticProps;
         function ScopeSearchFilter(select, stop) {
-            _classCallCheck(this, ScopeSearchFilter), this.select = select, this.stop = stop, this.result = null;
+            swcHelpers.classCallCheck(this, ScopeSearchFilter), this.select = select, this.stop = stop, this.result = null;
         }
-        return Constructor = ScopeSearchFilter, protoProps = [
-            {
-                key: "reset",
-                value: function() {
-                    this.result = null;
-                }
-            },
-            {
-                key: "update",
-                value: function(b) {
-                    return this.result = this.select(this.result, b), !!this.result && this.stop(this.result);
-                }
-            }
-        ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ScopeSearchFilter;
+        var _proto = ScopeSearchFilter.prototype;
+        return _proto.reset = function() {
+            this.result = null;
+        }, _proto.update = function(b) {
+            return this.result = this.select(this.result, b), !!this.result && this.stop(this.result);
+        }, ScopeSearchFilter;
     }();
     TypeScript1.ScopeSearchFilter = ScopeSearchFilter, TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop), TypeScript1.preAssignModuleScopes = preAssignModuleScopes, TypeScript1.preAssignClassScopes = preAssignClassScopes, TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes, TypeScript1.preAssignWithScopes = preAssignWithScopes, TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes, TypeScript1.preAssignCatchScopes = preAssignCatchScopes, TypeScript1.preAssignScopes = preAssignScopes, TypeScript1.postAssignScopes = postAssignScopes;
 }(TypeScript || (TypeScript = {}));

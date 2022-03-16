@@ -1,13 +1,16 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 struct OptionalCatchBinding;
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn optional_catch_binding() -> impl Fold + VisitMut {
     as_folder(OptionalCatchBinding)
 }
 
+#[swc_trace]
 impl VisitMut for OptionalCatchBinding {
     noop_visit_mut_type!();
 

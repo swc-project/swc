@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -11,15 +7,15 @@ function _classCallCheck(instance, Constructor) {
 var Outer = Outer || {};
 Outer.app = Outer.app || {};
 // @Filename: someview.js
-Outer.app.SomeView = (function() {
+Outer.app.SomeView = function() {
     var SomeView = function SomeView() {
         var me = this;
     };
     return SomeView;
-})();
+}();
 Outer.app.Inner = function _class() {
     "use strict";
-    _classCallCheck(this, _class);
+    swcHelpers.classCallCheck(this, _class);
     /** @type {number} */ this.y = 12;
 };
 var example = new Outer.app.Inner();
@@ -28,7 +24,7 @@ example.y;
     return Math.pow(k, k);
 };
 // @Filename: application.js
-Outer.app.Application = (function() {
+Outer.app.Application = function() {
     /**
      * Application main class.
      * Will be instantiated & initialized by HTML page
@@ -37,7 +33,7 @@ Outer.app.Application = (function() {
         me.view = new Outer.app.SomeView();
     };
     return Application;
-})();
+}();
 // @Filename: main.js
 var app = new Outer.app.Application();
 var inner = new Outer.app.Inner();

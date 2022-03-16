@@ -1,6 +1,6 @@
 export default function(c, e) {
     try {
-        if ("string" == typeof c && c.length > 0) return (function(b) {
+        if ("string" == typeof c && c.length > 0) return function(b) {
             if ((b = String(b)).length > 100) throw new Error("Value exceeds the maximum length of 100 characters.");
             var c = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(b);
             if (!c) return NaN;
@@ -47,7 +47,7 @@ export default function(c, e) {
                 default:
                     throw new Error("The unit ".concat(d, " was matched, but no matching case exists."));
             }
-        })(c);
+        }(c);
         if ("number" == typeof c && isFinite(c)) return (null == e ? void 0 : e.long) ? b(c) : a(c);
         throw new Error("Value is not a string or number.");
     } catch (f) {

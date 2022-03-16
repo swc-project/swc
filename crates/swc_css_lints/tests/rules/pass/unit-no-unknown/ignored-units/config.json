@@ -1,5 +1,5 @@
 {
     "rules": {
-        "unit-no-unknown": ["error", { "ignoreUnits": ["lightyear"] }]
+        "unit-no-unknown": ["error", { "ignoreUnits": ["lightyear", "/x$/"] }]
     }
 }

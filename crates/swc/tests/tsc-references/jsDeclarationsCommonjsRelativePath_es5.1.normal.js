@@ -6,13 +6,9 @@
 'use strict';
 // @Filename: reexport.js
 'use strict';
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var Thing = function Thing() {
-    _classCallCheck(this, Thing);
+    swcHelpers.classCallCheck(this, Thing);
 };
 module.exports = {
     Thing: Thing

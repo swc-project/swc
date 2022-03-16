@@ -1,6 +1,6 @@
-error: Unexpected eof
- --> $DIR/tests/test262-parser/fail/8c353ce78b905b58.js:1:5
-  |
-1 | `${a
-  |     ^
 
+  x Unexpected eof
+   ,-[$DIR/tests/test262-parser/fail/8c353ce78b905b58.js:2:1]
+ 2 | `${a
+   :     ^
+   `----

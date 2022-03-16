@@ -1,0 +1,10 @@
+a {
+  -webkit-background-size: 20px;
+  -o-background-size: 20px;
+  background-size: 20px;
+}
+b {
+  -webkit-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+}

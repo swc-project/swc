@@ -1,0 +1,23 @@
+.class {
+    background: none;
+}
+
+.class {
+    background: image-set(url(foo.jpg) 2x);
+}
+
+.class {
+    background-image: image-set(url(foo.jpg) 2x);
+}
+
+.class {
+    background: filter(url('image.jpg'), blur(2px));
+}
+
+.class {
+    background: filter(url('image.jpg'), blur(2px));
+}
+
+.class {
+    background: url(image.jpg), filter(url('image.jpg'), blur(2px));
+}

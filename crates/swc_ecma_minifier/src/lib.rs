@@ -12,6 +12,7 @@
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
 #![deny(clippy::all)]
+#![deny(unused)]
 #![allow(clippy::blocks_in_if_conditions)]
 #![allow(clippy::collapsible_else_if)]
 #![allow(clippy::collapsible_if)]
@@ -20,6 +21,7 @@
 #![allow(unstable_name_collisions)]
 
 use compress::pure_optimizer;
+use mode::Mode;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, SyntaxContext, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
@@ -34,8 +36,8 @@ use crate::{
     mode::Minification,
     option::{ExtraOptions, MinifyOptions},
     pass::{
-        compute_char_freq::compute_char_freq, expand_names::name_expander, global_defs,
-        mangle_names::name_mangler, mangle_props::mangle_properties, merge_exports::merge_exports,
+        expand_names::name_expander, global_defs, mangle_names::name_mangler,
+        mangle_props::mangle_properties, merge_exports::merge_exports,
         postcompress::postcompress_optimizer, precompress::precompress_optimizer,
     },
 };
@@ -91,7 +93,9 @@ pub fn optimize(
         m.visit_mut_with(&mut precompress_optimizer(options, marks));
     }
 
-    m.visit_mut_with(&mut info_marker(comments, marks, extra.top_level_mark));
+    if options.compress.is_some() {
+        m.visit_mut_with(&mut info_marker(comments, marks, extra.top_level_mark));
+    }
     m.visit_mut_with(&mut unique_scope());
 
     if options.wrap {
@@ -137,8 +141,9 @@ pub fn optimize(
         m.visit_mut_with(&mut postcompress_optimizer(options));
         m.visit_mut_with(&mut Repeat::new(pure_optimizer(
             options,
+            None,
             marks,
-            &Minification,
+            Minification::force_str_for_tpl(),
             true,
             false,
         )));
@@ -159,13 +164,7 @@ pub fn optimize(
         let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
-        let char_freq_info = compute_char_freq(&m);
-        m.visit_mut_with(&mut name_mangler(
-            mangle.clone(),
-            char_freq_info,
-            marks,
-            top_level_ctxt,
-        ));
+        m.visit_mut_with(&mut name_mangler(mangle.clone(), marks, top_level_ctxt));
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {

@@ -21,7 +21,7 @@ use crate::{
     ComputedPropName, Id, Invalid,
 };
 
-#[ast_node]
+#[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Expr {
@@ -158,6 +158,53 @@ pub enum Expr {
 
     #[tag("Invalid")]
     Invalid(Invalid),
+}
+
+// Implement Clone without inline to avoid multiple copies of the
+// implementation.
+impl Clone for Expr {
+    fn clone(&self) -> Self {
+        use Expr::*;
+        match self {
+            This(e) => This(e.clone()),
+            Array(e) => Array(e.clone()),
+            Object(e) => Object(e.clone()),
+            Fn(e) => Fn(e.clone()),
+            Unary(e) => Unary(e.clone()),
+            Update(e) => Update(e.clone()),
+            Bin(e) => Bin(e.clone()),
+            Assign(e) => Assign(e.clone()),
+            Member(e) => Member(e.clone()),
+            SuperProp(e) => SuperProp(e.clone()),
+            Cond(e) => Cond(e.clone()),
+            Call(e) => Call(e.clone()),
+            New(e) => New(e.clone()),
+            Seq(e) => Seq(e.clone()),
+            Ident(e) => Ident(e.clone()),
+            Lit(e) => Lit(e.clone()),
+            Tpl(e) => Tpl(e.clone()),
+            TaggedTpl(e) => TaggedTpl(e.clone()),
+            Arrow(e) => Arrow(e.clone()),
+            Class(e) => Class(e.clone()),
+            Yield(e) => Yield(e.clone()),
+            MetaProp(e) => MetaProp(e.clone()),
+            Await(e) => Await(e.clone()),
+            Paren(e) => Paren(e.clone()),
+            JSXMember(e) => JSXMember(e.clone()),
+            JSXNamespacedName(e) => JSXNamespacedName(e.clone()),
+            JSXEmpty(e) => JSXEmpty(e.clone()),
+            JSXElement(e) => JSXElement(e.clone()),
+            JSXFragment(e) => JSXFragment(e.clone()),
+            TsTypeAssertion(e) => TsTypeAssertion(e.clone()),
+            TsConstAssertion(e) => TsConstAssertion(e.clone()),
+            TsNonNull(e) => TsNonNull(e.clone()),
+            TsAs(e) => TsAs(e.clone()),
+            TsInstantiation(e) => TsInstantiation(e.clone()),
+            PrivateName(e) => PrivateName(e.clone()),
+            OptChain(e) => OptChain(e.clone()),
+            Invalid(e) => Invalid(e.clone()),
+        }
+    }
 }
 
 impl Take for Expr {

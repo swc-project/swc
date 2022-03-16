@@ -1,12 +1,12 @@
 @supports (display: flex) {
-h1 {
-color: hotpink;
-}
+  h1 {
+    color: hotpink;
+  }
 }
 @supports  not (display: grid) {
-div {
-float: right;
-}
+  div {
+    float: right;
+  }
 }
 @supports  not ( not (transform-origin: 2px)) {}
 @supports (display: grid) and ( not (display: inline-grid)) {}

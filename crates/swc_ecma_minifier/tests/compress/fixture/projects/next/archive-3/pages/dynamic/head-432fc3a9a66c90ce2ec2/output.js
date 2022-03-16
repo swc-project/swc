@@ -211,7 +211,7 @@
                 ]), LoadableSubscription;
             }();
             function Loadable(opts1) {
-                return (function(loadFn, options) {
+                return function(loadFn, options) {
                     var opts = Object.assign({
                         loader: null,
                         loading: null,
@@ -237,14 +237,14 @@
                         READY_INITIALIZERS.push(function(ids) {
                             var _step, _iterator = function(o1, allowArrayLike) {
                                 if ("undefined" == typeof Symbol || null == o1[Symbol.iterator]) {
-                                    if (Array.isArray(o1) || (it = (function(o, minLen) {
+                                    if (Array.isArray(o1) || (it = function(o, minLen) {
                                         if (o) {
                                             if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
                                             var n = Object.prototype.toString.call(o).slice(8, -1);
                                             if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(o);
                                             if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
                                         }
-                                    })(o1)) || 0) {
+                                    }(o1)) || 0) {
                                         it && (o1 = it);
                                         var i = 0, F = function() {};
                                         return {
@@ -324,7 +324,7 @@
                     return LoadableComponent.preload = function() {
                         return init();
                     }, LoadableComponent.displayName = "LoadableComponent", _react.default.forwardRef(LoadableComponent);
-                })(load, opts1);
+                }(load, opts1);
             }
             function flushInitializers(initializers, ids) {
                 for(var promises = []; initializers.length;){

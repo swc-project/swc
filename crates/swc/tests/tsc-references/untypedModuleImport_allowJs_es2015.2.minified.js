@@ -1,6 +1,4 @@
 import foo from "foo";
 exports.default = {
-    bar () {
-        return 0;
-    }
+    bar: ()=>0
 }, foo.bar();

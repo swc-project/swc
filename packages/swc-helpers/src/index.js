@@ -21,6 +21,7 @@ export { default as classPrivateFieldDestructureSet } from './_class_private_fie
 export { default as classPrivateFieldGet } from './_class_private_field_get';
 export { default as classPrivateFieldInit } from './_class_private_field_init';
 export { default as classPrivateFieldLooseBase } from './_class_private_field_loose_base';
+export { default as classPrivateFieldLooseKey } from './_class_private_field_loose_key';
 export { default as classPrivateFieldSet } from './_class_private_field_set';
 export { default as classPrivateMethodGet } from './_class_private_method_get';
 export { default as classPrivateMethodInit } from './_class_private_method_init';

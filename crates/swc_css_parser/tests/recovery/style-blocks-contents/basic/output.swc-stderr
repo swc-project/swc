@@ -1,0 +1,36 @@
+
+  x Expected ":"
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:7:9]
+ 7 | color: green;
+   : ^^^^^
+   `----
+
+  x Expected ":"
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:15:13]
+ 15 | color: red
+    : ^^^^^
+    `----
+
+  x Expected ":"
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:24:9]
+ 24 | ident;
+    :      ^
+    `----
+
+  x Expected ":"
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
+ 32 | ident;
+    :      ^
+    `----
+
+  x Invalid selector
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:40:5]
+ 40 | & test;
+    :       ^
+    `----
+
+  x Unexpected character `';'`
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:40:5]
+ 40 | & test;
+    :       ^
+    `----

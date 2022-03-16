@@ -1,6 +1,6 @@
 use std::{
-    fs,
-    io::{self, BufRead},
+    fs::{self, File},
+    io::{self, BufRead, Write},
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -12,12 +12,15 @@ use rayon::prelude::*;
 use relative_path::RelativePath;
 use swc::{
     config::{Config, Options},
-    try_with_handler, Compiler, TransformOutput,
+    try_with_handler, Compiler, HandlerOpts, TransformOutput,
 };
-use swc_common::{sync::Lazy, FileName, FilePathMapping, SourceMap};
-use tracing_chrome::{ChromeLayerBuilder, FlushGuard};
-use tracing_subscriber::{prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt};
+use swc_common::{
+    errors::ColorConfig, sync::Lazy, FileName, FilePathMapping, SourceFile, SourceMap,
+};
+use swc_trace_macro::swc_trace;
 use walkdir::WalkDir;
+
+use crate::util::trace::init_trace;
 
 /// Configuration option for transform files.
 #[derive(Parser)]
@@ -80,7 +83,7 @@ pub struct CompileOptions {
     #[clap(group = "input")]
     files: Vec<PathBuf>,
 
-    /// Enable experimantal trace profiling
+    /// Enable experimental trace profiling
     /// generates trace compatible with trace event format.
     #[clap(group = "experimental_trace", long)]
     experimental_trace: bool,
@@ -109,7 +112,7 @@ static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "t
 /// Infer list of files to be transformed from cli arguments.
 /// If given input is a directory, it'll traverse it and collect all supported
 /// files.
-#[tracing::instrument(level = "trace", skip_all)]
+#[tracing::instrument(level = "info", skip_all)]
 fn get_files_list(
     raw_files_input: &[PathBuf],
     extensions: &[String],
@@ -259,110 +262,139 @@ fn collect_stdin_input() -> Option<String> {
     )
 }
 
-fn init_trace(out_file: &Option<String>) -> Option<FlushGuard> {
-    let layer = if let Some(trace_out_file) = out_file {
-        ChromeLayerBuilder::new()
-            .file(trace_out_file.clone())
-            .include_args(true)
-    } else {
-        ChromeLayerBuilder::new().include_args(true)
-    };
-
-    let (chrome_layer, guard) = layer.build();
-    tracing_subscriber::registry()
-        .with(chrome_layer)
-        .try_init()
-        .expect("Should able to register trace");
-
-    Some(guard)
+struct InputContext {
+    options: Options,
+    fm: Arc<SourceFile>,
+    compiler: Arc<Compiler>,
+    file_path: PathBuf,
 }
 
-impl super::CommandRunner for CompileOptions {
-    #[tracing::instrument(level = "trace", skip_all)]
-    fn execute_inner(&self) -> anyhow::Result<()> {
-        let stdin_input = collect_stdin_input();
+#[swc_trace]
+impl CompileOptions {
+    /// Create canonical list of inputs to be processed across stdin / single
+    /// file / multiple files.
+    fn collect_inputs(&self) -> anyhow::Result<Vec<InputContext>> {
+        let compiler = COMPILER.clone();
 
+        let stdin_input = collect_stdin_input();
         if stdin_input.is_some() && !self.files.is_empty() {
             anyhow::bail!("Cannot specify inputs from stdin and files at the same time");
         }
 
-        if stdin_input.is_none() && self.files.is_empty() {
-            anyhow::bail!("Input is empty");
-        }
-
         if let Some(stdin_input) = stdin_input {
-            let span = tracing::span!(tracing::Level::TRACE, "compile_stdin");
-            let stdin_span_guard = span.enter();
-            let comp = COMPILER.clone();
+            let options = build_transform_options(&self.config_file, &self.filename.as_deref())?;
 
-            let result = try_with_handler(comp.cm.clone(), false, |handler| {
-                let options =
-                    build_transform_options(&self.config_file, &self.filename.as_deref())?;
+            let fm = compiler.cm.new_source_file(
+                if options.filename.is_empty() {
+                    FileName::Anon
+                } else {
+                    FileName::Real(options.filename.clone().into())
+                },
+                stdin_input,
+            );
 
-                let fm = comp.cm.new_source_file(
-                    if options.filename.is_empty() {
-                        FileName::Anon
-                    } else {
-                        FileName::Real(options.filename.clone().into())
-                    },
-                    stdin_input,
-                );
-
-                comp.process_js_file(fm, handler, &options)
-            });
-
-            match result {
-                Ok(output) => emit_output(
-                    &output,
-                    &self.out_dir,
-                    self.filename.as_ref().unwrap_or(&PathBuf::from("unknown")),
-                )?,
-                Err(e) => return Err(e),
-            };
-
-            drop(stdin_span_guard);
-            return Ok(());
-        }
-
-        if !self.files.is_empty() {
-            let span = tracing::span!(tracing::Level::TRACE, "compile_files");
-            let files_span_guard = span.enter();
+            return Ok(vec![InputContext {
+                options,
+                fm,
+                compiler,
+                file_path: self
+                    .filename
+                    .clone()
+                    .unwrap_or_else(|| PathBuf::from("unknown")),
+            }]);
+        } else if !self.files.is_empty() {
             let included_extensions = if let Some(extensions) = &self.extensions {
                 extensions.clone()
             } else {
                 DEFAULT_EXTENSIONS.iter().map(|v| v.to_string()).collect()
             };
 
-            let files = get_files_list(&self.files, &included_extensions, false)?;
-            let cm = COMPILER.clone();
-
-            let ret = files
-                .into_par_iter()
-                .try_for_each_with(cm, |compiler, file_path| {
-                    let result = try_with_handler(compiler.cm.clone(), false, |handler| {
-                        let options =
-                            build_transform_options(&self.config_file, &Some(&file_path))?;
-                        let fm = compiler
-                            .cm
-                            .load_file(&file_path)
-                            .context("failed to load file")?;
-                        compiler.process_js_file(fm, handler, &options)
-                    });
-
-                    match result {
-                        Ok(output) => emit_output(&output, &self.out_dir, &file_path)?,
-                        Err(e) => return Err(e),
-                    };
-
-                    Ok(())
-                });
-            drop(files_span_guard);
-            return ret;
+            return get_files_list(&self.files, &included_extensions, false)?
+                .iter()
+                .map(|file_path| {
+                    build_transform_options(&self.config_file, &Some(file_path)).and_then(
+                        |options| {
+                            let fm = compiler
+                                .cm
+                                .load_file(file_path)
+                                .context("failed to load file");
+                            fm.map(|fm| InputContext {
+                                options,
+                                fm,
+                                compiler: compiler.clone(),
+                                file_path: file_path.to_path_buf(),
+                            })
+                        },
+                    )
+                })
+                .collect::<anyhow::Result<Vec<InputContext>>>();
         }
 
-        Ok(())
+        anyhow::bail!("Input is empty");
     }
 
+    fn execute_inner(&self) -> anyhow::Result<()> {
+        let inputs = self.collect_inputs()?;
+
+        let execute = |compiler: Arc<Compiler>, fm: Arc<SourceFile>, options: Options| {
+            try_with_handler(
+                compiler.cm.clone(),
+                HandlerOpts {
+                    color: ColorConfig::Always,
+                    skip_filename: false,
+                },
+                |handler| compiler.process_js_file(fm, handler, &options),
+            )
+        };
+
+        if let Some(single_out_file) = self.out_file.as_ref() {
+            let result: anyhow::Result<Vec<TransformOutput>> = inputs
+                .into_par_iter()
+                .map(
+                    |InputContext {
+                         compiler,
+                         fm,
+                         options,
+                         file_path: _,
+                     }| execute(compiler, fm, options),
+                )
+                .collect();
+
+            fs::create_dir_all(
+                single_out_file
+                    .parent()
+                    .expect("Parent should be available"),
+            )?;
+            let mut buf = File::create(single_out_file)?;
+
+            result?
+                .iter()
+                .try_for_each(|r| buf.write(r.code.as_bytes()).and(Ok(())))?;
+
+            buf.flush()
+                .context("Failed to write output into single file")
+        } else {
+            inputs.into_par_iter().try_for_each(
+                |InputContext {
+                     compiler,
+                     fm,
+                     options,
+                     file_path,
+                 }| {
+                    let result = execute(compiler, fm, options);
+
+                    match result {
+                        Ok(output) => emit_output(&output, &self.out_dir, &file_path),
+                        Err(e) => Err(e),
+                    }
+                },
+            )
+        }
+    }
+}
+
+#[swc_trace]
+impl super::CommandRunner for CompileOptions {
     fn execute(&self) -> anyhow::Result<()> {
         let guard = if self.experimental_trace {
             init_trace(&self.trace_out_file)
@@ -374,6 +406,7 @@ impl super::CommandRunner for CompileOptions {
 
         if let Some(guard) = guard {
             guard.flush();
+            drop(guard);
         }
 
         ret

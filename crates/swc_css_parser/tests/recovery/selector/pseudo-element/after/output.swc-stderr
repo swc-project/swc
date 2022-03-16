@@ -1,0 +1,6 @@
+
+  x Invalid selector
+   ,-[$DIR/tests/recovery/selector/pseudo-element/after/input.css:2:1]
+ 2 | :: foo {
+   :   ^
+   `----

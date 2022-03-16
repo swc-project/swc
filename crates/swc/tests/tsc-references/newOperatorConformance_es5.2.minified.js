@@ -1,15 +1,13 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
+import * as swcHelpers from "@swc/helpers";
 var anyCtor, anyCtor1, nestedCtor, C0 = function() {
     "use strict";
-    _classCallCheck(this, C0);
+    swcHelpers.classCallCheck(this, C0);
 }, C1 = function(n, s) {
     "use strict";
-    _classCallCheck(this, C1);
+    swcHelpers.classCallCheck(this, C1);
 }, T = function(n) {
     "use strict";
-    _classCallCheck(this, T);
+    swcHelpers.classCallCheck(this, T);
 };
 new C0, new T, new anyCtor, new anyCtor1(void 0), new function() {}();
 var nested = new new new nestedCtor()()();

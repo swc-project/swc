@@ -1,0 +1,19 @@
+@font-face {
+    margin: 0;
+    __ident__
+    border-radius: 7px;
+    color: white;
+    background:  __ident__;
+    __ident__
+    __ident__
+}
+
+@font-face {
+    123
+    color: red;
+}
+
+@font-face {
+    123;
+    color: red;
+}

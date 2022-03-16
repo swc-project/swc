@@ -11,7 +11,7 @@ use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use tracing::instrument;
 use tracing_chrome::ChromeLayerBuilder;
 use tracing_subscriber::{
-    prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, EnvFilter,
+    filter, prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, EnvFilter, Layer,
 };
 
 #[napi]
@@ -26,7 +26,9 @@ pub fn init_custom_trace_subscriber(
 
     let (chrome_layer, guard) = layer.build();
     tracing_subscriber::registry()
-        .with(chrome_layer)
+        .with(chrome_layer.with_filter(filter::filter_fn(|metadata| {
+            !metadata.target().contains("cranelift") && !metadata.name().contains("log ")
+        })))
         .try_init()
         .expect("Failed to register tracing subscriber");
 
@@ -47,6 +49,7 @@ pub fn init_default_trace_subscriber() {
         .with_target(false)
         .with_ansi(true)
         .with_env_filter(EnvFilter::from_env("SWC_LOG"))
+        .with_env_filter(EnvFilter::from_default_env().add_directive(tracing::Level::ERROR.into()))
         .try_init();
 }
 
@@ -55,23 +58,30 @@ pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, skip_filename: bool, op: F) -> Resul
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    try_with_handler(cm, skip_filename, |handler| {
-        //
-        let result = catch_unwind(AssertUnwindSafe(|| op(handler)));
+    try_with_handler(
+        cm,
+        swc::HandlerOpts {
+            skip_filename,
+            ..Default::default()
+        },
+        |handler| {
+            //
+            let result = catch_unwind(AssertUnwindSafe(|| op(handler)));
 
-        let p = match result {
-            Ok(v) => return v,
-            Err(v) => v,
-        };
+            let p = match result {
+                Ok(v) => return v,
+                Err(v) => v,
+            };
 
-        if let Some(s) = p.downcast_ref::<String>() {
-            Err(anyhow!("failed to handle: {}", s))
-        } else if let Some(s) = p.downcast_ref::<&str>() {
-            Err(anyhow!("failed to handle: {}", s))
-        } else {
-            Err(anyhow!("failed to handle with unknown panic message"))
-        }
-    })
+            if let Some(s) = p.downcast_ref::<String>() {
+                Err(anyhow!("failed to handle: {}", s))
+            } else if let Some(s) = p.downcast_ref::<&str>() {
+                Err(anyhow!("failed to handle: {}", s))
+            } else {
+                Err(anyhow!("failed to handle with unknown panic message"))
+            }
+        },
+    )
 }
 
 pub trait MapErr<T>: Into<Result<T, anyhow::Error>> {

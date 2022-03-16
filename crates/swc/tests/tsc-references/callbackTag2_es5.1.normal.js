@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -15,9 +11,13 @@ function _classCallCheck(instance, Constructor) {
 /** @type {Id<string>} I actually wanted to write `const "120"` */ var one_twenty = function(s) {
     return "120";
 };
-var SharedClass = function SharedClass() {
+/** @template S
+ * @callback SharedId
+ * @param {S} ego
+ * @return {S}
+ */ var SharedClass = function SharedClass() {
     "use strict";
-    _classCallCheck(this, SharedClass);
+    swcHelpers.classCallCheck(this, SharedClass);
     /** @type {SharedId<S>} */ this.id;
 };
 /** @type {SharedId<number>} */ var outside = function(n) {

@@ -532,11 +532,7 @@ impl<I: Tokens> Parser<I> {
         if !self.input.syntax().typescript() {
             return None;
         }
-        #[cfg(feature = "debug")]
-        let _tracing = {
-            let cur = format!("{:?}", self.input.cur());
-            tracing::span!(tracing::Level::ERROR, "try_parse_ts", cur = &*cur).entered()
-        };
+        let _tracing = debug_tracing!(self, "try_parse_ts");
 
         trace_cur!(self, try_parse_ts);
 
@@ -2282,7 +2278,7 @@ impl<I: Tokens> Parser<I> {
 
             if is!(p, "class") {
                 return p
-                    .parse_class_decl(start, start, decorators)
+                    .parse_class_decl(start, start, decorators, false)
                     .map(|decl| match decl {
                         Decl::Class(c) => Decl::Class(ClassDecl {
                             declare: true,
@@ -2394,19 +2390,7 @@ impl<I: Tokens> Parser<I> {
                     if next {
                         bump!(self);
                     }
-                    let mut decl = self.parse_class_decl(start, start, decorators)?;
-                    match decl {
-                        Decl::Class(ClassDecl {
-                            class:
-                                Class {
-                                    ref mut is_abstract,
-                                    ..
-                                },
-                            ..
-                        }) => *is_abstract = true,
-                        _ => unreachable!(),
-                    }
-                    return Ok(Some(decl));
+                    return Ok(Some(self.parse_class_decl(start, start, decorators, true)?));
                 }
             }
 
@@ -2648,6 +2632,8 @@ impl<I: Tokens> Parser<I> {
     {
         debug_assert!(self.input.syntax().typescript());
 
+        trace_cur!(self, ts_in_no_context__before);
+
         let cloned = self.input.token_context().clone();
 
         #[cfg(debug_assertions)]
@@ -2658,6 +2644,8 @@ impl<I: Tokens> Parser<I> {
             .set_token_context(TokenContexts(smallvec::smallvec![cloned.0[0]]));
         let res = op(self);
         self.input.set_token_context(cloned);
+
+        trace_cur!(self, ts_in_no_context__after);
 
         res
     }

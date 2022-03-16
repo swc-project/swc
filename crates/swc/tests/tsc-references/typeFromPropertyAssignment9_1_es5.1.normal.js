@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -45,21 +27,17 @@ var _sort;
  */ my.predicate.sort = (_sort = my.predicate.sort) !== null && _sort !== void 0 ? _sort : function(first, second) {
     return first > second ? first : second;
 };
-my.predicate.type = /*#__PURE__*/ (function() {
+my.predicate.type = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
-        _classCallCheck(this, _class);
+        swcHelpers.classCallCheck(this, _class);
     }
-    _createClass(_class, [
-        {
-            key: "m",
-            value: function m() {
-                return 101;
-            }
-        }
-    ]);
+    var _proto = _class.prototype;
+    _proto.m = function m() {
+        return 101;
+    };
     return _class;
-})();
+}();
 var _min;
 // global-ish prefixes
 var min = (_min = window.min) !== null && _min !== void 0 ? _min : {};
@@ -68,7 +46,7 @@ min.nest = (_nest = this.min.nest) !== null && _nest !== void 0 ? _nest : functi
 var _other;
 min.nest.other = (_other = self.min.nest.other) !== null && _other !== void 0 ? _other : function _class() {
     "use strict";
-    _classCallCheck(this, _class);
+    swcHelpers.classCallCheck(this, _class);
 };
 var _property;
 min.property = (_property = global.min.property) !== null && _property !== void 0 ? _property : {};

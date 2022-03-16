@@ -1,8 +1,7 @@
 var _Foo, __, __1, __2;
-var _class;
 // https://github.com/microsoft/TypeScript/issues/44872
-void (_class = (_Foo = class Foo {
-}, __ = {
+void (_Foo = class Foo {
+}, _Foo.prop = 1, __ = {
     writable: true,
     value: (()=>{
         console.log(_Foo.prop);
@@ -20,4 +19,4 @@ void (_class = (_Foo = class Foo {
         console.log(_Foo.prop);
         _Foo.prop++;
     })()
-}, _Foo), _class.prop = 1, _class);
+}, _Foo);

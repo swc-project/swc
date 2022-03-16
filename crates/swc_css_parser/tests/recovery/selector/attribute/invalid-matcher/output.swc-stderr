@@ -1,0 +1,6 @@
+
+  x Invalid attribute matcher value
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:2:1]
+ 2 | [href==".org"] {}
+   :       ^
+   `----

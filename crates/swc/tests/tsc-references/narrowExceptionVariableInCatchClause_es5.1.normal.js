@@ -1,10 +1,4 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 function tryCatch() {
     try {
     // do stuff...
@@ -12,7 +6,7 @@ function tryCatch() {
         if (isFooError(err)) {
             err.dontPanic(); // OK
             err.doPanic(); // ERROR: Property 'doPanic' does not exist on type '{...}'
-        } else if (_instanceof(err, Error)) {
+        } else if (swcHelpers._instanceof(err, Error)) {
             err.message;
             err.massage; // ERROR: Property 'massage' does not exist on type 'Error'
         } else {

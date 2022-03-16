@@ -1,17 +1,10 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @filename: m2.ts
 import Entity from "m1";
 var Decl = function Decl() {
     "use strict";
-    _classCallCheck(this, Decl);
+    swcHelpers.classCallCheck(this, Decl);
 };
-// @module: commonjs
-// @target: ES5
-// @filename: m1.ts
 export { Decl as default };
 Entity();
 var x;

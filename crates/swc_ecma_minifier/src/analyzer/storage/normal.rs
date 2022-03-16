@@ -74,6 +74,8 @@ impl Storage for ProgramData {
                     e.get_mut().used_as_callee |= var_info.used_as_callee;
                     e.get_mut().used_as_arg |= var_info.used_as_arg;
 
+                    e.get_mut().pure_fn |= var_info.pure_fn;
+
                     if !var_info.is_fn_local {
                         e.get_mut().is_fn_local = false;
                     }
@@ -115,9 +117,9 @@ impl Storage for ProgramData {
         has_init: bool,
         kind: Option<VarDeclKind>,
     ) -> &mut VarUsageInfo {
-        if cfg!(feature = "debug") {
-            tracing::debug!(has_init = has_init, "declare_decl(`{}`)", i);
-        }
+        // if cfg!(feature = "debug") {
+        //     tracing::debug!(has_init = has_init, "declare_decl(`{}`)", i);
+        // }
 
         let v = self
             .vars
@@ -274,5 +276,13 @@ impl VarDataLike for VarUsageInfo {
 
     fn prevent_inline(&mut self) {
         self.inline_prevented = true;
+    }
+
+    fn mark_initialized_with_safe_value(&mut self) {
+        self.no_side_effect_for_member_access = true;
+    }
+
+    fn mark_as_pure_fn(&mut self) {
+        self.pure_fn = true;
     }
 }

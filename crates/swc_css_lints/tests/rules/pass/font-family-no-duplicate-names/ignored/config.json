@@ -1,0 +1,8 @@
+{
+    "rules": {
+        "font-family-no-duplicate-names": [
+            "error",
+            { "ignoreFontFamilyNames": ["monospace", "/^my-/"] }
+        ]
+    }
+}

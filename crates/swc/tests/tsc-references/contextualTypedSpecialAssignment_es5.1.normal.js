@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 // @checkJs: true
 // @allowJs: true
 // @noEmit: true
@@ -36,27 +18,23 @@ ns.x = {
     m: function m(n) {}
 };
 ns.x;
-var Thing = // this-property assignment
-/*#__PURE__*/ function() {
+// this-property assignment
+var Thing = /*#__PURE__*/ function() {
     "use strict";
     function Thing() {
-        _classCallCheck(this, Thing);
+        swcHelpers.classCallCheck(this, Thing);
         /** @type {DoneStatus} */ this.s = {
             status: 'done',
             m: function m(n) {}
         };
     }
-    _createClass(Thing, [
-        {
-            key: "fail",
-            value: function fail() {
-                this.s = {
-                    status: 'done',
-                    m: function m(n) {}
-                };
-            }
-        }
-    ]);
+    var _proto = Thing.prototype;
+    _proto.fail = function fail() {
+        this.s = {
+            status: 'done',
+            m: function m(n) {}
+        };
+    };
     return Thing;
 }();
 // exports-property assignment

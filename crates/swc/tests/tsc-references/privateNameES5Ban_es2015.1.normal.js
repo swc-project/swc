@@ -1,26 +1,14 @@
-function _checkPrivateRedeclaration(obj, privateCollection) {
-    if (privateCollection.has(obj)) {
-        throw new TypeError("Cannot initialize the same private elements twice on an object");
-    }
-}
-function _classPrivateFieldInit(obj, privateMap, value) {
-    _checkPrivateRedeclaration(obj, privateMap);
-    privateMap.set(obj, value);
-}
-function _classPrivateMethodInit(obj, privateSet) {
-    _checkPrivateRedeclaration(obj, privateSet);
-    privateSet.add(obj);
-}
-var _field = new WeakMap(), _method = new WeakSet(), _acc = new WeakMap();
+import * as swcHelpers from "@swc/helpers";
+var _field = /*#__PURE__*/ new WeakMap(), _method = /*#__PURE__*/ new WeakSet(), _acc = /*#__PURE__*/ new WeakMap();
 // @target: es5, es3
 class A {
     constructor(){
-        _classPrivateMethodInit(this, _method);
-        _classPrivateFieldInit(this, _acc, {
+        swcHelpers.classPrivateMethodInit(this, _method);
+        swcHelpers.classPrivateFieldInit(this, _acc, {
             get: get_acc,
             set: set_acc
         });
-        _classPrivateFieldInit(this, _field, {
+        swcHelpers.classPrivateFieldInit(this, _field, {
             writable: true,
             value: 123
         });

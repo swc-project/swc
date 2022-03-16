@@ -164,6 +164,10 @@ jobs:
           profile: minimal
           override: true
           target: ${{ matrix.settings.target }}
+      - name: Install node dependencies
+        shell: bash
+        run: |
+          yarn
       - name: Cache cargo registry
         uses: actions/cache@v2
         with:
@@ -212,6 +216,17 @@ jobs:
     name: Build FreeBSD
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: Install node dependencies
+        shell: bash
+        run: |
+          yarn
+
       - name: Cleanup useless files to speedup
         run: |
           rm -rf crates/swc_css_parser/tests/errors

@@ -3,7 +3,9 @@ use std::fmt::Debug;
 use serde::{Deserialize, Serialize};
 
 use crate::rules::{
-    at_rule_no_unknown::AtRuleNoUnknownConfig, color_hex_length::ColorHexLengthConfig,
+    at_rule_no_unknown::AtRuleNoUnknownConfig, color_hex_alpha::ColorHexAlphaConfig,
+    color_hex_length::ColorHexLengthConfig,
+    font_family_no_duplicate_names::FontFamilyNoDuplicateNamesConfig,
     no_invalid_position_at_import_rule::NoInvalidPositionAtImportRuleConfig,
     selector_max_class::SelectorMaxClassConfig,
     selector_max_combinators::SelectorMaxCombinatorsConfig, unit_no_unknown::UnitNoUnknownConfig,
@@ -103,6 +105,18 @@ pub struct RulesConfig {
 
     #[serde(default, alias = "selectorMaxCombinators")]
     pub selector_max_combinators: RuleConfig<SelectorMaxCombinatorsConfig>,
+
+    #[serde(default, alias = "fontFamilyNoDuplicateNames")]
+    pub font_family_no_duplicate_names: RuleConfig<FontFamilyNoDuplicateNamesConfig>,
+
+    #[serde(default, alias = "colorHexAlpha")]
+    pub color_hex_alpha: RuleConfig<ColorHexAlphaConfig>,
+
+    #[serde(default, alias = "noDuplicateAtImportRules")]
+    pub no_duplicate_at_import_rules: RuleConfig<()>,
+
+    #[serde(default, alias = "customPropertyNoMissingVarFunction")]
+    pub custom_property_no_missing_var_function: RuleConfig<()>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

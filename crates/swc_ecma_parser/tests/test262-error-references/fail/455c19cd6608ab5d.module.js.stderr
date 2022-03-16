@@ -1,6 +1,6 @@
-error: Unexpected token `}`. Expected identifier or string
- --> $DIR/tests/test262-parser/fail/455c19cd6608ab5d.module.js:1:13
-  |
-1 | export {a as} from a
-  |             ^
 
+  x Unexpected token `}`. Expected identifier or string
+   ,-[$DIR/tests/test262-parser/fail/455c19cd6608ab5d.module.js:2:1]
+ 2 | export {a as} from a
+   :             ^
+   `----

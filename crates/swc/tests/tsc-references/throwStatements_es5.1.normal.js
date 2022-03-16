@@ -1,19 +1,11 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+import * as swcHelpers from "@swc/helpers";
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 var D = function D() {
     "use strict";
-    _classCallCheck(this, D);
+    swcHelpers.classCallCheck(this, D);
 };
 function F(x) {
     return 42;
@@ -25,7 +17,7 @@ var M;
     };
     var A = function A() {
         "use strict";
-        _classCallCheck(this, A);
+        swcHelpers.classCallCheck(this, A);
     };
     M1.A = A;
     M1.F2 = F2;
@@ -62,7 +54,7 @@ throw aLambda;
 throw aLambda(1);
 var aModule = M;
 throw aModule;
-throw typeof M === "undefined" ? "undefined" : _typeof(M);
+throw typeof M === "undefined" ? "undefined" : swcHelpers.typeOf(M);
 var aClassInModule = new M.A();
 throw aClassInModule;
 var aFunctionInModule = M.F2;

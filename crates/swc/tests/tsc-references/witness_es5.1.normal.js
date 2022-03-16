@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 // Initializers
 var varInit = varInit; // any
 var pInit;
@@ -27,18 +9,14 @@ function fn() {
 var InitClass = /*#__PURE__*/ function() {
     "use strict";
     function InitClass() {
-        _classCallCheck(this, InitClass);
+        swcHelpers.classCallCheck(this, InitClass);
         this.x = this.x;
     }
-    _createClass(InitClass, [
-        {
-            key: "fn",
-            value: function fn() {
-                var y = this.x;
-                var y;
-            }
-        }
-    ]);
+    var _proto = InitClass.prototype;
+    _proto.fn = function fn() {
+        var y = this.x;
+        var y;
+    };
     return InitClass;
 }();
 // Return type
@@ -100,33 +78,23 @@ function fnArg2() {
     return overload1(fnArg2);
 }
 var t = fnArg2(); // t: should be 'any', but is 'string'
-var C = // New operator
-/*#__PURE__*/ function() {
+// New operator
+var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    _createClass(C, [
-        {
-            key: "fn1",
-            value: function fn1() {
-                return new (this.fn1())();
-            }
-        },
-        {
-            key: "fn2",
-            value: function fn2() {
-                return new (this.fn2());
-            }
-        },
-        {
-            key: "fn3",
-            value: function fn3() {
-                var a1;
-                return new a1(this.fn3);
-            }
-        }
-    ]);
+    var _proto = C.prototype;
+    _proto.fn1 = function fn1() {
+        return new (this.fn1())();
+    };
+    _proto.fn2 = function fn2() {
+        return new (this.fn2());
+    };
+    _proto.fn3 = function fn3() {
+        var a1;
+        return new a1(this.fn3);
+    };
     return C;
 }();
 function fn5() {
@@ -146,18 +114,19 @@ var M2;
     var y = x;
     var y;
 })(M2 || (M2 = {}));
+// Property access of class instance type
 var C2 = function C2() {
     "use strict";
-    _classCallCheck(this, C2);
-    // Property access of class instance type
-    this.n // n: any
-     = this.n;
+    swcHelpers.classCallCheck(this, C2);
+    this.n = this.n // n: any
+    ;
 };
 var c2inst = new C2().n;
 var c2inst;
+// Constructor function property access
 var C3 = function C3() {
     "use strict";
-    _classCallCheck(this, C3);
+    swcHelpers.classCallCheck(this, C3);
 };
 C3.q = C3.q;
 var qq = C3.q;

@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @declaration: true
 function ExpandoDecl(n1) {
     return n1.toString();
@@ -69,10 +65,10 @@ ExpandoExpr2.m = function(n10) {
     return n10 + 1;
 };
 var n = ExpandoExpr2.prop + ExpandoExpr2.m(12) + ExpandoExpr2(101).length;
+// Should not work in typescript -- classes already have statics
 var ExpandoClass = function ExpandoClass() {
     "use strict";
-    _classCallCheck(this, ExpandoClass);
-    // Should not work in typescript -- classes already have statics
+    swcHelpers.classCallCheck(this, ExpandoClass);
     this.n = 1001;
 };
 ExpandoClass.prop = 2;
@@ -83,7 +79,7 @@ var n = ExpandoClass.prop + ExpandoClass.m(12) + new ExpandoClass().n;
 // Class expressions shouldn't work in typescript either
 var ExpandoExpr3 = function _class() {
     "use strict";
-    _classCallCheck(this, _class);
+    swcHelpers.classCallCheck(this, _class);
     this.n = 10001;
 };
 ExpandoExpr3.prop = 3;

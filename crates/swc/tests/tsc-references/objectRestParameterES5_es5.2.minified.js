@@ -1,26 +1,6 @@
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _objectWithoutProperties(source, excluded) {
-    if (null == source) return {};
-    var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
-    if (Object.getOwnPropertySymbols) {
-        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], excluded.indexOf(key) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
-    }
-    return target;
-}
-function _objectWithoutPropertiesLoose(source, excluded) {
-    if (null == source) return {};
-    var key, i, target = {}, sourceKeys = Object.keys(source);
-    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
-    return target;
-}
+import * as swcHelpers from "@swc/helpers";
 suddenly(function(_param) {
-    return _param.x, _objectWithoutProperties(_param, [
+    return _param.x, swcHelpers.objectWithoutProperties(_param, [
         "x"
     ]).y;
 }), suddenly(function() {
@@ -30,43 +10,36 @@ suddenly(function(_param) {
             ka: 1
         },
         y: "noo"
-    }, _z = _param.x.z, nested = _objectWithoutProperties(_param.x, [
+    }, nested = (_param.x.z, swcHelpers.objectWithoutProperties(_param.x, [
         "z"
-    ]), rest = _objectWithoutProperties(_param, [
+    ])), rest = swcHelpers.objectWithoutProperties(_param, [
         "x"
     ]);
     return rest.y + nested.ka;
 });
 var C = function() {
     "use strict";
-    var Constructor, protoProps, staticProps;
     function C() {
-        !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    return Constructor = C, protoProps = [
-        {
-            key: "m",
-            value: function(_param) {
-                _param.a, _objectWithoutProperties(_param, [
-                    "a"
-                ]);
-            }
-        },
+    return C.prototype.m = function(_param) {
+        _param.a, swcHelpers.objectWithoutProperties(_param, [
+            "a"
+        ]);
+    }, swcHelpers.createClass(C, [
         {
             key: "p",
             set: function(_param) {
-                _param.a, _objectWithoutProperties(_param, [
+                _param.a, swcHelpers.objectWithoutProperties(_param, [
                     "a"
                 ]);
             }
         }
-    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
+    ]), C;
 }();
 function foobar() {
     var _param = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
-    _param.bar, _objectWithoutProperties(_param, [
+    _param.bar, swcHelpers.objectWithoutProperties(_param, [
         "bar"
     ]);
 }

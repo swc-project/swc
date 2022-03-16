@@ -1,14 +1,8 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var x = {
     p: 0
 };
-if (_instanceof(x, Object)) {
+if (swcHelpers._instanceof(x, Object)) {
     x.p; // No error, type any unaffected by instanceof type guard
 } else {
     x.p; // No error, type any unaffected by instanceof type guard

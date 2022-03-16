@@ -2911,39 +2911,39 @@ class TestMultipleMethods extends (class {
 
 "#,
     r#"
-    var TestEmpty = function(_super) {
+    var TestEmpty = function(_superClass) {
       "use strict";
-      _inherits(TestEmpty, _super);
-      var _super1 = _createSuper(TestEmpty);
+      _inherits(TestEmpty, _superClass);
+      var _super = _createSuper(TestEmpty);
       function TestEmpty() {
           _classCallCheck(this, TestEmpty);
-          return _super1.apply(this, arguments);
+          return _super.apply(this, arguments);
       }
       return TestEmpty;
   }(function _class() {
       "use strict";
       _classCallCheck(this, _class);
   });
-  var TestConstructorOnly = function(_super) {
+  var TestConstructorOnly = function(_superClass) {
       "use strict";
-      _inherits(TestConstructorOnly, _super);
-      var _super2 = _createSuper(TestConstructorOnly);
+      _inherits(TestConstructorOnly, _superClass);
+      var _super = _createSuper(TestConstructorOnly);
       function TestConstructorOnly() {
           _classCallCheck(this, TestConstructorOnly);
-          return _super2.apply(this, arguments);
+          return _super.apply(this, arguments);
       }
       return TestConstructorOnly;
   }(function _class() {
       "use strict";
       _classCallCheck(this, _class);
   });
-  var TestMethodOnly = function(_super) {
+  var TestMethodOnly = function(_superClass) {
       "use strict";
-      _inherits(TestMethodOnly, _super);
-      var _super3 = _createSuper(TestMethodOnly);
+      _inherits(TestMethodOnly, _superClass);
+      var _super = _createSuper(TestMethodOnly);
       function TestMethodOnly() {
           _classCallCheck(this, TestMethodOnly);
-          return _super3.apply(this, arguments);
+          return _super.apply(this, arguments);
       }
       return TestMethodOnly;
   }(function() {
@@ -2960,13 +2960,13 @@ class TestMultipleMethods extends (class {
       ]);
       return _class;
   }());
-  var TestConstructorAndMethod = function(_super) {
+  var TestConstructorAndMethod = function(_superClass) {
       "use strict";
-      _inherits(TestConstructorAndMethod, _super);
-      var _super4 = _createSuper(TestConstructorAndMethod);
+      _inherits(TestConstructorAndMethod, _superClass);
+      var _super = _createSuper(TestConstructorAndMethod);
       function TestConstructorAndMethod() {
           _classCallCheck(this, TestConstructorAndMethod);
-          return _super4.apply(this, arguments);
+          return _super.apply(this, arguments);
       }
       return TestConstructorAndMethod;
   }(function() {
@@ -2983,13 +2983,13 @@ class TestMultipleMethods extends (class {
       ]);
       return _class;
   }());
-  var TestMultipleMethods = function(_super) {
+  var TestMultipleMethods = function(_superClass) {
       "use strict";
-      _inherits(TestMultipleMethods, _super);
-      var _super5 = _createSuper(TestMultipleMethods);
+      _inherits(TestMultipleMethods, _superClass);
+      var _super = _createSuper(TestMultipleMethods);
       function TestMultipleMethods() {
           _classCallCheck(this, TestMultipleMethods);
-          return _super5.apply(this, arguments);
+          return _super.apply(this, arguments);
       }
       return TestMultipleMethods;
   }(function() {
@@ -6549,9 +6549,9 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            es2022::es2022(Default::default()),
+            es2022::es2022(Some(t.comments.clone()), Default::default()),
             es2018::es2018(Default::default()),
-            es2017::es2017(),
+            es2017::es2017(Default::default()),
             es2016::es2016(),
             es2015::es2015(
                 global_mark,
@@ -6590,7 +6590,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            class_properties(Default::default()),
+            class_properties(Some(t.comments.clone()), Default::default()),
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
@@ -6673,7 +6673,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            class_properties(Default::default()),
+            class_properties(Some(t.comments.clone()), Default::default()),
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
@@ -6720,7 +6720,7 @@ test!(
         let global_mark = Mark::fresh(Mark::root());
 
         chain!(
-            class_properties(Default::default()),
+            class_properties(Some(t.comments.clone()), Default::default()),
             es2015::es2015(
                 global_mark,
                 Some(t.comments.clone()),
@@ -6768,7 +6768,7 @@ fn exec(input: PathBuf) {
         Default::default(),
         |t| {
             chain!(
-                class_properties(Default::default()),
+                class_properties(Some(t.comments.clone()), Default::default()),
                 classes(Some(t.comments.clone()), Default::default())
             )
         },
@@ -6784,7 +6784,7 @@ fn fixture(input: PathBuf) {
         Default::default(),
         &|t| {
             chain!(
-                class_properties(Default::default()),
+                class_properties(Some(t.comments.clone()), Default::default()),
                 classes(Some(t.comments.clone()), Default::default())
             )
         },
@@ -7316,5 +7316,39 @@ let Test = /*#__PURE__*/function (Foo) {
 
   return Test;
 }(Foo);
+"#
+);
+
+test!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            super_is_callable_constructor: true,
+            ..Default::default()
+        }
+    ),
+    issue_3943,
+    r#"
+class Thing extends B {
+  constructor(n) {
+    super()
+    this.name = n
+  }
+}
+"#,
+    r#"
+let Thing = function(B) {
+    "use strict";
+    _inherits(Thing, B);
+    function Thing(n) {
+        _classCallCheck(this, Thing);
+        var _this;
+        _this = B.call(this) || this;
+        _this.name = n;
+        return _this;
+    }
+    return Thing;
+}(B);
 "#
 );

@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
@@ -134,7 +116,7 @@ var TypeScript;
     };
     var TypeCollectionContext = function TypeCollectionContext(scopeChain, checker) {
         "use strict";
-        _classCallCheck(this, TypeCollectionContext);
+        swcHelpers.classCallCheck(this, TypeCollectionContext);
         this.scopeChain = scopeChain;
         this.checker = checker;
         this.script = null;
@@ -142,7 +124,7 @@ var TypeScript;
     TypeScript1.TypeCollectionContext = TypeCollectionContext;
     var MemberScopeContext = function MemberScopeContext(flow, pos, matchFlag) {
         "use strict";
-        _classCallCheck(this, MemberScopeContext);
+        swcHelpers.classCallCheck(this, MemberScopeContext);
         this.flow = flow;
         this.pos = pos;
         this.matchFlag = matchFlag;
@@ -154,7 +136,7 @@ var TypeScript;
     var EnclosingScopeContext = /*#__PURE__*/ function() {
         "use strict";
         function EnclosingScopeContext(logger, script, text, pos, isMemberCompletion) {
-            _classCallCheck(this, EnclosingScopeContext);
+            swcHelpers.classCallCheck(this, EnclosingScopeContext);
             this.logger = logger;
             this.script = script;
             this.text = text;
@@ -170,56 +152,34 @@ var TypeScript;
             this.publicsOnly = true;
             this.useFullAst = false;
         }
-        _createClass(EnclosingScopeContext, [
-            {
-                key: "getScope",
-                value: function getScope() {
-                    return this.scopeGetter();
-                }
-            },
-            {
-                key: "getObjectLiteralScope",
-                value: function getObjectLiteralScope() {
-                    return this.objectLiteralScopeGetter();
-                }
-            },
-            {
-                key: "getScopeAST",
-                value: function getScopeAST() {
-                    return this.scopeStartAST;
-                }
-            },
-            {
-                key: "getScopePosition",
-                value: function getScopePosition() {
-                    return this.scopeStartAST.minChar;
-                }
-            },
-            {
-                key: "getScriptFragmentStartAST",
-                value: function getScriptFragmentStartAST() {
-                    return this.scopeStartAST;
-                }
-            },
-            {
-                key: "getScriptFragmentPosition",
-                value: function getScriptFragmentPosition() {
-                    return this.getScriptFragmentStartAST().minChar;
-                }
-            },
-            {
-                key: "getScriptFragment",
-                value: function getScriptFragment() {
-                    if (this.scriptFragment == null) {
-                        var ast = this.getScriptFragmentStartAST();
-                        var minChar = ast.minChar;
-                        var limChar = this.isMemberCompletion ? this.pos : this.pos + 1;
-                        this.scriptFragment = TypeScript.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
-                    }
-                    return this.scriptFragment;
-                }
+        var _proto = EnclosingScopeContext.prototype;
+        _proto.getScope = function getScope() {
+            return this.scopeGetter();
+        };
+        _proto.getObjectLiteralScope = function getObjectLiteralScope() {
+            return this.objectLiteralScopeGetter();
+        };
+        _proto.getScopeAST = function getScopeAST() {
+            return this.scopeStartAST;
+        };
+        _proto.getScopePosition = function getScopePosition() {
+            return this.scopeStartAST.minChar;
+        };
+        _proto.getScriptFragmentStartAST = function getScriptFragmentStartAST() {
+            return this.scopeStartAST;
+        };
+        _proto.getScriptFragmentPosition = function getScriptFragmentPosition() {
+            return this.getScriptFragmentStartAST().minChar;
+        };
+        _proto.getScriptFragment = function getScriptFragment() {
+            if (this.scriptFragment == null) {
+                var ast = this.getScriptFragmentStartAST();
+                var minChar = ast.minChar;
+                var limChar = this.isMemberCompletion ? this.pos : this.pos + 1;
+                this.scriptFragment = TypeScript.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
             }
-        ]);
+            return this.scriptFragment;
+        };
         return EnclosingScopeContext;
     }();
     TypeScript1.EnclosingScopeContext = EnclosingScopeContext;

@@ -14,6 +14,17 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Fold + VisitMut {
         ctx: Default::default(),
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
+        remove_only: false,
+    })
+}
+
+pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Fold + VisitMut {
+    as_folder(Fixer {
+        comments,
+        ctx: Default::default(),
+        span_map: Default::default(),
+        in_for_stmt_head: Default::default(),
+        remove_only: true,
     })
 }
 
@@ -27,6 +38,8 @@ struct Fixer<'a> {
     span_map: AHashMap<Span, Span>,
 
     in_for_stmt_head: bool,
+
+    remove_only: bool,
 }
 
 #[repr(u8)]
@@ -43,9 +56,7 @@ enum Context {
     ///  - `foo((bar, x))` != `foo(bar, x)`
     ///  - `var foo = (bar, x)` != `var foo = bar, x`
     ///  - `[(foo, bar)]` != `[foo, bar]`
-    ForcedExpr {
-        is_var_decl: bool,
-    },
+    ForcedExpr,
 
     /// Always treated as expr and comma does not matter.
     FreeExpr,
@@ -61,7 +72,7 @@ macro_rules! array {
     ($name:ident, $T:tt) => {
         fn $name(&mut self, e: &mut $T) {
             let old = self.ctx;
-            self.ctx = Context::ForcedExpr { is_var_decl: false }.into();
+            self.ctx = Context::ForcedExpr;
             e.elems.visit_mut_with(self);
             self.ctx = old;
         }
@@ -80,11 +91,11 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Default;
         node.visit_mut_children_with(self);
         match &mut node.body {
-            BlockStmtOrExpr::Expr(ref mut e) if e.is_seq() => {
+            BlockStmtOrExpr::Expr(e) if e.is_seq() => {
                 self.wrap(&mut **e);
             }
 
-            BlockStmtOrExpr::Expr(ref mut e) if e.is_assign() => {
+            BlockStmtOrExpr::Expr(e) if e.is_assign() => {
                 if let Expr::Assign(assign) = &**e {
                     match &assign.left {
                         PatOrExpr::Pat(l) => match &**l {
@@ -104,7 +115,12 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
-        expr.visit_mut_children_with(self);
+        expr.left.visit_mut_with(self);
+
+        let ctx = self.ctx;
+        self.ctx = Context::FreeExpr;
+        expr.right.visit_mut_with(self);
+        self.ctx = ctx;
 
         fn rhs_need_paren(e: &Expr) -> bool {
             match e {
@@ -131,14 +147,14 @@ impl VisitMut for Fixer<'_> {
         node.key.visit_mut_children_with(self);
 
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         node.value.visit_mut_with(self);
         self.ctx = old;
     }
 
     fn visit_mut_await_expr(&mut self, expr: &mut AwaitExpr) {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         expr.arg.visit_mut_with(self);
         self.ctx = old;
 
@@ -153,7 +169,11 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
-        expr.visit_mut_children_with(self);
+        expr.left.visit_mut_with(self);
+        let ctx = self.ctx;
+        self.ctx = Context::FreeExpr;
+        expr.right.visit_mut_with(self);
+        self.ctx = ctx;
 
         match expr.op {
             op!("||") | op!("&&") => match (&*expr.left, &*expr.right) {
@@ -270,6 +290,31 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
+    fn visit_mut_cond_expr(&mut self, expr: &mut CondExpr) {
+        expr.test.visit_mut_with(self);
+
+        let ctx = self.ctx;
+        self.ctx = Context::FreeExpr;
+        expr.cons.visit_mut_with(self);
+        expr.alt.visit_mut_with(self);
+        self.ctx = ctx;
+    }
+
+    fn visit_mut_seq_expr(&mut self, seq: &mut SeqExpr) {
+        if seq.exprs.len() > 1 {
+            seq.exprs[0].visit_mut_with(self);
+
+            let ctx = self.ctx;
+            self.ctx = Context::FreeExpr;
+            for expr in seq.exprs.iter_mut().skip(1) {
+                expr.visit_mut_with(self)
+            }
+            self.ctx = ctx;
+        } else {
+            seq.exprs.visit_mut_children_with(self)
+        }
+    }
+
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
         body.visit_mut_children_with(self);
 
@@ -284,7 +329,7 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         node.args.visit_mut_with(self);
         self.ctx = old;
 
@@ -335,6 +380,19 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = self.ctx;
+
+        if ctx == Context::Default {
+            match e {
+                // might have a child expr in start of stmt
+                Expr::OptChain(_)
+                | Expr::Member(_)
+                | Expr::Bin(_)
+                | Expr::Assign(_)
+                | Expr::Seq(_)
+                | Expr::Cond(_) => (),
+                _ => self.ctx = Context::FreeExpr,
+            }
+        }
         self.unwrap_expr(e);
         e.visit_mut_children_with(self);
 
@@ -394,7 +452,7 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         node.key.visit_mut_with(self);
         self.ctx = old;
 
@@ -415,7 +473,7 @@ impl VisitMut for Fixer<'_> {
 
         match n {
             MemberExpr { obj, .. }
-                if obj.is_object() && matches!(self.ctx, Context::ForcedExpr { .. }) => {}
+                if obj.is_object() && matches!(self.ctx, Context::ForcedExpr) => {}
 
             MemberExpr { obj, .. }
                 if obj.is_fn_expr()
@@ -457,7 +515,7 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         node.args.visit_mut_with(self);
         self.ctx = old;
 
@@ -479,9 +537,16 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_param(&mut self, node: &mut Param) {
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: false };
+        self.ctx = Context::ForcedExpr;
         node.visit_mut_children_with(self);
         self.ctx = old;
+    }
+
+    fn visit_mut_computed_prop_name(&mut self, name: &mut ComputedPropName) {
+        let ctx = self.ctx;
+        self.ctx = Context::FreeExpr;
+        name.visit_mut_children_with(self);
+        self.ctx = ctx;
     }
 
     fn visit_mut_prop_name(&mut self, name: &mut PropName) {
@@ -512,7 +577,9 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let old = self.ctx;
-        self.ctx = Context::Default;
+        // only ExprStmt would have unparened expr,
+        // which would be handled in its own visit function
+        self.ctx = Context::FreeExpr;
         s.visit_mut_children_with(self);
         self.ctx = old;
     }
@@ -567,7 +634,7 @@ impl VisitMut for Fixer<'_> {
         node.name.visit_mut_children_with(self);
 
         let old = self.ctx;
-        self.ctx = Context::ForcedExpr { is_var_decl: true };
+        self.ctx = Context::ForcedExpr;
         node.init.visit_mut_with(self);
         self.ctx = old;
     }
@@ -670,7 +737,7 @@ impl Fixer<'_> {
                 };
 
                 match self.ctx {
-                    Context::ForcedExpr { .. } => {
+                    Context::ForcedExpr => {
                         *e = Expr::Paren(ParenExpr {
                             span: *span,
                             expr: Box::new(expr),
@@ -731,7 +798,7 @@ impl Fixer<'_> {
                 callee: Callee::Expr(ref mut callee),
                 ..
             }) if callee.is_fn_expr() => match self.ctx {
-                Context::ForcedExpr { .. } | Context::FreeExpr => {}
+                Context::ForcedExpr | Context::FreeExpr => {}
 
                 Context::Callee { is_new: true } => self.wrap(e),
 
@@ -747,6 +814,10 @@ impl Fixer<'_> {
 
     /// Wrap with a paren.
     fn wrap(&mut self, e: &mut Expr) {
+        if self.remove_only {
+            return;
+        }
+
         let span = e.span();
 
         let span = if let Some(span) = self.span_map.remove(&span) {

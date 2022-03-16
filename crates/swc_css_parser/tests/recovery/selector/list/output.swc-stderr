@@ -1,0 +1,6 @@
+
+  x Invalid selector
+   ,-[$DIR/tests/recovery/selector/list/input.css:2:1]
+ 2 | , {
+   : ^
+   `----

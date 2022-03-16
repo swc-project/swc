@@ -1,0 +1,12 @@
+
+  x Expected function or ident tokens
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:2:1]
+ 2 | a: b {}
+   :   ^
+   `----
+
+  x Expected function or ident tokens
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:1]
+ 4 | a: b {
+   :   ^
+   `----

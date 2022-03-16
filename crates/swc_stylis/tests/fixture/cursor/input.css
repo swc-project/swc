@@ -1,0 +1,39 @@
+.class {
+    cursor: none;
+}
+
+.class {
+    cursor: grab;
+}
+
+.class {
+    cursor: url(cursor_1.png) 4 12, grab;
+}
+
+.class {
+    cursor: image-set(url(foo.jpg) 2x), pointer;
+}
+
+.class {
+    cursor: image-set(url(foo.jpg) 2x), grab;
+}
+
+.class {
+    cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), image-set(url(foo.jpg) 2x) 5 5, grab;
+}
+
+.class {
+    cursor: zoom-in;
+}
+
+.class {
+    cursor: zoom-out;
+}
+
+.class {
+    cursor: grabbing;
+}
+
+.class {
+    cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), IMAGE_SET(url(foo.jpg) 2x) 5 5, GRAB;
+}

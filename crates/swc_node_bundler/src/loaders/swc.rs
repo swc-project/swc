@@ -4,12 +4,13 @@ use anyhow::{bail, Context, Error};
 use helpers::Helpers;
 use swc::{
     config::{GlobalInliningPassEnvs, InputSourceMap, IsModule, JscConfig, TransformConfig},
-    try_with_handler,
+    try_with_handler, HandlerOpts,
 };
 use swc_atoms::JsWord;
 use swc_bundler::{Load, ModuleData};
 use swc_common::{
     collections::AHashMap,
+    comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
     sync::Lrc,
     FileName, DUMMY_SP,
@@ -151,13 +152,15 @@ impl SwcLoader {
         tracing::trace!("JsLoader.load: loaded");
 
         let program = if fm.name.to_string().contains("node_modules") {
+            let comments = self.compiler.comments().clone();
+
             let program = self.compiler.parse_js(
                 fm.clone(),
                 handler,
                 EsVersion::Es2020,
                 Default::default(),
                 IsModule::Bool(true),
-                true,
+                Some(&comments),
             )?;
 
             helpers::HELPERS.set(&helpers, || {
@@ -173,6 +176,7 @@ impl SwcLoader {
                 })
             })
         } else {
+            let comments = SingleThreadedComments::default();
             let config = self.compiler.parse_js_as_input(
                 fm.clone(),
                 None,
@@ -217,6 +221,7 @@ impl SwcLoader {
                     ..Default::default()
                 },
                 &fm.name,
+                Some(&comments),
                 |_| noop(),
             )?;
 
@@ -243,6 +248,8 @@ impl SwcLoader {
                     })
                 })
             } else {
+                let comments = self.compiler.comments().clone();
+
                 self.compiler
                     .parse_js(
                         fm.clone(),
@@ -250,7 +257,7 @@ impl SwcLoader {
                         EsVersion::Es2020,
                         config.as_ref().map(|v| v.syntax).unwrap_or_default(),
                         IsModule::Bool(true),
-                        true,
+                        Some(&comments),
                     )
                     .context("tried to parse as ecmascript as it's excluded by .swcrc")?
             };
@@ -273,8 +280,12 @@ impl SwcLoader {
 
 impl Load for SwcLoader {
     fn load(&self, name: &FileName) -> Result<ModuleData, Error> {
-        try_with_handler(self.compiler.cm.clone(), false, |handler| {
-            self.load_with_handler(handler, name)
-        })
+        try_with_handler(
+            self.compiler.cm.clone(),
+            HandlerOpts {
+                ..Default::default()
+            },
+            |handler| self.load_with_handler(handler, name),
+        )
     }
 }

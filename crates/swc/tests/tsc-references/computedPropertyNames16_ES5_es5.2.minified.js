@@ -1,18 +1,10 @@
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 var s, n, a, _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 = "hello ".concat(a, " bye"), C = function() {
     "use strict";
-    var Constructor, protoProps, staticProps;
     function C() {
-        !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    return Constructor = C, protoProps = [
+    return swcHelpers.createClass(C, [
         {
             key: _s,
             get: function() {
@@ -53,7 +45,7 @@ var s, n, a, _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 
                 return 0;
             }
         }
-    ], staticProps = [
+    ], [
         {
             key: tmp,
             get: function() {
@@ -70,5 +62,5 @@ var s, n, a, _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 
                 return 0;
             }
         }
-    ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), C;
+    ]), C;
 }();

@@ -1,70 +1,6 @@
-function _arrayLikeToArray(arr, len) {
-    (null == len || len > arr.length) && (len = arr.length);
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _construct(Parent, args, Class) {
-    return (_construct = !function() {
-        if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-        if (Reflect.construct.sham) return !1;
-        if ("function" == typeof Proxy) return !0;
-        try {
-            return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
-        } catch (e) {
-            return !1;
-        }
-    }() ? function _construct(Parent, args, Class) {
-        var a = [
-            null
-        ];
-        a.push.apply(a, args);
-        var Constructor = Function.bind.apply(Parent, a), instance = new Constructor();
-        return Class && _setPrototypeOf(instance, Class.prototype), instance;
-    } : Reflect.construct).apply(null, arguments);
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _setPrototypeOf(o, p) {
-    return _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        return o.__proto__ = p, o;
-    }, _setPrototypeOf(o, p);
-}
-function _taggedTemplateLiteral(strings, raw) {
-    return raw || (raw = strings.slice(0)), Object.freeze(Object.defineProperties(strings, {
-        raw: {
-            value: Object.freeze(raw)
-        }
-    }));
-}
-function _toConsumableArray(arr) {
-    return (function(arr) {
-        if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-    })(arr) || (function(iter) {
-        if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
-    })(arr) || _unsupportedIterableToArray(arr) || (function() {
-        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-    })();
-}
-function _unsupportedIterableToArray(o, minLen) {
-    if (o) {
-        if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
-        var n = Object.prototype.toString.call(o).slice(8, -1);
-        if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
-        if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-    }
-}
-function _classStaticPrivateMethodGet(receiver, classConstructor, method1) {
-    return _classCheckPrivateStaticAccess(receiver, classConstructor), method1;
-}
-function _classCheckPrivateStaticAccess(receiver, classConstructor) {
-    if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-}
+import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "head",
         "middle",
         "tail"
@@ -74,7 +10,7 @@ function _templateObject() {
     }, data;
 }
 function _templateObject1() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "test",
         "and",
         ""
@@ -84,7 +20,7 @@ function _templateObject1() {
     }, data;
 }
 function _templateObject2() {
-    var data = _taggedTemplateLiteral([
+    var data = swcHelpers.taggedTemplateLiteral([
         "head",
         "middle",
         "tail"
@@ -95,50 +31,37 @@ function _templateObject2() {
 }
 var AA = function() {
     "use strict";
-    var Constructor, protoProps, staticProps;
     function AA() {
-        !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-        }(this, AA);
+        swcHelpers.classCallCheck(this, AA);
     }
-    return Constructor = AA, protoProps = [
-        {
-            key: "test",
-            value: function() {
-                _classStaticPrivateMethodGet(AA, AA, method).call(AA), _classStaticPrivateMethodGet(AA, AA, method)(), new (_classStaticPrivateMethodGet(AA, AA, method))();
-                var _instance, _instance1, arr = [
-                    1,
-                    2
-                ];
-                (_instance = _classStaticPrivateMethodGet(AA, AA, method2)).call.apply(_instance, [
-                    AA,
-                    0
-                ].concat(_toConsumableArray(arr), [
-                    3
-                ])), _construct(_classStaticPrivateMethodGet(AA, AA, method2), [
-                    0
-                ].concat(_toConsumableArray(arr), [
-                    3
-                ])), _classStaticPrivateMethodGet(AA, AA, method2).bind(AA)(_templateObject(), 1, 2), _classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)(_templateObject1(), 1, 2), (_instance1 = _classStaticPrivateMethodGet(AA.getClass(), AA, method2)).call.apply(_instance1, [
-                    AA,
-                    0
-                ].concat(_toConsumableArray(arr), [
-                    3
-                ])), _construct(_classStaticPrivateMethodGet(AA.getClass(), AA, method2), [
-                    0
-                ].concat(_toConsumableArray(arr), [
-                    3
-                ])), _classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)(_templateObject2(), 1, 2);
-            }
-        }
-    ], staticProps = [
-        {
-            key: "getClass",
-            value: function() {
-                return AA;
-            }
-        }
-    ], protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), AA;
+    return AA.prototype.test = function() {
+        swcHelpers.classStaticPrivateMethodGet(AA, AA, method).call(AA), swcHelpers.classStaticPrivateMethodGet(AA, AA, method)(), new (swcHelpers.classStaticPrivateMethodGet(AA, AA, method))();
+        var _instance, _instance1, arr = [
+            1,
+            2
+        ];
+        (_instance = swcHelpers.classStaticPrivateMethodGet(AA, AA, method2)).call.apply(_instance, [
+            AA,
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ])), swcHelpers.construct(swcHelpers.classStaticPrivateMethodGet(AA, AA, method2), [
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ])), swcHelpers.classStaticPrivateMethodGet(AA, AA, method2).bind(AA)(_templateObject(), 1, 2), swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)(_templateObject1(), 1, 2), (_instance1 = swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2)).call.apply(_instance1, [
+            AA,
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ])), swcHelpers.construct(swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2), [
+            0
+        ].concat(swcHelpers.toConsumableArray(arr), [
+            3
+        ])), swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)(_templateObject2(), 1, 2);
+    }, AA.getClass = function() {
+        return AA;
+    }, AA;
 }();
 function method() {
     this.x = 10;

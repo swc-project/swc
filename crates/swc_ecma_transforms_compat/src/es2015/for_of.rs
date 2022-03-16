@@ -10,6 +10,7 @@ use swc_ecma_utils::{
     alias_if_required, member_expr, prepend, private_ident, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-for-of`
 ///
@@ -45,6 +46,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 ///   }
 /// }
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn for_of(c: Config) -> impl Fold + VisitMut {
     as_folder(ForOf {
         c,
@@ -69,6 +71,7 @@ struct ForOf {
     top_level_vars: Vec<VarDeclarator>,
 }
 
+#[swc_trace]
 impl ForOf {
     fn fold_for_stmt(
         &mut self,
@@ -392,6 +395,7 @@ impl ForOf {
 ///     }
 ///   }
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 fn make_finally_block(
     iterator_return: Box<Expr>,
     normal_completion_ident: &Ident,
@@ -476,6 +480,7 @@ impl Parallel for ForOf {
     }
 }
 
+#[swc_trace]
 impl ParExplode for ForOf {
     fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
         // Add variable declaration
@@ -504,6 +509,7 @@ impl ParExplode for ForOf {
     }
 }
 
+#[swc_trace]
 #[parallel(explode)]
 impl VisitMut for ForOf {
     noop_visit_mut_type!();

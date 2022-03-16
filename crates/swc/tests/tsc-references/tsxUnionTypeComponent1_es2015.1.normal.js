@@ -7,7 +7,7 @@ const React = require('react');
 class MyComponent extends React.Component {
     render() {
         const { AnyComponent  } = this.props;
-        return(/*#__PURE__*/ React.createElement(AnyComponent, null));
+        return /*#__PURE__*/ React.createElement(AnyComponent, null);
     }
 }
 // Stateless Component As Props

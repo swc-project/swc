@@ -1,4 +1,4 @@
-module.exports = (function() {
+module.exports = function() {
     var e = function() {
         (function() {
             var t, n, i, r, a, o = function() {
@@ -37,4 +37,4 @@ module.exports = (function() {
     var t;
     var i;
     var r;
-})();
+}();

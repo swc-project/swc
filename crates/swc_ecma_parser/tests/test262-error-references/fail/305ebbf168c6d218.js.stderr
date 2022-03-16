@@ -1,6 +1,6 @@
-error: Trailing comma is not allowed
- --> $DIR/tests/test262-parser/fail/305ebbf168c6d218.js:1:6
-  |
-1 | let x,
-  |      ^
 
+  x Trailing comma is not allowed
+   ,-[$DIR/tests/test262-parser/fail/305ebbf168c6d218.js:2:1]
+ 2 | let x,
+   :      ^
+   `----

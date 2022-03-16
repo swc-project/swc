@@ -1,551 +1,548 @@
-error: Stylesheet
-  --> $DIR/tests/fixture/rome/keyframe/input.css:1:1
-   |
-1  | / @keyframes important1 {
-2  | |     from {
-3  | |         margin-top: 50px !important;
-4  | |     }
-...  |
-23 | | @keyframes FOO {
-24 | | }
-   | |__^
-
-error: Rule
- --> $DIR/tests/fixture/rome/keyframe/input.css:1:1
-  |
-1 | / @keyframes important1 {
-2 | |     from {
-3 | |         margin-top: 50px !important;
-4 | |     }
-... |
-7 | |     }
-8 | | }
-  | |_^
-
-error: AtRule
- --> $DIR/tests/fixture/rome/keyframe/input.css:1:1
-  |
-1 | / @keyframes important1 {
-2 | |     from {
-3 | |         margin-top: 50px !important;
-4 | |     }
-... |
-7 | |     }
-8 | | }
-  | |_^
-
-error: KeyframesRule
- --> $DIR/tests/fixture/rome/keyframe/input.css:1:1
-  |
-1 | / @keyframes important1 {
-2 | |     from {
-3 | |         margin-top: 50px !important;
-4 | |     }
-... |
-7 | |     }
-8 | | }
-  | |_^
-
-error: CustomIdent
- --> $DIR/tests/fixture/rome/keyframe/input.css:1:12
-  |
-1 | @keyframes important1 {
-  |            ^^^^^^^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/keyframe/input.css:1:23
-  |
-1 |   @keyframes important1 {
-  |  _______________________^
-2 | |     from {
-3 | |         margin-top: 50px !important;
-4 | |     }
-... |
-7 | |     }
-8 | | }
-  | |_^
-
-error: ComponentValue
- --> $DIR/tests/fixture/rome/keyframe/input.css:2:5
-  |
-2 | /     from {
-3 | |         margin-top: 50px !important;
-4 | |     }
-  | |_____^
-
-error: KeyframeBlock
- --> $DIR/tests/fixture/rome/keyframe/input.css:2:5
-  |
-2 | /     from {
-3 | |         margin-top: 50px !important;
-4 | |     }
-  | |_____^
-
-error: KeyframeSelector
- --> $DIR/tests/fixture/rome/keyframe/input.css:2:5
-  |
-2 |     from {
-  |     ^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/keyframe/input.css:2:5
-  |
-2 |     from {
-  |     ^^^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/keyframe/input.css:2:10
-  |
-2 |       from {
-  |  __________^
-3 | |         margin-top: 50px !important;
-4 | |     }
-  | |_____^
-
-error: ComponentValue
- --> $DIR/tests/fixture/rome/keyframe/input.css:3:9
-  |
-3 |         margin-top: 50px !important;
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Declaration
- --> $DIR/tests/fixture/rome/keyframe/input.css:3:9
-  |
-3 |         margin-top: 50px !important;
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: DeclarationName
- --> $DIR/tests/fixture/rome/keyframe/input.css:3:9
-  |
-3 |         margin-top: 50px !important;
-  |         ^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/keyframe/input.css:3:9
-  |
-3 |         margin-top: 50px !important;
-  |         ^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
-  |
-3 |         margin-top: 50px !important;
-  |                     ^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
-  |
-3 |         margin-top: 50px !important;
-  |                     ^^^^
-
-error: Length
- --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
-  |
-3 |         margin-top: 50px !important;
-  |                     ^^^^
-
-error: Number
- --> $DIR/tests/fixture/rome/keyframe/input.css:3:21
-  |
-3 |         margin-top: 50px !important;
-  |                     ^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/keyframe/input.css:3:23
-  |
-3 |         margin-top: 50px !important;
-  |                       ^^
-
-error: ImportantFlag
- --> $DIR/tests/fixture/rome/keyframe/input.css:3:26
-  |
-3 |         margin-top: 50px !important;
-  |                          ^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/keyframe/input.css:3:27
-  |
-3 |         margin-top: 50px !important;
-  |                           ^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/rome/keyframe/input.css:5:5
-  |
-5 | /     to {
-6 | |         margin-top: 100px !important;
-7 | |     }
-  | |_____^
-
-error: KeyframeBlock
- --> $DIR/tests/fixture/rome/keyframe/input.css:5:5
-  |
-5 | /     to {
-6 | |         margin-top: 100px !important;
-7 | |     }
-  | |_____^
-
-error: KeyframeSelector
- --> $DIR/tests/fixture/rome/keyframe/input.css:5:5
-  |
-5 |     to {
-  |     ^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/keyframe/input.css:5:5
-  |
-5 |     to {
-  |     ^^
-
-error: SimpleBlock
- --> $DIR/tests/fixture/rome/keyframe/input.css:5:8
-  |
-5 |       to {
-  |  ________^
-6 | |         margin-top: 100px !important;
-7 | |     }
-  | |_____^
-
-error: ComponentValue
- --> $DIR/tests/fixture/rome/keyframe/input.css:6:9
-  |
-6 |         margin-top: 100px !important;
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: Declaration
- --> $DIR/tests/fixture/rome/keyframe/input.css:6:9
-  |
-6 |         margin-top: 100px !important;
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-error: DeclarationName
- --> $DIR/tests/fixture/rome/keyframe/input.css:6:9
-  |
-6 |         margin-top: 100px !important;
-  |         ^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/keyframe/input.css:6:9
-  |
-6 |         margin-top: 100px !important;
-  |         ^^^^^^^^^^
-
-error: ComponentValue
- --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
-  |
-6 |         margin-top: 100px !important;
-  |                     ^^^^^
-
-error: Dimension
- --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
-  |
-6 |         margin-top: 100px !important;
-  |                     ^^^^^
-
-error: Length
- --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
-  |
-6 |         margin-top: 100px !important;
-  |                     ^^^^^
-
-error: Number
- --> $DIR/tests/fixture/rome/keyframe/input.css:6:21
-  |
-6 |         margin-top: 100px !important;
-  |                     ^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/keyframe/input.css:6:24
-  |
-6 |         margin-top: 100px !important;
-  |                        ^^
-
-error: ImportantFlag
- --> $DIR/tests/fixture/rome/keyframe/input.css:6:27
-  |
-6 |         margin-top: 100px !important;
-  |                           ^^^^^^^^^^
-
-error: Ident
- --> $DIR/tests/fixture/rome/keyframe/input.css:6:28
-  |
-6 |         margin-top: 100px !important;
-  |                            ^^^^^^^^^
-
-error: Rule
-  --> $DIR/tests/fixture/rome/keyframe/input.css:10:1
-   |
-10 | / @keyframes foo {
-11 | |     from {
-12 | |     }
-13 | |     to {
-...  |
-20 | |     }
-21 | | }
-   | |_^
-
-error: AtRule
-  --> $DIR/tests/fixture/rome/keyframe/input.css:10:1
-   |
-10 | / @keyframes foo {
-11 | |     from {
-12 | |     }
-13 | |     to {
-...  |
-20 | |     }
-21 | | }
-   | |_^
-
-error: KeyframesRule
-  --> $DIR/tests/fixture/rome/keyframe/input.css:10:1
-   |
-10 | / @keyframes foo {
-11 | |     from {
-12 | |     }
-13 | |     to {
-...  |
-20 | |     }
-21 | | }
-   | |_^
-
-error: CustomIdent
-  --> $DIR/tests/fixture/rome/keyframe/input.css:10:12
-   |
-10 | @keyframes foo {
-   |            ^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:10:16
-   |
-10 |   @keyframes foo {
-   |  ________________^
-11 | |     from {
-12 | |     }
-13 | |     to {
-...  |
-20 | |     }
-21 | | }
-   | |_^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/keyframe/input.css:11:5
-   |
-11 | /     from {
-12 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:11:5
-   |
-11 | /     from {
-12 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/rome/keyframe/input.css:11:5
-   |
-11 |     from {
-   |     ^^^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/keyframe/input.css:11:5
-   |
-11 |     from {
-   |     ^^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:11:10
-   |
-11 |       from {
-   |  __________^
-12 | |     }
-   | |_____^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/keyframe/input.css:13:5
-   |
-13 | /     to {
-14 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:13:5
-   |
-13 | /     to {
-14 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/rome/keyframe/input.css:13:5
-   |
-13 |     to {
-   |     ^^
-
-error: Ident
-  --> $DIR/tests/fixture/rome/keyframe/input.css:13:5
-   |
-13 |     to {
-   |     ^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:13:8
-   |
-13 |       to {
-   |  ________^
-14 | |     }
-   | |_____^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/keyframe/input.css:15:5
-   |
-15 | /     15% {
-16 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:15:5
-   |
-15 | /     15% {
-16 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/rome/keyframe/input.css:15:5
-   |
-15 |     15% {
-   |     ^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/rome/keyframe/input.css:15:5
-   |
-15 |     15% {
-   |     ^^^
-
-error: Number
-  --> $DIR/tests/fixture/rome/keyframe/input.css:15:5
-   |
-15 |     15% {
-   |     ^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:15:9
-   |
-15 |       15% {
-   |  _________^
-16 | |     }
-   | |_____^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/keyframe/input.css:17:5
-   |
-17 | /     0% {
-18 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:17:5
-   |
-17 | /     0% {
-18 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/rome/keyframe/input.css:17:5
-   |
-17 |     0% {
-   |     ^^
-
-error: Percentage
-  --> $DIR/tests/fixture/rome/keyframe/input.css:17:5
-   |
-17 |     0% {
-   |     ^^
-
-error: Number
-  --> $DIR/tests/fixture/rome/keyframe/input.css:17:5
-   |
-17 |     0% {
-   |     ^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:17:8
-   |
-17 |       0% {
-   |  ________^
-18 | |     }
-   | |_____^
-
-error: ComponentValue
-  --> $DIR/tests/fixture/rome/keyframe/input.css:19:5
-   |
-19 | /     100% {
-20 | |     }
-   | |_____^
-
-error: KeyframeBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:19:5
-   |
-19 | /     100% {
-20 | |     }
-   | |_____^
-
-error: KeyframeSelector
-  --> $DIR/tests/fixture/rome/keyframe/input.css:19:5
-   |
-19 |     100% {
-   |     ^^^^
-
-error: Percentage
-  --> $DIR/tests/fixture/rome/keyframe/input.css:19:5
-   |
-19 |     100% {
-   |     ^^^^
-
-error: Number
-  --> $DIR/tests/fixture/rome/keyframe/input.css:19:5
-   |
-19 |     100% {
-   |     ^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:19:10
-   |
-19 |       100% {
-   |  __________^
-20 | |     }
-   | |_____^
-
-error: Rule
-  --> $DIR/tests/fixture/rome/keyframe/input.css:23:1
-   |
-23 | / @keyframes FOO {
-24 | | }
-   | |_^
-
-error: AtRule
-  --> $DIR/tests/fixture/rome/keyframe/input.css:23:1
-   |
-23 | / @keyframes FOO {
-24 | | }
-   | |_^
-
-error: KeyframesRule
-  --> $DIR/tests/fixture/rome/keyframe/input.css:23:1
-   |
-23 | / @keyframes FOO {
-24 | | }
-   | |_^
-
-error: CustomIdent
-  --> $DIR/tests/fixture/rome/keyframe/input.css:23:12
-   |
-23 | @keyframes FOO {
-   |            ^^^
-
-error: SimpleBlock
-  --> $DIR/tests/fixture/rome/keyframe/input.css:23:16
-   |
-23 |   @keyframes FOO {
-   |  ________________^
-24 | | }
-   | |_^
 
+  x Stylesheet
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:2:1]
+  2 | ,-> @keyframes important1 {
+  3 | |       from {
+  4 | |           margin-top: 50px !important;
+  5 | |       }
+  6 | |       to {
+  7 | |           margin-top: 100px !important;
+  8 | |       }
+  9 | |   }
+ 10 | |   
+ 11 | |   @keyframes foo {
+ 12 | |       from {
+ 13 | |       }
+ 14 | |       to {
+ 15 | |       }
+ 16 | |       15% {
+ 17 | |       }
+ 18 | |       0% {
+ 19 | |       }
+ 20 | |       100% {
+ 21 | |       }
+ 22 | |   }
+ 23 | |   
+ 24 | |   @keyframes FOO {
+ 25 | `-> }
+    `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:2:1]
+ 2 | ,-> @keyframes important1 {
+ 3 | |       from {
+ 4 | |           margin-top: 50px !important;
+ 5 | |       }
+ 6 | |       to {
+ 7 | |           margin-top: 100px !important;
+ 8 | |       }
+ 9 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:2:1]
+ 2 | ,-> @keyframes important1 {
+ 3 | |       from {
+ 4 | |           margin-top: 50px !important;
+ 5 | |       }
+ 6 | |       to {
+ 7 | |           margin-top: 100px !important;
+ 8 | |       }
+ 9 | `-> }
+   `----
+
+  x KeyframesRule
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:2:1]
+ 2 | ,-> @keyframes important1 {
+ 3 | |       from {
+ 4 | |           margin-top: 50px !important;
+ 5 | |       }
+ 6 | |       to {
+ 7 | |           margin-top: 100px !important;
+ 8 | |       }
+ 9 | `-> }
+   `----
+
+  x CustomIdent
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:2:1]
+ 2 | @keyframes important1 {
+   :            ^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:2:1]
+ 2 | ,-> @keyframes important1 {
+ 3 | |       from {
+ 4 | |           margin-top: 50px !important;
+ 5 | |       }
+ 6 | |       to {
+ 7 | |           margin-top: 100px !important;
+ 8 | |       }
+ 9 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:3:5]
+ 3 | ,-> from {
+ 4 | |           margin-top: 50px !important;
+ 5 | `->     }
+   `----
+
+  x KeyframeBlock
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:3:5]
+ 3 | ,-> from {
+ 4 | |           margin-top: 50px !important;
+ 5 | `->     }
+   `----
+
+  x KeyframeSelector
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:3:5]
+ 3 | from {
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:3:5]
+ 3 | from {
+   : ^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:3:5]
+ 3 | ,-> from {
+ 4 | |           margin-top: 50px !important;
+ 5 | `->     }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:4:9]
+ 4 | margin-top: 50px !important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:4:9]
+ 4 | margin-top: 50px !important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:4:9]
+ 4 | margin-top: 50px !important;
+   : ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:4:9]
+ 4 | margin-top: 50px !important;
+   : ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:4:9]
+ 4 | margin-top: 50px !important;
+   :             ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:4:9]
+ 4 | margin-top: 50px !important;
+   :             ^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:4:9]
+ 4 | margin-top: 50px !important;
+   :             ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:4:9]
+ 4 | margin-top: 50px !important;
+   :             ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:4:9]
+ 4 | margin-top: 50px !important;
+   :               ^^
+   `----
+
+  x ImportantFlag
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:4:9]
+ 4 | margin-top: 50px !important;
+   :                  ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:4:9]
+ 4 | margin-top: 50px !important;
+   :                   ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:6:5]
+ 6 | ,-> to {
+ 7 | |           margin-top: 100px !important;
+ 8 | `->     }
+   `----
+
+  x KeyframeBlock
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:6:5]
+ 6 | ,-> to {
+ 7 | |           margin-top: 100px !important;
+ 8 | `->     }
+   `----
+
+  x KeyframeSelector
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:6:5]
+ 6 | to {
+   : ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:6:5]
+ 6 | to {
+   : ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:6:5]
+ 6 | ,-> to {
+ 7 | |           margin-top: 100px !important;
+ 8 | `->     }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:7:9]
+ 7 | margin-top: 100px !important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:7:9]
+ 7 | margin-top: 100px !important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:7:9]
+ 7 | margin-top: 100px !important;
+   : ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:7:9]
+ 7 | margin-top: 100px !important;
+   : ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:7:9]
+ 7 | margin-top: 100px !important;
+   :             ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:7:9]
+ 7 | margin-top: 100px !important;
+   :             ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:7:9]
+ 7 | margin-top: 100px !important;
+   :             ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:7:9]
+ 7 | margin-top: 100px !important;
+   :             ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:7:9]
+ 7 | margin-top: 100px !important;
+   :                ^^
+   `----
+
+  x ImportantFlag
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:7:9]
+ 7 | margin-top: 100px !important;
+   :                   ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:7:9]
+ 7 | margin-top: 100px !important;
+   :                    ^^^^^^^^^
+   `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:11:1]
+ 11 | ,-> @keyframes foo {
+ 12 | |       from {
+ 13 | |       }
+ 14 | |       to {
+ 15 | |       }
+ 16 | |       15% {
+ 17 | |       }
+ 18 | |       0% {
+ 19 | |       }
+ 20 | |       100% {
+ 21 | |       }
+ 22 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:11:1]
+ 11 | ,-> @keyframes foo {
+ 12 | |       from {
+ 13 | |       }
+ 14 | |       to {
+ 15 | |       }
+ 16 | |       15% {
+ 17 | |       }
+ 18 | |       0% {
+ 19 | |       }
+ 20 | |       100% {
+ 21 | |       }
+ 22 | `-> }
+    `----
+
+  x KeyframesRule
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:11:1]
+ 11 | ,-> @keyframes foo {
+ 12 | |       from {
+ 13 | |       }
+ 14 | |       to {
+ 15 | |       }
+ 16 | |       15% {
+ 17 | |       }
+ 18 | |       0% {
+ 19 | |       }
+ 20 | |       100% {
+ 21 | |       }
+ 22 | `-> }
+    `----
+
+  x CustomIdent
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:11:1]
+ 11 | @keyframes foo {
+    :            ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:11:1]
+ 11 | ,-> @keyframes foo {
+ 12 | |       from {
+ 13 | |       }
+ 14 | |       to {
+ 15 | |       }
+ 16 | |       15% {
+ 17 | |       }
+ 18 | |       0% {
+ 19 | |       }
+ 20 | |       100% {
+ 21 | |       }
+ 22 | `-> }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:12:5]
+ 12 | ,-> from {
+ 13 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:12:5]
+ 12 | ,-> from {
+ 13 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:12:5]
+ 12 | from {
+    : ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:12:5]
+ 12 | from {
+    : ^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:12:5]
+ 12 | ,-> from {
+ 13 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:14:5]
+ 14 | ,-> to {
+ 15 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:14:5]
+ 14 | ,-> to {
+ 15 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:14:5]
+ 14 | to {
+    : ^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:14:5]
+ 14 | to {
+    : ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:14:5]
+ 14 | ,-> to {
+ 15 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:16:5]
+ 16 | ,-> 15% {
+ 17 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:16:5]
+ 16 | ,-> 15% {
+ 17 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:16:5]
+ 16 | 15% {
+    : ^^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:16:5]
+ 16 | 15% {
+    : ^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:16:5]
+ 16 | 15% {
+    : ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:16:5]
+ 16 | ,-> 15% {
+ 17 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:18:5]
+ 18 | ,-> 0% {
+ 19 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:18:5]
+ 18 | ,-> 0% {
+ 19 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:18:5]
+ 18 | 0% {
+    : ^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:18:5]
+ 18 | 0% {
+    : ^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:18:5]
+ 18 | 0% {
+    : ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:18:5]
+ 18 | ,-> 0% {
+ 19 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:20:5]
+ 20 | ,-> 100% {
+ 21 | `->     }
+    `----
+
+  x KeyframeBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:20:5]
+ 20 | ,-> 100% {
+ 21 | `->     }
+    `----
+
+  x KeyframeSelector
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:20:5]
+ 20 | 100% {
+    : ^^^^
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:20:5]
+ 20 | 100% {
+    : ^^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:20:5]
+ 20 | 100% {
+    : ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:20:5]
+ 20 | ,-> 100% {
+ 21 | `->     }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:24:1]
+ 24 | ,-> @keyframes FOO {
+ 25 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:24:1]
+ 24 | ,-> @keyframes FOO {
+ 25 | `-> }
+    `----
+
+  x KeyframesRule
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:24:1]
+ 24 | ,-> @keyframes FOO {
+ 25 | `-> }
+    `----
+
+  x CustomIdent
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:24:1]
+ 24 | @keyframes FOO {
+    :            ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:24:1]
+ 24 | ,-> @keyframes FOO {
+ 25 | `-> }
+    `----

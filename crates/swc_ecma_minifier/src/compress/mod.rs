@@ -29,7 +29,7 @@ use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
 use crate::{
     analyzer::{analyze, UsageAnalyzer},
     compress::hoist_decls::decl_hoister,
-    debug::dump,
+    debug::{dump, AssertValid},
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
@@ -179,7 +179,10 @@ where
 
     fn optimize_unit_repeatedly<N>(&mut self, n: &mut N)
     where
-        N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
+        N: CompileUnit
+            + VisitWith<UsageAnalyzer>
+            + for<'aa> VisitMutWith<Compressor<'aa, M>>
+            + VisitWith<AssertValid>,
     {
         if cfg!(feature = "debug") {
             tracing::debug!(
@@ -227,7 +230,10 @@ where
     /// Optimize a module. `N` can be [Module] or [FnExpr].
     fn optimize_unit<N>(&mut self, n: &mut N)
     where
-        N: CompileUnit + VisitWith<UsageAnalyzer> + for<'aa> VisitMutWith<Compressor<'aa, M>>,
+        N: CompileUnit
+            + VisitWith<UsageAnalyzer>
+            + for<'aa> VisitMutWith<Compressor<'aa, M>>
+            + VisitWith<AssertValid>,
     {
         let _timer = timer!("optimize", pass = self.pass);
 
@@ -319,8 +325,9 @@ where
 
             let mut visitor = pure_optimizer(
                 self.options,
+                None,
                 self.marks,
-                self.mode,
+                M::force_str_for_tpl(),
                 self.pass > 1,
                 self.pass >= 20,
             );
@@ -335,14 +342,18 @@ where
             }
         }
 
+        if cfg!(debug_assertions) {
+            n.visit_with(&mut AssertValid);
+        }
+
         {
             let _timer = timer!("apply full optimizer");
+
+            let mut data = analyze(&*n, Some(self.marks));
 
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
-
-            let mut data = analyze(&*n, Some(self.marks));
 
             let mut visitor = optimizer(
                 self.marks,

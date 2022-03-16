@@ -152,7 +152,7 @@
         return input.match(/\[[\s\S]/) ? input.replace(/^\[|\]$/g, "") : input.replace(/\\/g, "");
     }
     function formatMoment(m, format1) {
-        return m.isValid() ? (formatFunctions[format1 = expandFormat(format1, m.localeData())] = formatFunctions[format1] || (function(format) {
+        return m.isValid() ? (formatFunctions[format1 = expandFormat(format1, m.localeData())] = formatFunctions[format1] || function(format) {
             var i1, length, array = format.match(formattingTokens);
             for(i1 = 0, length = array.length; i1 < length; i1++)formatTokenFunctions[array[i1]] ? array[i1] = formatTokenFunctions[array[i1]] : array[i1] = removeFormattingTokens(array[i1]);
             return function(mom) {
@@ -160,7 +160,7 @@
                 for(i = 0; i < length; i++)output += isFunction(array[i]) ? array[i].call(mom, format) : array[i];
                 return output;
             };
-        })(format1), formatFunctions[format1](m)) : m.localeData().invalidDate();
+        }(format1), formatFunctions[format1](m)) : m.localeData().invalidDate();
     }
     function expandFormat(format, locale) {
         var i = 5;
@@ -594,7 +594,7 @@
                 key
             ];
         }
-        return (function(names) {
+        return function(names) {
             for(var j, next, locale, split, i = 0; i < names.length;){
                 for(j = (split = normalizeLocale(names[i]).split("-")).length, next = normalizeLocale(names[i + 1]), next = next ? next.split("-") : null; j > 0;){
                     if (locale = loadLocale(split.slice(0, j).join("-"))) return locale;
@@ -604,7 +604,7 @@
                 i++;
             }
             return globalLocale;
-        })(key);
+        }(key);
     }
     function checkOverflow(m) {
         var overflow, a = m._a;
@@ -760,12 +760,12 @@
                 parseInt(hourStr, 10),
                 parseInt(minuteStr, 10), 
             ], secondStr && result.push(parseInt(secondStr, 10)), parsedArray = result, weekdayStr = match[1], parsedInput = parsedArray, config1 = config, weekdayStr && defaultLocaleWeekdaysShort.indexOf(weekdayStr) !== new Date(parsedInput[0], parsedInput[1], parsedInput[2]).getDay() && (getParsingFlags(config1).weekdayMismatch = !0, config1._isValid = !1, 1)) return;
-            config._a = parsedArray, config._tzm = (function(obsOffset, militaryOffset, numOffset) {
+            config._a = parsedArray, config._tzm = function(obsOffset, militaryOffset, numOffset) {
                 if (obsOffset) return obsOffsets[obsOffset];
                 if (militaryOffset) return 0;
                 var hm = parseInt(numOffset, 10), m = hm % 100;
                 return 60 * ((hm - m) / 100) + m;
-            })(match[8], match[9], match[10]), config._d = createUTCDate.apply(null, config._a), config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm), getParsingFlags(config).rfc2822 = !0;
+            }(match[8], match[9], match[10]), config._d = createUTCDate.apply(null, config._a), config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm), getParsingFlags(config).rfc2822 = !0;
         } else config._isValid = !1;
     }
     function defaults(a, b, c) {
@@ -813,7 +813,7 @@
         var input = config3._i, format = config3._f;
         return (config3._locale = config3._locale || getLocale(config3._l), null === input || void 0 === format && "" === input) ? createInvalid({
             nullInput: !0
-        }) : ("string" == typeof input && (config3._i = input = config3._locale.preparse(input)), isMoment(input)) ? new Moment(checkOverflow(input)) : (isDate(input) ? config3._d = input : isArray(format) ? (function(config) {
+        }) : ("string" == typeof input && (config3._i = input = config3._locale.preparse(input)), isMoment(input)) ? new Moment(checkOverflow(input)) : (isDate(input) ? config3._d = input : isArray(format) ? function(config) {
             var tempConfig, bestMoment, scoreToBeat, i, currentScore, validFormatFound, bestFormatIsValid = !1;
             if (0 === config._f.length) {
                 getParsingFlags(config).invalidFormat = !0, config._d = new Date(NaN);
@@ -821,20 +821,20 @@
             }
             for(i = 0; i < config._f.length; i++)currentScore = 0, validFormatFound = !1, tempConfig = copyConfig({}, config), null != config._useUTC && (tempConfig._useUTC = config._useUTC), tempConfig._f = config._f[i], configFromStringAndFormat(tempConfig), isValid(tempConfig) && (validFormatFound = !0), currentScore += getParsingFlags(tempConfig).charsLeftOver, currentScore += 10 * getParsingFlags(tempConfig).unusedTokens.length, getParsingFlags(tempConfig).score = currentScore, bestFormatIsValid ? currentScore < scoreToBeat && (scoreToBeat = currentScore, bestMoment = tempConfig) : (null == scoreToBeat || currentScore < scoreToBeat || validFormatFound) && (scoreToBeat = currentScore, bestMoment = tempConfig, validFormatFound && (bestFormatIsValid = !0));
             extend(config, bestMoment || tempConfig);
-        })(config3) : format ? configFromStringAndFormat(config3) : configFromInput(config3), isValid(config3) || (config3._d = null), config3);
+        }(config3) : format ? configFromStringAndFormat(config3) : configFromInput(config3), isValid(config3) || (config3._d = null), config3);
     }
     function configFromInput(config4) {
         var input = config4._i;
-        isUndefined(input) ? config4._d = new Date(hooks.now()) : isDate(input) ? config4._d = new Date(input.valueOf()) : "string" == typeof input ? (function(config) {
+        isUndefined(input) ? config4._d = new Date(hooks.now()) : isDate(input) ? config4._d = new Date(input.valueOf()) : "string" == typeof input ? function(config) {
             var matched = aspNetJsonRegex.exec(config._i);
             if (null !== matched) {
                 config._d = new Date(+matched[1]);
                 return;
             }
             configFromISO(config), !1 === config._isValid && (delete config._isValid, configFromRFC2822(config), !1 === config._isValid && (delete config._isValid, config._strict ? config._isValid = !1 : hooks.createFromInputFallback(config)));
-        })(config4) : isArray(input) ? (config4._a = map(input.slice(0), function(obj) {
+        }(config4) : isArray(input) ? (config4._a = map(input.slice(0), function(obj) {
             return parseInt(obj, 10);
-        }), configFromArray(config4)) : isObject(input) ? (function(config) {
+        }), configFromArray(config4)) : isObject(input) ? function(config) {
             if (!config._d) {
                 var i = normalizeObjectUnits(config._i), dayOrDate = void 0 === i.day ? i.date : i.day;
                 config._a = map([
@@ -849,7 +849,7 @@
                     return obj && parseInt(obj, 10);
                 }), configFromArray(config);
             }
-        })(config4) : isNumber(input) ? config4._d = new Date(input) : hooks.createFromInputFallback(config4);
+        }(config4) : isNumber(input) ? config4._d = new Date(input) : hooks.createFromInputFallback(config4);
     }
     function createLocalOrUTC(input, format, locale, strict, isUTC) {
         var config, res, c = {};
@@ -887,7 +887,7 @@
     ];
     function Duration(duration) {
         var normalizedInput = normalizeObjectUnits(duration), years = normalizedInput.year || 0, quarters = normalizedInput.quarter || 0, months = normalizedInput.month || 0, weeks = normalizedInput.week || normalizedInput.isoWeek || 0, days = normalizedInput.day || 0, hours = normalizedInput.hour || 0, minutes = normalizedInput.minute || 0, seconds = normalizedInput.second || 0, milliseconds = normalizedInput.millisecond || 0;
-        this._isValid = (function(m) {
+        this._isValid = function(m) {
             var key, i, unitHasDecimal = !1;
             for(key in m)if (hasOwnProp(m, key) && !(-1 !== indexOf.call(ordering, key) && (null == m[key] || !isNaN(m[key])))) return !1;
             for(i = 0; i < ordering.length; ++i)if (m[ordering[i]]) {
@@ -895,7 +895,7 @@
                 parseFloat(m[ordering[i]]) !== toInt(m[ordering[i]]) && (unitHasDecimal = !0);
             }
             return !0;
-        })(normalizedInput), this._milliseconds = +milliseconds + 1000 * seconds + 60000 * minutes + 3600000 * hours, this._days = +days + 7 * weeks, this._months = +months + 3 * quarters + 12 * years, this._data = {}, this._locale = getLocale(), this._bubble();
+        }(normalizedInput), this._milliseconds = +milliseconds + 1000 * seconds + 60000 * minutes + 3600000 * hours, this._days = +days + 7 * weeks, this._months = +months + 3 * quarters + 12 * years, this._data = {}, this._locale = getLocale(), this._bubble();
     }
     function isDuration(obj) {
         return obj instanceof Duration;
@@ -1188,9 +1188,9 @@
     proto.add = add, proto.calendar = function(time, formats) {
         if (1 === arguments.length) if (arguments[0]) {
             var input2, input1, arrayTest, dataTypeTest;
-            (input2 = arguments[0], isMoment(input2) || isDate(input2) || isString(input2) || isNumber(input2) || (dataTypeTest = !1, (arrayTest = isArray(input1 = input2)) && (dataTypeTest = 0 === input1.filter(function(item) {
+            (input2 = arguments[0], isMoment(input2) || isDate(input2) || isString(input2) || isNumber(input2) || (arrayTest = isArray(input1 = input2), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input1.filter(function(item) {
                 return !isNumber(item) && isString(input1);
-            }).length), arrayTest && dataTypeTest) || (function(input) {
+            }).length), arrayTest && dataTypeTest) || function(input) {
                 var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
                     "years",
                     "year",
@@ -1219,7 +1219,7 @@
                 ];
                 for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
                 return objectTest && propertyTest;
-            })(input2) || null == input2) ? (time = arguments[0], formats = void 0) : (function(input) {
+            }(input2) || null == input2) ? (time = arguments[0], formats = void 0) : function(input) {
                 var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
                     "sameDay",
                     "nextDay",
@@ -1230,7 +1230,7 @@
                 ];
                 for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
                 return objectTest && propertyTest;
-            })(arguments[0]) && (formats = arguments[0], time = void 0);
+            }(arguments[0]) && (formats = arguments[0], time = void 0);
         } else time = void 0, formats = void 0;
         var now = time || createLocal(), sod = cloneWithOffset(now, this).startOf("day"), format = hooks.calendarFormat(this, sod) || "sameElse", output = formats && (isFunction(formats[format]) ? formats[format].call(this, now) : formats[format]);
         return this.format(output || this.localeData().calendar(format, this, createLocal(now)));
@@ -1545,11 +1545,11 @@
     }), proto.isDSTShifted = deprecate("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information", function() {
         if (!isUndefined(this._isDSTShifted)) return this._isDSTShifted;
         var other, c = {};
-        return copyConfig(c, this), (c = prepareConfig(c))._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && (function(array1, array2, dontConvert) {
+        return copyConfig(c, this), (c = prepareConfig(c))._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && function(array1, array2, dontConvert) {
             var i, len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0;
             for(i = 0; i < len; i++)(dontConvert && array1[i] !== array2[i] || !dontConvert && toInt(array1[i]) !== toInt(array2[i])) && diffs++;
             return diffs + lengthDiff;
-        })(c._a, other.toArray()) > 0) : this._isDSTShifted = !1, this._isDSTShifted;
+        }(c._a, other.toArray()) > 0) : this._isDSTShifted = !1, this._isDSTShifted;
     });
     var proto$1 = Locale.prototype;
     function get$1(format, index, field, setter) {

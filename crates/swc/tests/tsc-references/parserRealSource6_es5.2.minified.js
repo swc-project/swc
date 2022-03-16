@@ -1,13 +1,5 @@
 var TypeScript;
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 !function(TypeScript1) {
     var preFindMemberScope = function(ast, parent, walker) {
         var memScope = walker.state;
@@ -60,68 +52,39 @@ function _defineProperties(target, props) {
         return (TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
     }, TypeCollectionContext = function(scopeChain, checker) {
         "use strict";
-        _classCallCheck(this, TypeCollectionContext), this.scopeChain = scopeChain, this.checker = checker, this.script = null;
+        swcHelpers.classCallCheck(this, TypeCollectionContext), this.scopeChain = scopeChain, this.checker = checker, this.script = null;
     };
     TypeScript1.TypeCollectionContext = TypeCollectionContext;
     var MemberScopeContext = function(flow, pos, matchFlag) {
         "use strict";
-        _classCallCheck(this, MemberScopeContext), this.flow = flow, this.pos = pos, this.matchFlag = matchFlag, this.type = null, this.ast = null, this.options = new AstWalkOptions();
+        swcHelpers.classCallCheck(this, MemberScopeContext), this.flow = flow, this.pos = pos, this.matchFlag = matchFlag, this.type = null, this.ast = null, this.options = new AstWalkOptions();
     };
     TypeScript1.MemberScopeContext = MemberScopeContext;
     var EnclosingScopeContext = function() {
         "use strict";
-        var Constructor, protoProps, staticProps;
         function EnclosingScopeContext(logger, script, text, pos, isMemberCompletion) {
-            _classCallCheck(this, EnclosingScopeContext), this.logger = logger, this.script = script, this.text = text, this.pos = pos, this.isMemberCompletion = isMemberCompletion, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
+            swcHelpers.classCallCheck(this, EnclosingScopeContext), this.logger = logger, this.script = script, this.text = text, this.pos = pos, this.isMemberCompletion = isMemberCompletion, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
         }
-        return Constructor = EnclosingScopeContext, protoProps = [
-            {
-                key: "getScope",
-                value: function() {
-                    return this.scopeGetter();
-                }
-            },
-            {
-                key: "getObjectLiteralScope",
-                value: function() {
-                    return this.objectLiteralScopeGetter();
-                }
-            },
-            {
-                key: "getScopeAST",
-                value: function() {
-                    return this.scopeStartAST;
-                }
-            },
-            {
-                key: "getScopePosition",
-                value: function() {
-                    return this.scopeStartAST.minChar;
-                }
-            },
-            {
-                key: "getScriptFragmentStartAST",
-                value: function() {
-                    return this.scopeStartAST;
-                }
-            },
-            {
-                key: "getScriptFragmentPosition",
-                value: function() {
-                    return this.getScriptFragmentStartAST().minChar;
-                }
-            },
-            {
-                key: "getScriptFragment",
-                value: function() {
-                    if (null == this.scriptFragment) {
-                        var ast = this.getScriptFragmentStartAST(), minChar = ast.minChar, limChar = this.isMemberCompletion ? this.pos : this.pos + 1;
-                        this.scriptFragment = TypeScript.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
-                    }
-                    return this.scriptFragment;
-                }
+        var _proto = EnclosingScopeContext.prototype;
+        return _proto.getScope = function() {
+            return this.scopeGetter();
+        }, _proto.getObjectLiteralScope = function() {
+            return this.objectLiteralScopeGetter();
+        }, _proto.getScopeAST = function() {
+            return this.scopeStartAST;
+        }, _proto.getScopePosition = function() {
+            return this.scopeStartAST.minChar;
+        }, _proto.getScriptFragmentStartAST = function() {
+            return this.scopeStartAST;
+        }, _proto.getScriptFragmentPosition = function() {
+            return this.getScriptFragmentStartAST().minChar;
+        }, _proto.getScriptFragment = function() {
+            if (null == this.scriptFragment) {
+                var ast = this.getScriptFragmentStartAST(), minChar = ast.minChar, limChar = this.isMemberCompletion ? this.pos : this.pos + 1;
+                this.scriptFragment = TypeScript.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
             }
-        ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), EnclosingScopeContext;
+            return this.scriptFragment;
+        }, EnclosingScopeContext;
     }();
     TypeScript1.EnclosingScopeContext = EnclosingScopeContext, TypeScript1.preFindMemberScope = preFindMemberScope, TypeScript1.pushTypeCollectionScope = function(container, valueMembers, ambientValueMembers, enclosedTypes, ambientEnclosedTypes, context, thisType, classType, moduleDecl) {
         var builder = new SymbolScopeBuilder(valueMembers, ambientValueMembers, enclosedTypes, ambientEnclosedTypes, null, container), chain = new ScopeChain(container, context.scopeChain, builder);

@@ -1,6 +1,6 @@
-error: Expected 'from', got '/'
- --> $DIR/tests/test262-parser/fail/ec34d41ac5849c84.module.js:1:8
-  |
-1 | import / as a from 'a'
-  |        ^
 
+  x Expected 'from', got '/'
+   ,-[$DIR/tests/test262-parser/fail/ec34d41ac5849c84.module.js:2:1]
+ 2 | import / as a from 'a'
+   :        ^
+   `----

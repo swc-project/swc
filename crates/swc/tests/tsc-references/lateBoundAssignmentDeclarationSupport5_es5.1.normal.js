@@ -1,16 +1,4 @@
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
+import * as swcHelpers from "@swc/helpers";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
@@ -22,7 +10,7 @@ var _sym = Symbol();
 var _str = "my-fake-sym";
 function F() {}
 var _obj;
-F.prototype = (_obj = {}, _defineProperty(_obj, _sym, "ok"), _defineProperty(_obj, _str, "ok"), _obj);
+F.prototype = (_obj = {}, swcHelpers.defineProperty(_obj, _sym, "ok"), swcHelpers.defineProperty(_obj, _str, "ok"), _obj);
 var inst = new F();
 var _y = inst[_str];
 var _z = inst[_sym];

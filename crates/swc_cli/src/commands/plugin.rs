@@ -109,10 +109,6 @@ fn write_ignore_file(base_path: &Path) -> Result<()> {
 }
 
 impl super::CommandRunner for PluginScaffoldOptions {
-    fn execute_inner(&self) -> Result<()> {
-        Ok(())
-    }
-
     /// Create a rust project for the plugin from template.
     /// This largely mimic https://github.com/rust-lang/cargo/blob/master/src/cargo/ops/cargo_new.rs,
     /// but also thinner implementation based on some assumptions like skipping

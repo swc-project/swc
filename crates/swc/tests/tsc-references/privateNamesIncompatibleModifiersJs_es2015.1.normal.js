@@ -1,29 +1,17 @@
-function _checkPrivateRedeclaration(obj, privateCollection) {
-    if (privateCollection.has(obj)) {
-        throw new TypeError("Cannot initialize the same private elements twice on an object");
-    }
-}
-function _classPrivateFieldInit(obj, privateMap, value) {
-    _checkPrivateRedeclaration(obj, privateMap);
-    privateMap.set(obj, value);
-}
-function _classPrivateMethodInit(obj, privateSet) {
-    _checkPrivateRedeclaration(obj, privateSet);
-    privateSet.add(obj);
-}
+import * as swcHelpers from "@swc/helpers";
 var /**
      * @public
-     */ _a = new WeakMap(), /**
+     */ _a = /*#__PURE__*/ new WeakMap(), /**
      * @private
-     */ _b = new WeakMap(), /**
+     */ _b = /*#__PURE__*/ new WeakMap(), /**
      * @protected
-     */ _c = new WeakMap(), /**
+     */ _c = /*#__PURE__*/ new WeakMap(), /**
      * @public
-     */ _aMethod = new WeakSet(), /**
+     */ _aMethod = /*#__PURE__*/ new WeakSet(), /**
      * @private
-     */ _bMethod = new WeakSet(), /**
+     */ _bMethod = /*#__PURE__*/ new WeakSet(), /**
      * @protected
-     */ _cMethod = new WeakSet(), _aProp = new WeakMap(), _bProp = new WeakMap(), _cProp = new WeakMap();
+     */ _cMethod = /*#__PURE__*/ new WeakSet(), _aProp = /*#__PURE__*/ new WeakMap(), _bProp = /*#__PURE__*/ new WeakMap(), _cProp = /*#__PURE__*/ new WeakMap();
 // @allowJs: true
 // @checkJs: true
 // @strict: true
@@ -32,12 +20,12 @@ var /**
 // @filename: privateNamesIncompatibleModifiersJs.js
 class A {
     constructor(){
-        _classPrivateMethodInit(this, _aMethod);
-        _classPrivateMethodInit(this, _bMethod);
-        _classPrivateMethodInit(this, _cMethod);
+        swcHelpers.classPrivateMethodInit(this, _aMethod);
+        swcHelpers.classPrivateMethodInit(this, _bMethod);
+        swcHelpers.classPrivateMethodInit(this, _cMethod);
         /**
      * @public
-     */ _classPrivateFieldInit(this, _aProp, {
+     */ swcHelpers.classPrivateFieldInit(this, _aProp, {
             get: get_aProp,
             set: /**
      * @public
@@ -45,7 +33,7 @@ class A {
         });
         /**
      * @private
-     */ _classPrivateFieldInit(this, _bProp, {
+     */ swcHelpers.classPrivateFieldInit(this, _bProp, {
             get: get_bProp,
             set: /**
      * @private
@@ -53,21 +41,21 @@ class A {
         });
         /**
     * @protected
-    */ _classPrivateFieldInit(this, _cProp, {
+    */ swcHelpers.classPrivateFieldInit(this, _cProp, {
             get: get_cProp,
             set: /**
      * @protected
      */ set_cProp
         });
-        _classPrivateFieldInit(this, _a, {
+        swcHelpers.classPrivateFieldInit(this, _a, {
             writable: true,
             value: 1
         });
-        _classPrivateFieldInit(this, _b, {
+        swcHelpers.classPrivateFieldInit(this, _b, {
             writable: true,
             value: 1
         });
-        _classPrivateFieldInit(this, _c, {
+        swcHelpers.classPrivateFieldInit(this, _c, {
             writable: true,
             value: 1
         });

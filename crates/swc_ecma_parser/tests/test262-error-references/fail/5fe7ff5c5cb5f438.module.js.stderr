@@ -1,6 +1,6 @@
-error: Expected 'from', got 'b'
- --> $DIR/tests/test262-parser/fail/5fe7ff5c5cb5f438.module.js:1:11
-  |
-1 | import a, b from 'a'
-  |           ^
 
+  x Expected 'from', got 'b'
+   ,-[$DIR/tests/test262-parser/fail/5fe7ff5c5cb5f438.module.js:2:1]
+ 2 | import a, b from 'a'
+   :           ^
+   `----

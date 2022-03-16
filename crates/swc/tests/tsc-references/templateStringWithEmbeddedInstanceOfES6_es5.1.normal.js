@@ -1,9 +1,3 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @target: ES6
-var x = "abc".concat(_instanceof("hello", String), "def");
+var x = "abc".concat(swcHelpers._instanceof("hello", String), "def");

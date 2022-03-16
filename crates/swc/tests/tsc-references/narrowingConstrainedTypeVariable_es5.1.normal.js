@@ -1,21 +1,12 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
+// @strict: true
+// Repro from #20138
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 function f1(v) {
-    if (_instanceof(v, C)) {
+    if (swcHelpers._instanceof(v, C)) {
         var x = v;
     } else {
         var s = v;
@@ -23,10 +14,10 @@ function f1(v) {
 }
 var D = function D() {
     "use strict";
-    _classCallCheck(this, D);
+    swcHelpers.classCallCheck(this, D);
 };
 function f2(v) {
-    if (_instanceof(v, C)) {
+    if (swcHelpers._instanceof(v, C)) {
         var x = v;
     } else {
         var y = v;
@@ -34,10 +25,10 @@ function f2(v) {
 }
 var E = function E() {
     "use strict";
-    _classCallCheck(this, E);
+    swcHelpers.classCallCheck(this, E);
 };
 function f3(v) {
-    if (_instanceof(v, E)) {
+    if (swcHelpers._instanceof(v, E)) {
         var x = v;
     } else {
         var y = v;

@@ -2,14 +2,15 @@ use std::path::PathBuf;
 
 use swc_common::{chain, pass::Optional, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::resolver::ts_resolver;
 use swc_ecma_transforms_compat::{
     es2015::{block_scoping, destructuring, parameters},
     es2017::async_to_generator,
     es2020::{nullish_coalescing, optional_chaining},
+    es2022::class_properties,
 };
 use swc_ecma_transforms_proposal::decorators;
-use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::Fold;
 
@@ -32,8 +33,18 @@ fn tr_config(
             decorators(decorators_config.unwrap_or_default()),
             has_decorators,
         ),
-        resolver_with_mark(mark),
+        ts_resolver(mark),
         strip_with_config(config, mark),
+    )
+}
+
+fn properties(t: &Tester, loose: bool) -> impl Fold {
+    class_properties(
+        Some(t.comments.clone()),
+        class_properties::Config {
+            set_public_fields: loose,
+            ..Default::default()
+        },
     )
 }
 
@@ -44,7 +55,7 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| tr(),
+            |t| chain!(tr(), properties(t, true)),
             $name,
             $from,
             $to,
@@ -125,10 +136,14 @@ to!(
 
     abstract #test();
 }",
-    "class test {
-    #test() {
+    "var _test = new WeakSet();
+    class test {
+        constructor(){
+            _classPrivateMethodInit(this, _test);
+        }
     }
-}"
+    function test1() {}
+"
 );
 
 to!(export_import, "export import A = B", "export var A = B;");
@@ -727,15 +742,26 @@ to!(
         this.#handlers = options.handlers || [];
     }
 }",
-    "export class Logger {
-    #level;
-    #handlers;
-    #loggerName;
+    "
+    var _level = new WeakMap(), _handlers = new WeakMap(), _loggerName = new WeakMap();
+    export class Logger {
     constructor(loggerName, levelName, options = {
     }){
-        this.#loggerName = loggerName;
-        this.#level = getLevelByName(levelName);
-        this.#handlers = options.handlers || [];
+        _classPrivateFieldInit(this, _level, {
+            writable: true,
+            value: void 0
+        });
+        _classPrivateFieldInit(this, _handlers, {
+            writable: true,
+            value: void 0
+        });
+        _classPrivateFieldInit(this, _loggerName, {
+            writable: true,
+            value: void 0
+        });
+        _classPrivateFieldSet(this, _loggerName, loggerName);
+        _classPrivateFieldSet(this, _level, getLevelByName(levelName));
+        _classPrivateFieldSet(this, _handlers, options.handlers || []);
     }
 }"
 );
@@ -832,7 +858,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    |t| chain!(tr(), properties(t, true)),
     issue_930_static,
     "class A {
         static b = 'foo';
@@ -848,7 +874,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| tr(),
+    |t| chain!(tr(), properties(t, true)),
     typescript_001,
     "class A {
         foo = new Subject()
@@ -3224,7 +3250,7 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| chain!(tr(), async_to_generator()),
+    |_| chain!(tr(), async_to_generator(Default::default())),
     issue_1235_1,
     "
     class Service {
@@ -3725,12 +3751,13 @@ test_with_config!(
     ",
     "
     class A extends Object {
-        b;
-        a = 1;
+        a;
         constructor(b = 2){
             super();
             this.b = b;
+            this.a = 1;
         }
+        b;
     }
     "
 );
@@ -3770,15 +3797,13 @@ to!(
     }
     ",
     "
-    var _key, _key1;
+    let _ref = (console.log(1), 'a'), _ref1 = (console.log(2), 'b');
     class A {
         constructor() {
-            this[_key] = 1;
+            this[_ref] = 1;
         }
     }
-    _key = (console.log(1), 'a');
-    _key1 = (console.log(2), 'b');
-    A[_key1] = 2;
+    A[_ref1] = 2;
     "
 );
 
@@ -3792,14 +3817,14 @@ to!(
     }
     ",
     "
-    var _key, _key1;
+    let _ref = (console.log(1), 'a'), _ref1 = (console.log(2), 'b'), tmp = (console.log(3), 'c');
     class A {
-        [(_key = (console.log(1), 'a'), _key1 = (console.log(2), 'b'), console.log(3), 'c')]() {}
+        [tmp]() {}
         constructor() {
-            this[_key] = 1;
+            this[_ref] = 1;
         }
     }
-    A[_key1] = 2;
+    A[_ref1] = 2;
     "
 );
 
@@ -4134,15 +4159,22 @@ to!(
         }
     }",
     "
+    var _store = new WeakMap(), _body = new WeakMap();
     export class Context {
-        #store;
-        #body;
         constructor(optionsOrContext){
             this.response = {
                 headers: new Headers()
             };
             this.params = {
             };
+            _classPrivateFieldInit(this, _store, {
+                writable: true,
+                value: void 0
+            });
+            _classPrivateFieldInit(this, _body, {
+                writable: true,
+                value: void 0
+            });
             if (optionsOrContext instanceof Context) {
                 Object.assign(this, optionsOrContext);
                 this.customContext = this;
@@ -4235,12 +4267,12 @@ to!(
     }
     ",
     "
+    var _TestClass;
     var _class;
-    var _class1;
-    let TestClass = _class1 = someClassDecorator((_class1 = (_class = class TestClass {
-    }, _class.Something = 'hello', _class.SomeProperties = {
-        firstProp: _class.Something
-    }, _class)) || _class1) || _class1;
+    let TestClass = _class = someClassDecorator((_class = (_TestClass = class TestClass {
+    }, _TestClass.Something = 'hello', _TestClass.SomeProperties = {
+        firstProp: _TestClass.Something
+    }, _TestClass)) || _class) || _class;
     function someClassDecorator(c) {
         return c;
     }
@@ -4256,6 +4288,19 @@ to!(
     ",
     "
 
+    "
+);
+
+to!(
+    issue_3827,
+    "
+    import { foo } from './foo'
+
+    type A = {
+        get [foo](): number
+    }
+    ",
+    "
     "
 );
 
@@ -4475,8 +4520,39 @@ fn exec(input: PathBuf) {
             tsx: input.to_string_lossy().ends_with(".tsx"),
             ..Default::default()
         }),
-        &|_| tr(),
+        &|t| chain!(tr(), properties(t, true)),
         &input,
         &output,
     );
 }
+
+to!(
+    parameter_properties_with_computed,
+    "
+class A {
+    [console.log(123)] = 456
+    constructor(public a = 1) {}
+}
+
+let b = class {
+    [console.log(456)] = 123
+    constructor(public a = 1) {}
+}
+    ",
+    "
+let _key;
+let _key1 = console.log(123);
+class A {
+    constructor(a = 1){
+        this.a = a;
+        this[_key1] = 456;
+    }
+}
+let b = (_key = console.log(456), class {
+    constructor(a = 1){
+        this.a = a;
+        this[_key] = 123;
+    }
+});
+"
+);

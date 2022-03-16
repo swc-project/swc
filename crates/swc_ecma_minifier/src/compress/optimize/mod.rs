@@ -5,7 +5,7 @@ use std::{fmt::Write, iter::once, mem::take};
 use retain_mut::RetainMut;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Mark, Spanned,
+    collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned,
     SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
@@ -17,7 +17,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
 use Value::Known;
 
-use self::util::MultiReplacer;
+use self::{unused::PropertyAccessOpts, util::MultiReplacer};
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
@@ -26,7 +26,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
-    util::{contains_leaping_yield, make_number, ModuleItemExt},
+    util::{contains_leaping_yield, make_number, ExprOptExt, ModuleItemExt},
 };
 
 mod arguments;
@@ -64,8 +64,6 @@ where
         "top_retain should not contain empty string"
     );
 
-    let done = Mark::fresh(Mark::root());
-    let done_ctxt = SyntaxContext::empty().apply_mark(done);
     Optimizer {
         marks,
         changed: false,
@@ -78,10 +76,8 @@ where
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
         typeofs: Default::default(),
-        data: Some(data),
+        data,
         ctx: Default::default(),
-        done,
-        done_ctxt,
         label: Default::default(),
         mode,
         debug_infinite_loop,
@@ -208,11 +204,8 @@ struct Optimizer<'a, M> {
     ///
     /// This is calculated multiple time, but only once per one
     /// `visit_mut_module`.
-    data: Option<&'a mut ProgramData>,
+    data: &'a mut ProgramData,
     ctx: Ctx,
-    /// In future: This will be used to `mark` node as done.
-    done: Mark,
-    done_ctxt: SyntaxContext,
 
     /// Closest label.
     ///
@@ -244,12 +237,6 @@ where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer> + VisitWith<AssertValid>,
     {
-        match self.data {
-            Some(..) => {}
-            None => {
-                unreachable!()
-            }
-        }
         let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();
         let append_stmts = self.append_stmts.take();
@@ -751,9 +738,8 @@ where
                             ..
                         }) => {
                             if let PropName::Computed(key) = key {
-                                exprs.extend(
-                                    self.ignore_return_value(key.expr.as_mut()).map(Box::new),
-                                );
+                                exprs
+                                    .extend(self.ignore_return_value(&mut *key.expr).map(Box::new));
                             }
 
                             if *is_static {
@@ -893,6 +879,30 @@ where
                     }
                 }
 
+                if let Expr::Ident(callee) = &**callee {
+                    if self.options.reduce_vars && self.options.side_effects {
+                        if let Some(usage) = self.data.vars.get(&callee.to_id()) {
+                            if !usage.reassigned() && usage.pure_fn {
+                                let args = args
+                                    .take()
+                                    .into_iter()
+                                    .filter_map(|mut arg| self.ignore_return_value(&mut arg.expr))
+                                    .map(Box::new)
+                                    .collect::<Vec<_>>();
+
+                                if args.is_empty() {
+                                    return None;
+                                }
+
+                                return Some(Expr::Seq(SeqExpr {
+                                    span: callee.span,
+                                    exprs: args,
+                                }));
+                            }
+                        }
+                    }
+                }
+
                 return Some(e.take());
             }
 
@@ -914,23 +924,16 @@ where
                 if !prop.is_computed()
                     && (self.options.top_level() || !self.ctx.in_top_level()) =>
             {
-                if let Expr::Ident(obj) = &**obj {
-                    if let Some(usage) = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&obj.to_id()))
-                    {
-                        if !usage.declared {
-                            return Some(e.take());
-                        }
-
-                        if !usage.mutated
-                            && !usage.reassigned()
-                            && usage.no_side_effect_for_member_access
-                        {
-                            return None;
-                        }
-                    }
+                if self.should_preserve_property_access(
+                    obj,
+                    PropertyAccessOpts {
+                        allow_getter: true,
+                        only_ident: true,
+                    },
+                ) {
+                    return Some(e.take());
+                } else {
+                    return None;
                 }
             }
 
@@ -1627,6 +1630,8 @@ where
         self.compress_typeof_undefined(n);
 
         self.optimize_bin_operator(n);
+
+        self.optimize_cmp_with_null_or_undefined(n);
 
         self.optimize_bin_and_or(n);
 
@@ -2745,39 +2750,81 @@ where
         for v in vars.iter_mut() {
             if v.init
                 .as_deref()
-                .map(|e| !e.may_have_side_effects())
+                .map(|e| !e.is_ident() && !e.may_have_side_effects())
                 .unwrap_or(true)
             {
-                self.drop_unused_var_declarator(v, true);
+                self.drop_unused_var_declarator(v, &mut None);
             }
         }
+
+        let mut can_prepend = true;
+        let mut side_effects = vec![];
 
         for v in vars.iter_mut() {
-            let was_value_none = v.init.is_none();
+            let mut storage = None;
+            self.drop_unused_var_declarator(v, &mut storage);
+            side_effects.extend(storage);
 
-            self.drop_unused_var_declarator(v, true);
+            // Dropped. Side effects of the initializer is stored in `side_effects`.
             if v.name.is_invalid() {
                 continue;
             }
-            if was_value_none {
+
+            // If initializer is none, we can check next item without thinking about side
+            // effects.
+            if v.init.is_none() {
                 continue;
             }
 
-            break;
+            // We can drop the next variable, as we don't have to worry about the side
+            // effect.
+            if side_effects.is_empty() {
+                can_prepend = false;
+                continue;
+            }
+
+            // We now have to handle side effects.
+
+            if can_prepend {
+                can_prepend = false;
+
+                self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: if side_effects.len() == 1 {
+                        side_effects.remove(0)
+                    } else {
+                        Box::new(Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: side_effects.take(),
+                        }))
+                    },
+                }));
+            } else {
+                // We prepend side effects to the initializer.
+
+                let seq = v.init.as_mut().unwrap().force_seq();
+                seq.exprs = side_effects
+                    .drain(..)
+                    .into_iter()
+                    .chain(seq.exprs.take())
+                    .filter(|e| !e.is_invalid())
+                    .collect();
+            }
         }
 
-        for v in vars.iter_mut().rev() {
-            let was_value_none = v.init.is_none();
-
-            self.drop_unused_var_declarator(v, false);
-            if v.name.is_invalid() {
-                continue;
-            }
-            if was_value_none {
-                continue;
-            }
-
-            break;
+        // We append side effects.
+        if !side_effects.is_empty() {
+            self.append_stmts.push(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: if side_effects.len() == 1 {
+                    side_effects.remove(0)
+                } else {
+                    Box::new(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: side_effects,
+                    }))
+                },
+            }));
         }
 
         vars.retain_mut(|var| {
@@ -2788,11 +2835,7 @@ where
 
             if let Some(Expr::Invalid(..)) = var.init.as_deref() {
                 if let Pat::Ident(i) = &var.name {
-                    if let Some(usage) = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&i.id.to_id()))
-                    {
+                    if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
                         if usage.declared_as_catch_param {
                             var.init = None;
                             return true;

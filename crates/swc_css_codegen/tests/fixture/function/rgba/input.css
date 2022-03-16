@@ -1,0 +1,20 @@
+.class {
+    color: rgba(100%, 100%, 100%);
+    color: rgba(100%, 100%, 100%, 0.1);
+    color: rgba(100%, 100%, 100%, 100%);
+
+    color: rgba(100% 100% 100%);
+    color: rgba(100% 100% 100% / 0.1);
+    color: rgba(100% 100% 100% / 100%);
+
+    color: rgba(123, 123, 123);
+    color: rgba(123, 123, 123, 10%);
+    color: rgba(123, 123, 123, 0.1);
+    
+    color: rgba(123 123 123);
+    color: rgba(123 123 123 / 0.1);
+    color: rgba(123 123 123 / 100%);
+
+    color: rgba(none none none);
+    color: rgba(none none none / none);
+}

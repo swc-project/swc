@@ -7,7 +7,9 @@ use swc_ecma_utils::{prepend, private_ident, quote_ident, undefined, ExprFactory
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
 };
+use swc_trace_macro::swc_trace;
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn new_target() -> impl Fold + VisitMut + CompilerPass {
     as_folder(NewTarget::default())
 }
@@ -24,6 +26,7 @@ struct NewTarget {
     var: Option<VarDeclarator>,
 }
 
+#[swc_trace]
 impl VisitMut for NewTarget {
     noop_visit_mut_type!();
 

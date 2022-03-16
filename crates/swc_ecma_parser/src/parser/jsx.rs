@@ -10,6 +10,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// Parse next token as JSX identifier
     pub(super) fn parse_jsx_ident(&mut self) -> PResult<Ident> {
         debug_assert!(self.input.syntax().jsx());
+        trace_cur!(self, parse_jsx_ident);
 
         let ctx = self.ctx();
         match *cur!(self, true)? {
@@ -28,6 +29,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// Parse namespaced identifier.
     pub(super) fn parse_jsx_namespaced_name(&mut self) -> PResult<JSXAttrName> {
         debug_assert!(self.input.syntax().jsx());
+        trace_cur!(self, parse_jsx_namespaced_name);
 
         let ns = self.parse_jsx_ident()?;
         if !eat!(self, ':') {
@@ -45,6 +47,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// identifier.
     pub(super) fn parse_jsx_element_name(&mut self) -> PResult<JSXElementName> {
         debug_assert!(self.input.syntax().jsx());
+        trace_cur!(self, parse_jsx_element_name);
 
         let mut node = match self.parse_jsx_namespaced_name()? {
             JSXAttrName::Ident(i) => JSXElementName::Ident(i),
@@ -70,6 +73,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// TODO(kdy1): Change return type to JSXAttrValue
     pub(super) fn parse_jsx_attr_value(&mut self) -> PResult<JSXAttrValue> {
         debug_assert!(self.input.syntax().jsx());
+        trace_cur!(self, parse_jsx_attr_value);
 
         let start = cur_pos!(self);
 
@@ -153,6 +157,8 @@ impl<'a, I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
         let start = cur_pos!(self);
 
+        let _tracing = debug_tracing!(self, "parse_jsx_attr");
+
         if eat!(self, '{') {
             let dot3_start = cur_pos!(self);
             expect!(self, "...");
@@ -211,6 +217,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         let mut attrs = vec![];
         while let Ok(..) = cur!(self, false) {
+            trace_cur!(self, parse_jsx_opening__attrs_loop);
+
             if is!(self, '/') || is!(self, JSXTagEnd) {
                 break;
             }
@@ -275,7 +283,12 @@ impl<'a, I: Tokens> Parser<I> {
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
+            let _tracing = debug_tracing!(p, "parse_jsx_element");
+
             let opening_element = p.parse_jsx_opening_element_at(start_pos)?;
+
+            trace_cur!(p, parse_jsx_element__after_opening_element);
+
             let mut children = vec![];
             let mut closing_element = None;
 

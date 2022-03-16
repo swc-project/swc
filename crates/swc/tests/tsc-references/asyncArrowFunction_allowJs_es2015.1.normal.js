@@ -1,32 +1,4 @@
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-    try {
-        var info = gen[key](arg);
-        var value = info.value;
-    } catch (error) {
-        reject(error);
-        return;
-    }
-    if (info.done) {
-        resolve(value);
-    } else {
-        Promise.resolve(value).then(_next, _throw);
-    }
-}
-function _asyncToGenerator(fn) {
-    return function() {
-        var self = this, args = arguments;
-        return new Promise(function(resolve, reject) {
-            var gen = fn.apply(self, args);
-            function _next(value) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-            }
-            function _throw(err) {
-                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-            }
-            _next(undefined);
-        });
-    };
-}
+import * as swcHelpers from "@swc/helpers";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
@@ -37,7 +9,7 @@ function _asyncToGenerator(fn) {
 ;
 // Error (good)
 /** @type {function(): string} */ const b = function() {
-    var _ref = _asyncToGenerator(function*() {
+    var _ref = swcHelpers.asyncToGenerator(function*() {
         return 0;
     });
     return function b() {
@@ -46,7 +18,7 @@ function _asyncToGenerator(fn) {
 }();
 // No error (bad)
 /** @type {function(): string} */ const c = function() {
-    var _ref = _asyncToGenerator(function*() {
+    var _ref = swcHelpers.asyncToGenerator(function*() {
         return 0;
     });
     return function c() {
@@ -55,6 +27,6 @@ function _asyncToGenerator(fn) {
 }();
 /** @type {function(function(): string): void} */ const f = (p)=>{};
 // Error (good)
-f(_asyncToGenerator(function*() {
+f(swcHelpers.asyncToGenerator(function*() {
     return 0;
 }));

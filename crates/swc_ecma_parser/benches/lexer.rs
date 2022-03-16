@@ -71,6 +71,15 @@ fn underscore(b: &mut Bencher) {
 }
 
 #[bench]
+fn three(b: &mut Bencher) {
+    bench_module(
+        b,
+        Default::default(),
+        include_str!("./files/three-0.138.3.js"),
+    )
+}
+
+#[bench]
 fn yui(b: &mut Bencher) {
     bench_module(b, Default::default(), include_str!("./files/yui-3.12.0.js"))
 }

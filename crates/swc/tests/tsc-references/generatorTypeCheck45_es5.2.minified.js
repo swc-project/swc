@@ -11,4 +11,4 @@ foo("", regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-}), function(p) {}); // T is fixed, should be string
+}), function(p) {});

@@ -38,6 +38,16 @@ jobs:
           profile: minimal
           components: clippy
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: Install node dependencies
+        shell: bash
+        run: |
+          yarn
+
       - name: Check
         run: |
           cargo clippy --all

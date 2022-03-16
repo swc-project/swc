@@ -1,6 +1,6 @@
-error: Unexpected alert
- 
-  |
-5 | window.alert();
-  | ^^^^^^^^^^^^^^
 
+  x Unexpected alert
+   ,----
+ 6 | window.alert();
+   : ^^^^^^^^^^^^^^
+   `----

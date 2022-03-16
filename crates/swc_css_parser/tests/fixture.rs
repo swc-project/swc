@@ -344,6 +344,12 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(HexColor, visit_hex_color);
 
+    mtd!(AlphaValue, visit_alpha_value);
+
+    mtd!(Hue, visit_hue);
+
+    mtd!(CmykComponent, visit_cmyk_component);
+
     mtd!(Integer, visit_integer);
 
     mtd!(Number, visit_number);

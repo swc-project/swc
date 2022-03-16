@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 //@filename: part1.ts
 var A;
 (function(A1) {
@@ -28,7 +24,7 @@ var A;
     (function(Utils) {
         var Plane = function Plane(tl, br) {
             "use strict";
-            _classCallCheck(this, Plane);
+            swcHelpers.classCallCheck(this, Plane);
             this.tl = tl;
             this.br = br;
         };

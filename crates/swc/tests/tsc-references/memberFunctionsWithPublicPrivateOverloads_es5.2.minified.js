@@ -1,78 +1,17 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 var c, d, C = function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        swcHelpers.classCallCheck(this, C);
     }
-    return _createClass(C, [
-        {
-            key: "foo",
-            value: function(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function(x, y) {}
-        },
-        {
-            key: "baz",
-            value: function(x, y) {}
-        }
-    ], [
-        {
-            key: "foo",
-            value: function(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function(x, y) {}
-        },
-        {
-            key: "baz",
-            value: function(x, y) {}
-        }
-    ]), C;
+    var _proto = C.prototype;
+    return _proto.foo = function(x, y) {}, _proto.bar = function(x, y) {}, _proto.baz = function(x, y) {}, C.foo = function(x, y) {}, C.bar = function(x, y) {}, C.baz = function(x, y) {}, C;
 }(), D = function() {
     "use strict";
     function D() {
-        _classCallCheck(this, D);
+        swcHelpers.classCallCheck(this, D);
     }
-    return _createClass(D, [
-        {
-            key: "foo",
-            value: function(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function(x, y) {}
-        },
-        {
-            key: "baz",
-            value: function(x, y) {}
-        }
-    ], [
-        {
-            key: "foo",
-            value: function(x, y) {}
-        },
-        {
-            key: "bar",
-            value: function(x, y) {}
-        },
-        {
-            key: "baz",
-            value: function(x, y) {}
-        }
-    ]), D;
+    var _proto = D.prototype;
+    return _proto.foo = function(x, y) {}, _proto.bar = function(x, y) {}, _proto.baz = function(x, y) {}, D.foo = function(x, y) {}, D.bar = function(x, y) {}, D.baz = function(x, y) {}, D;
 }();
 c.foo(1), d.foo(2);

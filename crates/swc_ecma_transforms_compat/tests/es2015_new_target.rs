@@ -40,7 +40,7 @@ fn fixture(input: PathBuf) {
             private_in_object: true,
             ..Default::default()
         }),
-        &|_| {
+        &|t| {
             let mut pass: Box<dyn Fold> = Box::new(noop());
 
             for plugin in &options.plugins {
@@ -67,12 +67,15 @@ fn fixture(input: PathBuf) {
                     "proposal-class-properties" => {
                         pass = Box::new(chain!(
                             pass,
-                            class_properties(class_properties::Config {
-                                constant_super: loose,
-                                set_public_fields: loose,
-                                private_as_properties: loose,
-                                no_document_all: loose
-                            })
+                            class_properties(
+                                Some(t.comments.clone()),
+                                class_properties::Config {
+                                    constant_super: loose,
+                                    set_public_fields: loose,
+                                    private_as_properties: loose,
+                                    no_document_all: loose
+                                }
+                            )
                         ));
                     }
 

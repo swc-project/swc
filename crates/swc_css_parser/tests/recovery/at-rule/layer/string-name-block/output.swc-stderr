@@ -1,6 +1,6 @@
-error: Expected '{' delim token or ';'
- --> $DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:8
-  |
-1 | @layer "framework" {
-  |        ^^^^^^^^^^^
 
+  x Expected '{' delim token or ';'
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:1]
+ 2 | @layer "framework" {
+   :        ^^^^^^^^^^^
+   `----

@@ -6,7 +6,7 @@ var Test = function Test(name) {
     "use strict";
     swcHelpers.classCallCheck(this, Test);
     var _this = this;
-    this.print = (function() {
+    this.print = function() {
         var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(arg) {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -21,12 +21,12 @@ var Test = function Test(name) {
         return function(arg) {
             return _ref.apply(this, arguments);
         };
-    })();
+    }();
     this.name = name;
 };
 export default function Parent() {
     useEffect(function() {
         new Test('name').print('test');
     }, []);
-    return(/*#__PURE__*/ _jsx(_Fragment, {}));
+    return /*#__PURE__*/ _jsx(_Fragment, {});
 };

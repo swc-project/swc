@@ -1,16 +1,15 @@
 use std::path::{Component, PathBuf};
 
 use anyhow::{bail, Context, Error};
-use dashmap::DashMap;
-use once_cell::sync::Lazy;
-use regex::Regex;
+use swc_cached::regex::CachedRegex;
 use swc_common::FileName;
+use tracing::{debug, info, Level};
 
 use crate::resolve::Resolve;
 
 #[derive(Debug)]
 enum Pattern {
-    Regex(Regex),
+    Regex(CachedRegex),
     /// No wildcard.
     Exact(String),
 }
@@ -50,6 +49,13 @@ where
     ///
     /// Note that this is not a hashmap because value is not used as a hash map.
     pub fn new(inner: R, base_url: PathBuf, paths: Vec<(String, Vec<String>)>) -> Self {
+        if cfg!(debug_assertions) {
+            info!(
+                base_url = tracing::field::display(base_url.display()),
+                "jsc.paths"
+            );
+        }
+
         let paths = paths
             .into_iter()
             .map(|(from, to)| {
@@ -96,12 +102,31 @@ where
     R: Resolve,
 {
     fn resolve(&self, base: &FileName, src: &str) -> Result<FileName, Error> {
+        let _tracing = if cfg!(debug_assertions) {
+            Some(
+                tracing::span!(
+                    Level::ERROR,
+                    "tsc.resolve",
+                    base_url = tracing::field::display(self.base_url.display()),
+                    base = tracing::field::display(base),
+                    src = tracing::field::display(src),
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
         if src.starts_with('.') && (src == ".." || src.starts_with("./") || src.starts_with("../"))
         {
             return self
                 .inner
                 .resolve(base, src)
                 .context("not processed by tsc resolver because it's relative import");
+        }
+
+        if cfg!(debug_assertions) {
+            debug!("non-relative import");
         }
 
         if let FileName::Real(v) = base {
@@ -193,19 +218,6 @@ where
     }
 }
 
-fn compile_regex(src: String) -> Regex {
-    static CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> = Lazy::new(Default::default);
-
-    if !CACHE.contains_key(&*src) {
-        // Create capture group
-        let regex_pat = src.replace('*', "(.*)");
-        let re = Regex::new(&regex_pat).unwrap_or_else(|err| {
-            panic!("failed to compile `{}` as a pattern: {:?}", regex_pat, err)
-        });
-        CACHE.insert(src.clone(), re);
-    }
-
-    let re = CACHE.get(&*src).unwrap();
-
-    (*re).clone()
+fn compile_regex(src: String) -> CachedRegex {
+    CachedRegex::new(&src.replace('*', "(.*)")).unwrap()
 }

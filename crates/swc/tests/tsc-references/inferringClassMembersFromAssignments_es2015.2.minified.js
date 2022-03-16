@@ -1,8 +1,6 @@
 class C {
     method() {
-        Math.random() ? (this.inMethod = 0, this.inMethodNullable = null) : (this.inMethod = "string", this.inMethodNullable = void 0), this.inMultiple = "string", this.inMultipleMethods = "string", ()=>{
-            Math.random() ? this.inNestedArrowFunction = 0 : this.inNestedArrowFunction = "string";
-        };
+        Math.random() ? (this.inMethod = 0, this.inMethodNullable = null) : (this.inMethod = "string", this.inMethodNullable = void 0), this.inMultiple = "string", this.inMultipleMethods = "string";
     }
     get() {
         Math.random() ? this.inGetter = 0 : this.inGetter = "string", this.inMultiple = !1, this.inMultipleMethods = !1;
@@ -11,9 +9,7 @@ class C {
         Math.random() ? this.inSetter = 0 : this.inSetter = "string";
     }
     static method() {
-        Math.random() ? this.inStaticMethod = 0 : this.inStaticMethod = "string", ()=>{
-            Math.random() ? this.inStaticNestedArrowFunction = 0 : this.inStaticNestedArrowFunction = "string";
-        };
+        Math.random() ? this.inStaticMethod = 0 : this.inStaticMethod = "string";
     }
     static get() {
         Math.random() ? this.inStaticGetter = 0 : this.inStaticGetter = "string";

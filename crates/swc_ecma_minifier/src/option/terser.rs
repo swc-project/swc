@@ -21,7 +21,7 @@ pub enum TerserEcmaVersion {
 
 impl Default for TerserEcmaVersion {
     fn default() -> Self {
-        Self::Num(5)
+        Self::Num(2015)
     }
 }
 
@@ -115,7 +115,7 @@ pub struct TerserCompressorOptions {
     #[serde(default)]
     pub drop_debugger: Option<bool>,
 
-    #[serde(default = "ecma_default")]
+    #[serde(default)]
     pub ecma: TerserEcmaVersion,
 
     #[serde(default)]
@@ -300,10 +300,6 @@ impl Default for TerserCompressorOptions {
             module: Default::default(),
         }
     }
-}
-
-fn ecma_default() -> TerserEcmaVersion {
-    TerserEcmaVersion::Num(5)
 }
 
 impl TerserCompressorOptions {

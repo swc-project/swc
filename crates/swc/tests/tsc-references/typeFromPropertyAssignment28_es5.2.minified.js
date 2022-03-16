@@ -1,8 +1,7 @@
+import * as swcHelpers from "@swc/helpers";
 var C = function() {
     "use strict";
-    !function(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }(this, C), this.p = 1;
+    swcHelpers.classCallCheck(this, C), this.p = 1;
 };
 C.prototype = {
     q: 2

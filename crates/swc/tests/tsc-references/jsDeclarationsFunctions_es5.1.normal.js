@@ -1,8 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // @allowJs: true
 // @checkJs: true
 // @outDir: ./out
@@ -14,14 +10,14 @@ b.cat = "cat";
 export function c() {}
 c.Cls = function _class() {
     "use strict";
-    _classCallCheck(this, _class);
+    swcHelpers.classCallCheck(this, _class);
 };
 /**
  * @param {number} a
  * @param {number} b
  * @return {string} 
  */ export function d(a, b) {
-    return(/** @type {*} */ (null));
+    return /** @type {*} */ (null);
 }
 /**
  * @template T,U
@@ -29,7 +25,7 @@ c.Cls = function _class() {
  * @param {U} b
  * @return {T & U} 
  */ export function e(a, b) {
-    return(/** @type {*} */ (null));
+    return /** @type {*} */ (null);
 }
 /**
  * @template T

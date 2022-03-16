@@ -1,0 +1,12 @@
+.class {
+  -webkit-shape-margin: 20px;
+  shape-margin: 20px;
+}
+.class {
+  -webkit-shape-outside: url("foo.png");
+  shape-outside: url("foo.png");
+}
+.class {
+  -webkit-shape-image-threshold: initial;
+  shape-image-threshold: initial;
+}

@@ -1,0 +1,21 @@
+@font-face {
+    invalid
+}
+
+@font-face {
+    invalid;
+}
+
+@font-face {
+    123
+}
+
+@font-face {
+    123;
+}
+
+@font-face foo {}
+
+@font-face foo;
+
+@font-face ;

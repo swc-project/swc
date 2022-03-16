@@ -1,6 +1,7 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::is_valid_ident;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_trace_macro::swc_trace;
 
 /// babel: `transform-property-literals`
 ///
@@ -29,12 +30,14 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 ///   foo: 1
 /// };
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn property_literals() -> impl Fold {
     PropertyLiteral
 }
 
 struct PropertyLiteral;
 
+#[swc_trace]
 impl Fold for PropertyLiteral {
     noop_fold_type!();
 

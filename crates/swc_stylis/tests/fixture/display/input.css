@@ -1,0 +1,15 @@
+.class {
+    display: block;
+}
+
+.class {
+    display: flex !important;
+}
+
+.class {
+    display: inline-flex;
+}
+
+.class {
+    display: flex;
+}

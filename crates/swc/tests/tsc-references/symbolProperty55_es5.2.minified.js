@@ -1,9 +1,3 @@
 var M;
-M || (M = {}), (function(obj, key, value) {
-    return key in obj ? Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : obj[key] = value, obj;
-})({}, Symbol.iterator, 0)[(void 0).iterator];
+import * as swcHelpers from "@swc/helpers";
+M || (M = {}), swcHelpers.defineProperty({}, Symbol.iterator, 0)[(void 0).iterator];

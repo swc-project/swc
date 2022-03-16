@@ -5,8 +5,8 @@ var y = void 0;
     return "string";
 }, function(y) {
     return "other one";
-}), null.toUpperCase(), pigify(mbp).oinks, pigify(mbp).walks, f1("a"), f2("a", "b"), (function(a, b) {
+}), null.toUpperCase(), pigify(mbp).oinks, pigify(mbp).walks, f1("a"), f2("a", "b"), function(a, b) {
     Object.assign(a, b);
-})(function() {}, {
+}(function() {}, {
     func: function() {}
 });

@@ -5,8 +5,11 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::fixer;
 use swc_ecma_utils::{ExprExt, Id, UsageFinder, Value};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
-use unicode_xid::UnicodeXID;
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith,
+    VisitWith,
+};
+use unicode_id::UnicodeID;
 
 use crate::{debug::dump, util::ModuleItemExt};
 
@@ -389,8 +392,8 @@ pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
         }
     }
 
-    s.starts_with(|c: char| c.is_xid_start())
-        && s.chars().all(|c: char| c.is_xid_continue())
+    s.starts_with(|c: char| c.is_id_start())
+        && s.chars().all(|c: char| c.is_id_continue())
         && !s.contains('𝒶')
         && !s.is_reserved()
 }
@@ -712,5 +715,84 @@ impl VisitMut for UnreachableHandler {
         n.name.visit_mut_with(self);
         self.in_var_name = false;
         n.init.visit_mut_with(self);
+    }
+}
+
+pub(super) fn is_global_var(s: &str) -> bool {
+    matches!(
+        s,
+        "clearInterval"
+            | "clearTimeout"
+            | "setInterval"
+            | "setTimeout"
+            | "Boolean"
+            | "Date"
+            | "decodeURI"
+            | "decodeURIComponent"
+            | "encodeURI"
+            | "encodeURIComponent"
+            | "escape"
+            | "eval"
+            | "EvalError"
+            | "isFinite"
+            | "isNaN"
+            | "JSON"
+            | "parseFloat"
+            | "parseInt"
+            | "RegExp"
+            | "RangeError"
+            | "ReferenceError"
+            | "SyntaxError"
+            | "TypeError"
+            | "unescape"
+            | "URIError"
+            | "atob"
+            | "globalThis"
+            | "String"
+            | "Object"
+            | "Array"
+            | "Number"
+            | "NaN"
+            | "Symbol"
+    )
+}
+
+// TODO: remove
+pub(crate) fn contains_super<N>(body: &N) -> bool
+where
+    N: VisitWith<SuperFinder>,
+{
+    let mut visitor = SuperFinder { found: false };
+    body.visit_with(&mut visitor);
+    visitor.found
+}
+
+pub struct SuperFinder {
+    found: bool,
+}
+
+impl Visit for SuperFinder {
+    noop_visit_type!();
+
+    /// Don't recurse into constructor
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    /// Don't recurse into fn
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_prop(&mut self, n: &Prop) {
+        n.visit_children_with(self);
+
+        if let Prop::Shorthand(Ident {
+            sym: js_word!("arguments"),
+            ..
+        }) = n
+        {
+            self.found = true;
+        }
+    }
+
+    fn visit_super(&mut self, _: &Super) {
+        self.found = true;
     }
 }

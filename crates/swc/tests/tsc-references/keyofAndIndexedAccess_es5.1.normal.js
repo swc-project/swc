@@ -1,134 +1,27 @@
-function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
-    return arr2;
-}
-function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-function _assertThisInitialized(self) {
-    if (self === void 0) {
-        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-    return self;
-}
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
-function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-        return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-}
-function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-        throw new TypeError("Super expression must either be null or a function");
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-            value: subClass,
-            writable: true,
-            configurable: true
-        }
-    });
-    if (superClass) _setPrototypeOf(subClass, superClass);
-}
-function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-        return call;
-    }
-    return _assertThisInitialized(self);
-}
-function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
-        return o;
-    };
-    return _setPrototypeOf(o, p);
-}
-function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-var _typeof = function(obj) {
-    "@swc/helpers - typeof";
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
-function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-function _isNativeReflectConstruct() {
-    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === "function") return true;
-    try {
-        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-function _createSuper(Derived) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct();
-    return function _createSuperInternal() {
-        var Super = _getPrototypeOf(Derived), result1;
-        if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf(this).constructor;
-            result1 = Reflect.construct(Super, arguments, NewTarget);
-        } else {
-            result1 = Super.apply(this, arguments);
-        }
-        return _possibleConstructorReturn(this, result1);
-    };
-}
+import * as swcHelpers from "@swc/helpers";
+// @strictNullChecks: true
+// @declaration: true
 var Shape = function Shape() {
     "use strict";
-    _classCallCheck(this, Shape);
+    swcHelpers.classCallCheck(this, Shape);
 };
 var TaggedShape = /*#__PURE__*/ function(Shape) {
     "use strict";
-    _inherits(TaggedShape, Shape);
-    var _super = _createSuper(TaggedShape);
+    swcHelpers.inherits(TaggedShape, Shape);
+    var _super = swcHelpers.createSuper(TaggedShape);
     function TaggedShape() {
-        _classCallCheck(this, TaggedShape);
+        swcHelpers.classCallCheck(this, TaggedShape);
         return _super.apply(this, arguments);
     }
     return TaggedShape;
 }(Shape);
 var Item = function Item() {
     "use strict";
-    _classCallCheck(this, Item);
+    swcHelpers.classCallCheck(this, Item);
 };
 var Options = function Options() {
     "use strict";
-    _classCallCheck(this, Options);
+    swcHelpers.classCallCheck(this, Options);
 };
 var E;
 (function(E) {
@@ -167,22 +60,15 @@ function f13(foo, bar) {
 var Component = /*#__PURE__*/ function() {
     "use strict";
     function Component() {
-        _classCallCheck(this, Component);
+        swcHelpers.classCallCheck(this, Component);
     }
-    _createClass(Component, [
-        {
-            key: "getProperty",
-            value: function getProperty(key) {
-                return this.props[key];
-            }
-        },
-        {
-            key: "setProperty",
-            value: function setProperty(key, value) {
-                this.props[key] = value;
-            }
-        }
-    ]);
+    var _proto = Component.prototype;
+    _proto.getProperty = function getProperty(key) {
+        return this.props[key];
+    };
+    _proto.setProperty = function setProperty(key, value) {
+        this.props[key] = value;
+    };
     return Component;
 }();
 function f20(component) {
@@ -232,7 +118,7 @@ function f34(ts) {
 }
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
 };
 // Indexed access expressions have always permitted access to private and protected members.
 // For consistency we also permit such access in indexed access types.
@@ -385,35 +271,25 @@ function f84() {
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {
-        _classCallCheck(this, C1);
+        swcHelpers.classCallCheck(this, C1);
     }
-    _createClass(C1, [
-        {
-            key: "get",
-            value: function get(key) {
-                return this[key];
-            }
-        },
-        {
-            key: "set",
-            value: function set(key, value) {
-                this[key] = value;
-            }
-        },
-        {
-            key: "foo",
-            value: function foo() {
-                var x1 = this.x; // number
-                var x2 = this["x"]; // number
-                var x3 = this.get("x"); // this["x"]
-                var x4 = getProperty(this, "x"); // this["x"]
-                this.x = 42;
-                this["x"] = 42;
-                this.set("x", 42);
-                setProperty(this, "x", 42);
-            }
-        }
-    ]);
+    var _proto = C1.prototype;
+    _proto.get = function get(key) {
+        return this[key];
+    };
+    _proto.set = function set(key, value) {
+        this[key] = value;
+    };
+    _proto.foo = function foo() {
+        var x1 = this.x; // number
+        var x2 = this["x"]; // number
+        var x3 = this.get("x"); // this["x"]
+        var x4 = getProperty(this, "x"); // this["x"]
+        this.x = 42;
+        this["x"] = 42;
+        this.set("x", 42);
+        setProperty(this, "x", 42);
+    };
     return C1;
 }();
 function f90(x1, x2, x3) {
@@ -439,75 +315,60 @@ function f92(x, y, z) {
     a = y;
     a = z;
 }
-var Base = // Repros from #12011
-/*#__PURE__*/ function() {
+// Repros from #12011
+var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
-        _classCallCheck(this, Base);
+        swcHelpers.classCallCheck(this, Base);
     }
-    _createClass(Base, [
-        {
-            key: "get",
-            value: function get(prop) {
-                return this[prop];
-            }
-        },
-        {
-            key: "set",
-            value: function set(prop, value) {
-                this[prop] = value;
-            }
-        }
-    ]);
+    var _proto = Base.prototype;
+    _proto.get = function get(prop) {
+        return this[prop];
+    };
+    _proto.set = function set(prop, value) {
+        this[prop] = value;
+    };
     return Base;
 }();
 var Person = /*#__PURE__*/ function(Base) {
     "use strict";
-    _inherits(Person, Base);
-    var _super = _createSuper(Person);
+    swcHelpers.inherits(Person, Base);
+    var _super = swcHelpers.createSuper(Person);
     function Person(parts) {
-        _classCallCheck(this, Person);
+        swcHelpers.classCallCheck(this, Person);
         var _this;
         _this = _super.call(this);
         _this.set("parts", parts);
         return _this;
     }
-    _createClass(Person, [
-        {
-            key: "getParts",
-            value: function getParts() {
-                return this.get("parts");
-            }
-        }
-    ]);
+    var _proto = Person.prototype;
+    _proto.getParts = function getParts() {
+        return this.get("parts");
+    };
     return Person;
 }(Base);
 var OtherPerson = /*#__PURE__*/ function() {
     "use strict";
     function OtherPerson(parts) {
-        _classCallCheck(this, OtherPerson);
+        swcHelpers.classCallCheck(this, OtherPerson);
         setProperty(this, "parts", parts);
     }
-    _createClass(OtherPerson, [
-        {
-            key: "getParts",
-            value: function getParts() {
-                return getProperty(this, "parts");
-            }
-        }
-    ]);
+    var _proto = OtherPerson.prototype;
+    _proto.getParts = function getParts() {
+        return getProperty(this, "parts");
+    };
     return OtherPerson;
 }();
 function path(obj) {
     for(var _len = arguments.length, keys = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         keys[_key - 1] = arguments[_key];
     }
-    var result2 = obj;
+    var result1 = obj;
     var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
     try {
         for(var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
             var k = _step.value;
-            result2 = result2[k];
+            result1 = result1[k];
         }
     } catch (err) {
         _didIteratorError = true;
@@ -523,7 +384,7 @@ function path(obj) {
             }
         }
     }
-    return result2;
+    return result1;
 }
 function f1(thing) {
     var x1 = path(thing, 'a'); // { x: number, y: string }
@@ -531,7 +392,7 @@ function f1(thing) {
     var x3 = path(thing, 'b'); // boolean
     var x4 = path.apply(void 0, [
         thing
-    ].concat(_toConsumableArray([
+    ].concat(swcHelpers.toConsumableArray([
         'a',
         'x'
     ]))); // any
@@ -603,68 +464,58 @@ function updateIds2(obj, key, stringMap) {
     var x = obj[key];
     stringMap[x]; // Should be OK.
 }
+// Repro from #13604
 var A = function A() {
     "use strict";
-    _classCallCheck(this, A);
+    swcHelpers.classCallCheck(this, A);
 };
 var B = /*#__PURE__*/ function(A) {
     "use strict";
-    _inherits(B, A);
-    var _super = _createSuper(B);
+    swcHelpers.inherits(B, A);
+    var _super = swcHelpers.createSuper(B);
     function B() {
-        _classCallCheck(this, B);
+        swcHelpers.classCallCheck(this, B);
         return _super.apply(this, arguments);
     }
-    _createClass(B, [
-        {
-            key: "f",
-            value: function f(p) {
-                p.x;
-            }
-        }
-    ]);
+    var _proto = B.prototype;
+    _proto.f = function f(p) {
+        p.x;
+    };
     return B;
 }(A);
-var Form = // Repro from #13749
-/*#__PURE__*/ function() {
+// Repro from #13749
+var Form = /*#__PURE__*/ function() {
     "use strict";
     function Form() {
-        _classCallCheck(this, Form);
+        swcHelpers.classCallCheck(this, Form);
     }
-    _createClass(Form, [
-        {
-            key: "set",
-            value: function set(prop, value) {
-                this.childFormFactories[prop](value);
-            }
-        }
-    ]);
+    var _proto = Form.prototype;
+    _proto.set = function set(prop, value) {
+        this.childFormFactories[prop](value);
+    };
     return Form;
 }();
+// Repro from #13787
 var SampleClass = function SampleClass(props) {
     "use strict";
-    _classCallCheck(this, SampleClass);
+    swcHelpers.classCallCheck(this, SampleClass);
     this.props = Object.freeze(props);
 };
 var AnotherSampleClass = /*#__PURE__*/ function(SampleClass) {
     "use strict";
-    _inherits(AnotherSampleClass, SampleClass);
-    var _super = _createSuper(AnotherSampleClass);
+    swcHelpers.inherits(AnotherSampleClass, SampleClass);
+    var _super = swcHelpers.createSuper(AnotherSampleClass);
     function AnotherSampleClass(props) {
-        _classCallCheck(this, AnotherSampleClass);
+        swcHelpers.classCallCheck(this, AnotherSampleClass);
         var foo = {
             foo: "bar"
         };
         return _super.call(this, merge(props, foo));
     }
-    _createClass(AnotherSampleClass, [
-        {
-            key: "brokenMethod",
-            value: function brokenMethod() {
-                this.props.foo.concat;
-            }
-        }
-    ]);
+    var _proto = AnotherSampleClass.prototype;
+    _proto.brokenMethod = function brokenMethod() {
+        this.props.foo.concat;
+    };
     return AnotherSampleClass;
 }(SampleClass);
 new AnotherSampleClass({});
@@ -691,20 +542,16 @@ function fn(o, k) {
     take(o[k]);
     take(o[k]);
 }
-var Unbounded = // Repro from #23133
-/*#__PURE__*/ function() {
+// Repro from #23133
+var Unbounded = /*#__PURE__*/ function() {
     "use strict";
     function Unbounded() {
-        _classCallCheck(this, Unbounded);
+        swcHelpers.classCallCheck(this, Unbounded);
     }
-    _createClass(Unbounded, [
-        {
-            key: "foo",
-            value: function foo(x) {
-                var y = x;
-            }
-        }
-    ]);
+    var _proto = Unbounded.prototype;
+    _proto.foo = function foo(x) {
+        var y = x;
+    };
     return Unbounded;
 }();
 function ff1(dd, k1, k2) {

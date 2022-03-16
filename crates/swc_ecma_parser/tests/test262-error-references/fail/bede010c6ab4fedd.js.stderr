@@ -1,2 +1,6 @@
-error: Unexpected character '‿'
 
+  x Unexpected character '‿'
+   ,-[$DIR/tests/test262-parser/fail/bede010c6ab4fedd.js:2:1]
+ 2 | ‿ = 10
+   : ^
+   `----

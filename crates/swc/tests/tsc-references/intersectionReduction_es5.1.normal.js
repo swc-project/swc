@@ -39,5 +39,5 @@ function inGeneric(alsoShouldBeB) {
     var b = alsoShouldBeB;
 }
 function bar(x) {
-    var ab = x;
+    var _$ab = x;
 }

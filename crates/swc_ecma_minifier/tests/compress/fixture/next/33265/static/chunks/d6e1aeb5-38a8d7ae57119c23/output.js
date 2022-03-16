@@ -5,9 +5,7 @@
     ],
     {
         5215: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-            var browserApi, videojs$1, FakeWeakMap1, _supportsPassive, EVENT_MAP, canPlayType, Vhs$1, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), global_document__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9144), global_document__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(global_document__WEBPACK_IMPORTED_MODULE_1__), _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(7462), _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(7326), _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(4578), safe_json_parse_tuple__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5974), safe_json_parse_tuple__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(safe_json_parse_tuple__WEBPACK_IMPORTED_MODULE_2__), keycode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7537), keycode__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(keycode__WEBPACK_IMPORTED_MODULE_3__), _videojs_xhr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9603), _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_videojs_xhr__WEBPACK_IMPORTED_MODULE_4__), videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3407), videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5__), _babel_runtime_helpers_construct__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(8852), _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(136), _videojs_vhs_utils_es_resolve_url_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(779), m3u8_parser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(9323), _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(2260), _videojs_vhs_utils_es_media_types_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(8485), mpd_parser__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(973), mux_js_lib_tools_parse_sidx__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(4221), mux_js_lib_tools_parse_sidx__WEBPACK_IMPORTED_MODULE_10___default = __webpack_require__.n(mux_js_lib_tools_parse_sidx__WEBPACK_IMPORTED_MODULE_10__), _videojs_vhs_utils_es_id3_helpers__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(8925), _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(6185), _videojs_vhs_utils_es_byte_helpers__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(562), mux_js_lib_utils_clock__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(1489);
-            __webpack_require__.n(mux_js_lib_utils_clock__WEBPACK_IMPORTED_MODULE_14__);
-            for(var version$5 = "7.17.0", hooks_ = {}, hooks = function(type, fn) {
+            for(var browserApi, videojs$1, FakeWeakMap1, _supportsPassive, EVENT_MAP, canPlayType, Vhs$1, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), global_document__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9144), global_document__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(global_document__WEBPACK_IMPORTED_MODULE_1__), _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(7462), _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(7326), _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(4578), safe_json_parse_tuple__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5974), safe_json_parse_tuple__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(safe_json_parse_tuple__WEBPACK_IMPORTED_MODULE_2__), keycode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7537), keycode__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(keycode__WEBPACK_IMPORTED_MODULE_3__), _videojs_xhr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9603), _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_videojs_xhr__WEBPACK_IMPORTED_MODULE_4__), videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3407), videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5__), _babel_runtime_helpers_construct__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(8852), _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(136), _videojs_vhs_utils_es_resolve_url_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(779), m3u8_parser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(9323), _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(2260), _videojs_vhs_utils_es_media_types_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(8485), mpd_parser__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(973), mux_js_lib_tools_parse_sidx__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(4221), mux_js_lib_tools_parse_sidx__WEBPACK_IMPORTED_MODULE_10___default = __webpack_require__.n(mux_js_lib_tools_parse_sidx__WEBPACK_IMPORTED_MODULE_10__), _videojs_vhs_utils_es_id3_helpers__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(8925), _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(6185), _videojs_vhs_utils_es_byte_helpers__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(562), mux_js_lib_utils_clock__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(1489), version$5 = "7.17.0", hooks_ = {}, hooks = function(type, fn) {
                 return hooks_[type] = hooks_[type] || [], fn && (hooks_[type] = hooks_[type].concat(fn)), hooks_[type];
             }, removeHook = function(type, fn) {
                 var index = hooks(type).indexOf(fn);
@@ -405,7 +403,7 @@
             function newGUID() {
                 return _guid++;
             }
-            global_window__WEBPACK_IMPORTED_MODULE_0___default().WeakMap || (FakeWeakMap1 = (function() {
+            global_window__WEBPACK_IMPORTED_MODULE_0___default().WeakMap || (FakeWeakMap1 = function() {
                 function FakeWeakMap() {
                     this.vdata = "vdata" + Math.floor(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance && global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now() || Date.now()), this.data = {};
                 }
@@ -423,7 +421,7 @@
                     var access = key[this.vdata];
                     access && (delete this.data[access], delete key[this.vdata]);
                 }, FakeWeakMap;
-            })());
+            }());
             var DomData = global_window__WEBPACK_IMPORTED_MODULE_0___default().WeakMap ? new WeakMap() : new FakeWeakMap1();
             function _cleanUpEvents(elem, type) {
                 if (DomData.has(elem)) {
@@ -2479,7 +2477,7 @@
             PlayToggle1.prototype.controlText_ = "Play", Component$1.registerComponent("PlayToggle", PlayToggle1);
             var defaultImplementation = function(seconds, guide) {
                 var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600), gm = Math.floor(guide / 60 % 60), gh = Math.floor(guide / 3600);
-                return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || gh > 0 ? h + ":" : "") || gm >= 10) && m < 10 ? "0" + m : m) + ":", s = s < 10 ? "0" + s : s, h + m + s;
+                return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || gh > 0 ? h + ":" : "") || gm >= 10) && m < 10 ? "0" + m : m) + ":", h + m + (s = s < 10 ? "0" + s : s);
             }, implementation = defaultImplementation;
             function formatTime(seconds, guide) {
                 return void 0 === guide && (guide = seconds), implementation(seconds, guide);
@@ -4396,11 +4394,11 @@
                     return _ModalDialog.prototype.buildCSSClass.call(this) + " vjs-text-track-settings";
                 }, _proto.getValues = function() {
                     var _this3 = this;
-                    return (function(object, fn, initial) {
+                    return function(object, fn, initial) {
                         return void 0 === initial && (initial = 0), keys1(object).reduce(function(accum, key) {
                             return fn(accum, object[key], key);
                         }, initial);
-                    })(selectConfigs, function(accum, config, key) {
+                    }(selectConfigs, function(accum, config, key) {
                         var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
                         return void 0 !== value && (accum[key] = value), accum;
                     }, {});
@@ -5055,20 +5053,20 @@
             }, Html51.patchCanPlayType(), Html51.disposeMediaElement = function(el) {
                 if (el) {
                     for(el.parentNode && el.parentNode.removeChild(el); el.hasChildNodes();)el.removeChild(el.firstChild);
-                    el.removeAttribute("src"), "function" == typeof el.load && (function() {
+                    el.removeAttribute("src"), "function" == typeof el.load && function() {
                         try {
                             el.load();
                         } catch (e) {}
-                    })();
+                    }();
                 }
             }, Html51.resetMediaElement = function(el) {
                 if (el) {
                     for(var sources = el.querySelectorAll("source"), i = sources.length; i--;)el.removeChild(sources[i]);
-                    el.removeAttribute("src"), "function" == typeof el.load && (function() {
+                    el.removeAttribute("src"), "function" == typeof el.load && function() {
                         try {
                             el.load();
                         } catch (e) {}
-                    })();
+                    }();
                 }
             }, [
                 "muted",
@@ -5874,11 +5872,11 @@
                         }, 0);
                         return;
                     }
-                    if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), (function(player, src, next) {
+                    if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), function(player, src, next) {
                         player.setTimeout(function() {
                             return setSourceHelper(src, middlewares[src.type], next, player);
                         }, 1);
-                    })(this, sources[0], function(middlewareSource, mws) {
+                    }(this, sources[0], function(middlewareSource, mws) {
                         if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
                             this.error({
                                 code: 4,
@@ -7562,11 +7560,11 @@
                     if (!mediaID) throw new Error("refreshMedia_ must take a media id");
                     this.media_ && this.isMaster_ && this.handleMaster_();
                     var playlists = this.masterPlaylistLoader_.master.playlists, mediaChanged = !this.media_ || this.media_ !== playlists[mediaID];
-                    mediaChanged ? this.media_ = playlists[mediaID] : this.trigger("playlistunchanged"), this.mediaUpdateTimeout || (function createMediaUpdateTimeout() {
+                    mediaChanged ? this.media_ = playlists[mediaID] : this.trigger("playlistunchanged"), this.mediaUpdateTimeout || function createMediaUpdateTimeout() {
                         _this9.media().endList || (_this9.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                             _this9.trigger("mediaupdatetimeout"), createMediaUpdateTimeout();
                         }, refreshDelay(_this9.media(), Boolean(mediaChanged))));
-                    })(), this.trigger("loadedplaylist");
+                    }(), this.trigger("loadedplaylist");
                 }, DashPlaylistLoader;
             }(EventTarget), Config = {
                 GOAL_BUFFER_LENGTH: 30,
@@ -14813,7 +14811,7 @@
                 }
                 return objectToStore;
             };
-            Vhs.supportsNativeHls = (function() {
+            Vhs.supportsNativeHls = function() {
                 if (!global_document__WEBPACK_IMPORTED_MODULE_1___default() || !global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement) return !1;
                 var video = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("video");
                 return !!videojs.getTech("Html5").isSupported() && [
@@ -14827,7 +14825,7 @@
                 ].some(function(canItPlay) {
                     return /maybe|probably/i.test(video.canPlayType(canItPlay));
                 });
-            })(), Vhs.supportsNativeDash = !!(global_document__WEBPACK_IMPORTED_MODULE_1___default() && global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement && videojs.getTech("Html5").isSupported()) && /maybe|probably/i.test(global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("video").canPlayType("application/dash+xml")), Vhs.supportsTypeNatively = function(type) {
+            }(), Vhs.supportsNativeDash = !!(global_document__WEBPACK_IMPORTED_MODULE_1___default() && global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement && videojs.getTech("Html5").isSupported()) && /maybe|probably/i.test(global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("video").canPlayType("application/dash+xml")), Vhs.supportsTypeNatively = function(type) {
                 return "hls" === type ? Vhs.supportsNativeHls : "dash" === type && Vhs.supportsNativeDash;
             }, Vhs.isSupported = function() {
                 return videojs.log.warn("HLS is no longer a tech. Please remove it from your player's techOrder.");

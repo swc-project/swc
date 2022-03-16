@@ -46,15 +46,13 @@ pub fn prefer_regex_literals(
         .disallow_redundant_wrapping
         .unwrap_or(false);
 
-    let top_level_declared_vars: AHashSet<Id> = collect_decls_with_ctxt(program, top_level_ctxt);
-
     match rule_reaction {
         LintRuleReaction::Off => None,
         _ => Some(visitor_rule(PreferRegexLiterals::new(
             source_map.clone(),
             rule_reaction,
             disallow_redundant_wrapping,
-            top_level_declared_vars,
+            collect_decls_with_ctxt(program, top_level_ctxt),
             top_level_ctxt,
             es_version,
         ))),

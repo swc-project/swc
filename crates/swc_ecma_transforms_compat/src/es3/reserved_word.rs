@@ -1,5 +1,6 @@
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_trace_macro::swc_trace;
 
 /// babel: `@babel/plugin-transform-reserved-words`
 ///
@@ -18,6 +19,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 /// var _abstract = 1;
 /// var x = _abstract + 1;
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn reserved_words(preserve_import: bool) -> impl Fold {
     ReservedWord { preserve_import }
 }
@@ -25,6 +27,7 @@ struct ReservedWord {
     pub preserve_import: bool,
 }
 
+#[swc_trace]
 impl Fold for ReservedWord {
     noop_fold_type!();
 

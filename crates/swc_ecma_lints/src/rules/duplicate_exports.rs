@@ -21,10 +21,17 @@ impl DuplicateExports {
     fn add(&mut self, id: &Ident) {
         match self.exports.entry(id.sym.clone()) {
             Entry::Occupied(mut prev) => {
+                let name = &id.sym;
+
                 HANDLER.with(|handler| {
                     handler
-                        .struct_span_err(id.span, "Duplicate export")
-                        .span_note(*prev.get(), &format!("{} was exported at here", id.sym))
+                        .struct_span_err(
+                            id.span,
+                            &format!("the name `{}` is exported multiple times", name),
+                        )
+                        .span_label(*prev.get(), "previous exported here")
+                        .span_label(id.span, "exported more than once")
+                        .note("Exported identifiers must be unique")
                         .emit();
                 });
 
@@ -47,7 +54,7 @@ impl Visit for DuplicateExports {
             DefaultDecl::Fn(FnExpr {
                 function: Function { body: None, .. },
                 ..
-            })
+            }) | DefaultDecl::TsInterfaceDecl(..)
         ) {
             return;
         }

@@ -1,10 +1,4 @@
-function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
-        return !!right[Symbol.hasInstance](left);
-    } else {
-        return left instanceof right;
-    }
-}
+import * as swcHelpers from "@swc/helpers";
 // Repro from #10697
 (function(define, undefined) {
     define(function() {
@@ -803,7 +797,7 @@ function _instanceof(left, right) {
          * @returns {boolean} <tt>true</tt> when the pattern matches, otherwise <tt>false</tt>
          * @function MobileDetect#match
          */ match: function match(pattern) {
-                if (!_instanceof(pattern, RegExp)) {
+                if (!swcHelpers._instanceof(pattern, RegExp)) {
                     pattern = new RegExp(pattern, 'i');
                 }
                 return pattern.test(this.ua);

@@ -1,22 +1,4 @@
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-}
+import * as swcHelpers from "@swc/helpers";
 var // When a function expression with no type parameters and no parameter type annotations 
 // is contextually typed (section 4.19) by a type T and a contextual signature S can be extracted from T
 E;
@@ -33,14 +15,10 @@ var a0 = function(num, str) {
 var Class = /*#__PURE__*/ function() {
     "use strict";
     function Class() {
-        _classCallCheck(this, Class);
+        swcHelpers.classCallCheck(this, Class);
     }
-    _createClass(Class, [
-        {
-            key: "foo",
-            value: function foo() {}
-        }
-    ]);
+    var _proto = Class.prototype;
+    _proto.foo = function foo() {};
     return Class;
 }();
 var a1 = function(a11) {
@@ -85,7 +63,7 @@ b6 = function(i) {
 b7 = function(j, m) {}; // Per spec, no contextual signature can be extracted in this case. (Otherwise clause)
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    swcHelpers.classCallCheck(this, C);
     var k1 = function(j, k) {
         return [
             j,

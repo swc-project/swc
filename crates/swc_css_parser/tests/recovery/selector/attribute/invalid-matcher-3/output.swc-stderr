@@ -1,0 +1,6 @@
+
+  x Expected "="
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:2:1]
+ 2 | a[title * = "title" i ] {
+   :          ^
+   `----

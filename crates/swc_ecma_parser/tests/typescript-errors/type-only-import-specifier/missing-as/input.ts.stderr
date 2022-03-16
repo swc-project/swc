@@ -1,6 +1,6 @@
-error: Expected ',', got 'bar'
- --> $DIR/tests/typescript-errors/type-only-import-specifier/missing-as/input.ts:1:19
-  |
-1 | import { type foo bar } from 'mod'
-  |                   ^^^
 
+  x Expected ',', got 'bar'
+   ,-[$DIR/tests/typescript-errors/type-only-import-specifier/missing-as/input.ts:2:1]
+ 2 | import { type foo bar } from 'mod'
+   :                   ^^^
+   `----

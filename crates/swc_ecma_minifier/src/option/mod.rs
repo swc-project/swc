@@ -1,6 +1,6 @@
-use regex::Regex;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
+use swc_cached::regex::CachedRegex;
 use swc_common::{collections::AHashMap, Mark};
 use swc_ecma_ast::{EsVersion, Expr};
 
@@ -72,8 +72,8 @@ pub struct ManglePropertiesOptions {
     pub reserved: Vec<JsWord>,
     #[serde(default, alias = "undeclared")]
     pub undeclared: bool,
-    #[serde(default, with = "serde_regex")]
-    pub regex: Option<Regex>,
+    #[serde(default)]
+    pub regex: Option<CachedRegex>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
