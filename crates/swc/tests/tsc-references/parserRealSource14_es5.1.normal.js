@@ -142,11 +142,11 @@ var TypeScript;
             this.asts.push(ast);
         };
         _proto.up = function up() {
-            if (this.top <= -1) throw new Error("Invalid call to 'up'");
+            if (this.top <= -1) throw new Error("Invalid call to up");
             this.top--;
         };
         _proto.down = function down() {
-            if (this.top == this.ast.length - 1) throw new Error("Invalid call to 'down'");
+            if (this.top == this.ast.length - 1) throw new Error("Invalid call to down");
             this.top++;
         };
         _proto.nodeType = function nodeType() {

@@ -27,14 +27,14 @@ var hypertextNode = [
         {
             id: "first-child"
         },
-        "I'm the first child"
+        "Im the first child"
     ],
     [
         "div",
         {
             id: "second-child"
         },
-        "I'm the second child"
+        "Im the second child"
     ]
 ];
 var data = {

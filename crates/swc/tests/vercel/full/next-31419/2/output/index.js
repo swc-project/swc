@@ -1,7 +1,7 @@
 import * as a from "@swc/helpers";
 Promise.all(assignAll).then(function() {
     var b = a.asyncToGenerator(function*(e) {
-        let b = "DELETE FROM \"TABLE\" WHERE \"UUID\" IN ( ";
+        let b = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ';
         for(let c in obj){
             let a = obj[c];
             b += `'${a.id}', `;

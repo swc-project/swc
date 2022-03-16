@@ -8,7 +8,7 @@
  */ //CHECK#1
 eval("\xa0var x\xa0= 1\xa0");
 if (x !== 1) {
-    $ERROR('#1: eval("\\u00A0var x\\u00A0= 1\\u00A0"); x === 1. Actual: ' + x);
+    $ERROR('#1: eval(\\u00A0var x\\u00A0= 1\\u00A0); x === 1. Actual: ' + x);
 }
 //CHECK#2
 var x = 1;

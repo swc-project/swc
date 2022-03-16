@@ -35,7 +35,7 @@ var TypeScript;
                     result += "\\\"";
                     break;
                 case 39:
-                    result += "\\'";
+                    result += "\\";
                     break;
                 case 92:
                     result += "\\";

@@ -8,7 +8,7 @@ import * as swcHelpers from "@swc/helpers";
 var Rectangle = function Rectangle() {
     "use strict";
     swcHelpers.classCallCheck(this, Rectangle);
-    console.log("I'm a rectangle!");
+    console.log("Im a rectangle!");
 };
 module.exports = {
     Rectangle: Rectangle
