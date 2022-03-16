@@ -535,10 +535,12 @@ impl Fold for Amd {
         };
 
         for export in export_alls {
+            let span = export.span;
             let export = scope
                 .import_to_export(&export.src, true)
                 .expect("Export should exists");
             stmts.push(Scope::handle_export_all(
+                span,
                 exports_ident.clone(),
                 exported_names.clone(),
                 export,
