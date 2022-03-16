@@ -3163,6 +3163,8 @@ fn get_quoted_utf16(
                     buf.push('\'');
                 } else if single_quote {
                     buf.push_str("\\'");
+                } else {
+                    buf.push_str("'");
                 }
             }
             '"' => {
@@ -3172,6 +3174,8 @@ fn get_quoted_utf16(
                     buf.push('"');
                 } else if !single_quote {
                     buf.push_str("\\\"");
+                } else {
+                    buf.push_str("\"");
                 }
             }
             '\x01'..='\x0f' => {
@@ -3269,6 +3273,10 @@ fn escape_with_source(
     {
         orig = &orig[1..orig.len() - 1];
     } else if single_quote.is_some() {
+        return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
+    }
+
+    if single_quote.is_some() && orig.len() <= 2 {
         return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
     }
 

@@ -5,4 +5,4 @@ flags.isNotNecessarilyNeverFalse;
 flags['this is fine'];
 var empty;
 empty.nope;
-empty["thats ok"];
+empty["that's ok"];
