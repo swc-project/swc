@@ -4,7 +4,7 @@ use std::{
     env::temp_dir,
     fs,
     fs::{canonicalize, create_dir_all},
-    path::PathBuf,
+    path::{Path, PathBuf},
     process::{Command, Output},
     sync::Arc,
 };
@@ -173,7 +173,7 @@ fn stacktrace(input_dir: PathBuf) {
 
                         println!("-----Compiled:\n{}\n-----", v.code);
 
-                        let stack_trace = node_stack_trace(&v.code)
+                        let stack_trace = node_stack_trace(entry.path(), &v.code)
                             .expect("failed to capture output of node -e 'generated code'");
 
                         stack_trace
@@ -190,16 +190,9 @@ fn stacktrace(input_dir: PathBuf) {
         .expect("failed");
 }
 
-fn node_stack_trace(code: &str) -> Result<NormalizedOutput, Error> {
-    let thread = std::thread::current();
-    let test_name = thread.name().expect("test thread should have a name");
-
-    let dir = temp_dir().join(test_name);
-
-    let _ = create_dir_all(&dir);
-
-    let test_file = dir.join("eval.js");
-    fs::write(&test_file, code.as_bytes()).context("faailed to write to test js")?;
+fn node_stack_trace(file: &Path, code: &str) -> Result<NormalizedOutput, Error> {
+    let test_file = file.with_file_name("_exec.js");
+    fs::write(&test_file, code.as_bytes()).context("failed to write to test js")?;
 
     let stack = Command::new("node")
         .arg("--enable-source-maps")
