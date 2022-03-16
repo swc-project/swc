@@ -547,6 +547,7 @@ define!({
         pub is_optional: bool,
         pub is_override: bool,
         pub readonly: bool,
+        pub definite: bool,
     }
     pub struct ClassMethod {
         pub span: Span,

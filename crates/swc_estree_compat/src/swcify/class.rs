@@ -163,6 +163,7 @@ impl Swcify for swc_estree_ast::ClassPrivateProperty {
             is_optional: false,
             is_override: false,
             readonly: false,
+            definite: false,
         }
     }
 }
