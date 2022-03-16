@@ -131,7 +131,7 @@ describe('soruceMaps: true in .swcrc', () => {
 
 });
 
-describe('BytePos(0)', () => {
+describe('Duplicate filename', () => {
     it('should work correctly', () => {
         const { transformSync } = swc;
 
