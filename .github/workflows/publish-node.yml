@@ -26,14 +26,14 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              cargo build -p swc_cli --release
+              cargo build -p swc_cli --release --features plugin
               cp ./target/release/swc .
               yarn build
               strip -x *.node
           - host: windows-latest
             build: |
               yarn build
-              cargo build -p swc_cli --release
+              cargo build -p swc_cli --release --features plugin
               cp target/release/swc .
             target: x86_64-pc-windows-msvc
           - host: windows-latest
@@ -48,7 +48,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine-zig
             build: >-
               rustup target add x86_64-unknown-linux-gnu &&
-              RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release &&
+              RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --features plugin &&
               rm -rf target/release/.cargo-lock &&
               cp target/release/swc . &&
               yarn build --target x86_64-unknown-linux-gnu --zig --zig-abi-suffix 2.12 &&
@@ -57,7 +57,7 @@ jobs:
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: >-
-              RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release &&
+              RUSTFLAGS='-C target-feature=+sse2 -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --features plugin &&
               rm -rf target/release/.cargo-lock &&
               cp target/release/swc . &&
               RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build &&
@@ -70,7 +70,7 @@ jobs:
               export CXX=$(xcrun -f clang++);
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              cargo build -p swc_cli --release --target=aarch64-apple-darwin
+              cargo build -p swc_cli --release --features plugin --target=aarch64-apple-darwin
               cp ./target/aarch64-apple-darwin/release/swc .
               yarn build --target=aarch64-apple-darwin
               strip -x *.node
@@ -80,7 +80,7 @@ jobs:
             build: >-
               set -e &&
               rustup target add aarch64-unknown-linux-gnu aarch64-unknown-linux-musl &&
-              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --target aarch64-unknown-linux-musl &&
+              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --features plugin --target aarch64-unknown-linux-musl &&
               cp ./target/aarch64-unknown-linux-musl/release/swc . &&
               yarn build --target aarch64-unknown-linux-gnu --zig --zig-abi-suffix 2.17 &&
               llvm-strip -x swc.linux-arm64-gnu.node
@@ -101,7 +101,7 @@ jobs:
               export CC="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang"
               export CXX="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang++"
               export PATH="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
-              cargo build -p swc_cli --release --target aarch64-linux-android
+              cargo build -p swc_cli --release --features plugin --target aarch64-linux-android
               cp ./target/aarch64-linux-android/release/swc .
               yarn build --target aarch64-linux-android
               ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android-strip *.node
@@ -123,7 +123,7 @@ jobs:
             build: >-
               rustup toolchain install $(cat ./rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
-              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --target aarch64-unknown-linux-musl &&
+              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc -Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --features plugin --target aarch64-unknown-linux-musl &&
               rm -rf target/release/.cargo-lock &&
               cp target/aarch64-unknown-linux-musl/release/swc . &&
               env RUSTFLAGS='-C target-feature=-crt-static -Z new-llvm-pass-manager=no' yarn build --target=aarch64-unknown-linux-musl &&
@@ -293,7 +293,7 @@ jobs:
             freebsd-version
             yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
             yarn build
-            cargo build -p swc_cli --release
+            cargo build -p swc_cli --release --features plugin
             cp ./target/release/swc .
             yarn test
             rm -rf node_modules
