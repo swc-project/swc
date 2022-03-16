@@ -5,7 +5,13 @@
 
 
 
+- **(es/codegen)** Fix codegen of string literals (#4037) ([bd444c0](https://github.com/swc-project/swc/commit/bd444c0ceb1bfdc8582e15dec439917474b55b25))
+
+
 - **(es/helpers)** Add missing `export` for `classPrivateFieldLooseKey` (#4045) ([3125bba](https://github.com/swc-project/swc/commit/3125bbacbe1dc9afa9e2c809146dcf42ab5c82de))
+
+
+- **(es/helpers)** Export `classPrivateFieldLooseKey` as `default` (#4047) ([025c921](https://github.com/swc-project/swc/commit/025c921409caa53131bdacd3db2d4adeb1806d52))
 
 ### Features
 
