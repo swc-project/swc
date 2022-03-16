@@ -34,3 +34,9 @@ error: Expected literal to be on the right side of <
 11 | if (c && (10 < a && a > 30)) {}
    |           ^^^^^^
 
+error: Expected literal to be on the right side of ===
+  
+   |
+23 | if ((foo === 1) && (1 === foo)) {}
+   |                     ^^^^^^^^^
+
