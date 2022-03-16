@@ -27,6 +27,121 @@ pub enum Prefix {
     Ms,
 }
 
+pub struct CrossFadeFunctionReplacerOnLegacyVariant<'a> {
+    from: &'a str,
+    to: &'a str,
+}
+
+impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        if &*n.name.value.to_lowercase() == self.from {
+            let mut transparency_values = vec![];
+
+            for group in n.value.split_mut(|n| {
+                matches!(
+                    n,
+                    ComponentValue::Delimiter(Delimiter {
+                        value: DelimiterValue::Comma,
+                        ..
+                    })
+                )
+            }) {
+                if transparency_values.len() >= 2 {
+                    return;
+                }
+
+                let mut transparency_value = None;
+
+                for n in group {
+                    match n {
+                        ComponentValue::Percentage(Percentage {
+                            value: Number { value, .. },
+                            ..
+                        }) => {
+                            if transparency_value.is_some() {
+                                return;
+                            }
+
+                            transparency_value = Some(*value / 100.0);
+                        }
+                        ComponentValue::Number(Number { value, .. }) => {
+                            if transparency_value.is_some() {
+                                return;
+                            }
+
+                            transparency_value = Some(*value);
+                        }
+                        ComponentValue::Integer(Integer { value, .. }) => {
+                            if transparency_value.is_some() {
+                                return;
+                            }
+
+                            transparency_value = Some((*value) as f64);
+                        }
+                        _ => {}
+                    }
+                }
+
+                transparency_values.push(transparency_value);
+            }
+
+            if transparency_values.len() != 2 {
+                return;
+            }
+
+            let transparency_value = match (transparency_values[0], transparency_values[1]) {
+                (None, None) => 0.5,
+                (Some(number), None) => number,
+                (None, Some(number)) => 1.0 - number,
+                (Some(first), Some(second)) if first + second == 1.0 => first,
+                _ => {
+                    return;
+                }
+            };
+
+            let mut new_value: Vec<ComponentValue> = n
+                .value
+                .iter()
+                .filter(|n| {
+                    !matches!(
+                        n,
+                        ComponentValue::Percentage(_)
+                            | ComponentValue::Number(_)
+                            | ComponentValue::Integer(_)
+                    )
+                })
+                .cloned()
+                .collect();
+
+            new_value.extend(vec![
+                ComponentValue::Delimiter(Delimiter {
+                    span: DUMMY_SP,
+                    value: DelimiterValue::Comma,
+                }),
+                ComponentValue::Number(Number {
+                    span: DUMMY_SP,
+                    value: transparency_value,
+                    raw: transparency_value.to_string().into(),
+                }),
+            ]);
+
+            n.value = new_value;
+
+            n.name.value = self.to.into();
+            n.name.raw = self.to.into();
+        }
+    }
+}
+
+pub fn replace_cross_fade_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+where
+    N: for<'aa> VisitMutWith<CrossFadeFunctionReplacerOnLegacyVariant<'aa>>,
+{
+    node.visit_mut_with(&mut CrossFadeFunctionReplacerOnLegacyVariant { from, to });
+}
+
 impl VisitMut for Prefixer {
     // TODO handle `resolution` in media/supports at-rules
     // TODO handle declarations in `@media`/`@support`
@@ -173,6 +288,11 @@ impl VisitMut for Prefixer {
         replace_function_name(&mut webkit_new_value, "filter", "-webkit-filter");
         replace_function_name(&mut webkit_new_value, "image-set", "-webkit-image-set");
         replace_function_name(&mut webkit_new_value, "calc", "-webkit-calc");
+        replace_cross_fade_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "cross-fade",
+            "-webkit-cross-fade",
+        );
 
         let mut moz_new_value = n.value.clone();
 
@@ -1201,7 +1321,6 @@ impl VisitMut for Prefixer {
             // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
             // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
-            // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/cross-fade.js
             // TODO handle transform functions https://github.com/postcss/autoprefixer/blob/main/lib/hacks/transform-decl.js
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {}
