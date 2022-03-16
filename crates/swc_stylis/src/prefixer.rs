@@ -4,7 +4,7 @@ use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::{
     replace_function_name, replace_ident, replace_pseudo_class_selector_name,
-    replace_pseudo_element_selector_name,
+    replace_pseudo_class_selector_on_pseudo_element_selector, replace_pseudo_element_selector_name,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -218,7 +218,6 @@ impl VisitMut for Prefixer {
     // TODO handle `@viewport`
     // TODO handle `@keyframes`
 
-    // TODO improve legacy `::placeholder` pseudo
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         n.visit_mut_children_with(self);
 
@@ -240,11 +239,11 @@ impl VisitMut for Prefixer {
             "file-selector-button",
             "-webkit-file-upload-button",
         );
-        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-ms-backdrop");
+        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-webkit-backdrop");
         replace_pseudo_element_selector_name(
             &mut new_prelude,
             "placeholder",
-            "-ms-input-placeholder",
+            "-webkit-input-placeholder",
         );
 
         if n.prelude != new_prelude {
@@ -267,6 +266,25 @@ impl VisitMut for Prefixer {
             "-moz-placeholder-shown",
         );
         replace_pseudo_element_selector_name(&mut new_prelude, "selection", "-moz-selection");
+
+        {
+            let mut new_prelude_with_previous = new_prelude.clone();
+
+            replace_pseudo_class_selector_on_pseudo_element_selector(
+                &mut new_prelude_with_previous,
+                "placeholder",
+                "-moz-placeholder",
+            );
+
+            if new_prelude_with_previous != new_prelude {
+                self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_prelude_with_previous,
+                    block: n.block.clone(),
+                }));
+            }
+        }
+
         replace_pseudo_element_selector_name(&mut new_prelude, "placeholder", "-moz-placeholder");
 
         if n.prelude != new_prelude {
@@ -290,11 +308,30 @@ impl VisitMut for Prefixer {
             "file-selector-button",
             "-ms-browse",
         );
-        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-webkit-backdrop");
+        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-ms-backdrop");
+
+        {
+            let mut new_prelude_with_previous = new_prelude.clone();
+
+            replace_pseudo_class_selector_on_pseudo_element_selector(
+                &mut new_prelude_with_previous,
+                "placeholder",
+                "-ms-input-placeholder",
+            );
+
+            if new_prelude_with_previous != new_prelude {
+                self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_prelude_with_previous,
+                    block: n.block.clone(),
+                }));
+            }
+        }
+
         replace_pseudo_element_selector_name(
             &mut new_prelude,
             "placeholder",
-            "-webkit-input-placeholder",
+            "-ms-input-placeholder",
         );
 
         if n.prelude != new_prelude {
