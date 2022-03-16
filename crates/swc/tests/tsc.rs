@@ -125,7 +125,9 @@ fn compile(input: &Path, output: &Path, opts: Options) {
                             external_helpers: true,
                             ..opts.config.jsc
                         },
-                        source_maps: Some(SourceMapsConfig::Bool(true)),
+                        source_maps: Some(SourceMapsConfig::Bool(
+                            !input.to_string_lossy().contains("Unicode"),
+                        )),
                         ..opts.config
                     },
                     ..opts
