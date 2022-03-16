@@ -320,6 +320,7 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::O, "-o-animation-timing-function");
             }
 
+            // TODO improve me https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip
             "background-clip" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "text" {
@@ -516,6 +517,7 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-flex-line-pack");
             }
 
+            // TODO fix me https://developer.mozilla.org/en-US/docs/Web/CSS/Image-Rendering
             "image-rendering" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "pixelated" {
@@ -910,7 +912,6 @@ impl VisitMut for Prefixer {
                         "stretch" => {
                             same_name!("-webkit-fill-available");
                             same_name!("-moz-available");
-                            same_name!("fill-available");
                         }
 
                         _ => {}
@@ -1094,11 +1095,13 @@ impl VisitMut for Prefixer {
 
             "background-origin" => {
                 same_content!(Prefix::Webkit, "-webkit-background-origin");
+                same_content!(Prefix::Moz, "-moz-background-origin");
                 same_content!(Prefix::O, "-o-background-origin");
             }
 
             "background-size" => {
                 same_content!(Prefix::Webkit, "-webkit-background-size");
+                same_content!(Prefix::Moz, "-moz-background-size");
                 same_content!(Prefix::O, "-o-background-size");
             }
 

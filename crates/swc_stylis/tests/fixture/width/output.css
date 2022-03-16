@@ -59,13 +59,11 @@
 .class {
   width: -webkit-fill-available;
   width: -moz-available;
-  width: fill-available;
   width: stretch;
 }
 .class {
   width: -webkit-fill-available !important;
   width: -moz-available !important;
-  width: fill-available !important;
   width: stretch !important;
 }
 .class {
