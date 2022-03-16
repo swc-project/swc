@@ -224,9 +224,8 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     eprintln!("\n\n\nStderr: {}\n\n\n", stderr);
     //
     let stacks = stderr
-        .split(|c| c == '\n')
-        .map(|s| s.trim())
-        .filter(|s| s.starts_with("->"))
+        .lines()
+        .filter(|s| !s.contains("(node:internal"))
         .collect::<Vec<_>>();
 
     let stacks = stacks.join("\n");
