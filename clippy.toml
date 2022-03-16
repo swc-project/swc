@@ -1,4 +1,20 @@
-blacklisted-names = ["bool", "char", "str", "f32", "f64", "i8", "i16", "i32", "i64", "u8", "u16", "u32", "u64", "isize", "usize"]
+blacklisted-names = [
+  "bool",
+  "char",
+  "str",
+  "f32",
+  "f64",
+  "i8",
+  "i16",
+  "i32",
+  "i64",
+  "u8",
+  "u16",
+  "u32",
+  "u64",
+  "isize",
+  "usize",
+]
 cognitive-complexity-threshold = 50
 msrv = "1.58"
 type-complexity-threshold = 25000

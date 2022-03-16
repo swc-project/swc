@@ -175,7 +175,8 @@ impl Scope {
     ///
     /// # Parameters
     /// - `exported_names` Ident of the object literal.
-    pub fn handle_export_all(
+    pub(crate) fn handle_export_all(
+        span: Span,
         exports: Ident,
         exported_names: Option<Ident>,
         imported: Ident,
@@ -276,25 +277,27 @@ impl Scope {
             type_params: Default::default(),
         };
 
-        CallExpr {
-            span: DUMMY_SP,
-            // Object.keys(_foo).forEach
-            callee: CallExpr {
-                span: DUMMY_SP,
-                callee: member_expr!(DUMMY_SP, Object.keys).as_callee(),
-                args: vec![imported.as_arg()],
+        Stmt::Expr(ExprStmt {
+            span,
+            expr: Box::new(Expr::Call(CallExpr {
+                span,
+                // Object.keys(_foo).forEach
+                callee: CallExpr {
+                    span: DUMMY_SP,
+                    callee: member_expr!(DUMMY_SP, Object.keys).as_callee(),
+                    args: vec![imported.as_arg()],
+                    type_args: Default::default(),
+                }
+                .make_member(quote_ident!("forEach"))
+                .as_callee(),
+                args: vec![FnExpr {
+                    ident: None,
+                    function,
+                }
+                .as_arg()],
                 type_args: Default::default(),
-            }
-            .make_member(quote_ident!("forEach"))
-            .as_callee(),
-            args: vec![FnExpr {
-                ident: None,
-                function,
-            }
-            .as_arg()],
-            type_args: Default::default(),
-        }
-        .into_stmt()
+            })),
+        })
     }
 
     /// Import src to export from it.
