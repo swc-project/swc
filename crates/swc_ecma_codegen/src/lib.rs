@@ -497,8 +497,7 @@ where
                 let is_invalid_use_strict = node.has_escape && &*node.value == "use strict";
 
                 if self.cfg.minify && !is_invalid_use_strict {
-                    let value =
-                        get_unquoted_utf16(&node.value, self.wr.target(), false, false, true);
+                    let value = get_quoted_utf16(&node.value, self.wr.target(), false, false, true);
 
                     self.wr.write_str_lit(DUMMY_SP, &value)?;
                 } else {
@@ -530,7 +529,7 @@ where
                 }
             }
             StrKind::Synthesized => {
-                let value = get_unquoted_utf16(&node.value, self.wr.target(), false, false, true);
+                let value = get_quoted_utf16(&node.value, self.wr.target(), false, false, true);
 
                 self.wr.write_str_lit(DUMMY_SP, &value)?;
             }
@@ -3127,7 +3126,7 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
     result
 }
 
-fn get_unquoted_utf16(
+fn get_quoted_utf16(
     v: &str,
     target: EsVersion,
     single_quote: bool,
@@ -3240,21 +3239,21 @@ fn escape_with_source(
     single_quote: Option<bool>,
 ) -> String {
     if span.is_dummy() {
-        return get_unquoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
+        return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
     }
 
     let orig = cm.span_to_snippet(span);
     let orig = match orig {
         Ok(orig) => orig,
         Err(v) => {
-            return get_unquoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
+            return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
         }
     };
 
     if target <= EsVersion::Es5 {
         let emit_non_ascii_as_unicode = orig.contains("\\u");
 
-        return get_unquoted_utf16(
+        return get_quoted_utf16(
             s,
             target,
             single_quote.unwrap_or(false),
@@ -3270,7 +3269,7 @@ fn escape_with_source(
     {
         orig = &orig[1..orig.len() - 1];
     } else if single_quote.is_some() {
-        return get_unquoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
+        return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
     }
 
     let mut buf = String::with_capacity(s.len());

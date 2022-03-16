@@ -551,24 +551,24 @@ CONTENT\r
 }
 
 #[test]
-fn test_get_unquoted_utf16() {
+fn test_get_quoted_utf16() {
     fn es2020(src: &str, expected: &str) {
         assert_eq!(
-            super::get_unquoted_utf16(src, EsVersion::Es2020, true, false, false),
+            super::get_quoted_utf16(src, EsVersion::Es2020, true, false, false),
             expected
         )
     }
 
     fn es2020_nonascii(src: &str, expected: &str) {
         assert_eq!(
-            super::get_unquoted_utf16(src, EsVersion::Es2020, true, true, false),
+            super::get_quoted_utf16(src, EsVersion::Es2020, true, true, false),
             expected
         )
     }
 
     fn es5(src: &str, expected: &str) {
         assert_eq!(
-            super::get_unquoted_utf16(src, EsVersion::Es5, true, true, false),
+            super::get_quoted_utf16(src, EsVersion::Es5, true, true, false),
             expected
         )
     }
@@ -637,7 +637,7 @@ fn issue_1619_2() {
 #[test]
 fn issue_1619_3() {
     assert_eq!(
-        get_unquoted_utf16("\x00\x31", EsVersion::Es3, true, false, false),
+        get_quoted_utf16("\x00\x31", EsVersion::Es3, true, false, false),
         "\\x001"
     );
 }

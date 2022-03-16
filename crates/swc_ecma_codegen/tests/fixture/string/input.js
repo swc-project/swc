@@ -100,3 +100,4 @@ const string92 = new RegExp("\\x1b").test("\x1b");
 const string93 = new RegExp("").test("");
 const string94 = '퟿';
 const string95 = 'ퟻ';
+const string96 = sql`'#ERROR'`;
