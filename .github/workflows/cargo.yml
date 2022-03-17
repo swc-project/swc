@@ -135,6 +135,9 @@ jobs:
             os: ubuntu-latest
           - crate: swc_cli
             os: ubuntu-latest
+            check: |
+              cargo check
+              cargo check --features plugin
           - crate: swc_cli
             os: windows-latest
           - crate: swc_common
