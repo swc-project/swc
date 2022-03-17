@@ -99,3 +99,20 @@ macro_rules! semi {
         $emitter.wr.write_semi(None)?;
     };
 }
+
+/// - `srcmap!(true)` for start (span.lo)
+/// - `srcmap!(false)` for end (span.hi)
+macro_rules! srcmap {
+    ($emitter:expr, $n:expr, true) => {{
+        let span = n.span();
+        if !span.is_dummy() {
+            self.wr.add_srcmap(span.lo);
+        }
+    }};
+    ($emitter:expr, $n:expr, false) => {
+        let span = n.span();
+        if !span.is_dummy() {
+            self.wr.add_srcmap(span.hi);
+        }
+    };
+}
