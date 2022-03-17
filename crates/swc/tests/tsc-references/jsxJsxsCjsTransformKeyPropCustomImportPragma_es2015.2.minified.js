@@ -8,8 +8,7 @@ const props = {
 swcHelpers.objectSpread({}, props, {
     children: "text"
 }), swcHelpers.objectSpread({}, props, {
-    key: "bar",
-    children: "text"
+    key: "bar"
 });
 const props2 = {
     answer: 42
@@ -17,6 +16,5 @@ const props2 = {
 swcHelpers.objectSpread({}, props2, {
     children: "text"
 }), swcHelpers.objectSpread({}, props2, {
-    key: "bar",
-    children: "text"
+    key: "bar"
 });
