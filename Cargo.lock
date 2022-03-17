@@ -2952,7 +2952,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.154.0"
+version = "0.155.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3066,7 +3066,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.28.0"
+version = "0.29.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3781,7 +3781,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.74.0"
+version = "0.75.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3906,7 +3906,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.43.0"
+version = "0.44.0"
 dependencies = [
  "anyhow",
  "once_cell",
@@ -3983,7 +3983,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.72.0"
+version = "0.73.0"
 dependencies = [
  "anyhow",
  "rayon",
