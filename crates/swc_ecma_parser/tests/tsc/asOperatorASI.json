@@ -200,26 +200,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 80,
-                  "end": 91,
-                  "ctxt": 0
-                },
-                "value": "Hello world",
-                "raw": ""
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 80,
-                  "end": 91,
-                  "ctxt": 0
-                },
-                "value": "Hello world",
-                "raw": ""
-              }
+              "cooked": "Hello world",
+              "raw": "Hello world"
             }
           ]
         }

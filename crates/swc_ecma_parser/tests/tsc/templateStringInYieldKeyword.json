@@ -97,26 +97,8 @@
                           "ctxt": 0
                         },
                         "tail": false,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 140,
-                            "end": 143,
-                            "ctxt": 0
-                          },
-                          "value": "abc",
-                          "raw": ""
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 140,
-                            "end": 143,
-                            "ctxt": 0
-                          },
-                          "value": "abc",
-                          "raw": ""
-                        }
+                        "cooked": "abc",
+                        "raw": "abc"
                       },
                       {
                         "type": "TemplateElement",
@@ -126,26 +108,8 @@
                           "ctxt": 0
                         },
                         "tail": true,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 149,
-                            "end": 152,
-                            "ctxt": 0
-                          },
-                          "value": "def",
-                          "raw": ""
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 149,
-                            "end": 152,
-                            "ctxt": 0
-                          },
-                          "value": "def",
-                          "raw": ""
-                        }
+                        "cooked": "def",
+                        "raw": "def"
                       }
                     ]
                   },

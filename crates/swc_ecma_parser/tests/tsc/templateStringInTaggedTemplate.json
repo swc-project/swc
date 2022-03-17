@@ -53,26 +53,8 @@
                         "ctxt": 0
                       },
                       "tail": true,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 18,
-                          "end": 21,
-                          "ctxt": 0
-                        },
-                        "value": "TAG",
-                        "raw": ""
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 18,
-                          "end": 21,
-                          "ctxt": 0
-                        },
-                        "value": "TAG",
-                        "raw": ""
-                      }
+                      "cooked": "TAG",
+                      "raw": "TAG"
                     }
                   ]
                 }
@@ -86,26 +68,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 14,
-                      "end": 14,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 14,
-                      "end": 14,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -115,26 +79,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 24,
-                      "end": 25,
-                      "ctxt": 0
-                    },
-                    "value": " ",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 24,
-                      "end": 25,
-                      "ctxt": 0
-                    },
-                    "value": " ",
-                    "raw": ""
-                  }
+                  "cooked": " ",
+                  "raw": " "
                 }
               ]
             }
@@ -148,26 +94,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 1,
-                  "end": 10,
-                  "ctxt": 0
-                },
-                "value": "I AM THE ",
-                "raw": ""
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 1,
-                  "end": 10,
-                  "ctxt": 0
-                },
-                "value": "I AM THE ",
-                "raw": ""
-              }
+              "cooked": "I AM THE ",
+              "raw": "I AM THE "
             },
             {
               "type": "TemplateElement",
@@ -177,26 +105,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 28,
-                  "end": 36,
-                  "ctxt": 0
-                },
-                "value": " PORTION",
-                "raw": ""
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 28,
-                  "end": 36,
-                  "ctxt": 0
-                },
-                "value": " PORTION",
-                "raw": ""
-              }
+              "cooked": " PORTION",
+              "raw": " PORTION"
             }
           ]
         },
@@ -229,26 +139,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 42,
-                  "end": 44,
-                  "ctxt": 0
-                },
-                "value": "I ",
-                "raw": ""
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 42,
-                  "end": 44,
-                  "ctxt": 0
-                },
-                "value": "I ",
-                "raw": ""
-              }
+              "cooked": "I ",
+              "raw": "I "
             },
             {
               "type": "TemplateElement",
@@ -258,26 +150,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 53,
-                  "end": 74,
-                  "ctxt": 0
-                },
-                "value": " THE TEMPLATE PORTION",
-                "raw": ""
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 53,
-                  "end": 74,
-                  "ctxt": 0
-                },
-                "value": " THE TEMPLATE PORTION",
-                "raw": ""
-              }
+              "cooked": " THE TEMPLATE PORTION",
+              "raw": " THE TEMPLATE PORTION"
             }
           ]
         }

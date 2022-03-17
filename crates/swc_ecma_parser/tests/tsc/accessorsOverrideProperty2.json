@@ -281,26 +281,8 @@
                                 "ctxt": 0
                               },
                               "tail": false,
-                              "cooked": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 183,
-                                  "end": 196,
-                                  "ctxt": 0
-                                },
-                                "value": "x was set to ",
-                                "raw": ""
-                              },
-                              "raw": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 183,
-                                  "end": 196,
-                                  "ctxt": 0
-                                },
-                                "value": "x was set to ",
-                                "raw": ""
-                              }
+                              "cooked": "x was set to ",
+                              "raw": "x was set to "
                             },
                             {
                               "type": "TemplateElement",
@@ -310,26 +292,8 @@
                                 "ctxt": 0
                               },
                               "tail": true,
-                              "cooked": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 204,
-                                  "end": 204,
-                                  "ctxt": 0
-                                },
-                                "value": "",
-                                "raw": ""
-                              },
-                              "raw": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 204,
-                                  "end": 204,
-                                  "ctxt": 0
-                                },
-                                "value": "",
-                                "raw": ""
-                              }
+                              "cooked": "",
+                              "raw": ""
                             }
                           ]
                         }

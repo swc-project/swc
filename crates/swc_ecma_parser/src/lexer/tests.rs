@@ -235,7 +235,6 @@ multiline`"
             Token::Template {
                 cooked: Ok("this\nis\nmultiline".into()),
                 raw: "this\nis\nmultiline".into(),
-                has_escape: false
             },
             tok!('`'),
         ]
@@ -251,7 +250,6 @@ fn tpl_raw_unicode_escape() {
             Token::Template {
                 cooked: Ok(format!("{}", '\u{0010}').into()),
                 raw: "\\u{0010}".into(),
-                has_escape: true
             },
             tok!('`'),
         ]
@@ -276,7 +274,6 @@ fn tpl_invalid_unicode_escape() {
                     ))
                 }),
                 raw: "\\unicode".into(),
-                has_escape: true
             },
             tok!('`'),
         ]
@@ -297,7 +294,6 @@ fn tpl_invalid_unicode_escape() {
                     ))
                 }),
                 raw: "\\u{".into(),
-                has_escape: true
             },
             tok!('`'),
         ]
@@ -318,7 +314,6 @@ fn tpl_invalid_unicode_escape() {
                     ))
                 }),
                 raw: "\\xhex".into(),
-                has_escape: true
             },
             tok!('`'),
         ]
@@ -845,7 +840,6 @@ fn tpl_empty() {
             Template {
                 raw: "".into(),
                 cooked: Ok("".into()),
-                has_escape: false
             },
             tok!('`')
         ]
@@ -861,7 +855,6 @@ fn tpl() {
             Template {
                 raw: "".into(),
                 cooked: Ok("".into()),
-                has_escape: false
             },
             tok!("${"),
             Word(Word::Ident("a".into())),
@@ -869,11 +862,29 @@ fn tpl() {
             Template {
                 raw: "".into(),
                 cooked: Ok("".into()),
-                has_escape: false
             },
             tok!('`'),
         ]
-    )
+    );
+
+    assert_eq!(
+        lex_tokens(Syntax::default(), r#"`te\nst${a}test`"#),
+        vec![
+            tok!('`'),
+            Template {
+                raw: "te\\nst".into(),
+                cooked: Ok("te\nst".into()),
+            },
+            tok!("${"),
+            Word(Word::Ident("a".into())),
+            tok!('}'),
+            Template {
+                raw: "test".into(),
+                cooked: Ok("test".into()),
+            },
+            tok!('`'),
+        ]
+    );
 }
 
 #[test]
@@ -1038,7 +1049,6 @@ fn issue_191() {
             Token::Template {
                 raw: "".into(),
                 cooked: Ok("".into()),
-                has_escape: false,
             },
             tok!("${"),
             Token::Word(Word::Ident("foo".into())),
@@ -1046,7 +1056,6 @@ fn issue_191() {
             Token::Template {
                 raw: "<bar>".into(),
                 cooked: Ok("<bar>".into()),
-                has_escape: false,
             },
             tok!('`')
         ]

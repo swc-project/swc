@@ -464,26 +464,8 @@
                                 "ctxt": 0
                               },
                               "tail": false,
-                              "cooked": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 290,
-                                  "end": 320,
-                                  "ctxt": 0
-                                },
-                                "value": "Node array did not pass test '",
-                                "raw": ""
-                              },
-                              "raw": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 290,
-                                  "end": 320,
-                                  "ctxt": 0
-                                },
-                                "value": "Node array did not pass test '",
-                                "raw": ""
-                              }
+                              "cooked": "Node array did not pass test '",
+                              "raw": "Node array did not pass test '"
                             },
                             {
                               "type": "TemplateElement",
@@ -493,26 +475,8 @@
                                 "ctxt": 0
                               },
                               "tail": true,
-                              "cooked": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 344,
-                                  "end": 346,
-                                  "ctxt": 0
-                                },
-                                "value": "'.",
-                                "raw": ""
-                              },
-                              "raw": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 344,
-                                  "end": 346,
-                                  "ctxt": 0
-                                },
-                                "value": "'.",
-                                "raw": ""
-                              }
+                              "cooked": "'.",
+                              "raw": "'."
                             }
                           ]
                         },

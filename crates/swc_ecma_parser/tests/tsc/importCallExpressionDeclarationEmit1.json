@@ -329,26 +329,8 @@
                         "ctxt": 0
                       },
                       "tail": false,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 269,
-                          "end": 269,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "raw": ""
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 269,
-                          "end": 269,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "raw": ""
-                      }
+                      "cooked": "",
+                      "raw": ""
                     },
                     {
                       "type": "TemplateElement",
@@ -358,26 +340,8 @@
                         "ctxt": 0
                       },
                       "tail": false,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 281,
-                          "end": 283,
-                          "ctxt": 0
-                        },
-                        "value": "\\",
-                        "raw": ""
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 281,
-                          "end": 283,
-                          "ctxt": 0
-                        },
-                        "value": "\\\\",
-                        "raw": ""
-                      }
+                      "cooked": "\\",
+                      "raw": "\\\\"
                     },
                     {
                       "type": "TemplateElement",
@@ -387,26 +351,8 @@
                         "ctxt": 0
                       },
                       "tail": true,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 296,
-                          "end": 296,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "raw": ""
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 296,
-                          "end": 296,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "raw": ""
-                      }
+                      "cooked": "",
+                      "raw": ""
                     }
                   ]
                 }

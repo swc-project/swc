@@ -377,26 +377,8 @@
                           "ctxt": 0
                         },
                         "tail": false,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 280,
-                            "end": 284,
-                            "ctxt": 0
-                          },
-                          "value": "hi, ",
-                          "raw": ""
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 280,
-                            "end": 284,
-                            "ctxt": 0
-                          },
-                          "value": "hi, ",
-                          "raw": ""
-                        }
+                        "cooked": "hi, ",
+                        "raw": "hi, "
                       },
                       {
                         "type": "TemplateElement",
@@ -406,26 +388,8 @@
                           "ctxt": 0
                         },
                         "tail": true,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 290,
-                            "end": 291,
-                            "ctxt": 0
-                          },
-                          "value": "!",
-                          "raw": ""
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 290,
-                            "end": 291,
-                            "ctxt": 0
-                          },
-                          "value": "!",
-                          "raw": ""
-                        }
+                        "cooked": "!",
+                        "raw": "!"
                       }
                     ]
                   }

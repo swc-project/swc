@@ -78,26 +78,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 29,
-                      "end": 29,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 29,
-                      "end": 29,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -107,26 +89,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 35,
-                      "end": 35,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 35,
-                      "end": 35,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -207,26 +171,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 51,
-                      "end": 52,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 51,
-                      "end": 52,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -236,26 +182,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 58,
-                      "end": 58,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 58,
-                      "end": 58,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -336,26 +264,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 74,
-                      "end": 74,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 74,
-                      "end": 74,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -365,26 +275,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 80,
-                      "end": 81,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 80,
-                      "end": 81,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             }
@@ -465,26 +357,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 97,
-                      "end": 98,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 97,
-                      "end": 98,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -494,26 +368,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 104,
-                      "end": 105,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 104,
-                      "end": 105,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             }
@@ -585,26 +441,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 117,
-                      "end": 117,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 117,
-                      "end": 117,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -614,26 +452,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 123,
-                      "end": 123,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 123,
-                      "end": 123,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -714,26 +534,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 139,
-                      "end": 140,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 139,
-                      "end": 140,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -743,26 +545,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 146,
-                      "end": 146,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 146,
-                      "end": 146,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -843,26 +627,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 162,
-                      "end": 162,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 162,
-                      "end": 162,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -872,26 +638,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 168,
-                      "end": 169,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 168,
-                      "end": 169,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             },
@@ -972,26 +720,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 185,
-                      "end": 186,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 185,
-                      "end": 186,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -1001,26 +731,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 192,
-                      "end": 193,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 192,
-                      "end": 193,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             },
@@ -1110,26 +822,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 215,
-                      "end": 215,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 215,
-                      "end": 215,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -1139,26 +833,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 221,
-                      "end": 221,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 221,
-                      "end": 221,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -1239,26 +915,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 238,
-                      "end": 239,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 238,
-                      "end": 239,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -1268,26 +926,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 245,
-                      "end": 245,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 245,
-                      "end": 245,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -1368,26 +1008,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 262,
-                      "end": 262,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 262,
-                      "end": 262,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -1397,26 +1019,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 268,
-                      "end": 269,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 268,
-                      "end": 269,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             }
@@ -1497,26 +1101,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 286,
-                      "end": 287,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 286,
-                      "end": 287,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -1526,26 +1112,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 293,
-                      "end": 294,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 293,
-                      "end": 294,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             }
@@ -1617,26 +1185,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 307,
-                      "end": 307,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 307,
-                      "end": 307,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -1646,26 +1196,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 313,
-                      "end": 313,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 313,
-                      "end": 313,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -1746,26 +1278,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 330,
-                      "end": 331,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 330,
-                      "end": 331,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -1775,26 +1289,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 337,
-                      "end": 337,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 337,
-                      "end": 337,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -1875,26 +1371,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 354,
-                      "end": 354,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 354,
-                      "end": 354,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -1904,26 +1382,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 360,
-                      "end": 361,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 360,
-                      "end": 361,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             },
@@ -2004,26 +1464,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 378,
-                      "end": 379,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 378,
-                      "end": 379,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -2033,26 +1475,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 385,
-                      "end": 386,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 385,
-                      "end": 386,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             },
@@ -2142,26 +1566,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 408,
-                      "end": 408,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 408,
-                      "end": 408,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -2171,26 +1577,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 414,
-                      "end": 414,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 414,
-                      "end": 414,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -2271,26 +1659,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 431,
-                      "end": 432,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 431,
-                      "end": 432,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -2300,26 +1670,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 438,
-                      "end": 438,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 438,
-                      "end": 438,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -2400,26 +1752,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 455,
-                      "end": 455,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 455,
-                      "end": 455,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -2429,26 +1763,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 461,
-                      "end": 462,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 461,
-                      "end": 462,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             }
@@ -2529,26 +1845,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 479,
-                      "end": 480,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 479,
-                      "end": 480,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -2558,26 +1856,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 486,
-                      "end": 487,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 486,
-                      "end": 487,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             }
@@ -2649,26 +1929,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 500,
-                      "end": 500,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 500,
-                      "end": 500,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -2678,26 +1940,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 506,
-                      "end": 506,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 506,
-                      "end": 506,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -2778,26 +2022,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 523,
-                      "end": 524,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 523,
-                      "end": 524,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -2807,26 +2033,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 530,
-                      "end": 530,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 530,
-                      "end": 530,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -2907,26 +2115,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 547,
-                      "end": 547,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 547,
-                      "end": 547,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -2936,26 +2126,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 553,
-                      "end": 554,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 553,
-                      "end": 554,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             },
@@ -3036,26 +2208,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 571,
-                      "end": 572,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 571,
-                      "end": 572,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -3065,26 +2219,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 578,
-                      "end": 579,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 578,
-                      "end": 579,
-                      "ctxt": 0
-                    },
-                    "value": "4",
-                    "raw": ""
-                  }
+                  "cooked": "4",
+                  "raw": "4"
                 }
               ]
             },
@@ -3192,26 +2328,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 601,
-                      "end": 601,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 601,
-                      "end": 601,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -3221,26 +2339,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 611,
-                      "end": 611,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 611,
-                      "end": 611,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -3339,26 +2439,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 628,
-                      "end": 629,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 628,
-                      "end": 629,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -3368,26 +2450,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 639,
-                      "end": 639,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 639,
-                      "end": 639,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -3486,26 +2550,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 656,
-                      "end": 656,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 656,
-                      "end": 656,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -3515,26 +2561,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 666,
-                      "end": 667,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 666,
-                      "end": 667,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -3633,26 +2661,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 684,
-                      "end": 685,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 684,
-                      "end": 685,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -3662,26 +2672,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 695,
-                      "end": 696,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 695,
-                      "end": 696,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -3771,26 +2763,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 709,
-                      "end": 709,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 709,
-                      "end": 709,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -3800,26 +2774,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 719,
-                      "end": 719,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 719,
-                      "end": 719,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -3918,26 +2874,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 736,
-                      "end": 737,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 736,
-                      "end": 737,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -3947,26 +2885,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 747,
-                      "end": 747,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 747,
-                      "end": 747,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -4065,26 +2985,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 764,
-                      "end": 764,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 764,
-                      "end": 764,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -4094,26 +2996,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 774,
-                      "end": 775,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 774,
-                      "end": 775,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -4212,26 +3096,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 792,
-                      "end": 793,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 792,
-                      "end": 793,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -4241,26 +3107,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 803,
-                      "end": 804,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 803,
-                      "end": 804,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -4368,26 +3216,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 826,
-                      "end": 826,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 826,
-                      "end": 826,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -4397,26 +3227,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 836,
-                      "end": 836,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 836,
-                      "end": 836,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -4515,26 +3327,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 853,
-                      "end": 854,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 853,
-                      "end": 854,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -4544,26 +3338,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 864,
-                      "end": 864,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 864,
-                      "end": 864,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -4662,26 +3438,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 881,
-                      "end": 881,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 881,
-                      "end": 881,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -4691,26 +3449,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 891,
-                      "end": 892,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 891,
-                      "end": 892,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -4809,26 +3549,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 909,
-                      "end": 910,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 909,
-                      "end": 910,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -4838,26 +3560,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 920,
-                      "end": 921,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 920,
-                      "end": 921,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -4947,26 +3651,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 934,
-                      "end": 934,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 934,
-                      "end": 934,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -4976,26 +3662,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 944,
-                      "end": 944,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 944,
-                      "end": 944,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -5094,26 +3762,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 961,
-                      "end": 962,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 961,
-                      "end": 962,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -5123,26 +3773,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 972,
-                      "end": 972,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 972,
-                      "end": 972,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -5241,26 +3873,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 989,
-                      "end": 989,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 989,
-                      "end": 989,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -5270,26 +3884,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 999,
-                      "end": 1000,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 999,
-                      "end": 1000,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -5388,26 +3984,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1017,
-                      "end": 1018,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1017,
-                      "end": 1018,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -5417,26 +3995,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1028,
-                      "end": 1029,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1028,
-                      "end": 1029,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -5544,26 +4104,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1051,
-                      "end": 1051,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1051,
-                      "end": 1051,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -5573,26 +4115,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1061,
-                      "end": 1061,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1061,
-                      "end": 1061,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -5691,26 +4215,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1078,
-                      "end": 1079,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1078,
-                      "end": 1079,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -5720,26 +4226,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1089,
-                      "end": 1089,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1089,
-                      "end": 1089,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -5838,26 +4326,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1106,
-                      "end": 1106,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1106,
-                      "end": 1106,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -5867,26 +4337,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1116,
-                      "end": 1117,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1116,
-                      "end": 1117,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -5985,26 +4437,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1134,
-                      "end": 1135,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1134,
-                      "end": 1135,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -6014,26 +4448,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1145,
-                      "end": 1146,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1145,
-                      "end": 1146,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -6123,26 +4539,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1159,
-                      "end": 1159,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1159,
-                      "end": 1159,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -6152,26 +4550,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1169,
-                      "end": 1169,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1169,
-                      "end": 1169,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -6270,26 +4650,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1186,
-                      "end": 1187,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1186,
-                      "end": 1187,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -6299,26 +4661,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1197,
-                      "end": 1197,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1197,
-                      "end": 1197,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -6417,26 +4761,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1214,
-                      "end": 1214,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1214,
-                      "end": 1214,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -6446,26 +4772,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1224,
-                      "end": 1225,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1224,
-                      "end": 1225,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -6564,26 +4872,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1242,
-                      "end": 1243,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1242,
-                      "end": 1243,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -6593,26 +4883,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1253,
-                      "end": 1254,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1253,
-                      "end": 1254,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -6720,26 +4992,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1276,
-                      "end": 1276,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1276,
-                      "end": 1276,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -6749,26 +5003,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1286,
-                      "end": 1286,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1286,
-                      "end": 1286,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -6867,26 +5103,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1303,
-                      "end": 1304,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1303,
-                      "end": 1304,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -6896,26 +5114,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1314,
-                      "end": 1314,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1314,
-                      "end": 1314,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -7014,26 +5214,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1331,
-                      "end": 1331,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1331,
-                      "end": 1331,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -7043,26 +5225,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1341,
-                      "end": 1342,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1341,
-                      "end": 1342,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -7161,26 +5325,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1359,
-                      "end": 1360,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1359,
-                      "end": 1360,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -7190,26 +5336,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1370,
-                      "end": 1371,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1370,
-                      "end": 1371,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -7299,26 +5427,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1384,
-                      "end": 1384,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1384,
-                      "end": 1384,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -7328,26 +5438,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1394,
-                      "end": 1394,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1394,
-                      "end": 1394,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -7446,26 +5538,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1411,
-                      "end": 1412,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1411,
-                      "end": 1412,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -7475,26 +5549,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1422,
-                      "end": 1422,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1422,
-                      "end": 1422,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -7593,26 +5649,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1439,
-                      "end": 1439,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1439,
-                      "end": 1439,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -7622,26 +5660,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1449,
-                      "end": 1450,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1449,
-                      "end": 1450,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -7740,26 +5760,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1467,
-                      "end": 1468,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1467,
-                      "end": 1468,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -7769,26 +5771,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1478,
-                      "end": 1479,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1478,
-                      "end": 1479,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -7896,26 +5880,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1501,
-                      "end": 1501,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1501,
-                      "end": 1501,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -7925,26 +5891,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1511,
-                      "end": 1511,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1511,
-                      "end": 1511,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -8043,26 +5991,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1528,
-                      "end": 1529,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1528,
-                      "end": 1529,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -8072,26 +6002,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1539,
-                      "end": 1539,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1539,
-                      "end": 1539,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -8190,26 +6102,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1556,
-                      "end": 1556,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1556,
-                      "end": 1556,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -8219,26 +6113,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1566,
-                      "end": 1567,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1566,
-                      "end": 1567,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -8337,26 +6213,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1584,
-                      "end": 1585,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1584,
-                      "end": 1585,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -8366,26 +6224,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1595,
-                      "end": 1596,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1595,
-                      "end": 1596,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -8475,26 +6315,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1609,
-                      "end": 1609,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1609,
-                      "end": 1609,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -8504,26 +6326,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1619,
-                      "end": 1619,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1619,
-                      "end": 1619,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -8622,26 +6426,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1636,
-                      "end": 1637,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1636,
-                      "end": 1637,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -8651,26 +6437,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1647,
-                      "end": 1647,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1647,
-                      "end": 1647,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -8769,26 +6537,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1664,
-                      "end": 1664,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1664,
-                      "end": 1664,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -8798,26 +6548,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1674,
-                      "end": 1675,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1674,
-                      "end": 1675,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -8916,26 +6648,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1692,
-                      "end": 1693,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1692,
-                      "end": 1693,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -8945,26 +6659,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1703,
-                      "end": 1704,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1703,
-                      "end": 1704,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -9072,26 +6768,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1726,
-                      "end": 1726,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1726,
-                      "end": 1726,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -9101,26 +6779,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1736,
-                      "end": 1736,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1736,
-                      "end": 1736,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -9219,26 +6879,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1753,
-                      "end": 1754,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1753,
-                      "end": 1754,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -9248,26 +6890,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1764,
-                      "end": 1764,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1764,
-                      "end": 1764,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -9366,26 +6990,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1781,
-                      "end": 1781,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1781,
-                      "end": 1781,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -9395,26 +7001,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1791,
-                      "end": 1792,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1791,
-                      "end": 1792,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -9513,26 +7101,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1809,
-                      "end": 1810,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1809,
-                      "end": 1810,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -9542,26 +7112,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1820,
-                      "end": 1821,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1820,
-                      "end": 1821,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -9651,26 +7203,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1834,
-                      "end": 1834,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1834,
-                      "end": 1834,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -9680,26 +7214,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1844,
-                      "end": 1844,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1844,
-                      "end": 1844,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -9798,26 +7314,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1861,
-                      "end": 1862,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1861,
-                      "end": 1862,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -9827,26 +7325,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1872,
-                      "end": 1872,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1872,
-                      "end": 1872,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -9945,26 +7425,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1889,
-                      "end": 1889,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1889,
-                      "end": 1889,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -9974,26 +7436,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1899,
-                      "end": 1900,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1899,
-                      "end": 1900,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -10092,26 +7536,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1917,
-                      "end": 1918,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1917,
-                      "end": 1918,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -10121,26 +7547,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1928,
-                      "end": 1929,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1928,
-                      "end": 1929,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -10248,26 +7656,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1951,
-                      "end": 1951,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1951,
-                      "end": 1951,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -10277,26 +7667,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1961,
-                      "end": 1961,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1961,
-                      "end": 1961,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -10395,26 +7767,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1978,
-                      "end": 1979,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1978,
-                      "end": 1979,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -10424,26 +7778,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1989,
-                      "end": 1989,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 1989,
-                      "end": 1989,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -10542,26 +7878,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2006,
-                      "end": 2006,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2006,
-                      "end": 2006,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -10571,26 +7889,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2016,
-                      "end": 2017,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2016,
-                      "end": 2017,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -10689,26 +7989,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2034,
-                      "end": 2035,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2034,
-                      "end": 2035,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -10718,26 +8000,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2045,
-                      "end": 2046,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2045,
-                      "end": 2046,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -10827,26 +8091,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2059,
-                      "end": 2059,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2059,
-                      "end": 2059,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -10856,26 +8102,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2069,
-                      "end": 2069,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2069,
-                      "end": 2069,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -10974,26 +8202,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2086,
-                      "end": 2087,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2086,
-                      "end": 2087,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -11003,26 +8213,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2097,
-                      "end": 2097,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2097,
-                      "end": 2097,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -11121,26 +8313,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2114,
-                      "end": 2114,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2114,
-                      "end": 2114,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -11150,26 +8324,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2124,
-                      "end": 2125,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2124,
-                      "end": 2125,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -11268,26 +8424,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2142,
-                      "end": 2143,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2142,
-                      "end": 2143,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -11297,26 +8435,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2153,
-                      "end": 2154,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2153,
-                      "end": 2154,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -11424,26 +8544,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2176,
-                      "end": 2176,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2176,
-                      "end": 2176,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -11453,26 +8555,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2186,
-                      "end": 2186,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2186,
-                      "end": 2186,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -11571,26 +8655,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2203,
-                      "end": 2204,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2203,
-                      "end": 2204,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -11600,26 +8666,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2214,
-                      "end": 2214,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2214,
-                      "end": 2214,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -11718,26 +8766,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2231,
-                      "end": 2231,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2231,
-                      "end": 2231,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -11747,26 +8777,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2241,
-                      "end": 2242,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2241,
-                      "end": 2242,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -11865,26 +8877,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2259,
-                      "end": 2260,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2259,
-                      "end": 2260,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -11894,26 +8888,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2270,
-                      "end": 2271,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2270,
-                      "end": 2271,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -12003,26 +8979,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2284,
-                      "end": 2284,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2284,
-                      "end": 2284,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -12032,26 +8990,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2294,
-                      "end": 2294,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2294,
-                      "end": 2294,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -12150,26 +9090,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2311,
-                      "end": 2312,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2311,
-                      "end": 2312,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -12179,26 +9101,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2322,
-                      "end": 2322,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2322,
-                      "end": 2322,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -12297,26 +9201,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2339,
-                      "end": 2339,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2339,
-                      "end": 2339,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -12326,26 +9212,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2349,
-                      "end": 2350,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2349,
-                      "end": 2350,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -12444,26 +9312,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2367,
-                      "end": 2368,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2367,
-                      "end": 2368,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -12473,26 +9323,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2378,
-                      "end": 2379,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2378,
-                      "end": 2379,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -12600,26 +9432,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2401,
-                      "end": 2401,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2401,
-                      "end": 2401,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -12629,26 +9443,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2411,
-                      "end": 2411,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2411,
-                      "end": 2411,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -12747,26 +9543,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2428,
-                      "end": 2429,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2428,
-                      "end": 2429,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -12776,26 +9554,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2439,
-                      "end": 2439,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2439,
-                      "end": 2439,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -12894,26 +9654,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2456,
-                      "end": 2456,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2456,
-                      "end": 2456,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -12923,26 +9665,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2466,
-                      "end": 2467,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2466,
-                      "end": 2467,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -13041,26 +9765,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2484,
-                      "end": 2485,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2484,
-                      "end": 2485,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -13070,26 +9776,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2495,
-                      "end": 2496,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2495,
-                      "end": 2496,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             }
@@ -13179,26 +9867,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2509,
-                      "end": 2509,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2509,
-                      "end": 2509,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -13208,26 +9878,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2519,
-                      "end": 2519,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2519,
-                      "end": 2519,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -13326,26 +9978,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2536,
-                      "end": 2537,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2536,
-                      "end": 2537,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -13355,26 +9989,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2547,
-                      "end": 2547,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2547,
-                      "end": 2547,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             },
@@ -13473,26 +10089,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2564,
-                      "end": 2564,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2564,
-                      "end": 2564,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "raw": ""
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -13502,26 +10100,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2574,
-                      "end": 2575,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2574,
-                      "end": 2575,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },
@@ -13620,26 +10200,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2592,
-                      "end": 2593,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2592,
-                      "end": 2593,
-                      "ctxt": 0
-                    },
-                    "value": "2",
-                    "raw": ""
-                  }
+                  "cooked": "2",
+                  "raw": "2"
                 },
                 {
                   "type": "TemplateElement",
@@ -13649,26 +10211,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2603,
-                      "end": 2604,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 2603,
-                      "end": 2604,
-                      "ctxt": 0
-                    },
-                    "value": "5",
-                    "raw": ""
-                  }
+                  "cooked": "5",
+                  "raw": "5"
                 }
               ]
             },

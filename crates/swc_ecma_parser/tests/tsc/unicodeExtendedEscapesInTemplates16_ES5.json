@@ -51,26 +51,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 26,
-                    "end": 58,
-                    "ctxt": 0
-                  },
-                  "value": "ꯍ㑖碐",
-                  "raw": ""
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 26,
-                    "end": 58,
-                    "ctxt": 0
-                  },
-                  "value": "\\u{ABCD}\\u{EF12}\\u{3456}\\u{7890}",
-                  "raw": ""
-                }
+                "cooked": "ꯍ㑖碐",
+                "raw": "\\u{ABCD}\\u{EF12}\\u{3456}\\u{7890}"
               }
             ]
           },

@@ -49,26 +49,8 @@
               "ctxt": 0
             },
             "tail": false,
-            "cooked": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 17,
-                "end": 21,
-                "ctxt": 0
-              },
-              "value": "head",
-              "raw": ""
-            },
-            "raw": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 17,
-                "end": 21,
-                "ctxt": 0
-              },
-              "value": "head",
-              "raw": ""
-            }
+            "cooked": "head",
+            "raw": "head"
           },
           {
             "type": "TemplateElement",
@@ -78,26 +60,8 @@
               "ctxt": 0
             },
             "tail": false,
-            "cooked": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 51,
-                "end": 58,
-                "ctxt": 0
-              },
-              "value": "\nmiddle",
-              "raw": ""
-            },
-            "raw": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 51,
-                "end": 58,
-                "ctxt": 0
-              },
-              "value": "\nmiddle",
-              "raw": ""
-            }
+            "cooked": "\nmiddle",
+            "raw": "\nmiddle"
           },
           {
             "type": "TemplateElement",
@@ -107,26 +71,8 @@
               "ctxt": 0
             },
             "tail": true,
-            "cooked": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 119,
-                "end": 124,
-                "ctxt": 0
-              },
-              "value": "\ntail",
-              "raw": ""
-            },
-            "raw": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 119,
-                "end": 124,
-                "ctxt": 0
-              },
-              "value": "\ntail",
-              "raw": ""
-            }
+            "cooked": "\ntail",
+            "raw": "\ntail"
           }
         ]
       }

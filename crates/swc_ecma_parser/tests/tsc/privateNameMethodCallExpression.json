@@ -910,26 +910,8 @@
                                 "ctxt": 0
                               },
                               "tail": false,
-                              "cooked": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 379,
-                                  "end": 383,
-                                  "ctxt": 0
-                                },
-                                "value": "head",
-                                "raw": ""
-                              },
-                              "raw": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 379,
-                                  "end": 383,
-                                  "ctxt": 0
-                                },
-                                "value": "head",
-                                "raw": ""
-                              }
+                              "cooked": "head",
+                              "raw": "head"
                             },
                             {
                               "type": "TemplateElement",
@@ -939,26 +921,8 @@
                                 "ctxt": 0
                               },
                               "tail": false,
-                              "cooked": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 387,
-                                  "end": 393,
-                                  "ctxt": 0
-                                },
-                                "value": "middle",
-                                "raw": ""
-                              },
-                              "raw": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 387,
-                                  "end": 393,
-                                  "ctxt": 0
-                                },
-                                "value": "middle",
-                                "raw": ""
-                              }
+                              "cooked": "middle",
+                              "raw": "middle"
                             },
                             {
                               "type": "TemplateElement",
@@ -968,26 +932,8 @@
                                 "ctxt": 0
                               },
                               "tail": true,
-                              "cooked": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 397,
-                                  "end": 401,
-                                  "ctxt": 0
-                                },
-                                "value": "tail",
-                                "raw": ""
-                              },
-                              "raw": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 397,
-                                  "end": 401,
-                                  "ctxt": 0
-                                },
-                                "value": "tail",
-                                "raw": ""
-                              }
+                              "cooked": "tail",
+                              "raw": "tail"
                             }
                           ]
                         }
@@ -1109,26 +1055,8 @@
                             "ctxt": 0
                           },
                           "tail": false,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 440,
-                              "end": 444,
-                              "ctxt": 0
-                            },
-                            "value": "test",
-                            "raw": ""
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 440,
-                              "end": 444,
-                              "ctxt": 0
-                            },
-                            "value": "test",
-                            "raw": ""
-                          }
+                          "cooked": "test",
+                          "raw": "test"
                         },
                         {
                           "type": "TemplateElement",
@@ -1138,26 +1066,8 @@
                             "ctxt": 0
                           },
                           "tail": false,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 448,
-                              "end": 451,
-                              "ctxt": 0
-                            },
-                            "value": "and",
-                            "raw": ""
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 448,
-                              "end": 451,
-                              "ctxt": 0
-                            },
-                            "value": "and",
-                            "raw": ""
-                          }
+                          "cooked": "and",
+                          "raw": "and"
                         },
                         {
                           "type": "TemplateElement",
@@ -1167,26 +1077,8 @@
                             "ctxt": 0
                           },
                           "tail": true,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 455,
-                              "end": 455,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "raw": ""
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 455,
-                              "end": 455,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "raw": ""
-                          }
+                          "cooked": "",
+                          "raw": ""
                         }
                       ]
                     }
@@ -1602,26 +1494,8 @@
                                 "ctxt": 0
                               },
                               "tail": false,
-                              "cooked": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 637,
-                                  "end": 641,
-                                  "ctxt": 0
-                                },
-                                "value": "head",
-                                "raw": ""
-                              },
-                              "raw": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 637,
-                                  "end": 641,
-                                  "ctxt": 0
-                                },
-                                "value": "head",
-                                "raw": ""
-                              }
+                              "cooked": "head",
+                              "raw": "head"
                             },
                             {
                               "type": "TemplateElement",
@@ -1631,26 +1505,8 @@
                                 "ctxt": 0
                               },
                               "tail": false,
-                              "cooked": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 645,
-                                  "end": 651,
-                                  "ctxt": 0
-                                },
-                                "value": "middle",
-                                "raw": ""
-                              },
-                              "raw": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 645,
-                                  "end": 651,
-                                  "ctxt": 0
-                                },
-                                "value": "middle",
-                                "raw": ""
-                              }
+                              "cooked": "middle",
+                              "raw": "middle"
                             },
                             {
                               "type": "TemplateElement",
@@ -1660,26 +1516,8 @@
                                 "ctxt": 0
                               },
                               "tail": true,
-                              "cooked": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 655,
-                                  "end": 659,
-                                  "ctxt": 0
-                                },
-                                "value": "tail",
-                                "raw": ""
-                              },
-                              "raw": {
-                                "type": "StringLiteral",
-                                "span": {
-                                  "start": 655,
-                                  "end": 659,
-                                  "ctxt": 0
-                                },
-                                "value": "tail",
-                                "raw": ""
-                              }
+                              "cooked": "tail",
+                              "raw": "tail"
                             }
                           ]
                         }

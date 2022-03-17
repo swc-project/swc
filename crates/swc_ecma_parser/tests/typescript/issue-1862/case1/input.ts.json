@@ -49,26 +49,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 10,
-                  "end": 11,
-                  "ctxt": 0
-                },
-                "value": "<",
-                "raw": ""
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 10,
-                  "end": 11,
-                  "ctxt": 0
-                },
-                "value": "<",
-                "raw": ""
-              }
+              "cooked": "<",
+              "raw": "<"
             }
           ]
         }
@@ -117,26 +99,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 24,
-                  "end": 25,
-                  "ctxt": 0
-                },
-                "value": ">",
-                "raw": ""
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 24,
-                  "end": 25,
-                  "ctxt": 0
-                },
-                "value": ">",
-                "raw": ""
-              }
+              "cooked": ">",
+              "raw": ">"
             }
           ]
         }

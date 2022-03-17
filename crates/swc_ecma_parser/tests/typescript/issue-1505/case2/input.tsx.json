@@ -200,26 +200,8 @@
                           "ctxt": 0
                         },
                         "tail": false,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 291,
-                            "end": 306,
-                            "ctxt": 0
-                          },
-                          "value": "withUsersTeams(",
-                          "raw": ""
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 291,
-                            "end": 306,
-                            "ctxt": 0
-                          },
-                          "value": "withUsersTeams(",
-                          "raw": ""
-                        }
+                        "cooked": "withUsersTeams(",
+                        "raw": "withUsersTeams("
                       },
                       {
                         "type": "TemplateElement",
@@ -229,26 +211,8 @@
                           "ctxt": 0
                         },
                         "tail": true,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 341,
-                            "end": 342,
-                            "ctxt": 0
-                          },
-                          "value": ")",
-                          "raw": ""
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 341,
-                            "end": 342,
-                            "ctxt": 0
-                          },
-                          "value": ")",
-                          "raw": ""
-                        }
+                        "cooked": ")",
+                        "raw": ")"
                       }
                     ]
                   },
@@ -2307,26 +2271,8 @@
                                   "ctxt": 0
                                 },
                                 "tail": false,
-                                "cooked": {
-                                  "type": "StringLiteral",
-                                  "span": {
-                                    "start": 1992,
-                                    "end": 2007,
-                                    "ctxt": 0
-                                  },
-                                  "value": "/organizations/",
-                                  "raw": ""
-                                },
-                                "raw": {
-                                  "type": "StringLiteral",
-                                  "span": {
-                                    "start": 1992,
-                                    "end": 2007,
-                                    "ctxt": 0
-                                  },
-                                  "value": "/organizations/",
-                                  "raw": ""
-                                }
+                                "cooked": "/organizations/",
+                                "raw": "/organizations/"
                               },
                               {
                                 "type": "TemplateElement",
@@ -2336,26 +2282,8 @@
                                   "ctxt": 0
                                 },
                                 "tail": true,
-                                "cooked": {
-                                  "type": "StringLiteral",
-                                  "span": {
-                                    "start": 2038,
-                                    "end": 2050,
-                                    "ctxt": 0
-                                  },
-                                  "value": "/user-teams/",
-                                  "raw": ""
-                                },
-                                "raw": {
-                                  "type": "StringLiteral",
-                                  "span": {
-                                    "start": 2038,
-                                    "end": 2050,
-                                    "ctxt": 0
-                                  },
-                                  "value": "/user-teams/",
-                                  "raw": ""
-                                }
+                                "cooked": "/user-teams/",
+                                "raw": "/user-teams/"
                               }
                             ]
                           }

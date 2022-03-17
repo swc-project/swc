@@ -934,31 +934,12 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let (raw, cooked) = match *cur!(self, true)? {
-            // TODO fix me for `raw`
             Token::Template { .. } => match bump!(self) {
                 Token::Template { raw, cooked, .. } => match cooked {
-                    Ok(cooked) => (
-                        Str {
-                            span: span!(self, start),
-                            value: raw,
-                            raw: js_word!(""),
-                        },
-                        Some(Str {
-                            span: span!(self, start),
-                            value: cooked,
-                            raw: js_word!(""),
-                        }),
-                    ),
+                    Ok(cooked) => (raw, Some(cooked)),
                     Err(err) => {
                         if is_tagged_tpl {
-                            (
-                                Str {
-                                    span: span!(self, start),
-                                    value: raw,
-                                    raw: js_word!(""),
-                                },
-                                None,
-                            )
+                            (raw, None)
                         } else {
                             return Err(err);
                         }
@@ -968,7 +949,9 @@ impl<'a, I: Tokens> Parser<I> {
             },
             _ => unexpected!(self, "template token"),
         };
+
         let tail = is!(self, '`');
+
         Ok(TplElement {
             span: span!(self, start),
             raw,

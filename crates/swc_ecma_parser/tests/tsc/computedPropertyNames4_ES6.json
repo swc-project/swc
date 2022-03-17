@@ -549,26 +549,8 @@
                           "ctxt": 0
                         },
                         "tail": true,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 200,
-                            "end": 209,
-                            "ctxt": 0
-                          },
-                          "value": "hello bye",
-                          "raw": ""
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 200,
-                            "end": 209,
-                            "ctxt": 0
-                          },
-                          "value": "hello bye",
-                          "raw": ""
-                        }
+                        "cooked": "hello bye",
+                        "raw": "hello bye"
                       }
                     ]
                   }
@@ -620,26 +602,8 @@
                           "ctxt": 0
                         },
                         "tail": false,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 222,
-                            "end": 228,
-                            "ctxt": 0
-                          },
-                          "value": "hello ",
-                          "raw": ""
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 222,
-                            "end": 228,
-                            "ctxt": 0
-                          },
-                          "value": "hello ",
-                          "raw": ""
-                        }
+                        "cooked": "hello ",
+                        "raw": "hello "
                       },
                       {
                         "type": "TemplateElement",
@@ -649,26 +613,8 @@
                           "ctxt": 0
                         },
                         "tail": true,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 232,
-                            "end": 236,
-                            "ctxt": 0
-                          },
-                          "value": " bye",
-                          "raw": ""
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 232,
-                            "end": 236,
-                            "ctxt": 0
-                          },
-                          "value": " bye",
-                          "raw": ""
-                        }
+                        "cooked": " bye",
+                        "raw": " bye"
                       }
                     ]
                   }

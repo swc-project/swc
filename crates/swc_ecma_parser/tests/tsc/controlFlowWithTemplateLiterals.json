@@ -125,26 +125,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 92,
-                  "end": 98,
-                  "ctxt": 0
-                },
-                "value": "string",
-                "raw": ""
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 92,
-                  "end": 98,
-                  "ctxt": 0
-                },
-                "value": "string",
-                "raw": ""
-              }
+              "cooked": "string",
+              "raw": "string"
             }
           ]
         }
@@ -362,26 +344,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 168,
-                  "end": 172,
-                  "ctxt": 0
-                },
-                "value": "test",
-                "raw": ""
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 168,
-                  "end": 172,
-                  "ctxt": 0
-                },
-                "value": "test",
-                "raw": ""
-              }
+              "cooked": "test",
+              "raw": "test"
             }
           ]
         },

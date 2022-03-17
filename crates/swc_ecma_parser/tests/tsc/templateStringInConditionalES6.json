@@ -69,26 +69,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 25,
-                      "end": 28,
-                      "ctxt": 0
-                    },
-                    "value": "abc",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 25,
-                      "end": 28,
-                      "ctxt": 0
-                    },
-                    "value": "abc",
-                    "raw": ""
-                  }
+                  "cooked": "abc",
+                  "raw": "abc"
                 },
                 {
                   "type": "TemplateElement",
@@ -98,26 +80,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 36,
-                      "end": 39,
-                      "ctxt": 0
-                    },
-                    "value": "def",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 36,
-                      "end": 39,
-                      "ctxt": 0
-                    },
-                    "value": "def",
-                    "raw": ""
-                  }
+                  "cooked": "def",
+                  "raw": "def"
                 }
               ]
             },
@@ -149,26 +113,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 44,
-                      "end": 47,
-                      "ctxt": 0
-                    },
-                    "value": "abc",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 44,
-                      "end": 47,
-                      "ctxt": 0
-                    },
-                    "value": "abc",
-                    "raw": ""
-                  }
+                  "cooked": "abc",
+                  "raw": "abc"
                 },
                 {
                   "type": "TemplateElement",
@@ -178,26 +124,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 55,
-                      "end": 58,
-                      "ctxt": 0
-                    },
-                    "value": "def",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 55,
-                      "end": 58,
-                      "ctxt": 0
-                    },
-                    "value": "def",
-                    "raw": ""
-                  }
+                  "cooked": "def",
+                  "raw": "def"
                 }
               ]
             },
@@ -229,26 +157,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 63,
-                      "end": 66,
-                      "ctxt": 0
-                    },
-                    "value": "abc",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 63,
-                      "end": 66,
-                      "ctxt": 0
-                    },
-                    "value": "abc",
-                    "raw": ""
-                  }
+                  "cooked": "abc",
+                  "raw": "abc"
                 },
                 {
                   "type": "TemplateElement",
@@ -258,26 +168,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 74,
-                      "end": 77,
-                      "ctxt": 0
-                    },
-                    "value": "def",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 74,
-                      "end": 77,
-                      "ctxt": 0
-                    },
-                    "value": "def",
-                    "raw": ""
-                  }
+                  "cooked": "def",
+                  "raw": "def"
                 }
               ]
             }

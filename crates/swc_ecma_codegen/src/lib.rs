@@ -1602,7 +1602,7 @@ where
         srcmap!(node, true);
 
         self.wr
-            .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw.value, true))?;
+            .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw, true))?;
 
         srcmap!(node, false);
 

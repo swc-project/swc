@@ -51,26 +51,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 11,
-                    "end": 24,
-                    "ctxt": 0
-                  },
-                  "value": "   20",
-                  "raw": ""
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 11,
-                    "end": 24,
-                    "ctxt": 0
-                  },
-                  "value": "\\x20\\u0020 20",
-                  "raw": ""
-                }
+                "cooked": "   20",
+                "raw": "\\x20\\u0020 20"
               }
             ]
           },

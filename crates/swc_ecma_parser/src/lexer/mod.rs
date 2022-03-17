@@ -741,8 +741,6 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.read_word_as_str_with(|s| JsWord::from(s))
     }
 
-    /// returns (word, has_escape)
-    ///
     /// This method is optimized for texts without escape sequences.
     fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
     where
@@ -992,8 +990,6 @@ impl<'a, I: Input> Lexer<'a, I> {
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
         let start = self.cur_pos();
 
-        // TODO: Optimize
-        let mut has_escape = false;
         let mut cooked = Ok(String::new());
         let mut raw = String::new();
 
@@ -1014,14 +1010,14 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return Ok(Template {
                     cooked: cooked.map(|cooked| cooked.into()),
                     raw: raw.into(),
-                    has_escape,
                 });
             }
 
             if c == '\\' {
-                has_escape = true;
                 raw.push('\\');
+
                 let mut wrapped = Raw(Some(raw));
+
                 match self.read_escaped_char(&mut wrapped, true) {
                     Ok(Some(s)) => {
                         if let Ok(ref mut cooked) = cooked {
@@ -1033,9 +1029,11 @@ impl<'a, I: Input> Lexer<'a, I> {
                         cooked = Err(error);
                     }
                 }
+
                 raw = wrapped.0.unwrap();
             } else if c.is_line_terminator() {
                 self.state.had_line_break = true;
+
                 let c = if c == '\r' && self.peek() == Some('\n') {
                     raw.push('\r');
                     self.bump(); // '\r'
@@ -1049,16 +1047,21 @@ impl<'a, I: Input> Lexer<'a, I> {
                         _ => unreachable!(),
                     }
                 };
+
                 self.bump();
+
                 if let Ok(ref mut cooked) = cooked {
                     cooked.push(c);
                 }
+
                 raw.push(c);
             } else {
                 self.bump();
+
                 if let Ok(ref mut cooked) = cooked {
                     cooked.push(c);
                 }
+
                 raw.push(c);
             }
         }

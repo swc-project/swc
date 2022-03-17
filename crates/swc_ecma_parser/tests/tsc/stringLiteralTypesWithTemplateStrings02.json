@@ -76,26 +76,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 45,
-                    "end": 49,
-                    "ctxt": 0
-                  },
-                  "value": "AB\nC",
-                  "raw": ""
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 45,
-                    "end": 49,
-                    "ctxt": 0
-                  },
-                  "value": "AB\nC",
-                  "raw": ""
-                }
+                "cooked": "AB\nC",
+                "raw": "AB\nC"
               }
             ]
           },
@@ -184,26 +166,8 @@
                   "ctxt": 0
                 },
                 "tail": false,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 81,
-                    "end": 83,
-                    "ctxt": 0
-                  },
-                  "value": "DE",
-                  "raw": ""
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 81,
-                    "end": 83,
-                    "ctxt": 0
-                  },
-                  "value": "DE",
-                  "raw": ""
-                }
+                "cooked": "DE",
+                "raw": "DE"
               },
               {
                 "type": "TemplateElement",
@@ -213,26 +177,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 90,
-                    "end": 91,
-                    "ctxt": 0
-                  },
-                  "value": "F",
-                  "raw": ""
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 90,
-                    "end": 91,
-                    "ctxt": 0
-                  },
-                  "value": "F",
-                  "raw": ""
-                }
+                "cooked": "F",
+                "raw": "F"
               }
             ]
           },

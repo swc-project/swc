@@ -51,26 +51,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 11,
-                    "end": 33,
-                    "ctxt": 0
-                  },
-                  "value": "\u0000\u0000\u0000 0 00 0000",
-                  "raw": ""
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 11,
-                    "end": 33,
-                    "ctxt": 0
-                  },
-                  "value": "\\0\\x00\\u0000 0 00 0000",
-                  "raw": ""
-                }
+                "cooked": "\u0000\u0000\u0000 0 00 0000",
+                "raw": "\\0\\x00\\u0000 0 00 0000"
               }
             ]
           },

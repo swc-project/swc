@@ -73,7 +73,6 @@ pub enum Token {
     Template {
         raw: JsWord,
         cooked: LexResult<JsWord>,
-        has_escape: bool,
     },
     /// ':'
     #[kind(before_expr)]

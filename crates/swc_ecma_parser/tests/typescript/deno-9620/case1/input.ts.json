@@ -51,26 +51,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 17,
-                    "end": 195,
-                    "ctxt": 0
-                  },
-                  "value": "--------------------------366796e1c748a2fb\r\nContent-Disposition: form-data; name=\"payload\"\r\nContent-Type: text/plain\r\n\r\nCONTENT\r\n--------------------------366796e1c748a2fb--",
-                  "raw": ""
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 17,
-                    "end": 195,
-                    "ctxt": 0
-                  },
-                  "value": "--------------------------366796e1c748a2fb\\r\nContent-Disposition: form-data; name=\"payload\"\\r\nContent-Type: text/plain\\r\n\\r\nCONTENT\\r\n--------------------------366796e1c748a2fb--",
-                  "raw": ""
-                }
+                "cooked": "--------------------------366796e1c748a2fb\r\nContent-Disposition: form-data; name=\"payload\"\r\nContent-Type: text/plain\r\n\r\nCONTENT\r\n--------------------------366796e1c748a2fb--",
+                "raw": "--------------------------366796e1c748a2fb\\r\nContent-Disposition: form-data; name=\"payload\"\\r\nContent-Type: text/plain\\r\n\\r\nCONTENT\\r\n--------------------------366796e1c748a2fb--"
               }
             ]
           },

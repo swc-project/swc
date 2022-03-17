@@ -51,26 +51,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 26,
-                    "end": 37,
-                    "ctxt": 0
-                  },
-                  "value": "helloworld",
-                  "raw": ""
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 26,
-                    "end": 37,
-                    "ctxt": 0
-                  },
-                  "value": "hello\\world",
-                  "raw": ""
-                }
+                "cooked": "helloworld",
+                "raw": "hello\\world"
               }
             ]
           },
@@ -123,26 +105,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 49,
-                    "end": 61,
-                    "ctxt": 0
-                  },
-                  "value": "hello\\world",
-                  "raw": ""
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 49,
-                    "end": 61,
-                    "ctxt": 0
-                  },
-                  "value": "hello\\\\world",
-                  "raw": ""
-                }
+                "cooked": "hello\\world",
+                "raw": "hello\\\\world"
               }
             ]
           },
@@ -195,26 +159,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 73,
-                    "end": 86,
-                    "ctxt": 0
-                  },
-                  "value": "hello\\world",
-                  "raw": ""
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 73,
-                    "end": 86,
-                    "ctxt": 0
-                  },
-                  "value": "hello\\\\\\world",
-                  "raw": ""
-                }
+                "cooked": "hello\\world",
+                "raw": "hello\\\\\\world"
               }
             ]
           },
@@ -267,26 +213,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 98,
-                    "end": 112,
-                    "ctxt": 0
-                  },
-                  "value": "hello\\\\world",
-                  "raw": ""
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 98,
-                    "end": 112,
-                    "ctxt": 0
-                  },
-                  "value": "hello\\\\\\\\world",
-                  "raw": ""
-                }
+                "cooked": "hello\\\\world",
+                "raw": "hello\\\\\\\\world"
               }
             ]
           },

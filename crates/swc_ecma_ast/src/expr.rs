@@ -2,6 +2,7 @@
 use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
 use string_enum::StringEnum;
+use swc_atoms::JsWord;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 use crate::{
@@ -9,7 +10,7 @@ use crate::{
     function::Function,
     ident::{Ident, PrivateName},
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
-    lit::{Lit, Str},
+    lit::{Lit},
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::Pat,
     prop::Prop,
@@ -757,8 +758,8 @@ pub struct TplElement {
     ///
     /// If you are going to use codegen right after creating a [TplElement], you
     /// don't have to worry about this value.
-    pub cooked: Option<Str>,
-    pub raw: Str,
+    pub cooked: Option<JsWord>,
+    pub raw: JsWord,
 }
 
 impl Take for TplElement {
@@ -766,8 +767,8 @@ impl Take for TplElement {
         TplElement {
             span: DUMMY_SP,
             tail: Default::default(),
-            cooked: Take::dummy(),
-            raw: Take::dummy(),
+            cooked: Some("".into()),
+            raw: "".into(),
         }
     }
 }

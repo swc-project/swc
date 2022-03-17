@@ -752,26 +752,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 238,
-                      "end": 247,
-                      "ctxt": 0
-                    },
-                    "value": "hello bye",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 238,
-                      "end": 247,
-                      "ctxt": 0
-                    },
-                    "value": "hello bye",
-                    "raw": ""
-                  }
+                  "cooked": "hello bye",
+                  "raw": "hello bye"
                 }
               ]
             }
@@ -847,26 +829,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 269,
-                      "end": 275,
-                      "ctxt": 0
-                    },
-                    "value": "hello ",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 269,
-                      "end": 275,
-                      "ctxt": 0
-                    },
-                    "value": "hello ",
-                    "raw": ""
-                  }
+                  "cooked": "hello ",
+                  "raw": "hello "
                 },
                 {
                   "type": "TemplateElement",
@@ -876,26 +840,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 279,
-                      "end": 283,
-                      "ctxt": 0
-                    },
-                    "value": " bye",
-                    "raw": ""
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 279,
-                      "end": 283,
-                      "ctxt": 0
-                    },
-                    "value": " bye",
-                    "raw": ""
-                  }
+                  "cooked": " bye",
+                  "raw": " bye"
                 }
               ]
             }
