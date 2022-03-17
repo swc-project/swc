@@ -17,6 +17,9 @@
 - **(es/helpers)** Export `classPrivateFieldLooseKey` as `default` (#4047) ([025c921](https://github.com/swc-project/swc/commit/025c921409caa53131bdacd3db2d4adeb1806d52))
 
 
+- **(es/helpers)** Fix the name of `_classPrivateFieldLooseBase` (#4061) ([f8a3849](https://github.com/swc-project/swc/commit/f8a3849299e666e1b6543fec953732ed9c88a225))
+
+
 - **(es/parser)** Allow nested ambient context in `.d.ts` files (#4060) ([ffcb6ce](https://github.com/swc-project/swc/commit/ffcb6ce523fb4ffba8531d5194f69e62c63d3d9a))
 
 
@@ -29,10 +32,16 @@
 - **(cli)** Enable plugins for `swc_cli` (#4059) ([fefb587](https://github.com/swc-project/swc/commit/fefb5870c7ed9bb4a97be778bf3be1eee74aa344))
 
 
+- **(css/prefixer)** Support more properties (#4055) ([f2517a3](https://github.com/swc-project/swc/commit/f2517a345bcae30ebb4f0b2910a8db31e944648d))
+
+
 - **(es/lints)** Implement `yoda` rule (#3886) ([833958b](https://github.com/swc-project/swc/commit/833958bd7469993e756c24dcd1263ef2c5ef9eb9))
 
 
 - **(node-swc)** Add `libc` field in Linux platform packages (#4046) ([db9b988](https://github.com/swc-project/swc/commit/db9b9888459c0394209f68bad421eb31a491547a))
+
+
+- **(node-swc)** Embed target triple string (#4058) ([5a2a603](https://github.com/swc-project/swc/commit/5a2a6037d442d76d557d07795def5653aff91f2a))
 
 ## [1.2.156] - 2022-03-16
 

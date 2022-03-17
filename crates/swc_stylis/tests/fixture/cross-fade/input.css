@@ -21,3 +21,18 @@ h3 {
 .foo {
     background-image: cross-fade(.59 linear-gradient(white, black), radial-gradient(circle closest-corner, white, black));
 }
+
+.class {
+    background-image: cross-fade( url(white.png) 0%, url(black.png) 100%); /* fully black */
+    background-image: cross-fade( url(white.png) 25%, url(black.png) 75%); /* 25% white, 75% black */
+    background-image: cross-fade( url(white.png) 50%, url(black.png) 50%); /* 50% white, 50% black */
+    background-image: cross-fade( url(white.png) 75%, url(black.png) 25%); /* 75% white, 25% black */
+    background-image: cross-fade( url(white.png) 100%, url(black.png) 0%); /* fully white */
+    background-image: cross-fade( url(green.png) 75%, url(red.png) 75%); /* both green and red at 75% */
+    background-image: cross-fade( url(white.png), url(black.png) 75%);
+    background-image: cross-fade( url(red.png) 33.33%, url(yellow.png) 33.33%, url(blue.png) 33.33%);
+}
+
+.broken {
+    background-image: cross-fade(url(red.png) 33.33%);
+}
