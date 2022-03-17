@@ -586,6 +586,7 @@ impl Compiler {
             if cfg!(debug_assertions)
                 && !src_map_buf.is_empty()
                 && src_map_buf.iter().all(|(bp, _)| *bp == BytePos(0))
+                && src.lines().count() >= 3
             {
                 panic!("The module contains only dummy spans\n{}", src);
             }
