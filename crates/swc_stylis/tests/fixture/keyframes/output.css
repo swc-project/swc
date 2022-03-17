@@ -5,7 +5,6 @@
     top: calc(10% + 10px);
     -webkit-transform: rotate(10deg);
     -moz-transform: rotate(10deg);
-    -ms-transform: rotate(10deg);
     -o-transform: rotate(10deg);
     transform: rotate(10deg);
   }
@@ -23,7 +22,6 @@
     top: calc(10%);
     -webkit-transform: rotate(0);
     -moz-transform: rotate(0);
-    -ms-transform: rotate(0);
     -o-transform: rotate(0);
     transform: rotate(0);
   }

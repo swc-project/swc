@@ -334,6 +334,20 @@ export function __experimental_registerGlobalTraceConfig(traceConfig: {
   }
 }
 
+/**
+ * @ignore
+ *
+ * Returns current binary's metadata to determine which binary is actually loaded.
+ *
+ * This is undocumented interface, does not gaurantee stability across `@swc/core`'s semver
+ * as internal representation may change anytime. Use it with caution.
+ */
+export function getBinaryMetadata() {
+  return {
+    target: bindings.getTargetTriple()
+  };
+}
+
 export const DEFAULT_EXTENSIONS = Object.freeze([
   ".js",
   ".jsx",

@@ -5,7 +5,14 @@
 .b, 
 .c::selection, 
 .d:read-only, 
-.e::-ms-input-placeholder {
+.e::-webkit-input-placeholder {
+  color: yellow;
+}
+.a, 
+.b, 
+.c::-moz-selection, 
+.d:-moz-read-only, 
+.e:-moz-placeholder {
   color: yellow;
 }
 .a, 
@@ -19,7 +26,14 @@
 .b, 
 .c::selection, 
 .d:read-only, 
-.e::-webkit-input-placeholder {
+.e:-ms-input-placeholder {
+  color: yellow;
+}
+.a, 
+.b, 
+.c::selection, 
+.d:read-only, 
+.e::-ms-input-placeholder {
   color: yellow;
 }
 .a, 

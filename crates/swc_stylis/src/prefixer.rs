@@ -4,7 +4,7 @@ use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::{
     replace_function_name, replace_ident, replace_pseudo_class_selector_name,
-    replace_pseudo_element_selector_name,
+    replace_pseudo_class_selector_on_pseudo_element_selector, replace_pseudo_element_selector_name,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -12,9 +12,184 @@ pub fn prefixer() -> impl VisitMut {
     Prefixer::default()
 }
 
+pub struct CrossFadeFunctionReplacerOnLegacyVariant<'a> {
+    from: &'a str,
+    to: &'a str,
+}
+
+impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        if &*n.name.value.to_lowercase() == self.from {
+            let mut transparency_values = vec![];
+
+            for group in n.value.split_mut(|n| {
+                matches!(
+                    n,
+                    ComponentValue::Delimiter(Delimiter {
+                        value: DelimiterValue::Comma,
+                        ..
+                    })
+                )
+            }) {
+                if transparency_values.len() >= 2 {
+                    return;
+                }
+
+                let mut transparency_value = None;
+
+                for n in group {
+                    match n {
+                        ComponentValue::Percentage(Percentage {
+                            value: Number { value, .. },
+                            ..
+                        }) => {
+                            if transparency_value.is_some() {
+                                return;
+                            }
+
+                            transparency_value = Some(*value / 100.0);
+                        }
+                        ComponentValue::Number(Number { value, .. }) => {
+                            if transparency_value.is_some() {
+                                return;
+                            }
+
+                            transparency_value = Some(*value);
+                        }
+                        ComponentValue::Integer(Integer { value, .. }) => {
+                            if transparency_value.is_some() {
+                                return;
+                            }
+
+                            transparency_value = Some((*value) as f64);
+                        }
+                        _ => {}
+                    }
+                }
+
+                transparency_values.push(transparency_value);
+            }
+
+            if transparency_values.len() != 2 {
+                return;
+            }
+
+            let transparency_value = match (transparency_values[0], transparency_values[1]) {
+                (None, None) => 0.5,
+                (Some(number), None) => number,
+                (None, Some(number)) => 1.0 - number,
+                (Some(first), Some(second)) if first + second == 1.0 => first,
+                _ => {
+                    return;
+                }
+            };
+
+            let mut new_value: Vec<ComponentValue> = n
+                .value
+                .iter()
+                .filter(|n| {
+                    !matches!(
+                        n,
+                        ComponentValue::Percentage(_)
+                            | ComponentValue::Number(_)
+                            | ComponentValue::Integer(_)
+                    )
+                })
+                .cloned()
+                .collect();
+
+            new_value.extend(vec![
+                ComponentValue::Delimiter(Delimiter {
+                    span: DUMMY_SP,
+                    value: DelimiterValue::Comma,
+                }),
+                ComponentValue::Number(Number {
+                    span: DUMMY_SP,
+                    value: transparency_value,
+                    raw: transparency_value.to_string().into(),
+                }),
+            ]);
+
+            n.value = new_value;
+
+            n.name.value = self.to.into();
+            n.name.raw = self.to.into();
+        }
+    }
+}
+
+pub fn replace_cross_fade_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+where
+    N: for<'aa> VisitMutWith<CrossFadeFunctionReplacerOnLegacyVariant<'aa>>,
+{
+    node.visit_mut_with(&mut CrossFadeFunctionReplacerOnLegacyVariant { from, to });
+}
+
+pub struct ImageSetFunctionReplacerOnLegacyVariant<'a> {
+    from: &'a str,
+    to: &'a str,
+    in_function: bool,
+}
+
+impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
+    fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
+        n.visit_mut_children_with(self);
+
+        if !self.in_function {
+            return;
+        }
+
+        if let ComponentValue::Str(Str { value, raw, span }) = n {
+            *n = ComponentValue::Url(Url {
+                span: *span,
+                name: Ident {
+                    span: DUMMY_SP,
+                    value: "url".into(),
+                    raw: "url".into(),
+                },
+                value: Some(UrlValue::Str(Str {
+                    span: DUMMY_SP,
+                    value: value.as_ref().into(),
+                    raw: raw.as_ref().into(),
+                })),
+                modifiers: Some(vec![]),
+            })
+        }
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        let old_in_function = self.in_function;
+
+        self.in_function = true;
+
+        n.visit_mut_children_with(self);
+
+        if &*n.name.value.to_lowercase() == self.from {
+            n.name.value = self.to.into();
+            n.name.raw = self.to.into();
+        }
+
+        self.in_function = old_in_function;
+    }
+}
+
+pub fn replace_image_set_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+where
+    N: for<'aa> VisitMutWith<ImageSetFunctionReplacerOnLegacyVariant<'aa>>,
+{
+    node.visit_mut_with(&mut ImageSetFunctionReplacerOnLegacyVariant {
+        from,
+        to,
+        in_function: false,
+    });
+}
+
 #[derive(Default)]
 struct Prefixer {
     in_stylesheet: bool,
+    in_keyframe_block: bool,
     added_rules: Vec<Rule>,
     in_simple_block: bool,
     added_declarations: Vec<Declaration>,
@@ -28,12 +203,21 @@ pub enum Prefix {
 }
 
 impl VisitMut for Prefixer {
+    fn visit_mut_keyframe_block(&mut self, n: &mut KeyframeBlock) {
+        let old_in_keyframe_block = self.in_keyframe_block;
+
+        self.in_keyframe_block = true;
+
+        n.visit_mut_children_with(self);
+
+        self.in_keyframe_block = old_in_keyframe_block;
+    }
+
     // TODO handle `resolution` in media/supports at-rules
     // TODO handle declarations in `@media`/`@support`
     // TODO handle `@viewport`
     // TODO handle `@keyframes`
 
-    // TODO improve legacy `::placeholder` pseudo
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         n.visit_mut_children_with(self);
 
@@ -55,11 +239,11 @@ impl VisitMut for Prefixer {
             "file-selector-button",
             "-webkit-file-upload-button",
         );
-        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-ms-backdrop");
+        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-webkit-backdrop");
         replace_pseudo_element_selector_name(
             &mut new_prelude,
             "placeholder",
-            "-ms-input-placeholder",
+            "-webkit-input-placeholder",
         );
 
         if n.prelude != new_prelude {
@@ -82,6 +266,25 @@ impl VisitMut for Prefixer {
             "-moz-placeholder-shown",
         );
         replace_pseudo_element_selector_name(&mut new_prelude, "selection", "-moz-selection");
+
+        {
+            let mut new_prelude_with_previous = new_prelude.clone();
+
+            replace_pseudo_class_selector_on_pseudo_element_selector(
+                &mut new_prelude_with_previous,
+                "placeholder",
+                "-moz-placeholder",
+            );
+
+            if new_prelude_with_previous != new_prelude {
+                self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_prelude_with_previous,
+                    block: n.block.clone(),
+                }));
+            }
+        }
+
         replace_pseudo_element_selector_name(&mut new_prelude, "placeholder", "-moz-placeholder");
 
         if n.prelude != new_prelude {
@@ -105,11 +308,30 @@ impl VisitMut for Prefixer {
             "file-selector-button",
             "-ms-browse",
         );
-        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-webkit-backdrop");
+        replace_pseudo_element_selector_name(&mut new_prelude, "backdrop", "-ms-backdrop");
+
+        {
+            let mut new_prelude_with_previous = new_prelude.clone();
+
+            replace_pseudo_class_selector_on_pseudo_element_selector(
+                &mut new_prelude_with_previous,
+                "placeholder",
+                "-ms-input-placeholder",
+            );
+
+            if new_prelude_with_previous != new_prelude {
+                self.added_rules.push(Rule::QualifiedRule(QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_prelude_with_previous,
+                    block: n.block.clone(),
+                }));
+            }
+        }
+
         replace_pseudo_element_selector_name(
             &mut new_prelude,
             "placeholder",
-            "-webkit-input-placeholder",
+            "-ms-input-placeholder",
         );
 
         if n.prelude != new_prelude {
@@ -171,8 +393,17 @@ impl VisitMut for Prefixer {
         let mut webkit_new_value = n.value.clone();
 
         replace_function_name(&mut webkit_new_value, "filter", "-webkit-filter");
-        replace_function_name(&mut webkit_new_value, "image-set", "-webkit-image-set");
+        replace_image_set_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "image-set",
+            "-webkit-image-set",
+        );
         replace_function_name(&mut webkit_new_value, "calc", "-webkit-calc");
+        replace_cross_fade_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "cross-fade",
+            "-webkit-cross-fade",
+        );
 
         let mut moz_new_value = n.value.clone();
 
@@ -320,6 +551,7 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::O, "-o-animation-timing-function");
             }
 
+            // TODO improve me https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip
             "background-clip" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "text" {
@@ -516,6 +748,7 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-flex-line-pack");
             }
 
+            // TODO fix me https://developer.mozilla.org/en-US/docs/Web/CSS/Image-Rendering
             "image-rendering" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "pixelated" {
@@ -712,7 +945,10 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Moz, "-moz-transform");
 
                 if !has_3d_function {
-                    same_content!(Prefix::Ms, "-ms-transform");
+                    if !self.in_keyframe_block {
+                        same_content!(Prefix::Ms, "-ms-transform");
+                    }
+
                     same_content!(Prefix::O, "-o-transform");
                 }
             }
@@ -720,7 +956,11 @@ impl VisitMut for Prefixer {
             "transform-origin" => {
                 same_content!(Prefix::Webkit, "-webkit-transform-origin");
                 same_content!(Prefix::Moz, "-moz-transform-origin");
-                same_content!(Prefix::Ms, "-ms-transform-origin");
+
+                if !self.in_keyframe_block {
+                    same_content!(Prefix::Ms, "-ms-transform-origin");
+                }
+
                 same_content!(Prefix::O, "-o-transform-origin");
             }
 
@@ -809,8 +1049,10 @@ impl VisitMut for Prefixer {
             }
 
             // TODO improve me for `filter` values https://github.com/postcss/autoprefixer/blob/main/test/cases/transition.css#L6
+            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/transition.js
             "transition" => {
                 replace_ident(&mut webkit_new_value, "transform", "-webkit-transform");
+                replace_ident(&mut webkit_new_value, "filter", "-webkit-filter");
 
                 same_content!(Prefix::Webkit, "-webkit-transition");
 
@@ -910,7 +1152,6 @@ impl VisitMut for Prefixer {
                         "stretch" => {
                             same_name!("-webkit-fill-available");
                             same_name!("-moz-available");
-                            same_name!("fill-available");
                         }
 
                         _ => {}
@@ -1094,11 +1335,13 @@ impl VisitMut for Prefixer {
 
             "background-origin" => {
                 same_content!(Prefix::Webkit, "-webkit-background-origin");
+                same_content!(Prefix::Moz, "-moz-background-origin");
                 same_content!(Prefix::O, "-o-background-origin");
             }
 
             "background-size" => {
                 same_content!(Prefix::Webkit, "-webkit-background-size");
+                same_content!(Prefix::Moz, "-moz-background-size");
                 same_content!(Prefix::O, "-o-background-size");
             }
 
@@ -1195,11 +1438,7 @@ impl VisitMut for Prefixer {
 
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid) and https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559 and https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
             // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
-            // TODO handle `image-set()` https://github.com/postcss/autoprefixer/blob/main/lib/hacks/image-set.js
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
-            // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/filter-value.js
-            // TODO add https://github.com/postcss/autoprefixer/blob/main/lib/hacks/cross-fade.js
-            // TODO handle transform functions https://github.com/postcss/autoprefixer/blob/main/lib/hacks/transform-decl.js
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {}
         }
