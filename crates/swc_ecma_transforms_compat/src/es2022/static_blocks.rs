@@ -78,6 +78,7 @@ impl ClassStaticBlock {
                 args: Vec::new(),
                 type_args: None,
             }))),
+            definite: false,
         }
     }
 }

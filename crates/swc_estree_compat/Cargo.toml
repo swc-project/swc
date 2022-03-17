@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_estree_compat"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.75.0"
+version = "0.76.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -24,18 +24,18 @@ swc_common = { version = "0.17.0", path = "../swc_common", features = [
   "sourcemap",
   "tty-emitter",
 ] }
-swc_ecma_ast = { version = "0.70.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "0.94.0", path = "../swc_ecma_parser" }
-swc_ecma_utils = { version = "0.73.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.56.0", path = "../swc_ecma_visit" }
+swc_ecma_ast = { version = "0.71.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "0.95.0", path = "../swc_ecma_parser" }
+swc_ecma_utils = { version = "0.74.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.57.0", path = "../swc_ecma_visit" }
 swc_estree_ast = { version = "0.7.0", path = "../swc_estree_ast" }
 swc_node_comments = { version = "0.4.0", path = "../swc_node_comments/" }
 
 [dev-dependencies]
 pretty_assertions = "1.1"
-swc = { version = "0.155.0", path = "../swc" }
-swc_ecma_ast = { version = "0.70.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "0.94.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "0.133.0", path = "../swc_ecma_transforms/" }
+swc = { version = "0.156.0", path = "../swc" }
+swc_ecma_ast = { version = "0.71.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "0.95.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms = { version = "0.134.0", path = "../swc_ecma_transforms/" }
 testing = { version = "0.19.0", path = "../testing" }
 walkdir = "2"
