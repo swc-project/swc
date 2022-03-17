@@ -1,4 +1,4 @@
-use swc_common::Span;
+use swc_common::{BytePos, Span};
 
 use super::{Result, WriteJs};
 
@@ -80,6 +80,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
         self.inner.write_punct(span, s)
     }
 
+    #[inline]
     fn target(&self) -> swc_ecma_ast::EsVersion {
         self.inner.target()
     }
@@ -87,6 +88,11 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     #[inline]
     fn care_about_srcmap(&self) -> bool {
         self.inner.care_about_srcmap()
+    }
+
+    #[inline]
+    fn add_srcmap(&mut self, pos: BytePos) -> Result {
+        self.inner.add_srcmap(pos)
     }
 }
 

@@ -47,6 +47,8 @@ pub trait WriteJs {
     fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result;
 
     fn care_about_srcmap(&self) -> bool;
+
+    fn add_srcmap(&mut self, pos: BytePos) -> Result;
 }
 
 impl<W> WriteJs for Box<W>
@@ -136,5 +138,10 @@ where
     #[inline]
     fn care_about_srcmap(&self) -> bool {
         (**self).care_about_srcmap()
+    }
+
+    #[inline]
+    fn add_srcmap(&mut self, pos: BytePos) -> Result {
+        (**self).add_srcmap(pos)
     }
 }

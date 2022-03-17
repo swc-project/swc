@@ -254,6 +254,11 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn care_about_srcmap(&self) -> bool {
         self.srcmap.is_some()
     }
+
+    fn add_srcmap(&mut self, pos: BytePos) -> Result {
+        self.srcmap(pos);
+        Ok(())
+    }
 }
 
 fn compute_line_starts(s: &str) -> Vec<usize> {
