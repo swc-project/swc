@@ -6,7 +6,7 @@ var Formatting;
             var result = this.GetIndentationEditsWorker(token, nextToken, node, sameLineIndent);
             if (this.logger.information()) for(var i = 0; i < result.count(); i++){
                 var edit = result.get(i);
-                this.logger.log("edit: minChar=" + edit.position + ", limChar=" + (edit.position + edit.length) + ", text=\"" + TypeScript.stringToLiteral(edit.replaceWith, 30) + "\"");
+                this.logger.log("edit: minChar=" + edit.position + ", limChar=" + (edit.position + edit.length) + ', text="' + TypeScript.stringToLiteral(edit.replaceWith, 30) + '"');
             }
             return result;
         }

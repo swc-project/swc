@@ -102,6 +102,8 @@ jobs:
             os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
+          - crate: fastmem
+            os: ubuntu-latest
           - crate: from_variant
             os: ubuntu-latest
           - crate: jsdoc
@@ -109,8 +111,8 @@ jobs:
           - crate: node
             os: ubuntu-latest
             check: |
-              cargo check
-              cargo check --no-default-features --features swc_v2
+              cargo check --features plugin
+              cargo check --no-default-features --features plugin --features swc_v2
           - crate: node_macro_deps
             os: ubuntu-latest
           - crate: preset_env_base
@@ -120,7 +122,7 @@ jobs:
           - crate: swc
             os: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin
           - crate: swc
             os: windows-latest
           - crate: swc_atoms
@@ -129,8 +131,13 @@ jobs:
             os: ubuntu-latest
             check: |
               cargo hack check --feature-powerset --no-dev-deps
+          - crate: swc_cached
+            os: ubuntu-latest
           - crate: swc_cli
             os: ubuntu-latest
+            check: |
+              cargo check
+              cargo check --features plugin
           - crate: swc_cli
             os: windows-latest
           - crate: swc_common
@@ -240,6 +247,8 @@ jobs:
           - crate: swc_ecmascript
             os: ubuntu-latest
           - crate: swc_eq_ignore_macros
+            os: ubuntu-latest
+          - crate: swc_error_reporters
             os: ubuntu-latest
           - crate: swc_estree_ast
             os: ubuntu-latest

@@ -627,7 +627,7 @@
                     });
                 }
                 var stylisPlugins = options.stylisPlugins || defaultStylisPlugins, inserted = {}, nodesToHydrate = [];
-                container = options.container || document.head, Array.prototype.forEach.call(document.querySelectorAll("style[data-emotion^=\"" + key + " \"]"), function(node) {
+                container = options.container || document.head, Array.prototype.forEach.call(document.querySelectorAll('style[data-emotion^="' + key + ' "]'), function(node) {
                     for(var attrib = node.getAttribute("data-emotion").split(" "), i = 1; i < attrib.length; i++)inserted[attrib[i]] = !0;
                     nodesToHydrate.push(node);
                 });
@@ -699,7 +699,7 @@
                         nonce: cache.sheet.nonce,
                         container: cache.sheet.container,
                         speedy: cache.sheet.isSpeedy
-                    }), rehydrating = !1, node = document.querySelector("style[data-emotion=\"" + key + " " + serialized.name + "\"]");
+                    }), rehydrating = !1, node = document.querySelector('style[data-emotion="' + key + " " + serialized.name + '"]');
                     return cache.sheet.tags.length && (sheet.before = cache.sheet.tags[0]), null !== node && (rehydrating = !0, node.setAttribute("data-emotion", key), sheet.hydrate([
                         node
                     ])), sheetRef.current = [

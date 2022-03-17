@@ -954,9 +954,9 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         }).extend(this).implement(params);
         return newClass.$constructor = Class, newClass.prototype.$constructor = newClass, newClass.prototype.parent = parent1, newClass;
     }), parent1 = function() {
-        if (!this.$caller) throw new Error("The method \"parent\" cannot be called.");
+        if (!this.$caller) throw new Error('The method "parent" cannot be called.');
         var name = this.$caller.$name, parent = this.$caller.$owner.parent, previous = parent ? parent.prototype[name] : null;
-        if (!previous) throw new Error("The method \"" + name + "\" has no parent.");
+        if (!previous) throw new Error('The method "' + name + '" has no parent.');
         return previous.apply(this, arguments);
     }, reset = function(object) {
         for(var key in object){
@@ -975,7 +975,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
     }, wrap = function(self, key, method) {
         method.$origin && (method = method.$origin);
         var wrapper = (function() {
-            if (method.$protected && null == this.$caller) throw new Error("The method \"" + key + "\" cannot be called.");
+            if (method.$protected && null == this.$caller) throw new Error('The method "' + key + '" cannot be called.');
             var caller = this.caller, current = this.$caller;
             this.caller = current, this.$caller = wrapper;
             var result = method.apply(this, arguments);
@@ -1205,7 +1205,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             var starSelectsClosed, starSelectsComments, brokenSecondClassNameGEBCN, cachedGetElementsByClassName, brokenFormAttributeGetter, selected, id = "slick_uniqueid", testNode = document.createElement("div"), testRoot = document.body || document.getElementsByTagName("body")[0] || root;
             testRoot.appendChild(testNode);
             try {
-                testNode.innerHTML = "<a id=\"" + id + "\"></a>", features.isHTMLDocument = !!document.getElementById(id);
+                testNode.innerHTML = '<a id="' + id + '"></a>', features.isHTMLDocument = !!document.getElementById(id);
             } catch (e) {}
             if (features.isHTMLDocument) {
                 testNode.style.display = "none", testNode.appendChild(document.createComment("")), starSelectsComments = testNode.getElementsByTagName("*").length > 1;
@@ -1214,14 +1214,14 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                 } catch (e) {}
                 features.brokenStarGEBTN = starSelectsComments || starSelectsClosed;
                 try {
-                    testNode.innerHTML = "<a name=\"" + id + "\"></a><b id=\"" + id + "\"></b>", features.idGetsName = document.getElementById(id) === testNode.firstChild;
+                    testNode.innerHTML = '<a name="' + id + '"></a><b id="' + id + '"></b>', features.idGetsName = document.getElementById(id) === testNode.firstChild;
                 } catch (e2) {}
                 if (testNode.getElementsByClassName) {
                     try {
-                        testNode.innerHTML = "<a class=\"f\"></a><a class=\"b\"></a>", testNode.getElementsByClassName("b").length, testNode.firstChild.className = "b", cachedGetElementsByClassName = 2 != testNode.getElementsByClassName("b").length;
+                        testNode.innerHTML = '<a class="f"></a><a class="b"></a>', testNode.getElementsByClassName("b").length, testNode.firstChild.className = "b", cachedGetElementsByClassName = 2 != testNode.getElementsByClassName("b").length;
                     } catch (e) {}
                     try {
-                        testNode.innerHTML = "<a class=\"a\"></a><a class=\"f b a\"></a>", brokenSecondClassNameGEBCN = 2 != testNode.getElementsByClassName("a").length;
+                        testNode.innerHTML = '<a class="a"></a><a class="f b a"></a>', brokenSecondClassNameGEBCN = 2 != testNode.getElementsByClassName("a").length;
                     } catch (e3) {}
                     features.brokenGEBCN = cachedGetElementsByClassName || brokenSecondClassNameGEBCN;
                 }
@@ -1230,17 +1230,17 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                         testNode.innerHTML = "foo</foo>", selected = testNode.querySelectorAll("*"), features.starSelectsClosedQSA = selected && !!selected.length && "/" == selected[0].nodeName.charAt(0);
                     } catch (e) {}
                     try {
-                        testNode.innerHTML = "<a class=\"MiX\"></a>", features.brokenMixedCaseQSA = !testNode.querySelectorAll(".MiX").length;
+                        testNode.innerHTML = '<a class="MiX"></a>', features.brokenMixedCaseQSA = !testNode.querySelectorAll(".MiX").length;
                     } catch (e4) {}
                     try {
-                        testNode.innerHTML = "<select><option selected=\"selected\">a</option></select>", features.brokenCheckedQSA = 0 == testNode.querySelectorAll(":checked").length;
+                        testNode.innerHTML = '<select><option selected="selected">a</option></select>', features.brokenCheckedQSA = 0 == testNode.querySelectorAll(":checked").length;
                     } catch (e5) {}
                     try {
-                        testNode.innerHTML = "<a class=\"\"></a>", features.brokenEmptyAttributeQSA = 0 != testNode.querySelectorAll("[class*=\"\"]").length;
+                        testNode.innerHTML = '<a class=""></a>', features.brokenEmptyAttributeQSA = 0 != testNode.querySelectorAll('[class*=""]').length;
                     } catch (e6) {}
                 }
                 try {
-                    testNode.innerHTML = "<form action=\"s\"><input id=\"action\"/></form>", brokenFormAttributeGetter = "s" != testNode.firstChild.getAttribute("action");
+                    testNode.innerHTML = '<form action="s"><input id="action"/></form>', brokenFormAttributeGetter = "s" != testNode.firstChild.getAttribute("action");
                 } catch (e7) {}
                 if (features.nativeMatchesSelector = root.matchesSelector || root.mozMatchesSelector || root.webkitMatchesSelector, features.nativeMatchesSelector) try {
                     features.nativeMatchesSelector.call(root, ":slick"), features.nativeMatchesSelector = null;
@@ -1423,7 +1423,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         !this.uniques[uid] && this.matchSelector(node, tag, id, classes, attributes, pseudos) && (this.uniques[uid] = !0, this.found.push(node));
     }, local.matchNode = function(node, selector) {
         if (this.isHTMLDocument && this.nativeMatchesSelector) try {
-            return this.nativeMatchesSelector.call(node, selector.replace(/\[([^=]+)=\s*([^'"\]]+?)\s*\]/g, "[$1=\"$2\"]"));
+            return this.nativeMatchesSelector.call(node, selector.replace(/\[([^=]+)=\s*([^'"\]]+?)\s*\]/g, '[$1="$2"]'));
         } catch (matchError) {}
         var parsed = this.Slick.parse(selector);
         if (!parsed) return !0;
@@ -1787,7 +1787,7 @@ Elements.prototype = {
     };
     Document.implement({
         newElement: function(tag, props) {
-            return props && null != props.checked && (props.defaultChecked = props.checked), createElementAcceptsHTML && props && (tag = "<" + tag, props.name && (tag += " name=\"" + escapeQuotes(props.name) + "\""), props.type && (tag += " type=\"" + escapeQuotes(props.type) + "\""), tag += ">", delete props.name, delete props.type), this.id(this.createElement(tag)).set(props);
+            return props && null != props.checked && (props.defaultChecked = props.checked), createElementAcceptsHTML && props && (tag = "<" + tag, props.name && (tag += ' name="' + escapeQuotes(props.name) + '"'), props.type && (tag += ' type="' + escapeQuotes(props.type) + '"'), tag += ">", delete props.name, delete props.type), this.id(this.createElement(tag)).set(props);
         }
     });
 }(), function() {
@@ -3545,7 +3545,7 @@ Elements.prototype = {
         "\n": "\\n",
         "\f": "\\f",
         "\r": "\\r",
-        "\"": "\\\"",
+        '"': '\\"',
         "\\": "\\\\"
     }, escape = function(chr) {
         return special[chr] || "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).slice(-4);
@@ -3557,7 +3557,7 @@ Elements.prototype = {
     } : function(obj) {
         switch(obj && obj.toJSON && (obj = obj.toJSON()), typeOf(obj)){
             case "string":
-                return "\"" + obj.replace(/[\x00-\x1f\\"]/g, escape) + "\"";
+                return '"' + obj.replace(/[\x00-\x1f\\"]/g, escape) + '"';
             case "array":
                 return "[" + obj.map(JSON.encode).clean() + "]";
             case "object":
@@ -3712,9 +3712,9 @@ Cookie.write = function(key, value, options) {
                 };
             }(callBacks[callBack]), vars[callBack] = "Swiff.CallBacks." + this.instance + "." + callBack;
             params.flashVars = Object.toQueryString(vars), Browser.ie ? (properties.classid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000", params.movie = path) : properties.type = "application/x-shockwave-flash", properties.data = path;
-            var build = "<object id=\"" + id + "\"";
-            for(var property in properties)build += " " + property + "=\"" + properties[property] + "\"";
-            for(var param in build += ">", params)params[param] && (build += "<param name=\"" + param + "\" value=\"" + params[param] + "\" />");
+            var build = '<object id="' + id + '"';
+            for(var property in properties)build += " " + property + '="' + properties[property] + '"';
+            for(var param in build += ">", params)params[param] && (build += '<param name="' + param + '" value="' + params[param] + '" />');
             build += "</object>", this.object = (container ? container.empty() : new Element("div")).set("html", build).firstChild;
         },
         replaces: function(element) {
@@ -3730,7 +3730,7 @@ Cookie.write = function(key, value, options) {
         }
     });
     Swiff.CallBacks = {}, Swiff.remote = function(obj, fn) {
-        var rs = obj.CallFunction("<invoke name=\"" + fn + "\" returntype=\"javascript\">" + __flash__argumentsToXML(arguments, 2) + "</invoke>");
+        var rs = obj.CallFunction('<invoke name="' + fn + '" returntype="javascript">' + __flash__argumentsToXML(arguments, 2) + "</invoke>");
         return eval(rs);
     };
 }();

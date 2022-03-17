@@ -1,1 +1,1 @@
-function a(a){'use strict'}
+function a(a){"use strict"}

@@ -195,13 +195,13 @@
                 }, blurStyle = "blur" === placeholder1 ? {
                     filter: "blur(20px)",
                     backgroundSize: objectFit || "cover",
-                    backgroundImage: "url(\"".concat(blurDataURL, "\")"),
+                    backgroundImage: 'url("'.concat(blurDataURL, '")'),
                     backgroundPosition: objectPosition || "0% 0%"
                 } : {};
                 if ("fill" === layout) wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
                 else if (void 0 !== widthInt && void 0 !== heightInt) {
                     var quotient = heightInt / widthInt, paddingTop = isNaN(quotient) ? "100%" : "".concat(100 * quotient, "%");
-                    "responsive" === layout ? (wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvg = "<svg width=\"".concat(widthInt, "\" height=\"").concat(heightInt, "\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"/>")) : "fixed" === layout && (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
+                    "responsive" === layout ? (wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvg = '<svg width="'.concat(widthInt, '" height="').concat(heightInt, '" xmlns="http://www.w3.org/2000/svg" version="1.1"/>')) : "fixed" === layout && (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
                 }
                 var imgAttributes = {
                     src: emptyDataURL,
@@ -352,7 +352,7 @@
                     "custom",
                     function(param) {
                         var src = param.src;
-                        throw new Error("Image with src \"".concat(src, "\" is missing \"loader\" prop.") + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
+                        throw new Error('Image with src "'.concat(src, '" is missing "loader" prop.') + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
                     }
                 ], 
             ]);
@@ -448,7 +448,7 @@
                 if (load) return load(_objectSpread({
                     root: configPath
                 }, loaderProps));
-                throw new Error("Unknown \"loader\" found in \"next.config.js\". Expected: ".concat(_imageConfig.VALID_LOADERS.join(", "), ". Received: ").concat(configLoader));
+                throw new Error('Unknown "loader" found in "next.config.js". Expected: '.concat(_imageConfig.VALID_LOADERS.join(", "), ". Received: ").concat(configLoader));
             }
             function normalizeSrc(src) {
                 return "/" === src[0] ? src.slice(1) : src;
@@ -786,7 +786,7 @@
                     props.preserveValue || reset(), updateCountUp(end);
                 }), initializeOnMount = useEventCallback(function() {
                     if ("function" == typeof props.children && !(containerRef.current instanceof Element)) {
-                        console.error("Couldn't find attached element to hook the CountUp instance into! Try to attach \"containerRef\" from the render prop to a an Element, eg. <span ref={containerRef} />.");
+                        console.error('Couldn\'t find attached element to hook the CountUp instance into! Try to attach "containerRef" from the render prop to a an Element, eg. <span ref={containerRef} />.');
                         return;
                     }
                     getCountUp();

@@ -1,4 +1,4 @@
 do {
     a();
-}while (false)
+}while (false);
 b();

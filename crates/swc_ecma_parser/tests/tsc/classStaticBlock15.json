@@ -99,7 +99,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -141,7 +142,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -183,7 +185,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "StaticBlock",

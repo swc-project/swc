@@ -129,5 +129,4 @@ describe('soruceMaps: true in .swcrc', () => {
         expect(out.map).toBeUndefined();
     })
 
-})
-
+});

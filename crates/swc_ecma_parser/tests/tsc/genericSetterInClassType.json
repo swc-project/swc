@@ -484,7 +484,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": true
               },
               {
                 "type": "ClassMethod",

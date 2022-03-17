@@ -1220,7 +1220,7 @@
     }, warnBadVendoredStyleName = function(name) {
         warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name] || (warnedStyleNames[name] = !0, error1("Unsupported vendor-prefixed style property %s. Did you mean %s?", name, name.charAt(0).toUpperCase() + name.slice(1)));
     }, warnStyleValueWithSemicolon = function(name, value) {
-        warnedStyleValues.hasOwnProperty(value) && warnedStyleValues[value] || (warnedStyleValues[value] = !0, error1("Style property values shouldn't contain a semicolon. Try \"%s: %s\" instead.", name, value.replace(badStyleValueWithSemicolonPattern, "")));
+        warnedStyleValues.hasOwnProperty(value) && warnedStyleValues[value] || (warnedStyleValues[value] = !0, error1('Style property values shouldn\'t contain a semicolon. Try "%s: %s" instead.', name, value.replace(badStyleValueWithSemicolonPattern, "")));
     }, warnStyleValueIsNaN = function(name, value) {
         warnedForNaNValue || (warnedForNaNValue = !0, error1("`NaN` is an invalid value for the `%s` css style property.", name));
     }, warnStyleValueIsInfinity = function(name, value) {
@@ -1873,7 +1873,7 @@
             var standardName = possibleStandardNames[lowerCasedName];
             if (standardName !== name) return error1("Invalid DOM property `%s`. Did you mean `%s`?", name, standardName), warnedProperties$1[name] = !0, !0;
         } else if (!isReserved && name !== lowerCasedName) return error1("React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element.", name, lowerCasedName), warnedProperties$1[name] = !0, !0;
-        return "boolean" == typeof value && shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (value ? error1("Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.", value, name, name, value, name) : error1("Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead.", value, name, name, value, name, name, name), warnedProperties$1[name] = !0, !0) : !!isReserved || (shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (warnedProperties$1[name] = !0, !1) : "false" !== value && "true" !== value || null === propertyInfo || 3 !== propertyInfo.type || (error1("Received the string `%s` for the boolean attribute `%s`. %s Did you mean %s={%s}?", value, name, "false" === value ? "The browser will interpret it as a truthy value." : "Although this works, it will not work as expected if you pass the string \"false\".", name, value), warnedProperties$1[name] = !0, !0));
+        return "boolean" == typeof value && shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (value ? error1('Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s="%s" or %s={value.toString()}.', value, name, name, value, name) : error1('Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s="%s" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead.', value, name, name, value, name, name, name), warnedProperties$1[name] = !0, !0) : !!isReserved || (shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (warnedProperties$1[name] = !0, !1) : "false" !== value && "true" !== value || null === propertyInfo || 3 !== propertyInfo.type || (error1("Received the string `%s` for the boolean attribute `%s`. %s Did you mean %s={%s}?", value, name, "false" === value ? "The browser will interpret it as a truthy value." : 'Although this works, it will not work as expected if you pass the string "false".', name, value), warnedProperties$1[name] = !0, !0));
     };
     var warnUnknownProperties = function(type, props, eventRegistry) {
         var unknownProps = [];
@@ -3677,20 +3677,20 @@
         didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1("Did not expect server HTML to contain a <%s> in <%s>.", child.nodeName.toLowerCase(), parentNode.nodeName.toLowerCase()));
     }
     function warnForDeletedHydratableText(parentNode, child) {
-        didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1("Did not expect server HTML to contain the text node \"%s\" in <%s>.", child.nodeValue, parentNode.nodeName.toLowerCase()));
+        didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1('Did not expect server HTML to contain the text node "%s" in <%s>.', child.nodeValue, parentNode.nodeName.toLowerCase()));
     }
     function warnForInsertedHydratedElement(parentNode, tag, props) {
         didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1("Expected server HTML to contain a matching <%s> in <%s>.", tag, parentNode.nodeName.toLowerCase()));
     }
     function warnForInsertedHydratedText(parentNode, text) {
-        "" !== text && (didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1("Expected server HTML to contain a matching text node for \"%s\" in <%s>.", text, parentNode.nodeName.toLowerCase())));
+        "" !== text && (didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1('Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase())));
     }
     normalizeMarkupForTextOrAttribute = function(markup) {
         return ("string" == typeof markup ? markup : "" + markup).replace(NORMALIZE_NEWLINES_REGEX, "\n").replace(NORMALIZE_NULL_AND_REPLACEMENT_REGEX, "");
     }, warnForTextDifference = function(serverText, clientText) {
         if (!didWarnInvalidHydration) {
             var normalizedClientText = normalizeMarkupForTextOrAttribute(clientText), normalizedServerText = normalizeMarkupForTextOrAttribute(serverText);
-            normalizedServerText !== normalizedClientText && (didWarnInvalidHydration = !0, error1("Text content did not match. Server: \"%s\" Client: \"%s\"", normalizedServerText, normalizedClientText));
+            normalizedServerText !== normalizedClientText && (didWarnInvalidHydration = !0, error1('Text content did not match. Server: "%s" Client: "%s"', normalizedServerText, normalizedClientText));
         }
     }, warnForPropDifference = function(propName, serverValue, clientValue) {
         if (!didWarnInvalidHydration) {
@@ -4187,7 +4187,7 @@
             return warnedAboutMissingGetChildContext[componentName] || (warnedAboutMissingGetChildContext[componentName] = !0, error1("%s.childContextTypes is specified but there is no getChildContext() method on the instance. You can either define getChildContext() on %s or remove childContextTypes from it.", componentName, componentName)), parentContext;
         }
         var childContext = instance.getChildContext();
-        for(var contextKey in childContext)if (!(contextKey in childContextTypes)) throw Error((getComponentName(type) || "Unknown") + ".getChildContext(): key \"" + contextKey + "\" is not defined in childContextTypes.");
+        for(var contextKey in childContext)if (!(contextKey in childContextTypes)) throw Error((getComponentName(type) || "Unknown") + '.getChildContext(): key "' + contextKey + '" is not defined in childContextTypes.');
         return checkPropTypes(childContextTypes, childContext, "child context", getComponentName(type) || "Unknown"), _assign({}, parentContext, childContext);
     }
     function pushContextProvider(workInProgress) {
@@ -4749,7 +4749,7 @@
             if ("object" != typeof child._store) throw Error("React Component in warnForMissingKey should have a _store. This error is likely caused by a bug in React. Please file an issue.");
             child._store.validated = !0;
             var componentName = getComponentName(returnFiber.type) || "Component";
-            ownerHasKeyUseWarning[componentName] || (ownerHasKeyUseWarning[componentName] = !0, error1("Each child in a list should have a unique \"key\" prop. See https://reactjs.org/link/warning-keys for more information."));
+            ownerHasKeyUseWarning[componentName] || (ownerHasKeyUseWarning[componentName] = !0, error1('Each child in a list should have a unique "key" prop. See https://reactjs.org/link/warning-keys for more information.'));
         }
     };
     var isArray$1 = Array.isArray;
@@ -4758,7 +4758,7 @@
         if (null !== mixedRef && "function" != typeof mixedRef && "object" != typeof mixedRef) {
             if ((1 & returnFiber.mode || 0) && !(element._owner && element._self && element._owner.stateNode !== element._self)) {
                 var componentName = getComponentName(returnFiber.type) || "Component";
-                didWarnAboutStringRefs[componentName] || (error1("A string ref, \"%s\", has been found within a strict mode tree. String refs are a source of potential bugs and should be avoided. We recommend using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref", mixedRef), didWarnAboutStringRefs[componentName] = !0);
+                didWarnAboutStringRefs[componentName] || (error1('A string ref, "%s", has been found within a strict mode tree. String refs are a source of potential bugs and should be avoided. We recommend using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', mixedRef), didWarnAboutStringRefs[componentName] = !0);
             }
             if (element._owner) {
                 var inst, owner = element._owner;
@@ -4922,7 +4922,7 @@
                         knownKeys.add(key);
                         break;
                     }
-                    error1("Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.", key);
+                    error1("Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted \u2014 the behavior is unsupported and could change in a future version.", key);
                     break;
             }
             return knownKeys;
@@ -6632,18 +6632,18 @@
                 case "together":
                 case "forwards":
                 case "backwards":
-                    error1("\"%s\" is not a valid value for revealOrder on <SuspenseList />. Use lowercase \"%s\" instead.", revealOrder, revealOrder.toLowerCase());
+                    error1('"%s" is not a valid value for revealOrder on <SuspenseList />. Use lowercase "%s" instead.', revealOrder, revealOrder.toLowerCase());
                     break;
                 case "forward":
                 case "backward":
-                    error1("\"%s\" is not a valid value for revealOrder on <SuspenseList />. React uses the -s suffix in the spelling. Use \"%ss\" instead.", revealOrder, revealOrder.toLowerCase());
+                    error1('"%s" is not a valid value for revealOrder on <SuspenseList />. React uses the -s suffix in the spelling. Use "%ss" instead.', revealOrder, revealOrder.toLowerCase());
                     break;
                 default:
-                    error1("\"%s\" is not a supported revealOrder on <SuspenseList />. Did you mean \"together\", \"forwards\" or \"backwards\"?", revealOrder);
+                    error1('"%s" is not a supported revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
                     break;
             }
-            else error1("%s is not a supported value for revealOrder on <SuspenseList />. Did you mean \"together\", \"forwards\" or \"backwards\"?", revealOrder);
-        }(revealOrder1), tailMode = tailMode1, revealOrder2 = revealOrder1, void 0 === tailMode || didWarnAboutTailOptions[tailMode] || ("collapsed" !== tailMode && "hidden" !== tailMode ? (didWarnAboutTailOptions[tailMode] = !0, error1("\"%s\" is not a supported value for tail on <SuspenseList />. Did you mean \"collapsed\" or \"hidden\"?", tailMode)) : "forwards" !== revealOrder2 && "backwards" !== revealOrder2 && (didWarnAboutTailOptions[tailMode] = !0, error1("<SuspenseList tail=\"%s\" /> is only valid if revealOrder is \"forwards\" or \"backwards\". Did you mean to specify revealOrder=\"forwards\"?", tailMode))), function(children, revealOrder) {
+            else error1('%s is not a supported value for revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
+        }(revealOrder1), tailMode = tailMode1, revealOrder2 = revealOrder1, void 0 === tailMode || didWarnAboutTailOptions[tailMode] || ("collapsed" !== tailMode && "hidden" !== tailMode ? (didWarnAboutTailOptions[tailMode] = !0, error1('"%s" is not a supported value for tail on <SuspenseList />. Did you mean "collapsed" or "hidden"?', tailMode)) : "forwards" !== revealOrder2 && "backwards" !== revealOrder2 && (didWarnAboutTailOptions[tailMode] = !0, error1('<SuspenseList tail="%s" /> is only valid if revealOrder is "forwards" or "backwards". Did you mean to specify revealOrder="forwards"?', tailMode))), function(children, revealOrder) {
             if (("forwards" === revealOrder || "backwards" === revealOrder) && null != children && !1 !== children) if (Array.isArray(children)) {
                 for(var i = 0; i < children.length; i++)if (!validateSuspenseListNestedChild(children[i], i)) return;
             } else {
@@ -6654,7 +6654,7 @@
                         if (!validateSuspenseListNestedChild(step.value, _i)) return;
                         _i++;
                     }
-                } else error1("A single row was passed to a <SuspenseList revealOrder=\"%s\" />. This is not useful since it needs multiple rows. Did you mean to pass multiple children or an array?", revealOrder);
+                } else error1('A single row was passed to a <SuspenseList revealOrder="%s" />. This is not useful since it needs multiple rows. Did you mean to pass multiple children or an array?', revealOrder);
             }
         }(newChildren, revealOrder1), reconcileChildren(current, workInProgress6, newChildren, renderLanes4);
         var suspenseContext = suspenseStackCursor.current;
@@ -9149,7 +9149,7 @@
         return fiber.lanes = lanes, fiber;
     }
     function createFiberFromProfiler(pendingProps, mode, lanes, key) {
-        "string" != typeof pendingProps.id && error1("Profiler must specify an \"id\" as a prop");
+        "string" != typeof pendingProps.id && error1('Profiler must specify an "id" as a prop');
         var fiber = createFiber(12, pendingProps, key, 8 | mode);
         return fiber.elementType = REACT_PROFILER_TYPE, fiber.type = REACT_PROFILER_TYPE, fiber.lanes = lanes, fiber.stateNode = {
             effectDuration: 0,
@@ -9477,7 +9477,7 @@
                     var name = props.name;
                     if ("radio" === props.type && null != name) {
                         for(var queryRoot = rootNode; queryRoot.parentNode;)queryRoot = queryRoot.parentNode;
-                        for(var group = queryRoot.querySelectorAll("input[name=" + JSON.stringify("" + name) + "][type=\"radio\"]"), i = 0; i < group.length; i++){
+                        for(var group = queryRoot.querySelectorAll("input[name=" + JSON.stringify("" + name) + '][type="radio"]'), i = 0; i < group.length; i++){
                             var otherNode = group[i];
                             if (otherNode !== rootNode && otherNode.form === rootNode.form) {
                                 var otherProps = getFiberCurrentPropsFromNode(otherNode);
@@ -9648,7 +9648,7 @@
         return hasNonRootReactChild && error1("unmountComponentAtNode(): The node you're attempting to unmount was rendered by React and is not a top-level container. %s", isContainerReactRoot ? "You may have accidentally passed in a React root node instead of its container." : "Instead, have the parent component update its state and rerender in order to remove this component."), !1;
     }, exports.unstable_batchedUpdates = batchedUpdates$1, exports.unstable_createPortal = function(children, container) {
         var key = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : null;
-        return didWarnAboutUnstableCreatePortal || (didWarnAboutUnstableCreatePortal = !0, warn("The ReactDOM.unstable_createPortal() alias has been deprecated, and will be removed in React 18+. Update your code to use ReactDOM.createPortal() instead. It has the exact same API, but without the \"unstable_\" prefix.")), createPortal$1(children, container, key);
+        return didWarnAboutUnstableCreatePortal || (didWarnAboutUnstableCreatePortal = !0, warn('The ReactDOM.unstable_createPortal() alias has been deprecated, and will be removed in React 18+. Update your code to use ReactDOM.createPortal() instead. It has the exact same API, but without the "unstable_" prefix.')), createPortal$1(children, container, key);
     }, exports.unstable_renderSubtreeIntoContainer = function(parentComponent2, element3, containerNode1, callback2) {
         return function(parentComponent, element, containerNode, callback) {
             if (!isValidContainer(containerNode)) throw Error("Target container is not a DOM element.");

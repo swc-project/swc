@@ -47,7 +47,7 @@ jobs:
       - name: Build
         run: |
           (cd crates/wasm && yarn)
-          (cd crates/wasm && ./scripts/build.sh)
+          (cd crates/wasm && ./scripts/build.sh --features plugin)
 
       - name: Test
         run: |

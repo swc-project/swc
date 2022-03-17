@@ -9,6 +9,7 @@ use std::{
 };
 
 use swc_common::comments::SingleThreadedComments;
+use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use testing::NormalizedOutput;
@@ -125,11 +126,12 @@ fn do_test(entry: &Path, minify: bool) {
         let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
 
         {
-            let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+            let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::with_target(
                 cm.clone(),
                 "\n",
                 &mut wr,
                 None,
+                EsVersion::Es5,
             )) as Box<dyn WriteJs>;
 
             if minify {

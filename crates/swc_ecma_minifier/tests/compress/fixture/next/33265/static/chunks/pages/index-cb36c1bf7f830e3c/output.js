@@ -210,7 +210,7 @@
                         return regexs.webm.test(c);
                     }) ? container = "webm" : codecs.every(function(c) {
                         return regexs.ogg.test(c);
-                    }) && (container = "ogg"), type + "/" + container + ";codecs=\"" + codecString + "\"";
+                    }) && (container = "ogg"), type + "/" + container + ';codecs="' + codecString + '"';
                 }
             }, browserSupportsCodec = function(codecString) {
                 return void 0 === codecString && (codecString = ""), global_window__WEBPACK_IMPORTED_MODULE_0___default().MediaSource && global_window__WEBPACK_IMPORTED_MODULE_0___default().MediaSource.isTypeSupported && global_window__WEBPACK_IMPORTED_MODULE_0___default().MediaSource.isTypeSupported(getMimeForCodec(codecString)) || !1;
@@ -1129,7 +1129,7 @@
             function DOMImplementation() {}
             function Node() {}
             function _xmlEncoder(c) {
-                return "<" == c && "&lt;" || ">" == c && "&gt;" || "&" == c && "&amp;" || "\"" == c && "&quot;" || "&#" + c.charCodeAt() + ";";
+                return "<" == c && "&lt;" || ">" == c && "&gt;" || "&" == c && "&amp;" || '"' == c && "&quot;" || "&#" + c.charCodeAt() + ";";
             }
             function _visitNode(node, callback) {
                 if (callback(node)) return !0;
@@ -1210,7 +1210,7 @@
                 return !0;
             }
             function addSerializedAttribute(buf, qualifiedName, value) {
-                buf.push(" ", qualifiedName, "=\"", value.replace(/[<&"]/g, _xmlEncoder), "\"");
+                buf.push(" ", qualifiedName, '="', value.replace(/[<&"]/g, _xmlEncoder), '"');
             }
             function serializeToString(node, buf, isHTML, nodeFilter, visibleNamespaces) {
                 if (visibleNamespaces || (visibleNamespaces = []), nodeFilter) {
@@ -1718,12 +1718,12 @@
                 apos: "'",
                 gt: ">",
                 lt: "<",
-                quot: "\""
+                quot: '"'
             }), exports.HTML_ENTITIES = freeze({
                 lt: "<",
                 gt: ">",
                 amp: "&",
-                quot: "\"",
+                quot: '"',
                 apos: "'",
                 Agrave: "\xc0",
                 Aacute: "\xc1",
@@ -1821,146 +1821,146 @@
                 iquest: "\xbf",
                 times: "\xd7",
                 divide: "\xf7",
-                forall: "∀",
-                part: "∂",
-                exist: "∃",
-                empty: "∅",
-                nabla: "∇",
-                isin: "∈",
-                notin: "∉",
-                ni: "∋",
-                prod: "∏",
-                sum: "∑",
-                minus: "−",
-                lowast: "∗",
-                radic: "√",
-                prop: "∝",
-                infin: "∞",
-                ang: "∠",
-                and: "∧",
-                or: "∨",
-                cap: "∩",
-                cup: "∪",
-                "int": "∫",
-                there4: "∴",
-                sim: "∼",
-                cong: "≅",
-                asymp: "≈",
-                ne: "≠",
-                equiv: "≡",
-                le: "≤",
-                ge: "≥",
-                sub: "⊂",
-                sup: "⊃",
-                nsub: "⊄",
-                sube: "⊆",
-                supe: "⊇",
-                oplus: "⊕",
-                otimes: "⊗",
-                perp: "⊥",
-                sdot: "⋅",
-                Alpha: "Α",
-                Beta: "Β",
-                Gamma: "Γ",
-                Delta: "Δ",
-                Epsilon: "Ε",
-                Zeta: "Ζ",
-                Eta: "Η",
-                Theta: "Θ",
-                Iota: "Ι",
-                Kappa: "Κ",
-                Lambda: "Λ",
-                Mu: "Μ",
-                Nu: "Ν",
-                Xi: "Ξ",
-                Omicron: "Ο",
-                Pi: "Π",
-                Rho: "Ρ",
-                Sigma: "Σ",
-                Tau: "Τ",
-                Upsilon: "Υ",
-                Phi: "Φ",
-                Chi: "Χ",
-                Psi: "Ψ",
-                Omega: "Ω",
-                alpha: "α",
-                beta: "β",
-                gamma: "γ",
-                delta: "δ",
-                epsilon: "ε",
-                zeta: "ζ",
-                eta: "η",
-                theta: "θ",
-                iota: "ι",
-                kappa: "κ",
-                lambda: "λ",
-                mu: "μ",
-                nu: "ν",
-                xi: "ξ",
-                omicron: "ο",
-                pi: "π",
-                rho: "ρ",
-                sigmaf: "ς",
-                sigma: "σ",
-                tau: "τ",
-                upsilon: "υ",
-                phi: "φ",
-                chi: "χ",
-                psi: "ψ",
-                omega: "ω",
-                thetasym: "ϑ",
-                upsih: "ϒ",
-                piv: "ϖ",
-                OElig: "Œ",
-                oelig: "œ",
-                Scaron: "Š",
-                scaron: "š",
-                Yuml: "Ÿ",
-                fnof: "ƒ",
-                circ: "ˆ",
-                tilde: "˜",
-                ensp: " ",
-                emsp: " ",
-                thinsp: " ",
-                zwnj: "‌",
-                zwj: "‍",
-                lrm: "‎",
-                rlm: "‏",
-                ndash: "–",
-                mdash: "—",
-                lsquo: "‘",
-                rsquo: "’",
-                sbquo: "‚",
-                ldquo: "“",
-                rdquo: "”",
-                bdquo: "„",
-                dagger: "†",
-                Dagger: "‡",
-                bull: "•",
-                hellip: "…",
-                permil: "‰",
-                prime: "′",
-                Prime: "″",
-                lsaquo: "‹",
-                rsaquo: "›",
-                oline: "‾",
-                euro: "€",
-                trade: "™",
-                larr: "←",
-                uarr: "↑",
-                rarr: "→",
-                darr: "↓",
-                harr: "↔",
-                crarr: "↵",
-                lceil: "⌈",
-                rceil: "⌉",
-                lfloor: "⌊",
-                rfloor: "⌋",
-                loz: "◊",
-                spades: "♠",
-                clubs: "♣",
-                hearts: "♥",
-                diams: "♦"
+                forall: "\u2200",
+                part: "\u2202",
+                exist: "\u2203",
+                empty: "\u2205",
+                nabla: "\u2207",
+                isin: "\u2208",
+                notin: "\u2209",
+                ni: "\u220B",
+                prod: "\u220F",
+                sum: "\u2211",
+                minus: "\u2212",
+                lowast: "\u2217",
+                radic: "\u221A",
+                prop: "\u221D",
+                infin: "\u221E",
+                ang: "\u2220",
+                and: "\u2227",
+                or: "\u2228",
+                cap: "\u2229",
+                cup: "\u222A",
+                "int": "\u222B",
+                there4: "\u2234",
+                sim: "\u223C",
+                cong: "\u2245",
+                asymp: "\u2248",
+                ne: "\u2260",
+                equiv: "\u2261",
+                le: "\u2264",
+                ge: "\u2265",
+                sub: "\u2282",
+                sup: "\u2283",
+                nsub: "\u2284",
+                sube: "\u2286",
+                supe: "\u2287",
+                oplus: "\u2295",
+                otimes: "\u2297",
+                perp: "\u22A5",
+                sdot: "\u22C5",
+                Alpha: "\u0391",
+                Beta: "\u0392",
+                Gamma: "\u0393",
+                Delta: "\u0394",
+                Epsilon: "\u0395",
+                Zeta: "\u0396",
+                Eta: "\u0397",
+                Theta: "\u0398",
+                Iota: "\u0399",
+                Kappa: "\u039A",
+                Lambda: "\u039B",
+                Mu: "\u039C",
+                Nu: "\u039D",
+                Xi: "\u039E",
+                Omicron: "\u039F",
+                Pi: "\u03A0",
+                Rho: "\u03A1",
+                Sigma: "\u03A3",
+                Tau: "\u03A4",
+                Upsilon: "\u03A5",
+                Phi: "\u03A6",
+                Chi: "\u03A7",
+                Psi: "\u03A8",
+                Omega: "\u03A9",
+                alpha: "\u03B1",
+                beta: "\u03B2",
+                gamma: "\u03B3",
+                delta: "\u03B4",
+                epsilon: "\u03B5",
+                zeta: "\u03B6",
+                eta: "\u03B7",
+                theta: "\u03B8",
+                iota: "\u03B9",
+                kappa: "\u03BA",
+                lambda: "\u03BB",
+                mu: "\u03BC",
+                nu: "\u03BD",
+                xi: "\u03BE",
+                omicron: "\u03BF",
+                pi: "\u03C0",
+                rho: "\u03C1",
+                sigmaf: "\u03C2",
+                sigma: "\u03C3",
+                tau: "\u03C4",
+                upsilon: "\u03C5",
+                phi: "\u03C6",
+                chi: "\u03C7",
+                psi: "\u03C8",
+                omega: "\u03C9",
+                thetasym: "\u03D1",
+                upsih: "\u03D2",
+                piv: "\u03D6",
+                OElig: "\u0152",
+                oelig: "\u0153",
+                Scaron: "\u0160",
+                scaron: "\u0161",
+                Yuml: "\u0178",
+                fnof: "\u0192",
+                circ: "\u02C6",
+                tilde: "\u02DC",
+                ensp: "\u2002",
+                emsp: "\u2003",
+                thinsp: "\u2009",
+                zwnj: "\u200C",
+                zwj: "\u200D",
+                lrm: "\u200E",
+                rlm: "\u200F",
+                ndash: "\u2013",
+                mdash: "\u2014",
+                lsquo: "\u2018",
+                rsquo: "\u2019",
+                sbquo: "\u201A",
+                ldquo: "\u201C",
+                rdquo: "\u201D",
+                bdquo: "\u201E",
+                dagger: "\u2020",
+                Dagger: "\u2021",
+                bull: "\u2022",
+                hellip: "\u2026",
+                permil: "\u2030",
+                prime: "\u2032",
+                Prime: "\u2033",
+                lsaquo: "\u2039",
+                rsaquo: "\u203A",
+                oline: "\u203E",
+                euro: "\u20AC",
+                trade: "\u2122",
+                larr: "\u2190",
+                uarr: "\u2191",
+                rarr: "\u2192",
+                darr: "\u2193",
+                harr: "\u2194",
+                crarr: "\u21B5",
+                lceil: "\u2308",
+                rceil: "\u2309",
+                lfloor: "\u230A",
+                rfloor: "\u230B",
+                loz: "\u25CA",
+                spades: "\u2660",
+                clubs: "\u2663",
+                hearts: "\u2665",
+                diams: "\u2666"
             }), exports.entityMap = exports.HTML_ENTITIES;
         },
         3969: function(__unused_webpack_module, exports, __webpack_require__) {
@@ -1989,11 +1989,11 @@
                             else throw new Error("attribute equal must after attrName");
                             break;
                         case "'":
-                        case "\"":
-                            if (3 === s || 1 === s) if (1 === s && (errorHandler.warning("attribute value must after \"=\""), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
+                        case '"':
+                            if (3 === s || 1 === s) if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
                             else throw new Error("attribute value no end '" + c + "' match");
-                            else if (4 == s) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), errorHandler.warning("attribute \"" + attrName + "\" missed start quot(" + c + ")!!"), start = p + 1, s = 5;
-                            else throw new Error("attribute value must after \"=\"");
+                            else if (4 == s) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
+                            else throw new Error('attribute value must after "="');
                             break;
                         case "/":
                             switch(s){
@@ -2025,7 +2025,7 @@
                                 case 1:
                                     "/" === (value1 = source.slice(start, p)).slice(-1) && (el.closed = !0, value1 = value1.slice(0, -1));
                                 case 2:
-                                    2 === s && (value1 = attrName), 4 == s ? (errorHandler.warning("attribute \"" + value1 + "\" missed quot(\")!"), addAttribute(attrName, value1.replace(/&#?\w+;/g, entityReplacer), start)) : (NAMESPACE.isHTML(currentNSMap[""]) && value1.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning("attribute \"" + value1 + "\" missed value!! \"" + value1 + "\" instead!!"), addAttribute(value1, value1, start));
+                                    2 === s && (value1 = attrName), 4 == s ? (errorHandler.warning('attribute "' + value1 + '" missed quot(")!'), addAttribute(attrName, value1.replace(/&#?\w+;/g, entityReplacer), start)) : (NAMESPACE.isHTML(currentNSMap[""]) && value1.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + value1 + '" missed value!! "' + value1 + '" instead!!'), addAttribute(value1, value1, start));
                                     break;
                                 case 3:
                                     throw new Error("attribute value missed!!");
@@ -2043,17 +2043,17 @@
                                     break;
                                 case 4:
                                     var value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer);
-                                    errorHandler.warning("attribute \"" + value1 + "\" missed quot(\")!!"), addAttribute(attrName, value1, start);
+                                    errorHandler.warning('attribute "' + value1 + '" missed quot(")!!'), addAttribute(attrName, value1, start);
                                 case 5:
                                     s = 6;
                                     break;
                             }
                             else switch(s){
                                 case 2:
-                                    el.tagName, NAMESPACE.isHTML(currentNSMap[""]) && attrName.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning("attribute \"" + attrName + "\" missed value!! \"" + attrName + "\" instead2!!"), addAttribute(attrName, attrName, start), start = p, s = 1;
+                                    el.tagName, NAMESPACE.isHTML(currentNSMap[""]) && attrName.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + attrName + '" missed value!! "' + attrName + '" instead2!!'), addAttribute(attrName, attrName, start), start = p, s = 1;
                                     break;
                                 case 5:
-                                    errorHandler.warning("attribute space is required\"" + attrName + "\"!!");
+                                    errorHandler.warning('attribute space is required"' + attrName + '"!!');
                                 case 6:
                                     s = 1, start = p;
                                     break;
@@ -2327,10 +2327,10 @@
                 "'": 222
             }, aliases = exports.aliases = {
                 windows: 91,
-                "⇧": 16,
-                "⌥": 18,
-                "⌃": 17,
-                "⌘": 91,
+                "\u21E7": 16,
+                "\u2325": 18,
+                "\u2303": 17,
+                "\u2318": 91,
                 ctl: 17,
                 control: 17,
                 option: 18,
@@ -2397,7 +2397,7 @@
                 var match = /([0-9.]*)?@?([0-9.]*)?/.exec(byterangeString || ""), result = {};
                 return match[1] && (result.length = parseInt(match[1], 10)), match[2] && (result.offset = parseInt(match[2], 10)), result;
             }, attributeSeparator = function() {
-                return new RegExp("(?:^|,)((?:[^=]*)=(?:\"[^\"]*\"|[^,]*))");
+                return new RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))');
             }, parseAttributes = function(attributes) {
                 for(var attr, attrs = attributes.split(attributeSeparator()), result = {}, i = attrs.length; i--;)"" !== attrs[i] && ((attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
                 return result;
@@ -5196,13 +5196,13 @@
             "use strict";
             var base64 = __webpack_require__(4782), ieee754 = __webpack_require__(8898), customInspectSymbol = "function" == typeof Symbol && "function" == typeof Symbol.for ? Symbol.for("nodejs.util.inspect.custom") : null;
             function createBuffer(length) {
-                if (length > 2147483647) throw new RangeError("The value \"" + length + "\" is invalid for option \"size\"");
+                if (length > 2147483647) throw new RangeError('The value "' + length + '" is invalid for option "size"');
                 var buf = new Uint8Array(length);
                 return Object.setPrototypeOf(buf, Buffer.prototype), buf;
             }
             function Buffer(arg, encodingOrOffset, length) {
                 if ("number" == typeof arg) {
-                    if ("string" == typeof encodingOrOffset) throw new TypeError("The \"string\" argument must be of type string. Received type number");
+                    if ("string" == typeof encodingOrOffset) throw new TypeError('The "string" argument must be of type string. Received type number');
                     return allocUnsafe(arg);
                 }
                 return from(arg, encodingOrOffset, length);
@@ -5213,7 +5213,7 @@
                 if (null == value) throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
                 if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer)) return fromArrayBuffer(value, encodingOrOffset, length);
                 if ("undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
-                if ("number" == typeof value) throw new TypeError("The \"value\" argument must not be of type number. Received type number");
+                if ("number" == typeof value) throw new TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();
                 if (null != valueOf && valueOf !== value) return Buffer.from(valueOf, encodingOrOffset, length);
                 var b = fromObject(value);
@@ -5222,8 +5222,8 @@
                 throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
             }
             function assertSize(size) {
-                if ("number" != typeof size) throw new TypeError("\"size\" argument must be of type number");
-                if (size < 0) throw new RangeError("The value \"" + size + "\" is invalid for option \"size\"");
+                if ("number" != typeof size) throw new TypeError('"size" argument must be of type number');
+                if (size < 0) throw new RangeError('The value "' + size + '" is invalid for option "size"');
             }
             function allocUnsafe(size) {
                 return assertSize(size), createBuffer(size < 0 ? 0 : 0 | checked(size));
@@ -5239,8 +5239,8 @@
             }
             function fromArrayBuffer(array, byteOffset, length) {
                 var buf;
-                if (byteOffset < 0 || array.byteLength < byteOffset) throw new RangeError("\"offset\" is outside of buffer bounds");
-                if (array.byteLength < byteOffset + (length || 0)) throw new RangeError("\"length\" is outside of buffer bounds");
+                if (byteOffset < 0 || array.byteLength < byteOffset) throw new RangeError('"offset" is outside of buffer bounds');
+                if (array.byteLength < byteOffset + (length || 0)) throw new RangeError('"length" is outside of buffer bounds');
                 return buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Object.setPrototypeOf(buf, Buffer.prototype), buf;
             }
             function fromObject(obj) {
@@ -5257,7 +5257,7 @@
             function byteLength1(string, encoding) {
                 if (Buffer.isBuffer(string)) return string.length;
                 if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) return string.byteLength;
-                if ("string" != typeof string) throw new TypeError("The \"string\" argument must be one of type string, Buffer, or ArrayBuffer. Received type " + typeof string);
+                if ("string" != typeof string) throw new TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string);
                 var len = string.length, mustMatch = arguments.length > 2 && !0 === arguments[2];
                 if (!mustMatch && 0 === len) return 0;
                 for(var loweredCase = !1;;)switch(encoding){
@@ -5437,8 +5437,8 @@
                 if (offset + ext > length) throw new RangeError("Trying to access beyond buffer length");
             }
             function checkInt(buf, value, offset, ext, max, min) {
-                if (!Buffer.isBuffer(buf)) throw new TypeError("\"buffer\" argument must be a Buffer instance");
-                if (value > max || value < min) throw new RangeError("\"value\" argument is out of bounds");
+                if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance');
+                if (value > max || value < min) throw new RangeError('"value" argument is out of bounds');
                 if (offset + ext > buf.length) throw new RangeError("Index out of range");
             }
             function checkIEEE754(buf, value, offset, ext, max, min) {
@@ -5486,7 +5486,7 @@
             }, Buffer.isBuffer = function(b) {
                 return null != b && !0 === b._isBuffer && b !== Buffer.prototype;
             }, Buffer.compare = function(a, b) {
-                if (isInstance(a, Uint8Array) && (a = Buffer.from(a, a.offset, a.byteLength)), isInstance(b, Uint8Array) && (b = Buffer.from(b, b.offset, b.byteLength)), !Buffer.isBuffer(a) || !Buffer.isBuffer(b)) throw new TypeError("The \"buf1\", \"buf2\" arguments must be one of type Buffer or Uint8Array");
+                if (isInstance(a, Uint8Array) && (a = Buffer.from(a, a.offset, a.byteLength)), isInstance(b, Uint8Array) && (b = Buffer.from(b, b.offset, b.byteLength)), !Buffer.isBuffer(a) || !Buffer.isBuffer(b)) throw new TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');
                 if (a === b) return 0;
                 for(var x = a.length, y = b.length, i = 0, len = Math.min(x, y); i < len; ++i)if (a[i] !== b[i]) {
                     x = a[i], y = b[i];
@@ -5511,13 +5511,13 @@
                         return !1;
                 }
             }, Buffer.concat = function(list, length) {
-                if (!Array.isArray(list)) throw new TypeError("\"list\" argument must be an Array of Buffers");
+                if (!Array.isArray(list)) throw new TypeError('"list" argument must be an Array of Buffers');
                 if (0 === list.length) return Buffer.alloc(0);
                 if (void 0 === length) for(i = 0, length = 0; i < list.length; ++i)length += list[i].length;
                 var i, buffer = Buffer.allocUnsafe(length), pos = 0;
                 for(i = 0; i < list.length; ++i){
                     var buf = list[i];
-                    if (isInstance(buf, Uint8Array) && (buf = Buffer.from(buf)), !Buffer.isBuffer(buf)) throw new TypeError("\"list\" argument must be an Array of Buffers");
+                    if (isInstance(buf, Uint8Array) && (buf = Buffer.from(buf)), !Buffer.isBuffer(buf)) throw new TypeError('"list" argument must be an Array of Buffers');
                     buf.copy(buffer, pos), pos += buf.length;
                 }
                 return buffer;
@@ -5546,7 +5546,7 @@
                 var str = "", max = exports.INSPECT_MAX_BYTES;
                 return str = this.toString("hex", 0, max).replace(/(.{2})/g, "$1 ").trim(), this.length > max && (str += " ... "), "<Buffer " + str + ">";
             }, customInspectSymbol && (Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect), Buffer.prototype.compare = function(target, start, end, thisStart, thisEnd) {
-                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw new TypeError("The \"target\" argument must be one of type Buffer or Uint8Array. Received type " + typeof target);
+                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw new TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target);
                 if (void 0 === start && (start = 0), void 0 === end && (end = target ? target.length : 0), void 0 === thisStart && (thisStart = 0), void 0 === thisEnd && (thisEnd = this.length), start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) throw new RangeError("out of range index");
                 if (thisStart >= thisEnd && start >= end) return 0;
                 if (thisStart >= thisEnd) return -1;
@@ -5738,7 +5738,7 @@
                 if (start >>>= 0, end = void 0 === end ? this.length : end >>> 0, val || (val = 0), "number" == typeof val) for(i = start; i < end; ++i)this[i] = val;
                 else {
                     var bytes = Buffer.isBuffer(val) ? val : Buffer.from(val, encoding), len = bytes.length;
-                    if (0 === len) throw new TypeError("The value \"" + val + "\" is invalid for argument \"value\"");
+                    if (0 === len) throw new TypeError('The value "' + val + '" is invalid for argument "value"');
                     for(i = 0; i < end - start; ++i)this[i + start] = bytes[i % len];
                 }
                 return this;

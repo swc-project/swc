@@ -1,7 +1,7 @@
 //! This module always exists because cfg attributes are not stabilized in
 //! expressions at the moment.
 
-#![cfg_attr(not(feature = "plugin"), allow(unused))]
+#![cfg_attr(any(not(feature = "plugin"), target_arch = "wasm32"), allow(unused))]
 
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "plugin")]
@@ -69,7 +69,7 @@ struct RustPlugins {
 
 impl RustPlugins {
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
-    #[cfg(feature = "plugin")]
+    #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use std::{path::PathBuf, sync::Arc};
 
@@ -119,7 +119,7 @@ impl RustPlugins {
                     plugin_module = p.0.as_str()
                 );
                 let transform_span_guard = span.enter();
-                serialized = swc_plugin_runner::apply_js_plugin(
+                serialized = swc_plugin_runner::apply_transform_plugin(
                     &p.0,
                     &path,
                     &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
@@ -134,6 +134,12 @@ impl RustPlugins {
         // Plugin transformation is done. Deserialize transformed bytes back
         // into Program
         Serialized::deserialize(&serialized)
+    }
+
+    #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
+    fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
+        //not implemented
+        Ok(n)
     }
 }
 

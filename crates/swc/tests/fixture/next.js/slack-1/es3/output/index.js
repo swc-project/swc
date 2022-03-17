@@ -1,1 +1,1 @@
-var USTAR = "ustar\x0000";
+var USTAR = "ustar\000";

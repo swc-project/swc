@@ -1,4 +1,4 @@
 {
-    do {}while (false)
+    do {}while (false);
     false;
 }
