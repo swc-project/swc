@@ -523,13 +523,19 @@ where
                 srcmap!(node, true);
 
                 let value = get_quoted_utf16(&node.value, self.wr.target(), false, false, true);
+        if self.cfg.minify {
+            if &*node.value == "use strict" && node.raw.contains('\\') {
+                self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
+            } else {
                 let value = get_quoted_utf16(&node.value, self.wr.target());
 
                 self.wr.write_str_lit(DUMMY_SP, &value)?;
 
                 srcmap!(node, false);
             }
-        };
+        } else {
+            self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
+        }
     }
 
     #[emitter]
@@ -1593,15 +1599,10 @@ where
 
     #[emitter]
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        let is_synthesized = match node.raw.kind {
-            StrKind::Synthesized => true,
-            _ => false,
-        };
-
         srcmap!(node, true);
 
         self.wr
-            .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw.value, is_synthesized))?;
+            .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw.value, true))?;
 
         srcmap!(node, false);
 
