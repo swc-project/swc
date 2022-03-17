@@ -112,10 +112,6 @@ pub enum Token {
     Str {
         value: JsWord,
         raw: JsWord,
-
-        /// This field exists because 'use\x20strict' is **not** an use strict
-        /// directive.
-        has_escape: bool,
     },
 
     /// Regexp literal.

@@ -154,9 +154,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         self.input.bump(); // `quote`
 
-        let mut has_escape = false;
         let mut out = String::new();
-
         let mut chunk_start = self.input.cur_pos();
 
         loop {
@@ -172,8 +170,6 @@ impl<'a, I: Input> Lexer<'a, I> {
             let cur_pos = self.input.cur_pos();
 
             if ch == '\\' {
-                has_escape = true;
-
                 let str = self.input.slice(chunk_start, cur_pos);
 
                 out.push_str(str);
@@ -244,7 +240,6 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok(Token::Str {
             value: out.into(),
             raw: raw.into(),
-            has_escape,
         })
     }
 

@@ -865,8 +865,6 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         self.bump(); // '"'
         self.with_buf(|l, out| {
-            let mut has_escape = false;
-
             while let Some(c) = {
                 // Optimization
                 {
@@ -887,7 +885,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                         return Ok(Token::Str {
                             value: (&**out).into(),
                             raw: raw.into(),
-                            has_escape,
                         });
                     }
                     '\\' => {
@@ -900,7 +897,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                         }
 
                         raw.push_str(&wrapped.0.unwrap());
-                        has_escape = true
                     }
                     c if c.is_line_break() => {
                         raw.push(c);
@@ -921,7 +917,6 @@ impl<'a, I: Input> Lexer<'a, I> {
             Ok(Token::Str {
                 value: (&**out).into(),
                 raw: raw.into(),
-                has_escape,
             })
         })
     }

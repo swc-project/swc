@@ -179,7 +179,6 @@ fn test262_lexer_error_0002() {
             Token::Str {
                 value: "use strict".into(),
                 raw: "'use\\x20strict'".into(),
-                has_escape: true,
             }
             .span(0..15)
             .lb(),
@@ -333,7 +332,6 @@ fn str_escape() {
         vec![Token::Str {
             value: "\n".into(),
             raw: "'\\n'".into(),
-            has_escape: true,
         }]
     );
 }
@@ -345,7 +343,6 @@ fn str_escape_2() {
         vec![Token::Str {
             value: "\\n".into(),
             raw: "'\\\\n'".into(),
-            has_escape: true,
         }]
     );
 }
@@ -357,7 +354,6 @@ fn str_escape_3() {
         vec![Token::Str {
             value: "\x00".into(),
             raw: "'\\x00'".into(),
-            has_escape: true,
         }]
     );
 }
@@ -369,7 +365,6 @@ fn str_escape_hex() {
         vec![Token::Str {
             value: "a".into(),
             raw: "'\\x61'".into(),
-            has_escape: true,
         }
         .span(0..6)
         .lb(),]
@@ -383,7 +378,6 @@ fn str_escape_octal() {
         vec![Token::Str {
             value: "Hello\nWorld".into(),
             raw: "'Hello\\012World'".into(),
-            has_escape: true,
         }
         .span(0..16)
         .lb(),]
@@ -397,7 +391,6 @@ fn str_escape_unicode_long() {
         vec![Token::Str {
             value: "4".into(),
             raw: "'\\u{00000000034}'".into(),
-            has_escape: true,
         }
         .span(0..17)
         .lb(),]
@@ -713,7 +706,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "abcde".into(),
             raw: "'abcde'".into(),
-            has_escape: false,
         }],
     );
     assert_eq!(
@@ -721,7 +713,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "abcde".into(),
             raw: "\"abcde\"".into(),
-            has_escape: false,
         }],
     );
     assert_eq!(
@@ -729,7 +720,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "русский".into(),
             raw: "'русский'".into(),
-            has_escape: false,
         }],
     );
     assert_eq!(
@@ -737,7 +727,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "2".into(),
             raw: "'\\x32'".into(),
-            has_escape: true,
         }],
     );
     assert_eq!(
@@ -745,7 +734,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "ᄑ".into(),
             raw: "'\\u1111'".into(),
-            has_escape: true,
         }],
     );
     assert_eq!(
@@ -753,7 +741,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "ᄑ".into(),
             raw: "'\\u{1111}'".into(),
-            has_escape: true,
         }],
     );
     assert_eq!(
@@ -761,7 +748,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "\t".into(),
             raw: "'\t'".into(),
-            has_escape: false,
         }],
     );
     assert_eq!(
@@ -769,7 +755,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "\n".into(),
             raw: "'\\n'".into(),
-            has_escape: true,
         }],
     );
     assert_eq!(
@@ -777,7 +762,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "abc".into(),
             raw: "'\\\nabc'".into(),
-            has_escape: true,
         }]
     );
     assert_eq!(
@@ -785,7 +769,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "".into(),
             raw: "''".into(),
-            has_escape: false,
         }],
     );
     assert_eq!(
@@ -793,7 +776,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "'".into(),
             raw: "'\\''".into(),
-            has_escape: true,
         }],
     );
     assert_eq!(
@@ -801,7 +783,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "".into(),
             raw: "\"\"".into(),
-            has_escape: false,
         }],
     );
     assert_eq!(
@@ -809,7 +790,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "\"".into(),
             raw: "\"\\\"\"".into(),
-            has_escape: true,
         }],
     );
     assert_eq!(
@@ -817,7 +797,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "\u{0000}".into(),
             raw: "'\\0'".into(),
-            has_escape: true,
         }],
     );
     assert_eq!(
@@ -825,7 +804,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "\n".into(),
             raw: "'\\n'".into(),
-            has_escape: true,
         }],
     );
     assert_eq!(
@@ -833,7 +811,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "\r".into(),
             raw: "'\\r'".into(),
-            has_escape: true,
         }],
     );
     assert_eq!(
@@ -841,7 +818,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "\n".into(),
             raw: "'\\012'".into(),
-            has_escape: true,
         }],
     );
     assert_eq!(
@@ -849,7 +825,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "\u{0007}".into(),
             raw: "'\\07'".into(),
-            has_escape: true,
         }],
     );
     assert_eq!(
@@ -857,7 +832,6 @@ fn str_lit() {
         vec![Token::Str {
             value: "\u{0000}8".into(),
             raw: "'\\08'".into(),
-            has_escape: true,
         }],
     );
 }
@@ -1125,7 +1099,6 @@ fn issue_299_01() {
             Token::Str {
                 value: "\\ ".into(),
                 raw: "'\\ '".into(),
-                has_escape: true,
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
@@ -1160,7 +1133,6 @@ fn issue_299_02() {
             Token::Str {
                 value: "\\\\".into(),
                 raw: "'\\\\'".into(),
-                has_escape: true,
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
@@ -1195,7 +1167,6 @@ fn jsx_string_1() {
             Token::Str {
                 value: "abc".into(),
                 raw: "'abc'".into(),
-                has_escape: false,
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
@@ -1230,7 +1201,6 @@ fn jsx_string_2() {
             Token::Str {
                 value: "abc".into(),
                 raw: "\"abc\"".into(),
-                has_escape: false,
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
@@ -1265,7 +1235,6 @@ fn jsx_string_3() {
             Token::Str {
                 value: "\n".into(),
                 raw: "'\n'".into(),
-                has_escape: false,
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
@@ -1300,7 +1269,6 @@ fn jsx_string_4() {
             Token::Str {
                 value: "³".into(),
                 raw: "'&sup3;'".into(),
-                has_escape: false,
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
@@ -1335,7 +1303,6 @@ fn jsx_string_5() {
             Token::Str {
                 value: "*".into(),
                 raw: "'&#42;'".into(),
-                has_escape: false,
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
@@ -1370,7 +1337,6 @@ fn jsx_string_6() {
             Token::Str {
                 value: "#".into(),
                 raw: "'&#x23;'".into(),
-                has_escape: false,
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
@@ -1405,7 +1371,6 @@ fn jsx_string_7() {
             Token::Str {
                 value: "&".into(),
                 raw: "'&'".into(),
-                has_escape: false,
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
@@ -1440,7 +1405,6 @@ fn jsx_string_8() {
             Token::Str {
                 value: "&;".into(),
                 raw: "'&;'".into(),
-                has_escape: false,
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
@@ -1475,7 +1439,6 @@ fn jsx_string_9() {
             Token::Str {
                 value: "&&".into(),
                 raw: "'&&'".into(),
-                has_escape: false,
             },
             Token::JSXTagEnd,
             JSXText { raw: "ABC".into() },
@@ -1497,7 +1460,6 @@ fn issue_316() {
         vec![Token::Str {
             value: "Hi\r\n..".into(),
             raw: "'Hi\\r\\n..'".into(),
-            has_escape: true,
         }]
     );
 }
@@ -1510,7 +1472,6 @@ fn issue_401() {
             Token::Str {
                 value: "17".into(),
                 raw: "'17'".into(),
-                has_escape: false,
             },
             tok!("as"),
             tok!("const")
@@ -1563,7 +1524,6 @@ fn issue_915_1() {
             Token::Str {
                 value: "\r\n".into(),
                 raw: "\"\\r\\n\"".into(),
-                has_escape: true,
             },
             RParen
         ]
@@ -1795,7 +1755,6 @@ fn issue_2853_1_js() {
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\\0a\"".into(),
-                has_escape: true,
             }
         ],
     );
@@ -1818,7 +1777,6 @@ fn issue_2853_2_ts() {
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\\0a\"".into(),
-                has_escape: true,
             }
         ],
     );
@@ -1841,7 +1799,6 @@ fn issue_2853_3_js() {
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\u{0000}a\"".into(),
-                has_escape: false,
             }
         ],
     );
@@ -1864,7 +1821,6 @@ fn issue_2853_4_ts() {
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\u{0000}a\"".into(),
-                has_escape: false,
             }
         ],
     );
@@ -1890,7 +1846,6 @@ fn issue_2853_5_jsx() {
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\\0a\"".into(),
-                has_escape: true,
             }
         ]
     );
@@ -1916,7 +1871,6 @@ fn issue_2853_6_tsx() {
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\\0a\"".into(),
-                has_escape: true,
             }
         ]
     );
@@ -1942,7 +1896,6 @@ fn issue_2853_7_jsx() {
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\u{0000}a\"".into(),
-                has_escape: false,
             }
         ]
     );
@@ -1968,7 +1921,6 @@ fn issue_2853_8_tsx() {
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\u{0000}a\"".into(),
-                has_escape: false,
             }
         ]
     );

@@ -297,7 +297,7 @@ impl<I: Tokens> Parser<I> {
 
         let arg = match cur!(self, true)? {
             Token::Str { .. } => match bump!(self) {
-                Token::Str { value, raw, .. } => Str {
+                Token::Str { value, raw } => Str {
                     span: arg_span,
                     value,
                     raw,
