@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_transforms_base"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.69.1"
+version = "0.70.0"
 
 [features]
 concurrent = ["rayon", "swc_ecma_utils/concurrent"]
@@ -27,6 +27,6 @@ swc_ecma_visit = { version = "0.57.0", path = "../swc_ecma_visit" }
 tracing = "0.1.32"
 
 [dev-dependencies]
-swc_ecma_codegen = { version = "0.97.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "0.98.0", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "0.3.0", path = "../swc_ecma_transforms_macros" }
 testing = { version = "0.19.0", path = "../testing" }

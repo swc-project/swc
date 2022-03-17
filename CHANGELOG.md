@@ -11,6 +11,9 @@
 - **(es/codegen)** Fix codegen of string literals (#4037) ([bd444c0](https://github.com/swc-project/swc/commit/bd444c0ceb1bfdc8582e15dec439917474b55b25))
 
 
+- **(es/codegen)** Fix sourcemap (#4062) ([9310c39](https://github.com/swc-project/swc/commit/9310c39fe922283b4bea46c30b08f8768cda577d))
+
+
 - **(es/helpers)** Add missing `export` for `classPrivateFieldLooseKey` (#4045) ([3125bba](https://github.com/swc-project/swc/commit/3125bbacbe1dc9afa9e2c809146dcf42ab5c82de))
 
 
