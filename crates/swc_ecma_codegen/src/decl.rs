@@ -30,6 +30,8 @@ where
     fn emit_class_decl(&mut self, node: &ClassDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        srcmap!(node, true);
+
         if node.declare {
             keyword!("declare");
             space!();
@@ -49,6 +51,8 @@ where
     #[emitter]
     fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
 
         if node.declare {
             keyword!("declare");
@@ -76,6 +80,8 @@ where
     #[emitter]
     fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
         self.emit_leading_comments_of_span(node.span, false)?;
+
+        srcmap!(node, true);
 
         if node.declare {
             keyword!("declare");
@@ -105,11 +111,15 @@ where
             Some(&node.decls),
             ListFormat::VariableDeclarationList,
         )?;
+
+        srcmap!(node, false);
     }
 
     #[emitter]
     fn emit_var_declarator(&mut self, node: &VarDeclarator) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
 
         emit!(node.name);
 
@@ -119,6 +129,8 @@ where
             formatting_space!();
             emit!(init);
         }
+
+        srcmap!(node, false);
     }
 }
 
