@@ -31,6 +31,7 @@ pub(crate) mod non_critical_lints {
     pub mod prefer_regex_literals;
     pub mod quotes;
     pub mod radix;
+    pub mod yoda;
 }
 
 #[cfg(feature = "non_critical_lints")]
@@ -127,6 +128,8 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(default_param_last::default_param_last(
             &lint_config.default_param_last,
         ));
+
+        rules.extend(yoda::yoda(&lint_config.yoda));
     }
 
     rules
