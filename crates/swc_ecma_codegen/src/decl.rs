@@ -88,10 +88,7 @@ where
             space!();
         }
 
-        {
-            let span = self.cm.span_until_char(node.span, ' ');
-            keyword!(span, node.kind.as_str());
-        }
+        keyword!(node.kind.as_str());
 
         let starts_with_ident = match node.decls.first() {
             Some(VarDeclarator {
