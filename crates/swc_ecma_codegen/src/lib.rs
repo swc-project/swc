@@ -2267,13 +2267,13 @@ where
     fn emit_param(&mut self, node: &Param) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(node, true);
 
         self.emit_list(node.span, Some(&node.decorators), ListFormat::Decorators)?;
 
         emit!(node.pat);
 
-        srcmap!(n, false);
+        srcmap!(node, false);
     }
 
     #[emitter]
@@ -2534,14 +2534,8 @@ where
     fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        {
-            let span = if node.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(node.span.lo, node.span.lo + BytePos(1), Default::default())
-            };
-            punct!(span, "{");
-        }
+        srcmap!(node, true);
+        punct!("{");
 
         let emit_new_line = !self.cfg.minify
             && !(node.stmts.is_empty() && is_empty_comments(&node.span(), &self.comments));
@@ -2556,14 +2550,8 @@ where
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
-        {
-            let span = if node.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(node.span.hi - BytePos(1), node.span.hi, Default::default())
-            };
-            punct!(span, "}");
-        }
+        punct!("}");
+        srcmap!(node, false);
     }
 
     #[emitter]
@@ -2658,14 +2646,9 @@ where
     fn emit_return_stmt(&mut self, n: &ReturnStmt) -> Result {
         self.emit_leading_comments_of_span(n.span, false)?;
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
-            };
-            keyword!(span, "return");
-        }
+        srcmap!(n, true);
+
+        keyword!("return");
 
         if let Some(ref arg) = n.arg {
             let need_paren = !n.arg.span().is_dummy()
@@ -2687,6 +2670,8 @@ where
             }
         }
         semi!();
+
+        srcmap!(n, false);
     }
 
     #[emitter]
@@ -2702,51 +2687,41 @@ where
 
     #[emitter]
     fn emit_break_stmt(&mut self, n: &BreakStmt) -> Result {
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(5), Default::default())
-            };
-            keyword!(span, "break");
-        }
+        srcmap!(n, true);
+
+        keyword!("break");
 
         if let Some(ref label) = n.label {
             space!();
             emit!(label);
         }
         semi!();
+
+        srcmap!(n, false);
     }
 
     #[emitter]
     fn emit_continue_stmt(&mut self, n: &ContinueStmt) -> Result {
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(8), Default::default())
-            };
-            keyword!(span, "continue");
-        }
+        srcmap!(n, true);
+
+        keyword!("continue");
+
         if let Some(ref label) = n.label {
             space!();
             emit!(label);
         }
         semi!();
+
+        srcmap!(n, false);
     }
 
     #[emitter]
     fn emit_if_stmt(&mut self, n: &IfStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(2), Default::default())
-            };
-            keyword!(span, "if");
-        }
+        srcmap!(n, true);
+
+        keyword!("if");
 
         formatting_space!();
         punct!("(");
@@ -2773,20 +2748,17 @@ where
             }
             emit!(alt);
         }
+
+        srcmap!(n, false);
     }
 
     #[emitter]
     fn emit_switch_stmt(&mut self, n: &SwitchStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
-            };
-            keyword!(span, "switch");
-        }
+        srcmap!(n, true);
+
+        keyword!("switch");
 
         punct!("(");
         emit!(n.discriminant);
@@ -2795,20 +2767,18 @@ where
         punct!("{");
         self.emit_list(n.span(), Some(&n.cases), ListFormat::CaseBlockClauses)?;
         punct!("}");
+
+        srcmap!(n, false);
     }
 
     #[emitter]
     fn emit_catch_clause(&mut self, n: &CatchClause) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(5), Default::default())
-            };
-            keyword!(span, "catch");
-        }
+        srcmap!(n, true);
+
+        keyword!("catch");
+
         formatting_space!();
 
         if let Some(param) = &n.param {
@@ -2820,21 +2790,18 @@ where
         formatting_space!();
 
         emit!(n.body);
+
+        srcmap!(n, false);
     }
 
     #[emitter]
     fn emit_switch_case(&mut self, n: &SwitchCase) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
+        srcmap!(n, true);
+
         if let Some(ref test) = n.test {
-            {
-                let span = if n.span.is_dummy() {
-                    DUMMY_SP
-                } else {
-                    Span::new(n.span.lo, n.span.lo + BytePos(4), Default::default())
-                };
-                keyword!(span, "case");
-            }
+            keyword!("case");
 
             let starts_with_alpha_num = test.starts_with_alpha_num();
 
@@ -2867,20 +2834,17 @@ where
             punct!(":");
         }
         self.emit_list(n.span(), Some(&n.cons), format)?;
+
+        srcmap!(n, false);
     }
 
     #[emitter]
     fn emit_throw_stmt(&mut self, n: &ThrowStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(5), Default::default())
-            };
-            keyword!(span, "throw");
-        }
+        srcmap!(n, true);
+
+        keyword!("throw");
 
         {
             if n.arg.starts_with_alpha_num() {
@@ -2891,20 +2855,18 @@ where
             emit!(n.arg);
         }
         semi!();
+
+        srcmap!(n, false);
     }
 
     #[emitter]
     fn emit_try_stmt(&mut self, n: &TryStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(3), Default::default())
-            };
-            keyword!(span, "try");
-        }
+        srcmap!(n, true);
+
+        keyword!("try");
+
         formatting_space!();
         emit!(n.block);
 
@@ -2919,11 +2881,15 @@ where
             // space!();
             emit!(finally);
         }
+
+        srcmap!(n, false);
     }
 
     #[emitter]
     fn emit_while_stmt(&mut self, node: &WhileStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
 
         keyword!("while");
 
@@ -2932,11 +2898,15 @@ where
         punct!(")");
 
         emit!(node.body);
+
+        srcmap!(node, false);
     }
 
     #[emitter]
     fn emit_do_while_stmt(&mut self, node: &DoWhileStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
 
         keyword!("do");
         if node.body.starts_with_alpha_num() {
@@ -2957,20 +2927,18 @@ where
         if self.wr.target() <= EsVersion::Es5 {
             semi!();
         }
+
+        srcmap!(node, false);
     }
 
     #[emitter]
     fn emit_for_stmt(&mut self, n: &ForStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(3), Default::default())
-            };
-            keyword!(span, "for");
-        }
+        srcmap!(n, true);
+
+        keyword!("for");
+
         punct!("(");
         opt!(n.init);
         self.wr.write_punct(None, ";")?;
@@ -2980,20 +2948,18 @@ where
         punct!(")");
 
         emit!(n.body);
+
+        srcmap!(n, false);
     }
 
     #[emitter]
     fn emit_for_in_stmt(&mut self, n: &ForInStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(3), Default::default())
-            };
-            keyword!(span, "for");
-        }
+        srcmap!(n, true);
+
+        keyword!("for");
+
         punct!("(");
         emit!(n.left);
 
@@ -3018,20 +2984,18 @@ where
         punct!(")");
 
         emit!(n.body);
+
+        srcmap!(n, false);
     }
 
     #[emitter]
     fn emit_for_of_stmt(&mut self, n: &ForOfStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(3), Default::default())
-            };
-            keyword!(span, "for");
-        }
+        srcmap!(n, true);
+
+        keyword!("for");
+
         if n.await_token.is_some() {
             space!();
             keyword!("await");
@@ -3058,6 +3022,8 @@ where
         }
         punct!(")");
         emit!(n.body);
+
+        srcmap!(n, false);
     }
 
     #[emitter]
