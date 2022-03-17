@@ -23,6 +23,9 @@
 
 
 
+- **(es/lints)** Implement `yoda` rule (#3886) ([833958b](https://github.com/swc-project/swc/commit/833958bd7469993e756c24dcd1263ef2c5ef9eb9))
+
+
 - **(node-swc)** Add `libc` field in Linux platform packages (#4046) ([db9b988](https://github.com/swc-project/swc/commit/db9b9888459c0394209f68bad421eb31a491547a))
 
 ## [1.2.156] - 2022-03-16
