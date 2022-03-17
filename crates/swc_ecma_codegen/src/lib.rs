@@ -563,15 +563,17 @@ where
 
                     let single_quote = single_quote.unwrap_or(false);
 
+                    srcmap!(node, true);
                     if single_quote {
-                        punct!(node.span, "'");
+                        punct!("'");
                         self.wr.write_str_lit(DUMMY_SP, &value)?;
                         punct!("'");
                     } else {
-                        punct!(node.span, "\"");
+                        punct!("\"");
                         self.wr.write_str_lit(DUMMY_SP, &value)?;
                         punct!("\"");
                     }
+                    srcmap!(node, false);
                 }
             }
             StrKind::Synthesized => {
