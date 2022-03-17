@@ -292,7 +292,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -361,7 +362,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -430,7 +432,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -480,7 +483,8 @@
           "accessibility": null,
           "isOptional": true,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -775,7 +779,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -844,7 +849,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -913,7 +919,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -963,7 +970,8 @@
           "accessibility": null,
           "isOptional": true,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -1425,7 +1433,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -1483,7 +1492,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -1546,7 +1556,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -1668,7 +1679,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "Constructor",
@@ -1933,7 +1945,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "Constructor",
@@ -2273,7 +2286,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "Constructor",
@@ -3225,7 +3239,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "Constructor",
@@ -3796,7 +3811,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "Constructor",

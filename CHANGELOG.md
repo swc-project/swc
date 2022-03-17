@@ -5,6 +5,9 @@
 
 
 
+- **(es/ast)** Revert removal of `definite` in `PrivateProp` (#4051) ([bbe8f3d](https://github.com/swc-project/swc/commit/bbe8f3d8fe0a5a62fa2624c5cbe46980ad6264ac))
+
+
 - **(es/codegen)** Fix codegen of string literals (#4037) ([bd444c0](https://github.com/swc-project/swc/commit/bd444c0ceb1bfdc8582e15dec439917474b55b25))
 
 
@@ -14,10 +17,22 @@
 - **(es/helpers)** Export `classPrivateFieldLooseKey` as `default` (#4047) ([025c921](https://github.com/swc-project/swc/commit/025c921409caa53131bdacd3db2d4adeb1806d52))
 
 
+- **(es/parser)** Allow nested ambient context in `.d.ts` files (#4060) ([ffcb6ce](https://github.com/swc-project/swc/commit/ffcb6ce523fb4ffba8531d5194f69e62c63d3d9a))
+
+
 - **(plugin/runner)** Make build pass for `wasm32` (#4056) ([5c84fe5](https://github.com/swc-project/swc/commit/5c84fe525f336064eaa5b383cb4606f1b3cd8df2))
 
 ### Features
 
+
+
+- **(cli)** Enable plugins for `swc_cli` (#4059) ([fefb587](https://github.com/swc-project/swc/commit/fefb5870c7ed9bb4a97be778bf3be1eee74aa344))
+
+
+- **(css/prefixer)** Support more properties (#4055) ([f2517a3](https://github.com/swc-project/swc/commit/f2517a345bcae30ebb4f0b2910a8db31e944648d))
+
+
+- **(es/lints)** Implement `yoda` rule (#3886) ([833958b](https://github.com/swc-project/swc/commit/833958bd7469993e756c24dcd1263ef2c5ef9eb9))
 
 
 - **(node-swc)** Add `libc` field in Linux platform packages (#4046) ([db9b988](https://github.com/swc-project/swc/commit/db9b9888459c0394209f68bad421eb31a491547a))

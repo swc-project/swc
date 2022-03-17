@@ -13,7 +13,6 @@ div {
   width: fill-available;
   width: -webkit-fill-available;
   width: -moz-available;
-  width: fill-available;
   width: stretch;
   min-width: -webkit-fit-content;
   min-width: -moz-fit-content;
@@ -57,7 +56,6 @@ div {
 a {
   width: -webkit-fill-available;
   width: -moz-available;
-  width: fill-available;
   width: stretch;
 }
 b {

@@ -1,3 +1,7 @@
 input::placeholder {
     color: red;
 }
+
+input::placeholder, #fs-toggle:fullscreen {
+    color: red;
+}
