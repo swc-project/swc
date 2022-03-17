@@ -51,7 +51,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             let v = match *cur!(p, true)? {
                 Token::Str { .. } => match bump!(p) {
-                    Token::Str { value, has_escape } => PropName::Str(Str {
+                    Token::Str { value, has_escape, .. } => PropName::Str(Str {
                         span: span!(p, start),
                         value,
                         has_escape,

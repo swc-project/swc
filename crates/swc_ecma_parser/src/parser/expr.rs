@@ -1840,7 +1840,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Lit::Bool(Bool { span, value })
             }
             Token::Str { .. } => match bump!(self) {
-                Token::Str { value, has_escape } => Lit::Str(Str {
+                Token::Str { value, has_escape, .. } => Lit::Str(Str {
                     span: span!(self, start),
                     value,
                     has_escape,

@@ -480,12 +480,12 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read an escaped character for string literal.
     ///
     /// In template literal, we should preserve raw string.
-    fn read_escaped_char(&mut self, raw: &mut Raw) -> LexResult<Option<Char>> {
+    fn read_escaped_char(&mut self, raw: &mut Raw, in_template: bool) -> LexResult<Option<Char>> {
         debug_assert_eq!(self.cur(), Some('\\'));
-        let start = self.cur_pos();
-        self.bump(); // '\'
 
-        let in_template = raw.0.is_some();
+        let start = self.cur_pos();
+
+        self.bump(); // '\'
 
         let c = match self.cur() {
             Some(c) => c,
@@ -541,7 +541,9 @@ impl<'a, I: Input> Lexer<'a, I> {
             // octal escape sequences
             '0'..='7' => {
                 raw.push(c);
+
                 self.bump();
+
                 let first_c = if c == '0' {
                     match self.cur() {
                         Some(next) if next.is_digit(8) => c,
@@ -560,9 +562,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                 self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
 
                 let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
+
                 macro_rules! one {
                     ($check:expr) => {{
-                        match self.cur().and_then(|c| c.to_digit(8)) {
+                        let cur = self.cur();
+
+                        match cur.and_then(|c| c.to_digit(8)) {
                             Some(v) => {
                                 value = if $check {
                                     let new_val = value
@@ -576,6 +581,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                                     value * 8 + v as u8
                                 };
                                 self.bump();
+                                raw.push(cur.unwrap());
                             }
                             _ => return Ok(Some(value as u32).map(From::from)),
                         }
@@ -852,9 +858,12 @@ impl<'a, I: Input> Lexer<'a, I> {
     fn read_str_lit(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
         let start = self.cur_pos();
+        let mut raw = String::new();
         let quote = self.cur().unwrap();
-        self.bump(); // '"'
 
+        raw.push(quote);
+
+        self.bump(); // '"'
         self.with_buf(|l, out| {
             let mut has_escape = false;
 
@@ -865,34 +874,53 @@ impl<'a, I: Input> Lexer<'a, I> {
                         .input
                         .uncons_while(|c| c != quote && c != '\\' && !c.is_line_break());
                     out.push_str(s);
+                    raw.push_str(s);
                 }
                 l.cur()
             } {
                 match c {
                     c if c == quote => {
+                        raw.push(c);
+
                         l.bump();
+
                         return Ok(Token::Str {
                             value: (&**out).into(),
+                            raw: raw.into(),
                             has_escape,
                         });
                     }
                     '\\' => {
-                        if let Some(s) = l.read_escaped_char(&mut Raw(None))? {
+                        raw.push(c);
+
+                        let mut wrapped = Raw(Some(String::new()));
+
+                        if let Some(s) = l.read_escaped_char(&mut wrapped, false)? {
                             out.extend(s);
                         }
+
+                        raw.push_str(&wrapped.0.unwrap());
                         has_escape = true
                     }
-                    c if c.is_line_break() => break,
+                    c if c.is_line_break() => {
+                        raw.push(c);
+
+                        break;
+                    }
                     _ => {
                         out.push(c);
+                        raw.push(c);
+
                         l.bump();
                     }
                 }
             }
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
+
             Ok(Token::Str {
                 value: (&**out).into(),
+                raw: raw.into(),
                 has_escape,
             })
         })
@@ -999,7 +1027,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 has_escape = true;
                 raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
-                match self.read_escaped_char(&mut wrapped) {
+                match self.read_escaped_char(&mut wrapped, true) {
                     Ok(Some(s)) => {
                         if let Ok(ref mut cooked) = cooked {
                             cooked.extend(s);

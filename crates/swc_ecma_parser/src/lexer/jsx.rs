@@ -36,8 +36,10 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 '&' => {
                     out.push_str(self.input.slice(chunk_start, cur_pos));
-                    out.push(self.read_jsx_entity()?);
 
+                    let jsx_entity = self.read_jsx_entity()?;
+
+                    out.push(jsx_entity.0);
                     chunk_start = self.input.cur_pos();
                 }
 
@@ -57,7 +59,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
-    pub(super) fn read_jsx_entity(&mut self) -> LexResult<char> {
+    pub(super) fn read_jsx_entity(&mut self) -> LexResult<(char, String)> {
         debug_assert!(self.syntax.jsx());
 
         fn from_code(s: &str, radix: u32) -> LexResult<char> {
@@ -97,14 +99,19 @@ impl<'a, I: Input> Lexer<'a, I> {
                 if let Some(stripped) = s.strip_prefix('#') {
                     if stripped.starts_with('x') {
                         if is_hex(&s[2..]) {
-                            return from_code(&s[2..], 16);
+                            let value = from_code(&s[2..], 16)?;
+
+                            return Ok((value, format!("&{};", s)));
                         }
                     } else if is_dec(stripped) {
-                        return from_code(stripped, 10);
+                        let value = from_code(stripped, 10)?;
+
+                        return Ok((value, format!("&{};", s)));
                     }
                 } else if let Some(entity) = xhtml(&s) {
-                    return Ok(entity);
+                    return Ok((entity, format!("&{};", s)));
                 }
+
                 break;
             }
 
@@ -112,7 +119,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         self.input.reset_to(start_pos);
-        Ok('&')
+
+        Ok(('&', "&".to_string()))
     }
 
     pub(super) fn read_jsx_new_line(
@@ -140,10 +148,17 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
 
+        let mut raw = String::new();
+
+        raw.push(quote);
+
         self.input.bump(); // `quote`
+
         let mut has_escape = false;
         let mut out = String::new();
+
         let mut chunk_start = self.input.cur_pos();
+
         loop {
             let ch = match self.input.cur() {
                 Some(c) => c,
@@ -158,34 +173,65 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             if ch == '\\' {
                 has_escape = true;
-                out.push_str(self.input.slice(chunk_start, cur_pos));
+
+                let str = self.input.slice(chunk_start, cur_pos);
+
+                out.push_str(str);
                 out.push('\\');
+                raw.push_str(str);
+                raw.push('\\');
+
                 self.bump();
 
                 chunk_start = self.input.cur_pos();
+
                 continue;
             }
 
             if ch == quote {
                 break;
             }
+
             if ch == '&' {
-                out.push_str(self.input.slice(chunk_start, cur_pos));
-                out.push(self.read_jsx_entity()?);
+                let str = self.input.slice(chunk_start, cur_pos);
+
+                out.push_str(str);
+                raw.push_str(str);
+
+                let jsx_entity = self.read_jsx_entity()?;
+
+                out.push(jsx_entity.0);
+                raw.push_str(&jsx_entity.1);
+
                 chunk_start = self.input.cur_pos();
             } else if ch.is_line_terminator() {
-                out.push_str(self.input.slice(chunk_start, cur_pos));
+                let str = self.input.slice(chunk_start, cur_pos);
+
+                out.push_str(str);
+                raw.push_str(str);
+
                 match self.read_jsx_new_line(false)? {
-                    Either::Left(s) => out.push_str(s),
-                    Either::Right(c) => out.push(c),
+                    Either::Left(s) => {
+                        out.push_str(s);
+                        raw.push_str(s);
+                    }
+                    Either::Right(c) => {
+                        out.push(c);
+                        raw.push(c);
+                    }
                 }
-                chunk_start = cur_pos;
+
+                chunk_start = cur_pos + BytePos(1);
             } else {
                 self.input.bump();
             }
         }
+
         let cur_pos = self.input.cur_pos();
-        out.push_str(self.input.slice(chunk_start, cur_pos));
+        let str = self.input.slice(chunk_start, cur_pos);
+
+        out.push_str(str);
+        raw.push_str(str);
 
         // it might be at the end of the file when
         // the string literal is unterminated
@@ -193,8 +239,11 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.input.bump();
         }
 
+        raw.push(quote);
+
         Ok(Token::Str {
             value: out.into(),
+            raw: raw.into(),
             has_escape,
         })
     }

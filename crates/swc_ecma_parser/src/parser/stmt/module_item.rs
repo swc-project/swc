@@ -55,7 +55,7 @@ impl<'a, I: Tokens> Parser<I> {
         let str_start = cur_pos!(self);
         if let Ok(&Token::Str { .. }) = cur!(self, false) {
             let src = match bump!(self) {
-                Token::Str { value, has_escape } => Str {
+                Token::Str { value, has_escape, .. } => Str {
                     span: span!(self, str_start),
                     value,
                     has_escape,
@@ -147,7 +147,7 @@ impl<'a, I: Tokens> Parser<I> {
             let str_start = cur_pos!(self);
             let src = match *cur!(self, true)? {
                 Token::Str { .. } => match bump!(self) {
-                    Token::Str { value, has_escape } => Str {
+                    Token::Str { value, has_escape, .. } => Str {
                         value,
                         has_escape,
                         span: span!(self, str_start),
@@ -782,7 +782,7 @@ impl<'a, I: Tokens> Parser<I> {
         let str_start = cur_pos!(self);
         let src = match *cur!(self, true)? {
             Token::Str { .. } => match bump!(self) {
-                Token::Str { value, has_escape } => Str {
+                Token::Str { value, has_escape, .. } => Str {
                     value,
                     has_escape,
                     span: span!(self, str_start),
