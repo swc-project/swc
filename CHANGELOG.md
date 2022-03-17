@@ -17,6 +17,9 @@
 - **(es/helpers)** Export `classPrivateFieldLooseKey` as `default` (#4047) ([025c921](https://github.com/swc-project/swc/commit/025c921409caa53131bdacd3db2d4adeb1806d52))
 
 
+- **(es/helpers)** Fix the name of `_classPrivateFieldLooseBase` (#4061) ([f8a3849](https://github.com/swc-project/swc/commit/f8a3849299e666e1b6543fec953732ed9c88a225))
+
+
 - **(es/parser)** Allow nested ambient context in `.d.ts` files (#4060) ([ffcb6ce](https://github.com/swc-project/swc/commit/ffcb6ce523fb4ffba8531d5194f69e62c63d3d9a))
 
 
