@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/react)** Fix `_createElement` (#4070) ([bb08354](https://github.com/swc-project/swc/commit/bb08354950beb8155fbe27abcc391e43e1c15e2b))
+
 ### Miscellaneous Tasks
 
 
