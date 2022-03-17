@@ -587,7 +587,7 @@ impl Compiler {
                 && !src_map_buf.is_empty()
                 && src_map_buf.iter().all(|(bp, _)| *bp == BytePos(0))
             {
-                panic!("The module contains only dummy spans");
+                panic!("The module contains only dummy spans\n{}", src);
             }
 
             let (code, map) = match source_map {
