@@ -1613,10 +1613,13 @@ where
             _ => false,
         };
 
-        self.wr.write_str_lit(
-            node.span,
-            &unescape_tpl_lit(&node.raw.value, is_synthesized),
-        )?;
+        srcmap!(node, true);
+
+        self.wr
+            .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw.value, is_synthesized))?;
+
+        srcmap!(node, false);
+
         return Ok(());
     }
 
