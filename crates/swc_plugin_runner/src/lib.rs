@@ -1,8 +1,3 @@
-#![cfg_attr(
-    not(any(feature = "embedded_runtime", feature = "native_runtime")),
-    allow(unused)
-)]
-
 use std::path::Path;
 
 use anyhow::{Context, Error};
@@ -10,7 +5,6 @@ use once_cell::sync::Lazy;
 use swc_common::plugin::Serialized;
 use transform_executor::TransformExecutor;
 
-#[cfg(not(target_arch = "wasm32"))]
 pub mod cache;
 mod context;
 mod imported_fn;
