@@ -18,6 +18,8 @@ pub struct JsWriter<'a, W: Write> {
     line_pos: usize,
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
+    /// Used to avoid including whitespaces created by indention.
+    pending_srcmap: Option<BytePos>,
     wr: W,
     target: EsVersion,
 }
@@ -48,6 +50,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
             srcmap,
             wr,
             target,
+            pending_srcmap: Default::default(),
         }
     }
 
@@ -75,6 +78,10 @@ impl<'a, W: Write> JsWriter<'a, W> {
             if self.line_start {
                 cnt += self.write_indent_string()?;
                 self.line_start = false;
+
+                if let Some(pending) = self.pending_srcmap.take() {
+                    self.srcmap(pending);
+                }
             }
 
             if let Some(span) = span {
@@ -170,11 +177,16 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     }
 
     fn write_line(&mut self) -> Result {
+        let pending = self.pending_srcmap.take();
         if !self.line_start {
             self.raw_write(self.new_line.as_bytes())?;
             self.line_count += 1;
             self.line_pos = 0;
             self.line_start = true;
+
+            if let Some(pending) = pending {
+                self.srcmap(pending)
+            }
         }
 
         Ok(())
@@ -256,7 +268,11 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     }
 
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
-        self.srcmap(pos);
+        if self.line_start {
+            self.pending_srcmap = Some(pos);
+        } else {
+            self.srcmap(pos);
+        }
         Ok(())
     }
 }
