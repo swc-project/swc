@@ -1232,10 +1232,9 @@ pub(super) trait IsDirective {
     fn is_use_strict(&self) -> bool {
         match self.as_ref() {
             Some(&Stmt::Expr(ref expr)) => match *expr.expr {
-                Expr::Lit(Lit::Str(Str {
-                    ref raw,
-                    ..
-                })) => raw == "\"use strict\"" || raw == "'use strict'",
+                Expr::Lit(Lit::Str(Str { ref raw, .. })) => {
+                    raw == "\"use strict\"" || raw == "'use strict'"
+                }
                 _ => false,
             },
             _ => false,
