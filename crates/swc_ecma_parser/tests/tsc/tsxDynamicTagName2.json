@@ -174,11 +174,7 @@
               "ctxt": 0
             },
             "value": "h1",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"h1\""
           },
           "definite": false
         }

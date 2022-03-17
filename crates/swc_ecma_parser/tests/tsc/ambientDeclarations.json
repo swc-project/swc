@@ -1837,11 +1837,7 @@
           "ctxt": 0
         },
         "value": "external1",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'external1'"
       },
       "body": {
         "type": "TsModuleBlock",

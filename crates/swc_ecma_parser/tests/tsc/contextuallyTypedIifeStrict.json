@@ -73,11 +73,7 @@
                 "ctxt": 0
               },
               "value": "build",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"build\""
             }
           }
         ],
@@ -162,11 +158,7 @@
                 "ctxt": 0
               },
               "value": "lol",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"lol\""
             }
           }
         ],
@@ -250,11 +242,7 @@
                   "ctxt": 0
                 },
                 "value": "!",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"!\""
               }
             }
           ],
@@ -364,11 +352,7 @@
                 "ctxt": 0
               },
               "value": "-",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-\""
             }
           }
         ],
@@ -464,11 +448,7 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"foo\""
             }
           },
           {
@@ -1357,11 +1337,7 @@
                 "ctxt": 0
               },
               "value": "oops",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'oops'"
             }
           },
           {
@@ -1374,11 +1350,7 @@
                 "ctxt": 0
               },
               "value": "oh no",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'oh no'"
             }
           }
         ],

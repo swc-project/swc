@@ -203,11 +203,7 @@
                     "ctxt": 0
                   },
                   "value": "3",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"3\""
                 }
               }
             ]
@@ -287,11 +283,7 @@
                 "ctxt": 0
               },
               "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"\""
             },
             "typeAnnotation": null
           }

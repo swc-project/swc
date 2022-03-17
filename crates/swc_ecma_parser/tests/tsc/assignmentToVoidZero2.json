@@ -684,11 +684,7 @@
           "ctxt": 0
         },
         "value": "./assignmentToVoidZero2",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./assignmentToVoidZero2'"
       },
       "typeOnly": false,
       "asserts": null

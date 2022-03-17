@@ -41,11 +41,7 @@
             "ctxt": 0
           },
           "value": "react",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'react'"
         }
       }
     },
@@ -377,11 +373,7 @@
                     "ctxt": 0
                   },
                   "value": "hello",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"hello\""
                 }
               }
             ]
@@ -522,11 +514,7 @@
                     "ctxt": 0
                   },
                   "value": "ignore-prop",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"ignore-prop\""
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -536,11 +524,7 @@
                     "ctxt": 0
                   },
                   "value": "hello",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"hello\""
                 }
               }
             ]
@@ -1065,11 +1049,7 @@
                             "ctxt": 0
                           },
                           "value": "hi",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"hi\""
                         }
                       }
                     ]
@@ -1214,11 +1194,7 @@
                             "ctxt": 0
                           },
                           "value": "true",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"true\""
                         }
                       }
                     ]
@@ -1531,11 +1507,7 @@
                             "ctxt": 0
                           },
                           "value": "ignore-prop",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"ignore-prop\""
                         },
                         "value": {
                           "type": "NumericLiteral",
@@ -1657,11 +1629,7 @@
                       "ctxt": 0
                     },
                     "value": "boo",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"boo\""
                   }
                 }
               ],

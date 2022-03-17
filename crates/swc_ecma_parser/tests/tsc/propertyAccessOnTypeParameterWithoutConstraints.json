@@ -185,11 +185,7 @@
                                 "ctxt": 0
                               },
                               "value": "toString",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'toString'"
                             }
                           }
                         },
@@ -782,11 +778,7 @@
                     "ctxt": 0
                   },
                   "value": "toString",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'toString'"
                 }
               }
             },
@@ -1102,11 +1094,7 @@
                     "ctxt": 0
                   },
                   "value": "toString",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'toString'"
                 }
               }
             },
@@ -1286,11 +1274,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "toString",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "'toString'"
                                   }
                                 }
                               },

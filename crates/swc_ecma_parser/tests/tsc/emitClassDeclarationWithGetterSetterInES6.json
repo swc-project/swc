@@ -216,11 +216,7 @@
                       "ctxt": 0
                     },
                     "value": "BYE",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"BYE\""
                   }
                 }
               ]
@@ -275,11 +271,7 @@
                 "ctxt": 0
               },
               "value": "computedname",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedname\""
             }
           },
           "function": {
@@ -313,11 +305,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"\""
                   }
                 }
               ]
@@ -356,11 +344,7 @@
                 "ctxt": 0
               },
               "value": "computedname1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedname1\""
             }
           },
           "function": {
@@ -394,11 +378,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"\""
                   }
                 }
               ]
@@ -437,11 +417,7 @@
                 "ctxt": 0
               },
               "value": "computedname2",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedname2\""
             }
           },
           "function": {
@@ -475,11 +451,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"\""
                   }
                 }
               ]
@@ -518,11 +490,7 @@
                 "ctxt": 0
               },
               "value": "computedname3",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedname3\""
             }
           },
           "function": {
@@ -613,11 +581,7 @@
                 "ctxt": 0
               },
               "value": "computedname4",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedname4\""
             }
           },
           "function": {
@@ -874,11 +838,7 @@
                 "ctxt": 0
               },
               "value": "computedname",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedname\""
             }
           },
           "function": {

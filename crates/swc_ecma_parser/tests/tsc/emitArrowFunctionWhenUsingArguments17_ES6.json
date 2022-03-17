@@ -110,11 +110,7 @@
                           "ctxt": 0
                         },
                         "value": "hello",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"hello\""
                       }
                     }
                   ]
@@ -272,11 +268,7 @@
                     "ctxt": 0
                   },
                   "value": "world",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"world\""
                 },
                 "definite": false
               }

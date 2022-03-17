@@ -49,11 +49,7 @@
                 "ctxt": 0
               },
               "value": "x",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"x\""
             },
             "definite": false
           }
@@ -103,11 +99,7 @@
                 "ctxt": 0
               },
               "value": "y",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"y\""
             },
             "definite": false
           }
@@ -189,11 +181,7 @@
           "ctxt": 0
         },
         "value": "./t1",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./t1\""
       },
       "typeOnly": false,
       "asserts": null
@@ -255,11 +243,7 @@
           "ctxt": 0
         },
         "value": "./t1",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./t1\""
       },
       "typeOnly": false,
       "asserts": null

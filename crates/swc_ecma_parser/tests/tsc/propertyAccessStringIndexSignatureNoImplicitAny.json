@@ -299,11 +299,7 @@
               "ctxt": 0
             },
             "value": "this is fine",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'this is fine'"
           }
         }
       }
@@ -472,11 +468,7 @@
               "ctxt": 0
             },
             "value": "not allowed either",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"not allowed either\""
           }
         }
       }

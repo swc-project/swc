@@ -141,11 +141,7 @@
             "ctxt": 0
           },
           "value": "cat",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"cat\""
         }
       }
     },

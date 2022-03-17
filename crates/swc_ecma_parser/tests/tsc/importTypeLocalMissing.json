@@ -720,11 +720,7 @@
                       "ctxt": 0
                     },
                     "value": "./fo",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"./fo\""
                   },
                   "qualifier": null,
                   "typeArguments": null
@@ -845,11 +841,7 @@
                       "ctxt": 0
                     },
                     "value": "./fo2",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"./fo2\""
                   },
                   "qualifier": {
                     "type": "TsQualifiedName",
@@ -906,11 +898,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"\""
                   }
                 },
                 {
@@ -997,11 +985,7 @@
                       "ctxt": 0
                     },
                     "value": "./foo2",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"./foo2\""
                   },
                   "qualifier": {
                     "type": "TsQualifiedName",
@@ -1058,11 +1042,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"\""
                   }
                 },
                 {
@@ -1427,11 +1407,7 @@
                         "ctxt": 0
                       },
                       "value": "./fo2",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"./fo2\""
                     },
                     "qualifier": null,
                     "typeArguments": null

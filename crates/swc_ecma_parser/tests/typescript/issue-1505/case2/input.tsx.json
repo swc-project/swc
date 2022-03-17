@@ -208,11 +208,7 @@
                             "ctxt": 0
                           },
                           "value": "withUsersTeams(",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         },
                         "raw": {
                           "type": "StringLiteral",
@@ -222,11 +218,7 @@
                             "ctxt": 0
                           },
                           "value": "withUsersTeams(",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         }
                       },
                       {
@@ -245,11 +237,7 @@
                             "ctxt": 0
                           },
                           "value": ")",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         },
                         "raw": {
                           "type": "StringLiteral",
@@ -259,11 +247,7 @@
                             "ctxt": 0
                           },
                           "value": ")",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         }
                       }
                     ]
@@ -674,11 +658,7 @@
                                                 "ctxt": 0
                                               },
                                               "value": "user-teams-fetch-start",
-                                              "hasEscape": false,
-                                              "kind": {
-                                                "type": "normal",
-                                                "containsQuote": true
-                                              }
+                                              "raw": "\"user-teams-fetch-start\""
                                             }
                                           }
                                         ]
@@ -1064,11 +1044,7 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "app.component.perf",
-                                                            "hasEscape": false,
-                                                            "kind": {
-                                                              "type": "normal",
-                                                              "containsQuote": true
-                                                            }
+                                                            "raw": "\"app.component.perf\""
                                                           }
                                                         },
                                                         {
@@ -1091,11 +1067,7 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "user-teams-fetch-start",
-                                                            "hasEscape": false,
-                                                            "kind": {
-                                                              "type": "normal",
-                                                              "containsQuote": true
-                                                            }
+                                                            "raw": "\"user-teams-fetch-start\""
                                                           }
                                                         },
                                                         {
@@ -1138,11 +1110,7 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "user-teams",
-                                                                  "hasEscape": false,
-                                                                  "kind": {
-                                                                    "type": "normal",
-                                                                    "containsQuote": true
-                                                                  }
+                                                                  "raw": "\"user-teams\""
                                                                 }
                                                               },
                                                               {
@@ -1165,11 +1133,7 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "/organizations/:orgid/user-teams",
-                                                                  "hasEscape": false,
-                                                                  "kind": {
-                                                                    "type": "normal",
-                                                                    "containsQuote": true
-                                                                  }
+                                                                  "raw": "\"/organizations/:orgid/user-teams\""
                                                                 }
                                                               },
                                                               {
@@ -1678,11 +1642,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "user",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"user\""
                                     }
                                   }
                                 ],
@@ -2355,11 +2315,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "/organizations/",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": false
-                                  }
+                                  "raw": ""
                                 },
                                 "raw": {
                                   "type": "StringLiteral",
@@ -2369,11 +2325,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "/organizations/",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": false
-                                  }
+                                  "raw": ""
                                 }
                               },
                               {
@@ -2392,11 +2344,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "/user-teams/",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": false
-                                  }
+                                  "raw": ""
                                 },
                                 "raw": {
                                   "type": "StringLiteral",
@@ -2406,11 +2354,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "/user-teams/",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": false
-                                  }
+                                  "raw": ""
                                 }
                               }
                             ]

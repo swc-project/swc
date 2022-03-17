@@ -219,11 +219,7 @@
                       "ctxt": 0
                     },
                     "value": "./some-mod",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"./some-mod\""
                   }
                 }
               ],

@@ -143,11 +143,7 @@
           "ctxt": 0
         },
         "value": "./task",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./task\""
       },
       "typeOnly": false,
       "asserts": null

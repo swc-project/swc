@@ -103,11 +103,7 @@
                     "ctxt": 0
                   },
                   "value": "2012-05-24",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"2012-05-24\""
                 }
               }
             ],
@@ -441,11 +437,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         },
                         "raw": {
                           "type": "StringLiteral",
@@ -455,11 +447,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         }
                       },
                       {
@@ -478,11 +466,7 @@
                             "ctxt": 0
                           },
                           "value": " ",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         },
                         "raw": {
                           "type": "StringLiteral",
@@ -492,11 +476,7 @@
                             "ctxt": 0
                           },
                           "value": " ",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         }
                       },
                       {
@@ -515,11 +495,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         },
                         "raw": {
                           "type": "StringLiteral",
@@ -529,11 +505,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         }
                       }
                     ]
@@ -585,11 +557,7 @@
                 "ctxt": 0
               },
               "value": "en-US",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"en-US\""
             }
           }
         ],
@@ -631,11 +599,7 @@
                 "ctxt": 0
               },
               "value": "de-DE",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"de-DE\""
             }
           }
         ],
@@ -716,11 +680,7 @@
                     "ctxt": 0
                   },
                   "value": "en",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'en'"
                 }
               },
               {
@@ -753,11 +713,7 @@
                           "ctxt": 0
                         },
                         "value": "narrow",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'narrow'"
                       }
                     }
                   ]
@@ -873,11 +829,7 @@
                       "ctxt": 0
                     },
                     "value": "quarter",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'quarter'"
                   }
                 }
               ],
@@ -1000,11 +952,7 @@
                       "ctxt": 0
                     },
                     "value": "day",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'day'"
                   }
                 }
               ],
@@ -1089,11 +1037,7 @@
                     "ctxt": 0
                   },
                   "value": "es",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'es'"
                 }
               },
               {
@@ -1126,11 +1070,7 @@
                           "ctxt": 0
                         },
                         "value": "auto",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'auto'"
                       }
                     }
                   ]
@@ -1246,11 +1186,7 @@
                       "ctxt": 0
                     },
                     "value": "day",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'day'"
                   }
                 }
               ],
@@ -1345,11 +1281,7 @@
                           "ctxt": 0
                         },
                         "value": "en",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'en'"
                       }
                     }
                   ]
@@ -1385,11 +1317,7 @@
                           "ctxt": 0
                         },
                         "value": "region",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'region'"
                       }
                     }
                   ]
@@ -1486,11 +1414,7 @@
                           "ctxt": 0
                         },
                         "value": "zh-Hant",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'zh-Hant'"
                       }
                     }
                   ]
@@ -1526,11 +1450,7 @@
                           "ctxt": 0
                         },
                         "value": "region",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'region'"
                       }
                     }
                   ]
@@ -1634,11 +1554,7 @@
                       "ctxt": 0
                     },
                     "value": "US",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'US'"
                   }
                 }
               ],
@@ -1740,11 +1656,7 @@
                       "ctxt": 0
                     },
                     "value": "US",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'US'"
                   }
                 }
               ],
@@ -1801,11 +1713,7 @@
                     "ctxt": 0
                   },
                   "value": "ban",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'ban'"
                 }
               },
               {
@@ -1818,11 +1726,7 @@
                     "ctxt": 0
                   },
                   "value": "id-u-co-pinyin",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'id-u-co-pinyin'"
                 }
               },
               {
@@ -1835,11 +1739,7 @@
                     "ctxt": 0
                   },
                   "value": "de-ID",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'de-ID'"
                 }
               }
             ]
@@ -1911,11 +1811,7 @@
                       "ctxt": 0
                     },
                     "value": "lookup",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'lookup'"
                   }
                 }
               ]
@@ -2089,11 +1985,7 @@
                       "ctxt": 0
                     },
                     "value": ", ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "', '"
                   }
                 }
               ],

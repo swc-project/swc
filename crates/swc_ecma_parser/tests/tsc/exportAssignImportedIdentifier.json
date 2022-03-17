@@ -101,11 +101,7 @@
             "ctxt": 0
           },
           "value": "./foo1",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./foo1'"
         }
       }
     },
@@ -222,11 +218,7 @@
             "ctxt": 0
           },
           "value": "./foo2",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./foo2'"
         }
       }
     },

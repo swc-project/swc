@@ -59,11 +59,7 @@
                     "ctxt": 0
                   },
                   "value": "helloworld",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 },
                 "raw": {
                   "type": "StringLiteral",
@@ -73,11 +69,7 @@
                     "ctxt": 0
                   },
                   "value": "hello\\world",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 }
               }
             ]
@@ -139,11 +131,7 @@
                     "ctxt": 0
                   },
                   "value": "hello\\world",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 },
                 "raw": {
                   "type": "StringLiteral",
@@ -153,11 +141,7 @@
                     "ctxt": 0
                   },
                   "value": "hello\\\\world",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 }
               }
             ]
@@ -219,11 +203,7 @@
                     "ctxt": 0
                   },
                   "value": "hello\\world",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 },
                 "raw": {
                   "type": "StringLiteral",
@@ -233,11 +213,7 @@
                     "ctxt": 0
                   },
                   "value": "hello\\\\\\world",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 }
               }
             ]
@@ -299,11 +275,7 @@
                     "ctxt": 0
                   },
                   "value": "hello\\\\world",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 },
                 "raw": {
                   "type": "StringLiteral",
@@ -313,11 +285,7 @@
                     "ctxt": 0
                   },
                   "value": "hello\\\\\\\\world",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 }
               }
             ]

@@ -87,11 +87,7 @@
                       "ctxt": 0
                     },
                     "value": "Nope",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"Nope\""
                   }
                 }
               ],
@@ -148,11 +144,7 @@
                 "ctxt": 0
               },
               "value": "asd",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"asd\""
             }
           }
         ]
@@ -261,11 +253,7 @@
                             "ctxt": 0
                           },
                           "value": "test",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"test\""
                         }
                       }
                     ],
@@ -382,11 +370,7 @@
                             "ctxt": 0
                           },
                           "value": "test",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"test\""
                         }
                       }
                     ],
@@ -481,11 +465,7 @@
                 "ctxt": 0
               },
               "value": "asd",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"asd\""
             }
           }
         ]
@@ -594,11 +574,7 @@
                             "ctxt": 0
                           },
                           "value": "test",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"test\""
                         }
                       }
                     ],
@@ -715,11 +691,7 @@
                             "ctxt": 0
                           },
                           "value": "test",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"test\""
                         }
                       }
                     ],

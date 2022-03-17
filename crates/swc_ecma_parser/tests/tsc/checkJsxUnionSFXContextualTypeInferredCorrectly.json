@@ -41,11 +41,7 @@
           "ctxt": 0
         },
         "value": "react",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'react'"
       },
       "typeOnly": false,
       "asserts": null
@@ -836,11 +832,7 @@
                               "ctxt": 0
                             },
                             "value": "s",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "'s'"
                           }
                         }
                       },
@@ -1041,11 +1033,7 @@
                       "ctxt": 0
                     },
                     "value": "s",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'s'"
                   }
                 },
                 {

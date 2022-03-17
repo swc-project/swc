@@ -1136,11 +1136,7 @@
           "ctxt": 0
         },
         "value": "./renderer2",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./renderer2\""
       },
       "typeOnly": false,
       "asserts": null
@@ -1238,11 +1234,7 @@
           "ctxt": 0
         },
         "value": "./renderer",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./renderer\""
       },
       "typeOnly": false,
       "asserts": null
@@ -1282,11 +1274,7 @@
           "ctxt": 0
         },
         "value": "./component",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./component\""
       },
       "typeOnly": false,
       "asserts": null

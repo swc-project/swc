@@ -61,11 +61,7 @@
                           "ctxt": 0
                         },
                         "value": "TAG",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
+                        "raw": ""
                       },
                       "raw": {
                         "type": "StringLiteral",
@@ -75,11 +71,7 @@
                           "ctxt": 0
                         },
                         "value": "TAG",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
+                        "raw": ""
                       }
                     }
                   ]
@@ -102,11 +94,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
+                    "raw": ""
                   },
                   "raw": {
                     "type": "StringLiteral",
@@ -116,11 +104,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
+                    "raw": ""
                   }
                 },
                 {
@@ -139,11 +123,7 @@
                       "ctxt": 0
                     },
                     "value": " ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
+                    "raw": ""
                   },
                   "raw": {
                     "type": "StringLiteral",
@@ -153,11 +133,7 @@
                       "ctxt": 0
                     },
                     "value": " ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
+                    "raw": ""
                   }
                 }
               ]
@@ -180,11 +156,7 @@
                   "ctxt": 0
                 },
                 "value": "I AM THE ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
+                "raw": ""
               },
               "raw": {
                 "type": "StringLiteral",
@@ -194,11 +166,7 @@
                   "ctxt": 0
                 },
                 "value": "I AM THE ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
+                "raw": ""
               }
             },
             {
@@ -217,11 +185,7 @@
                   "ctxt": 0
                 },
                 "value": " PORTION",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
+                "raw": ""
               },
               "raw": {
                 "type": "StringLiteral",
@@ -231,11 +195,7 @@
                   "ctxt": 0
                 },
                 "value": " PORTION",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
+                "raw": ""
               }
             }
           ]
@@ -257,11 +217,7 @@
                 "ctxt": 0
               },
               "value": "AM",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"AM\""
             }
           ],
           "quasis": [
@@ -281,11 +237,7 @@
                   "ctxt": 0
                 },
                 "value": "I ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
+                "raw": ""
               },
               "raw": {
                 "type": "StringLiteral",
@@ -295,11 +247,7 @@
                   "ctxt": 0
                 },
                 "value": "I ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
+                "raw": ""
               }
             },
             {
@@ -318,11 +266,7 @@
                   "ctxt": 0
                 },
                 "value": " THE TEMPLATE PORTION",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
+                "raw": ""
               },
               "raw": {
                 "type": "StringLiteral",
@@ -332,11 +276,7 @@
                   "ctxt": 0
                 },
                 "value": " THE TEMPLATE PORTION",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
+                "raw": ""
               }
             }
           ]

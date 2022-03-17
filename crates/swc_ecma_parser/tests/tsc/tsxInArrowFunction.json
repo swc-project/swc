@@ -281,11 +281,7 @@
                           "ctxt": 0
                         },
                         "value": "wat",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"wat\""
                       }
                     }
                   ],
@@ -435,11 +431,7 @@
                           "ctxt": 0
                         },
                         "value": "wat",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"wat\""
                       }
                     }
                   ],
@@ -584,11 +576,7 @@
                             "ctxt": 0
                           },
                           "value": "wat",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"wat\""
                         }
                       }
                     ],
@@ -727,11 +715,7 @@
                           "ctxt": 0
                         },
                         "value": "wat",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"wat\""
                       }
                     }
                   ],

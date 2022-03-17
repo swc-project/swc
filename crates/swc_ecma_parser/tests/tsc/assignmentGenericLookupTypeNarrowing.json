@@ -79,11 +79,7 @@
                         "ctxt": 0
                       },
                       "value": "foo",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"foo\""
                     }
                   },
                   "default": null
@@ -211,11 +207,7 @@
                           "ctxt": 0
                         },
                         "value": "hello",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"hello\""
                       }
                     }
                   ]
@@ -690,11 +682,7 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"foo\""
               }
             },
             "default": null

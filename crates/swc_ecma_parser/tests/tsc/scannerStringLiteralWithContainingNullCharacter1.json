@@ -21,11 +21,7 @@
           "ctxt": 0
         },
         "value": " \u0000 ",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\" \u0000 \""
       }
     }
   ],

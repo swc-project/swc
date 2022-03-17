@@ -278,11 +278,7 @@
                   "ctxt": 0
                 },
                 "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"\""
               },
               "right": {
                 "type": "NumericLiteral",
@@ -343,11 +339,7 @@
                 "ctxt": 0
               },
               "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"\""
             },
             "right": {
               "type": "ParenthesisExpression",
@@ -813,11 +805,7 @@
                   "ctxt": 0
                 },
                 "value": "bar",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"bar\""
               }
             }
           }

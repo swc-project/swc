@@ -137,11 +137,7 @@
                     "ctxt": 0
                   },
                   "value": "key-attr",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"key-attr\""
                 }
               }
             }

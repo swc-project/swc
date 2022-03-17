@@ -297,13 +297,10 @@ impl<I: Tokens> Parser<I> {
 
         let arg = match cur!(self, true)? {
             Token::Str { .. } => match bump!(self) {
-                Token::Str { value, has_escape, .. } => Str {
+                Token::Str { value, raw, .. } => Str {
                     span: arg_span,
                     value,
-                    has_escape,
-                    kind: StrKind::Normal {
-                        contains_quote: true,
-                    },
+                    raw,
                 },
                 _ => unreachable!(),
             },
@@ -313,8 +310,7 @@ impl<I: Tokens> Parser<I> {
                 Str {
                     span: arg_span,
                     value: "".into(),
-                    has_escape: false,
-                    kind: Default::default(),
+                    raw: "\"\"".into(),
                 }
             }
         };
@@ -660,6 +656,7 @@ impl<I: Tokens> Parser<I> {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
             })?,
+            // TODO we need `raw` for `Num` token too
             Token::Num(v) => {
                 bump!(self);
                 let span = span!(self, start);
@@ -670,10 +667,7 @@ impl<I: Tokens> Parser<I> {
                 TsEnumMemberId::Str(Str {
                     span,
                     value: v.to_string().into(),
-                    has_escape: false,
-                    kind: StrKind::Normal {
-                        contains_quote: false,
-                    },
+                    raw: ("\"".to_owned() + &v.to_string() + "\"").into(),
                 })
             }
             Token::LBracket => {

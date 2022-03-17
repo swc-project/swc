@@ -41,11 +41,7 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"constructor\""
           },
           "params": [],
           "body": {
@@ -161,11 +157,7 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'constructor'"
           },
           "params": [],
           "body": {
@@ -288,11 +280,7 @@
                 "ctxt": 0
               },
               "value": "constructor",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'constructor'"
             }
           },
           "function": {
@@ -429,11 +417,7 @@
                   "ctxt": 0
                 },
                 "value": "constructor",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"constructor\""
               },
               "params": [],
               "body": {
@@ -564,11 +548,7 @@
                     "ctxt": 0
                   },
                   "value": "constructor",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"constructor\""
                 },
                 "params": [],
                 "decorators": [],
@@ -632,11 +612,7 @@
               "ctxt": 0
             },
             "value": "constructor",
-            "hasEscape": true,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"\\x63onstructor\""
           },
           "params": [],
           "body": {

@@ -42,11 +42,7 @@
               "ctxt": 0
             },
             "value": "method",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"method\""
           },
           "definite": false
         }
@@ -88,11 +84,7 @@
               "ctxt": 0
             },
             "value": "accessor",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"accessor\""
           },
           "definite": false
         }

@@ -51,11 +51,7 @@
               "ctxt": 0
             },
             "value": "Hello world",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"Hello world\""
           },
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
@@ -136,11 +132,7 @@
               "ctxt": 0
             },
             "value": "Hello world",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"Hello world\""
           },
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
@@ -612,11 +604,7 @@
                       "ctxt": 0
                     },
                     "value": "HI",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"HI\""
                   }
                 }
               }

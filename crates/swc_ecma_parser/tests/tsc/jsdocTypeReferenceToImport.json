@@ -69,11 +69,7 @@
                       "ctxt": 0
                     },
                     "value": "./ex",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'./ex'"
                   }
                 }
               ],
@@ -169,11 +165,7 @@
                         "ctxt": 0
                       },
                       "value": "./ex",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'./ex'"
                     }
                   }
                 ],

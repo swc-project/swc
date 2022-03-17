@@ -99,11 +99,7 @@
                                 "ctxt": 0
                               },
                               "value": "TypeTwo",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'TypeTwo'"
                             }
                           }
                         },
@@ -264,11 +260,7 @@
                                 "ctxt": 0
                               },
                               "value": "TypeOne",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'TypeOne'"
                             }
                           }
                         },
@@ -438,11 +430,7 @@
                                 "ctxt": 0
                               },
                               "value": "TypeTwo",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'TypeTwo'"
                             }
                           }
                         },
@@ -561,11 +549,7 @@
                                 "ctxt": 0
                               },
                               "value": "TypeOne",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'TypeOne'"
                             }
                           }
                         },

@@ -387,11 +387,7 @@
                                 "ctxt": 0
                               },
                               "value": "1",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'1'"
                             },
                             "alternate": {
                               "type": "StringLiteral",
@@ -401,11 +397,7 @@
                                 "ctxt": 0
                               },
                               "value": "0",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'0'"
                             }
                           }
                         }

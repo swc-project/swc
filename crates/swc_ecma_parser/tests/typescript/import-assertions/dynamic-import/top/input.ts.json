@@ -53,11 +53,7 @@
                     "ctxt": 0
                   },
                   "value": "./lazy",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'./lazy'"
                 }
               },
               {
@@ -110,11 +106,7 @@
                                 "ctxt": 0
                               },
                               "value": "json",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"json\""
                             }
                           }
                         ]

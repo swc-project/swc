@@ -74,11 +74,7 @@
                       "ctxt": 0
                     },
                     "value": "oh no",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'oh no'"
                   }
                 }
               ]
@@ -147,11 +143,7 @@
               "ctxt": 0
             },
             "value": "yep",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'yep'"
           },
           "typeAnnotation": null,
           "isStatic": false,

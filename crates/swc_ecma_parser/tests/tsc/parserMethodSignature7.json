@@ -50,11 +50,7 @@
                 "ctxt": 0
               },
               "value": "G",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"G\""
             },
             "computed": false,
             "optional": false,

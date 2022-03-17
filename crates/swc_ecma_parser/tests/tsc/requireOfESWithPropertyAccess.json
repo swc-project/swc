@@ -69,11 +69,7 @@
                       "ctxt": 0
                     },
                     "value": "./ch",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'./ch'"
                   }
                 }
               ],

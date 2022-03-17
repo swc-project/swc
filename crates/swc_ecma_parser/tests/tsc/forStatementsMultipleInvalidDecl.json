@@ -1129,11 +1129,7 @@
                 "ctxt": 0
               },
               "value": "a string",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'a string'"
             },
             "definite": false
           }
@@ -1732,11 +1728,7 @@
                   "ctxt": 0
                 },
                 "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "''"
               },
               "async": false,
               "generator": false,

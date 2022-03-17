@@ -405,11 +405,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"\""
                   }
                 },
                 "value": {
@@ -561,11 +557,7 @@
                             "ctxt": 0
                           },
                           "value": "hello bye",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         },
                         "raw": {
                           "type": "StringLiteral",
@@ -575,11 +567,7 @@
                             "ctxt": 0
                           },
                           "value": "hello bye",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         }
                       }
                     ]
@@ -640,11 +628,7 @@
                             "ctxt": 0
                           },
                           "value": "hello ",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         },
                         "raw": {
                           "type": "StringLiteral",
@@ -654,11 +638,7 @@
                             "ctxt": 0
                           },
                           "value": "hello ",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         }
                       },
                       {
@@ -677,11 +657,7 @@
                             "ctxt": 0
                           },
                           "value": " bye",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         },
                         "raw": {
                           "type": "StringLiteral",
@@ -691,11 +667,7 @@
                             "ctxt": 0
                           },
                           "value": " bye",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
+                          "raw": ""
                         }
                       }
                     ]

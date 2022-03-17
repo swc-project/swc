@@ -115,11 +115,7 @@
               "ctxt": 0
             },
             "value": "my name",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"my name\""
           },
           "definite": false
         }

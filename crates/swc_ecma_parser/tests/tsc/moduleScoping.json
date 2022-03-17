@@ -42,11 +42,7 @@
               "ctxt": 0
             },
             "value": "sausages",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"sausages\""
           },
           "definite": false
         }
@@ -309,11 +305,7 @@
             "ctxt": 0
           },
           "value": "./file3",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./file3'"
         }
       }
     },

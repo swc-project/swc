@@ -412,11 +412,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "Dot product only applicable for vectors of equal length",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": false
-                                        }
+                                        "raw": ""
                                       },
                                       "raw": {
                                         "type": "StringLiteral",
@@ -426,11 +422,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "Dot product only applicable for vectors of equal length",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": false
-                                        }
+                                        "raw": ""
                                       }
                                     }
                                   ]
@@ -2093,11 +2085,7 @@
           "ctxt": 0
         },
         "value": "./source",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./source\""
       },
       "typeOnly": false,
       "asserts": null

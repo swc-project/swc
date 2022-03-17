@@ -934,28 +934,19 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let (raw, cooked) = match *cur!(self, true)? {
+            // TODO fix me for `raw`
             Token::Template { .. } => match bump!(self) {
-                Token::Template {
-                    raw,
-                    cooked,
-                    has_escape,
-                } => match cooked {
+                Token::Template { raw, cooked, .. } => match cooked {
                     Ok(cooked) => (
                         Str {
                             span: span!(self, start),
                             value: raw,
-                            has_escape,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
+                            raw: js_word!(""),
                         },
                         Some(Str {
                             span: span!(self, start),
                             value: cooked,
-                            has_escape,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
+                            raw: js_word!(""),
                         }),
                     ),
                     Err(err) => {
@@ -964,10 +955,7 @@ impl<'a, I: Tokens> Parser<I> {
                                 Str {
                                     span: span!(self, start),
                                     value: raw,
-                                    has_escape,
-                                    kind: StrKind::Normal {
-                                        contains_quote: false,
-                                    },
+                                    raw: js_word!(""),
                                 },
                                 None,
                             )
@@ -1840,13 +1828,10 @@ impl<'a, I: Tokens> Parser<I> {
                 Lit::Bool(Bool { span, value })
             }
             Token::Str { .. } => match bump!(self) {
-                Token::Str { value, has_escape, .. } => Lit::Str(Str {
+                Token::Str { value, raw, .. } => Lit::Str(Str {
                     span: span!(self, start),
                     value,
-                    has_escape,
-                    kind: StrKind::Normal {
-                        contains_quote: true,
-                    },
+                    raw,
                 }),
                 _ => unreachable!(),
             },

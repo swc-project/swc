@@ -70,11 +70,7 @@
                         "ctxt": 0
                       },
                       "value": "Hi",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"Hi\""
                     }
                   }
                 ],
@@ -98,11 +94,7 @@
                     "ctxt": 0
                   },
                   "value": "abc",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 },
                 "raw": {
                   "type": "StringLiteral",
@@ -112,11 +104,7 @@
                     "ctxt": 0
                   },
                   "value": "abc",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 }
               },
               {
@@ -135,11 +123,7 @@
                     "ctxt": 0
                   },
                   "value": "def",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 },
                 "raw": {
                   "type": "StringLiteral",
@@ -149,11 +133,7 @@
                     "ctxt": 0
                   },
                   "value": "def",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 }
               }
             ]

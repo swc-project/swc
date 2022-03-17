@@ -43,11 +43,7 @@
           "ctxt": 0
         },
         "value": "./b",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./b'"
       },
       "typeOnly": true,
       "asserts": null
@@ -131,11 +127,7 @@
           "ctxt": 0
         },
         "value": "./a",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./a'"
       },
       "typeOnly": true,
       "asserts": null

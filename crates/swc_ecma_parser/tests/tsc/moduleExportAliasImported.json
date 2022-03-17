@@ -182,11 +182,7 @@
                 "ctxt": 0
               },
               "value": "./bug28014",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'./bug28014'"
             }
           }
         ],

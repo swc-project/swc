@@ -42,11 +42,7 @@
               "ctxt": 0
             },
             "value": "a",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'a'"
           },
           "definite": false
         }
@@ -438,11 +434,7 @@
                           "ctxt": 0
                         },
                         "value": "a",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'a'"
                       },
                       "value": {
                         "type": "Identifier",
@@ -541,11 +533,7 @@
                             "ctxt": 0
                           },
                           "value": "a",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "'a'"
                         }
                       },
                       "value": {

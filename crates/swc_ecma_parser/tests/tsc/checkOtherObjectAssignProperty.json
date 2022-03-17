@@ -158,11 +158,7 @@
                 "ctxt": 0
               },
               "value": "thing",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"thing\""
             }
           },
           {
@@ -225,11 +221,7 @@
                 "ctxt": 0
               },
               "value": "other",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"other\""
             }
           },
           "definite": false
@@ -402,11 +394,7 @@
               "ctxt": 0
             },
             "value": "prop",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"prop\""
           },
           "definite": false
         }
@@ -608,11 +596,7 @@
                 "ctxt": 0
               },
               "value": "bad1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"bad1\""
             }
           },
           {
@@ -697,11 +681,7 @@
                 "ctxt": 0
               },
               "value": "bad2",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"bad2\""
             }
           },
           {
@@ -785,11 +765,7 @@
                       "ctxt": 0
                     },
                     "value": "no",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"no\""
                   }
                 }
               ]
@@ -865,11 +841,7 @@
                 "ctxt": 0
               },
               "value": "bad3",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"bad3\""
             }
           },
           {
@@ -967,11 +939,7 @@
                     "ctxt": 0
                   },
                   "value": "./mod1",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./mod1\""
                 }
               }
             ],

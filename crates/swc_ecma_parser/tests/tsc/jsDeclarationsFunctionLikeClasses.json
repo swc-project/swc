@@ -351,11 +351,7 @@
           "ctxt": 0
         },
         "value": "./source",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./source\""
       },
       "typeOnly": false,
       "asserts": null

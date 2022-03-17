@@ -42,11 +42,7 @@
               "ctxt": 0
             },
             "value": "zh-CN",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"zh-CN\""
           },
           "definite": false
         }
@@ -127,11 +123,7 @@
                           "ctxt": 0
                         },
                         "value": "./locales/",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
+                        "raw": ""
                       },
                       "raw": {
                         "type": "StringLiteral",
@@ -141,11 +133,7 @@
                           "ctxt": 0
                         },
                         "value": "./locales/",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
+                        "raw": ""
                       }
                     },
                     {
@@ -164,11 +152,7 @@
                           "ctxt": 0
                         },
                         "value": ".js",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
+                        "raw": ""
                       },
                       "raw": {
                         "type": "StringLiteral",
@@ -178,11 +162,7 @@
                           "ctxt": 0
                         },
                         "value": ".js",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
+                        "raw": ""
                       }
                     }
                   ]
@@ -350,11 +330,7 @@
                         "ctxt": 0
                       },
                       "value": "./locales/",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"./locales/\""
                     },
                     "right": {
                       "type": "Identifier",
@@ -375,11 +351,7 @@
                       "ctxt": 0
                     },
                     "value": ".js",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\".js\""
                   }
                 }
               }

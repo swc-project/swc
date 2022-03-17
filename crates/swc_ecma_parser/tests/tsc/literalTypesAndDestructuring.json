@@ -853,11 +853,7 @@
                         "ctxt": 0
                       },
                       "value": "yo",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'yo'"
                     }
                   },
                   {
@@ -875,11 +871,7 @@
                         "ctxt": 0
                       },
                       "value": "ha",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'ha'"
                     }
                   },
                   {
@@ -949,11 +941,7 @@
                     "ctxt": 0
                   },
                   "value": "yo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'yo'"
                 }
               }
             ],

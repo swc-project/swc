@@ -59,11 +59,7 @@
                     "ctxt": 0
                   },
                   "value": "--------------------------366796e1c748a2fb\r\nContent-Disposition: form-data; name=\"payload\"\r\nContent-Type: text/plain\r\n\r\nCONTENT\r\n--------------------------366796e1c748a2fb--",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 },
                 "raw": {
                   "type": "StringLiteral",
@@ -73,11 +69,7 @@
                     "ctxt": 0
                   },
                   "value": "--------------------------366796e1c748a2fb\\r\nContent-Disposition: form-data; name=\"payload\"\\r\nContent-Type: text/plain\\r\n\\r\nCONTENT\\r\n--------------------------366796e1c748a2fb--",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
+                  "raw": ""
                 }
               }
             ]

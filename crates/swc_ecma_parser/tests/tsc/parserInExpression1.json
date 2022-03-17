@@ -67,11 +67,7 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"a\""
               },
               "right": {
                 "type": "ObjectExpression",
@@ -91,11 +87,7 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"a\""
                     },
                     "value": {
                       "type": "BooleanLiteral",

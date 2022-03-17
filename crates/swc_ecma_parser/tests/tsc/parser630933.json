@@ -42,11 +42,7 @@
               "ctxt": 0
             },
             "value": "Hello",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"Hello\""
           },
           "definite": false
         }

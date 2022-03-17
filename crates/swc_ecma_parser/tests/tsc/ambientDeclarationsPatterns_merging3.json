@@ -23,11 +23,7 @@
           "ctxt": 0
         },
         "value": "*.foo",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"*.foo\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -137,11 +133,7 @@
           "ctxt": 0
         },
         "value": "a.foo",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"a.foo\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -271,11 +263,7 @@
           "ctxt": 0
         },
         "value": "b.foo",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"b.foo\""
       },
       "typeOnly": false,
       "asserts": null

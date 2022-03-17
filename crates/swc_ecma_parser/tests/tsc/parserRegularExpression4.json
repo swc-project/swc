@@ -456,11 +456,7 @@
                       "ctxt": 0
                     },
                     "value": "&rct=j",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"&rct=j\""
                   }
                 }
               }
@@ -593,11 +589,7 @@
                             "ctxt": 0
                           },
                           "value": "&q=",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"&q=\""
                         },
                         "right": {
                           "type": "CallExpression",
@@ -663,11 +655,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "q",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\"q\""
                                         }
                                       }
                                     ],
@@ -701,11 +689,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "as_q",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\"as_q\""
                                         }
                                       }
                                     ],

@@ -351,11 +351,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "prop",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "\"prop\""
                                       },
                                       "typeAnnotation": null,
                                       "isStatic": false,
@@ -567,11 +563,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "prop",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "\"prop\""
                                       },
                                       "typeAnnotation": null,
                                       "isStatic": false,

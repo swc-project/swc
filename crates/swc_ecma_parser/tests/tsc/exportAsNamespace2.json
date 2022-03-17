@@ -139,11 +139,7 @@
           "ctxt": 0
         },
         "value": "./0",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./0'"
       },
       "typeOnly": false,
       "asserts": null
@@ -255,11 +251,7 @@
           "ctxt": 0
         },
         "value": "./1",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./1'"
       },
       "typeOnly": false,
       "asserts": null

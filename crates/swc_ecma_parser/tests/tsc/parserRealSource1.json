@@ -4380,11 +4380,7 @@
                                     "ctxt": 0
                                   },
                                   "value": " completed in ",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\" completed in \""
                                 }
                               },
                               "right": {
@@ -4433,11 +4429,7 @@
                                 "ctxt": 0
                               },
                               "value": " msec",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\" msec\""
                             }
                           }
                         }
@@ -4631,11 +4623,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         },
                         "definite": false
                       }
@@ -4866,11 +4854,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "\\t",
-                                            "hasEscape": true,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"\\\\t\""
                                           }
                                         }
                                       },
@@ -4936,11 +4920,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "\\n",
-                                            "hasEscape": true,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"\\\\n\""
                                           }
                                         }
                                       },
@@ -5006,11 +4986,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "\\v",
-                                            "hasEscape": true,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"\\\\v\""
                                           }
                                         }
                                       },
@@ -5076,11 +5052,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "\\f",
-                                            "hasEscape": true,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"\\\\f\""
                                           }
                                         }
                                       },
@@ -5146,11 +5118,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "\\r",
-                                            "hasEscape": true,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"\\\\r\""
                                           }
                                         }
                                       },
@@ -5216,11 +5184,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "\\\"",
-                                            "hasEscape": true,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"\\\\\\\"\""
                                           }
                                         }
                                       },
@@ -5286,11 +5250,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "\\'",
-                                            "hasEscape": true,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"\\\\\\'\""
                                           }
                                         }
                                       },
@@ -5356,11 +5316,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "\\",
-                                            "hasEscape": true,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"\\\\\""
                                           }
                                         }
                                       },
@@ -5825,11 +5781,7 @@
                                 "ctxt": 0
                               },
                               "value": "(...)",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"(...)\""
                             }
                           }
                         },

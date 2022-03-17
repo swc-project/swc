@@ -89,11 +89,7 @@
                       "ctxt": 0
                     },
                     "value": "globalThis",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"globalThis\""
                   }
                 }
               }

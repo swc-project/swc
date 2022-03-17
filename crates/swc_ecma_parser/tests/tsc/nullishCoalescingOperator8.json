@@ -416,11 +416,7 @@
                 "ctxt": 0
               },
               "value": "default",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"default\""
             }
           },
           "definite": false
@@ -509,11 +505,7 @@
                 "ctxt": 0
               },
               "value": "default",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"default\""
             }
           },
           "definite": false
@@ -686,11 +678,7 @@
                 "ctxt": 0
               },
               "value": "default",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"default\""
             }
           },
           "definite": false

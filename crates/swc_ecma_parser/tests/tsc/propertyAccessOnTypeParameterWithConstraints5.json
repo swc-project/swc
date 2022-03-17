@@ -74,11 +74,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "''"
                   }
                 }
               ]
@@ -186,11 +182,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "''"
                   }
                 }
               ]
@@ -418,11 +410,7 @@
                                 "ctxt": 0
                               },
                               "value": "foo",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'foo'"
                             }
                           }
                         },
@@ -1232,11 +1220,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'foo'"
                 }
               }
             },
@@ -1608,11 +1592,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'foo'"
                 }
               }
             },
@@ -1792,11 +1772,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "foo",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "'foo'"
                                   }
                                 }
                               },

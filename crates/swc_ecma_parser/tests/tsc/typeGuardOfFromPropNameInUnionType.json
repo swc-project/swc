@@ -441,11 +441,7 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"a\""
               },
               "right": {
                 "type": "Identifier",
@@ -517,11 +513,7 @@
                         "ctxt": 0
                       },
                       "value": "1",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"1\""
                     }
                   }
                 }
@@ -764,11 +756,7 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"a\""
               },
               "right": {
                 "type": "Identifier",
@@ -1210,11 +1198,7 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"a\""
               },
               "right": {
                 "type": "Identifier",
@@ -1678,11 +1662,7 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"a\""
               },
               "right": {
                 "type": "Identifier",
@@ -1754,11 +1734,7 @@
                         "ctxt": 0
                       },
                       "value": "1",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"1\""
                     }
                   }
                 }
@@ -2050,11 +2026,7 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"a\""
               },
               "right": {
                 "type": "ParenthesisExpression",
@@ -2464,11 +2436,7 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"a\""
               },
               "right": {
                 "type": "MemberExpression",
@@ -2895,11 +2863,7 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"a\""
               },
               "right": {
                 "type": "MemberExpression",
@@ -3360,11 +3324,7 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"a\""
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -3740,11 +3700,7 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"a\""
                     },
                     "right": {
                       "type": "ThisExpression",
@@ -4055,11 +4011,7 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"a\""
               },
               "right": {
                 "type": "Identifier",
@@ -4141,11 +4093,7 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"b\""
                 },
                 "right": {
                   "type": "Identifier",
@@ -4238,11 +4186,7 @@
                     "ctxt": 0
                   },
                   "value": "c",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"c\""
                 },
                 "right": {
                   "type": "Identifier",

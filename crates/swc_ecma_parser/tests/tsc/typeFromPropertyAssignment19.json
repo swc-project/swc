@@ -420,11 +420,7 @@
                     "ctxt": 0
                   },
                   "value": "./semver",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./semver\""
                 }
               }
             ],

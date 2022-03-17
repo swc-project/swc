@@ -54,11 +54,7 @@
                     "ctxt": 0
                   },
                   "value": "p",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"p\""
                 }
               }
             }
@@ -71,11 +67,7 @@
               "ctxt": 0
             },
             "value": "p",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"p\""
           },
           "definite": false
         }
@@ -235,11 +227,7 @@
                 "ctxt": 0
               },
               "value": "computed",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computed\""
             }
           },
           "value": {

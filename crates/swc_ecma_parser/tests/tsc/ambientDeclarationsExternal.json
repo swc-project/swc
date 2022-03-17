@@ -23,11 +23,7 @@
           "ctxt": 0
         },
         "value": "equ",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'equ'"
       },
       "body": {
         "type": "TsModuleBlock",
@@ -108,11 +104,7 @@
           "ctxt": 0
         },
         "value": "equ2",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'equ2'"
       },
       "body": {
         "type": "TsModuleBlock",
@@ -209,11 +201,7 @@
             "ctxt": 0
           },
           "value": "equ",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'equ'"
         }
       }
     },
@@ -252,11 +240,7 @@
             "ctxt": 0
           },
           "value": "equ2",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'equ2'"
         }
       }
     },
