@@ -104,15 +104,15 @@ macro_rules! semi {
 /// - `srcmap!(false)` for end (span.hi)
 macro_rules! srcmap {
     ($emitter:expr, $n:expr, true) => {{
-        let span = n.span();
+        let span = $n.span();
         if !span.is_dummy() {
-            self.wr.add_srcmap(span.lo);
+            $emitter.wr.add_srcmap(span.lo)?;
         }
     }};
     ($emitter:expr, $n:expr, false) => {
-        let span = n.span();
+        let span = $n.span();
         if !span.is_dummy() {
-            self.wr.add_srcmap(span.hi);
+            $emitter.wr.add_srcmap(span.hi)?;
         }
     };
 }
