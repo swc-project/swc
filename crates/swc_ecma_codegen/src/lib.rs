@@ -1848,24 +1848,34 @@ where
     fn emit_kv_prop(&mut self, node: &KeyValueProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        srcmap!(node, true);
+
         emit!(node.key);
         punct!(":");
         formatting_space!();
         emit!(node.value);
+
+        srcmap!(node, false);
     }
 
     #[emitter]
     fn emit_assign_prop(&mut self, node: &AssignProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        srcmap!(node, true);
+
         emit!(node.key);
         punct!("=");
         emit!(node.value);
+
+        srcmap!(node, false);
     }
 
     #[emitter]
     fn emit_getter_prop(&mut self, node: &GetterProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
 
         keyword!("get");
 
@@ -1884,11 +1894,15 @@ where
         punct!(")");
         formatting_space!();
         emit!(node.body);
+
+        srcmap!(node, false);
     }
 
     #[emitter]
     fn emit_setter_prop(&mut self, node: &SetterProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
 
         keyword!("set");
 
@@ -1911,11 +1925,15 @@ where
         punct!(")");
 
         emit!(node.body);
+
+        srcmap!(node, false);
     }
 
     #[emitter]
     fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
 
         if node.function.is_async {
             keyword!("async");
@@ -1936,24 +1954,25 @@ where
     fn emit_paren_expr(&mut self, node: &ParenExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        srcmap!(node, true);
+
         punct!("(");
         emit!(node.expr);
         punct!(")");
+
+        srcmap!(node, false);
     }
 
     #[emitter]
     fn emit_private_name(&mut self, n: &PrivateName) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(1), Default::default())
-            };
-            punct!(span, "#");
-        }
-        emit!(n.id)
+        srcmap!(n, true);
+
+        punct!("#");
+        emit!(n.id);
+
+        srcmap!(n, false);
     }
 
     #[emitter]
@@ -2248,9 +2267,13 @@ where
     fn emit_param(&mut self, node: &Param) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        srcmap!(n, true);
+
         self.emit_list(node.span, Some(&node.decorators), ListFormat::Decorators)?;
 
         emit!(node.pat);
+
+        srcmap!(n, false);
     }
 
     #[emitter]
@@ -2274,6 +2297,8 @@ where
     fn emit_rest_pat(&mut self, node: &RestPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        srcmap!(node, true);
+
         punct!("...");
         emit!(node.arg);
 
@@ -2282,6 +2307,8 @@ where
             formatting_space!();
             emit!(type_ann);
         }
+
+        srcmap!(node, false);
     }
 
     #[emitter]
@@ -2298,8 +2325,12 @@ where
             self.emit_leading_comments_of_span(node.span(), false)?;
         }
 
+        srcmap!(node, true);
+
         punct!("...");
-        emit!(node.expr)
+        emit!(node.expr);
+
+        srcmap!(node, false);
     }
 
     #[emitter]
@@ -2313,6 +2344,8 @@ where
     #[emitter]
     fn emit_array_pat(&mut self, node: &ArrayPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
 
         punct!("[");
         self.emit_list(
@@ -2330,22 +2363,30 @@ where
             space!();
             emit!(type_ann);
         }
+
+        srcmap!(node, false);
     }
 
     #[emitter]
     fn emit_assign_pat(&mut self, node: &AssignPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        srcmap!(node, true);
+
         emit!(node.left);
         formatting_space!();
         punct!("=");
         formatting_space!();
         emit!(node.right);
+
+        srcmap!(node, false);
     }
 
     #[emitter]
     fn emit_object_pat(&mut self, node: &ObjectPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
 
         let is_last_rest = match node.props.last() {
             Some(ObjectPatProp::Rest(..)) => true,
@@ -2357,27 +2398,16 @@ where
             ListFormat::ObjectBindingPatternElements
         };
 
-        {
-            let span = if node.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(node.span.lo, node.span.lo + BytePos(1), Default::default())
-            };
-            punct!(span, "{");
-        }
+        punct!("{");
+
         self.emit_list(
             node.span(),
             Some(&node.props),
             format | ListFormat::CanSkipTrailingComma,
         )?;
-        {
-            let span = if node.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(node.span.hi - BytePos(1), node.span.hi, Default::default())
-            };
-            punct!(span, "}");
-        }
+
+        punct!("}");
+
         if node.optional {
             punct!("?");
         }
@@ -2387,6 +2417,8 @@ where
             space!();
             emit!(type_ann);
         }
+
+        srcmap!(node, false);
     }
 
     #[emitter]
@@ -2402,16 +2434,22 @@ where
     fn emit_object_kv_pat(&mut self, node: &KeyValuePatProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        srcmap!(node, true);
+
         emit!(node.key);
         punct!(":");
         formatting_space!();
         emit!(node.value);
         formatting_space!();
+
+        srcmap!(node, false);
     }
 
     #[emitter]
     fn emit_object_assign_pat(&mut self, node: &AssignPatProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
 
         emit!(node.key);
         formatting_space!();
@@ -2420,6 +2458,8 @@ where
             emit!(node.value);
             formatting_space!();
         }
+
+        srcmap!(node, false);
     }
 
     #[emitter]
