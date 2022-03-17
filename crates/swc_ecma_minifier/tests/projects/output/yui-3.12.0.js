@@ -107,7 +107,7 @@ var YUI = function() {
                 useNativeES5: !0,
                 win: win,
                 global: Function("return this")()
-            }, doc && !doc.getElementById(CSS_STAMP_EL) ? ((el = doc.createElement("div")).innerHTML = "<div id=\"" + CSS_STAMP_EL + "\" style=\"position: absolute !important; visibility: hidden !important\"></div>", YUI.Env.cssStampEl = el.firstChild, doc.body ? doc.body.appendChild(YUI.Env.cssStampEl) : docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild)) : doc && doc.getElementById(CSS_STAMP_EL) && !YUI.Env.cssStampEl && (YUI.Env.cssStampEl = doc.getElementById(CSS_STAMP_EL)), Y.config.lang = Y.config.lang || "en-US", Y.config.base = YUI.config.base || Y.Env.getBase(Y.Env._BASE_RE), filter1 && "mindebug".indexOf(filter1) || (filter1 = "min"), filter1 = filter1 ? "-" + filter1 : filter1, Y.config.loaderPath = YUI.config.loaderPath || "loader/loader" + filter1 + ".js";
+            }, doc && !doc.getElementById(CSS_STAMP_EL) ? ((el = doc.createElement("div")).innerHTML = '<div id="' + CSS_STAMP_EL + '" style="position: absolute !important; visibility: hidden !important"></div>', YUI.Env.cssStampEl = el.firstChild, doc.body ? doc.body.appendChild(YUI.Env.cssStampEl) : docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild)) : doc && doc.getElementById(CSS_STAMP_EL) && !YUI.Env.cssStampEl && (YUI.Env.cssStampEl = doc.getElementById(CSS_STAMP_EL)), Y.config.lang = Y.config.lang || "en-US", Y.config.base = YUI.config.base || Y.Env.getBase(Y.Env._BASE_RE), filter1 && "mindebug".indexOf(filter1) || (filter1 = "min"), filter1 = filter1 ? "-" + filter1 : filter1, Y.config.loaderPath = YUI.config.loaderPath || "loader/loader" + filter1 + ".js";
         },
         _setup: function() {
             var i, core = [], mods = YUI.Env.mods, extras = this.config.core || [].concat(YUI.Env.core);
@@ -304,7 +304,7 @@ var YUI = function() {
         "[object Array]": "array",
         "[object Date]": "date",
         "[object Error]": "error"
-    }, SUBREGEX = /\{\s*([^|}]+?)\s*(?:\|([^}]*))?\s*\}/g, WHITESPACE = "\t\n\v\f\r \xa0 ᠎           \u2028\u2029  　﻿", WHITESPACE_CLASS = "[\t-\r \xa0 ᠎ - \u2028\u2029  　﻿]+", TRIM_LEFT_REGEX = new RegExp("^" + WHITESPACE_CLASS), TRIM_RIGHT_REGEX = new RegExp(WHITESPACE_CLASS + "$"), TRIMREGEX = new RegExp(TRIM_LEFT_REGEX.source + "|" + TRIM_RIGHT_REGEX.source, "g"), NATIVE_FN_REGEX = /\{\s*\[(?:native code|function)\]\s*\}/i;
+    }, SUBREGEX = /\{\s*([^|}]+?)\s*(?:\|([^}]*))?\s*\}/g, WHITESPACE = "\t\n\v\f\r \xa0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF", WHITESPACE_CLASS = "[\t-\r \xa0\u1680\u180E\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]+", TRIM_LEFT_REGEX = new RegExp("^" + WHITESPACE_CLASS), TRIM_RIGHT_REGEX = new RegExp(WHITESPACE_CLASS + "$"), TRIMREGEX = new RegExp(TRIM_LEFT_REGEX.source + "|" + TRIM_RIGHT_REGEX.source, "g"), NATIVE_FN_REGEX = /\{\s*\[(?:native code|function)\]\s*\}/i;
     L._isNative = function(fn) {
         return !!(Y.config.useNativeES5 && fn && NATIVE_FN_REGEX.test(fn));
     }, L.isArray = L._isNative(Array.isArray) ? Array.isArray : function(o) {
@@ -979,7 +979,7 @@ var YUI = function() {
             function onLoad() {
                 cssTimeout && clearTimeout(cssTimeout), self._progress(null, req);
             }
-            node || (nodeType = isScript ? "script" : !env.cssLoad && ua.gecko ? "style" : "link", node = req.node = this._createNode(nodeType, req.attributes, req.doc)), isScript ? (node.setAttribute("src", req.url), req.async ? node.async = !0 : (env.async && (node.async = !1), env.preservesScriptOrder || (this._pending = req))) : !env.cssLoad && ua.gecko ? node.innerHTML = (req.attributes.charset ? "@charset \"" + req.attributes.charset + "\";" : "") + "@import \"" + req.url + "\";" : node.setAttribute("href", req.url), isScript && ua.ie && (ua.ie < 9 || document.documentMode && document.documentMode < 9) ? node.onreadystatechange = function() {
+            node || (nodeType = isScript ? "script" : !env.cssLoad && ua.gecko ? "style" : "link", node = req.node = this._createNode(nodeType, req.attributes, req.doc)), isScript ? (node.setAttribute("src", req.url), req.async ? node.async = !0 : (env.async && (node.async = !1), env.preservesScriptOrder || (this._pending = req))) : !env.cssLoad && ua.gecko ? node.innerHTML = (req.attributes.charset ? '@charset "' + req.attributes.charset + '";' : "") + '@import "' + req.url + '";' : node.setAttribute("href", req.url), isScript && ua.ie && (ua.ie < 9 || document.documentMode && document.documentMode < 9) ? node.onreadystatechange = function() {
                 /loaded|complete/.test(node.readyState) && (node.onreadystatechange = null, onLoad());
             } : isScript || env.cssLoad ? (ua.ie >= 10 ? (node.onerror = function() {
                 setTimeout(onError, 0);
@@ -1140,7 +1140,7 @@ var YUI = function() {
         test: function(Y) {
             var _JSON = Y.config.global.JSON, Native = "[object JSON]" === Object.prototype.toString.call(_JSON) && _JSON, nativeSupport = !1 !== Y.config.useNativeJSONParse && !!Native;
             if (nativeSupport) try {
-                nativeSupport = Native.parse("{\"ok\":false}", function(k, v) {
+                nativeSupport = Native.parse('{"ok":false}', function(k, v) {
                     return "ok" === k || v;
                 }).ok;
             } catch (e) {
@@ -3557,7 +3557,7 @@ var YUI = function() {
                 test: function(Y) {
                     var _JSON = Y.config.global.JSON, Native = "[object JSON]" === Object.prototype.toString.call(_JSON) && _JSON, nativeSupport = !1 !== Y.config.useNativeJSONParse && !!Native;
                     if (nativeSupport) try {
-                        nativeSupport = Native.parse("{\"ok\":false}", function(k, v) {
+                        nativeSupport = Native.parse('{"ok":false}', function(k, v) {
                             return "ok" === k || v;
                         }).ok;
                     } catch (e) {

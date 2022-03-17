@@ -126,7 +126,7 @@ export default function Home() {
             columnNumber: 13
         },
         __self: this
-    }, "Documentation →"), /*#__PURE__*/ React.createElement("p", {
+    }, "Documentation \u2192"), /*#__PURE__*/ React.createElement("p", {
         __source: {
             fileName: "$DIR/tests/vercel/loader-only/next-33291/2-classic/input/index.js",
             lineNumber: 38,
@@ -149,7 +149,7 @@ export default function Home() {
             columnNumber: 13
         },
         __self: this
-    }, "Learn →"), /*#__PURE__*/ React.createElement("p", {
+    }, "Learn \u2192"), /*#__PURE__*/ React.createElement("p", {
         __source: {
             fileName: "$DIR/tests/vercel/loader-only/next-33291/2-classic/input/index.js",
             lineNumber: 43,
@@ -172,7 +172,7 @@ export default function Home() {
             columnNumber: 13
         },
         __self: this
-    }, "Examples →"), /*#__PURE__*/ React.createElement("p", {
+    }, "Examples \u2192"), /*#__PURE__*/ React.createElement("p", {
         __source: {
             fileName: "$DIR/tests/vercel/loader-only/next-33291/2-classic/input/index.js",
             lineNumber: 51,
@@ -195,7 +195,7 @@ export default function Home() {
             columnNumber: 13
         },
         __self: this
-    }, "Deploy →"), /*#__PURE__*/ React.createElement("p", {
+    }, "Deploy \u2192"), /*#__PURE__*/ React.createElement("p", {
         __source: {
             fileName: "$DIR/tests/vercel/loader-only/next-33291/2-classic/input/index.js",
             lineNumber: 59,

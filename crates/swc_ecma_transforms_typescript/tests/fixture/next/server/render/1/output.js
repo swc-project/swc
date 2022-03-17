@@ -24,7 +24,7 @@ import { allowedStatusCodes, getRedirectStatus } from "../lib/load-custom-routes
 import RenderResult from "./render-result";
 import isError from "../lib/is-error";
 function noRouter() {
-    const message = "No router instance found. you should only use \"next/router\" inside the client side of your app. https://nextjs.org/docs/messages/no-router-instance";
+    const message = 'No router instance found. you should only use "next/router" inside the client side of your app. https://nextjs.org/docs/messages/no-router-instance';
     throw new Error(message);
 }
 class ServerRouter {

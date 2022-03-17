@@ -1,4 +1,4 @@
-import swc from '../..';
+import swc from "../..";
 
 it("should compress", async () => {
     const { code } = await swc.minify(`
@@ -6,46 +6,64 @@ it("should compress", async () => {
     console.log(foo)
     `);
 
-    expect(code).toMatchInlineSnapshot(`"import foo from'@src/app';console.log(foo)"`);
-})
+    expect(code).toMatchInlineSnapshot(
+        `"import foo from\\"@src/app\\";console.log(foo)"`
+    );
+});
 
 it("should accept object", async () => {
-    const { code } = await swc.minify(`
+    const { code } = await swc.minify(
+        `
     import foo from '@src/app';
     console.log(foo)
-    `, {});
+    `,
+        {}
+    );
 
-    expect(code).toMatchInlineSnapshot(`"import foo from'@src/app';console.log(foo)"`);
-})
+    expect(code).toMatchInlineSnapshot(
+        `"import foo from\\"@src/app\\";console.log(foo)"`
+    );
+});
 
 it("should accpept { mangle = true }", async () => {
-    const { code } = await swc.minify(`
+    const { code } = await swc.minify(
+        `
     import foo from '@src/app';
     console.log(foo)
-    `, {
-        compress: false,
-        mangle: true,
-    });
+    `,
+        {
+            compress: false,
+            mangle: true,
+        }
+    );
 
-    expect(code).toMatchInlineSnapshot(`"import a from'@src/app';console.log(a)"`);
-})
+    expect(code).toMatchInlineSnapshot(
+        `"import a from\\"@src/app\\";console.log(a)"`
+    );
+});
 
 it("should accpept { mangle = object }", async () => {
-    const { code } = await swc.minify(`
+    const { code } = await swc.minify(
+        `
     import foo from '@src/app';
     console.log(foo)
-    `, {
-        compress: false,
-        mangle: {
-            topLevel: true
-        },
-    });
+    `,
+        {
+            compress: false,
+            mangle: {
+                topLevel: true,
+            },
+        }
+    );
 
-    expect(code).toMatchInlineSnapshot(`"import a from'@src/app';console.log(a)"`);
-})
+    expect(code).toMatchInlineSnapshot(
+        `"import a from\\"@src/app\\";console.log(a)"`
+    );
+});
 
 it("should mangle locals", async () => {
-    const { code } = await swc.minify(`
+    const { code } = await swc.minify(
+        `
     (function(){
         const longName = Math.random() + '_' + Math.random();
         console.log(longName);
@@ -55,60 +73,70 @@ it("should mangle locals", async () => {
         console.log(longName);
         console.log(longName);
     })()
-    `, {
-        compress: false,
-        mangle: {
-            topLevel: true
-        },
-    });
+    `,
+        {
+            compress: false,
+            mangle: {
+                topLevel: true,
+            },
+        }
+    );
 
-    expect(code).toMatchInlineSnapshot(`"(function(){const a=Math.random()+'_'+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`);
-})
+    expect(code).toMatchInlineSnapshot(
+        `"(function(){const a=Math.random()+\\"_\\"+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`
+    );
+});
 
-describe('soruce map', () => {
+describe("soruce map", () => {
     it("should have `names`", async () => {
-        const { map } = await swc.minify(`
+        const { map } = await swc.minify(
+            `
         (function(){
             const longName = Math.random() + '_' + Math.random();
             console.log(longName);
             console.log(longName);
         })()
-        `, {
-            sourceMap: true,
-            compress: false,
-            mangle: {
-                topLevel: true
-            },
-        });
+        `,
+            {
+                sourceMap: true,
+                compress: false,
+                mangle: {
+                    topLevel: true,
+                },
+            }
+        );
 
         expect(JSON.parse(map)).toHaveProperty("names");
-        expect(JSON.parse(map).names).not.toEqual([])
+        expect(JSON.parse(map).names).not.toEqual([]);
     });
 
     it("should have `sources` if file name is speicified", async () => {
-        const { map } = await swc.minify({
-            'foo.js': `(function(){
+        const { map } = await swc.minify(
+            {
+                "foo.js": `(function(){
                 const longName = Math.random() + '_' + Math.random();
                 console.log(longName);
-            })()`
-        }, {
-            sourceMap: true,
-            compress: false,
-            mangle: {
-                topLevel: true
+            })()`,
             },
-        });
+            {
+                sourceMap: true,
+                compress: false,
+                mangle: {
+                    topLevel: true,
+                },
+            }
+        );
 
         const j = JSON.parse(map);
         expect(j).toHaveProperty("sources");
         expect(j.sources).not.toEqual([]);
     });
-})
+});
 
-
-describe('transform apis', () => {
+describe("transform apis", () => {
     it("handle jsc.minify", async () => {
-        const { code } = await swc.transform(`
+        const { code } = await swc.transform(
+            `
         (function(){
             const longName = Math.random() + '_' + Math.random();
             console.log(longName);
@@ -118,21 +146,22 @@ describe('transform apis', () => {
             console.log(longName);
             console.log(longName);
         })()
-        `, {
-            jsc: {
-                minify: {
-                    compress: false,
-                    mangle: {
-                        topLevel: true
+        `,
+            {
+                jsc: {
+                    minify: {
+                        compress: false,
+                        mangle: {
+                            topLevel: true,
+                        },
                     },
-                }
-            },
-            minify: true,
-        });
+                },
+                minify: true,
+            }
+        );
 
-        expect(code).toMatchInlineSnapshot(`"(function(){var a=Math.random()+'_'+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`);
-    })
-
-})
-
-
+        expect(code).toMatchInlineSnapshot(
+            `"(function(){var a=Math.random()+\\"_\\"+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a)})()"`
+        );
+    });
+});

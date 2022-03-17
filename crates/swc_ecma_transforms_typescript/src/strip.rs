@@ -2376,6 +2376,7 @@ where
     fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
         prop.visit_mut_children_with(self);
         prop.readonly = false;
+        prop.definite = false;
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {

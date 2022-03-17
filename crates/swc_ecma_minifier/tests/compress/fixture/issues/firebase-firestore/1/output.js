@@ -2259,7 +2259,7 @@
                 for(let e35 = 0; e35 < s; e35++){
                     const s = t.charAt(e35);
                     switch(s){
-                        case "\x00":
+                        case "\0":
                             n += "\x01\x10";
                             break;
                         case "\x01":
@@ -2288,7 +2288,7 @@
                             0 === i.length ? o = n14 : (i += n14, o = i, i = ""), s.push(o);
                             break;
                         case "\x10":
-                            i += t.substring(r, e), i += "\x00";
+                            i += t.substring(r, e), i += "\0";
                             break;
                         case "\x11":
                             i += t.substring(r, e + 1);
@@ -2568,7 +2568,7 @@
                             const s = e.target.error;
                             "VersionError" === s.name ? n15(new j(K.FAILED_PRECONDITION, "A newer version of the Firestore SDK was previously used and so the persisted data is not compatible with the version of the SDK you are now using. The SDK will operate with persistence disabled. If you need persistence, please re-upgrade to a newer version of the SDK or else clear the persisted IndexedDB data for your app to start fresh.")) : "InvalidStateError" === s.name ? n15(new j(K.FAILED_PRECONDITION, "Unable to open an IndexedDB connection. This could be due to running in a private browsing session on a browser whose private browsing sessions do not support IndexedDB: " + s)) : n15(new zs(t70, s));
                         }, s5.onupgradeneeded = (t)=>{
-                            $("SimpleDb", "Database \"" + this.name + "\" requires upgrade from version:", t.oldVersion);
+                            $("SimpleDb", 'Database "' + this.name + '" requires upgrade from version:', t.oldVersion);
                             const e = t.target.result;
                             this.At.Ct(e, s5.transaction, t.oldVersion, this.version).next(()=>{
                                 $("SimpleDb", "Database upgrade to version " + this.version + " complete");
@@ -4083,11 +4083,11 @@
                                         $("Connection", "XHR received:", JSON.stringify(e85)), i(e85);
                                         break;
                                     case _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.jK.TIMEOUT:
-                                        $("Connection", "RPC \"" + t148 + "\" timed out"), r(new j(K.DEADLINE_EXCEEDED, "Request time out"));
+                                        $("Connection", 'RPC "' + t148 + '" timed out'), r(new j(K.DEADLINE_EXCEEDED, "Request time out"));
                                         break;
                                     case _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__.jK.HTTP_ERROR:
                                         const n = o.getStatus();
-                                        if ($("Connection", "RPC \"" + t148 + "\" failed with status:", n, "response text:", o.getResponseText()), n > 0) {
+                                        if ($("Connection", 'RPC "' + t148 + '" failed with status:', n, "response text:", o.getResponseText()), n > 0) {
                                             const t149 = o.getResponseJson().error;
                                             if (t149 && t149.status && t149.message) {
                                                 const e83 = function(t) {
@@ -4102,7 +4102,7 @@
                                         L();
                                 }
                             } finally{
-                                $("Connection", "RPC \"" + t148 + "\" completed.");
+                                $("Connection", 'RPC "' + t148 + '" completed.');
                             }
                         });
                         const c = JSON.stringify(s);
@@ -5582,7 +5582,7 @@
                     this._credentials = e, this.type = "firestore-lite", this._persistenceKey = "(lite)", this._settings = new pa({}), this._settingsFrozen = !1, t233 instanceof ha ? this._databaseId = t233 : (this._app = t233, this._databaseId = function(t) {
                         if (!Object.prototype.hasOwnProperty.apply(t.options, [
                             "projectId"
-                        ])) throw new j(K.INVALID_ARGUMENT, "\"projectId\" not provided in firebase.initializeApp.");
+                        ])) throw new j(K.INVALID_ARGUMENT, '"projectId" not provided in firebase.initializeApp.');
                         return new ha(t.options.projectId);
                     }(t233));
                 }
@@ -5927,7 +5927,7 @@
                 }
                 Mc(t) {
                     if (0 === t.length) throw this.Uc("Document fields must not be empty");
-                    if (iu(this.kc) && eu.test(t)) throw this.Uc("Document fields cannot begin and end with \"__\"");
+                    if (iu(this.kc) && eu.test(t)) throw this.Uc('Document fields cannot begin and end with "__"');
                 }
             }
             class uu extends null {
@@ -6280,7 +6280,7 @@
                             const r = new Lc({
                                 next (n) {
                                     e.enqueueAndForget(()=>Uo(t256, o)
-                                    ), n.fromCache && "server" === s.source ? i.reject(new j(K.UNAVAILABLE, "Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to \"server\" to retrieve the cached documents.)")) : i.resolve(n);
+                                    ), n.fromCache && "server" === s.source ? i.reject(new j(K.UNAVAILABLE, 'Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to "server" to retrieve the cached documents.)')) : i.resolve(n);
                                 },
                                 error: (t)=>i.reject(t)
                             }), o = new Qo(n54, r, {

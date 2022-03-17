@@ -15,5 +15,5 @@ var M;
         y: ""
     }));
     // Quotes
-    var x = /*#__PURE__*/ React.createElement("div", null, "This \"quote\" thing");
+    var x = /*#__PURE__*/ React.createElement("div", null, 'This "quote" thing');
 })(M || (M = {}));

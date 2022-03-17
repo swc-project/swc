@@ -1,2 +1,2 @@
 a: do continue a;
-while (1)
+while (1);

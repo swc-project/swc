@@ -169,6 +169,9 @@ pub struct PrivateProp {
 
     #[serde(default)]
     pub readonly: bool,
+
+    #[serde(default)]
+    pub definite: bool,
 }
 
 macro_rules! method {

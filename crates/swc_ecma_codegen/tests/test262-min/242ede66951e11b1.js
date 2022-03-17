@@ -1,1 +1,1 @@
-(function(){a('b')}());try{}catch(c){}
+(function(){a("b")}());try{}catch(c){}
