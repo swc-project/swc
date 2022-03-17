@@ -71,7 +71,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -121,7 +122,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -168,7 +170,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": true
+          "readonly": true,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -218,7 +221,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": true
+          "readonly": true,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -265,7 +269,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "Constructor",
