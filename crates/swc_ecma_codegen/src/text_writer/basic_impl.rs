@@ -214,8 +214,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
-    fn write_comment(&mut self, span: Span, s: &str) -> Result {
-        self.write(Some(span), s)?;
+    fn write_comment(&mut self, s: &str) -> Result {
+        self.write(None, s)?;
         {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {

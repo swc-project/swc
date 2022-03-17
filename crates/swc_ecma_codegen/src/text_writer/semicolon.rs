@@ -41,7 +41,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
 
     with_semi!(write_space());
 
-    with_semi!(write_comment(span: Span, s: &str));
+    with_semi!(write_comment(s: &str));
 
     with_semi!(write_keyword(span: Option<Span>, s: &'static str));
 

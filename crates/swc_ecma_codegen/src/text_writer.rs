@@ -37,7 +37,7 @@ pub trait WriteJs {
     fn write_line(&mut self) -> Result;
 
     fn write_lit(&mut self, span: Span, s: &str) -> Result;
-    fn write_comment(&mut self, span: Span, s: &str) -> Result;
+    fn write_comment(&mut self, s: &str) -> Result;
 
     fn write_str_lit(&mut self, span: Span, s: &str) -> Result;
     fn write_str(&mut self, s: &str) -> Result;
@@ -111,8 +111,8 @@ where
     }
 
     #[inline]
-    fn write_comment(&mut self, span: Span, s: &str) -> Result {
-        (**self).write_comment(span, s)
+    fn write_comment(&mut self, s: &str) -> Result {
+        (**self).write_comment(s)
     }
 
     #[inline]

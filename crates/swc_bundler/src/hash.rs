@@ -92,7 +92,7 @@ impl WriteJs for &mut Hasher<'_> {
         Ok(())
     }
 
-    fn write_comment(&mut self, _: Span, s: &str) -> io::Result<()> {
+    fn write_comment(&mut self, s: &str) -> io::Result<()> {
         self.w(s);
         Ok(())
     }
