@@ -6,7 +6,11 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_plugin_runner"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.43.0"
+version = "0.44.0"
+
+[features]
+default = ["filesystem_cache"]
+filesystem_cache = ["wasmer-cache"]
 
 [dependencies]
 anyhow = "1.0.42"
@@ -26,7 +30,7 @@ wasmer = { version = "2.2.0", default-features = false }
 wasmer-wasi = { version = "2.2.0", default-features = false }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-cache = { version = "2.2.0" }
+wasmer-cache = { version = "2.2.0", optional = true }
 
 [dev-dependencies]
 swc_atoms = { version = "0.2.7", path = '../swc_atoms' }
