@@ -1,6 +1,6 @@
-error: Expected literal to be on the left side of <
- 
-  |
-3 | if (a < 10) {}
-  |     ^^^^^^
 
+  x Expected literal to be on the left side of <
+   ,----
+ 4 | if (a < 10) {}
+   :     ^^^^^^
+   `----

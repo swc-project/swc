@@ -1,42 +1,42 @@
-error: Expected literal to be on the right side of ===
- 
-  |
-1 | if (10 === a) {}
-  |     ^^^^^^^^
 
-error: Expected literal to be on the right side of ===
- 
-  |
-3 | if ('a' === a)
-  |     ^^^^^^^^^
+  x Expected literal to be on the right side of ===
+   ,----
+ 2 | if (10 === a) {}
+   :     ^^^^^^^^
+   `----
 
-error: Expected literal to be on the right side of ===
- 
-  |
-5 | if (`abc` === a) {}
-  |     ^^^^^^^^^^^
+  x Expected literal to be on the right side of ===
+   ,----
+ 4 | if ('a' === a)
+   :     ^^^^^^^^^
+   `----
 
-error: Expected literal to be on the right side of ===
- 
-  |
-7 | if (-10 === a) {}
-  |     ^^^^^^^^^
+  x Expected literal to be on the right side of ===
+   ,----
+ 6 | if (`abc` === a) {}
+   :     ^^^^^^^^^^^
+   `----
 
-error: Expected literal to be on the right side of <
- 
-  |
-9 | if (10 < a && a > 30) {}
-  |     ^^^^^^
+  x Expected literal to be on the right side of ===
+   ,----
+ 8 | if (-10 === a) {}
+   :     ^^^^^^^^^
+   `----
 
-error: Expected literal to be on the right side of <
-  
-   |
-11 | if (c && (10 < a && a > 30)) {}
-   |           ^^^^^^
+  x Expected literal to be on the right side of <
+    ,----
+ 10 | if (10 < a && a > 30) {}
+    :     ^^^^^^
+    `----
 
-error: Expected literal to be on the right side of ===
-  
-   |
-23 | if ((foo === 1) && (1 === foo)) {}
-   |                     ^^^^^^^^^
+  x Expected literal to be on the right side of <
+    ,----
+ 12 | if (c && (10 < a && a > 30)) {}
+    :           ^^^^^^
+    `----
 
+  x Expected literal to be on the right side of ===
+    ,----
+ 24 | if ((foo === 1) && (1 === foo)) {}
+    :                     ^^^^^^^^^
+    `----
