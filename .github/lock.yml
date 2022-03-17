@@ -1,7 +1,7 @@
 # Configuration for Lock Threads - https://github.com/dessant/lock-threads-app
 
 # Number of days of inactivity before a closed issue or pull request is locked
-daysUntilLock: 365
+daysUntilLock: 3
 
 # Skip issues and pull requests created before a given timestamp. Timestamp must
 # follow ISO 8601 (`YYYY-MM-DD`). Set to `false` to disable
@@ -20,7 +20,7 @@ lockComment: >
   related bugs.
 
 # Assign `resolved` as the reason for locking. Set to `false` to disable
-setLockReason: false
+setLockReason: true
 # Limit to only `issues` or `pulls`
 # only: issues
 
