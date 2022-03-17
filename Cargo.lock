@@ -3261,6 +3261,7 @@ dependencies = [
  "memchr",
  "num-bigint",
  "once_cell",
+ "rustc-hash",
  "sourcemap",
  "swc_atoms",
  "swc_common",
