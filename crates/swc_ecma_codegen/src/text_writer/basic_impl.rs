@@ -1,5 +1,6 @@
 use std::io::{self, Write};
 
+use rustc_hash::FxHashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span, DUMMY_SP};
 use swc_ecma_ast::EsVersion;
 
@@ -18,6 +19,7 @@ pub struct JsWriter<'a, W: Write> {
     line_pos: usize,
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
+    srcmap_done: FxHashSet<(BytePos, u32, u32)>,
     /// Used to avoid including whitespaces created by indention.
     pending_srcmap: Option<BytePos>,
     wr: W,
@@ -51,6 +53,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
             wr,
             target,
             pending_srcmap: Default::default(),
+            srcmap_done: Default::default(),
         }
     }
 
@@ -103,18 +106,17 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     fn srcmap(&mut self, byte_pos: BytePos) {
-        if byte_pos.is_reserved_for_comments() {
-            return;
-        }
-
         if let Some(ref mut srcmap) = self.srcmap {
-            srcmap.push((
-                byte_pos,
-                LineCol {
+            if self
+                .srcmap_done
+                .insert((byte_pos, self.line_count as _, self.line_pos as _))
+            {
+                let loc = LineCol {
                     line: self.line_count as _,
                     col: self.line_pos as _,
-                },
-            ))
+                };
+                srcmap.push((byte_pos, loc));
+            }
         }
     }
 }
