@@ -13,6 +13,13 @@ macro_rules! private_ident {
 }
 
 #[macro_export]
+macro_rules! quote_js_word {
+    ($s:expr) => {
+        format!("\"{}\"", $s).into()
+    };
+}
+
+#[macro_export]
 macro_rules! quote_ident {
     ($s:expr) => {
         quote_ident!(::swc_common::DUMMY_SP, $s)
@@ -30,9 +37,8 @@ macro_rules! quote_str {
     ($span:expr, $s:expr) => {{
         $crate::swc_ecma_ast::Str {
             span: $span,
+            raw: quote_js_word($s).into(),
             value: $s.into(),
-            has_escape: false,
-            kind: Default::default(),
         }
     }};
 }
