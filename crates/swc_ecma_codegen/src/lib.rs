@@ -161,14 +161,8 @@ where
     fn emit_export_decl(&mut self, n: &ExportDecl) -> Result {
         srcmap!(n, true);
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
-            };
-            keyword!(span, "export");
-        }
+        keyword!("export");
+
         space!();
         emit!(n.decl);
 
@@ -179,14 +173,7 @@ where
     fn emit_export_default_expr(&mut self, n: &ExportDefaultExpr) -> Result {
         srcmap!(n, true);
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
-            };
-            keyword!(span, "export");
-        }
+        keyword!("export");
 
         space!();
         keyword!("default");
@@ -206,18 +193,12 @@ where
 
     #[emitter]
     fn emit_export_default_decl(&mut self, n: &ExportDefaultDecl) -> Result {
-        srcmap!(n, true);
-
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
-            };
-            keyword!(span, "export");
-        }
+        srcmap!(n, true);
+
+        keyword!("export");
+
         space!();
         keyword!("default");
         space!();
@@ -237,14 +218,7 @@ where
 
         srcmap!(n, true);
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(6), Default::default())
-            };
-            keyword!(span, "import");
-        }
+        keyword!("import");
         let starts_with_ident = !n.specifiers.is_empty()
             && match &n.specifiers[0] {
                 ImportSpecifier::Default(_) => true,
@@ -426,14 +400,7 @@ where
             },
         );
 
-        {
-            let span = if node.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(node.span.lo, node.span.lo + BytePos(6), Default::default())
-            };
-            keyword!(span, "export");
-        }
+        keyword!("export");
 
         formatting_space!();
         if let Some(spec) = namespace_spec {
@@ -768,10 +735,7 @@ where
 
         srcmap!(self, node, true);
 
-        {
-            let span = self.cm.span_until_char(node.span, ' ');
-            keyword!(self, span, "new");
-        }
+        keyword!(self, "new");
 
         let starts_with_alpha_num = node.callee.starts_with_alpha_num();
 
@@ -1535,12 +1499,7 @@ where
             space!();
             keyword!("function");
         } else {
-            let span = if n.span().is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span().lo, n.span().lo + BytePos(8), Default::default())
-            };
-            keyword!(span, "function");
+            keyword!("function");
         }
 
         if n.function.is_generator {
@@ -1669,16 +1628,7 @@ where
 
         let need_formatting_space = match n.op {
             op!("typeof") | op!("void") | op!("delete") => {
-                let span = if n.span.is_dummy() {
-                    DUMMY_SP
-                } else {
-                    Span::new(
-                        n.span.lo,
-                        n.span.lo + BytePos(n.op.as_str().len() as _),
-                        Default::default(),
-                    )
-                };
-                keyword!(span, n.op.as_str());
+                keyword!(n.op.as_str());
 
                 true
             }
@@ -1768,15 +1718,7 @@ where
 
         srcmap!(n, true);
 
-        {
-            let span = if n.span.is_dummy() {
-                DUMMY_SP
-            } else {
-                Span::new(n.span.lo, n.span.lo + BytePos(5), Default::default())
-            };
-            keyword!(span, "await");
-        }
-
+        keyword!("await");
         space!();
 
         emit!(&n.arg);
