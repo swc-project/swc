@@ -327,6 +327,7 @@ pub fn test_transform<F, P>(
 
         println!(">>>>> {} <<<<<\n{}", Color::Green.paint("Orig"), input);
         println!(">>>>> {} <<<<<\n{}", Color::Green.paint("Code"), actual_src);
+
         if actual_src != expected_src {
             panic!(
                 r#"assertion failed: `(left == right)`

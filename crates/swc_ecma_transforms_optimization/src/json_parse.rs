@@ -5,7 +5,7 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
-use swc_ecma_utils::{calc_literal_cost, member_expr, ExprFactory};
+use swc_ecma_utils::{calc_literal_cost, member_expr, quote_js_word, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// Transform to optimize performance of literals.
@@ -68,21 +68,18 @@ impl VisitMut for JsonParse {
             Expr::Array(..) | Expr::Object(..) => {
                 let (is_lit, cost) = calc_literal_cost(&*expr, false);
                 if is_lit && cost >= self.min_cost {
+                    let value =
+                        serde_json::to_string(&jsonify(expr.take())).unwrap_or_else(|err| {
+                            unreachable!("failed to serialize serde_json::Value as json: {}", err)
+                        });
+
                     *expr = Expr::Call(CallExpr {
                         span: expr.span(),
                         callee: member_expr!(DUMMY_SP, JSON.parse).as_callee(),
                         args: vec![Lit::Str(Str {
                             span: DUMMY_SP,
-                            value: serde_json::to_string(&jsonify(expr.take()))
-                                .unwrap_or_else(|err| {
-                                    unreachable!(
-                                        "failed to serialize serde_json::Value as json: {}",
-                                        err
-                                    )
-                                })
-                                .into(),
-                            has_escape: false,
-                            kind: Default::default(),
+                            raw: quote_js_word!(value),
+                            value: value.into(),
                         })
                         .as_arg()],
                         type_args: Default::default(),
@@ -132,7 +129,7 @@ fn jsonify(e: Expr) -> Value {
         Expr::Lit(Lit::Bool(v)) => Value::Bool(v.value),
         Expr::Tpl(Tpl { quasis, .. }) => Value::String(match quasis.get(0) {
             Some(TplElement {
-                cooked: Some(Str { value, .. }),
+                cooked: Some(value),
                 ..
             }) => value.to_string(),
             _ => String::new(),
@@ -148,19 +145,15 @@ mod tests {
     use super::*;
 
     struct Normalizer;
-    impl Fold for Normalizer {
-        fn fold_str(&mut self, mut node: Str) -> Str {
-            node.has_escape = false;
-            node
-        }
-    }
+
+    impl Fold for Normalizer {}
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| json_parse(0),
         simple_object,
         "let a = {b: 'foo'}",
-        r#"let a = JSON.parse('{"b":"foo"}')"#
+        r#"let a = JSON.parse("{\"b\":\"foo\"}")"#
     );
 
     test!(
@@ -168,7 +161,7 @@ mod tests {
         |_| json_parse(0),
         simple_arr,
         "let a = ['foo']",
-        r#"let a = JSON.parse('["foo"]')"#
+        r#"let a = JSON.parse("[\"foo\"]")"#
     );
 
     test!(
@@ -176,7 +169,7 @@ mod tests {
         |_| json_parse(0),
         empty_object,
         "const a = {};",
-        r#"const a = JSON.parse('{}');"#
+        r#"const a = JSON.parse("{}");"#
     );
 
     test!(
@@ -192,7 +185,7 @@ mod tests {
         |_| json_parse(0),
         min_cost_0,
         "const a = { b: 1, c: 2 };",
-        r#"const a = JSON.parse('{"b":1,"c":2}');"#
+        r#"const a = JSON.parse("{\"b\":1,\"c\":2}");"#
     );
 
     test!(
@@ -234,7 +227,7 @@ mod tests {
         |_| json_parse(0),
         invalid_numeric_key,
         r#"const a ={ 77777777777777777.1: "foo" };"#,
-        r#"const a = JSON.parse('{"77777777777777780":"foo"}');"#
+        r#"const a = JSON.parse("{\"77777777777777780\":\"foo\"}");"#
     );
 
     test!(
@@ -242,7 +235,7 @@ mod tests {
         |_| json_parse(0),
         string,
         r#"const a = { b: "b_val" };"#,
-        r#"const a = JSON.parse('{"b":"b_val"}');"#
+        r#"const a = JSON.parse("{\"b\":\"b_val\"}");"#
     );
 
     test!(
@@ -250,7 +243,7 @@ mod tests {
         |_| json_parse(0),
         string_single_quote_1,
         r#"const a = { b: "'abc'" };"#,
-        r#"const a = JSON.parse('{"b":"\'abc\'"}');"#,
+        r#"const a = JSON.parse("{\"b\":\"'abc'\"}");"#,
         ok_if_code_eq
     );
 
@@ -259,7 +252,7 @@ mod tests {
         |_| json_parse(0),
         string_single_quote_2,
         r#"const a = { b: "ab\'c" };"#,
-        r#"const a = JSON.parse('{"b":"ab\'c"}');"#,
+        r#"const a = JSON.parse("{\"b\":\"ab'c\"}");"#,
         ok_if_code_eq
     );
 
@@ -268,7 +261,7 @@ mod tests {
         |_| json_parse(0),
         number,
         "const a = { b: 1 };",
-        r#"const a = JSON.parse('{"b":1}');"#
+        r#"const a = JSON.parse("{\"b\":1}");"#
     );
 
     test!(
@@ -276,7 +269,7 @@ mod tests {
         |_| json_parse(0),
         null,
         "const a = { b: null };",
-        r#"const a = JSON.parse('{"b":null}');"#
+        r#"const a = JSON.parse("{\"b\":null}");"#
     );
 
     test!(
@@ -284,7 +277,7 @@ mod tests {
         |_| json_parse(0),
         boolean,
         "const a = { b: false };",
-        r#"const a = JSON.parse('{"b":false}');"#
+        r#"const a = JSON.parse("{\"b\":false}");"#
     );
 
     test!(
@@ -292,7 +285,7 @@ mod tests {
         |_| json_parse(0),
         array,
         "const a = { b: [1, 'b_val', null] };",
-        r#"const a = JSON.parse('{"b":[1,"b_val",null]}');"#
+        r#"const a = JSON.parse("{\"b\":[1,\"b_val\",null]}");"#
     );
 
     test!(
@@ -300,7 +293,7 @@ mod tests {
         |_| json_parse(0),
         nested_array,
         "const a = { b: [1, ['b_val', { a: 1 }], null] };",
-        r#"const a = JSON.parse('{"b":[1,["b_val",{"a":1}],null]}');"#
+        r#"const a = JSON.parse("{\"b\":[1,[\"b_val\",{\"a\":1}],null]}");"#
     );
 
     test!(
@@ -308,7 +301,7 @@ mod tests {
         |_| json_parse(0),
         object,
         "const a = { b: { c: 1 } };",
-        r#"const a = JSON.parse('{"b":{"c":1}}');"#
+        r#"const a = JSON.parse("{\"b\":{\"c\":1}}");"#
     );
 
     test!(
@@ -316,7 +309,7 @@ mod tests {
         |_| json_parse(0),
         object_numeric_keys,
         r#"const a = { 1: "123", 23: 45, b: "b_val" };"#,
-        r#"const a = JSON.parse('{"1":"123","23":45,"b":"b_val"}');"#
+        r#"const a = JSON.parse("{\"1\":\"123\",\"23\":45,\"b\":\"b_val\"}");"#
     );
     test!(
         ::swc_ecma_parser::Syntax::default(),

@@ -10,8 +10,8 @@ use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_transforms_base::{ext::ExprRefExt, pass::RepeatedJsPass};
 use swc_ecma_utils::{
     alias_ident_for, extract_side_effects_to, ident::IdentLike, is_literal, prepend,
-    preserve_effects, prop_name_eq, to_int32, undefined, BoolType, ExprExt, NullType, NumberType,
-    ObjectType, StringType, SymbolType, UndefinedType, Value,
+    preserve_effects, prop_name_eq, quote_js_word, to_int32, undefined, BoolType, ExprExt,
+    NullType, NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
@@ -132,11 +132,12 @@ impl SimplifyExpr {
                     if idx < 0 {
                         *expr = *undefined(*span)
                     } else {
+                        let value = nth_char(value, idx as _);
+
                         *expr = Expr::Lit(Lit::Str(Str {
-                            value: nth_char(value, idx as _).into(),
+                            raw: quote_js_word!(value),
+                            value: value.into(),
                             span: *span,
-                            has_escape: false,
-                            kind: Default::default(),
                         }))
                     };
                 }
@@ -352,14 +353,15 @@ impl SimplifyExpr {
                 if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
                     if let (Known(l), Known(r)) = (left.as_string(), right.as_string()) {
                         let mut l = l.into_owned();
+
                         l.push_str(&r);
+
                         self.changed = true;
+
                         *expr = Expr::Lit(Lit::Str(Str {
+                            raw: quote_js_word!(l),
                             value: l.into(),
                             span: *span,
-                            // TODO
-                            has_escape: false,
-                            kind: Default::default(),
                         }));
                         return;
                     }
@@ -376,12 +378,12 @@ impl SimplifyExpr {
                                 {
                                     self.changed = true;
 
+                                    let value = format!("{}{}", l, r);
+
                                     *expr = Expr::Lit(Lit::Str(Str {
-                                        value: format!("{}{}", l, r).into(),
+                                        raw: quote_js_word!(value),
+                                        value: value.into(),
                                         span: *span,
-                                        // TODO
-                                        has_escape: false,
-                                        kind: Default::default(),
                                     }));
                                 }
                             }
@@ -670,9 +672,8 @@ impl SimplifyExpr {
 
         *expr = Expr::Lit(Lit::Str(Str {
             span: *span,
+            raw: quote_js_word!(val),
             value: val.into(),
-            has_escape: false,
-            kind: Default::default(),
         }));
     }
 
