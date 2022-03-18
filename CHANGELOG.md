@@ -8,6 +8,9 @@
 - **(es/helpers)** Fix decorator helper script (#4072) ([55cfad1](https://github.com/swc-project/swc/commit/55cfad152d52e7f818fc4e71913e94ce84ab91a2))
 
 
+- **(es/modules)** Fix sourcemap, really (#4074) ([22d005e](https://github.com/swc-project/swc/commit/22d005e2246505ad01ee1aef0be714f98ff7b577))
+
+
 - **(es/react)** Fix `_createElement` (#4070) ([bb08354](https://github.com/swc-project/swc/commit/bb08354950beb8155fbe27abcc391e43e1c15e2b))
 
 ### Features
