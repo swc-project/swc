@@ -26,6 +26,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_empty_pattern;
     pub mod no_loop_func;
     pub mod no_new;
+    pub mod no_new_symbol;
     pub mod no_restricted_syntax;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
