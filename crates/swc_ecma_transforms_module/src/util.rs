@@ -118,7 +118,7 @@ pub struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>, ahash::RandomState>,
+    pub(crate) imports: IndexMap<JsWord, (Span, Option<(JsWord, Span)>), ahash::RandomState>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)
