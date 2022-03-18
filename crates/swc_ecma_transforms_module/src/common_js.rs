@@ -784,16 +784,16 @@ impl Fold for CommonJs {
         let scope = &mut *scope_ref_mut;
 
         let scope = &mut *scope;
-        for (src, import) in scope.imports.drain(..) {
+        for (src, (src_span, import)) in scope.imports.drain(..) {
             let lazy = if scope.lazy_blacklist.contains(&src) {
                 false
             } else {
                 self.config.lazy.is_lazy(&src)
             };
 
-            let require = self
-                .resolver
-                .make_require_call(self.top_level_mark, src.clone());
+            let require =
+                self.resolver
+                    .make_require_call(self.top_level_mark, src.clone(), src_span);
 
             match import {
                 Some(import) => {

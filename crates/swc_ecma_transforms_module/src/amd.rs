@@ -551,7 +551,7 @@ impl Fold for Amd {
             stmts.extend(initialize_to_undefined(exports_ident, initialized));
         }
 
-        for (src, import) in scope.imports.drain(..) {
+        for (src, (_, import)) in scope.imports.drain(..) {
             let import = import.unwrap_or_else(|| {
                 (
                     local_name_for_src(&src),
