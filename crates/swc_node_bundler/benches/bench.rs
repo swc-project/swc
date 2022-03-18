@@ -19,6 +19,7 @@ use swc_common::{sync::Lrc, FileName, Mark, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
 use swc_ecma_transforms::{resolver_with_mark, typescript::strip};
+use swc_ecma_utils::quote_js_word;
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
@@ -109,14 +110,15 @@ impl swc_bundler::Hook for Hook {
         span: Span,
         module_record: &ModuleRecord,
     ) -> Result<Vec<KeyValueProp>, Error> {
+        let file_name = module_record.file_name.to_string();
+
         Ok(vec![
             KeyValueProp {
                 key: PropName::Ident(Ident::new(js_word!("url"), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    value: module_record.file_name.to_string().into(),
-                    has_escape: false,
-                    kind: Default::default(),
+                    raw: quote_js_word!(file_name),
+                    value: file_name.into(),
                 }))),
             },
             KeyValueProp {
