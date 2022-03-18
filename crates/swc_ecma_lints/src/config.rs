@@ -8,7 +8,7 @@ use crate::rules::non_critical_lints::{
     no_console::NoConsoleConfig, no_empty_function::NoEmptyFunctionConfig,
     no_restricted_syntax::NoRestrictedSyntaxConfig, no_use_before_define::NoUseBeforeDefineConfig,
     prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig, radix::RadixConfig,
-    yoda::YodaConfig,
+    use_is_nan::UseIsNanConfig, yoda::YodaConfig,
 };
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -138,4 +138,12 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub yoda: RuleConfig<YodaConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noNewSymbol")]
+    pub no_new_symbol: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "useIsNan")]
+    pub use_isnan: RuleConfig<UseIsNanConfig>,
 }

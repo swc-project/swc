@@ -31,6 +31,7 @@ pub(crate) mod non_critical_lints {
     pub mod prefer_regex_literals;
     pub mod quotes;
     pub mod radix;
+    pub mod use_is_nan;
     pub mod yoda;
 }
 
@@ -130,6 +131,18 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(yoda::yoda(&lint_config.yoda));
+
+        rules.extend(no_new_symbol::no_new_symbol(
+            program,
+            top_level_ctxt,
+            &lint_config.no_new_symbol,
+        ));
+
+        rules.extend(use_is_nan::use_is_nan(
+            program,
+            top_level_ctxt,
+            &lint_config.use_isnan,
+        ));
     }
 
     rules
