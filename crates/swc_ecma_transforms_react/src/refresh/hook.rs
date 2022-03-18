@@ -113,7 +113,7 @@ impl<'a> HookRegister<'a> {
         args.push(
             Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
-                raw: quote_js_word!(sign),
+                raw: quote_js_word!(sign.replace('\n', "\\n")),
                 value: sign.into(),
             }))
             .as_arg(),
