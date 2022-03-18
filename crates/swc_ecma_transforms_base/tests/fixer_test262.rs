@@ -332,6 +332,14 @@ impl Fold for Normalizer {
             _ => stmt,
         }
     }
+
+    fn fold_str(&mut self, s: Str) -> Str {
+        Str {
+            span: s.span,
+            raw: quote_js_word!(s.value),
+            value: s.value,
+        }
+    }
 }
 
 fn normalize<T>(node: T) -> T
