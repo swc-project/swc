@@ -10,6 +10,12 @@
 
 - **(es/react)** Fix `_createElement` (#4070) ([bb08354](https://github.com/swc-project/swc/commit/bb08354950beb8155fbe27abcc391e43e1c15e2b))
 
+### Features
+
+
+
+- **(es/modules)** Support namespaced reexports (#4073) ([9458f08](https://github.com/swc-project/swc/commit/9458f08092e544cf051a88001b195f8543035d1c))
+
 ### Miscellaneous Tasks
 
 
