@@ -3492,7 +3492,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.70.0"
+version = "0.70.1"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
@@ -3642,7 +3642,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.97.0"
+version = "0.97.1"
 dependencies = [
  "ahash",
  "base64 0.13.0",
