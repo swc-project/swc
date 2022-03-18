@@ -66,21 +66,21 @@ impl Pure<'_> {
                 let i = i / 2;
                 let q = tpl.quasis[i].take();
 
-                cur_raw.push_str(&q.raw.value);
+                cur_raw.push_str(&q.raw.clone());
             } else {
                 let i = i / 2;
                 let e = tpl.exprs[i].take();
 
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
-                        cur_raw.push_str(&s.value);
+                        cur_raw.push_str(&s.value.clone());
                     }
                     _ => {
                         quasis.push(TplElement {
                             span: DUMMY_SP,
                             tail: true,
                             cooked: None,
-                            raw: cur_raw.into(),
+                            raw: cur_raw.clone().into(),
                         });
 
                         exprs.push(e);
@@ -112,13 +112,11 @@ impl Pure<'_> {
 
                     tracing::debug!(
                         "template: Concatted a string (`{}`) on rhs of `+` to a template literal",
-                        rs.value
+                        rs.raw
                     );
-                    let l_str = &mut l_last.raw;
 
                     let new: JsWord =
-                        format!("{}{}", l_str.value, rs.value.replace('\\', "\\\\")).into();
-                    l_str.value = new.clone();
+                        format!("{}{}", l_last.raw, rs.raw.replace('\\', "\\\\")).into();
                     l_last.raw = new;
 
                     r.take();
@@ -132,13 +130,11 @@ impl Pure<'_> {
 
                     tracing::debug!(
                         "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
-                        ls.value
+                        ls.raw
                     );
-                    let r_str = &mut r_first.raw;
 
                     let new: JsWord =
-                        format!("{}{}", ls.value.replace('\\', "\\\\"), r_str.value).into();
-                    r_str.value = new.clone();
+                        format!("{}{}", ls.raw.replace('\\', "\\\\"), r_first.raw).into();
                     r_first.raw = new;
 
                     l.take();
@@ -152,11 +148,8 @@ impl Pure<'_> {
                 {
                     let l_last = l.quasis.pop().unwrap();
                     let mut r_first = rt.quasis.first_mut().unwrap();
+                    let new: JsWord = format!("{}{}", l_last.raw, r_first.raw).into();
 
-                    let r_str = &mut r_first.raw;
-
-                    let new: JsWord = format!("{}{}", l_last.raw.value, r_str.value).into();
-                    r_str.value = new.clone();
                     r_first.raw = new;
                 }
 
