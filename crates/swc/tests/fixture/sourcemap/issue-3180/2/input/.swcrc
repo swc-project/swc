@@ -4,5 +4,8 @@
             "syntax": "typescript"
         }
     },
+    "module": {
+        "type": "commonjs"
+    },
     "sourceMaps": true
 }
