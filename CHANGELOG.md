@@ -5,6 +5,20 @@
 
 
 
+- **(es/react)** Fix `_createElement` (#4070) ([bb08354](https://github.com/swc-project/swc/commit/bb08354950beb8155fbe27abcc391e43e1c15e2b))
+
+### Miscellaneous Tasks
+
+
+
+- **(repo)** Auto-lock outdated issues and PRs (#4066) ([ed7a5e5](https://github.com/swc-project/swc/commit/ed7a5e54ccdf7f6835082286fa9892f0cf3ac270))
+
+## [1.2.157] - 2022-03-17
+
+### Bug Fixes
+
+
+
 - **(es/ast)** Revert removal of `definite` in `PrivateProp` (#4051) ([bbe8f3d](https://github.com/swc-project/swc/commit/bbe8f3d8fe0a5a62fa2624c5cbe46980ad6264ac))
 
 

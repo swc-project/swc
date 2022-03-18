@@ -16,9 +16,8 @@ var a = /*#__PURE__*/ _jsx("div", swcHelpers.objectSpread({}, props, {
     children: "text"
 }), "foo");
 var b = /*#__PURE__*/ _createElement("div", swcHelpers.objectSpread({}, props, {
-    key: "bar",
-    children: "text"
-}));
+    key: "bar"
+}), "text");
 var props2 = {
     answer: 42
 };
@@ -26,6 +25,5 @@ var a2 = /*#__PURE__*/ _jsx("div", swcHelpers.objectSpread({}, props2, {
     children: "text"
 }), "foo");
 var b2 = /*#__PURE__*/ _createElement("div", swcHelpers.objectSpread({}, props2, {
-    key: "bar",
-    children: "text"
-}));
+    key: "bar"
+}), "text");
