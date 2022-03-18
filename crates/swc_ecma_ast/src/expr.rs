@@ -757,7 +757,11 @@ pub struct TplElement {
     ///
     /// If you are going to use codegen right after creating a [TplElement], you
     /// don't have to worry about this value.
+
+    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
     pub cooked: Option<JsWord>,
+
+    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
     pub raw: JsWord,
 }
 
