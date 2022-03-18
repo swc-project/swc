@@ -544,9 +544,13 @@ where
                 }
             }
             StrKind::Synthesized => {
+                srcmap!(node, true);
+
                 let value = get_quoted_utf16(&node.value, self.wr.target(), false, false, true);
 
                 self.wr.write_str_lit(DUMMY_SP, &value)?;
+
+                srcmap!(node, false);
             }
         };
     }
