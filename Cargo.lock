@@ -3933,7 +3933,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.99.1"
+version = "0.99.2"
 dependencies = [
  "swc_atoms",
  "swc_common",

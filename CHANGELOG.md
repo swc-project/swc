@@ -5,6 +5,9 @@
 
 
 
+- **(css/prefixer)** Reduce the number of vars in debug build (#4078) ([4af5e6d](https://github.com/swc-project/swc/commit/4af5e6d77bff7bf6bf247b18185b22754c3ceceb))
+
+
 - **(es/helpers)** Fix decorator helper script (#4072) ([55cfad1](https://github.com/swc-project/swc/commit/55cfad152d52e7f818fc4e71913e94ce84ab91a2))
 
 
