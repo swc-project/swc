@@ -4704,7 +4704,7 @@ completelyUnrelated(copy = 123) {
 
 "#,
     r#"
-"use strict";
+'use strict';
 
 var _copyPaste = require("./copyPaste");
 
@@ -4779,7 +4779,7 @@ return 5;
         value: true
     });
     exports.default = _callee;
-    var _regeneratorRuntime = _interopRequireDefault(require('regenerator-runtime'));
+    var _regeneratorRuntime = _interopRequireDefault(require("regenerator-runtime"));
     function _callee() {
         var x;
         return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {

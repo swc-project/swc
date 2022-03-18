@@ -15,7 +15,7 @@ use swc_ecma_transforms::{
     pass::{noop, Optional},
     Assumptions,
 };
-use swc_ecma_utils::prepend_stmts;
+use swc_ecma_utils::{prepend_stmts, quote_js_word};
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 pub use self::transform_data::Feature;
@@ -366,9 +366,8 @@ impl Fold for Polyfills {
                         specifiers: vec![],
                         src: Str {
                             span: DUMMY_SP,
+                            raw: quote_js_word!(src),
                             value: src,
-                            has_escape: false,
-                            kind: Default::default(),
                         },
                         type_only: false,
                         asserts: None,
@@ -384,9 +383,8 @@ impl Fold for Polyfills {
                         specifiers: vec![],
                         src: Str {
                             span: DUMMY_SP,
+                            raw: quote_js_word!(src),
                             value: src,
-                            has_escape: false,
-                            kind: Default::default(),
                         },
                         type_only: false,
                         asserts: None,

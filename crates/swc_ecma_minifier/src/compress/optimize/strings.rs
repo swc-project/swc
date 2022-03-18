@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, ExprExt, Value::Known};
+use swc_ecma_utils::{ident::IdentLike, quote_js_word, ExprExt, Value::Known};
 
 use super::Optimizer;
 use crate::mode::Mode;
@@ -77,9 +77,8 @@ where
             );
             *n = Expr::Lit(Lit::Str(Str {
                 span,
+                raw: quote_js_word!(value),
                 value: value.into(),
-                has_escape: false,
-                kind: Default::default(),
             }));
             return;
         }
@@ -93,11 +92,12 @@ where
                     v.value
                 );
 
+                let value = format!("{:?}", v.value);
+
                 *n = Expr::Lit(Lit::Str(Str {
                     span: v.span,
-                    value: format!("{:?}", v.value).into(),
-                    has_escape: false,
-                    kind: Default::default(),
+                    raw: quote_js_word!(value),
+                    value: value.into(),
                 }));
             }
 
@@ -112,11 +112,12 @@ where
                     v.flags
                 );
 
+                let value = format!("/{}/{}", v.exp, v.flags);
+
                 *n = Expr::Lit(Lit::Str(Str {
                     span: v.span,
-                    value: format!("/{}/{}", v.exp, v.flags).into(),
-                    has_escape: false,
-                    kind: Default::default(),
+                    raw: quote_js_word!(value),
+                    value: value.into(),
                 }));
             }
 
@@ -141,9 +142,8 @@ where
 
                     *n = Expr::Lit(Lit::Str(Str {
                         span: i.span,
+                        raw: "\"undefined\"".into(),
                         value: js_word!("undefined"),
-                        has_escape: false,
-                        kind: Default::default(),
                     }));
                 }
             }
