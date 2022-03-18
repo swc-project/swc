@@ -284,7 +284,7 @@ impl SourceMap {
             Ok(SourceFileAndLine { sf: f, line: a }) => {
                 let chpos = self.bytepos_to_file_charpos_with(&f, pos);
 
-                let line = a + 1; // Line numbers start at 1
+                let line = a; // Line numbers start at 0 since adopting Miette
                 let linebpos = f.lines[a];
                 assert!(
                     pos >= linebpos,
