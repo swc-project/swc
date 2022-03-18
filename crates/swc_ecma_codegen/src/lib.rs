@@ -505,24 +505,8 @@ where
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        match node.kind {
-            StrKind::Normal { contains_quote } => {
-                if self.cfg.minify {
-                    if &*node.value == "use strict" && node.raw.contains('\\') {
-                        self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
-                    } else {
-                        let value = get_quoted_utf16(&node.value, self.wr.target());
+        srcmap!(node, false);
 
-                        self.wr.write_str_lit(DUMMY_SP, &value)?;
-                    }
-                } else {
-                    self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
-                }
-            }
-            StrKind::Synthesized => {
-                srcmap!(node, true);
-
-                let value = get_quoted_utf16(&node.value, self.wr.target(), false, false, true);
         if self.cfg.minify {
             if &*node.value == "use strict" && node.raw.contains('\\') {
                 self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
@@ -530,8 +514,6 @@ where
                 let value = get_quoted_utf16(&node.value, self.wr.target());
 
                 self.wr.write_str_lit(DUMMY_SP, &value)?;
-
-                srcmap!(node, false);
             }
         } else {
             self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
