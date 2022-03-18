@@ -701,7 +701,45 @@ impl Fold for CommonJs {
                                         }
                                     }
 
-                                    ExportSpecifier::Namespace(s) => {}
+                                    ExportSpecifier::Namespace(ExportNamespaceSpecifier {
+                                        span,
+                                        name,
+                                    }) => {
+                                        let name = match &name {
+                                            ModuleExportName::Ident(ident) => ident,
+                                            _ => {
+                                                unimplemented!("module string names unimplemented")
+                                            }
+                                        };
+
+                                        // Create exports.foo = void 0;
+                                        init_export!(name.sym);
+
+                                        let id = if let Some(ref src) = export.src {
+                                            let mut scope = self.scope.borrow_mut();
+                                            scope
+                                                .import_types
+                                                .entry(src.value.clone())
+                                                .or_insert(true);
+                                            scope.import_to_export(src, true).unwrap()
+                                        } else {
+                                            unreachable!()
+                                        };
+
+                                        extra_stmts.push(
+                                            AssignExpr {
+                                                span,
+                                                op: op!("="),
+                                                left: PatOrExpr::Expr(Box::new(
+                                                    quote_ident!("exports")
+                                                        .make_member(name.clone()),
+                                                )),
+                                                right: Box::new(id.into()),
+                                            }
+                                            .into_stmt()
+                                            .into(),
+                                        );
+                                    }
 
                                     _ => {}
                                 }
