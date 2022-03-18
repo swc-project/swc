@@ -512,25 +512,31 @@ where
                             },
                         })
                     }
-                    (TsLit::Str(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => TsLit::Str(Str {
-                        span,
-                        value: format!("{}{}", l.value, r.value).into(),
-                        // TODO improve me for better raw
-                        raw: quote_js_word!(format!("\"{}{}\"", l.value, r.value)).into(),
-                    }),
-                    (TsLit::Number(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => {
+                    (TsLit::Str(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => {
+                        let value = format!("{}{}", l.value, r.value);
+
                         TsLit::Str(Str {
                             span,
-                            value: format!("{}{}", l.value, r.value).into(),
-                            // TODO improve me for better raw
-                            raw: quote_js_word!(format!("\"{}{}\"", l.value, r.value)).into(),
+                            raw: quote_js_word!(value),
+                            value: value.into(),
+                        })
+                    }
+                    (TsLit::Number(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => {
+                        let value = format!("{}{}", l.value, r.value);
+
+                        TsLit::Str(Str {
+                            span,
+                            raw: quote_js_word!(value),
+                            value: value.into(),
                         })
                     }
                     (TsLit::Str(l), TsLit::Number(r)) if expr.op == op!(bin, "+") => {
+                        let value = format!("{}{}", l.value, r.value);
+
                         TsLit::Str(Str {
                             span,
-                            value: format!("{}{}", l.value, r.value).into(),
-                            raw: quote_js_word!(format!("\"{}{}\"", l.value, r.value)).into(),
+                            raw: quote_js_word!(value),
+                            value: value.into(),
                         })
                     }
                     _ => return Err(()),
@@ -588,7 +594,11 @@ where
 
                     Expr::Tpl(ref t) if t.exprs.is_empty() => {
                         if let Some(v) = &t.quasis[0].cooked {
-                            return Ok(v.clone().into());
+                            return Ok(TsLit::Str(Str {
+                                span,
+                                raw: quote_js_word!(v),
+                                value: v.into(),
+                            }));
                         }
                     }
 
@@ -644,7 +654,13 @@ where
                             TsLit::Str(v) => Expr::Lit(Lit::Str(v)),
                             TsLit::Bool(v) => Expr::Lit(Lit::Bool(v)),
                             TsLit::Tpl(v) => {
-                                Expr::Lit(Lit::Str(v.quasis.into_iter().next().unwrap().raw))
+                                let value = v.quasis.into_iter().next().unwrap().raw;
+
+                                Expr::Lit(Lit::Str(Str {
+                                    span: v.span.clone(),
+                                    raw: quote_js_word!(value),
+                                    value: value.into(),
+                                }))
                             }
                             TsLit::BigInt(v) => Expr::Lit(Lit::BigInt(v)),
                         }
@@ -719,11 +735,8 @@ where
                                     TsEnumMemberId::Str(s) => s,
                                     TsEnumMemberId::Ident(i) => Str {
                                         span: i.span,
+                                        raw: quote_js_word!(i.sym),
                                         value: i.sym,
-                                        has_escape: false,
-                                        kind: StrKind::Normal {
-                                            contains_quote: false,
-                                        },
                                     },
                                 };
                                 let prop = if no_init_required {

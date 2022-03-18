@@ -10,6 +10,7 @@ use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
+use swc_ecma_utils::quote_js_word;
 use swc_ecma_visit::{Fold, FoldWith};
 
 #[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.ts")]
@@ -233,7 +234,7 @@ impl Fold for Normalizer {
 
         match name {
             PropName::Ident(i) => PropName::Str(Str {
-                raw: quote_js_word!(i.sym).into(),
+                raw: quote_js_word!(i.sym),
                 value: i.sym,
                 span: i.span,
             }),
@@ -248,7 +249,7 @@ impl Fold for Normalizer {
                     format!("{}", n.value)
                 };
                 PropName::Str(Str {
-                    raw: quote_js_word!(s).into(),
+                    raw: quote_js_word!(s),
                     value: s.into(),
                     span: n.span,
                 })
