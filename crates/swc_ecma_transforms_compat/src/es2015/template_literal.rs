@@ -103,7 +103,7 @@ impl VisitMut for TemplateLiteral {
                                 Box::new(
                                     Lit::Str(Str {
                                         span: *span,
-                                        value: s.into(),
+                                        value: s,
                                         raw: format!("\"{}\"", raw.clone()).into(),
                                     })
                                     .into(),

@@ -435,7 +435,7 @@ impl Decorators {
                         );
                         let key_prop_value = Box::new(Expr::Lit(Lit::Str(Str {
                             span: method.key.id.span,
-                            raw: quote_js_word!(method.key.id.sym.clone()),
+                            raw: quote_js_word!(method.key.id.sym),
                             value: method.key.id.sym.clone(),
                         })));
                         fold_method!(method, Some(fn_name), key_prop_value)

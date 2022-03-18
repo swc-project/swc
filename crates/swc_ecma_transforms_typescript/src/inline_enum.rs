@@ -133,7 +133,7 @@ impl InlineEnum {
             MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
                 Expr::Lit(Lit::Str(Str { value, .. })) => Some(value.clone()),
                 Expr::Tpl(Tpl { exprs, quasis, .. }) => match (exprs.len(), quasis.len()) {
-                    (0, 1) => quasis[0].cooked.as_ref().map(|str_lit| str_lit.clone()),
+                    (0, 1) => quasis[0].cooked.as_ref().cloned(),
                     _ => None,
                 },
                 _ => None,

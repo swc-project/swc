@@ -657,9 +657,9 @@ where
                                 let value = v.quasis.into_iter().next().unwrap().raw;
 
                                 Expr::Lit(Lit::Str(Str {
-                                    span: v.span.clone(),
+                                    span: v.span,
                                     raw: quote_js_word!(value),
-                                    value: value.into(),
+                                    value,
                                 }))
                             }
                             TsLit::BigInt(v) => Expr::Lit(Lit::BigInt(v)),

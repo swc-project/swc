@@ -574,7 +574,7 @@ impl Scope {
 
                         Box::new(Expr::Lit(Lit::Str(Str {
                             raw: quote_js_word!(src),
-                            value: src.into(),
+                            value: src,
                             ..s.clone()
                         })))
                     }

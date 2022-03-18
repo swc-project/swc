@@ -407,7 +407,7 @@ impl VisitMut for TreeShaker {
             };
             m.visit_with(&mut analyzer);
         }
-        self.data = data.into();
+        self.data = data;
         trace!("Used = {:?}", self.data.used_names);
 
         m.visit_mut_children_with(self);

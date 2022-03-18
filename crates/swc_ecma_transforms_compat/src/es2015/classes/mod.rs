@@ -786,7 +786,7 @@ where
                     PropName::BigInt(b) => Box::new(Expr::Lit(
                         Str {
                             span: b.span,
-                            raw: format!("\"{}\"", b.value.to_string()).into(),
+                            raw: format!("\"{}\"", b.value).into(),
                             value: b.value.to_string().into(),
                         }
                         .into(),
@@ -812,7 +812,7 @@ where
                     expr: Box::new(Expr::Lit(
                         Str {
                             span: b.span,
-                            raw: format!("\"{}\"", b.value.to_string()).into(),
+                            raw: format!("\"{}\"", b.value).into(),
                             value: b.value.to_string().into(),
                         }
                         .into(),

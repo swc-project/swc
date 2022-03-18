@@ -785,7 +785,7 @@ impl ObjectRest {
                                 span,
                                 expr: Box::new(Expr::Lit(Lit::Str(Str {
                                     span,
-                                    raw: format!("\"{}\"", value.to_string()).into(),
+                                    raw: format!("\"{}\"", value).into(),
                                     value: format!("{}", value).into(),
                                 }))),
                             }),
@@ -798,7 +798,7 @@ impl ObjectRest {
                                     span,
                                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                                         span,
-                                        raw: format!("\"{}\"", value.to_string()).into(),
+                                        raw: format!("\"{}\"", value).into(),
                                         value: format!("{}", value).into(),
                                     }))),
                                 }),
@@ -937,7 +937,7 @@ fn object_without_properties(
                 Expr::Lit(Lit::Num(Number { span, value })) => ExprOrSpread {
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span,
-                        raw: format!("\"{}\"", value.to_string()).into(),
+                        raw: format!("\"{}\"", value).into(),
                         value: value.to_string().into(),
                     }))),
                     ..v
@@ -999,13 +999,13 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                 PropName::Str(s) => Lit::Str(s.clone()).as_arg(),
                 PropName::Num(Number { span, value }) => Lit::Str(Str {
                     span: *span,
-                    raw: format!("\"{}\"", value.to_string()).into(),
+                    raw: format!("\"{}\"", value).into(),
                     value: format!("{}", value).into(),
                 })
                 .as_arg(),
                 PropName::BigInt(BigInt { span, value }) => Lit::Str(Str {
                     span: *span,
-                    raw: format!("\"{}\"", value.to_string()).into(),
+                    raw: format!("\"{}\"", value).into(),
                     value: format!("{}", value).into(),
                 })
                 .as_arg(),
