@@ -14,11 +14,17 @@ export default function _applyDecoratedDescriptor(target, property, decorators, 
     return decorator ? (decorator(target, property, desc) || desc) : desc;
   }, desc);
 
-  if (context && desc.initializer !== void 0) {
+  var hasAccessor = Object.prototype.hasOwnProperty.call(desc, 'get') || Object.prototype.hasOwnProperty.call(desc, 'set');
+  if (context && desc.initializer !== void 0 && !hasAccessor) {
     desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
     desc.initializer = undefined;
   }
 
+  if (hasAccessor) {
+    delete desc.writable;
+    delete desc.initializer;
+    delete desc.value;
+  }
   if (desc.initializer === void 0) {
     Object['define' + 'Property'](target, property, desc);
     desc = null;
