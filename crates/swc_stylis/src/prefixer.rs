@@ -217,6 +217,25 @@ impl Prefixer {
             important: n.important.clone(),
         });
     }
+
+    fn simple(&mut self, val: JsWord, name: JsWord, n: &Declaration) {
+        let val = ComponentValue::Ident(Ident {
+            span: DUMMY_SP,
+            value: val.clone(),
+            raw: val,
+        });
+        let name = DeclarationName::Ident(Ident {
+            span: DUMMY_SP,
+            value: name.clone(),
+            raw: name,
+        });
+        self.added_declarations.push(Declaration {
+            span: n.span,
+            name,
+            value: vec![val],
+            important: n.important.clone(),
+        });
+    }
 }
 
 impl VisitMut for Prefixer {
@@ -498,22 +517,7 @@ impl VisitMut for Prefixer {
 
         macro_rules! simple {
             ($name:expr,$val:expr) => {{
-                let val = ComponentValue::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $val.into(),
-                    raw: $val.into(),
-                });
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: vec![val],
-                    important: n.important.clone(),
-                });
+                self.simple($name.into(), $val.into(), &n);
             }};
         }
 
