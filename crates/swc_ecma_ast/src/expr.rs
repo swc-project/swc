@@ -748,7 +748,6 @@ impl Take for TaggedTpl {
 
 #[ast_node("TemplateElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TplElement {
     pub span: Span,
     pub tail: bool,

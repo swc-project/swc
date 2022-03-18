@@ -168,7 +168,10 @@ impl<'a> arbitrary::Arbitrary<'a> for Str {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let value = u.arbitrary::<String>()?.into();
-        let raw = u.arbitrary::<String>()?.into();
+        let raw = format!(
+            "\"{:?}\"",
+            u.arbitrary::<String>()?.into().replace('"', "\\\"")
+        );
 
         Ok(Self { span, value, raw })
     }
