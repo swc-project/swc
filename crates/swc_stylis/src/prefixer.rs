@@ -196,29 +196,8 @@ struct Prefixer {
     added_declarations: Vec<Declaration>,
 }
 
-pub enum Prefix {
-    Webkit,
-    Moz,
-    O,
-    Ms,
-}
-
 impl Prefixer {
-    fn same_name(&mut self, name: JsWord, n: &Declaration) {
-        let val = Ident {
-            span: DUMMY_SP,
-            value: name.clone(),
-            raw: name,
-        };
-        self.added_declarations.push(Declaration {
-            span: n.span,
-            name: n.name.clone(),
-            value: vec![ComponentValue::Ident(val)],
-            important: n.important.clone(),
-        });
-    }
-
-    fn simple(&mut self, val: JsWord, name: JsWord, n: &Declaration) {
+    fn simple(&mut self, name: JsWord, val: JsWord, n: &Declaration) {
         let val = ComponentValue::Ident(Ident {
             span: DUMMY_SP,
             value: val.clone(),
@@ -236,6 +215,13 @@ impl Prefixer {
             important: n.important.clone(),
         });
     }
+}
+
+pub enum Prefix {
+    Webkit,
+    Moz,
+    O,
+    Ms,
 }
 
 impl VisitMut for Prefixer {
@@ -450,61 +436,18 @@ impl VisitMut for Prefixer {
         let ms_new_value = n.value.clone();
 
         macro_rules! same_content {
-            (Prefix::Webkit, $name:expr) => {{
+            ($prefix:expr,$name:expr) => {{
                 let name = DeclarationName::Ident(Ident {
                     span: DUMMY_SP,
                     value: $name.into(),
                     raw: $name.into(),
                 });
-                let new_value = webkit_new_value.clone();
-
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: new_value,
-                    important: n.important.clone(),
-                });
-            }};
-
-            (Prefix::Moz, $name:expr) => {{
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                });
-                let new_value = moz_new_value.clone();
-
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: new_value,
-                    important: n.important.clone(),
-                });
-            }};
-
-            (Prefix::O, $name:expr) => {{
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                });
-                let new_value = o_new_value.clone();
-
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: new_value,
-                    important: n.important.clone(),
-                });
-            }};
-
-            (Prefix::Ms, $name:expr) => {{
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                });
-                let new_value = ms_new_value.clone();
+                let new_value = match $prefix {
+                    Prefix::Webkit => webkit_new_value.clone(),
+                    Prefix::Moz => moz_new_value.clone(),
+                    Prefix::O => o_new_value.clone(),
+                    Prefix::Ms => ms_new_value.clone(),
+                };
 
                 self.added_declarations.push(Declaration {
                     span: n.span,
@@ -523,7 +466,17 @@ impl VisitMut for Prefixer {
 
         macro_rules! same_name {
             ($name:expr) => {{
-                self.same_name($name.into(), &n);
+                let val = Ident {
+                    span: DUMMY_SP,
+                    value: $name.into(),
+                    raw: $name.into(),
+                };
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name: n.name.clone(),
+                    value: vec![ComponentValue::Ident(val)],
+                    important: n.important.clone(),
+                });
             }};
         }
 
