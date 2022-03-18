@@ -2,7 +2,7 @@ use serde::Deserialize;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike, quote_js_word};
+use swc_ecma_utils::{quote_ident, quote_js_word, ExprFactory, StmtLike};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -125,7 +125,7 @@ impl VisitMut for ComputedProps {
                                 } else {
                                     Expr::Lit(Lit::Str(Str {
                                         span: ident.span,
-                                        raw:  quote_js_word!(ident.sym.clone()),
+                                        raw: quote_js_word!(ident.sym.clone()),
                                         value: ident.sym.clone(),
                                     }))
                                 },
