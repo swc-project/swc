@@ -26,7 +26,7 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
                     self.into(),
                     Str {
                         span: DUMMY_SP,
-                        raw: quote_js_word!(raw),
+                        raw: quote_js_word!(name),
                         value: name.into(),
                     }
                     .assign_to(Ident::new("INJECTED_FROM".into(), DUMMY_SP)),
