@@ -26,7 +26,7 @@ test_exec!(
     |_| tr(Default::default()),
     issue_388,
     "
-'use strict';
+\"use strict\";
 const write = (text) => {
   console.log(text)
 }

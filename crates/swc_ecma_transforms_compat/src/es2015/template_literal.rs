@@ -2,7 +2,7 @@ use std::{iter, mem};
 
 use serde::Deserialize;
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, BytePos, DUMMY_SP, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_transforms_macros::parallel;
@@ -65,24 +65,16 @@ impl VisitMut for TemplateLiteral {
                 // This makes result of addition string
                 let mut obj: Box<Expr> = Box::new(
                     Lit::Str({
-                        let should_remove_kind =
-                            quasis[0].raw.value.contains('\r') || quasis[0].raw.value.contains('`');
-
-                        let mut s = quasis[0]
+                        let s = quasis[0]
                             .cooked
                             .clone()
                             .unwrap_or_else(|| quasis[0].raw.clone());
 
-                        // See https://github.com/swc-project/swc/issues/1488
-                        //
-                        // This is hack to prevent '\\`'. Hack is used to avoid breaking
-                        // change of ast crate.
-                        if should_remove_kind {
-                            s.kind = Default::default();
-                            s.has_escape = false;
+                        Str {
+                            span: quasis[0].span,
+                            value: s.clone(),
+                            raw: format!("\"{}\"", s).into()
                         }
-
-                        s
                     })
                     .into(),
                 );
@@ -102,20 +94,20 @@ impl VisitMut for TemplateLiteral {
 
                     let expr = if i % 2 == 0 {
                         // Quasis
-
                         match quasis.next() {
-                            Some(TplElement { cooked, raw, .. }) => {
-                                let should_remove_kind =
-                                    raw.value.contains('\r') || raw.value.contains('`');
-                                let mut s = cooked.clone().unwrap_or_else(|| raw.clone());
-                                // See https://github.com/swc-project/swc/issues/1488
-                                //
-                                // This is hack to prevent '\\`'. Hack is used to avoid breaking
-                                // change of ast crate.
-                                if should_remove_kind {
-                                    s.kind = Default::default();
-                                }
-                                Box::new(Lit::Str(s).into())
+                            Some(TplElement {
+                                span, cooked, raw, ..
+                            }) => {
+                                let s = cooked.clone().unwrap_or_else(|| raw.clone());
+
+                                Box::new(
+                                    Lit::Str(Str {
+                                        span: *span,
+                                        value: s.into(),
+                                        raw: format!("\"{}\"", raw.clone()).into(),
+                                    })
+                                    .into(),
+                                )
                             }
                             _ => unreachable!(),
                         }
@@ -139,35 +131,24 @@ impl VisitMut for TemplateLiteral {
                         );
 
                         if !is_empty && args.is_empty() {
-                            if let Expr::Lit(Lit::Str(Str {
-                                span,
-                                value,
-                                has_escape,
-                                kind,
-                            })) = *obj
-                            {
+                            if let Expr::Lit(Lit::Str(Str { span, value, raw })) = *obj {
                                 match *expr {
                                     Expr::Lit(Lit::Str(Str {
                                         span: r_span,
                                         value: r_value,
-                                        has_escape: r_has_escape,
-                                        kind: _,
+                                        ..
                                     })) => {
                                         obj = Box::new(Expr::Lit(Lit::Str(Str {
                                             span: span.with_hi(r_span.hi()),
+                                            // TODO use raw to keep code as is
+                                            raw: format!("\"{}{}\"", value, r_value).into(),
                                             value: format!("{}{}", value, r_value).into(),
-                                            has_escape: has_escape || r_has_escape,
-                                            kind: Default::default(),
                                         })));
                                         continue;
                                     }
                                     _ => {
-                                        obj = Box::new(Expr::Lit(Lit::Str(Str {
-                                            span,
-                                            value,
-                                            has_escape,
-                                            kind,
-                                        })));
+                                        obj =
+                                            Box::new(Expr::Lit(Lit::Str(Str { span, raw, value })));
                                     }
                                 }
                             }
@@ -295,7 +276,10 @@ impl VisitMut for TemplateLiteral {
                                     },
                                     args: {
                                         let has_escape = quasis.iter().any(|s| {
-                                            s.cooked.as_ref().map(|s| s.has_escape).unwrap_or(true)
+                                            s.cooked
+                                                .as_ref()
+                                                .map(|s| s.contains('\\'))
+                                                .unwrap_or(true)
                                         });
 
                                         let raw = if has_escape {

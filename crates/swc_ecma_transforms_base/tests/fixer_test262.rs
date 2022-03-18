@@ -297,12 +297,9 @@ impl Fold for Normalizer {
 
         match name {
             PropName::Ident(i) => PropName::Str(Str {
+                raw: quote_js_word!(i.sym),
                 value: i.sym,
                 span: i.span,
-                has_escape: false,
-                kind: StrKind::Normal {
-                    contains_quote: false,
-                },
             }),
             PropName::Num(n) => {
                 let s = if n.value.is_infinite() {
@@ -315,10 +312,9 @@ impl Fold for Normalizer {
                     format!("{}", n.value)
                 };
                 PropName::Str(Str {
+                    raw: quote_js_word!(s),
                     value: s.into(),
                     span: n.span,
-                    has_escape: false,
-                    kind: Default::default(),
                 })
             }
             _ => name,

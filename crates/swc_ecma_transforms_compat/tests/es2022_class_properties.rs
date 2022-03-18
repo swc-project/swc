@@ -45,10 +45,10 @@ var Foo = class {
     r#"
 var _Foo;
 var Foo = (_Foo = function Foo() {
-        'use strict';
+        "use strict";
         _classCallCheck(this, Foo);
     },
-    _defineProperty(_Foo, 'num', 0),
+    _defineProperty(_Foo, "num", 0),
     _Foo);
 "#
 );
@@ -101,7 +101,7 @@ test('foo');
 function test(x) {
     var _x = x;
     var F = function F() {
-        'use strict';
+        "use strict";
         _classCallCheck(this, F);
         _defineProperty(this, _x, 1);
     };
@@ -133,7 +133,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -198,7 +198,7 @@ var _scopedFunctionWithThis = new WeakMap();
 var Child =
 /*#__PURE__*/
 function (Parent) {
-  'use strict';
+  "use strict";
 
   _inherits(Child, Parent);
   var _super = _createSuper(Child);
@@ -269,7 +269,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -404,7 +404,7 @@ function withContext(ComposedComponent) {
 function withContext(ComposedComponent) {
   var _WithContext
   return _WithContext = function(Component) {
-      'use strict';
+      "use strict";
       _inherits(WithContext, Component);
       var _super = _createSuper(WithContext);
       function WithContext() {
@@ -413,7 +413,7 @@ function withContext(ComposedComponent) {
       }
       return WithContext;
     }(Component),
-    _defineProperty(_WithContext, 'propTypes', {
+    _defineProperty(_WithContext, "propTypes", {
       context: PropTypes.shape({
         addCss: PropTypes.func,
         setTitle: PropTypes.func,
@@ -441,7 +441,7 @@ class A {
 "#,
     r#"
 var A = function A(force1) {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, A);
   _defineProperty(this, "force", force);
@@ -472,7 +472,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -534,7 +534,7 @@ expect(() => {
     r#"
 var _x = new WeakMap();
 var C = function C() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, C);
   _defineProperty(this, "y", _classPrivateFieldGet(this, _x));
@@ -585,7 +585,7 @@ expect(new Outer().hello).toBe('hello');
 
 
 var Hello = function Hello() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Hello);
   return {
     toString() {
@@ -596,7 +596,7 @@ var Hello = function Hello() {
 };
 
 var Outer = function (Hello) {
-  'use strict';
+  "use strict";
   _inherits(Outer, Hello);
   var _super = _createSuper(Outer);
   function Outer() {
@@ -633,7 +633,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
   _defineProperty(this, "bar", void 0);
@@ -665,7 +665,7 @@ var _bar = new WeakMap();
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -769,7 +769,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
 };
@@ -792,7 +792,7 @@ class Foo {
     r#"
 var _bar = new WeakMap();
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
 
@@ -842,7 +842,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -884,16 +884,16 @@ class B extends A {
 var A =
 /*#__PURE__*/
 function () {
-  'use strict';
+  \"use strict\";
 
   function A() {
     _classCallCheck(this, A);
   }
 
   _createClass(A, [{
-    key: 'foo',
+    key: \"foo\",
     value: function foo() {
-      return 'bar';
+      return \"bar\";
     }
   }]);
   return A;
@@ -902,7 +902,7 @@ function () {
 var B =
 /*#__PURE__*/
 function (A) {
-  'use strict';
+  \"use strict\";
 
   _inherits(B, A);
   var _super = _createSuper(B);
@@ -911,8 +911,8 @@ function (A) {
     var _this;
 
     _this = _super.apply(this, arguments);
-    _defineProperty(_assertThisInitialized(_this), 'foo', _get((_assertThisInitialized(_this), \
-     _getPrototypeOf(B.prototype)), 'foo', _this).call(_this));
+    _defineProperty(_assertThisInitialized(_this), \"foo\", _get((_assertThisInitialized(_this), \
+     _getPrototypeOf(B.prototype)), \"foo\", _this).call(_this));
     return _this;
   }
 
@@ -943,7 +943,7 @@ var foo = "bar";
 var _bar = new WeakMap();
 
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
 
@@ -979,7 +979,7 @@ class Foo {
 var foo = "bar";
 
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
   _defineProperty(this, "bar", foo);
@@ -1025,7 +1025,7 @@ class MyClass {
 
 "#,
     r#"
-var foo = 'foo';
+var foo = "foo";
 var bar = ()=>{
 };
 var four = 4;
@@ -1046,16 +1046,16 @@ var _ref = one(),
 
 
 var MyClass = function() {
-    'use strict';
+    "use strict";
     function MyClass() {
         _classCallCheck(this, MyClass);
         _defineProperty(this, null, "null");
-        _defineProperty(this, _undefined, 'undefined');
+        _defineProperty(this, _undefined, "undefined");
         _defineProperty(this, _ref4, "void 0");
         _defineProperty(this, _ref5, "regex");
-        _defineProperty(this, _foo, 'foo');
-        _defineProperty(this, _bar, 'bar');
-        _defineProperty(this, _baz, 'baz');
+        _defineProperty(this, _foo, "foo");
+        _defineProperty(this, _bar, "bar");
+        _defineProperty(this, _baz, "baz");
         _defineProperty(this, `template`, "template");
         _defineProperty(this, _ref6, "template-with-expression");
     }
@@ -1080,10 +1080,10 @@ var MyClass = function() {
         }]);
     return MyClass;
 }();
-_defineProperty(MyClass, _ref, 'test');
-_defineProperty(MyClass, _ref1, '247');
-_defineProperty(MyClass, _ref2, '247');
-_defineProperty(MyClass, _ref3, '247');
+_defineProperty(MyClass, _ref, "test");
+_defineProperty(MyClass, _ref1, "247");
+_defineProperty(MyClass, _ref2, "247");
+_defineProperty(MyClass, _ref3, "247");
 
 "#
 );
@@ -1111,7 +1111,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -1393,7 +1393,7 @@ var _bar = new WeakMap();
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -1435,7 +1435,7 @@ class Outer {
 var _outer = new WeakMap();
 
 var Outer = function Outer() {
- 'use strict';
+ "use strict";
   _classCallCheck(this, Outer);
   var _this = this;
 
@@ -1480,7 +1480,7 @@ var _foo = new WeakMap();
 var Foo =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -1523,7 +1523,7 @@ class Foo extends Bar {
 "#,
     r#"
 var Foo = function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -1676,7 +1676,7 @@ class Foo {
 var foo = "bar";
 
 var Foo = function Foo(foo1) {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
   _defineProperty(this, "bar", this);
@@ -1703,7 +1703,7 @@ class Bar extends Foo {
     r#"
 var _prop = new WeakMap();
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
 
@@ -1718,7 +1718,7 @@ var _prop1 = new WeakMap();
 var Bar =
 /*#__PURE__*/
 function (Foo) {
-  'use strict';
+  "use strict";
 
   _inherits(Bar, Foo);
   var _super = _createSuper(Bar);
@@ -1759,7 +1759,7 @@ class B extends A {
 "#,
     r#"
 var A = function () {
-  'use strict';
+  "use strict";
 
   function A() {
     _classCallCheck(this, A);
@@ -1778,7 +1778,7 @@ var _foo = new WeakMap();
 var B =
 /*#__PURE__*/
 function (A) {
-  'use strict';
+  "use strict";
 
   _inherits(B, A);
   var _super = _createSuper(B);
@@ -1819,7 +1819,7 @@ class Foo {
 var _two = new WeakMap(), _private = new WeakMap(), _four = new WeakMap();
 
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
   _defineProperty(this, "one", _classPrivateFieldGet(this, _private));
@@ -1874,7 +1874,7 @@ expect(new Outer().hello).toBe('hello');
 
 
 var Hello = function () {
-  'use strict';
+  "use strict";
   function Hello() {
     _classCallCheck(this, Hello);
   }
@@ -1889,7 +1889,7 @@ var Hello = function () {
 }();
 
 var Outer = function (Hello) {
-  'use strict';
+  "use strict";
   _inherits(Outer, Hello);
   var _super = _createSuper(Outer);
   function Outer() {
@@ -1987,7 +1987,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
   _defineProperty(this, 0, "foo");
@@ -2019,7 +2019,7 @@ var _foo = new WeakMap();
 var Foo =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -2088,13 +2088,13 @@ export default class MyClass2 {
 "#,
     r#"
 export var MyClass = function MyClass() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, MyClass);
 };
 _defineProperty(MyClass, "property", value);
 
 var MyClass2 = function MyClass2() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, MyClass2);
 };
 
@@ -2118,7 +2118,7 @@ class Foo {
     r#"
 var _x = new WeakMap(), _y = new WeakMap();
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
 
@@ -2149,7 +2149,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -2195,7 +2195,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
   _defineProperty(this, "bar", "foo");
@@ -2239,19 +2239,19 @@ export default param =>
     r#"
 export default ((param)=>{
   var App = function() {
-    'use strict';
+    "use strict";
     function App() {
       _classCallCheck(this, App);
     }
     _createClass(App, [{
-      key: 'getParam',
+      key: "getParam",
       value: function getParam() {
         return param;
       }
     }]);
     return App;
   }();
-  _defineProperty(App, 'props', {
+  _defineProperty(App, "props", {
     prop1: 'prop1', prop2: 'prop2'
   });
   return App;
@@ -2271,7 +2271,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
 };
@@ -2331,7 +2331,7 @@ class Foo {
     r#"
 var _foo = new WeakMap();
 var Foo = function () {
-  'use strict';
+  "use strict";
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -2411,7 +2411,7 @@ var foo = "bar";
 var _bar = new WeakMap(), _baz = new WeakMap();
 
 var Foo = function Foo(foo1) {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Foo);
 
@@ -2591,7 +2591,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -2635,7 +2635,7 @@ var _bar = new WeakMap();
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -2720,7 +2720,7 @@ class Foo {
     "
 var _x = new WeakMap();
 var Foo = function () {
-  'use strict';
+  \"use strict\";
   function Foo() {
     _classCallCheck(this, Foo);
 
@@ -2731,7 +2731,7 @@ var Foo = function () {
   }
 
   _createClass(Foo, [{
-    key: 'test',
+    key: \"test\",
     value: function test() {
       var _this_x;
 
@@ -2762,13 +2762,13 @@ class Foo {
 ",
     "
 var Foo = function () {
-  'use strict';
+  \"use strict\";
   function Foo() {
     _classCallCheck(this, Foo);
   }
 
   _createClass(Foo, [{
-    key: 'test',
+    key: \"test\",
     value: function test() {
       var _this_x;
 
@@ -2811,7 +2811,7 @@ class Foo {
 class Foo{
     constructor(){
         super();
-        _defineProperty(this, 'onBar', ()=>{
+        _defineProperty(this, \"onBar\", ()=>{
             bar();
         });
         bar();
@@ -2839,9 +2839,9 @@ test!(
 }",
     "
 let Foo = function Foo(bar) {
-    'use strict';
+    \"use strict\";
     _classCallCheck(this, Foo);
-    _defineProperty(this, 'qux', {
+    _defineProperty(this, \"qux\", {
         frob: (bar)=>{
         }
     });
@@ -2874,7 +2874,7 @@ class foo{
         this.mode = MODE;
     }
 }
-_defineProperty(foo, 'MODE', MODE);"
+_defineProperty(foo, \"MODE\", MODE);"
 );
 
 // public_regression_t7364
@@ -3075,12 +3075,12 @@ function classFactory() {
             constructor(){
                 _classPrivateFieldInit(this, _foo, {
                     writable: true,
-                    value: 'foo'
+                    value: "foo"
                 });
             }
         }, _bar = {
             writable: true,
-            value: 'bar'
+            value: "bar"
         },
         _Foo;
 }
@@ -3829,7 +3829,7 @@ var qux = function() {
   class Foo {
     constructor() {
       var _this = this;
-      _defineProperty(this, 'fn', function() {
+      _defineProperty(this, "fn", function() {
         return console.log(_this);
       });
     }
@@ -3845,7 +3845,7 @@ var qux = function() {
   class Bar {
     constructor() {
       var _this = this;
-      _defineProperty(this, 'fn', function() {
+      _defineProperty(this, "fn", function() {
         return console.log(_this);
       });
     }
@@ -3861,7 +3861,7 @@ var qux = function() {
   class Baz {
     constructor(force){
       var _this = this;
-      _defineProperty(this, 'fn', function() {
+      _defineProperty(this, "fn", function() {
         return console.log(_this);
       });
       _defineProperty(this, "force", force);
@@ -3878,7 +3878,7 @@ var qux = (function () {
   class Qux {
     constructor() {
       var _this = this;
-      _defineProperty(this, 'fn', function() {
+      _defineProperty(this, "fn", function() {
         return console.log(_this);
       });
     }
@@ -4041,7 +4041,7 @@ class SuperClass extends Obj {
   constructor() {
     var _temp;
 
-    class B extends (_temp = super(), _defineProperty(this, 'field', 1), _temp, Obj) {
+    class B extends (_temp = super(), _defineProperty(this, "field", 1), _temp, Obj) {
       constructor() {
         super();
         expect(this.field).toBeUndefined();
@@ -4555,7 +4555,7 @@ class C {
 
 "#,
     r#"
-let _ref = (_classNameTDZError('C'), C) + 3;
+let _ref = (_classNameTDZError("C"), C) + 3;
 
 let C = function C() {
   "use strict";
@@ -4743,7 +4743,7 @@ const createClass = (k) => class { [k()] = 2 };
 var createClass = (k)=>{
     var _ref = k();
     var _class = function _class() {
-        'use strict';
+        "use strict";
         _classCallCheck(this, _class);
         _defineProperty(this, _ref, 2);
     };
@@ -5706,8 +5706,8 @@ test!(
     "
     class TestClass {
     }
-    _defineProperty(TestClass, 'Something', 'hello');
-    _defineProperty(TestClass, 'SomeProperties', {
+    _defineProperty(TestClass, \"Something\", 'hello');
+    _defineProperty(TestClass, \"SomeProperties\", {
         firstProp: TestClass.Something
     });
     function someClassDecorator(c) {
@@ -5738,8 +5738,8 @@ test!(
     let TestClass = _class = someClassDecorator((_class = (_TestClass =
         class TestClass {
         },
-        _defineProperty(_TestClass, 'Something', 'hello'),
-        _defineProperty(_TestClass, 'SomeProperties', {
+        _defineProperty(_TestClass, \"Something\", 'hello'),
+        _defineProperty(_TestClass, \"SomeProperties\", {
             firstProp: _TestClass.Something
         }),
         _TestClass
@@ -5767,7 +5767,7 @@ test!(
     class Item extends Component {
         constructor(props){
             super(props);
-            _defineProperty(this, 'input', this.props.item);
+            _defineProperty(this, \"input\", this.props.item);
         }
     }
     "
@@ -5906,12 +5906,12 @@ const a = ()=>{
         foo() {
             return class B {
                 constructor() {
-                    _defineProperty(this, 'b', 456);
+                    _defineProperty(this, \"b\", 456);
                 }
             };
         }
         constructor(){
-            _defineProperty(this, 'a', 123);
+            _defineProperty(this, \"a\", 123);
         }
     }
     return _class;
@@ -5967,7 +5967,7 @@ var _B;
 
 class A extends (_B = class B {}) {}
 
-_defineProperty(A, 'x', _B.x);
+_defineProperty(A, \"x\", _B.x);
 "
 );
 
@@ -5991,11 +5991,11 @@ class A extends B {
 class A extends B {
   constructor(...args) {
     super(...args);
-    _defineProperty(this, 'foo', super.bar);
+    _defineProperty(this, \"foo\", super.bar);
   }
 }
 
-_defineProperty(A, 'foo', B.bar)
+_defineProperty(A, \"foo\", B.bar)
 "
 );
 

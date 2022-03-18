@@ -3,7 +3,7 @@ use swc_common::{collections::AHashSet, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
-use swc_ecma_utils::quote_str;
+use swc_ecma_utils::{quote_js_word, quote_str};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -106,9 +106,8 @@ impl<'a> VisitMut for PropNameFolder<'a> {
                         span,
                         expr: Box::new(Expr::Lit(Lit::Str(Str {
                             span,
+                            raw: quote_js_word!(ident.sym),
                             value: ident.sym.clone(),
-                            has_escape: false,
-                            kind: Default::default(),
                         }))),
                     })
                 }

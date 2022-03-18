@@ -668,8 +668,7 @@ where
                 Lit::Str(Str {
                     span: DUMMY_SP,
                     value: "use strict".into(),
-                    has_escape: false,
-                    kind: Default::default(),
+                    raw: "\"use strict\"".into(),
                 })
                 .into_stmt(),
             );
@@ -787,9 +786,8 @@ where
                     PropName::BigInt(b) => Box::new(Expr::Lit(
                         Str {
                             span: b.span,
+                            raw: format!("\"{}\"", b.value.to_string()).into(),
                             value: b.value.to_string().into(),
-                            has_escape: false,
-                            kind: Default::default(),
                         }
                         .into(),
                     )),
@@ -814,9 +812,8 @@ where
                     expr: Box::new(Expr::Lit(
                         Str {
                             span: b.span,
+                            raw: format!("\"{}\"", b.value.to_string()).into(),
                             value: b.value.to_string().into(),
-                            has_escape: false,
-                            kind: Default::default(),
                         }
                         .into(),
                     )),

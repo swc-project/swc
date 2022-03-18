@@ -613,10 +613,6 @@ impl VisitMut for Normalizer {
             }
         }
     }
-
-    fn visit_mut_str(&mut self, s: &mut Str) {
-        s.kind = Default::default();
-    }
 }
 
 pub struct HygieneVisualizer;

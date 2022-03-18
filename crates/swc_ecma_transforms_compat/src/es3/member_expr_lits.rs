@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_utils::is_valid_ident;
+use swc_ecma_utils::{is_valid_ident, quote_js_word};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
@@ -45,11 +45,8 @@ impl Fold for MemberExprLit {
                         span: i.span,
                         expr: Box::new(Expr::Lit(Lit::Str(Str {
                             span: i.span,
+                            raw: quote_js_word!(i.sym),
                             value: i.sym,
-                            has_escape: false,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
                         }))),
                     }),
                     ..e
