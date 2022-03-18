@@ -1,7 +1,7 @@
-var x = /*#__PURE__*/ React.createElement("div", {
+var x = /*#__PURE__*/ React.createElement(\"div\", {
     /* a multi-line
-       comment */ attr1: "foo"
-}, /*#__PURE__*/ React.createElement("span" // a double-slash comment
+       comment */ attr1: \"foo\"
+}, /*#__PURE__*/ React.createElement(\"span\" // a double-slash comment
 , {
-    attr2: "bar"
+    attr2: \"bar\"
 }));

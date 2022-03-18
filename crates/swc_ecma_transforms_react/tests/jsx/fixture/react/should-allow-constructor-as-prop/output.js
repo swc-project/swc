@@ -1,4 +1,3 @@
-/*#__PURE__*/
-React.createElement(Component, {
-  constructor: "foo"
+/*#__PURE__*/ React.createElement(Component, {
+    constructor: \"foo\"
 });

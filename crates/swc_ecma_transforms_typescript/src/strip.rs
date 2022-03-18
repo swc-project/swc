@@ -14,7 +14,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, ident::IdentLike, is_literal, member_expr,
-    prepend, private_ident, prop_name_to_expr, quote_ident, var::VarCollector, ExprFactory, Id,
+    prepend, private_ident, prop_name_to_expr, quote_ident, quote_js_word, var::VarCollector,
+    ExprFactory, Id,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_obj_and_computed, Fold, Visit, VisitMut, VisitMutWith,
@@ -514,23 +515,22 @@ where
                     (TsLit::Str(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => TsLit::Str(Str {
                         span,
                         value: format!("{}{}", l.value, r.value).into(),
-                        has_escape: l.has_escape || r.has_escape,
-                        kind: Default::default(),
+                        // TODO improve me for better raw
+                        raw: quote_js_word!(format!("\"{}{}\"", l.value, r.value)).into(),
                     }),
                     (TsLit::Number(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => {
                         TsLit::Str(Str {
                             span,
                             value: format!("{}{}", l.value, r.value).into(),
-                            has_escape: r.has_escape,
-                            kind: Default::default(),
+                            // TODO improve me for better raw
+                            raw: quote_js_word!(format!("\"{}{}\"", l.value, r.value)).into(),
                         })
                     }
                     (TsLit::Str(l), TsLit::Number(r)) if expr.op == op!(bin, "+") => {
                         TsLit::Str(Str {
                             span,
                             value: format!("{}{}", l.value, r.value).into(),
-                            has_escape: l.has_escape,
-                            kind: Default::default(),
+                            raw: quote_js_word!(format!("\"{}{}\"", l.value, r.value)).into(),
                         })
                     }
                     _ => return Err(()),

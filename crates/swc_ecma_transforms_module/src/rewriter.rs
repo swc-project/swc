@@ -1,6 +1,7 @@
 use anyhow::Context;
 use swc_common::FileName;
 use swc_ecma_ast::*;
+use swc_ecma_utils::quote_js_word;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 use crate::path::ImportResolver;
@@ -39,8 +40,7 @@ where
                         .with_context(|| format!("failed to resolve import `{}`", s.value))
                         .unwrap();
 
-                    // This string literal is synthesized
-                    s.kind = Default::default();
+                    s.raw = quote_js_word!(src);
                     s.value = src;
                 }
             }
@@ -54,7 +54,7 @@ where
             .with_context(|| format!("failed to resolve import `{}`", i.src.value))
             .unwrap();
 
-        i.src.kind = Default::default();
+        i.src.raw = quote_js_word!(src);
         i.src.value = src;
     }
 
@@ -66,7 +66,7 @@ where
                 .with_context(|| format!("failed to resolve import `{}`", src.value))
                 .unwrap();
 
-            src.kind = Default::default();
+            src.raw = quote_js_word!(new);
             src.value = new;
         }
     }

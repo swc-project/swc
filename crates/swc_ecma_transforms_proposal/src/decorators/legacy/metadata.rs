@@ -1,7 +1,7 @@
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{member_expr, quote_ident, undefined, ExprFactory};
+use swc_ecma_utils::{member_expr, quote_ident, quote_js_word, undefined, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 use super::EnumKind;
@@ -276,8 +276,7 @@ impl Metadata<'_> {
                         right: Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
                             value: "undefined".into(),
-                            has_escape: false,
-                            kind: Default::default(),
+                            raw: "\"undefined\"".into(),
                         }))),
                     })),
                     op: op!("&&"),
@@ -292,8 +291,7 @@ impl Metadata<'_> {
                         right: Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
                             value: "function".into(),
-                            has_escape: false,
-                            kind: Default::default(),
+                            raw: "\"function\"".into(),
                         }))),
                     })),
                 })),
@@ -304,9 +302,8 @@ impl Metadata<'_> {
                     args: vec![
                         Str {
                             span: DUMMY_SP,
+                            raw: quote_js_word!(design),
                             value: design.into(),
-                            has_escape: false,
-                            kind: Default::default(),
                         }
                         .as_arg(),
                         type_arg,
@@ -351,8 +348,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                             right: Box::new(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
                                 value: "undefined".into(),
-                                has_escape: false,
-                                kind: Default::default(),
+                                raw: "\"undefined\"".into(),
                             }))),
                         })),
                     }))
@@ -368,8 +364,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     right: Box::new(Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
                         value: "undefined".into(),
-                        has_escape: false,
-                        kind: Default::default(),
+                        raw: "\"undefined\"".into(),
                     }))),
                 })),
             }

@@ -8,8 +8,8 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor, prepend, private_ident,
-    prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, undefined, ExprFactory,
-    IdentExt,
+    prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_js_word, quote_str, undefined,
+    ExprFactory, IdentExt,
 };
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Visit, VisitWith};
 
@@ -435,11 +435,8 @@ impl Decorators {
                         );
                         let key_prop_value = Box::new(Expr::Lit(Lit::Str(Str {
                             span: method.key.id.span,
+                            raw: quote_js_word!(method.key.id.sym.clone()),
                             value: method.key.id.sym.clone(),
-                            has_escape: false,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
                         })));
                         fold_method!(method, Some(fn_name), key_prop_value)
                     }
@@ -448,9 +445,8 @@ impl Decorators {
                         let key_prop_value = match prop.key {
                             PropName::Ident(i) => Box::new(Expr::Lit(Lit::Str(Str {
                                 span: i.span,
+                                raw: quote_js_word!(i.sym),
                                 value: i.sym,
-                                has_escape: false,
-                                kind: Default::default(),
                             }))),
                             _ => prop_name_to_expr(prop.key).into(),
                         };

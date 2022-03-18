@@ -1862,7 +1862,7 @@ export const foo = function () {
         global.input = mod.exports;
     }
 })(this, function(_exports, _path) {
-    'use strict';
+    \"use strict\";
     Object.defineProperty(_exports, '__esModule', {
         value: true
     });

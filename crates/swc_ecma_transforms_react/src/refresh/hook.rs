@@ -7,7 +7,7 @@ use sha1::{Digest, Sha1};
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, SourceMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{private_ident, quote_ident, quote_js_word, ExprFactory};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -101,8 +101,6 @@ impl<'a> HookRegister<'a> {
             };
         }
 
-        // this is just for pass test
-        let has_escape = sign.len() > 1;
         let sign = sign.join("\n");
         let sign = if self.options.emit_full_signatures {
             sign
@@ -115,9 +113,8 @@ impl<'a> HookRegister<'a> {
         args.push(
             Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
+                raw: quote_js_word!(sign),
                 value: sign.into(),
-                has_escape,
-                kind: StrKind::Synthesized,
             }))
             .as_arg(),
         );

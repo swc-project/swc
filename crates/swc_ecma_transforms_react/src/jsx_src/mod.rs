@@ -2,7 +2,7 @@ use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
-use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::{quote_ident, quote_js_word};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
 #[cfg(test)]
@@ -37,6 +37,7 @@ impl VisitMut for JsxSrc {
         }
 
         let loc = self.cm.lookup_char_pos(e.span.lo);
+        let file_name = loc.file.name.to_string();
 
         e.attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
             span: DUMMY_SP,
@@ -51,9 +52,8 @@ impl VisitMut for JsxSrc {
                                 key: PropName::Ident(quote_ident!("fileName")),
                                 value: Box::new(Expr::Lit(Lit::Str(Str {
                                     span: DUMMY_SP,
-                                    value: loc.file.name.to_string().into(),
-                                    has_escape: false,
-                                    kind: Default::default(),
+                                    raw: quote_js_word!(file_name),
+                                    value: file_name.into(),
                                 }))),
                             }))),
                             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
