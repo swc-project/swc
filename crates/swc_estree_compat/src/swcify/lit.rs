@@ -1,4 +1,3 @@
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::{BigInt, Bool, Expr, Lit, Null, Number, Regex, Str, Tpl, TplElement};
 use swc_estree_ast::{
     BigIntLiteral, BooleanLiteral, DecimalLiteral, Literal, NullLiteral, NumberLiteral,
@@ -33,8 +32,7 @@ impl Swcify for StringLiteral {
         Str {
             span: ctx.span(&self.base),
             value: self.value,
-            has_escape: false,
-            kind: Default::default(),
+            raw: self.raw,
         }
     }
 }
@@ -124,18 +122,8 @@ impl Swcify for TemplateElement {
         TplElement {
             span: ctx.span(&self.base),
             tail: self.tail,
-            cooked: self.value.cooked.map(|value| Str {
-                span: DUMMY_SP,
-                value,
-                has_escape: false,
-                kind: Default::default(),
-            }),
-            raw: Str {
-                span: DUMMY_SP,
-                value: self.value.raw,
-                has_escape: false,
-                kind: Default::default(),
-            },
+            cooked: self.value.cooked,
+            raw: self.value.raw,
         }
     }
 }

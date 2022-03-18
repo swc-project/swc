@@ -182,6 +182,7 @@ pub struct StringLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
     pub value: JsWord,
+    pub raw: JsWord,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
