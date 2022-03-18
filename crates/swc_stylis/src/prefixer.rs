@@ -414,18 +414,61 @@ impl VisitMut for Prefixer {
         let ms_new_value = n.value.clone();
 
         macro_rules! same_content {
-            ($prefix:expr,$name:expr) => {{
+            (Prefix::Webkit, $name:expr) => {{
                 let name = DeclarationName::Ident(Ident {
                     span: DUMMY_SP,
                     value: $name.into(),
                     raw: $name.into(),
                 });
-                let new_value = match $prefix {
-                    Prefix::Webkit => webkit_new_value.clone(),
-                    Prefix::Moz => moz_new_value.clone(),
-                    Prefix::O => o_new_value.clone(),
-                    Prefix::Ms => ms_new_value.clone(),
-                };
+                let new_value = webkit_new_value.clone();
+
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: new_value,
+                    important: n.important.clone(),
+                });
+            }};
+
+            (Prefix::Moz, $name:expr) => {{
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: $name.into(),
+                    raw: $name.into(),
+                });
+                let new_value = moz_new_value.clone();
+
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: new_value,
+                    important: n.important.clone(),
+                });
+            }};
+
+            (Prefix::O, $name:expr) => {{
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: $name.into(),
+                    raw: $name.into(),
+                });
+                let new_value = o_new_value.clone();
+
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: new_value,
+                    important: n.important.clone(),
+                });
+            }};
+
+            (Prefix::Ms, $name:expr) => {{
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: $name.into(),
+                    raw: $name.into(),
+                });
+                let new_value = ms_new_value.clone();
 
                 self.added_declarations.push(Declaration {
                     span: n.span,
