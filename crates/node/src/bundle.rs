@@ -22,6 +22,7 @@ use swc_ecma_ast::{
     PropName, Str,
 };
 use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
+use swc_ecma_utils::quote_js_word;
 
 use crate::{
     get_compiler,
@@ -267,14 +268,15 @@ impl swc_bundler::Hook for Hook {
         span: Span,
         module_record: &ModuleRecord,
     ) -> Result<Vec<KeyValueProp>, Error> {
+        let file_name = module_record.file_name.to_string();
+
         Ok(vec![
             KeyValueProp {
                 key: PropName::Ident(Ident::new(js_word!("url"), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    value: module_record.file_name.to_string().into(),
-                    has_escape: false,
-                    kind: Default::default(),
+                    raw: quote_js_word!(file_name),
+                    value: file_name.into(),
                 }))),
             },
             KeyValueProp {
