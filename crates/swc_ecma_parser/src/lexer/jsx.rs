@@ -170,11 +170,11 @@ impl<'a, I: Input> Lexer<'a, I> {
             let cur_pos = self.input.cur_pos();
 
             if ch == '\\' {
-                let str = self.input.slice(chunk_start, cur_pos);
+                let value = self.input.slice(chunk_start, cur_pos);
 
-                out.push_str(str);
+                out.push_str(value);
                 out.push('\\');
-                raw.push_str(str);
+                raw.push_str(value);
                 raw.push('\\');
 
                 self.bump();
@@ -189,10 +189,10 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             if ch == '&' {
-                let str = self.input.slice(chunk_start, cur_pos);
+                let value = self.input.slice(chunk_start, cur_pos);
 
-                out.push_str(str);
-                raw.push_str(str);
+                out.push_str(value);
+                raw.push_str(value);
 
                 let jsx_entity = self.read_jsx_entity()?;
 
@@ -201,10 +201,10 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 chunk_start = self.input.cur_pos();
             } else if ch.is_line_terminator() {
-                let str = self.input.slice(chunk_start, cur_pos);
+                let value = self.input.slice(chunk_start, cur_pos);
 
-                out.push_str(str);
-                raw.push_str(str);
+                out.push_str(value);
+                raw.push_str(value);
 
                 match self.read_jsx_new_line(false)? {
                     Either::Left(s) => {
@@ -224,10 +224,10 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         let cur_pos = self.input.cur_pos();
-        let str = self.input.slice(chunk_start, cur_pos);
+        let value = self.input.slice(chunk_start, cur_pos);
 
-        out.push_str(str);
-        raw.push_str(str);
+        out.push_str(value);
+        raw.push_str(value);
 
         // it might be at the end of the file when
         // the string literal is unterminated
