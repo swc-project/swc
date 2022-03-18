@@ -8,5 +8,5 @@ class TestMems {
 }
 
 
-expect(Object.keys).toEqual(['some'])
+expect(Object.keys(TestMems)).toEqual(['some'])
 expect(TestMems.some).toBeUndefined()
