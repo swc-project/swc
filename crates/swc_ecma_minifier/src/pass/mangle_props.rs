@@ -232,7 +232,7 @@ impl Mangler<'_> {
     fn mangle_str(&mut self, string: &mut Str) {
         if let Some(mangled) = self.state.gen_name(&string.value) {
             string.value = mangled;
-            string.kind = StrKind::Synthesized;
+            string.raw = "".into();
         }
     }
 }

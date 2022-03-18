@@ -3,7 +3,7 @@ use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, Type, Value};
+use swc_ecma_utils::{quote_js_word, ExprExt, Type, Value};
 
 use super::Pure;
 
@@ -82,12 +82,7 @@ impl Pure<'_> {
                             span: DUMMY_SP,
                             tail: true,
                             cooked: None,
-                            raw: Str {
-                                span: DUMMY_SP,
-                                value: take(&mut cur_raw).into(),
-                                has_escape: false,
-                                kind: Default::default(),
-                            },
+                            raw: cur_raw.into(),
                         });
 
                         exprs.push(e);
@@ -102,9 +97,8 @@ impl Pure<'_> {
             cooked: None,
             raw: Str {
                 span: DUMMY_SP,
+                raw: quote_js_word!(cur_raw),
                 value: cur_raw.into(),
-                has_escape: false,
-                kind: Default::default(),
             },
         });
 
@@ -131,7 +125,7 @@ impl Pure<'_> {
                     let new: JsWord =
                         format!("{}{}", l_str.value, rs.value.replace('\\', "\\\\")).into();
                     l_str.value = new.clone();
-                    l_last.raw.value = new;
+                    l_last.raw = new;
 
                     r.take();
                 }
@@ -151,7 +145,7 @@ impl Pure<'_> {
                     let new: JsWord =
                         format!("{}{}", ls.value.replace('\\', "\\\\"), r_str.value).into();
                     r_str.value = new.clone();
-                    r_first.raw.value = new;
+                    r_first.raw = new;
 
                     l.take();
                 }
@@ -169,7 +163,7 @@ impl Pure<'_> {
 
                     let new: JsWord = format!("{}{}", l_last.raw.value, r_str.value).into();
                     r_str.value = new.clone();
-                    r_first.raw.value = new;
+                    r_first.raw = new;
                 }
 
                 l.quasis.extend(rt.quasis.take());
@@ -225,9 +219,8 @@ impl Pure<'_> {
                                     left: left.left.take(),
                                     right: Box::new(Expr::Lit(Lit::Str(Str {
                                         span: left_span,
+                                        raw: quote_js_word!(new_str),
                                         value: new_str.into(),
-                                        has_escape: false,
-                                        kind: Default::default(),
                                     }))),
                                 });
                             }

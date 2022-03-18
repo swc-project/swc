@@ -10,8 +10,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
-    StmtLike, Type, Value,
+    ident::IdentLike, prepend_stmts, quote_js_word, undefined, ExprExt, ExprFactory, Id, IsEmpty,
+    ModuleItemLike, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
@@ -541,15 +541,13 @@ where
 
             let sep = Box::new(Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
+                raw: quote_js_word!(separator),
                 value: separator,
-                has_escape: false,
-                kind: Default::default(),
             })));
             let mut res = Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
+                raw: quote_js_word!(""),
                 value: js_word!(""),
-                has_escape: false,
-                kind: Default::default(),
             }));
 
             fn add(to: &mut Expr, right: Box<Expr>) {
@@ -616,9 +614,8 @@ where
         self.changed = true;
         *e = Expr::Lit(Lit::Str(Str {
             span: call.span,
+            raw: quote_js_word!(res),
             value: res.into(),
-            has_escape: false,
-            kind: Default::default(),
         }))
     }
 

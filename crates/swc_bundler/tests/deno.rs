@@ -17,7 +17,7 @@ use swc_ecma_codegen::{
 };
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
-use swc_ecma_utils::{find_ids, Id};
+use swc_ecma_utils::{find_ids, quote_js_word, Id};
 use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 use testing::assert_eq;
 
@@ -1102,14 +1102,15 @@ impl swc_bundler::Hook for Hook {
         span: Span,
         module_record: &ModuleRecord,
     ) -> Result<Vec<KeyValueProp>, Error> {
+        let file_name = module_record.file_name.to_string();
+
         Ok(vec![
             KeyValueProp {
                 key: PropName::Ident(Ident::new(js_word!("url"), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    value: module_record.file_name.to_string().into(),
-                    has_escape: false,
-                    kind: Default::default(),
+                    raw: quote_js_word!(file_name),
+                    value: file_name.into(),
                 }))),
             },
             KeyValueProp {

@@ -409,9 +409,8 @@ where
                         self.changed = true;
                         *e = Expr::Lit(Lit::Str(Str {
                             span: *span,
+                            raw: quote_js_word!(value),
                             value,
-                            has_escape: false,
-                            kind: Default::default(),
                         }));
                     }
                 }
@@ -421,9 +420,8 @@ where
                     self.changed = true;
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
+                        raw: quote_js_word!("\"function\""),
                         value: js_word!("function"),
-                        has_escape: false,
-                        kind: Default::default(),
                     }));
                 }
 
@@ -432,9 +430,8 @@ where
                     self.changed = true;
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
+                        raw: quote_js_word!("\"object\""),
                         value: js_word!("object"),
-                        has_escape: false,
-                        kind: Default::default(),
                     }));
                 }
                 _ => {}
