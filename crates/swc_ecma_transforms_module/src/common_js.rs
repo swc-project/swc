@@ -717,11 +717,14 @@ impl Fold for CommonJs {
 
                                         let id = if let Some(ref src) = export.src {
                                             let mut scope = self.scope.borrow_mut();
+
+                                            let id = scope.import_to_export(src, true).unwrap();
                                             scope
                                                 .import_types
                                                 .entry(src.value.clone())
                                                 .or_insert(true);
-                                            scope.import_to_export(src, true).unwrap()
+
+                                            id
                                         } else {
                                             unreachable!()
                                         };
