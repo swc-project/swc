@@ -13,7 +13,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_utils::DropSpan;
+use swc_ecma_utils::{quote_js_word, DropSpan};
 use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,

@@ -394,7 +394,7 @@ swcHelpers._throw()";
                     }),
                     "output.js",
                     Default::default(),
-                    "import * as swcHelpers1 from '@swc/helpers';
+                    "import * as swcHelpers1 from \"@swc/helpers\";
 _throw();
 swcHelpers._throw();",
                 )?;
