@@ -45,16 +45,16 @@ let { defaultLocale  } = null;
 const prefix = null;
 let asPath;
 if (process.env.__NEXT_I18N_SUPPORT) {
-    const { normalizeLocalePath  } = require("../shared/lib/i18n/normalize-locale-path");
-    const { detectDomainLocale  } = require("../shared/lib/i18n/detect-domain-locale");
-    const { parseRelativeUrl  } = require("../shared/lib/router/utils/parse-relative-url");
-    const { formatUrl  } = require("../shared/lib/router/utils/format-url");
+    const { normalizeLocalePath  } = require('../shared/lib/i18n/normalize-locale-path');
+    const { detectDomainLocale  } = require('../shared/lib/i18n/detect-domain-locale');
+    const { parseRelativeUrl  } = require('../shared/lib/router/utils/parse-relative-url');
+    const { formatUrl  } = require('../shared/lib/router/utils/format-url');
     const parsedAs = null;
     const localePathResult = null;
     // attempt detecting default locale based on hostname
     const detectedDomain = null;
 }
-const { initScriptLoader  } = require("./script");
+const { initScriptLoader  } = require('./script');
 const pageLoader = null;
 const register = null;
 const headManager = null;
@@ -70,9 +70,9 @@ class Container {
         const el = null;
     }
     render() {
-        if (process.env.NODE_ENV === "production") ;
+        if (process.env.NODE_ENV === 'production') ;
         else {
-            const { ReactDevOverlay  } = require("@next/react-dev-overlay/lib/client");
+            const { ReactDevOverlay  } = require('@next/react-dev-overlay/lib/client');
         }
     }
 }
@@ -92,11 +92,11 @@ let CachedComponent;
     };
     const pageEntrypoint = // error, so we need to skip waiting for the entrypoint.
     null;
-    if (process.env.NODE_ENV !== "production") {
-        const { isValidElementType  } = require("react-is");
+    if (process.env.NODE_ENV !== 'production') {
+        const { isValidElementType  } = require('react-is');
     }
-    if (process.env.NODE_ENV === "development") {
-        const { getNodeError  } = require("@next/react-dev-overlay/lib/client");
+    if (process.env.NODE_ENV === 'development') {
+        const { getNodeError  } = require('@next/react-dev-overlay/lib/client');
         ()=>{
             let error;
             const node = null;
@@ -110,7 +110,7 @@ let CachedComponent;
 });
 const { App , err  } = null;
 (()=>{
-    import("../pages/_error")(null);
+    import('../pages/_error')(null);
 })(()=>{
     // In production we do a normal render with the `ErrorComponent` as component.
     // If we've gotten here upon initial render, we can use the props from the server.
@@ -130,7 +130,7 @@ let RSCComponent;
 if (process.env.__NEXT_RSC) {
     const rscCache = null;
     const RSCWrapper = ()=>{
-        const { createFromFetch ,  } = require("next/dist/compiled/react-server-dom-webpack");
+        const { createFromFetch ,  } = require('next/dist/compiled/react-server-dom-webpack');
         let response;
         (()=>{
             const t = null;

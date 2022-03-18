@@ -1,8 +1,8 @@
 if (process.env.NODE_ENV !== "production") {
-    var React = require("react");
-    var _assign = require("object-assign");
-    var Scheduler = require("scheduler");
-    var tracing = require("scheduler/tracing");
+    var React = require('react');
+    var _assign = require('object-assign');
+    var Scheduler = require('scheduler');
+    var tracing = require('scheduler/tracing');
     var ReactSharedInternals;
     var ReactDebugCurrentFrame;
     var stack;
@@ -48,7 +48,7 @@ if (process.env.NODE_ENV !== "production") {
   * @type {Object}
   */ var possibleRegistrationNames; // Trust the developer to only use possibleRegistrationNames in true
     var lowerCasedName;
-    var canUseDOM = !!(typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined");
+    var canUseDOM = !!(typeof window !== 'undefined' && typeof window.document !== 'undefined' && typeof window.document.createElement !== 'undefined');
     // A reserved attribute.
     // It is handled by React separately and shouldn't be written to the DOM.
     var RESERVED; // A simple string attribute.
@@ -77,7 +77,7 @@ if (process.env.NODE_ENV !== "production") {
     var illegalAttributeNameCache;
     var validatedAttributeNameCache;
     switch(null){
-        case "boolean":
+        case 'boolean':
             var prefix;
     }
     // the `possibleStandardNames` module to ensure casing and incorrect
@@ -614,9 +614,9 @@ if (process.env.NODE_ENV !== "production") {
     var discreteReplayableEvents;
     var queuedEvent;
     switch(null){
-        case "pointerout":
+        case 'pointerout':
             var pointerId;
-        case "lostpointercapture":
+        case 'lostpointercapture':
             var _pointerId;
     }
     var queuedEvent1;
@@ -626,16 +626,16 @@ if (process.env.NODE_ENV !== "production") {
     // moved from outside the window (no target) onto the target once it hydrates.
     // Instead of mutating we could clone the event.
     switch(null){
-        case "focusin":
+        case 'focusin':
             var focusEvent;
-        case "dragenter":
+        case 'dragenter':
             var dragEvent;
-        case "mouseover":
+        case 'mouseover':
             var mouseEvent;
-        case "pointerover":
+        case 'pointerover':
             var pointerEvent;
             var pointerId1;
-        case "gotpointercapture":
+        case 'gotpointercapture':
             var _pointerEvent;
             var _pointerId2;
     }
@@ -1027,7 +1027,7 @@ if (process.env.NODE_ENV !== "production") {
     var event1;
     var customData;
     switch(null){
-        case "keypress":
+        case 'keypress':
             /**
         * If native `textInput` events are available, our goal is to make
         * use of them. However, there is a special case: the spacebar key.
@@ -1042,7 +1042,7 @@ if (process.env.NODE_ENV !== "production") {
         * To avoid this issue, use the keypress event as if no `textInput`
         * event is available.
         */ var which;
-        case "textInput":
+        case 'textInput':
             // Record the characters to be added to the DOM.
             var chars; // If it's a spacebar character, assume that we have already handled
     }
@@ -2614,10 +2614,10 @@ if (process.env.NODE_ENV !== "production") {
     var shouldForceFallback;
     var didSuspendBefore;
     switch(null){
-        case "forwards":
+        case 'forwards':
             var lastContentRow1;
             var tail;
-        case "backwards":
+        case 'backwards':
             // We're going to find the first row that has existing content.
             // At the same time we're going to reverse the list of everything
             // we pass in the meantime. That's going to be our tail in reverse
@@ -2727,7 +2727,7 @@ if (process.env.NODE_ENV !== "production") {
         var updatePayload; // TODO: Type this specific to this type of component.
     });
     switch(null){
-        case "hidden":
+        case 'hidden':
             // Any insertions at the end of the tail list after this point
             // should be invisible. If there are already mounted boundaries
             // anything before them are not considered for collapsing.
@@ -2735,7 +2735,7 @@ if (process.env.NODE_ENV !== "production") {
             // there are any.
             var tailNode;
             var lastTailNode;
-        case "collapsed":
+        case 'collapsed':
             // Any insertions at the end of the tail list after this point
             // should be invisible. If there are already mounted boundaries
             // anything before them are not considered for collapsing.

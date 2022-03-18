@@ -36,6 +36,7 @@ impl Babelify for Str {
         StringLiteral {
             base: ctx.base(self.span),
             value: self.value,
+            raw: self.raw,
         }
     }
 }
