@@ -138,4 +138,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default)]
     pub yoda: RuleConfig<YodaConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noNewSymbol")]
+    pub no_new_symbol: RuleConfig<()>,
 }
