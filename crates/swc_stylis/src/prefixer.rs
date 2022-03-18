@@ -1,5 +1,6 @@
 use std::mem::take;
 
+use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::{
@@ -193,6 +194,41 @@ struct Prefixer {
     added_rules: Vec<Rule>,
     in_simple_block: bool,
     added_declarations: Vec<Declaration>,
+}
+
+impl Prefixer {
+    fn simple(&mut self, name: JsWord, val: JsWord, n: &Declaration) {
+        let val = ComponentValue::Ident(Ident {
+            span: DUMMY_SP,
+            value: val.clone(),
+            raw: val,
+        });
+        let name = DeclarationName::Ident(Ident {
+            span: DUMMY_SP,
+            value: name.clone(),
+            raw: name,
+        });
+        self.added_declarations.push(Declaration {
+            span: n.span,
+            name,
+            value: vec![val],
+            important: n.important.clone(),
+        });
+    }
+
+    fn same_name(&mut self, name: JsWord, n: &Declaration) {
+        let val = Ident {
+            span: DUMMY_SP,
+            value: name.clone(),
+            raw: name,
+        };
+        self.added_declarations.push(Declaration {
+            span: n.span,
+            name: n.name.clone(),
+            value: vec![ComponentValue::Ident(val)],
+            important: n.important.clone(),
+        });
+    }
 }
 
 pub enum Prefix {
@@ -438,38 +474,13 @@ impl VisitMut for Prefixer {
 
         macro_rules! simple {
             ($name:expr,$val:expr) => {{
-                let val = ComponentValue::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $val.into(),
-                    raw: $val.into(),
-                });
-                let name = DeclarationName::Ident(Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                });
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name,
-                    value: vec![val],
-                    important: n.important.clone(),
-                });
+                self.simple($name.into(), $val.into(), &n);
             }};
         }
 
         macro_rules! same_name {
             ($name:expr) => {{
-                let val = Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                };
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name: n.name.clone(),
-                    value: vec![ComponentValue::Ident(val)],
-                    important: n.important.clone(),
-                });
+                self.same_name($name.into(), &n);
             }};
         }
 
