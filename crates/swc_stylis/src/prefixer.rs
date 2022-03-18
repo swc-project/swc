@@ -215,6 +215,20 @@ impl Prefixer {
             important: n.important.clone(),
         });
     }
+
+    fn same_name(&mut self, name: JsWord, n: &Declaration) {
+        let val = Ident {
+            span: DUMMY_SP,
+            value: name.clone(),
+            raw: name,
+        };
+        self.added_declarations.push(Declaration {
+            span: n.span,
+            name: n.name.clone(),
+            value: vec![ComponentValue::Ident(val)],
+            important: n.important.clone(),
+        });
+    }
 }
 
 pub enum Prefix {
@@ -466,17 +480,7 @@ impl VisitMut for Prefixer {
 
         macro_rules! same_name {
             ($name:expr) => {{
-                let val = Ident {
-                    span: DUMMY_SP,
-                    value: $name.into(),
-                    raw: $name.into(),
-                };
-                self.added_declarations.push(Declaration {
-                    span: n.span,
-                    name: n.name.clone(),
-                    value: vec![ComponentValue::Ident(val)],
-                    important: n.important.clone(),
-                });
+                self.same_name($name.into(), &n);
             }};
         }
 
