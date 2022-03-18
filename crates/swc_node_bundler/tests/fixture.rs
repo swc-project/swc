@@ -151,7 +151,7 @@ impl swc_bundler::Hook for Hook {
         span: Span,
         module_record: &ModuleRecord,
     ) -> Result<Vec<KeyValueProp>, Error> {
-        let file_name = module_record.file_name.to_string().into();
+        let file_name = module_record.file_name.to_string();
 
         Ok(vec![
             KeyValueProp {
