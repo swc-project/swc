@@ -5,15 +5,15 @@ export function Colors(member) {
     var ValueMap = Colors1.ValueMap = {
         Red: {
             value: 0,
-            label: "Red"
+            label: 'Red'
         },
         Blue: {
             value: 1,
-            label: "Blue"
+            label: 'Blue'
         },
         Green: {
             value: 2,
-            label: "Green"
+            label: 'Green'
         }
     };
     var Values = Colors1.Values = [
@@ -29,5 +29,4 @@ export function Colors(member) {
         return ValueMap[member]?.label;
     }
     Colors1.LabelFor = LabelFor;
-})(Colors || (Colors = {
-}));
+})(Colors || (Colors = {}));
