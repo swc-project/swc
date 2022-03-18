@@ -26,6 +26,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_empty_pattern;
     pub mod no_loop_func;
     pub mod no_new;
+    pub mod no_new_symbol;
     pub mod no_restricted_syntax;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
@@ -130,6 +131,12 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(yoda::yoda(&lint_config.yoda));
+
+        rules.extend(no_new_symbol::no_new_symbol(
+            program,
+            top_level_ctxt,
+            &lint_config.no_new_symbol,
+        ));
     }
 
     rules
