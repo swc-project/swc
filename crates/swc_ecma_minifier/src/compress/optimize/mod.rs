@@ -251,11 +251,11 @@ where
                     if let Expr::Lit(Lit::Str(v)) = &**expr {
                         directive_count += 1;
 
-                        if v.value == *"use strict" && !v.has_escape {
+                        if v.raw == *"\"use strict\"" || v.raw == *"'use strict'" {
                             child_ctx.in_strict = true;
                         }
 
-                        if v.value == *"use asm" && !v.has_escape {
+                        if v.raw == *"\"use asm\"" || v.raw == *"'use asm'" {
                             child_ctx.in_asm = true;
                             self.ctx.in_asm = true;
                             use_asm = true;
@@ -2533,11 +2533,9 @@ where
         // Skip if `use asm` exists.
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
             Some(Stmt::Expr(stmt)) => match &*stmt.expr {
-                Expr::Lit(Lit::Str(Str {
-                    value,
-                    has_escape: false,
-                    ..
-                })) => &**value == "use asm",
+                Expr::Lit(Lit::Str(Str { raw, .. })) => {
+                    &**raw == "\"use asm\"" || &**raw == "'use asm'"
+                }
                 _ => false,
             },
             _ => false,
@@ -2575,8 +2573,6 @@ where
 
     fn visit_mut_str(&mut self, s: &mut Str) {
         s.visit_mut_children_with(self);
-
-        s.kind = Default::default()
     }
 
     fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {

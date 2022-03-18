@@ -1,5 +1,3 @@
-use std::mem::take;
-
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -14,25 +12,25 @@ impl Pure<'_> {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
                 let c = &t.quasis[0].raw;
 
-                if c.value.chars().all(|c| match c {
+                if c.chars().all(|c| match c {
                     '\u{0020}'..='\u{007e}' => true,
                     '\n' | '\r' => self.ctx.force_str_for_tpl,
                     _ => false,
-                }) && (self.ctx.force_str_for_tpl
-                    || (!c.value.contains("\\n") && !c.value.contains("\\r")))
-                    && !c.value.contains("\\0")
-                    && !c.value.contains("\\x")
+                }) && (self.ctx.force_str_for_tpl || (!c.contains("\\n") && !c.contains("\\r")))
+                    && !c.contains("\\0")
+                    && !c.contains("\\x")
                 {
+                    let value = c
+                        .replace("\\`", "`")
+                        .replace("\\$", "$")
+                        .replace("\\n", "\n")
+                        .replace("\\r", "\r")
+                        .replace("\\\\", "\\");
+
                     *e = Expr::Lit(Lit::Str(Str {
-                        value: c
-                            .value
-                            .replace("\\`", "`")
-                            .replace("\\$", "$")
-                            .replace("\\n", "\n")
-                            .replace("\\r", "\r")
-                            .replace("\\\\", "\\")
-                            .into(),
-                        ..c.clone()
+                        span: t.span,
+                        raw: quote_js_word!(value),
+                        value: value.into(),
                     }));
                 }
             }
@@ -95,11 +93,7 @@ impl Pure<'_> {
             span: DUMMY_SP,
             tail: true,
             cooked: None,
-            raw: Str {
-                span: DUMMY_SP,
-                raw: quote_js_word!(cur_raw),
-                value: cur_raw.into(),
-            },
+            raw: cur_raw.into(),
         });
 
         debug_assert_eq!(exprs.len() + 1, quasis.len());

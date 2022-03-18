@@ -3,6 +3,7 @@ use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, Value};
 use swc_ecma_visit::VisitMutWith;
+use swc_ecma_utils::{quote_js_word, undefined, ExprExt, Value};
 
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
@@ -262,9 +263,8 @@ impl Pure<'_> {
 
                 *e = Expr::Lit(Lit::Str(Str {
                     span: e.span(),
+                    raw: quote_js_word!(value),
                     value: value.into(),
-                    has_escape: false,
-                    kind: Default::default(),
                 }))
             }
         }
