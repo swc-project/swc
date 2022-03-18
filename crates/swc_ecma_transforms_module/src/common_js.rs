@@ -557,141 +557,153 @@ impl Fold for CommonJs {
 
                             drop(scope);
 
-                            for ExportNamedSpecifier { orig, exported, .. } in export
-                                .specifiers
-                                .into_iter()
-                                .map(|e| match e {
-                                    ExportSpecifier::Named(e) => e,
-                                    _ => unreachable!(
-                                        "export default from 'foo'; should be removed by previous \
-                                         pass"
-                                    ),
-                                })
-                                .filter(|e| !e.is_type_only)
-                            {
-                                let exported = match &exported {
-                                    Some(ModuleExportName::Ident(ident)) => Some(ident),
-                                    Some(ModuleExportName::Str(..)) => {
-                                        unimplemented!("module string names unimplemented")
-                                    }
-                                    _ => None,
-                                };
-                                let orig = match &orig {
-                                    ModuleExportName::Ident(ident) => ident,
-                                    _ => unimplemented!("module string names unimplemented"),
-                                };
+                            for s in export.specifiers {
+                                match s {
+                                    ExportSpecifier::Named(ExportNamedSpecifier {
+                                        orig,
+                                        exported,
+                                        is_type_only: false,
+                                        ..
+                                    }) => {
+                                        let exported = match &exported {
+                                            Some(ModuleExportName::Ident(ident)) => Some(ident),
+                                            Some(ModuleExportName::Str(..)) => {
+                                                unimplemented!("module string names unimplemented")
+                                            }
+                                            _ => None,
+                                        };
+                                        let orig = match &orig {
+                                            ModuleExportName::Ident(ident) => ident,
+                                            _ => {
+                                                unimplemented!("module string names unimplemented")
+                                            }
+                                        };
 
-                                let mut scope = self.scope.borrow_mut();
-                                let is_import_default = orig.sym == js_word!("default");
+                                        let mut scope = self.scope.borrow_mut();
+                                        let is_import_default = orig.sym == js_word!("default");
 
-                                let key = orig.to_id();
-                                if scope.declared_vars.contains(&key) {
-                                    scope
-                                        .exported_bindings
-                                        .entry(key.clone())
-                                        .or_default()
-                                        .push(
-                                            exported
-                                                .map(|i| (i.sym.clone(), i.span.ctxt()))
-                                                .unwrap_or_else(|| {
-                                                    (orig.sym.clone(), orig.span.ctxt())
-                                                }),
-                                        );
-                                }
+                                        let key = orig.to_id();
+                                        if scope.declared_vars.contains(&key) {
+                                            scope
+                                                .exported_bindings
+                                                .entry(key.clone())
+                                                .or_default()
+                                                .push(
+                                                    exported
+                                                        .map(|i| (i.sym.clone(), i.span.ctxt()))
+                                                        .unwrap_or_else(|| {
+                                                            (orig.sym.clone(), orig.span.ctxt())
+                                                        }),
+                                                );
+                                        }
 
-                                if let Some(ref src) = export.src {
-                                    if is_import_default {
-                                        scope
-                                            .import_types
-                                            .entry(src.value.clone())
-                                            .or_insert(false);
-                                    }
-                                }
-
-                                let lazy = if let Some(ref src) = export.src {
-                                    if scope.lazy_blacklist.contains(&src.value) {
-                                        false
-                                    } else {
-                                        self.config.lazy.is_lazy(&src.value)
-                                    }
-                                } else {
-                                    match scope.idents.get(&(orig.sym.clone(), orig.span.ctxt())) {
-                                        Some((ref src, _)) => {
-                                            if scope.lazy_blacklist.contains(src) {
-                                                false
-                                            } else {
-                                                self.config.lazy.is_lazy(src)
+                                        if let Some(ref src) = export.src {
+                                            if is_import_default {
+                                                scope
+                                                    .import_types
+                                                    .entry(src.value.clone())
+                                                    .or_insert(false);
                                             }
                                         }
-                                        None => false,
-                                    }
-                                };
 
-                                drop(scope);
-
-                                let old = self.in_top_level;
-
-                                let value = match imported {
-                                    Some(ref imported) => {
-                                        let receiver = if lazy {
-                                            Expr::Call(CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: imported.clone().unwrap().as_callee(),
-                                                args: vec![],
-                                                type_args: Default::default(),
-                                            })
+                                        let lazy = if let Some(ref src) = export.src {
+                                            if scope.lazy_blacklist.contains(&src.value) {
+                                                false
+                                            } else {
+                                                self.config.lazy.is_lazy(&src.value)
+                                            }
                                         } else {
-                                            Expr::Ident(imported.clone().unwrap())
-                                        };
-                                        Box::new(receiver.make_member(orig.clone()))
-                                    }
-                                    None => Box::new(Expr::Ident(orig.clone()).fold_with(self)),
-                                };
-
-                                // True if we are exporting our own stuff.
-                                let is_value_ident = matches!(*value, Expr::Ident(..));
-
-                                self.in_top_level = old;
-
-                                if is_value_ident {
-                                    let exported_symbol = exported
-                                        .as_ref()
-                                        .map(|e| e.sym.clone())
-                                        .unwrap_or_else(|| orig.sym.clone());
-                                    init_export!(exported_symbol);
-
-                                    extra_stmts.push(
-                                        AssignExpr {
-                                            span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(Box::new(
-                                                quote_ident!("exports").make_member(
-                                                    (exported.unwrap_or(orig)).clone(),
-                                                ),
-                                            )),
-                                            op: op!("="),
-                                            right: value,
-                                        }
-                                        .into_stmt()
-                                        .into(),
-                                    );
-                                } else {
-                                    stmts.push(
-                                        define_property(vec![
-                                            quote_ident!("exports").as_arg(),
+                                            match scope
+                                                .idents
+                                                .get(&(orig.sym.clone(), orig.span.ctxt()))
                                             {
-                                                // export { foo }
-                                                //  -> 'foo'
+                                                Some((ref src, _)) => {
+                                                    if scope.lazy_blacklist.contains(src) {
+                                                        false
+                                                    } else {
+                                                        self.config.lazy.is_lazy(src)
+                                                    }
+                                                }
+                                                None => false,
+                                            }
+                                        };
 
-                                                // export { foo as bar }
-                                                //  -> 'bar'
-                                                let i = exported.unwrap_or(orig).clone();
-                                                quote_str!(i.span, i.sym).as_arg()
-                                            },
-                                            make_descriptor(value).as_arg(),
-                                        ])
-                                        .into_stmt()
-                                        .into(),
-                                    );
+                                        drop(scope);
+
+                                        let old = self.in_top_level;
+
+                                        let value = match imported {
+                                            Some(ref imported) => {
+                                                let receiver = if lazy {
+                                                    Expr::Call(CallExpr {
+                                                        span: DUMMY_SP,
+                                                        callee: imported
+                                                            .clone()
+                                                            .unwrap()
+                                                            .as_callee(),
+                                                        args: vec![],
+                                                        type_args: Default::default(),
+                                                    })
+                                                } else {
+                                                    Expr::Ident(imported.clone().unwrap())
+                                                };
+                                                Box::new(receiver.make_member(orig.clone()))
+                                            }
+                                            None => {
+                                                Box::new(Expr::Ident(orig.clone()).fold_with(self))
+                                            }
+                                        };
+
+                                        // True if we are exporting our own stuff.
+                                        let is_value_ident = matches!(*value, Expr::Ident(..));
+
+                                        self.in_top_level = old;
+
+                                        if is_value_ident {
+                                            let exported_symbol = exported
+                                                .as_ref()
+                                                .map(|e| e.sym.clone())
+                                                .unwrap_or_else(|| orig.sym.clone());
+                                            init_export!(exported_symbol);
+
+                                            extra_stmts.push(
+                                                AssignExpr {
+                                                    span: DUMMY_SP,
+                                                    left: PatOrExpr::Expr(Box::new(
+                                                        quote_ident!("exports").make_member(
+                                                            (exported.unwrap_or(orig)).clone(),
+                                                        ),
+                                                    )),
+                                                    op: op!("="),
+                                                    right: value,
+                                                }
+                                                .into_stmt()
+                                                .into(),
+                                            );
+                                        } else {
+                                            stmts.push(
+                                                define_property(vec![
+                                                    quote_ident!("exports").as_arg(),
+                                                    {
+                                                        // export { foo }
+                                                        //  -> 'foo'
+
+                                                        // export { foo as bar }
+                                                        //  -> 'bar'
+                                                        let i = exported.unwrap_or(orig).clone();
+                                                        quote_str!(i.span, i.sym).as_arg()
+                                                    },
+                                                    make_descriptor(value).as_arg(),
+                                                ])
+                                                .into_stmt()
+                                                .into(),
+                                            );
+                                        }
+                                    }
+
+                                    ExportSpecifier::Namespace(s) => {}
+
+                                    _ => {}
                                 }
                             }
                         }
