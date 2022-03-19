@@ -565,6 +565,8 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
         self.modify(&mut n.ident, None);
 
+        n.class.decorators.visit_mut_with(self);
+
         // Create a child scope. The class name is only accessible within the class.
         let child_mark = Mark::fresh(Mark::root());
 
@@ -596,6 +598,10 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
         m.key.visit_mut_with(self);
+
+        for p in m.function.params.iter_mut() {
+            p.decorators.visit_mut_with(self);
+        }
 
         {
             let child_mark = Mark::fresh(Mark::root());
@@ -630,6 +636,17 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
         let child_mark = Mark::fresh(Mark::root());
+
+        for p in c.params.iter_mut() {
+            match p {
+                ParamOrTsParamProp::TsParamProp(p) => {
+                    p.decorators.visit_mut_with(self);
+                }
+                ParamOrTsParamProp::Param(p) => {
+                    p.decorators.visit_mut_with(self);
+                }
+            }
+        }
 
         // Child folder
         let mut folder = Resolver::new(
@@ -696,6 +713,8 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
         // We don't fold this as Hoister handles this.
 
+        node.function.decorators.visit_mut_with(self);
+
         {
             let child_mark = Mark::fresh(Mark::root());
 
@@ -710,6 +729,8 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
+        e.function.decorators.visit_mut_with(self);
+
         let child_mark = Mark::fresh(Mark::root());
 
         // Child folder
@@ -789,6 +810,10 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if i.span.ctxt != SyntaxContext::empty() {
+            return;
+        }
+
         match self.ident_type {
             IdentType::Binding => self.modify(i, None),
             IdentType::Ref => {

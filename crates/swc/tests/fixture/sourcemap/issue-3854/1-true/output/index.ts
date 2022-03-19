@@ -4,7 +4,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _exportNames = {
     node: true,
-    node: true
+    create: true,
+    trustBox: true,
+    opener: true,
+    stage: true,
+    header: true,
+    source: true,
+    sources: true,
+    seq: true
 };
 exports.seq = exports.sources = exports.source = exports.header = exports.stage = exports.opener = exports.trustBox = exports.create = exports.node = void 0;
 var swcHelpers = require("@swc/helpers");
