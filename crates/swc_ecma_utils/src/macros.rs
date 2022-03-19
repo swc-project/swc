@@ -15,7 +15,7 @@ macro_rules! private_ident {
 #[macro_export]
 macro_rules! quote_js_word {
     ($s:expr) => {
-        format!("\"{}\"", $s.replace('"', "\\\"")).into()
+        format!("\"{}\"", $s.replace('\\', "\\\\").replace('"', "\\\"")).into()
     };
 }
 

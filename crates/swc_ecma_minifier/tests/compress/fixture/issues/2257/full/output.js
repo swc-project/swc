@@ -10054,7 +10054,7 @@
             module.exports = pathToRegexp, module.exports.parse = parse, module.exports.compile = function(str, options) {
                 return tokensToFunction(parse(str, options), options);
             }, module.exports.tokensToFunction = tokensToFunction, module.exports.tokensToRegExp = tokensToRegExp;
-            var PATH_REGEXP = new RegExp("(\\.)|([\/.])?(?:(?:\:(\w+)(?:\(((?:\\.|[^\\()])+)\))?|\(((?:\\.|[^\\()])+)\))([+*?])?|(\*))", 'g');
+            var PATH_REGEXP = new RegExp("(\\\\.)|([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))", 'g');
             function parse(str, options) {
                 for(var res, tokens = [], key = 0, index = 0, path = '', defaultDelimiter = options && options.delimiter || '/'; null != (res = PATH_REGEXP.exec(str));){
                     var m = res[0], escaped = res[1], offset = res.index;
