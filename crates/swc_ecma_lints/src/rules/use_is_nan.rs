@@ -16,6 +16,7 @@ const MESSAGE: &str = "Use the isNaN function to compare with NaN";
 pub struct UseIsNanConfig {
     enforce_for_switch_case: Option<bool>,
     enforce_for_index_of: Option<bool>,
+    check_any_cast: Option<bool>,
 }
 
 pub fn use_is_nan(
@@ -40,6 +41,7 @@ struct UseIsNan {
     top_level_declared_vars: AHashSet<Id>,
     enforce_for_switch_case: bool,
     enforce_for_index_of: bool,
+    check_any_cast: bool,
 }
 
 impl UseIsNan {
@@ -56,6 +58,7 @@ impl UseIsNan {
             top_level_ctxt,
             enforce_for_switch_case: rule_config.enforce_for_switch_case.unwrap_or(true),
             enforce_for_index_of: rule_config.enforce_for_index_of.unwrap_or(true),
+            check_any_cast: rule_config.check_any_cast.unwrap_or(true),
         }
     }
 
@@ -79,12 +82,14 @@ impl UseIsNan {
                 span,
                 ..
             }) => {
-                if let TsType::TsKeywordType(TsKeywordType {
-                    kind: TsKeywordTypeKind::TsAnyKeyword,
-                    ..
-                }) = type_ann.as_ref()
-                {
-                    self.check(expr_span.or(Some(*span)), expr.as_ref());
+                if self.check_any_cast {
+                    if let TsType::TsKeywordType(TsKeywordType {
+                        kind: TsKeywordTypeKind::TsAnyKeyword,
+                        ..
+                    }) = type_ann.as_ref()
+                    {
+                        self.check(expr_span.or(Some(*span)), expr.as_ref());
+                    }
                 }
             }
             Expr::Ident(ident) => {
