@@ -12,5 +12,5 @@ crates=$(\
 
 for crate in $crates
 do
-    cargo publish -p $crate --dry-run --no-verify -v
+    cargo publish -p $crate --dry-run --no-verify -v || true
 done
