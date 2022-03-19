@@ -820,7 +820,7 @@ test!(
     react_should_escape_unicode_chars_in_attribute,
     r#"<Bla title="Ú"/>"#,
     r#"React.createElement(Bla, {
-    title: "\xda"
+    title: "Ú"
 });"#
 );
 
@@ -1310,8 +1310,8 @@ test!(
     ),
     issue_542,
     "let page = <p>Click <em>New melody</em> listen to a randomly generated melody</p>",
-    "let page = React.createElement('p', null, 'Click ', React.createElement('em', null, 'New \
-     melody'), ' listen to a randomly generated melody');"
+    "let page = React.createElement(\"p\", null, \"Click \", React.createElement('em', null, \
+     \"New melody\"), \" listen to a randomly generated melody\");"
 );
 
 // regression_2775

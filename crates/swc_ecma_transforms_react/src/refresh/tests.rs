@@ -1453,8 +1453,8 @@ test!(
     });
     _c1 = Comp;
     var _c, _c1;
-    $RefreshReg$(_c, 'Comp$dynamic');
-    $RefreshReg$(_c1, 'Comp');
+    $RefreshReg$(_c, \"Comp$dynamic\");
+    $RefreshReg$(_c1, \"Comp\");
 "
 );
 

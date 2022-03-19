@@ -5104,17 +5104,17 @@ test!(
   export const BIZ = 'biz';
   ",
     "
-  'use strict';
-  Object.defineProperty(exports, '__esModule', {
+  \"use strict\";
+  Object.defineProperty(exports, \"__esModule\", {
       value: true
   });
   var _exportNames = {
       BIZ: true
   };
   exports.BIZ = void 0;
-  var _file1 = require('./File1');
+  var _file1 = require(\"./File1\");
   Object.keys(_file1).forEach(function(key) {
-    if (key === 'default' || key === '__esModule') return;
+    if (key === \"default\" || key === \"__esModule\") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
     if (key in exports && exports[key] === _file1[key]) return;
     Object.defineProperty(exports, key, {
@@ -5124,9 +5124,9 @@ test!(
         }
     });
   });
-  var _file2 = require('./File2');
+  var _file2 = require(\"./File2\");
   Object.keys(_file2).forEach(function(key) {
-      if (key === 'default' || key === '__esModule') return;
+      if (key === \"default\" || key === \"__esModule\") return;
       if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
       if (key in exports && exports[key] === _file2[key]) return;
       Object.defineProperty(exports, key, {
