@@ -1,60 +1,60 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:2:1]
- 2 | @unknown x;
+   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+ 1 | @unknown x;
    : ^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:2:1]
- 2 | @unknown x;
+   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+ 1 | @unknown x;
    : ^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:2:1]
- 2 | @unknown x;
+   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+ 1 | @unknown x;
    : ^^^^^^^^^^^
    `----
 
   x UnknownAtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:2:1]
- 2 | @unknown x;
+   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+ 1 | @unknown x;
    : ^^^^^^^^^^^
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:2:1]
- 2 | @unknown x;
+   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+ 1 | @unknown x;
    :  ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:2:1]
- 2 | @unknown x;
+   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+ 1 | @unknown x;
    :  ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:2:1]
- 2 | @unknown x;
+   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+ 1 | @unknown x;
    :         ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:2:1]
- 2 | @unknown x;
+   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+ 1 | @unknown x;
    :         ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:2:1]
- 2 | @unknown x;
+   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+ 1 | @unknown x;
    :          ^
    `----
 
   x Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:2:1]
- 2 | @unknown x;
+   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+ 1 | @unknown x;
    :          ^
    `----

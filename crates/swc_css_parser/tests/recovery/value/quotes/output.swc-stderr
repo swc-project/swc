@@ -1,12 +1,12 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
- 3 | content: "tes
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | content: "tes
    :          ^^^^
    `----
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/value/quotes/input.css:4:5]
- 4 | t";
+   ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
+ 3 | t";
    :  ^^
    `----

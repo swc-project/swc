@@ -1,6 +1,6 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/delim-token/percent/input.css:3:5]
- 3 | prop: %;
+   ,-[$DIR/tests/recovery/delim-token/percent/input.css:2:5]
+ 2 | prop: %;
    :       ^
    `----

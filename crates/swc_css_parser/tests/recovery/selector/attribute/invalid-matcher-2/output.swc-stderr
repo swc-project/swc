@@ -1,6 +1,6 @@
 
   x Invalid attribute matcher
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:2:1]
- 2 | [href#="test"] {}
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
+ 1 | [href#="test"] {}
    :      ^
    `----

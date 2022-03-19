@@ -1,30 +1,30 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(var(--foo));
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
+ 3 | background: url(var(--foo));
    :             ^^^^^^^^^^^^^^
    `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(var(--foo));
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
+ 3 | background: url(var(--foo));
    :                           ^
    `----
 
   x Expected Declaration value
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:14:5]
- 14 | background: url(image.png param(var(--url)));
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
+ 13 | background: url(image.png param(var(--url)));
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:14:5]
- 14 | background: url(image.png param(var(--url)));
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
+ 13 | background: url(image.png param(var(--url)));
     :                                           ^
     `----
 
   x Expected ident or function
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:18:5]
- 18 | background: url("foo", "bar");
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
+ 17 | background: url("foo", "bar");
     :                      ^
     `----

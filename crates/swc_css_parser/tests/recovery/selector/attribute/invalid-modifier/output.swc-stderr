@@ -1,6 +1,6 @@
 
   x Expected "]"
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:2:1]
- 2 | [href="test" "z"] {}
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
+ 1 | [href="test" "z"] {}
    :              ^^^
    `----

@@ -1,36 +1,36 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:2:1]
- 2 | @\75nknown;
+   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:1:1]
+ 1 | @\75nknown;
    : ^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:2:1]
- 2 | @\75nknown;
+   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:1:1]
+ 1 | @\75nknown;
    : ^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:2:1]
- 2 | @\75nknown;
+   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:1:1]
+ 1 | @\75nknown;
    : ^^^^^^^^^^^
    `----
 
   x UnknownAtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:2:1]
- 2 | @\75nknown;
+   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:1:1]
+ 1 | @\75nknown;
    : ^^^^^^^^^^^
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:2:1]
- 2 | @\75nknown;
+   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:1:1]
+ 1 | @\75nknown;
    :  ^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:2:1]
- 2 | @\75nknown;
+   ,-[$DIR/tests/fixture/esbuild/misc/RgnvIbTq0R1ivptC3lTYbQ/input.css:1:1]
+ 1 | @\75nknown;
    :  ^^^^^^^^^
    `----
