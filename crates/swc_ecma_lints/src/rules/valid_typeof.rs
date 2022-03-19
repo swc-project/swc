@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
@@ -70,16 +70,13 @@ impl ValidTypeof {
 }
 
 impl Visit for ValidTypeof {
-    noop_visit_type!();
-
     fn visit_bin_expr(&mut self, bin_expr: &BinExpr) {
         if let op!("==") | op!("===") | op!("!=") | op!("!==") = bin_expr.op {
             match (bin_expr.left.as_ref(), bin_expr.right.as_ref()) {
                 // case typeof x === "type"
                 (
                     Expr::Unary(UnaryExpr {
-                        op: UnaryOp::TypeOf,
-                        ..
+                        op: op!("typeof"), ..
                     }),
                     Expr::Lit(Lit::Str(Str { value, .. })),
                 ) => {
@@ -89,8 +86,7 @@ impl Visit for ValidTypeof {
                 (
                     Expr::Lit(Lit::Str(Str { value, .. })),
                     Expr::Unary(UnaryExpr {
-                        op: UnaryOp::TypeOf,
-                        ..
+                        op: op!("typeof"), ..
                     }),
                 ) => {
                     self.check(bin_expr.span, &*value);
@@ -98,19 +94,16 @@ impl Visit for ValidTypeof {
                 // case typeof x === typeof y
                 (
                     Expr::Unary(UnaryExpr {
-                        op: UnaryOp::TypeOf,
-                        ..
+                        op: op!("typeof"), ..
                     }),
                     Expr::Unary(UnaryExpr {
-                        op: UnaryOp::TypeOf,
-                        ..
+                        op: op!("typeof"), ..
                     }),
                 ) => {}
                 // case typeof x === foo()
                 (
                     Expr::Unary(UnaryExpr {
-                        op: UnaryOp::TypeOf,
-                        ..
+                        op: op!("typeof"), ..
                     }),
                     _,
                 ) => {
@@ -122,8 +115,7 @@ impl Visit for ValidTypeof {
                 (
                     _,
                     Expr::Unary(UnaryExpr {
-                        op: UnaryOp::TypeOf,
-                        ..
+                        op: op!("typeof"), ..
                     }),
                 ) => {
                     if self.require_string_literals {
