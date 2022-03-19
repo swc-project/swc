@@ -42,7 +42,7 @@
                   20,
                   27
                 ],
-                "raw": "acorn",
+                "raw": "'acorn'",
                 "start": 20,
                 "type": "Literal",
                 "value": "acorn"

@@ -131,15 +131,6 @@ impl<'a> arbitrary::Arbitrary<'a> for BigInt {
 }
 
 /// A string literal.
-///
-/// # Note
-///
-/// You have to use [StrKind::Synthesized] if you modify the `value` of [Str].
-/// This behavior is for preserving the original source code.
-///
-/// In other words, `swc_ecma_codegen` tries to preserve escapes or unicode
-/// characters in the original source code and you can opt-out of this by using
-/// [StrKind::Synthesized].
 #[ast_node("StringLiteral")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Str {

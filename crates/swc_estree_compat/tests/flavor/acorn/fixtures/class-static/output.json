@@ -423,7 +423,7 @@
                 110,
                 117
               ],
-              "raw": "Point",
+              "raw": "\"Point\"",
               "start": 110,
               "type": "Literal",
               "value": "Point"

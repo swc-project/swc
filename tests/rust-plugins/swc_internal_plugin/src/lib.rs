@@ -12,9 +12,8 @@ impl VisitMut for ConsoleOutputReplacer {
                     if ident.sym == *"console" {
                         call.args[0].expr = Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
-                            has_escape: false,
-                            kind: StrKind::default(),
                             value: JsWord::from("changed_via_plugin"),
+                            raw: JsWord::from("\"changed_via_plugin\""),
                         })));
                     }
                 }

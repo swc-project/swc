@@ -50,7 +50,7 @@ impl Serialize for Literal {
                     Literal::String(l) => (
                         &l.base,
                         AcornLiteralValue::String(l.value.clone()),
-                        Cow::Borrowed(&*l.value),
+                        Cow::Owned(l.raw.to_string()),
                     ),
                     Literal::Numeric(l) => (
                         &l.base,

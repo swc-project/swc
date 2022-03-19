@@ -40,7 +40,7 @@
               8,
               15
             ],
-            "raw": "hello",
+            "raw": "\"hello\"",
             "start": 8,
             "type": "Literal",
             "value": "hello"

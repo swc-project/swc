@@ -3,87 +3,87 @@
     {
       "declarations": [
         {
-          "end": 37,
+          "end": 32,
           "id": {
-            "end": 29,
+            "end": 9,
             "loc": {
               "end": {
-                "column": 7,
-                "line": 3
+                "column": 9,
+                "line": 1
               },
               "start": {
                 "column": 6,
-                "line": 3
+                "line": 1
               }
             },
-            "name": "x",
+            "name": "str",
             "range": [
-              28,
-              29
+              6,
+              9
             ],
-            "start": 28,
+            "start": 6,
             "type": "Identifier"
           },
           "init": {
-            "end": 37,
+            "end": 32,
             "loc": {
               "end": {
-                "column": 15,
+                "column": 5,
                 "line": 3
               },
               "start": {
-                "column": 10,
-                "line": 3
+                "column": 12,
+                "line": 1
               }
             },
             "range": [
-              32,
-              37
+              12,
+              32
             ],
-            "raw": "\"abc\"",
-            "start": 32,
+            "raw": "\"string\\\ntest\\\ntest\"",
+            "start": 12,
             "type": "Literal",
-            "value": "abc"
+            "value": "stringtesttest"
           },
           "loc": {
             "end": {
-              "column": 15,
+              "column": 5,
               "line": 3
             },
             "start": {
               "column": 6,
-              "line": 3
+              "line": 1
             }
           },
           "range": [
-            28,
-            37
+            6,
+            32
           ],
-          "start": 28,
+          "start": 6,
           "type": "VariableDeclarator"
         }
       ],
-      "end": 38,
+      "end": 33,
       "kind": "const",
       "loc": {
         "end": {
-          "column": 16,
+          "column": 6,
           "line": 3
         },
         "start": {
           "column": 0,
-          "line": 3
+          "line": 1
         }
       },
       "range": [
-        22,
-        38
+        0,
+        33
       ],
-      "start": 22,
+      "start": 0,
       "type": "VariableDeclaration"
     }
   ],
-  "end": 39,
+  "end": 34,
   "loc": {
     "end": {
       "column": 0,
@@ -96,7 +96,7 @@
   },
   "range": [
     0,
-    39
+    34
   ],
   "sourceType": "script",
   "start": 0,
