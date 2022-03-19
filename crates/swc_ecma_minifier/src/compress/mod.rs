@@ -342,6 +342,10 @@ where
                 let start = n.dump();
                 tracing::debug!("===== After pure =====\n{}", start);
             }
+
+            if visitor.need_analyze() {
+                data = analyze(&*n, Some(self.marks));
+            }
         }
 
         if cfg!(debug_assertions) {

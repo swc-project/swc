@@ -28,6 +28,8 @@ impl Pure<'_> {
             self.changed = true;
             tracing::debug!("unsafe_arrows: Fn expr => arrow");
 
+            self.need_analyze = true;
+
             *e = Expr::Arrow(ArrowExpr {
                 span: function.span,
                 params: function.params.take().into_iter().map(|p| p.pat).collect(),

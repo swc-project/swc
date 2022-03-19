@@ -44,7 +44,7 @@ pub(crate) fn pure_optimizer<'a>(
     force_str_for_tpl: bool,
     enable_everything: bool,
     debug_infinite_loop: bool,
-) -> impl 'a + VisitMut + Repeated {
+) -> Pure<'a> {
     Pure {
         options,
         marks,
@@ -54,19 +54,21 @@ pub(crate) fn pure_optimizer<'a>(
             ..Default::default()
         },
         changed: Default::default(),
+        need_analyze: Default::default(),
         enable_everything,
         debug_infinite_loop,
         bindings: Default::default(),
     }
 }
 
-struct Pure<'a> {
+pub(crate) struct Pure<'a> {
     options: &'a CompressOptions,
     marks: Marks,
     #[allow(unused)]
     data: Option<&'a ProgramData>,
     ctx: Ctx,
     changed: bool,
+    need_analyze: bool,
     enable_everything: bool,
 
     debug_infinite_loop: bool,
@@ -83,10 +85,15 @@ impl Repeated for Pure<'_> {
         self.bindings = None;
         self.ctx = Default::default();
         self.changed = false;
+        self.need_analyze = false;
     }
 }
 
 impl Pure<'_> {
+    pub(super) fn need_analyze(&self) -> bool {
+        self.need_analyze
+    }
+
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: ModuleItemExt + Take,
@@ -165,10 +172,11 @@ impl Pure<'_> {
                 node.visit_mut_with(&mut v);
 
                 self.changed |= v.changed;
+                self.need_analyze |= v.need_analyze;
             }
         } else {
             GLOBALS.with(|globals| {
-                let changed = nodes
+                let (changed, need_analyze) = nodes
                     .par_iter_mut()
                     .map(|node| {
                         GLOBALS.set(globals, || {
@@ -183,12 +191,13 @@ impl Pure<'_> {
                             };
                             node.visit_mut_with(&mut v);
 
-                            v.changed
+                            (v.changed, v.need_analyze)
                         })
                     })
-                    .reduce(|| false, |a, b| a || b);
+                    .reduce(Default::default, |(a1, a2), (b1, b2)| (a1 || b1, a2 || b2));
 
                 self.changed |= changed;
+                self.need_analyze |= need_analyze;
             });
         }
     }
