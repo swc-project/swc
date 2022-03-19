@@ -1,5 +1,7 @@
+use std::path::PathBuf;
+
 use swc_ecma_transforms_compat::es2015::arrow;
-use swc_ecma_transforms_testing::{compare_stdout, test};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_fixture};
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
@@ -523,3 +525,10 @@ test!(
       };
     }"
 );
+
+#[testing::fixture("tests/arrows/**/input.js")]
+fn fixture(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    test_fixture(Default::default(), &|_| arrow(), &input, &output);
+}
