@@ -3764,7 +3764,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "miette",
  "swc_common",
