@@ -5,6 +5,14 @@
 
 
 
+- **(es/compat)** Visit non-method properties in a nested object literal (#4094) ([f5b9600](https://github.com/swc-project/swc/commit/f5b9600b2befe0053bec2d3e6210bf35dd824dfb))
+
+## [1.2.159] - 2022-03-19
+
+### Bug Fixes
+
+
+
 - **(api/rust)** Exclude test files from rust packages (#4091) ([533f756](https://github.com/swc-project/swc/commit/533f75627405fbb05fcebf42a49105d019093ffe))
 
 
