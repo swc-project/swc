@@ -13,6 +13,12 @@
 
 - **(es/lints)** Implement `no-new-symbol` rule (#4076) ([b39e345](https://github.com/swc-project/swc/commit/b39e345d8e43c3e6c1491f7b75448e3b091d7b0d))
 
+### Testing
+
+
+
+- **(es/parser)** Add a test for a fixed issue (#4085) ([792ab2c](https://github.com/swc-project/swc/commit/792ab2ca251eadd5a85e496a35af31acada7cf9f))
+
 ## [1.2.158] - 2022-03-18
 
 ### Bug Fixes
