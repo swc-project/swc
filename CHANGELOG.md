@@ -5,6 +5,9 @@
 
 
 
+- **(common)** Fix handling of input source maps (#4086) ([b716210](https://github.com/swc-project/swc/commit/b716210de1495d11f45f74bdc3941826a9dd5d6a))
+
+
 - **(es/resolver)** Fix handling of decorators (#4084) ([f662298](https://github.com/swc-project/swc/commit/f66229822c2e44d35854cd9a1ecbdae82242a08c))
 
 ### Features
@@ -12,6 +15,9 @@
 
 
 - **(es/lints)** Implement `no-new-symbol` rule (#4076) ([b39e345](https://github.com/swc-project/swc/commit/b39e345d8e43c3e6c1491f7b75448e3b091d7b0d))
+
+
+- **(es/module/cjs)** Support `import.meta.url` (#4087) ([d0f687b](https://github.com/swc-project/swc/commit/d0f687bf44862e737e189dc585e9f1b789291685))
 
 ### Testing
 

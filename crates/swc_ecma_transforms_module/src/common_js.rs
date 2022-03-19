@@ -926,7 +926,57 @@ impl Fold for CommonJs {
         stmts
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
+    fn fold_expr(&mut self, mut expr: Expr) -> Expr {
+        if !self.config.preserve_import_meta {
+            // https://github.com/swc-project/swc/issues/1202
+            if let Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(prop),
+                ..
+            }) = &mut expr
+            {
+                if &*prop.sym == "url" {
+                    if let Expr::MetaProp(MetaPropExpr {
+                        span,
+                        kind: MetaPropKind::ImportMeta,
+                        ..
+                    }) = &**obj
+                    {
+                        // require('url').pathToFileURL(__filename).toString()
+
+                        let url_module = CallExpr {
+                            span: DUMMY_SP,
+                            callee: quote_ident!("require").as_callee(),
+                            args: vec!["url".as_arg()],
+                            type_args: Default::default(),
+                        };
+
+                        let url_obj = CallExpr {
+                            span: DUMMY_SP,
+                            callee: url_module
+                                .make_member(quote_ident!("pathToFileURL"))
+                                .as_callee(),
+                            args: vec![Ident::new(
+                                "__filename".into(),
+                                DUMMY_SP.with_ctxt(
+                                    SyntaxContext::empty().apply_mark(self.top_level_mark),
+                                ),
+                            )
+                            .as_arg()],
+                            type_args: Default::default(),
+                        };
+
+                        *obj = Box::new(Expr::Call(CallExpr {
+                            span: *span,
+                            callee: url_obj.make_member(quote_ident!("toString")).as_callee(),
+                            args: Default::default(),
+                            type_args: Default::default(),
+                        }));
+                    }
+                }
+            }
+        }
+
         let top_level = self.in_top_level;
         Scope::fold_expr(self, quote_ident!("exports"), top_level, expr)
     }
