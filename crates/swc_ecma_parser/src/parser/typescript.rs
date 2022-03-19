@@ -410,7 +410,7 @@ impl<I: Tokens> Parser<I> {
                         is_out = true;
                     }
                 }
-                other => self.emit_err(self.input.prev_span(), SyntaxError::TS1272(other.into())),
+                other => self.emit_err(self.input.prev_span(), SyntaxError::TS1273(other.into())),
             };
         }
 

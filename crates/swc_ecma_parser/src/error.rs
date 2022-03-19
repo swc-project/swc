@@ -230,7 +230,7 @@ pub enum SyntaxError {
     TS1244,
     TS1245,
     TS1267,
-    TS1272(JsWord),
+    TS1273(JsWord),
     TS1383,
     TS2206,
     TS2207,
@@ -577,7 +577,7 @@ impl SyntaxError {
             .into(),
             SyntaxError::TS1245 => "Abstract method cannot have an implementation.".into(),
             SyntaxError::TS1267 => "Abstract property cannot have an initializer.".into(),
-            SyntaxError::TS1272(word) => {
+            SyntaxError::TS1273(word) => {
                 format!("'{}' modifier cannot appear on a type parameter", word).into()
             }
             SyntaxError::TS1383 => "Only named exports may use 'export type'.".into(),
