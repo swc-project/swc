@@ -14,6 +14,9 @@
 - **(es/compat)** Visit generated codes from `arrow` (#4090) ([cb0881c](https://github.com/swc-project/swc/commit/cb0881cc3dd4ea8fb880e7cbd9eb6a11031a8e9b))
 
 
+- **(es/compat)** Revert wrong fix of `arrow` (#4093) ([0d6bd81](https://github.com/swc-project/swc/commit/0d6bd813b209155fcf45baa6f0195657ee383845))
+
+
 - **(es/module/cjs)** Fix conflict of a local export and exports-alls (#4089) ([6ac7934](https://github.com/swc-project/swc/commit/6ac793401769028f7e18b642303de46592d39598))
 
 
