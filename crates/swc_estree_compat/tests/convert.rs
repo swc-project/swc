@@ -210,6 +210,12 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
             }
         }
 
+        "raw" => {
+            // TODO fix me
+            // Remove
+            *v = Value::Null;
+        }
+
         _ => {}
     });
 
