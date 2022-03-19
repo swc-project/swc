@@ -3172,7 +3172,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "0.9.0"
+version = "0.9.1"
 dependencies = [
  "auto_impl",
  "parking_lot 0.12.0",
