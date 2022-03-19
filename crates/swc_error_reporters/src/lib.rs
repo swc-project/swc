@@ -109,7 +109,7 @@ impl SourceCode for MietteSourceCode<'_> {
             _cm: self.0,
             data: src,
             span: convert_span(span),
-            line: loc.line,
+            line: loc.line - 1,
             column: loc.col_display,
             line_count,
             name,
