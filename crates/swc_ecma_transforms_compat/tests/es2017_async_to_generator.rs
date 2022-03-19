@@ -2,7 +2,7 @@ use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver};
 use swc_ecma_transforms_compat::{
     es2015,
@@ -35,10 +35,7 @@ impl Fold for ParenRemover {
 }
 
 fn syntax() -> Syntax {
-    Syntax::Es(EsConfig {
-        allow_super_outside_method: true,
-        ..Default::default()
-    })
+    Syntax::default()
 }
 
 fn tr() -> impl Fold {
@@ -426,14 +423,12 @@ test!(
 class Foo extends class{
 }{
      method() {
-        var _this = this, _superprop_get_method1 = ()=>super.method;
+        var _this = this, _superprop_get_method = ()=>super.method;
         return _asyncToGenerator(function*() {
-            var _this1 = _this, _superprop_get_method = function _superprop_get_method() {
-                return super.method;
-            };
-            _superprop_get_method1().call(_this);
+            var _this1 = _this, _superprop_get_method1 = ()=>_superprop_get_method();
+            _superprop_get_method().call(_this);
             var arrow = function arrow() {
-                return _superprop_get_method().call(_this1);
+                return _superprop_get_method1().call(_this1);
             };
         })();
     }

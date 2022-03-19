@@ -65,7 +65,6 @@ pub fn arrow() -> impl Fold + VisitMut + InjectVars {
 #[derive(Default)]
 struct Arrow {
     in_subclass: bool,
-    disable_fn_env_hoister: bool,
     hoister: FnEnvHoister,
 }
 
@@ -120,9 +119,7 @@ impl VisitMut for Arrow {
                 ..
             }) => {
                 params.visit_mut_with(self);
-                if !self.disable_fn_env_hoister {
-                    params.visit_mut_with(&mut self.hoister);
-                }
+                params.visit_mut_with(&mut self.hoister);
 
                 let params: Vec<Param> = params
                     .take()
@@ -136,9 +133,7 @@ impl VisitMut for Arrow {
 
                 body.visit_mut_with(self);
 
-                if !self.disable_fn_env_hoister {
-                    body.visit_mut_with(&mut self.hoister);
-                }
+                body.visit_mut_with(&mut self.hoister);
 
                 let fn_expr = Expr::Fn(FnExpr {
                     ident: None,
@@ -183,15 +178,8 @@ impl VisitMut for Arrow {
 
         let decl = self.hoister.take().to_stmt();
 
-        if let Some(mut stmt) = decl {
-            let old_disable = self.disable_fn_env_hoister;
-            self.disable_fn_env_hoister = true;
-
-            stmt.visit_mut_with(self);
-
+        if let Some(stmt) = decl {
             prepend(stmts, ModuleItem::Stmt(stmt));
-
-            self.disable_fn_env_hoister = old_disable;
         }
     }
 
@@ -200,20 +188,11 @@ impl VisitMut for Arrow {
 
         stmts.visit_mut_children_with(self);
 
-        let decl = self.hoister.take().to_stmt();
+        let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
-        if let Some(mut stmt) = decl {
-            let old_disable = self.disable_fn_env_hoister;
-            self.disable_fn_env_hoister = true;
-
-            stmt.visit_mut_with(self);
-
+        if let Some(stmt) = decl {
             prepend(stmts, stmt);
-
-            self.disable_fn_env_hoister = old_disable;
         }
-
-        self.hoister = old_rep;
     }
 }
 

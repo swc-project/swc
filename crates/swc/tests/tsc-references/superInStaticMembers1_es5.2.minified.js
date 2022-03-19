@@ -1,7 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var _this = this, _superprop_get_w = function() {
-    return super.w;
-};
+var _this = this, _superprop_get_w = ()=>super.w
+;
 export var Reflect = function() {
     "use strict";
     swcHelpers.classCallCheck(this, Reflect);
@@ -484,7 +483,7 @@ _superprop_get_w().call(_this), _$_Reflect = function Reflect3() {
             }
             return C;
         }(B);
-        super.w.call(_this);
+        _superprop_get_w().call(_this);
     }()
 };
 var C = function(B) {

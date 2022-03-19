@@ -1,7 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
-var _this = this, _superprop_get_w = function() {
-    return super.w;
-};
+var _this = this, _superprop_get_w = ()=>super.w
+;
 // @target: es5, es2015, es2021, es2022, esnext
 // @noTypesAndSymbols: true
 // @filename: external.ts
@@ -774,9 +773,8 @@ _$_Reflect = function Reflect() {
 }, _$__ = {
     writable: true,
     value: function() {
-        var _this1 = _this, _superprop_get_w1 = function() {
-            return super.w;
-        };
+        var _this1 = _this, _superprop_get_w1 = ()=>_superprop_get_w()
+        ;
         var _$_Reflect, _$__;
         var C = /*#__PURE__*/ function(B) {
             "use strict";
@@ -840,9 +838,8 @@ var _$__21 = {
     C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 });
 (function Reflect() {
-    var _this2 = this, _superprop_get_w2 = function() {
-        return super.w;
-    };
+    var _this2 = this, _superprop_get_w2 = ()=>super.w
+    ;
     var C = /*#__PURE__*/ function(B) {
         "use strict";
         swcHelpers.inherits(C, B);
