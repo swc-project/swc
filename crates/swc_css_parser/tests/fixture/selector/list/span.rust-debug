@@ -1,2505 +1,2505 @@
 
   x Stylesheet
-    ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
-  2 | ,-> div, p {}
-  3 | |   div , p {}
-  4 | |   div   ,   p   {}
-  5 | |   a, a[href='place'] {}
-  6 | |   a #foo > [foo='bar'], .FOO {}
-  7 | |   div, p, a {}
-  8 | |   div,p,a{}
-  9 | |   div   ,   p   ,   a   {}
- 10 | |   div
- 11 | |   , 
- 12 | |   p
- 13 | |   , 
- 14 | |   a 
- 15 | |   {}
- 16 | |   .foo, .bar, *.baz {}
- 17 | |   input::-moz-placeholder, input::placeholder {}
- 18 | |   a,b,c,d,e,f,g {}
- 19 | |   a, b, c, d, e, f, g {}
- 20 | |   *, * {}
- 21 | |   #id, #id2 {}
- 22 | |   h1, h2 {}
- 23 | |   .class, .foo {}
- 24 | |   [attr], [attrtoo] {}
- 25 | `-> a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+  1 | ,-> div, p {}
+  2 | |   div , p {}
+  3 | |   div   ,   p   {}
+  4 | |   a, a[href='place'] {}
+  5 | |   a #foo > [foo='bar'], .FOO {}
+  6 | |   div, p, a {}
+  7 | |   div,p,a{}
+  8 | |   div   ,   p   ,   a   {}
+  9 | |   div
+ 10 | |   , 
+ 11 | |   p
+ 12 | |   , 
+ 13 | |   a 
+ 14 | |   {}
+ 15 | |   .foo, .bar, *.baz {}
+ 16 | |   input::-moz-placeholder, input::placeholder {}
+ 17 | |   a,b,c,d,e,f,g {}
+ 18 | |   a, b, c, d, e, f, g {}
+ 19 | |   *, * {}
+ 20 | |   #id, #id2 {}
+ 21 | |   h1, h2 {}
+ 22 | |   .class, .foo {}
+ 23 | |   [attr], [attrtoo] {}
+ 24 | `-> a/* { } */ b {}
     `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    : ^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    : ^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    : ^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    : ^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    : ^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    : ^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    : ^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    : ^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    :      ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    :      ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    :      ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    :      ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    :      ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    :      ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
- 2 | div, p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
    :        ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    : ^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    : ^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    : ^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    : ^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    : ^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    : ^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    : ^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    : ^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    :       ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    :       ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    :       ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    :       ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    :       ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    :       ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
- 3 | div , p {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
    :         ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    : ^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    : ^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    : ^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    : ^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    : ^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    : ^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    : ^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    : ^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    :           ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    :           ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    :           ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    :           ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    :           ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    :           ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
- 4 | div   ,   p   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
    :               ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    : ^^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    : ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    : ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    : ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    : ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    : ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    : ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :    ^^^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :    ^^^^^^^^^^^^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :    ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :    ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :    ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :    ^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :     ^^^^^^^^^^^^^^
    `----
 
   x AttributeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :     ^^^^^^^^^^^^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :      ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :      ^^^^
    `----
 
   x AttributeSelectorMatcher
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :          ^
    `----
 
   x AttributeSelectorValue
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :           ^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :           ^^^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
- 5 | a, a[href='place'] {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
    :                    ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    : ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    : ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    : ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    : ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    : ^
    `----
 
   x Combinator
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :  ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :   ^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :   ^^^^
    `----
 
   x IdSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :   ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :   ^^^^
    `----
 
   x Combinator
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :        ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :          ^^^^^^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :          ^^^^^^^^^^^
    `----
 
   x AttributeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :          ^^^^^^^^^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :           ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :           ^^^
    `----
 
   x AttributeSelectorMatcher
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :              ^
    `----
 
   x AttributeSelectorValue
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :               ^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :               ^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :                       ^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :                       ^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :                       ^^^^
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :                       ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :                        ^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
- 6 | a #foo > [foo='bar'], .FOO {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
    :                            ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    : ^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    : ^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    : ^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    : ^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    : ^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    : ^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    : ^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    : ^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :      ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :      ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :      ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :      ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :      ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :      ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :         ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :         ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :         ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :         ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :         ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :         ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
- 7 | div, p, a {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
    :           ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    : ^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    : ^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    : ^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    : ^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    : ^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    : ^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    : ^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    : ^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :     ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :     ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :     ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :     ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :     ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :     ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :       ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :       ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :       ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :       ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :       ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :       ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
- 8 | div,p,a{}
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
    :        ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    : ^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    : ^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    : ^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    : ^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    : ^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :           ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :           ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :           ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :           ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :           ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :           ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :                   ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :                   ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :                   ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :                   ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :                   ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :                   ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
- 9 | div   ,   p   ,   a   {}
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
    :                       ^^
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/list/input.css:10:1]
- 10 | ,-> div
- 11 | |   , 
- 12 | |   p
- 13 | |   , 
- 14 | |   a 
- 15 | `-> {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
+  9 | ,-> div
+ 10 | |   , 
+ 11 | |   p
+ 12 | |   , 
+ 13 | |   a 
+ 14 | `-> {}
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/list/input.css:10:1]
- 10 | ,-> div
- 11 | |   , 
- 12 | |   p
- 13 | |   , 
- 14 | |   a 
- 15 | `-> {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
+  9 | ,-> div
+ 10 | |   , 
+ 11 | |   p
+ 12 | |   , 
+ 13 | |   a 
+ 14 | `-> {}
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/list/input.css:10:1]
- 10 | ,-> div
- 11 | |   , 
- 12 | |   p
- 13 | |   , 
- 14 | `-> a
+    ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
+  9 | ,-> div
+ 10 | |   , 
+ 11 | |   p
+ 12 | |   , 
+ 13 | `-> a
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:10:1]
- 10 | div
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
+ 9 | div
+   : ^^^
+   `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:10:1]
- 10 | div
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
+ 9 | div
+   : ^^^
+   `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:10:1]
- 10 | div
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
+ 9 | div
+   : ^^^
+   `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:10:1]
- 10 | div
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
+ 9 | div
+   : ^^^
+   `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:10:1]
- 10 | div
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
+ 9 | div
+   : ^^^
+   `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:10:1]
- 10 | div
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/selector/list/input.css:9:1]
+ 9 | div
+   : ^^^
+   `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:12:1]
- 12 | p
-    : ^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:12:1]
- 12 | p
-    : ^
-    `----
-
-  x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:12:1]
- 12 | p
-    : ^
-    `----
-
-  x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:12:1]
- 12 | p
-    : ^
-    `----
-
-  x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:12:1]
- 12 | p
-    : ^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:12:1]
- 12 | p
-    : ^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:14:1]
- 14 | a
+    ,-[$DIR/tests/fixture/selector/list/input.css:11:1]
+ 11 | p
     : ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:14:1]
- 14 | a
+    ,-[$DIR/tests/fixture/selector/list/input.css:11:1]
+ 11 | p
     : ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:14:1]
- 14 | a
+    ,-[$DIR/tests/fixture/selector/list/input.css:11:1]
+ 11 | p
     : ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:14:1]
- 14 | a
+    ,-[$DIR/tests/fixture/selector/list/input.css:11:1]
+ 11 | p
     : ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:14:1]
- 14 | a
+    ,-[$DIR/tests/fixture/selector/list/input.css:11:1]
+ 11 | p
     : ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:14:1]
- 14 | a
+    ,-[$DIR/tests/fixture/selector/list/input.css:11:1]
+ 11 | p
+    : ^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/list/input.css:13:1]
+ 13 | a
+    : ^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/list/input.css:13:1]
+ 13 | a
+    : ^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/list/input.css:13:1]
+ 13 | a
+    : ^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/list/input.css:13:1]
+ 13 | a
+    : ^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/list/input.css:13:1]
+ 13 | a
+    : ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/list/input.css:13:1]
+ 13 | a
     : ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
- 15 | {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:14:1]
+ 14 | {}
     : ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     : ^^^^^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     : ^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     : ^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     : ^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     : ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :  ^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :       ^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :       ^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :       ^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :       ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :        ^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :             ^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :             ^^^^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :             ^
     `----
 
   x UniversalSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :             ^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :              ^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :              ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :               ^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
- 16 | .foo, .bar, *.baz {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
     :                   ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     : ^^^^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     : ^^^^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     : ^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :      ^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :      ^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :        ^^^^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :                          ^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :                          ^^^^^^^^^^^^^^^^^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :                          ^^^^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :                          ^^^^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :                          ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :                          ^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :                               ^^^^^^^^^^^^^
     `----
 
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :                               ^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :                                 ^^^^^^^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
- 17 | input::-moz-placeholder, input::placeholder {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
     :                                             ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     : ^^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     : ^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     : ^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     : ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     : ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     : ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     : ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     : ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     : ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :   ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :   ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :   ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :   ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :   ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :   ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :     ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :     ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :     ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :     ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :     ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :     ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :       ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :       ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :       ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :       ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :       ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :       ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :         ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :         ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :         ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :         ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :         ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :         ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :           ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :           ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :           ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :           ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :           ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :           ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :             ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :             ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :             ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :             ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :             ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :             ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
- 18 | a,b,c,d,e,f,g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
     :               ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     : ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     : ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     : ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     : ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     : ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     : ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :    ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :    ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :    ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :    ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :    ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :    ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :       ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :       ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :       ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :       ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :       ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :       ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :          ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :          ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :          ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :          ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :          ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :          ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :             ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :             ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :             ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :             ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :             ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :             ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                   ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                   ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                   ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                   ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                   ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                   ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
- 19 | a, b, c, d, e, f, g {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
     :                     ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     : ^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     : ^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     : ^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     : ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     : ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     : ^
     `----
 
   x UniversalSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     : ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     :    ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     :    ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     :    ^
     `----
 
   x UniversalSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     :    ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
- 20 | *, * {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
     :      ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     : ^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     : ^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     : ^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     : ^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     : ^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     : ^^^
     `----
 
   x IdSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     : ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     : ^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     :      ^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     :      ^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     :      ^^^^
     `----
 
   x IdSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     :      ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     :      ^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
- 21 | #id, #id2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
     :           ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     : ^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     : ^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     : ^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     : ^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     : ^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     : ^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     : ^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     : ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     : ^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     :     ^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     :     ^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     :     ^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     :     ^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     :     ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     :     ^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
- 22 | h1, h2 {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
     :        ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     : ^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     : ^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     : ^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     : ^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     : ^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     : ^^^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     : ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     :  ^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     :         ^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     :         ^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     :         ^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     :         ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     :          ^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
- 23 | .class, .foo {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
     :              ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     : ^^^^^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     : ^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     : ^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     : ^^^^^^
     `----
 
   x AttributeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     : ^^^^^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     :  ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     :  ^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     :         ^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     :         ^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     :         ^^^^^^^^^
     `----
 
   x AttributeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     :         ^^^^^^^^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     :          ^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     :          ^^^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
- 24 | [attr], [attrtoo] {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
     :                   ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     : ^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     : ^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     : ^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     : ^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     : ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     : ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     : ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     : ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     : ^
     `----
 
   x Combinator
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     :           ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     :            ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     :            ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     :            ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     :            ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     :            ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/list/input.css:25:1]
- 25 | a/* { } */ b {}
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
     :              ^^
     `----

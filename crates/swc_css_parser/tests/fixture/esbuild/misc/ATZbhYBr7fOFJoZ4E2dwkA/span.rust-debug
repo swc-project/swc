@@ -1,216 +1,216 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x KeyframesRule
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x CustomIdent
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :            ^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                   ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                   ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                   ^^
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                   ^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                   ^
    `----
 
   x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                       ^^^
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                       ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                       ^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                           ^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                             ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                             ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                             ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                             ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                    ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                    ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                          ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                          ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                          ^^^
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                          ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                          ^^
    `----
 
   x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                               ^^^
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                               ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                               ^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                                   ^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                                     ^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                                     ^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                                     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                                     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                                            ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:2:1]
- 2 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
    :                                                            ^^^^
    `----

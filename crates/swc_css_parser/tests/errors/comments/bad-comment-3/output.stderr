@@ -1,6 +1,6 @@
 
   x Unterminated block comment
-   ,-[$DIR/tests/errors/comments/bad-comment-3/input.css:2:1]
- 2 | /*! bad comment 
+   ,-[$DIR/tests/errors/comments/bad-comment-3/input.css:1:1]
+ 1 | /*! bad comment 
    : ^^^^^^^^^^^^^^^^
    `----

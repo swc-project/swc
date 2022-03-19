@@ -1,6 +1,6 @@
 
   x Expected function or ident tokens
-   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:2:1]
- 2 | : first-child {
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
+ 1 | : first-child {
    :  ^
    `----

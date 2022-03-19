@@ -1,60 +1,60 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:2:1]
- 2 | @page { @top-left {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:2:1]
- 2 | @page { @top-left {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:2:1]
- 2 | @page { @top-left {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x PageRule
-   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:2:1]
- 2 | @page { @top-left {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:2:1]
- 2 | @page { @top-left {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
    :       ^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:2:1]
- 2 | @page { @top-left {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
    :         ^^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:2:1]
- 2 | @page { @top-left {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
    :         ^^^^^^^^^^^^
    `----
 
   x PageMarginRule
-   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:2:1]
- 2 | @page { @top-left {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
    :         ^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:2:1]
- 2 | @page { @top-left {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
    :          ^^^^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:2:1]
- 2 | @page { @top-left {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
    :                   ^^
    `----

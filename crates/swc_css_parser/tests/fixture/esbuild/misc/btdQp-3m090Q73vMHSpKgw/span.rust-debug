@@ -1,78 +1,78 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    : ^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    : ^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    : ^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    : ^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    : ^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    : ^^^^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    : ^^^^^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    : ^^^^^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    : ^^^^^^^
    `----
 
   x NsPrefix
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    : ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    :     ^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:2:1]
- 2 | \2a|div {}
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
    :         ^^
    `----

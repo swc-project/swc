@@ -1,178 +1,178 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | ,-> :global(.foo + a) {
- 3 | |       color: red;
- 4 | `-> }
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | ,-> :global(.foo + a) {
+ 2 | |       color: red;
+ 3 | `-> }
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | ,-> :global(.foo + a) {
- 3 | |       color: red;
- 4 | `-> }
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | ,-> :global(.foo + a) {
+ 2 | |       color: red;
+ 3 | `-> }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | ,-> :global(.foo + a) {
- 3 | |       color: red;
- 4 | `-> }
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | ,-> :global(.foo + a) {
+ 2 | |       color: red;
+ 3 | `-> }
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :  ^^^^^^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :         ^
    `----
 
   x Delim { value: '.' }
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :         ^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :          ^^^
    `----
 
   x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :          ^^^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :             ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :             ^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :              ^
    `----
 
   x Delim { value: '+' }
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :              ^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :               ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :               ^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :                ^
    `----
 
   x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | :global(.foo + a) {
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
    :                ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]
- 2 | ,-> :global(.foo + a) {
- 3 | |       color: red;
- 4 | `-> }
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | ,-> :global(.foo + a) {
+ 2 | |       color: red;
+ 3 | `-> }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:3:5]
- 3 | color: red;
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
    : ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:3:5]
- 3 | color: red;
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
    : ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:3:5]
- 3 | color: red;
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
    : ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:3:5]
- 3 | color: red;
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
    : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:3:5]
- 3 | color: red;
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
    : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:3:5]
- 3 | color: red;
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
    :        ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:3:5]
- 3 | color: red;
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
    :        ^^^
    `----
