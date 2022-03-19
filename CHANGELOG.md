@@ -8,6 +8,9 @@
 - **(common)** Fix handling of input source maps (#4086) ([b716210](https://github.com/swc-project/swc/commit/b716210de1495d11f45f74bdc3941826a9dd5d6a))
 
 
+- **(es/compat)** Visit generated codes from `arrow` (#4090) ([cb0881c](https://github.com/swc-project/swc/commit/cb0881cc3dd4ea8fb880e7cbd9eb6a11031a8e9b))
+
+
 - **(es/module/cjs)** Fix conflict of a local export and exports-alls (#4089) ([6ac7934](https://github.com/swc-project/swc/commit/6ac793401769028f7e18b642303de46592d39598))
 
 
