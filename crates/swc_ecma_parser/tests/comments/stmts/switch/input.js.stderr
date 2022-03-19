@@ -3,7 +3,7 @@
 
 Error: 
   >  4
-   ,-[$DIR/tests/comments/stmts/switch/input.js:6:1]
- 6 | }
+   ,-[$DIR/tests/comments/stmts/switch/input.js:5:1]
+ 5 | }
    : ^
    `----

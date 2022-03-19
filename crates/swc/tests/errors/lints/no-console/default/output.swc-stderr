@@ -1,6 +1,6 @@
 
   x Unexpected console statement
    ,----
- 8 | console.log("message");
+ 7 | console.log("message");
    : ^^^^^^^^^^^
    `----

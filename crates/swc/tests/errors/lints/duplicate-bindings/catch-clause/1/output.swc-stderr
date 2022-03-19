@@ -1,10 +1,10 @@
 
   x the name `foo` is defined multiple times
-   ,-[3:1]
- 3 | } catch (foo) {
+   ,-[2:1]
+ 2 | } catch (foo) {
    :          ^|^
    :           `-- previous definition of `foo` here
- 4 |     let foo;
+ 3 |     let foo;
    :         ^|^
    :          `-- `foo` redefined here
    `----

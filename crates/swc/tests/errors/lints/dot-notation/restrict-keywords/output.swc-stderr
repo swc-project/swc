@@ -1,6 +1,6 @@
 
   x ['break'] is better written in dot notation
    ,----
- 2 | obj['break'];
+ 1 | obj['break'];
    :    ^^^^^^^^^
    `----
