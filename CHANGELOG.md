@@ -8,6 +8,9 @@
 - **(common)** Fix handling of input source maps (#4086) ([b716210](https://github.com/swc-project/swc/commit/b716210de1495d11f45f74bdc3941826a9dd5d6a))
 
 
+- **(es/module/cjs)** Fix conflict of a local export and exports-alls (#4089) ([6ac7934](https://github.com/swc-project/swc/commit/6ac793401769028f7e18b642303de46592d39598))
+
+
 - **(es/resolver)** Fix handling of decorators (#4084) ([f662298](https://github.com/swc-project/swc/commit/f66229822c2e44d35854cd9a1ecbdae82242a08c))
 
 ### Features
