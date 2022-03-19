@@ -49,6 +49,8 @@ pub struct Config {
     pub no_interop: bool,
     #[serde(default)]
     pub ignore_dynamic: bool,
+    #[serde(default)]
+    pub preserve_import_meta: bool,
 }
 
 impl Default for Config {
@@ -59,6 +61,7 @@ impl Default for Config {
             lazy: Lazy::default(),
             no_interop: false,
             ignore_dynamic: false,
+            preserve_import_meta: false,
         }
     }
 }

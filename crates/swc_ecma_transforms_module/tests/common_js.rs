@@ -4923,7 +4923,7 @@ test!(
         strict: true,
         strict_mode: true,
         lazy: Lazy::Bool(false),
-        ignore_dynamic: false
+        ..Default::default()
     }),
     issue_1480_1,
     "
@@ -4944,7 +4944,7 @@ test!(
         strict: true,
         strict_mode: true,
         lazy: Lazy::Bool(false),
-        ignore_dynamic: false
+        ..Default::default()
     }),
     issue_1480_2,
     "
