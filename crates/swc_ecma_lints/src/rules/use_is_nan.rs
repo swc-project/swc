@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
@@ -73,6 +73,20 @@ impl UseIsNan {
 
     fn check(&self, expr_span: Option<Span>, expr: &Expr) {
         match expr {
+            Expr::TsAs(TsAsExpr {
+                expr,
+                type_ann,
+                span,
+                ..
+            }) => {
+                if let TsType::TsKeywordType(TsKeywordType {
+                    kind: TsKeywordTypeKind::TsAnyKeyword,
+                    ..
+                }) = type_ann.as_ref()
+                {
+                    self.check(expr_span.or(Some(*span)), expr.as_ref());
+                }
+            }
             Expr::Ident(ident) => {
                 if &*ident.sym == "NaN" {
                     self.emit_report(expr_span.unwrap_or(ident.span));
@@ -115,8 +129,6 @@ impl UseIsNan {
 }
 
 impl Visit for UseIsNan {
-    noop_visit_type!();
-
     fn visit_bin_expr(&mut self, bin_expr: &BinExpr) {
         if let op!("==") | op!("!=") = bin_expr.op {
             self.check(Some(bin_expr.span), bin_expr.left.as_ref());
