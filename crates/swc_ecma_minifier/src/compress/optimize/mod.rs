@@ -1550,6 +1550,7 @@ where
 
         let ctx = Ctx {
             can_inline_arguments: true,
+            scope: n.span.ctxt,
             ..self.ctx
         };
 
