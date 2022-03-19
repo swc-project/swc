@@ -1,5 +1,5 @@
 module.exports = {
-    x: (a)=>""
+    x: (a)=>''
     ,
     b: function() {
         return 0;

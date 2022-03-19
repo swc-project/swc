@@ -181,13 +181,11 @@ impl VisitMut for PartialInliner {
 
                     match res {
                         EvalResult::Lit(Lit::Str(s)) => {
-                            let raw: &str = &s.raw[1..s.raw.len() - 1];
-
                             let el = TplElement {
                                 span: s.span,
                                 tail: true,
-                                raw: raw.into(),
-                                // TODO possible optimization for `"` and `'`
+                                // TODO possible bug for quotes
+                                raw: s.value.clone().into(),
                                 cooked: Some(s.value),
                             };
                             tt.tpl = Tpl {

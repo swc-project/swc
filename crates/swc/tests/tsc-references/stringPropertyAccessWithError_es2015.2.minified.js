@@ -1,1 +1,1 @@
-"".charAt("invalid");
+''.charAt('invalid');

@@ -1,17 +1,17 @@
-function test({ method ="z" , nested: { p ="c"  }  }) {}
+function test({ method ='z' , nested: { p ='c'  }  }) {}
 test({}), test({
-    method: "x",
+    method: 'x',
     nested: {
-        p: "a"
+        p: 'a'
     }
 }), test({
-    method: "z",
+    method: 'z',
     nested: {
-        p: "b"
+        p: 'b'
     }
 }), test({
-    method: "one",
+    method: 'one',
     nested: {
-        p: "a"
+        p: 'a'
     }
 });

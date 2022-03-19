@@ -9,4 +9,4 @@ var d;
     bar(x, y) {}
     static foo(x, y) {}
     static bar(x, y) {}
-}).bar("");
+}).bar('');

@@ -6,7 +6,7 @@ var Rectangle = function() {
 module.exports = {
     Rectangle: Rectangle
 };
-var Rectangle = require("./rectangle").Rectangle, Render = function() {
+var Rectangle = require('./rectangle').Rectangle, Render = function() {
     "use strict";
     function Render() {
         swcHelpers.classCallCheck(this, Render), this.objects = [];

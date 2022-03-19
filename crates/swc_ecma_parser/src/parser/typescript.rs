@@ -300,7 +300,7 @@ impl<I: Tokens> Parser<I> {
                 Token::Str { value, raw } => Str {
                     span: arg_span,
                     value,
-                    raw,
+                    raw: Some(raw),
                 },
                 _ => unreachable!(),
             },
@@ -310,7 +310,7 @@ impl<I: Tokens> Parser<I> {
                 Str {
                     span: arg_span,
                     value: "".into(),
-                    raw: "\"\"".into(),
+                    raw: Some("\"\"".into()),
                 }
             }
         };
@@ -667,7 +667,7 @@ impl<I: Tokens> Parser<I> {
                 TsEnumMemberId::Str(Str {
                     span,
                     value: v.to_string().into(),
-                    raw: ("\"".to_owned() + &v.to_string() + "\"").into(),
+                    raw: Some(("\"".to_owned() + &v.to_string() + "\"").into()),
                 })
             }
             Token::LBracket => {

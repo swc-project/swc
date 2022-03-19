@@ -17,7 +17,7 @@ use swc_ecma_codegen::{
 };
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver_with_mark};
-use swc_ecma_utils::{find_ids, quote_js_word, Id};
+use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 use testing::assert_eq;
 
@@ -1109,7 +1109,7 @@ impl swc_bundler::Hook for Hook {
                 key: PropName::Ident(Ident::new(js_word!("url"), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    raw: quote_js_word!(file_name),
+                    raw: None,
                     value: file_name.into(),
                 }))),
             },

@@ -3,7 +3,7 @@ use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{quote_js_word, ExprExt, Type, Value};
+use swc_ecma_utils::{ExprExt, Type, Value};
 
 use super::Pure;
 
@@ -31,7 +31,7 @@ impl Pure<'_> {
 
                     *e = Expr::Lit(Lit::Str(Str {
                         span: t.span,
-                        raw: quote_js_word!(value),
+                        raw: None,
                         value: value.into(),
                     }));
                 }
@@ -207,7 +207,7 @@ impl Pure<'_> {
                                     left: left.left.take(),
                                     right: Box::new(Expr::Lit(Lit::Str(Str {
                                         span: left_span,
-                                        raw: quote_js_word!(new_str),
+                                        raw: None,
                                         value: new_str.into(),
                                     }))),
                                 });

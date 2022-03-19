@@ -17,4 +17,4 @@ f20(42, "hello", !0), f21("hello", !0), f22(!0), f23();
 const g21 = bind(g20, 42), g22 = bind(g21, "hello"), g23 = bind(g22, !0);
 g20(42, "hello", !0), g20(42, "hello"), g20(42), g21("hello", !0), g21("hello"), g21(), g22(!0), g22(), g23(), f30(42, (x)=>"" + x
 , (x)=>x + 1
-), events.emit("move", 10, "left"), events.emit("jump", 20, "up"), events.emit("stop", "Bye!"), events.emit("done"), ff1 = ff2, ff1 = ff3, ff1 = ff4;
+), events.emit('move', 10, 'left'), events.emit('jump', 20, 'up'), events.emit('stop', 'Bye!'), events.emit('done'), ff1 = ff2, ff1 = ff3, ff1 = ff4;

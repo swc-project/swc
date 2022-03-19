@@ -1,9 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 var anything, o = {
     a: 1,
-    b: "no"
+    b: 'no'
 }, o2 = {
-    b: "yes",
+    b: 'yes',
     c: !0
 };
 swcHelpers.objectSpread({}, o, {
@@ -11,21 +11,21 @@ swcHelpers.objectSpread({}, o, {
 }), swcHelpers.objectSpread({
     c: !1
 }, o), swcHelpers.objectSpread({}, o, {
-    b: "override"
+    b: 'override'
 }), swcHelpers.objectSpread({}, swcHelpers.objectSpread({
     a: 3
 }, {
     b: !1,
-    c: "overriden"
+    c: 'overriden'
 }), {
-    c: "whatever"
+    c: 'whatever'
 }), swcHelpers.objectSpread({}, o, o2), swcHelpers.objectSpread({}, o, o2, {
-    b: "ok"
+    b: 'ok'
 }), swcHelpers.objectSpread({}, swcHelpers.objectSpread({
     a: 1
 }, {
     b: !1,
-    c: "overriden"
+    c: 'overriden'
 }), {
     c: -1
 }), swcHelpers.objectSpread({}, o);
@@ -46,7 +46,7 @@ var C = function() {
 }(), c = new C();
 function f(t, u) {
     return swcHelpers.objectSpread({}, t, u, {
-        id: "id"
+        id: 'id'
     });
 }
 swcHelpers.objectSpread({}, c), swcHelpers.objectSpread({}, c, {
@@ -54,31 +54,31 @@ swcHelpers.objectSpread({}, c), swcHelpers.objectSpread({}, c, {
         return this.p + 1;
     }
 }).plus(), swcHelpers.objectSpread({}, o, {
-    a: "wrong type?"
+    a: 'wrong type?'
 }), swcHelpers.objectSpread({}, o, {
-    a: "yes",
+    a: 'yes',
     b: -1
 }), swcHelpers.objectSpread({}, o, {
     a: 12
 }), swcHelpers.objectSpread({}, {}), f({
     a: 1,
-    b: "yes"
+    b: 'yes'
 }, {
-    c: "no",
+    c: 'no',
     d: !1
 }), f({
     a: 1
 }, {
     a: 2,
-    b: "extra"
+    b: 'extra'
 }), f({
     a: 1
 }, {
-    a: "mismatch"
+    a: 'mismatch'
 }), f({
     a: 1,
     id: !0
 }, {
     c: 1,
-    d: "no"
+    d: 'no'
 });

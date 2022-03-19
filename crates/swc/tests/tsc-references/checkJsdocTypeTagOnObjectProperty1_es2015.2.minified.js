@@ -7,4 +7,4 @@ const obj = {
     ["bar1"]: 42,
     arrowFunc: (num)=>num + 42
 };
-obj.foo = "string", obj.lol, obj.bar = void 0, obj.method1(0), obj.bar1 = "42", obj.arrowFunc(0);
+obj.foo = 'string', obj.lol, obj.bar = void 0, obj.method1(0), obj.bar1 = "42", obj.arrowFunc(0);

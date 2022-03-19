@@ -8,7 +8,7 @@ var Base = function(x) {
     var _super = swcHelpers.createSuper(Derived);
     function Derived(y, z) {
         var _this;
-        return swcHelpers.classCallCheck(this, Derived), (_this = _super.call(this, 2)).b = "", _this.b = y, _this;
+        return swcHelpers.classCallCheck(this, Derived), (_this = _super.call(this, 2)).b = '', _this.b = y, _this;
     }
     return Derived;
 }(Base), Derived2 = function(Derived) {
@@ -17,11 +17,11 @@ var Base = function(x) {
     var _super = swcHelpers.createSuper(Derived2);
     function Derived2() {
         var _this;
-        return swcHelpers.classCallCheck(this, Derived2), _this = _super.apply(this, arguments), _this.x = 1, _this.y = "hello", _this;
+        return swcHelpers.classCallCheck(this, Derived2), _this = _super.apply(this, arguments), _this.x = 1, _this.y = 'hello', _this;
     }
     return Derived2;
 }(Derived);
-new Derived(), new Derived2(1), new Derived("", "");
+new Derived(), new Derived2(1), new Derived('', '');
 var Base2 = function(x) {
     "use strict";
     swcHelpers.classCallCheck(this, Base2), this.a = x;

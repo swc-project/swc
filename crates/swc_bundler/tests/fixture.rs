@@ -17,7 +17,6 @@ use swc_ecma_ast::{
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_loader::NODE_BUILTINS;
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_utils::quote_js_word;
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
 
@@ -156,7 +155,7 @@ impl swc_bundler::Hook for Hook {
                 key: PropName::Ident(Ident::new(js_word!("url"), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    raw: quote_js_word!(file_name),
+                    raw: None,
                     value: file_name.into(),
                 }))),
             },

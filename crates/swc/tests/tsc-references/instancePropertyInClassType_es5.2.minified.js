@@ -36,6 +36,6 @@ import * as swcHelpers from "@swc/helpers";
                 set: function(v) {}
             }
         ]), C;
-    }(), c = new C(1, ""), r = c.fn();
-    r.x, r.y, r.y = "", c.y();
+    }(), c = new C(1, ''), r = c.fn();
+    r.x, r.y, r.y = '', c.y();
 }(Generic || (Generic = {}));

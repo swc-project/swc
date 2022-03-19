@@ -22,4 +22,4 @@ var e, C = function() {
     }
     return E.prototype.foo = function(x, y) {}, E;
 }(D);
-e.foo(1, 1), e.foo(1, "");
+e.foo(1, 1), e.foo(1, '');

@@ -17,10 +17,10 @@ console.log(a, b), console.log(1, 1), console.log(1, 1);
 class H {
 }
 module.exports = H;
-const H = require("./h");
+const H = require('./h');
 console.log({});
-const H = require("./h");
+const H = require('./h');
 !function(K) {
     K[K.One = 0] = "One", K[K.Two = 1] = "Two";
 }(K || (K = {})), module.exports = K;
-const K = require("./k");
+const K = require('./k');

@@ -8,7 +8,7 @@ var Base = function() {
     var _super = swcHelpers.createSuper(Sub);
     function Sub(p) {
         var _this;
-        return swcHelpers.classCallCheck(this, Sub), console.log("hi"), (_this = _super.call(this)).p = p, _this.field = 0, _this;
+        return swcHelpers.classCallCheck(this, Sub), console.log('hi'), (_this = _super.call(this)).p = p, _this.field = 0, _this;
     }
     return Sub;
 }(Base), Test = function(Base2) {

@@ -30,4 +30,4 @@ var C2 = function() {
     }
     return D2;
 }(C2);
-d2.foo, d2.bar, d2.thing(""), D2.other(1);
+d2.foo, d2.bar, d2.thing(''), D2.other(1);

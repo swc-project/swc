@@ -9,8 +9,8 @@ use swc_ecma_transforms_base::{
 };
 use swc_ecma_transforms_macros::{fast_path, parallel};
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, quote_js_word,
-    var::VarCollector, ExprFactory, StmtLike,
+    alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, var::VarCollector,
+    ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -785,7 +785,7 @@ impl ObjectRest {
                                 span,
                                 expr: Box::new(Expr::Lit(Lit::Str(Str {
                                     span,
-                                    raw: format!("\"{}\"", value).into(),
+                                    raw: None,
                                     value: format!("{}", value).into(),
                                 }))),
                             }),
@@ -798,7 +798,7 @@ impl ObjectRest {
                                     span,
                                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                                         span,
-                                        raw: format!("\"{}\"", value).into(),
+                                        raw: None,
                                         value: format!("{}", value).into(),
                                     }))),
                                 }),
@@ -937,7 +937,7 @@ fn object_without_properties(
                 Expr::Lit(Lit::Num(Number { span, value })) => ExprOrSpread {
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span,
-                        raw: format!("\"{}\"", value).into(),
+                        raw: None,
                         value: value.to_string().into(),
                     }))),
                     ..v
@@ -992,20 +992,20 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
             ObjectPatProp::KeyValue(KeyValuePatProp { key, .. }) => match key {
                 PropName::Ident(ident) => Lit::Str(Str {
                     span: ident.span,
-                    raw: quote_js_word!(ident.sym),
+                    raw: None,
                     value: ident.sym.clone(),
                 })
                 .as_arg(),
                 PropName::Str(s) => Lit::Str(s.clone()).as_arg(),
                 PropName::Num(Number { span, value }) => Lit::Str(Str {
                     span: *span,
-                    raw: format!("\"{}\"", value).into(),
+                    raw: None,
                     value: format!("{}", value).into(),
                 })
                 .as_arg(),
                 PropName::BigInt(BigInt { span, value }) => Lit::Str(Str {
                     span: *span,
-                    raw: format!("\"{}\"", value).into(),
+                    raw: None,
                     value: format!("{}", value).into(),
                 })
                 .as_arg(),
@@ -1013,7 +1013,7 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
             },
             ObjectPatProp::Assign(AssignPatProp { key, .. }) => Lit::Str(Str {
                 span: key.span,
-                raw: quote_js_word!(key.sym),
+                raw: None,
                 value: key.sym.clone(),
             })
             .as_arg(),

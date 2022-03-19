@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-require("react");
+require('react');
 var obj1, obj = {
     children: "hi",
     to: "boo"

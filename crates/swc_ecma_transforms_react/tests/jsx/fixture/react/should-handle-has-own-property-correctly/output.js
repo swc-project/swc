@@ -1,1 +1,2 @@
-/*#__PURE__*/ React.createElement(\"hasOwnProperty\", null, \"testing\");
+/*#__PURE__*/
+React.createElement("hasOwnProperty", null, "testing");

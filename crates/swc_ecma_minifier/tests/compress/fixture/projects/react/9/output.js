@@ -4,10 +4,7 @@ function lazyInitializer(payload) {
         pending._status = 0, pending._result = thenable, thenable.then(function(moduleObject) {
             if (0 === payload._status) {
                 var defaultExport = moduleObject.default;
-                void 0 === defaultExport && error("lazy: Expected the result of a dynamic import() call. Instead received: %s
-
-Your code should look like: 
-  const MyComponent = lazy(() => import('./MyComponent'))", moduleObject);
+                void 0 === defaultExport && error("lazy: Expected the result of a dynamic import() call. Instead received: %s\n\nYour code should look like: \n  const MyComponent = lazy(() => import('./MyComponent'))", moduleObject);
                 var resolved = payload;
                 resolved._status = 1, resolved._result = defaultExport;
             }

@@ -1,6 +1,6 @@
 class C {
     constructor(){
-        this.x = 1, this.y = "hello";
+        this.x = 1, this.y = 'hello';
     }
 }
 new C(), new C(null);

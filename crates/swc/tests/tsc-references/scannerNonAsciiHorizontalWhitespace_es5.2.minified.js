@@ -1,1 +1,1 @@
-"\xa0 function f() {}";
+"  function f() {}";

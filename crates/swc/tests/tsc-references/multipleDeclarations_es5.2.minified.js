@@ -7,7 +7,7 @@ import * as swcHelpers from "@swc/helpers";
 var X = function() {
     "use strict";
     function X() {
-        swcHelpers.classCallCheck(this, X), this.m = this.m.bind(this), this.mistake = "frankly, complete nonsense";
+        swcHelpers.classCallCheck(this, X), this.m = this.m.bind(this), this.mistake = 'frankly, complete nonsense';
     }
     var _proto = X.prototype;
     return _proto.m = function() {}, _proto.mistake = function() {}, X;
@@ -16,7 +16,7 @@ X.prototype.mistake = !1, x.m(), x.mistake;
 var Y = function() {
     "use strict";
     function Y() {
-        swcHelpers.classCallCheck(this, Y), this.m = this.m.bind(this), this.mistake = "even more nonsense";
+        swcHelpers.classCallCheck(this, Y), this.m = this.m.bind(this), this.mistake = 'even more nonsense';
     }
     var _proto = Y.prototype;
     return _proto.mistake = function() {}, _proto.m = function() {}, Y;

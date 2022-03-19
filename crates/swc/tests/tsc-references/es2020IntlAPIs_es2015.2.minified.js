@@ -3,27 +3,27 @@ function log(locale) {
     console.log(`${new Intl.DateTimeFormat(locale).format(date)} ${new Intl.NumberFormat(locale).format(26254.39)}`);
 }
 log("en-US"), log("de-DE");
-const rtf1 = new Intl.RelativeTimeFormat("en", {
-    style: "narrow"
+const rtf1 = new Intl.RelativeTimeFormat('en', {
+    style: 'narrow'
 });
-console.log(rtf1.format(3, "quarter")), console.log(rtf1.format(-1, "day"));
-const rtf2 = new Intl.RelativeTimeFormat("es", {
-    numeric: "auto"
+console.log(rtf1.format(3, 'quarter')), console.log(rtf1.format(-1, 'day'));
+const rtf2 = new Intl.RelativeTimeFormat('es', {
+    numeric: 'auto'
 });
-console.log(rtf2.format(2, "day"));
+console.log(rtf2.format(2, 'day'));
 const regionNamesInEnglish = new Intl.DisplayNames([
-    "en"
+    'en'
 ], {
-    type: "region"
+    type: 'region'
 }), regionNamesInTraditionalChinese = new Intl.DisplayNames([
-    "zh-Hant"
+    'zh-Hant'
 ], {
-    type: "region"
+    type: 'region'
 });
-console.log(regionNamesInEnglish.of("US")), console.log(regionNamesInTraditionalChinese.of("US")), console.log(Intl.DisplayNames.supportedLocalesOf([
-    "ban",
-    "id-u-co-pinyin",
-    "de-ID"
+console.log(regionNamesInEnglish.of('US')), console.log(regionNamesInTraditionalChinese.of('US')), console.log(Intl.DisplayNames.supportedLocalesOf([
+    'ban',
+    'id-u-co-pinyin',
+    'de-ID'
 ], {
-    localeMatcher: "lookup"
-}).join(", "));
+    localeMatcher: 'lookup'
+}).join(', '));

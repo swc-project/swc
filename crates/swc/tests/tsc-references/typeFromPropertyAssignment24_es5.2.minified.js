@@ -7,6 +7,6 @@ Outer.Inner = function() {
         swcHelpers.classCallCheck(this, _class);
     }
     return _class.prototype.name = function() {
-        return "hi";
+        return 'hi';
     }, _class;
 }();

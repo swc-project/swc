@@ -1,7 +1,7 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{quote_js_word, ExprFactory};
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -27,7 +27,7 @@ impl<'a> VisitMut for ClassNameTdzFolder<'a> {
                                 callee: helper!(class_name_tdz_error, "classNameTDZError"),
                                 args: vec![Str {
                                     span: i.span,
-                                    raw: quote_js_word!(i.sym),
+                                    raw: None,
                                     value: i.sym.clone(),
                                 }
                                 .as_arg()],

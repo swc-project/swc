@@ -199,7 +199,7 @@
                         function byteLength(e, r) {
                             if (Buffer.isBuffer(e)) return e.length;
                             if (ArrayBuffer.isView(e) || isInstance(e, ArrayBuffer)) return e.byteLength;
-                            if ("string" != typeof e) throw new TypeError("The \"string\" argument must be one of type string, Buffer, or ArrayBuffer. Received type " + typeof e);
+                            if ("string" != typeof e) throw new TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof e);
                             var t = e.length, f = arguments.length > 2 && !0 === arguments[2];
                             if (!f && 0 === t) return 0;
                             for(var n = !1;;)switch(r){
@@ -488,7 +488,7 @@
                             var e = "", t = r3.INSPECT_MAX_BYTES;
                             return e = this.toString("hex", 0, t).replace(/(.{2})/g, "$1 ").trim(), this.length > t && (e += " ... "), "<Buffer " + e + ">";
                         }, i2 && (Buffer.prototype[i2] = Buffer.prototype.inspect), Buffer.prototype.compare = function(e, r, t, f, n) {
-                            if (isInstance(e, Uint8Array) && (e = Buffer.from(e, e.offset, e.byteLength)), !Buffer.isBuffer(e)) throw new TypeError("The \"target\" argument must be one of type Buffer or Uint8Array. Received type " + typeof e);
+                            if (isInstance(e, Uint8Array) && (e = Buffer.from(e, e.offset, e.byteLength)), !Buffer.isBuffer(e)) throw new TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof e);
                             if (void 0 === r && (r = 0), void 0 === t && (t = e ? e.length : 0), void 0 === f && (f = 0), void 0 === n && (n = this.length), r < 0 || t > e.length || f < 0 || n > this.length) throw new RangeError("out of range index");
                             if (f >= n && r >= t) return 0;
                             if (f >= n) return -1;

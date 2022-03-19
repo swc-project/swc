@@ -7,7 +7,7 @@ use sha1::{Digest, Sha1};
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, SourceMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{private_ident, quote_ident, quote_js_word, ExprFactory};
+use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -113,7 +113,7 @@ impl<'a> HookRegister<'a> {
         args.push(
             Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
-                raw: quote_js_word!(sign.replace('\n', "\\n")),
+                raw: None,
                 value: sign.into(),
             }))
             .as_arg(),

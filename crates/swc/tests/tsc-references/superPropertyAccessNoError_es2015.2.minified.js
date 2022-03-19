@@ -1,6 +1,6 @@
 class SomeBaseClass {
     func() {
-        return "";
+        return '';
     }
     static func() {
         return 3;

@@ -3,5 +3,5 @@ export var A = function() {
     "use strict";
     swcHelpers.classCallCheck(this, A);
 };
-export * from "./b";
+export * from './b';
 new A();

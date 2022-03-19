@@ -25,7 +25,6 @@ use swc_ecma_transforms::{
     },
     pass::noop,
 };
-use swc_ecma_utils::quote_js_word;
 use swc_ecma_visit::FoldWith;
 
 use crate::loaders::json::load_json_as_module;
@@ -71,7 +70,7 @@ impl SwcLoader {
                 k,
                 Expr::Lit(Lit::Str(Str {
                     span: DUMMY_SP,
-                    raw: quote_js_word!(v),
+                    raw: None,
                     value: v,
                 })),
             );

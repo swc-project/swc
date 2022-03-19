@@ -1,3 +1,3 @@
-var s1 = require("elements1");
-require("elements2"), s1.MyElement;
+var s1 = require('elements1');
+require('elements2'), s1.MyElement;
 export { };

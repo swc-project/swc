@@ -3,11 +3,11 @@ function foo(a, b) {}
 foo(function(x) {
     return 1;
 }, function(x) {
-    return "";
+    return '';
 }), foo(function(x) {
     return null;
 }, function(x) {
-    return "";
+    return '';
 }), foo(function(x) {
     return 1;
 }, function(x) {

@@ -54,7 +54,7 @@ impl<'a, I: Tokens> Parser<I> {
                     Token::Str { value, raw } => PropName::Str(Str {
                         span: span!(p, start),
                         value,
-                        raw,
+                        raw: Some(raw),
                     }),
                     _ => unreachable!(),
                 },

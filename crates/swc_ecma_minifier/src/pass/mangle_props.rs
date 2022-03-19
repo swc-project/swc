@@ -7,7 +7,7 @@ use swc_ecma_ast::{
     CallExpr, Callee, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, Module, Prop,
     PropName, Str, SuperProp, SuperPropExpr,
 };
-use swc_ecma_utils::{ident::IdentLike, quote_js_word};
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
@@ -231,8 +231,8 @@ impl Mangler<'_> {
 
     fn mangle_str(&mut self, string: &mut Str) {
         if let Some(mangled) = self.state.gen_name(&string.value) {
-            string.raw = quote_js_word!(mangled);
             string.value = mangled;
+            string.raw = None;
         }
     }
 }

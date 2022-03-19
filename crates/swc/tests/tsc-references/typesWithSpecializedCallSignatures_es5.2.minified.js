@@ -27,4 +27,4 @@ var i, a, Base = function() {
         return x;
     }, C;
 }(), c = new C();
-c = i, i = c = a, i = a, a = c, a = i, c.foo("hi"), c.foo("bye"), c.foo("hm");
+c = i, i = c = a, i = a, a = c, a = i, c.foo('hi'), c.foo('bye'), c.foo('hm');

@@ -7,5 +7,5 @@ var C = function() {
     var _proto = C.prototype;
     return _proto.bar = function() {
         return 0;
-    }, _proto[""] = function() {}, C;
+    }, _proto[''] = function() {}, C;
 }();

@@ -24,7 +24,7 @@ var C = function() {
     var _this = this;
     swcHelpers.classCallCheck(this, E), this.foo2 = foo2, this.bar = function() {
         return _this.foo1 + _this.foo2;
-    }, this.foo1 = "";
+    }, this.foo1 = '';
 }, F = function() {
     "use strict";
     swcHelpers.classCallCheck(this, F), this.Inner = function(F1) {

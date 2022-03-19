@@ -4,7 +4,7 @@ var x = function() {
     swcHelpers.classCallCheck(this, x);
 };
 module.exports = x;
-var x = require("./foo1"), y = function(x1) {
+var x = require('./foo1'), y = function(x1) {
     "use strict";
     swcHelpers.inherits(y, x1);
     var _super = swcHelpers.createSuper(y);

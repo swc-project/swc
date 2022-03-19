@@ -1,2 +1,2 @@
-const util = exports = module.exports = {}, util = require("./mod");
+const util = exports = module.exports = {}, util = require('./mod');
 util.existy;

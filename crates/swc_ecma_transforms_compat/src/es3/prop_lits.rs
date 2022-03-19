@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_utils::{is_valid_ident, quote_js_word};
+use swc_ecma_utils::is_valid_ident;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
@@ -59,7 +59,7 @@ impl Fold for PropertyLiteral {
                 if sym.is_reserved() || sym.contains('-') || sym.contains('.') {
                     PropName::Str(Str {
                         span,
-                        raw: quote_js_word!(sym),
+                        raw: None,
                         value: sym,
                     })
                 } else {

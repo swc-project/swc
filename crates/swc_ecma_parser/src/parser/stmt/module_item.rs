@@ -58,7 +58,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Token::Str { value, raw, .. } => Str {
                     span: span!(self, str_start),
                     value,
-                    raw,
+                    raw: Some(raw),
                 },
                 _ => unreachable!(),
             };
@@ -147,7 +147,7 @@ impl<'a, I: Tokens> Parser<I> {
                     Token::Str { value, raw, .. } => Str {
                         span: span!(self, str_start),
                         value,
-                        raw,
+                        raw: Some(raw),
                     },
                     _ => unreachable!(),
                 },
@@ -779,7 +779,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Token::Str { value, raw, .. } => Str {
                     span: span!(self, str_start),
                     value,
-                    raw,
+                    raw: Some(raw),
                 },
                 _ => unreachable!(),
             },

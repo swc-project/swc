@@ -389,7 +389,7 @@ fn issue_328() {
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span,
                         value: "test".into(),
-                        raw: "'test'".into(),
+                        raw: Some("'test'".into()),
                     }))),
                 }],
                 type_args: Default::default(),
@@ -418,7 +418,7 @@ hehe.";"#,
         Box::new(Expr::Lit(Lit::Str(Str {
             span,
             value: "okokhehe.".into(),
-            raw: "\"ok\\\nok\\\nhehe.\"".into(),
+            raw: Some("\"ok\\\nok\\\nhehe.\"".into()),
         })))
     );
 }

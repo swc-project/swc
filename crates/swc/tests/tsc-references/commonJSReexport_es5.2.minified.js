@@ -4,6 +4,6 @@ var hardline = {
 module.exports = {
     hardline: hardline
 }, module.exports = {
-    nested: require("./first")
+    nested: require('./first')
 };
-var hardline = require("./second").nested.hardline;
+var hardline = require('./second').nested.hardline;

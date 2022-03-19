@@ -36,7 +36,11 @@ impl Babelify for Str {
         StringLiteral {
             base: ctx.base(self.span),
             value: self.value,
-            raw: self.raw,
+            // TODO improve me
+            raw: match self.raw {
+                Some(value) => value,
+                _ => "".into(),
+            },
         }
     }
 }

@@ -1087,26 +1087,26 @@ mod tests {
                                 PropName::Str(Str {
                                     span,
                                     value: "".into(),
-                                    raw: "''".into(),
+                                    raw: Some("''".into()),
                                 }),
                                 "sym",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
                                     value: "".into(),
-                                    raw: "''".into(),
+                                    raw: Some("''".into()),
                                 }))
                             ),
                             prop(
                                 PropName::Str(Str {
                                     span,
                                     value: " ".into(),
-                                    raw: "\" \"".into(),
+                                    raw: Some("\" \"".into()),
                                 }),
                                 "quote",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
                                     value: " ".into(),
-                                    raw: "\" \"".into(),
+                                    raw: Some("\" \"".into()),
                                 }))
                             ),
                             prop(

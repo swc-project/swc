@@ -16,7 +16,7 @@ function callApi(method) {
     ;
 }
 concat([], []), concat([
-    "hello"
+    'hello'
 ], [
     42
 ]), concat([
@@ -28,20 +28,20 @@ concat([], []), concat([
     2,
     3
 ]), ft1([
-    "hello",
+    'hello',
     42
 ]), ft2([
-    "hello",
+    'hello',
     42
 ]), ft3([
-    "hello",
+    'hello',
     42
 ]), ft4([
-    "hello",
+    'hello',
     42
 ]), fm1([
     [
-        "abc"
+        'abc'
     ],
     [
         42
@@ -50,30 +50,30 @@ concat([], []), concat([
         !0
     ],
     [
-        "def"
+        'def'
     ]
 ]), curry((a, b, c, d)=>0
 ), curry((a, b, c, d)=>0
 , 1), curry((a, b, c, d)=>0
-, 1, "abc"), curry((a, b, c, d)=>0
-, 1, "abc", !0), curry((a, b, c, d)=>0
-, 1, "abc", !0, [
-    "x",
-    "y"
+, 1, 'abc'), curry((a, b, c, d)=>0
+, 1, 'abc', !0), curry((a, b, c, d)=>0
+, 1, 'abc', !0, [
+    'x',
+    'y'
 ]), curry((x, b, ...args)=>0
 ), curry((x, b, ...args)=>0
 , 1), curry((x, b, ...args)=>0
 , 1, !0), curry((x, b, ...args)=>0
-, 1, !0, "abc", "def"), curry((...args)=>0
+, 1, !0, 'abc', 'def'), curry((...args)=>0
 ), curry((...args)=>0
-, "abc", "def"), curry((...args)=>0
+, 'abc', 'def'), curry((...args)=>0
 , ...sa), curry2(fn10, [
-    "hello",
+    'hello',
     42
 ], [
     !0
 ]), curry2(fn10, [
-    "hello"
+    'hello'
 ], [
     42,
     !0
@@ -93,18 +93,18 @@ concat([], []), concat([
     2,
     3
 ]), ft([
-    "a",
-    "b"
+    'a',
+    'b'
 ], [
-    "c",
-    "d"
+    'c',
+    'd'
 ]), ft([
-    "a",
-    "b"
+    'a',
+    'b'
 ], [
-    "c",
-    "d",
+    'c',
+    'd',
     42
-]), call("hello", 32, (a, b)=>42
+]), call('hello', 32, (a, b)=>42
 ), call(...sa, (...x)=>42
 ), a.bind("", 1), callApi(getUser), callApi(getOrgUser);

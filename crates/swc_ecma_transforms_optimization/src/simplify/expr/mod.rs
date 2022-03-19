@@ -10,8 +10,8 @@ use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_transforms_base::{ext::ExprRefExt, pass::RepeatedJsPass};
 use swc_ecma_utils::{
     alias_ident_for, extract_side_effects_to, ident::IdentLike, is_literal, prepend,
-    preserve_effects, prop_name_eq, quote_js_word, to_int32, undefined, BoolType, ExprExt,
-    NullType, NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
+    preserve_effects, prop_name_eq, to_int32, undefined, BoolType, ExprExt, NullType, NumberType,
+    ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
@@ -135,7 +135,7 @@ impl SimplifyExpr {
                         let value = nth_char(value, idx as _);
 
                         *expr = Expr::Lit(Lit::Str(Str {
-                            raw: quote_js_word!(value),
+                            raw: None,
                             value: value.into(),
                             span: *span,
                         }))
@@ -359,7 +359,7 @@ impl SimplifyExpr {
                         self.changed = true;
 
                         *expr = Expr::Lit(Lit::Str(Str {
-                            raw: quote_js_word!(l),
+                            raw: None,
                             value: l.into(),
                             span: *span,
                         }));
@@ -381,7 +381,7 @@ impl SimplifyExpr {
                                     let value = format!("{}{}", l, r);
 
                                     *expr = Expr::Lit(Lit::Str(Str {
-                                        raw: quote_js_word!(value),
+                                        raw: None,
                                         value: value.into(),
                                         span: *span,
                                     }));
@@ -672,7 +672,7 @@ impl SimplifyExpr {
 
         *expr = Expr::Lit(Lit::Str(Str {
             span: *span,
-            raw: quote_js_word!(val),
+            raw: None,
             value: val.into(),
         }));
     }

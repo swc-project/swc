@@ -1,6 +1,6 @@
 class Base {
     fn() {
-        return "";
+        return '';
     }
     get a() {
         return 1;
@@ -9,7 +9,7 @@ class Base {
 }
 class Derived extends Base {
     fn() {
-        return "";
+        return '';
     }
     get a() {
         return 1;

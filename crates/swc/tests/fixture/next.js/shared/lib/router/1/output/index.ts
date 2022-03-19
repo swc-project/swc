@@ -178,7 +178,7 @@ var Router = /*#__PURE__*/ function() {
                             _ctx.next = 62;
                             break;
                         }
-                        throw new Error("Invalid href: \"".concat(url, "\" and as: \"").concat(as, "\", received relative href and external as") + "\nSee more info: https://nextjs.org/docs/messages/invalid-relative-url-external-as");
+                        throw new Error('Invalid href: "'.concat(url, '" and as: "').concat(as, '", received relative href and external as') + "\nSee more info: https://nextjs.org/docs/messages/invalid-relative-url-external-as");
                     case 62:
                         window.location.href = as;
                         return _ctx.abrupt("return", false);

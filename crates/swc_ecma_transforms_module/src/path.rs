@@ -11,7 +11,7 @@ use swc_atoms::JsWord;
 use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolve;
-use swc_ecma_utils::{quote_ident, quote_js_word, ExprFactory};
+use swc_ecma_utils::{quote_ident, ExprFactory};
 use tracing::{debug, warn, Level};
 
 pub(crate) enum Resolver {
@@ -41,7 +41,7 @@ impl Resolver {
             callee: quote_ident!(DUMMY_SP.apply_mark(mark), "require").as_callee(),
             args: vec![Lit::Str(Str {
                 span: src_span,
-                raw: quote_js_word!(src),
+                raw: None,
                 value: src,
             })
             .as_arg()],

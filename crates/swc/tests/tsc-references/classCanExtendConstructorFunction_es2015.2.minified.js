@@ -22,7 +22,7 @@ var c = new class extends Wagon {
         return others.length;
     }
     constructor(drunkOO){
-        super("nope"), this.drunkOO = drunkOO;
+        super('nope'), this.drunkOO = drunkOO;
     }
 }(!0);
 function Soup(flavour) {

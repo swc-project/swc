@@ -5,14 +5,14 @@ class Base {
 }
 class Derived extends Base {
     constructor(y, z){
-        super(2), this.b = "", this.b = y;
+        super(2), this.b = '', this.b = y;
     }
 }
 new Derived(), new class extends Derived {
     constructor(...args){
-        super(...args), this.x = 1, this.y = "hello";
+        super(...args), this.x = 1, this.y = 'hello';
     }
-}(1), new Derived("", "");
+}(1), new Derived('', '');
 class D extends Base {
     constructor(y, z){
         super(2), this.b = null, this.b = y;

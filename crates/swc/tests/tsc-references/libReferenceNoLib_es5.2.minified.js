@@ -1,3 +1,3 @@
 export var elem = {
-    field: "a"
+    field: 'a'
 };

@@ -10,7 +10,7 @@ function curry(f) {
     };
 }
 t = [
-    "hello"
+    'hello'
 ], u = [
     10,
     !0
@@ -21,7 +21,7 @@ t = [
 ], swcHelpers.toConsumableArray(u), [
     3
 ]), concat([], []), concat([
-    "hello"
+    'hello'
 ], [
     42
 ]), concat([
@@ -41,20 +41,20 @@ t = [
     5,
     6
 ], swcHelpers.toConsumableArray(t1).concat(swcHelpers.toConsumableArray(u1)), ft1([
-    "hello",
+    'hello',
     42
 ]), ft2([
-    "hello",
+    'hello',
     42
 ]), ft3([
-    "hello",
+    'hello',
     42
 ]), ft4([
-    "hello",
+    'hello',
     42
 ]), fm1([
     [
-        "abc"
+        'abc'
     ],
     [
         42
@@ -63,21 +63,21 @@ t = [
         !0
     ],
     [
-        "def"
+        'def'
     ]
 ]);
 var t, u, t1, u1, fn1 = function(a, b, c, d) {
     return 0;
 };
-curry(fn1), curry(fn1, 1), curry(fn1, 1, "abc"), curry(fn1, 1, "abc", !0), curry(fn1, 1, "abc", !0, [
-    "x",
-    "y"
+curry(fn1), curry(fn1, 1), curry(fn1, 1, 'abc'), curry(fn1, 1, 'abc', !0), curry(fn1, 1, 'abc', !0, [
+    'x',
+    'y'
 ]);
 var fn2 = function(x, b) {
     for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)args[_key - 2] = arguments[_key];
     return 0;
 };
-curry(fn2), curry(fn2, 1), curry(fn2, 1, !0), curry(fn2, 1, !0, "abc", "def");
+curry(fn2), curry(fn2, 1), curry(fn2, 1, !0), curry(fn2, 1, !0, 'abc', 'def');
 var fn3 = function() {
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     return 0;
@@ -93,15 +93,15 @@ function callApi(method) {
         ]));
     };
 }
-curry(fn3), curry(fn3, "abc", "def"), curry.apply(void 0, [
+curry(fn3), curry(fn3, 'abc', 'def'), curry.apply(void 0, [
     fn3
 ].concat(swcHelpers.toConsumableArray(sa))), curry2(fn10, [
-    "hello",
+    'hello',
     42
 ], [
     !0
 ]), curry2(fn10, [
-    "hello"
+    'hello'
 ], [
     42,
     !0
@@ -121,19 +121,19 @@ curry(fn3), curry(fn3, "abc", "def"), curry.apply(void 0, [
     2,
     3
 ]), ft([
-    "a",
-    "b"
+    'a',
+    'b'
 ], [
-    "c",
-    "d"
+    'c',
+    'd'
 ]), ft([
-    "a",
-    "b"
+    'a',
+    'b'
 ], [
-    "c",
-    "d",
+    'c',
+    'd',
     42
-]), call("hello", 32, function(a, b) {
+]), call('hello', 32, function(a, b) {
     return 42;
 }), call.apply(void 0, swcHelpers.toConsumableArray(sa).concat([
     function() {

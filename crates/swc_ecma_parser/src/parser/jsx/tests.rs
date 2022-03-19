@@ -74,7 +74,7 @@ fn escape_in_attr() {
                     value: Some(JSXAttrValue::Lit(Lit::Str(Str {
                         span,
                         value: "w < w".into(),
-                        raw: "\"w &lt; w\"".into(),
+                        raw: Some("\"w &lt; w\"".into()),
                     }))),
                 })],
                 name: JSXElementName::Ident(Ident::new("div".into(), span)),

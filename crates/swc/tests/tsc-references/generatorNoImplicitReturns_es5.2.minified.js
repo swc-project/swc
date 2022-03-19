@@ -9,7 +9,7 @@ var _marked = regeneratorRuntime.mark(function() {
                 }
                 return _ctx.abrupt("return");
             case 2:
-                return _ctx.next = 4, "hello";
+                return _ctx.next = 4, 'hello';
             case 4:
             case "end":
                 return _ctx.stop();

@@ -14,8 +14,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, ident::IdentLike, is_literal, member_expr,
-    prepend, private_ident, prop_name_to_expr, quote_ident, quote_js_word, var::VarCollector,
-    ExprFactory, Id,
+    prepend, private_ident, prop_name_to_expr, quote_ident, var::VarCollector, ExprFactory, Id,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_obj_and_computed, Fold, Visit, VisitMut, VisitMutWith,
@@ -517,7 +516,7 @@ where
 
                         TsLit::Str(Str {
                             span,
-                            raw: quote_js_word!(value),
+                            raw: None,
                             value: value.into(),
                         })
                     }
@@ -526,7 +525,7 @@ where
 
                         TsLit::Str(Str {
                             span,
-                            raw: quote_js_word!(value),
+                            raw: None,
                             value: value.into(),
                         })
                     }
@@ -535,7 +534,7 @@ where
 
                         TsLit::Str(Str {
                             span,
-                            raw: quote_js_word!(value),
+                            raw: None,
                             value: value.into(),
                         })
                     }
@@ -596,7 +595,7 @@ where
                         if let Some(v) = &t.quasis[0].cooked {
                             return Ok(TsLit::Str(Str {
                                 span,
-                                raw: quote_js_word!(v),
+                                raw: None,
                                 value: v.into(),
                             }));
                         }
@@ -658,7 +657,7 @@ where
 
                                 Expr::Lit(Lit::Str(Str {
                                     span: v.span,
-                                    raw: quote_js_word!(value),
+                                    raw: None,
                                     value,
                                 }))
                             }
@@ -735,7 +734,7 @@ where
                                     TsEnumMemberId::Str(s) => s,
                                     TsEnumMemberId::Ident(i) => Str {
                                         span: i.span,
-                                        raw: quote_js_word!(i.sym),
+                                        raw: None,
                                         value: i.sym,
                                     },
                                 };

@@ -20,8 +20,7 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    drop_span, member_expr, prepend, private_ident, quote_ident, quote_js_word, undefined,
-    ExprFactory,
+    drop_span, member_expr, prepend, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -559,7 +558,7 @@ where
                                     let key = if i.sym.contains('-') {
                                         PropName::Str(Str {
                                             span: i.span,
-                                            raw: quote_js_word!(i.sym),
+                                            raw: None,
                                             value: i.sym,
                                         })
                                     } else {
@@ -593,7 +592,7 @@ where
                                     let str_value = format!("{}:{}", ns.sym, name.sym);
                                     let key = Str {
                                         span,
-                                        raw: quote_js_word!(str_value),
+                                        raw: None,
                                         value: str_value.into(),
                                     };
                                     let key = PropName::Str(key);
@@ -722,7 +721,7 @@ where
                 let value = jsx_text_to_str(text.value);
                 let s = Str {
                     span: text.span,
-                    raw: quote_js_word!(value),
+                    raw: None,
                     value,
                 };
 
@@ -882,7 +881,7 @@ where
 
                     Box::new(Expr::Lit(Lit::Str(Str {
                         span: s.span,
-                        raw: quote_js_word!(value),
+                        raw: None,
                         value: value.into(),
                     })))
                 }
@@ -1044,7 +1043,7 @@ where
                         specifiers: vec![specifier],
                         src: Str {
                             span: DUMMY_SP,
-                            raw: "\"react\"".into(),
+                            raw: None,
                             value: "react".into(),
                         },
                         type_only: Default::default(),
@@ -1120,7 +1119,7 @@ where
                         specifiers: imports,
                         src: Str {
                             span: DUMMY_SP,
-                            raw: quote_js_word!(value),
+                            raw: None,
                             value: value.into(),
                         },
                         type_only: Default::default(),
@@ -1148,7 +1147,7 @@ where
                 if i.as_ref().starts_with(|c: char| c.is_ascii_lowercase()) {
                     Box::new(Expr::Lit(Lit::Str(Str {
                         span,
-                        raw: quote_js_word!(i.sym),
+                        raw: None,
                         value: i.sym,
                     })))
                 } else {
@@ -1174,7 +1173,7 @@ where
 
                 Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    raw: quote_js_word!(value),
+                    raw: None,
                     value: value.into(),
                 })))
             }
@@ -1216,7 +1215,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
             if i.sym.contains('-') {
                 PropName::Str(Str {
                     span,
-                    raw: quote_js_word!(i.sym),
+                    raw: None,
                     value: i.sym,
                 })
             } else {
@@ -1228,7 +1227,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 
             PropName::Str(Str {
                 span,
-                raw: quote_js_word!(value),
+                raw: None,
                 value: value.into(),
             })
         }
@@ -1275,7 +1274,7 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
 
             Box::new(Expr::Lit(Lit::Str(Str {
                 span: s.span,
-                raw: quote_js_word!(value),
+                raw: None,
                 value: value.into(),
             })))
         }

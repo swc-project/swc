@@ -1,2 +1,2 @@
 // @target: es5
-var x = "ee";
+var x = "\u{65}\u{65}";

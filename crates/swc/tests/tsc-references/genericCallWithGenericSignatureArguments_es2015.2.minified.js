@@ -1,9 +1,9 @@
 var a, b;
 function foo(a, b) {}
 foo((x)=>1
-, (x)=>""
+, (x)=>''
 ), foo((x)=>null
-, (x)=>""
+, (x)=>''
 ), foo((x)=>1
 , (x)=>null
 ), foo((x)=>1

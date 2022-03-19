@@ -9,5 +9,5 @@ class C2 {
     thing(x) {}
     static other(x) {}
 }
-d2.foo, d2.bar, d2.thing(""), (class extends C2 {
+d2.foo, d2.bar, d2.thing(''), (class extends C2 {
 }).other(1);

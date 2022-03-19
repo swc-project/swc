@@ -1,12 +1,12 @@
 import * as a from "@swc/helpers";
-import b from "algoliasearch-helper";
-import c from "./createWidgetsManager";
-import { HIGHLIGHT_TAGS as d } from "./highlight";
-import { hasMultipleIndices as e } from "./indexUtils";
-import { version as f } from "react";
-import g from "./version";
+import b from 'algoliasearch-helper';
+import c from './createWidgetsManager';
+import { HIGHLIGHT_TAGS as d } from './highlight';
+import { hasMultipleIndices as e } from './indexUtils';
+import { version as f } from 'react';
+import g from './version';
 function h(a) {
-    "function" == typeof a.addAlgoliaAgent && (a.addAlgoliaAgent("react (".concat(f, ")")), a.addAlgoliaAgent("react-instantsearch (".concat(g, ")")));
+    'function' == typeof a.addAlgoliaAgent && (a.addAlgoliaAgent("react (".concat(f, ")")), a.addAlgoliaAgent("react-instantsearch (".concat(g, ")")));
 }
 var i = function(a) {
     return e({
@@ -73,9 +73,9 @@ export default function n(e) {
                 var b = a.indexId, d = a.parameters, c = r.derive(function() {
                     return d;
                 });
-                c.on("result", t({
+                c.on('result', t({
                     indexId: b
-                })).on("error", u);
+                })).on('error', u);
             }), r.setState(b), r.search();
         }
     }, t = function(b) {
@@ -109,7 +109,7 @@ export default function n(e) {
     }, C = function(b, c) {
         if (b.transporter) {
             b.transporter.responsesCache.set({
-                method: "search",
+                method: 'search',
                 args: [
                     c.reduce(function(a, b) {
                         return a.concat(b.rawResults.map(function(a) {
@@ -145,7 +145,7 @@ export default function n(e) {
     }, D = function(b, c) {
         if (b.transporter) {
             b.transporter.responsesCache.set({
-                method: "search",
+                method: 'search',
                 args: [
                     c.rawResults.map(function(a) {
                         return {
@@ -171,7 +171,7 @@ export default function n(e) {
             results: c.rawResults
         })));
     }, r = b(g, p, a.objectSpread({}, d));
-    h(g), r.on("search", function() {
+    h(g), r.on('search', function() {
         F || (F = setTimeout(function() {
             var b = y.getState(), c = (b.resultsFacetValues, a.objectWithoutProperties(b, [
                 "resultsFacetValues"
@@ -180,9 +180,9 @@ export default function n(e) {
                 isSearchStalled: !0
             }));
         }, z));
-    }).on("result", t({
+    }).on('result', t({
         indexId: p
-    })).on("error", u);
+    })).on('error', u);
     var f, v, w, E = !1, F = null, G = r.state, x = c(function() {
         var b = A(y.getState().widgets);
         y.setState(a.objectSpread({}, y.getState(), {
@@ -191,7 +191,7 @@ export default function n(e) {
         })), B();
     });
     !function(b, c) {
-        if (c && (b.transporter && !b._cacheHydrated || b._useCache && "function" == typeof b.addAlgoliaAgent)) {
+        if (c && (b.transporter && !b._cacheHydrated || b._useCache && 'function' == typeof b.addAlgoliaAgent)) {
             if (b.transporter && !b._cacheHydrated) {
                 b._cacheHydrated = !0;
                 var d = b.search;
@@ -208,12 +208,12 @@ export default function n(e) {
                                 });
                             }, Object.keys(c).map(function(a) {
                                 var b;
-                                return d("%s=%s", a, (b = c[a], "[object Object]" === Object.prototype.toString.call(b) || "[object Array]" === Object.prototype.toString.call(b)) ? JSON.stringify(c[a]) : c[a]);
-                            }).join("&"))
+                                return d('%s=%s', a, (b = c[a], '[object Object]' === Object.prototype.toString.call(b) || '[object Array]' === Object.prototype.toString.call(b)) ? JSON.stringify(c[a]) : c[a]);
+                            }).join('&'))
                         });
                     });
                     return b.transporter.responsesCache.get({
-                        method: "search",
+                        method: 'search',
                         args: [
                             h
                         ].concat(a.toConsumableArray(f))

@@ -3,7 +3,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
-use swc_ecma_utils::{quote_ident, quote_js_word, ExprFactory};
+use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -49,7 +49,7 @@ impl VisitMut for StickyRegex {
                 let str_lit = |s: JsWord| {
                     Box::new(Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
-                        raw: quote_js_word!(s),
+                        raw: None,
                         value: s,
                     })))
                 };

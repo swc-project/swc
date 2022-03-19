@@ -25,6 +25,6 @@ var NonGeneric, Generic;
         constructor(a, b){
             this.a = a, this.b = b;
         }
-    }(1, ""), r = c.fn();
-    r.x, r.y, r.y = "", c.y();
+    }(1, ''), r = c.fn();
+    r.x, r.y, r.y = '', c.y();
 }(Generic || (Generic = {}));

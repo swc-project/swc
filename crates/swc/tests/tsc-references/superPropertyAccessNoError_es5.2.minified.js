@@ -6,7 +6,7 @@ var SomeBaseClass = function() {
     }
     var _proto = SomeBaseClass.prototype;
     return _proto.func = function() {
-        return "";
+        return '';
     }, _proto.returnThis = function() {
         return this;
     }, SomeBaseClass.func = function() {

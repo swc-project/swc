@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var React = require("react");
+var React = require('react');
 export var AddressComp = function(_Component) {
     "use strict";
     swcHelpers.inherits(AddressComp, _Component);

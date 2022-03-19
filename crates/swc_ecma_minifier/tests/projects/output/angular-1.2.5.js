@@ -1721,8 +1721,7 @@
                 var startSymbolLength = startSymbol.length, endSymbolLength = endSymbol.length;
                 function $interpolate(text, mustHaveExpression, trustedContext) {
                     for(var startIndex, endIndex, fn, exp, index = 0, parts = [], length = text.length, hasInterpolation = !1, concat = []; index < length;)-1 != (startIndex = text.indexOf(startSymbol, index)) && -1 != (endIndex = text.indexOf(endSymbol, startIndex + startSymbolLength)) ? (index != startIndex && parts.push(text.substring(index, startIndex)), parts.push(fn = $parse(exp = text.substring(startIndex + startSymbolLength, endIndex))), fn.exp = exp, index = endIndex + endSymbolLength, hasInterpolation = !0) : (index != length && parts.push(text.substring(index)), index = length);
-                    if ((length = parts.length) || (parts.push(''), length = 1), trustedContext && parts.length > 1) throw $interpolateMinErr('noconcat', "Error while interpolating: {0}
-Strict Contextual Escaping disallows interpolations that concatenate multiple expressions when a trusted value is required.  See http://docs.angularjs.org/api/ng.$sce", text);
+                    if ((length = parts.length) || (parts.push(''), length = 1), trustedContext && parts.length > 1) throw $interpolateMinErr('noconcat', "Error while interpolating: {0}\nStrict Contextual Escaping disallows interpolations that concatenate multiple expressions when a trusted value is required.  See http://docs.angularjs.org/api/ng.$sce", text);
                     if (!mustHaveExpression || hasInterpolation) return concat.length = length, (fn = function(context) {
                         try {
                             for(var part, i = 0, ii = length; i < ii; i++)'function' == typeof (part = parts[i]) && (part = part(context), part = trustedContext ? $sce.getTrusted(trustedContext, part) : $sce.valueOf(part), null === part || isUndefined(part) ? part = '' : 'string' != typeof part && (part = toJson(part))), concat[i] = part;
@@ -2511,19 +2510,7 @@ Strict Contextual Escaping disallows interpolations that concatenate multiple ex
         else {
             var code = 'var l, fn, p;\n';
             forEach(pathKeys, function(key, index) {
-                ensureSafeMemberName(key, fullExp), code += "if(s === null || s === undefined) return s;
-l=s;
-s=" + (index ? 's' : '((k&&k.hasOwnProperty("' + key + '"))?k:s)') + '["' + key + "\"];
-" + (options.unwrapPromises ? "if (s && s.then) {
- pw(\"" + fullExp.replace(/(["\r\n])/g, '\\$1') + "\");
- if (!(\"$$v\" in s)) {
- p=s;
- p.$$v = undefined;
- p.then(function(v) {p.$$v=v;});
-}
- s=s.$$v
-}
-" : '');
+                ensureSafeMemberName(key, fullExp), code += "if(s === null || s === undefined) return s;\nl=s;\ns=" + (index ? 's' : '((k&&k.hasOwnProperty("' + key + '"))?k:s)') + '["' + key + '"];\n' + (options.unwrapPromises ? 'if (s && s.then) {\n pw("' + fullExp.replace(/(["\r\n])/g, '\\$1') + '");\n if (!("$$v" in s)) {\n p=s;\n p.$$v = undefined;\n p.then(function(v) {p.$$v=v;});\n}\n s=s.$$v\n}\n' : '');
             }), code += 'return s;';
             var evaledFnGetter = new Function('s', 'k', 'pw', code);
             evaledFnGetter.toString = function() {
@@ -2815,8 +2802,7 @@ s=" + (index ? 's' : '((k&&k.hasOwnProperty("' + key + '"))?k:s)') + '["' + key 
                                 }
                                 if (!(next = current.$$childHead || current !== this && current.$$nextSibling)) for(; current !== this && !(next = current.$$nextSibling);)current = current.$parent;
                             }while (current = next)
-                            if (dirty && !ttl--) throw clearPhase(), $rootScopeMinErr('infdig', "{0} $digest() iterations reached. Aborting!
-Watchers fired in the last 5 iterations: {1}", TTL, toJson(watchLog));
+                            if (dirty && !ttl--) throw clearPhase(), $rootScopeMinErr('infdig', "{0} $digest() iterations reached. Aborting!\nWatchers fired in the last 5 iterations: {1}", TTL, toJson(watchLog));
                         }while (dirty || asyncQueue.length)
                         for(clearPhase(); postDigestQueue.length;)try {
                             postDigestQueue.shift()();

@@ -1814,7 +1814,7 @@ impl<'a, I: Tokens> Parser<I> {
                 Token::Str { value, raw } => Lit::Str(Str {
                     span: span!(self, start),
                     value,
-                    raw,
+                    raw: Some(raw),
                 }),
                 _ => unreachable!(),
             },

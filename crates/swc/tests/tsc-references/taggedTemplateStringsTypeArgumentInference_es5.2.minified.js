@@ -259,16 +259,16 @@ function someGenerics9(strs, a, b, c) {
 }), function(strs, n) {}(_templateObject1(), function(n, x) {
     return n;
 }), someGenerics3(_templateObject2(), function() {
-    return "";
+    return '';
 }), someGenerics3(_templateObject3(), function() {}), someGenerics3(_templateObject4(), function() {
     return 3;
 }), someGenerics4(_templateObject5(), 4, function() {
     return null;
-}), someGenerics4(_templateObject6(), "", function() {
+}), someGenerics4(_templateObject6(), '', function() {
     return 3;
 }), someGenerics4(_templateObject7(), null, null), someGenerics5(_templateObject8(), 4, function() {
     return null;
-}), someGenerics5(_templateObject9(), "", function() {
+}), someGenerics5(_templateObject9(), '', function() {
     return 3;
 }), someGenerics5(_templateObject10(), null, null), someGenerics6(_templateObject11(), function(n) {
     return n;
@@ -306,12 +306,12 @@ function someGenerics9(strs, a, b, c) {
     return n;
 }, function(n) {
     return n;
-}), (_templateObject17(), someGenerics7)(_templateObject18(), null, null, null), someGenerics9(_templateObject19(), "", 0, []), someGenerics9(_templateObject20(), void 0, {
+}), (_templateObject17(), someGenerics7)(_templateObject18(), null, null, null), someGenerics9(_templateObject19(), '', 0, []), someGenerics9(_templateObject20(), void 0, {
     x: 6,
     z: new Date()
 }, {
     x: 6,
-    y: ""
+    y: ''
 }), someGenerics9(_templateObject21(), {
     x: 3
 }, {

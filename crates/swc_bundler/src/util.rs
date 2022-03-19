@@ -4,7 +4,7 @@ use std::{clone::Clone, cmp::Eq, hash::Hash};
 
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, quote_js_word};
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 
 #[cfg(feature = "concurrent")]
@@ -26,7 +26,7 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
                     self.into(),
                     Str {
                         span: DUMMY_SP,
-                        raw: quote_js_word!(name),
+                        raw: None,
                         value: name.into(),
                     }
                     .assign_to(Ident::new("INJECTED_FROM".into(), DUMMY_SP)),

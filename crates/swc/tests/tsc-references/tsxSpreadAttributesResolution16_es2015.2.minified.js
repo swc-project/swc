@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-const React = require("react");
+const React = require('react');
 export default function Component(props) {
     return React.createElement(AnotherComponent, swcHelpers.extends({}, props));
 };

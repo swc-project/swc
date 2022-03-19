@@ -9,4 +9,4 @@ var FetchUser = function(_Component) {
     return FetchUser.prototype.render = function() {
         return this.state ? this.props.children(this.state.result) : null;
     }, FetchUser;
-}(require("react").Component);
+}(require('react').Component);

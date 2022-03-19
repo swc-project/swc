@@ -4,9 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{
-    alias_ident_for, is_rest_arguments, private_ident, quote_ident, quote_js_word, ExprFactory,
-};
+use swc_ecma_utils::{alias_ident_for, is_rest_arguments, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::get_prototype_of;
@@ -368,7 +366,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     sym: value, span, ..
                 }) => Expr::Lit(Lit::Str(Str {
                     span,
-                    raw: quote_js_word!(value),
+                    raw: None,
                     value,
                 })),
                 SuperProp::Computed(c) => *c.expr,
@@ -531,7 +529,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     sym: value, span, ..
                 }) => Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    raw: quote_js_word!(value),
+                    raw: None,
                     value,
                 }))),
                 SuperProp::Computed(c) if op == op!("=") => c.expr,

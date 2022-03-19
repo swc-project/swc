@@ -5,4 +5,4 @@ var a, a2, C = function() {
 };
 new C();
 var r4 = a;
-r4(""), r4(1), a2("");
+r4(''), r4(1), a2('');

@@ -5,7 +5,7 @@ var Base = function() {
         swcHelpers.classCallCheck(this, Base);
     }
     return Base.prototype.fn = function() {
-        return "";
+        return '';
     }, swcHelpers.createClass(Base, [
         {
             key: "a",
@@ -23,7 +23,7 @@ var Base = function() {
         return swcHelpers.classCallCheck(this, Derived), _super.apply(this, arguments);
     }
     return Derived.prototype.fn = function() {
-        return "";
+        return '';
     }, swcHelpers.createClass(Derived, [
         {
             key: "a",

@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-import React from "react";
+import React from 'react';
 var ResizablePanel = function(_Component) {
     "use strict";
     swcHelpers.inherits(ResizablePanel, _Component);

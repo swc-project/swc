@@ -7,8 +7,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     alias_if_required, default_constructor, ident::IdentLike, member_expr, prepend, private_ident,
-    prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_js_word, replace_ident,
-    undefined, ExprFactory, ModuleItemLike, StmtLike,
+    prop_name_to_expr, prop_name_to_expr_value, quote_ident, replace_ident, undefined, ExprFactory,
+    ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
 
@@ -506,7 +506,7 @@ impl Legacy {
                     PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
                         span: i.span,
                         value: i.sym.clone(),
-                        raw: quote_js_word!(i.sym.clone()),
+                        raw: None,
                     }))),
                     _ => prop_name_to_expr(p.key.clone()).into(),
                 };

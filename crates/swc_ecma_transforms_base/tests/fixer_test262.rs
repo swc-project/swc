@@ -13,7 +13,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_utils::{quote_js_word, DropSpan};
+use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -297,7 +297,7 @@ impl Fold for Normalizer {
 
         match name {
             PropName::Ident(i) => PropName::Str(Str {
-                raw: quote_js_word!(i.sym),
+                raw: None,
                 value: i.sym,
                 span: i.span,
             }),
@@ -312,7 +312,7 @@ impl Fold for Normalizer {
                     format!("{}", n.value)
                 };
                 PropName::Str(Str {
-                    raw: quote_js_word!(s),
+                    raw: None,
                     value: s.into(),
                     span: n.span,
                 })
@@ -336,7 +336,7 @@ impl Fold for Normalizer {
     fn fold_str(&mut self, s: Str) -> Str {
         Str {
             span: s.span,
-            raw: quote_js_word!(s.value),
+            raw: None,
             value: s.value,
         }
     }

@@ -4,8 +4,7 @@ use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    alias_ident_for, is_rest_arguments, prepend, private_ident, quote_ident, quote_js_word,
-    ExprFactory, IdentExt,
+    alias_ident_for, is_rest_arguments, prepend, private_ident, quote_ident, ExprFactory, IdentExt,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -189,7 +188,7 @@ impl SuperReplacer {
             SuperProp::Ident(Ident {
                 sym: value, span, ..
             }) => Box::new(Expr::Lit(Lit::Str(Str {
-                raw: quote_js_word!(value),
+                raw: None,
                 value,
                 span,
             }))),

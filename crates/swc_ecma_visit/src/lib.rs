@@ -990,7 +990,7 @@ define!({
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
-        pub raw: JsWord,
+        pub raw: Option<JsWord>,
     }
     pub struct Bool {
         pub span: Span,

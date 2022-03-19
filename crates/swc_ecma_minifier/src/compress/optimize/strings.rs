@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, quote_js_word, ExprExt, Value::Known};
+use swc_ecma_utils::{ident::IdentLike, ExprExt, Value::Known};
 
 use super::Optimizer;
 use crate::mode::Mode;
@@ -77,7 +77,7 @@ where
             );
             *n = Expr::Lit(Lit::Str(Str {
                 span,
-                raw: quote_js_word!(value),
+                raw: None,
                 value: value.into(),
             }));
             return;
@@ -96,7 +96,7 @@ where
 
                 *n = Expr::Lit(Lit::Str(Str {
                     span: v.span,
-                    raw: quote_js_word!(value),
+                    raw: None,
                     value: value.into(),
                 }));
             }
@@ -116,7 +116,7 @@ where
 
                 *n = Expr::Lit(Lit::Str(Str {
                     span: v.span,
-                    raw: quote_js_word!(value),
+                    raw: None,
                     value: value.into(),
                 }));
             }
@@ -142,7 +142,7 @@ where
 
                     *n = Expr::Lit(Lit::Str(Str {
                         span: i.span,
-                        raw: "\"undefined\"".into(),
+                        raw: None,
                         value: js_word!("undefined"),
                     }));
                 }

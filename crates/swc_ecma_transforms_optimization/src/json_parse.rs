@@ -78,8 +78,7 @@ impl VisitMut for JsonParse {
                         callee: member_expr!(DUMMY_SP, JSON.parse).as_callee(),
                         args: vec![Lit::Str(Str {
                             span: DUMMY_SP,
-                            // Prefer single quotes because JSON uses double quotes (less size)
-                            raw: format!("'{}'", value.replace('\'', "\\'")).into(),
+                            raw: None,
                             value: value.into(),
                         })
                         .as_arg()],
@@ -170,7 +169,7 @@ mod tests {
         |_| json_parse(0),
         empty_object,
         "const a = {};",
-        r#"const a = JSON.parse('{}');"#
+        r#"const a = JSON.parse("{}");"#
     );
 
     test!(
@@ -317,7 +316,7 @@ mod tests {
         |_| json_parse(0),
         tpl,
         r#"const a = [`\x22\x21\x224`];"#,
-        r#"const a = JSON.parse('["\"!\"4"]');"#
+        r#"const a = JSON.parse('["\\"!\\"4"]');"#
     );
     test!(
         ::swc_ecma_parser::Syntax::default(),

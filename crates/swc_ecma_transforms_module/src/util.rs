@@ -16,7 +16,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike, member_expr, private_ident, quote_ident, quote_js_word, quote_str, undefined,
+    ident::IdentLike, member_expr, private_ident, quote_ident, quote_str, undefined,
     DestructuringFinder, ExprFactory, Id,
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
@@ -573,7 +573,7 @@ impl Scope {
                         let src = folder.resolver().resolve(s.value.clone());
 
                         Box::new(Expr::Lit(Lit::Str(Str {
-                            raw: quote_js_word!(src),
+                            raw: None,
                             value: src,
                             ..s.clone()
                         })))

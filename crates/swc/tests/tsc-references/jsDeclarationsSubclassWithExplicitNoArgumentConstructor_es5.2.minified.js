@@ -8,7 +8,7 @@ export var Sub = function(Super1) {
     swcHelpers.inherits(Sub, Super1);
     var _super = swcHelpers.createSuper(Sub);
     function Sub() {
-        return swcHelpers.classCallCheck(this, Sub), _super.call(this, "first", "second");
+        return swcHelpers.classCallCheck(this, Sub), _super.call(this, 'first', 'second');
     }
     return Sub;
 }(Super);

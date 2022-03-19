@@ -209,9 +209,7 @@
                 var el = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement(tagName);
                 return Object.getOwnPropertyNames(properties).forEach(function(propName) {
                     var val = properties[propName];
-                    -1 !== propName.indexOf('aria-') || 'role' === propName || 'type' === propName ? (log$1.warn("Setting attributes in the second argument of createEl()
-has been deprecated. Use the third argument instead.
-" + ("createEl(type, properties, attributes). Attempting to set " + propName + " to " + val + ".")), el.setAttribute(propName, val)) : 'textContent' === propName ? textContent(el, val) : (el[propName] !== val || 'tabIndex' === propName) && (el[propName] = val);
+                    -1 !== propName.indexOf('aria-') || 'role' === propName || 'type' === propName ? (log$1.warn("Setting attributes in the second argument of createEl()\nhas been deprecated. Use the third argument instead.\n" + ("createEl(type, properties, attributes). Attempting to set " + propName + " to " + val + ".")), el.setAttribute(propName, val)) : 'textContent' === propName ? textContent(el, val) : (el[propName] !== val || 'tabIndex' === propName) && (el[propName] = val);
                 }), Object.getOwnPropertyNames(attributes).forEach(function(attrName) {
                     el.setAttribute(attrName, attributes[attrName]);
                 }), content && appendContent(el, content), el;
@@ -4690,8 +4688,7 @@ has been deprecated. Use the third argument instead.
                         }
                         for(var i = 0; i < removeNodes.length; i++)_this.el_.removeChild(removeNodes[i]);
                     }
-                    return _this.proxyNativeTracks_(), _this.featuresNativeTextTracks && crossoriginTracks && log$1.warn("Text Tracks are being loaded from another origin but the crossorigin attribute isn't used.
-This may prevent text tracks from loading."), _this.restoreMetadataTracksInIOSNativePlayer_(), (TOUCH_ENABLED || IS_IPHONE || IS_NATIVE_ANDROID) && !0 === options.nativeControlsForTouch && _this.setControls(!0), _this.proxyWebkitFullscreen_(), _this.triggerReady(), _this;
+                    return _this.proxyNativeTracks_(), _this.featuresNativeTextTracks && crossoriginTracks && log$1.warn("Text Tracks are being loaded from another origin but the crossorigin attribute isn't used.\nThis may prevent text tracks from loading."), _this.restoreMetadataTracksInIOSNativePlayer_(), (TOUCH_ENABLED || IS_IPHONE || IS_NATIVE_ANDROID) && !0 === options.nativeControlsForTouch && _this.setControls(!0), _this.proxyWebkitFullscreen_(), _this.triggerReady(), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(Html5, _Tech);
                 var _proto = Html5.prototype;
@@ -5430,9 +5427,7 @@ This may prevent text tracks from loading."), _this.restoreMetadataTracksInIOSNa
                         _this5[props.privateName] = _this5[props.getterName]();
                     }), this.textTracksJson_ = textTrackConverter.textTracksToJson(this.tech_), this.isReady_ = !1, this.tech_.dispose(), this.tech_ = !1, this.isPosterFromTech_ && (this.poster_ = '', this.trigger('posterchange')), this.isPosterFromTech_ = !1;
                 }, _proto.tech = function(safety) {
-                    return void 0 === safety && log$1.warn("Using the tech directly can be dangerous. I hope you know what you're doing.
-See https://github.com/videojs/video.js/issues/2617 for more info.
-"), this.tech_;
+                    return void 0 === safety && log$1.warn("Using the tech directly can be dangerous. I hope you know what you're doing.\nSee https://github.com/videojs/video.js/issues/2617 for more info.\n"), this.tech_;
                 }, _proto.addTechControlsListeners_ = function() {
                     this.removeTechControlsListeners_(), this.on(this.tech_, 'click', this.boundHandleTechClick_), this.on(this.tech_, 'dblclick', this.boundHandleTechDoubleClick_), this.on(this.tech_, 'touchstart', this.boundHandleTechTouchStart_), this.on(this.tech_, 'touchmove', this.boundHandleTechTouchMove_), this.on(this.tech_, 'touchend', this.boundHandleTechTouchEnd_), this.on(this.tech_, 'tap', this.boundHandleTechTap_);
                 }, _proto.removeTechControlsListeners_ = function() {
@@ -7617,9 +7612,7 @@ See https://github.com/videojs/video.js/issues/2617 for more info.
                     }, worker;
                 };
             }, transform1 = function(code) {
-                return "var browserWorkerPolyFill = " + browserWorkerPolyFill.toString() + ";
-browserWorkerPolyFill(self);
-" + code;
+                return "var browserWorkerPolyFill = " + browserWorkerPolyFill.toString() + ";\nbrowserWorkerPolyFill(self);\n" + code;
             }, getWorkerString = function(fn) {
                 return fn.toString().replace(/^function.+?{/, '').slice(0, -1);
             }, workerCode$1 = transform1(getWorkerString(function() {

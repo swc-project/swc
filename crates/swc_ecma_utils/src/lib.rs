@@ -1659,7 +1659,7 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
     match p {
         PropName::Ident(i) => Expr::Lit(Lit::Str(Str {
             span: i.span,
-            raw: quote_js_word!(i.sym),
+            raw: None,
             value: i.sym,
         })),
         PropName::Str(s) => Expr::Lit(Lit::Str(s)),
@@ -1829,7 +1829,7 @@ pub trait IsDirective {
         match self.as_ref() {
             Some(&Stmt::Expr(ref expr)) => match *expr.expr {
                 Expr::Lit(Lit::Str(Str { ref raw, .. })) => {
-                    raw == "\"use strict\"" || raw == "'use strict'"
+                    matches!(raw, Some(value) if value == "\"use strict\"" || value == "'use strict'")
                 }
                 _ => false,
             },

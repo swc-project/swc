@@ -8,7 +8,7 @@ export function Set(...keys1) {
 export function keys(obj) {
     return Object.keys(obj);
 }
-const langCodeSet = Set("fr", "en", "es", "it", "nl");
+const langCodeSet = Set('fr', 'en', 'es', 'it', 'nl');
 export const langCodes = keys(langCodeSet);
 langCodes.map((code)=>({
         code

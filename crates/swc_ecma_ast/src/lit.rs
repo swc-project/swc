@@ -139,8 +139,10 @@ pub struct Str {
     #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
     pub value: JsWord,
 
+    /// Use `None` value only for transformations to avoid recalculate escaped
+    /// characters in strings
     #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
-    pub raw: JsWord,
+    pub raw: Option<JsWord>,
 }
 
 impl Take for Str {
@@ -148,7 +150,7 @@ impl Take for Str {
         Str {
             span: DUMMY_SP,
             value: js_word!(""),
-            raw: "\"\"".into(),
+            raw: Some("\"\"".into()),
         }
     }
 }
@@ -159,7 +161,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Str {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let value = u.arbitrary::<String>()?.into();
-        let raw = format!("\"{}\"", u.arbitrary::<String>()?.replace('"', "\\\"")).into();
+        let raw = Some(u.arbitrary::<String>()?.into());
 
         Ok(Self { span, value, raw })
     }
@@ -302,14 +304,10 @@ impl Display for Number {
 impl From<JsWord> for Str {
     #[inline]
     fn from(value: JsWord) -> Self {
-        // `"` is default quote
-        let new_value = value.replace('"', "\\\"");
-        let raw = format!("\"{}\"", new_value.replace('\\', "\\\\"));
-
         Str {
             span: DUMMY_SP,
-            value: new_value.into(),
-            raw: raw.into(),
+            value,
+            raw: None,
         }
     }
 }

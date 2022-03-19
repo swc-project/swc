@@ -6286,7 +6286,7 @@
                                             else if (nextChar >= 'P' && nextChar <= 'S') decodedChar = String.fromCharCode(nextCharCode + 43);
                                             else {
                                                 if (!(nextChar >= 'T') || !(nextChar <= 'Z')) return null;
-                                                decodedChar = "";
+                                                decodedChar = "\x7f";
                                             }
                                             break;
                                         case 'c':

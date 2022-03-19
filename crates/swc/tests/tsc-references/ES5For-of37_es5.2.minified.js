@@ -15,7 +15,7 @@ try {
                     1,
                     2,
                     3
-                ][Symbol.iterator](); !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = !0)if (_step1.value, 2 === i) throw new Error("ERR");
+                ][Symbol.iterator](); !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = !0)if (_step1.value, 2 === i) throw new Error('ERR');
             } catch (err) {
                 _didIteratorError1 = !0, _iteratorError1 = err;
             } finally{
@@ -27,7 +27,7 @@ try {
             }
             console.log(i);
         } catch (err) {
-            console.log("E %s %s", i, err);
+            console.log('E %s %s', i, err);
         }
     }
 } catch (err) {

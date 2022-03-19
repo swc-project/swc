@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 export function bounceAndTakeIfA(value) {
-    return "A" === value && takeA(value), value;
+    return 'A' === value && takeA(value), value;
 }
 var EventEmitter = function() {
     "use strict";

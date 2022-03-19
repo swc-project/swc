@@ -263,7 +263,7 @@ impl Pure<'_> {
 
                 *e = Expr::Lit(Lit::Str(Str {
                     span: e.span(),
-                    raw: quote_js_word!(value),
+                    raw: None,
                     value: value.into(),
                 }))
             }

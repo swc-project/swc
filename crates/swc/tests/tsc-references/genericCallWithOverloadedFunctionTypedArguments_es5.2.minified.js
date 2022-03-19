@@ -21,12 +21,12 @@ var NonGenericParameter, GenericParameter;
     }), foo5(a), foo6(function(x) {
         return x;
     }), foo6(function(x) {
-        return "";
+        return '';
     }), foo6(function(x, y) {
-        return "";
+        return '';
     }), foo7(1, function(x) {
         return x;
     }), foo7(1, function(x) {
-        return "";
+        return '';
     }), foo7(1, a);
 }(GenericParameter || (GenericParameter = {}));

@@ -8,7 +8,7 @@ var A = function() {
         {
             key: "p",
             get: function() {
-                return "oh no";
+                return 'oh no';
             }
         }
     ]), A;

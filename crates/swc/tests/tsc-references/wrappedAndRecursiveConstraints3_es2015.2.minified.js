@@ -10,6 +10,6 @@ new class {
 }).foo({
     length: 3,
     charAt (x) {
-        "";
+        '';
     }
-})("");
+})('');

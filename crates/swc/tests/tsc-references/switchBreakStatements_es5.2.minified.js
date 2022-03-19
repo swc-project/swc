@@ -1,35 +1,35 @@
-switch(""){
-    case "a":
+switch(''){
+    case 'a':
         break;
 }
-ONE: switch(""){
-    case "a":
+ONE: switch(''){
+    case 'a':
         break ONE;
 }
-TWO: THREE: switch(""){
-    case "a":
+TWO: THREE: switch(''){
+    case 'a':
         break THREE;
 }
-FOUR: switch(""){
-    case "a":
-        FIVE: switch(""){
-            case "a":
+FOUR: switch(''){
+    case 'a':
+        FIVE: switch(''){
+            case 'a':
                 break FOUR;
         }
 }
-switch(""){
-    case "a":
-        SIX: switch(""){
-            case "a":
+switch(''){
+    case 'a':
+        SIX: switch(''){
+            case 'a':
                 break SIX;
         }
 }
-SEVEN: switch(""){
-    case "a":
-        switch(""){
-            case "a":
-                switch(""){
-                    case "a":
+SEVEN: switch(''){
+    case 'a':
+        switch(''){
+            case 'a':
+                switch(''){
+                    case 'a':
                         break SEVEN;
                 }
         }

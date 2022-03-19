@@ -1220,7 +1220,7 @@
     }, warnBadVendoredStyleName = function(name) {
         warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name] || (warnedStyleNames[name] = !0, error1('Unsupported vendor-prefixed style property %s. Did you mean %s?', name, name.charAt(0).toUpperCase() + name.slice(1)));
     }, warnStyleValueWithSemicolon = function(name, value) {
-        warnedStyleValues.hasOwnProperty(value) && warnedStyleValues[value] || (warnedStyleValues[value] = !0, error1("Style property values shouldn't contain a semicolon. Try \"%s: %s\" instead.", name, value.replace(badStyleValueWithSemicolonPattern, '')));
+        warnedStyleValues.hasOwnProperty(value) && warnedStyleValues[value] || (warnedStyleValues[value] = !0, error1('Style property values shouldn\'t contain a semicolon. Try "%s: %s" instead.', name, value.replace(badStyleValueWithSemicolonPattern, '')));
     }, warnStyleValueIsNaN = function(name, value) {
         warnedForNaNValue || (warnedForNaNValue = !0, error1('`NaN` is an invalid value for the `%s` css style property.', name));
     }, warnStyleValueIsInfinity = function(name, value) {
@@ -1873,13 +1873,7 @@
             var standardName = possibleStandardNames[lowerCasedName];
             if (standardName !== name) return error1('Invalid DOM property `%s`. Did you mean `%s`?', name, standardName), warnedProperties$1[name] = !0, !0;
         } else if (!isReserved && name !== lowerCasedName) return error1("React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element.", name, lowerCasedName), warnedProperties$1[name] = !0, !0;
-        return 'boolean' == typeof value && shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (value ? error1("Received `%s` for a non-boolean attribute `%s`.
-
-If you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.", value, name, name, value, name) : error1("Received `%s` for a non-boolean attribute `%s`.
-
-If you want to write it to the DOM, pass a string instead: %s=\"%s\" or %s={value.toString()}.
-
-If you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead.", value, name, name, value, name, name, name), warnedProperties$1[name] = !0, !0) : !!isReserved || (shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (warnedProperties$1[name] = !0, !1) : 'false' !== value && 'true' !== value || null === propertyInfo || 3 !== propertyInfo.type || (error1("Received the string `%s` for the boolean attribute `%s`. %s Did you mean %s={%s}?", value, name, 'false' === value ? 'The browser will interpret it as a truthy value.' : 'Although this works, it will not work as expected if you pass the string "false".', name, value), warnedProperties$1[name] = !0, !0));
+        return 'boolean' == typeof value && shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (value ? error1('Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s="%s" or %s={value.toString()}.', value, name, name, value, name) : error1('Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s="%s" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead.', value, name, name, value, name, name, name), warnedProperties$1[name] = !0, !0) : !!isReserved || (shouldRemoveAttributeWithWarning(name, value, propertyInfo, !1) ? (warnedProperties$1[name] = !0, !1) : 'false' !== value && 'true' !== value || null === propertyInfo || 3 !== propertyInfo.type || (error1("Received the string `%s` for the boolean attribute `%s`. %s Did you mean %s={%s}?", value, name, 'false' === value ? 'The browser will interpret it as a truthy value.' : 'Although this works, it will not work as expected if you pass the string "false".', name, value), warnedProperties$1[name] = !0, !0));
     };
     var warnUnknownProperties = function(type, props, eventRegistry) {
         var unknownProps = [];
@@ -3712,9 +3706,7 @@ If you used to conditionally omit it with %s={condition && value}, pass %s={cond
             }), error1('Extra attributes from the server: %s', names);
         }
     }, warnForInvalidEventListener = function(registrationName, listener) {
-        !1 === listener ? error1("Expected `%s` listener to be a function, instead got `false`.
-
-If you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead.", registrationName, registrationName, registrationName) : error1('Expected `%s` listener to be a function, instead got a value of `%s` type.', registrationName, typeof listener);
+        !1 === listener ? error1("Expected `%s` listener to be a function, instead got `false`.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead.", registrationName, registrationName, registrationName) : error1('Expected `%s` listener to be a function, instead got a value of `%s` type.', registrationName, typeof listener);
     }, normalizeHTML = function(parent, html) {
         var testElement = parent.namespaceURI === HTML_NAMESPACE$1 ? parent.ownerDocument.createElement(parent.tagName) : parent.ownerDocument.createElementNS(parent.namespaceURI, parent.tagName);
         return testElement.innerHTML = html, testElement.innerHTML;
@@ -4324,36 +4316,7 @@ If you used to conditionally omit it with %s={condition && value}, pass %s={cond
         var UNSAFE_componentWillUpdateUniqueNames = new Set();
         pendingUNSAFE_ComponentWillUpdateWarnings.length > 0 && (pendingUNSAFE_ComponentWillUpdateWarnings.forEach(function(fiber) {
             UNSAFE_componentWillUpdateUniqueNames.add(getComponentName(fiber.type) || 'Component'), didWarnAboutUnsafeLifecycles.add(fiber.type);
-        }), pendingUNSAFE_ComponentWillUpdateWarnings = []), UNSAFE_componentWillMountUniqueNames.size > 0 && error1("Using UNSAFE_componentWillMount in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.
-
-* Move code with side effects to componentDidMount, and set initial state in the constructor.
-
-Please update the following components: %s", setToSortedString(UNSAFE_componentWillMountUniqueNames)), UNSAFE_componentWillReceivePropsUniqueNames.size > 0 && error1("Using UNSAFE_componentWillReceiveProps in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.
-
-* Move data fetching code or side effects to componentDidUpdate.
-* If you're updating state whenever props change, refactor your code to use memoization techniques or move it to static getDerivedStateFromProps. Learn more at: https://reactjs.org/link/derived-state
-
-Please update the following components: %s", setToSortedString(UNSAFE_componentWillReceivePropsUniqueNames)), UNSAFE_componentWillUpdateUniqueNames.size > 0 && error1("Using UNSAFE_componentWillUpdate in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.
-
-* Move data fetching code or side effects to componentDidUpdate.
-
-Please update the following components: %s", setToSortedString(UNSAFE_componentWillUpdateUniqueNames)), componentWillMountUniqueNames.size > 0 && warn("componentWillMount has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.
-
-* Move code with side effects to componentDidMount, and set initial state in the constructor.
-* Rename componentWillMount to UNSAFE_componentWillMount to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.
-
-Please update the following components: %s", setToSortedString(componentWillMountUniqueNames)), componentWillReceivePropsUniqueNames.size > 0 && warn("componentWillReceiveProps has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.
-
-* Move data fetching code or side effects to componentDidUpdate.
-* If you're updating state whenever props change, refactor your code to use memoization techniques or move it to static getDerivedStateFromProps. Learn more at: https://reactjs.org/link/derived-state
-* Rename componentWillReceiveProps to UNSAFE_componentWillReceiveProps to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.
-
-Please update the following components: %s", setToSortedString(componentWillReceivePropsUniqueNames)), componentWillUpdateUniqueNames.size > 0 && warn("componentWillUpdate has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.
-
-* Move data fetching code or side effects to componentDidUpdate.
-* Rename componentWillUpdate to UNSAFE_componentWillUpdate to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.
-
-Please update the following components: %s", setToSortedString(componentWillUpdateUniqueNames));
+        }), pendingUNSAFE_ComponentWillUpdateWarnings = []), UNSAFE_componentWillMountUniqueNames.size > 0 && error1("Using UNSAFE_componentWillMount in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move code with side effects to componentDidMount, and set initial state in the constructor.\n\nPlease update the following components: %s", setToSortedString(UNSAFE_componentWillMountUniqueNames)), UNSAFE_componentWillReceivePropsUniqueNames.size > 0 && error1("Using UNSAFE_componentWillReceiveProps in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n* If you're updating state whenever props change, refactor your code to use memoization techniques or move it to static getDerivedStateFromProps. Learn more at: https://reactjs.org/link/derived-state\n\nPlease update the following components: %s", setToSortedString(UNSAFE_componentWillReceivePropsUniqueNames)), UNSAFE_componentWillUpdateUniqueNames.size > 0 && error1("Using UNSAFE_componentWillUpdate in strict mode is not recommended and may indicate bugs in your code. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n\nPlease update the following components: %s", setToSortedString(UNSAFE_componentWillUpdateUniqueNames)), componentWillMountUniqueNames.size > 0 && warn("componentWillMount has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move code with side effects to componentDidMount, and set initial state in the constructor.\n* Rename componentWillMount to UNSAFE_componentWillMount to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.\n\nPlease update the following components: %s", setToSortedString(componentWillMountUniqueNames)), componentWillReceivePropsUniqueNames.size > 0 && warn("componentWillReceiveProps has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n* If you're updating state whenever props change, refactor your code to use memoization techniques or move it to static getDerivedStateFromProps. Learn more at: https://reactjs.org/link/derived-state\n* Rename componentWillReceiveProps to UNSAFE_componentWillReceiveProps to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.\n\nPlease update the following components: %s", setToSortedString(componentWillReceivePropsUniqueNames)), componentWillUpdateUniqueNames.size > 0 && warn("componentWillUpdate has been renamed, and is not recommended for use. See https://reactjs.org/link/unsafe-component-lifecycles for details.\n\n* Move data fetching code or side effects to componentDidUpdate.\n* Rename componentWillUpdate to UNSAFE_componentWillUpdate to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.\n\nPlease update the following components: %s", setToSortedString(componentWillUpdateUniqueNames));
     };
     var pendingLegacyContextWarning = new Map(), didWarnAboutLegacyContext = new Set();
     function resolveDefaultProps(Component, baseProps) {
@@ -4383,13 +4346,7 @@ Please update the following components: %s", setToSortedString(componentWillUpda
                 });
                 var sortedNames = setToSortedString(uniqueNames);
                 try {
-                    setCurrentFiber(firstFiber), error1("Legacy context API has been detected within a strict-mode tree.
-
-The old API will be supported in all 16.x releases, but applications using it should migrate to the new version.
-
-Please update the following components: %s
-
-Learn more about this warning here: https://reactjs.org/link/legacy-context", sortedNames);
+                    setCurrentFiber(firstFiber), error1("Legacy context API has been detected within a strict-mode tree.\n\nThe old API will be supported in all 16.x releases, but applications using it should migrate to the new version.\n\nPlease update the following components: %s\n\nLearn more about this warning here: https://reactjs.org/link/legacy-context", sortedNames);
                 } finally{
                     resetCurrentFiber();
                 }
@@ -4756,12 +4713,7 @@ Learn more about this warning here: https://reactjs.org/link/legacy-context", so
             var foundWillMountName = null, foundWillReceivePropsName = null, foundWillUpdateName = null;
             if ('function' == typeof instance.componentWillMount && !0 !== instance.componentWillMount.__suppressDeprecationWarning ? foundWillMountName = 'componentWillMount' : 'function' == typeof instance.UNSAFE_componentWillMount && (foundWillMountName = 'UNSAFE_componentWillMount'), 'function' == typeof instance.componentWillReceiveProps && !0 !== instance.componentWillReceiveProps.__suppressDeprecationWarning ? foundWillReceivePropsName = 'componentWillReceiveProps' : 'function' == typeof instance.UNSAFE_componentWillReceiveProps && (foundWillReceivePropsName = 'UNSAFE_componentWillReceiveProps'), 'function' == typeof instance.componentWillUpdate && !0 !== instance.componentWillUpdate.__suppressDeprecationWarning ? foundWillUpdateName = 'componentWillUpdate' : 'function' == typeof instance.UNSAFE_componentWillUpdate && (foundWillUpdateName = 'UNSAFE_componentWillUpdate'), null !== foundWillMountName || null !== foundWillReceivePropsName || null !== foundWillUpdateName) {
                 var _componentName = getComponentName(ctor) || 'Component', newApiName = 'function' == typeof ctor.getDerivedStateFromProps ? 'getDerivedStateFromProps()' : 'getSnapshotBeforeUpdate()';
-                didWarnAboutLegacyLifecyclesAndDerivedState.has(_componentName) || (didWarnAboutLegacyLifecyclesAndDerivedState.add(_componentName), error1("Unsafe legacy lifecycles will not be called for components using new component APIs.
-
-%s uses %s but also contains the following legacy lifecycles:%s%s%s
-
-The above lifecycles should be removed. Learn more about this warning here:
-https://reactjs.org/link/unsafe-component-lifecycles", _componentName, newApiName, null !== foundWillMountName ? "\n  " + foundWillMountName : '', null !== foundWillReceivePropsName ? "\n  " + foundWillReceivePropsName : '', null !== foundWillUpdateName ? "\n  " + foundWillUpdateName : ''));
+                didWarnAboutLegacyLifecyclesAndDerivedState.has(_componentName) || (didWarnAboutLegacyLifecyclesAndDerivedState.add(_componentName), error1("Unsafe legacy lifecycles will not be called for components using new component APIs.\n\n%s uses %s but also contains the following legacy lifecycles:%s%s%s\n\nThe above lifecycles should be removed. Learn more about this warning here:\nhttps://reactjs.org/link/unsafe-component-lifecycles", _componentName, newApiName, null !== foundWillMountName ? "\n  " + foundWillMountName : '', null !== foundWillReceivePropsName ? "\n  " + foundWillReceivePropsName : '', null !== foundWillUpdateName ? "\n  " + foundWillUpdateName : ''));
             }
         }
         return isLegacyContextConsumer && cacheContext(workInProgress, unmaskedContext, context), instance;
@@ -4797,7 +4749,7 @@ https://reactjs.org/link/unsafe-component-lifecycles", _componentName, newApiNam
             if ('object' != typeof child._store) throw Error("React Component in warnForMissingKey should have a _store. This error is likely caused by a bug in React. Please file an issue.");
             child._store.validated = !0;
             var componentName = getComponentName(returnFiber.type) || 'Component';
-            ownerHasKeyUseWarning[componentName] || (ownerHasKeyUseWarning[componentName] = !0, error1("Each child in a list should have a unique \"key\" prop. See https://reactjs.org/link/warning-keys for more information."));
+            ownerHasKeyUseWarning[componentName] || (ownerHasKeyUseWarning[componentName] = !0, error1('Each child in a list should have a unique "key" prop. See https://reactjs.org/link/warning-keys for more information.'));
         }
     };
     var isArray$1 = Array.isArray;
@@ -4810,7 +4762,7 @@ https://reactjs.org/link/unsafe-component-lifecycles", _componentName, newApiNam
         if (null !== mixedRef && 'function' != typeof mixedRef && 'object' != typeof mixedRef) {
             if ((1 & returnFiber.mode || 0) && !(element._owner && element._self && element._owner.stateNode !== element._self)) {
                 var componentName = getComponentName(returnFiber.type) || 'Component';
-                didWarnAboutStringRefs[componentName] || (error1("A string ref, \"%s\", has been found within a strict mode tree. String refs are a source of potential bugs and should be avoided. We recommend using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref", mixedRef), didWarnAboutStringRefs[componentName] = !0);
+                didWarnAboutStringRefs[componentName] || (error1('A string ref, "%s", has been found within a strict mode tree. String refs are a source of potential bugs and should be avoided. We recommend using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', mixedRef), didWarnAboutStringRefs[componentName] = !0);
             }
             if (element._owner) {
                 var inst, owner = element._owner;
@@ -4974,7 +4926,7 @@ https://reactjs.org/link/unsafe-component-lifecycles", _componentName, newApiNam
                         knownKeys.add(key);
                         break;
                     }
-                    error1("Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.", key);
+                    error1("Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted \u2014 the behavior is unsupported and could change in a future version.", key);
                     break;
             }
             return knownKeys;
@@ -5363,12 +5315,7 @@ https://reactjs.org/link/unsafe-component-lifecycles", _componentName, newApiNam
                 for(var oldHookName = hookTypesDev[i], newHookName = i === hookTypesUpdateIndexDev ? currentHookName : oldHookName, row = i + 1 + ". " + oldHookName; row.length < secondColumnStart;)row += ' ';
                 row += newHookName + '\n', table += row;
             }
-            error1("React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://reactjs.org/link/rules-of-hooks
-
-   Previous render            Next render
-   ------------------------------------------------------
-%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-", componentName, table);
+            error1("React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://reactjs.org/link/rules-of-hooks\n\n   Previous render            Next render\n   ------------------------------------------------------\n%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", componentName, table);
         }
     }
     function throwInvalidHookError() {
@@ -5377,10 +5324,7 @@ https://reactjs.org/link/unsafe-component-lifecycles", _componentName, newApiNam
     function areHookInputsEqual(nextDeps, prevDeps) {
         if (ignorePreviousDependencies) return !1;
         if (null === prevDeps) return error1("%s received a final argument during this render, but not during the previous render. Even though the final argument is optional, its type cannot change between renders.", currentHookNameInDev), !1;
-        nextDeps.length !== prevDeps.length && error1("The final argument passed to %s changed size between renders. The order and size of this array must remain constant.
-
-Previous: %s
-Incoming: %s", currentHookNameInDev, "[" + prevDeps.join(', ') + "]", "[" + nextDeps.join(', ') + "]");
+        nextDeps.length !== prevDeps.length && error1("The final argument passed to %s changed size between renders. The order and size of this array must remain constant.\n\nPrevious: %s\nIncoming: %s", currentHookNameInDev, "[" + prevDeps.join(', ') + "]", "[" + nextDeps.join(', ') + "]");
         for(var i = 0; i < prevDeps.length && i < nextDeps.length; i++)if (!objectIs(nextDeps[i], prevDeps[i])) return !1;
         return !0;
     }
@@ -6692,18 +6636,18 @@ Incoming: %s", currentHookNameInDev, "[" + prevDeps.join(', ') + "]", "[" + next
                 case 'together':
                 case 'forwards':
                 case 'backwards':
-                    error1("\"%s\" is not a valid value for revealOrder on <SuspenseList />. Use lowercase \"%s\" instead.", revealOrder, revealOrder.toLowerCase());
+                    error1('"%s" is not a valid value for revealOrder on <SuspenseList />. Use lowercase "%s" instead.', revealOrder, revealOrder.toLowerCase());
                     break;
                 case 'forward':
                 case 'backward':
-                    error1("\"%s\" is not a valid value for revealOrder on <SuspenseList />. React uses the -s suffix in the spelling. Use \"%ss\" instead.", revealOrder, revealOrder.toLowerCase());
+                    error1('"%s" is not a valid value for revealOrder on <SuspenseList />. React uses the -s suffix in the spelling. Use "%ss" instead.', revealOrder, revealOrder.toLowerCase());
                     break;
                 default:
-                    error1("\"%s\" is not a supported revealOrder on <SuspenseList />. Did you mean \"together\", \"forwards\" or \"backwards\"?", revealOrder);
+                    error1('"%s" is not a supported revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
                     break;
             }
-            else error1("%s is not a supported value for revealOrder on <SuspenseList />. Did you mean \"together\", \"forwards\" or \"backwards\"?", revealOrder);
-        }(revealOrder1), tailMode = tailMode1, revealOrder2 = revealOrder1, void 0 === tailMode || didWarnAboutTailOptions[tailMode] || ('collapsed' !== tailMode && 'hidden' !== tailMode ? (didWarnAboutTailOptions[tailMode] = !0, error1("\"%s\" is not a supported value for tail on <SuspenseList />. Did you mean \"collapsed\" or \"hidden\"?", tailMode)) : 'forwards' !== revealOrder2 && 'backwards' !== revealOrder2 && (didWarnAboutTailOptions[tailMode] = !0, error1("<SuspenseList tail=\"%s\" /> is only valid if revealOrder is \"forwards\" or \"backwards\". Did you mean to specify revealOrder=\"forwards\"?", tailMode))), function(children, revealOrder) {
+            else error1('%s is not a supported value for revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
+        }(revealOrder1), tailMode = tailMode1, revealOrder2 = revealOrder1, void 0 === tailMode || didWarnAboutTailOptions[tailMode] || ('collapsed' !== tailMode && 'hidden' !== tailMode ? (didWarnAboutTailOptions[tailMode] = !0, error1('"%s" is not a supported value for tail on <SuspenseList />. Did you mean "collapsed" or "hidden"?', tailMode)) : 'forwards' !== revealOrder2 && 'backwards' !== revealOrder2 && (didWarnAboutTailOptions[tailMode] = !0, error1('<SuspenseList tail="%s" /> is only valid if revealOrder is "forwards" or "backwards". Did you mean to specify revealOrder="forwards"?', tailMode))), function(children, revealOrder) {
             if (('forwards' === revealOrder || 'backwards' === revealOrder) && null != children && !1 !== children) if (Array.isArray(children)) {
                 for(var i = 0; i < children.length; i++)if (!validateSuspenseListNestedChild(children[i], i)) return;
             } else {
@@ -6714,7 +6658,7 @@ Incoming: %s", currentHookNameInDev, "[" + prevDeps.join(', ') + "]", "[" + next
                         if (!validateSuspenseListNestedChild(step.value, _i)) return;
                         _i++;
                     }
-                } else error1("A single row was passed to a <SuspenseList revealOrder=\"%s\" />. This is not useful since it needs multiple rows. Did you mean to pass multiple children or an array?", revealOrder);
+                } else error1('A single row was passed to a <SuspenseList revealOrder="%s" />. This is not useful since it needs multiple rows. Did you mean to pass multiple children or an array?', revealOrder);
             }
         }(newChildren, revealOrder1), reconcileChildren(current, workInProgress6, newChildren, renderLanes4);
         var suspenseContext = suspenseStackCursor.current;
@@ -7456,8 +7400,7 @@ Incoming: %s", currentHookNameInDev, "[" + prevDeps.join(', ') + "]", "[" + next
                 console.error(error);
             }
             var componentName = source ? getComponentName(source.type) : null, componentNameMessage = componentName ? "The above error occurred in the <" + componentName + "> component:" : 'The above error occurred in one of your React components:', errorBoundaryName = getComponentName(boundary.type);
-            errorBoundaryMessage = errorBoundaryName ? "React will try to recreate this component tree from scratch " + ("using the error boundary you provided, " + errorBoundaryName + ".") : "Consider adding an error boundary to your tree to customize error handling behavior.
-Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.";
+            errorBoundaryMessage = errorBoundaryName ? "React will try to recreate this component tree from scratch " + ("using the error boundary you provided, " + errorBoundaryName + ".") : "Consider adding an error boundary to your tree to customize error handling behavior.\nVisit https://reactjs.org/link/error-boundaries to learn more about error boundaries.";
             var combinedMessage = componentNameMessage + "\n" + componentStack + "\n\n" + ("" + errorBoundaryMessage);
             console.error(combinedMessage);
         } catch (e) {
@@ -7609,9 +7552,7 @@ Visit https://reactjs.org/link/error-boundaries to learn more about error bounda
                 }
                 _workInProgress = _workInProgress.return;
             }while (null !== _workInProgress)
-            value = new Error((getComponentName(sourceFiber.type) || 'A React component') + " suspended while rendering, but no fallback UI was specified.
-
-Add a <Suspense fallback=...> component higher in the tree to provide a loading indicator or placeholder to display.");
+            value = new Error((getComponentName(sourceFiber.type) || 'A React component') + " suspended while rendering, but no fallback UI was specified.\n\nAdd a <Suspense fallback=...> component higher in the tree to provide a loading indicator or placeholder to display.");
         }
         renderDidError(), value = createCapturedValue(value, sourceFiber);
         var workInProgress = returnFiber;
@@ -7693,20 +7634,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
                                 var create = effect.create;
                                 effect.destroy = create();
                                 var destroy = effect.destroy;
-                                void 0 !== destroy && 'function' != typeof destroy && error1("An effect function must not return anything besides a function, which is used for clean-up.%s", null === destroy ? " You returned null. If your effect does not require clean up, return undefined (or nothing)." : 'function' == typeof destroy.then ? "
-
-It looks like you wrote useEffect(async () => ...) or returned a Promise. Instead, write the async function inside your effect and call it immediately:
-
-useEffect(() => {
-  async function fetchData() {
-    // You can await here
-    const response = await MyAPI.getData(someId);
-    // ...
-  }
-  fetchData();
-}, [someId]); // Or [] if effect doesn't need props or state
-
-Learn more about data fetching with Hooks: https://reactjs.org/link/hooks-data-fetching" : ' You returned: ' + destroy);
+                                void 0 !== destroy && 'function' != typeof destroy && error1("An effect function must not return anything besides a function, which is used for clean-up.%s", null === destroy ? " You returned null. If your effect does not require clean up, return undefined (or nothing)." : 'function' == typeof destroy.then ? "\n\nIt looks like you wrote useEffect(async () => ...) or returned a Promise. Instead, write the async function inside your effect and call it immediately:\n\nuseEffect(() => {\n  async function fetchData() {\n    // You can await here\n    const response = await MyAPI.getData(someId);\n    // ...\n  }\n  fetchData();\n}, [someId]); // Or [] if effect doesn't need props or state\n\nLearn more about data fetching with Hooks: https://reactjs.org/link/hooks-data-fetching" : ' You returned: ' + destroy);
                             }
                             effect = effect.next;
                         }while (effect !== firstEffect)
@@ -8866,50 +8794,20 @@ Learn more about data fetching with Hooks: https://reactjs.org/link/hooks-data-f
         if (!0 === IsSomeRendererActing.current && !0 !== IsThisRendererActing.current) {
             var previousFiber = current1;
             try {
-                setCurrentFiber(fiber), error1("It looks like you're using the wrong act() around your test interactions.
-Be sure to use the matching version of act() corresponding to your renderer:
-
-// for react-dom:
-import {act} from 'react-dom/test-utils';
-// ...
-act(() => ...);
-
-// for react-test-renderer:
-import TestRenderer from react-test-renderer';
-const {act} = TestRenderer;
-// ...
-act(() => ...);");
+                setCurrentFiber(fiber), error1("It looks like you're using the wrong act() around your test interactions.\nBe sure to use the matching version of act() corresponding to your renderer:\n\n// for react-dom:\nimport {act} from 'react-dom/test-utils';\n// ...\nact(() => ...);\n\n// for react-test-renderer:\nimport TestRenderer from react-test-renderer';\nconst {act} = TestRenderer;\n// ...\nact(() => ...);");
             } finally{
                 previousFiber ? setCurrentFiber(fiber) : resetCurrentFiber();
             }
         }
     }
     function warnIfNotCurrentlyActingEffectsInDEV(fiber) {
-        (1 & fiber.mode) != 0 && !1 === IsSomeRendererActing.current && !1 === IsThisRendererActing.current && error1("An update to %s ran an effect, but was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act", getComponentName(fiber.type));
+        (1 & fiber.mode) != 0 && !1 === IsSomeRendererActing.current && !1 === IsThisRendererActing.current && error1("An update to %s ran an effect, but was not wrapped in act(...).\n\nWhen testing, code that causes React state updates should be wrapped into act(...):\n\nact(() => {\n  /* fire events that update state */\n});\n/* assert on the output */\n\nThis ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act", getComponentName(fiber.type));
     }
     var warnIfNotCurrentlyActingUpdatesInDev = function(fiber) {
         if (0 === executionContext && !1 === IsSomeRendererActing.current && !1 === IsThisRendererActing.current) {
             var previousFiber = current1;
             try {
-                setCurrentFiber(fiber), error1("An update to %s inside a test was not wrapped in act(...).
-
-When testing, code that causes React state updates should be wrapped into act(...):
-
-act(() => {
-  /* fire events that update state */
-});
-/* assert on the output */
-
-This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act", getComponentName(fiber.type));
+                setCurrentFiber(fiber), error1("An update to %s inside a test was not wrapped in act(...).\n\nWhen testing, code that causes React state updates should be wrapped into act(...):\n\nact(() => {\n  /* fire events that update state */\n});\n/* assert on the output */\n\nThis ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act", getComponentName(fiber.type));
             } finally{
                 previousFiber ? setCurrentFiber(fiber) : resetCurrentFiber();
             }
@@ -9326,10 +9224,7 @@ This ensures that you're testing the behavior the user would see in the browser.
             }
         }(container, element);
         var fiber3, current$1 = container.current, eventTime = requestEventTime();
-        'undefined' != typeof jest && (fiber3 = current$1, !1 === didWarnAboutUnmockedScheduler && void 0 === unstable_flushAllWithoutAsserting && (2 & fiber3.mode || 4 & fiber3.mode) && (didWarnAboutUnmockedScheduler = !0, error1("In Concurrent or Sync modes, the \"scheduler\" module needs to be mocked to guarantee consistent behaviour across tests and browsers. For example, with jest: 
-jest.mock('scheduler', () => require('scheduler/unstable_mock'));
-
-For more info, visit https://reactjs.org/link/mock-scheduler")), warnIfNotScopedWithMatchingAct(current$1));
+        'undefined' != typeof jest && (fiber3 = current$1, !1 === didWarnAboutUnmockedScheduler && void 0 === unstable_flushAllWithoutAsserting && (2 & fiber3.mode || 4 & fiber3.mode) && (didWarnAboutUnmockedScheduler = !0, error1("In Concurrent or Sync modes, the \"scheduler\" module needs to be mocked to guarantee consistent behaviour across tests and browsers. For example, with jest: \njest.mock('scheduler', () => require('scheduler/unstable_mock'));\n\nFor more info, visit https://reactjs.org/link/mock-scheduler")), warnIfNotScopedWithMatchingAct(current$1));
         var lane = requestUpdateLane(current$1), context = function(parentComponent) {
             if (!parentComponent) return emptyContextObject;
             var fiber4 = get1(parentComponent), parentContext = function(fiber) {
@@ -9353,9 +9248,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler")), warnIfNotScoped
             }
             return parentContext;
         }(parentComponent1);
-        null === container.context ? container.context = context : container.pendingContext = context, isRendering && null !== current1 && !didWarnAboutNestedUpdates && (didWarnAboutNestedUpdates = !0, error1("Render methods should be a pure function of props and state; triggering nested component updates from render is not allowed. If necessary, trigger nested updates in componentDidUpdate.
-
-Check the render method of %s.", getComponentName(current1.type) || 'Unknown'));
+        null === container.context ? container.context = context : container.pendingContext = context, isRendering && null !== current1 && !didWarnAboutNestedUpdates && (didWarnAboutNestedUpdates = !0, error1("Render methods should be a pure function of props and state; triggering nested component updates from render is not allowed. If necessary, trigger nested updates in componentDidUpdate.\n\nCheck the render method of %s.", getComponentName(current1.type) || 'Unknown'));
         var update = createUpdate(eventTime, lane);
         return update.payload = {
             element: element
@@ -9703,8 +9596,7 @@ Check the render method of %s.", getComponentName(current1.type) || 'Unknown'));
         }
     }) && canUseDOM && window.top === window.self && (navigator.userAgent.indexOf('Chrome') > -1 && -1 === navigator.userAgent.indexOf('Edge') || navigator.userAgent.indexOf('Firefox') > -1)) {
         var protocol = window.location.protocol;
-        /^(https?|file):$/.test(protocol) && console.info("%cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools" + ('file:' === protocol ? "
-You might need to use a local HTTP server (instead of file://): https://reactjs.org/link/react-devtools-faq" : ''), 'font-weight:bold');
+        /^(https?|file):$/.test(protocol) && console.info("%cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools" + ('file:' === protocol ? "\nYou might need to use a local HTTP server (instead of file://): https://reactjs.org/link/react-devtools-faq" : ''), 'font-weight:bold');
     }
     exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
         Events: [
@@ -9760,7 +9652,7 @@ You might need to use a local HTTP server (instead of file://): https://reactjs.
         return hasNonRootReactChild && error1("unmountComponentAtNode(): The node you're attempting to unmount was rendered by React and is not a top-level container. %s", isContainerReactRoot ? "You may have accidentally passed in a React root node instead of its container." : "Instead, have the parent component update its state and rerender in order to remove this component."), !1;
     }, exports.unstable_batchedUpdates = batchedUpdates$1, exports.unstable_createPortal = function(children, container) {
         var key = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : null;
-        return didWarnAboutUnstableCreatePortal || (didWarnAboutUnstableCreatePortal = !0, warn("The ReactDOM.unstable_createPortal() alias has been deprecated, and will be removed in React 18+. Update your code to use ReactDOM.createPortal() instead. It has the exact same API, but without the \"unstable_\" prefix.")), createPortal$1(children, container, key);
+        return didWarnAboutUnstableCreatePortal || (didWarnAboutUnstableCreatePortal = !0, warn('The ReactDOM.unstable_createPortal() alias has been deprecated, and will be removed in React 18+. Update your code to use ReactDOM.createPortal() instead. It has the exact same API, but without the "unstable_" prefix.')), createPortal$1(children, container, key);
     }, exports.unstable_renderSubtreeIntoContainer = function(parentComponent2, element3, containerNode1, callback2) {
         return function(parentComponent, element, containerNode, callback) {
             if (!isValidContainer(containerNode)) throw Error("Target container is not a DOM element.");

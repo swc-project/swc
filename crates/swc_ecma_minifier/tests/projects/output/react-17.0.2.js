@@ -220,7 +220,7 @@
         if (null != config1) for(propName in hasValidRef(config1) && (ref = config1.ref, function(config) {
             if ('string' == typeof config.ref && ReactCurrentOwner.current && config.__self && ReactCurrentOwner.current.stateNode !== config.__self) {
                 var componentName = getComponentName(ReactCurrentOwner.current.type);
-                didWarnAboutStringRefs[componentName] || (error1("Component \"%s\" contains the string ref \"%s\". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref", componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
+                didWarnAboutStringRefs[componentName] || (error1('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
             }
         }(config1)), hasValidKey(config1) && (key = '' + config1.key), self = void 0 === config1.__self ? null : config1.__self, source = void 0 === config1.__source ? null : config1.__source, config1)hasOwnProperty$1.call(config1, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config1[propName]);
         var childrenLength = arguments.length - 2;
@@ -335,10 +335,7 @@
             pending._status = 0, pending._result = thenable, thenable.then(function(moduleObject) {
                 if (0 === payload._status) {
                     var defaultExport = moduleObject.default;
-                    void 0 === defaultExport && error1("lazy: Expected the result of a dynamic import() call. Instead received: %s
-
-Your code should look like: 
-  const MyComponent = lazy(() => import('./MyComponent'))", moduleObject);
+                    void 0 === defaultExport && error1("lazy: Expected the result of a dynamic import() call. Instead received: %s\n\nYour code should look like: \n  const MyComponent = lazy(() => import('./MyComponent'))", moduleObject);
                     var resolved = payload;
                     resolved._status = 1, resolved._result = defaultExport;
                 }
@@ -551,7 +548,7 @@ Your code should look like:
             if (!ownerHasKeyUseWarning[currentComponentErrorInfo]) {
                 ownerHasKeyUseWarning[currentComponentErrorInfo] = !0;
                 var childOwner = '';
-                element && element._owner && element._owner !== ReactCurrentOwner.current && (childOwner = " It was passed a child from " + getComponentName(element._owner.type) + "."), setCurrentlyValidatingElement$1(element), error1("Each child in a list should have a unique \"key\" prop.%s%s See https://reactjs.org/link/warning-keys for more information.", currentComponentErrorInfo, childOwner), setCurrentlyValidatingElement$1(null);
+                element && element._owner && element._owner !== ReactCurrentOwner.current && (childOwner = " It was passed a child from " + getComponentName(element._owner.type) + "."), setCurrentlyValidatingElement$1(element), error1('Each child in a list should have a unique "key" prop.%s%s See https://reactjs.org/link/warning-keys for more information.', currentComponentErrorInfo, childOwner), setCurrentlyValidatingElement$1(null);
             }
         }
     }
@@ -1255,9 +1252,7 @@ Your code should look like:
         return resolveDispatcher().useCallback(callback, deps);
     }, exports.useContext = function(Context, unstable_observedBits) {
         var dispatcher = resolveDispatcher();
-        if (void 0 !== unstable_observedBits && error1("useContext() second argument is reserved for future use in React. Passing it is not supported. You passed: %s.%s", unstable_observedBits, 'number' == typeof unstable_observedBits && Array.isArray(arguments[2]) ? "
-
-Did you call array.map(useContext)? Calling Hooks inside a loop is not supported. Learn more at https://reactjs.org/link/rules-of-hooks" : ''), void 0 !== Context._context) {
+        if (void 0 !== unstable_observedBits && error1("useContext() second argument is reserved for future use in React. Passing it is not supported. You passed: %s.%s", unstable_observedBits, 'number' == typeof unstable_observedBits && Array.isArray(arguments[2]) ? "\n\nDid you call array.map(useContext)? Calling Hooks inside a loop is not supported. Learn more at https://reactjs.org/link/rules-of-hooks" : ''), void 0 !== Context._context) {
             var realContext = Context._context;
             realContext.Consumer === Context ? error1("Calling useContext(Context.Consumer) is not supported, may cause bugs, and will be removed in a future major release. Did you mean to call useContext(Context) instead?") : realContext.Provider === Context && error1("Calling useContext(Context.Provider) is not supported. Did you mean to call useContext(Context) instead?");
         }

@@ -785,10 +785,10 @@ test!(
 "#,
     r#"
 React.createElement("div", null, "wow");
-React.createElement("div", null, "w\xF4w");
+React.createElement("div", null, "w\xf4w");
 React.createElement("div", null, "w & w");
 React.createElement("div", null, "w & w");
-React.createElement("div", null, "w \xA0 w");
+React.createElement("div", null, "w \xa0 w");
 React.createElement("div", null, "this should parse as unicode: ", '\u00a0 ');
 React.createElement("div", null, "w < w");
 "#,
@@ -820,7 +820,7 @@ test!(
     react_should_escape_unicode_chars_in_attribute,
     r#"<Bla title="Ú"/>"#,
     r#"React.createElement(Bla, {
-    title: "Ú"
+    title: "\xda"
 });"#
 );
 
@@ -837,7 +837,7 @@ test!(
 <div>this should parse as nbsp:   </div>;
 "#,
     r#"
-React.createElement("div", null, "this should parse as nbsp: \xA0 ");
+React.createElement("div", null, "this should parse as nbsp: \xa0 ");
 "#
 );
 
@@ -990,7 +990,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_strip_nbsp_even_coupled_with_other_whitespace,
     r#"<div>&nbsp; </div>;"#,
-    r#"React.createElement("div", null, "\xA0 ");"#,
+    r#"React.createElement("div", null, "\xa0 ");"#,
     ok_if_code_eq
 );
 
@@ -1002,7 +1002,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_strip_tags_with_a_single_child_of_nbsp,
     r#"<div>&nbsp;</div>;"#,
-    r#"React.createElement("div", null, "\xA0");"#,
+    r#"React.createElement("div", null, "\xa0");"#,
     ok_if_code_eq
 );
 
@@ -1146,7 +1146,7 @@ test!(
     r#"<Component text="Hello &quot;World&quot;" />"#,
     r#"
 React.createElement(Component, {
-  text: "Hello \"World\""
+  text: 'Hello "World"'
 });"#
 );
 
@@ -1207,8 +1207,8 @@ test!(
     issue_229,
     "const a = <>test</>
 const b = <div>test</div>",
-    "const a = React.createElement(React.Fragment, null, 'test');
-const b = React.createElement('div', null, 'test');"
+    "const a = React.createElement(React.Fragment, null, \"test\");
+const b = React.createElement(\"div\", null, \"test\");"
 );
 
 test!(
@@ -1234,9 +1234,9 @@ test!(
     "import React from 'react';
 
 <div />;",
-    "'use strict';
-var _react = _interopRequireDefault(require('react'));
-_react.default.createElement('div', null);"
+    "\"use strict\";
+var _react = _interopRequireDefault(require(\"react\"));
+_react.default.createElement(\"div\", null);"
 );
 
 test!(
@@ -1254,7 +1254,7 @@ test!(
     ),
     issue_481,
     "<span> {foo}</span>;",
-    "React.createElement('span', null, ' ', foo);"
+    "React.createElement(\"span\", null, \" \", foo);"
 );
 
 // https://github.com/swc-project/swc/issues/517
@@ -1280,11 +1280,11 @@ test!(
     issue_517,
     "import React from 'react';
 <div style='white-space: pre'>Hello World</div>;",
-    "'use strict';
-var _react = _interopRequireDefault(require('react'));
-_react.default.createElement('div', {
-    style: 'white-space: pre'
-}, 'Hello World');"
+    "\"use strict\";
+var _react = _interopRequireDefault(require(\"react\"));
+_react.default.createElement(\"div\", {
+    style: \"white-space: pre\"
+}, \"Hello World\");"
 );
 
 #[test]
@@ -1310,7 +1310,7 @@ test!(
     ),
     issue_542,
     "let page = <p>Click <em>New melody</em> listen to a randomly generated melody</p>",
-    "let page = React.createElement(\"p\", null, \"Click \", React.createElement('em', null, \
+    "let page = React.createElement(\"p\", null, \"Click \", React.createElement(\"em\", null, \
      \"New melody\"), \" listen to a randomly generated melody\");"
 );
 

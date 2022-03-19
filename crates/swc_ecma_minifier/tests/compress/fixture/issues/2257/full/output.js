@@ -1339,9 +1339,9 @@
             }
             function _toElementDescriptor(elementObject) {
                 var kind = String(elementObject.kind);
-                if ("method" !== kind && "field" !== kind) throw new TypeError("An element descriptor's .kind property must be either \"method\" or \"field\", but a decorator created an element descriptor with .kind \"" + kind + '"');
+                if ("method" !== kind && "field" !== kind) throw new TypeError('An element descriptor\'s .kind property must be either "method" or "field", but a decorator created an element descriptor with .kind "' + kind + '"');
                 var key = _toPropertyKey(elementObject.key), placement = String(elementObject.placement);
-                if ("static" !== placement && "prototype" !== placement && "own" !== placement) throw new TypeError("An element descriptor's .placement property must be one of \"static\", \"prototype\" or \"own\", but a decorator created an element descriptor with .placement \"" + placement + '"');
+                if ("static" !== placement && "prototype" !== placement && "own" !== placement) throw new TypeError('An element descriptor\'s .placement property must be one of "static", "prototype" or "own", but a decorator created an element descriptor with .placement "' + placement + '"');
                 var descriptor = elementObject.descriptor;
                 _disallowProperty(elementObject, "elements", "An element descriptor");
                 var element = {
@@ -1372,7 +1372,7 @@
             }
             function _toClassDescriptor(obj) {
                 var kind = String(obj.kind);
-                if ("class" !== kind) throw new TypeError("A class descriptor's .kind property must be \"class\", but a decorator created a class descriptor with .kind \"" + kind + '"');
+                if ("class" !== kind) throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator created a class descriptor with .kind "' + kind + '"');
                 _disallowProperty(obj, "key", "A class descriptor"), _disallowProperty(obj, "placement", "A class descriptor"), _disallowProperty(obj, "descriptor", "A class descriptor"), _disallowProperty(obj, "initializer", "A class descriptor"), _disallowProperty(obj, "extras", "A class descriptor");
                 var finisher = _optionalCallableProperty(obj, "finisher"), elements = _toElementDescriptors(obj.elements);
                 return {
@@ -5025,8 +5025,7 @@
             };
         },
         88443: function(module) {
-            module.exports = "	
-                　  ﻿";
+            module.exports = "\t\n\v\f\r \xa0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF";
         },
         23895: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
@@ -9547,7 +9546,7 @@
                 try {
                     location.pathname = decodeURI(location.pathname);
                 } catch (e) {
-                    if (e instanceof URIError) throw new URIError('Pathname "' + location.pathname + "\" could not be decoded. This is likely caused by an invalid percent-encoding.");
+                    if (e instanceof URIError) throw new URIError('Pathname "' + location.pathname + '" could not be decoded. This is likely caused by an invalid percent-encoding.');
                     throw e;
                 }
                 return key && (location.key = key), currentLocation ? location.pathname ? '/' !== location.pathname.charAt(0) && (location.pathname = resolve_pathname(location.pathname, currentLocation.pathname)) : location.pathname = currentLocation.pathname : location.pathname || (location.pathname = '/'), location;

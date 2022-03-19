@@ -32,7 +32,6 @@ use swc_ecma_minifier::option::{
 };
 use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_utils::quote_js_word;
 use swc_ecma_visit::VisitMutWith;
 
 fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>, minify: bool) {
@@ -196,7 +195,7 @@ impl swc_bundler::Hook for Hook {
                 key: PropName::Ident(Ident::new(js_word!("url"), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    raw: quote_js_word!(file_name),
+                    raw: None,
                     value: file_name.into(),
                 }))),
             },

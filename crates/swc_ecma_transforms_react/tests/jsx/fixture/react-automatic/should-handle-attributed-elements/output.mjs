@@ -1,17 +1,14 @@
-import { jsx as _jsx, jsxs as _jsxs } from \"react/jsx-runtime\";
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 var HelloMessage = React.createClass({
-    render: function() {
-        return /*#__PURE__*/ _jsxs(\"div\", {
-            children: [
-                \"Hello \",
-                this.props.name
-            ]
+    render: function () {
+        return /*#__PURE__*/_jsxs("div", {
+            children: ["Hello ", this.props.name]
         });
     },
-    displayName: \"HelloMessage\"
+    displayName: "HelloMessage",
 });
-React.render(/*#__PURE__*/ _jsx(HelloMessage, {
-    name: /*#__PURE__*/ _jsx(\"span\", {
-        children: \"Sebastian\"
+React.render( /*#__PURE__*/_jsx(HelloMessage, {
+    name: /*#__PURE__*/_jsx("span", {
+        children: "Sebastian"
     })
 }), mountNode);

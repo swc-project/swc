@@ -7,5 +7,5 @@ var _obj, C = function() {
     return C.prototype.bar = function(x) {}, C;
 }();
 _obj = {
-    foo: ""
-}, swcHelpers.defineProperty(_obj, "foo", ""), swcHelpers.defineProperty(_obj, "bar", function() {}), swcHelpers.defineProperty(_obj, "bar", function() {});
+    foo: ''
+}, swcHelpers.defineProperty(_obj, "foo", ''), swcHelpers.defineProperty(_obj, "bar", function() {}), swcHelpers.defineProperty(_obj, "bar", function() {});

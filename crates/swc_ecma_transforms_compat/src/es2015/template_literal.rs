@@ -72,8 +72,8 @@ impl VisitMut for TemplateLiteral {
 
                         Str {
                             span: quasis[0].span,
-                            value: s.clone(),
-                            raw: format!("\"{}\"", s).into(),
+                            value: s,
+                            raw: None,
                         }
                     })
                     .into(),
@@ -104,7 +104,7 @@ impl VisitMut for TemplateLiteral {
                                     Lit::Str(Str {
                                         span: *span,
                                         value: s,
-                                        raw: format!("\"{}\"", raw.clone()).into(),
+                                        raw: None,
                                     })
                                     .into(),
                                 )
@@ -140,8 +140,7 @@ impl VisitMut for TemplateLiteral {
                                     })) => {
                                         obj = Box::new(Expr::Lit(Lit::Str(Str {
                                             span: span.with_hi(r_span.hi()),
-                                            // TODO use raw to keep code as is
-                                            raw: format!("\"{}{}\"", value, r_value).into(),
+                                            raw: None,
                                             value: format!("{}{}", value, r_value).into(),
                                         })));
                                         continue;
@@ -275,12 +274,8 @@ impl VisitMut for TemplateLiteral {
                                         helper!(tagged_template_literal, "taggedTemplateLiteral")
                                     },
                                     args: {
-                                        let has_escape = quasis.iter().any(|s| {
-                                            s.cooked
-                                                .as_ref()
-                                                .map(|s| s.contains('\\'))
-                                                .unwrap_or(true)
-                                        });
+                                        let has_escape =
+                                            quasis.iter().any(|s| s.raw.contains('\\'));
 
                                         let raw = if has_escape {
                                             Some(

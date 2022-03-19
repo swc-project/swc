@@ -10,13 +10,13 @@ var C = function() {
             get: function() {
                 return [
                     [
-                        "a",
+                        'a',
                         {
                             x: 1
                         }
                     ],
                     [
-                        "b",
+                        'b',
                         {
                             y: 2
                         }

@@ -4,7 +4,7 @@ inmodule.toFixed();
 var Classe = function() {
     "use strict";
     function Classe() {
-        swcHelpers.classCallCheck(this, Classe), this.non = "oui";
+        swcHelpers.classCallCheck(this, Classe), this.non = 'oui';
     }
     return Classe.prototype.methode = function() {
         return this.none;
@@ -23,7 +23,7 @@ var Classe = function() {
     spaaace: 3
 };
 object.spaaaace, object.spaace = 12, object.fresh = 12, other.puuuce, new Date().getGMTDate(), setIntegral(function() {
-    return console.log("ok");
+    return console.log('ok');
 }, 500), AudioBuffin, Jon, Jon;
 var other = {
     puuce: 4

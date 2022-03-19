@@ -20,11 +20,11 @@ var H = function() {
     swcHelpers.classCallCheck(this, H);
 };
 module.exports = H;
-var H = require("./h");
+var H = require('./h');
 console.log({});
-var H = require("./h");
+var H = require('./h');
 !function(K) {
     K[K.One = 0] = "One", K[K.Two = 1] = "Two";
 }(K || (K = {})), module.exports = K;
-var K = require("./k");
+var K = require('./k');
 export { _default as default };

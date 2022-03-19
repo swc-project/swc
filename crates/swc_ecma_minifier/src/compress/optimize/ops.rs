@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, EqIgnoreSpan};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, quote_js_word, ExprExt, Type, Value};
+use swc_ecma_utils::{ident::IdentLike, ExprExt, Type, Value};
 use Value::Known;
 
 use super::Optimizer;
@@ -409,7 +409,7 @@ where
                         self.changed = true;
                         *e = Expr::Lit(Lit::Str(Str {
                             span: *span,
-                            raw: quote_js_word!(value),
+                            raw: None,
                             value,
                         }));
                     }
@@ -420,7 +420,7 @@ where
                     self.changed = true;
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
-                        raw: quote_js_word!("function"),
+                        raw: None,
                         value: js_word!("function"),
                     }));
                 }
@@ -430,7 +430,7 @@ where
                     self.changed = true;
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
-                        raw: quote_js_word!("object"),
+                        raw: None,
                         value: js_word!("object"),
                     }));
                 }

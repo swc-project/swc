@@ -4,5 +4,5 @@ var A = function() {
     swcHelpers.classCallCheck(this, A);
 };
 module.exports = a;
-var a = require("./b");
+var a = require('./b');
 new a.A();

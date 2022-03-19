@@ -7,9 +7,9 @@ new class {
     constructor(x){}
 }({
     length: 2
-}).foo("")({
+}).foo('')({
     length: 3,
     charAt (x) {
-        "";
+        '';
     }
 });

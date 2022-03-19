@@ -9,14 +9,14 @@ class Animal {
         console.log(this._sound);
     }
     constructor(){
-        this._sound = "rustling noise in the bushes";
+        this._sound = 'rustling noise in the bushes';
     }
 }
 const a = new Animal;
 a.makeSound();
 const lion = new class extends Animal {
     constructor(...args){
-        super(...args), this.sound = "RAWR!";
+        super(...args), this.sound = 'RAWR!';
     }
 };
 lion.makeSound();

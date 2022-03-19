@@ -8,7 +8,7 @@ var Base = function(n) {
     var _super = swcHelpers.createSuper(Derived);
     function Derived(q) {
         var _this;
-        return swcHelpers.classCallCheck(this, Derived), (_this = _super.call(this, "")).q = q, (_this = _super.call(this, "")).q = q, _this;
+        return swcHelpers.classCallCheck(this, Derived), (_this = _super.call(this, '')).q = q, (_this = _super.call(this, '')).q = q, _this;
     }
     return Derived;
 }(Base), OtherBase = function() {

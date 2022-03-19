@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var A = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, A), this.p = "yep";
+    swcHelpers.classCallCheck(this, A), this.p = 'yep';
 }, B = function(A1) {
     "use strict";
     swcHelpers.inherits(B, A1);
@@ -13,7 +13,7 @@ var A = function() {
         {
             key: "p",
             get: function() {
-                return "oh no";
+                return 'oh no';
             }
         }
     ]), B;

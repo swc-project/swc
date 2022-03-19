@@ -4,7 +4,7 @@ var onlyT, TU;
     (function(a, b) {})(function(x) {
         return 1;
     }, function(x) {
-        return "";
+        return '';
     }), (E = E || (E = {}))[E.A = 0] = "A", (F = F || (F = {}))[F.A = 0] = "A", function(x, a, b) {}(E.A, function(x) {
         return E.A;
     }, function(x) {
@@ -15,7 +15,7 @@ var onlyT, TU;
     (function(a, b) {})(function(x) {
         return 1;
     }, function(x) {
-        return "";
+        return '';
     }), (E = E || (E = {}))[E.A = 0] = "A", (F = F || (F = {}))[F.A = 0] = "A", function(x, a, b) {}(E.A, function(x) {
         return E.A;
     }, function(x) {

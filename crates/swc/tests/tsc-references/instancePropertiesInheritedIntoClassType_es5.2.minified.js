@@ -52,6 +52,6 @@ import * as swcHelpers from "@swc/helpers";
             return swcHelpers.classCallCheck(this, D), _super.apply(this, arguments);
         }
         return D;
-    }(C), d = new D(1, ""), r = d.fn();
-    r.x, r.y, r.y = "", d.y();
+    }(C), d = new D(1, ''), r = d.fn();
+    r.x, r.y, r.y = '', d.y();
 }(Generic || (Generic = {}));

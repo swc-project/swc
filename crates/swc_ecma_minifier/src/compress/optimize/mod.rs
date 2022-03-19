@@ -10,8 +10,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ident::IdentLike, prepend_stmts, quote_js_word, undefined, ExprExt, ExprFactory, Id, IsEmpty,
-    ModuleItemLike, StmtLike, Type, Value,
+    ident::IdentLike, prepend_stmts, undefined, ExprExt, ExprFactory, Id, IsEmpty, ModuleItemLike,
+    StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
@@ -251,14 +251,16 @@ where
                     if let Expr::Lit(Lit::Str(v)) = &**expr {
                         directive_count += 1;
 
-                        if v.raw == *"\"use strict\"" || v.raw == *"'use strict'" {
-                            child_ctx.in_strict = true;
-                        }
-
-                        if v.raw == *"\"use asm\"" || v.raw == *"'use asm'" {
-                            child_ctx.in_asm = true;
-                            self.ctx.in_asm = true;
-                            use_asm = true;
+                        match &v.raw {
+                            Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
+                                child_ctx.in_strict = true;
+                            }
+                            Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
+                                child_ctx.in_asm = true;
+                                self.ctx.in_asm = true;
+                                use_asm = true;
+                            }
+                            _ => {}
                         }
                     }
                 }
@@ -541,12 +543,12 @@ where
 
             let sep = Box::new(Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
-                raw: quote_js_word!(separator),
+                raw: None,
                 value: separator,
             })));
             let mut res = Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
-                raw: quote_js_word!(""),
+                raw: None,
                 value: js_word!(""),
             }));
 
@@ -614,7 +616,7 @@ where
         self.changed = true;
         *e = Expr::Lit(Lit::Str(Str {
             span: call.span,
-            raw: quote_js_word!(res),
+            raw: None,
             value: res.into(),
         }))
     }
@@ -2534,7 +2536,7 @@ where
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
             Some(Stmt::Expr(stmt)) => match &*stmt.expr {
                 Expr::Lit(Lit::Str(Str { raw, .. })) => {
-                    &**raw == "\"use asm\"" || &**raw == "'use asm'"
+                    matches!(raw, Some(value) if value == "\"use asm\"" || value == "'use asm'")
                 }
                 _ => false,
             },

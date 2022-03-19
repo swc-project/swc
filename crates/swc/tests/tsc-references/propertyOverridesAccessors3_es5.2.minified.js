@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 var Animal = function() {
     "use strict";
     function Animal() {
-        swcHelpers.classCallCheck(this, Animal), this._sound = "rustling noise in the bushes";
+        swcHelpers.classCallCheck(this, Animal), this._sound = 'rustling noise in the bushes';
     }
     return Animal.prototype.makeSound = function() {
         console.log(this._sound);
@@ -25,7 +25,7 @@ var Lion = function(Animal) {
     var _super = swcHelpers.createSuper(Lion);
     function Lion() {
         var _this;
-        return swcHelpers.classCallCheck(this, Lion), _this = _super.apply(this, arguments), _this.sound = "RAWR!", _this;
+        return swcHelpers.classCallCheck(this, Lion), _this = _super.apply(this, arguments), _this.sound = 'RAWR!', _this;
     }
     return Lion;
 }(Animal);

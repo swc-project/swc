@@ -35,17 +35,17 @@ var fn2 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, fn2);
 };
-new fn2(0, void 0), new fn2(0, ""), new fn2("", 0), new fn2("", 0);
+new fn2(0, void 0), new fn2(0, ''), new fn2('', 0), new fn2('', 0);
 var fn3 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, fn3);
 };
-new fn3(3), new fn3("", 3, ""), new fn3(5, 5, 5), new fn3(4), new fn3("", "", ""), new fn3("", "", 3), new fn3();
+new fn3(3), new fn3('', 3, ''), new fn3(5, 5, 5), new fn3(4), new fn3('', '', ''), new fn3('', '', 3), new fn3();
 var fn4 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, fn4);
 };
-new fn4("", 3), new fn4(3, ""), new fn4("", 3), new fn4(3, ""), new fn4("", 3), new fn4(3, ""), new fn4(3, void 0), new fn4("", null), new fn4(null, null), new fn4(!0, null), new fn4(null, !0);
+new fn4('', 3), new fn4(3, ''), new fn4('', 3), new fn4(3, ''), new fn4('', 3), new fn4(3, ''), new fn4(3, void 0), new fn4('', null), new fn4(null, null), new fn4(!0, null), new fn4(null, !0);
 var fn5 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, fn5);

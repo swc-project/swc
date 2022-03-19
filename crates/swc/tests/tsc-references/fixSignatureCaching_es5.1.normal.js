@@ -213,18 +213,18 @@ import * as swcHelpers from "@swc/helpers";
                 "iOS": "\\biPhone.*Mobile|\\biPod|\\biPad",
                 "MeeGoOS": "MeeGo",
                 "MaemoOS": "Maemo",
-                "JavaOS": "J2ME/|\\bMIDP\\b|\\bCLDC\\b",
+                "JavaOS": "J2ME\/|\\bMIDP\\b|\\bCLDC\\b",
                 "webOS": "webOS|hpwOS",
                 "badaOS": "\\bBada\\b",
                 "BREWOS": "BREW"
             },
             "uas": {
                 "Vivaldi": "Vivaldi",
-                "Chrome": "\\bCrMo\\b|CriOS|Android.*Chrome/[.0-9]* (Mobile)?",
+                "Chrome": "\\bCrMo\\b|CriOS|Android.*Chrome\/[.0-9]* (Mobile)?",
                 "Dolfin": "\\bDolfin\\b",
-                "Opera": "Opera.*Mini|Opera.*Mobi|Android.*Opera|Mobile.*OPR/[0-9.]+|Coast/[0-9.]+",
+                "Opera": "Opera.*Mini|Opera.*Mobi|Android.*Opera|Mobile.*OPR\/[0-9.]+|Coast\/[0-9.]+",
                 "Skyfire": "Skyfire",
-                "Edge": "Mobile Safari/[.0-9]* Edge",
+                "Edge": "Mobile Safari\/[.0-9]* Edge",
                 "IE": "IEMobile|MSIEMobile",
                 "Firefox": "fennec|firefox.*maemo|(Mobile|Tablet).*Firefox|Firefox.*Mobile",
                 "Bolt": "bolt",
@@ -244,90 +244,90 @@ import * as swcHelpers from "@swc/helpers";
                 "PaleMoon": "Android.*PaleMoon|Mobile.*PaleMoon"
             },
             "props": {
-                "Mobile": "Mobile/[VER]",
-                "Build": "Build/[VER]",
-                "Version": "Version/[VER]",
-                "VendorID": "VendorID/[VER]",
+                "Mobile": "Mobile\/[VER]",
+                "Build": "Build\/[VER]",
+                "Version": "Version\/[VER]",
+                "VendorID": "VendorID\/[VER]",
                 "iPad": "iPad.*CPU[a-z ]+[VER]",
                 "iPhone": "iPhone.*CPU[a-z ]+[VER]",
                 "iPod": "iPod.*CPU[a-z ]+[VER]",
-                "Kindle": "Kindle/[VER]",
+                "Kindle": "Kindle\/[VER]",
                 "Chrome": [
-                    "Chrome/[VER]",
-                    "CriOS/[VER]",
-                    "CrMo/[VER]"
+                    "Chrome\/[VER]",
+                    "CriOS\/[VER]",
+                    "CrMo\/[VER]"
                 ],
                 "Coast": [
-                    "Coast/[VER]"
+                    "Coast\/[VER]"
                 ],
-                "Dolfin": "Dolfin/[VER]",
-                "Firefox": "Firefox/[VER]",
-                "Fennec": "Fennec/[VER]",
-                "Edge": "Edge/[VER]",
+                "Dolfin": "Dolfin\/[VER]",
+                "Firefox": "Firefox\/[VER]",
+                "Fennec": "Fennec\/[VER]",
+                "Edge": "Edge\/[VER]",
                 "IE": [
-                    "IEMobile/[VER];",
+                    "IEMobile\/[VER];",
                     "IEMobile [VER]",
                     "MSIE [VER];",
-                    "Trident/[0-9.]+;.*rv:[VER]"
+                    "Trident\/[0-9.]+;.*rv:[VER]"
                 ],
-                "NetFront": "NetFront/[VER]",
-                "NokiaBrowser": "NokiaBrowser/[VER]",
+                "NetFront": "NetFront\/[VER]",
+                "NokiaBrowser": "NokiaBrowser\/[VER]",
                 "Opera": [
-                    " OPR/[VER]",
-                    "Opera Mini/[VER]",
-                    "Version/[VER]"
+                    " OPR\/[VER]",
+                    "Opera Mini\/[VER]",
+                    "Version\/[VER]"
                 ],
-                "Opera Mini": "Opera Mini/[VER]",
-                "Opera Mobi": "Version/[VER]",
+                "Opera Mini": "Opera Mini\/[VER]",
+                "Opera Mobi": "Version\/[VER]",
                 "UC Browser": "UC Browser[VER]",
-                "MQQBrowser": "MQQBrowser/[VER]",
-                "MicroMessenger": "MicroMessenger/[VER]",
-                "baiduboxapp": "baiduboxapp/[VER]",
-                "baidubrowser": "baidubrowser/[VER]",
-                "Iron": "Iron/[VER]",
+                "MQQBrowser": "MQQBrowser\/[VER]",
+                "MicroMessenger": "MicroMessenger\/[VER]",
+                "baiduboxapp": "baiduboxapp\/[VER]",
+                "baidubrowser": "baidubrowser\/[VER]",
+                "Iron": "Iron\/[VER]",
                 "Safari": [
-                    "Version/[VER]",
-                    "Safari/[VER]"
+                    "Version\/[VER]",
+                    "Safari\/[VER]"
                 ],
-                "Skyfire": "Skyfire/[VER]",
-                "Tizen": "Tizen/[VER]",
-                "Webkit": "webkit[ /][VER]",
-                "PaleMoon": "PaleMoon/[VER]",
-                "Gecko": "Gecko/[VER]",
-                "Trident": "Trident/[VER]",
-                "Presto": "Presto/[VER]",
-                "Goanna": "Goanna/[VER]",
+                "Skyfire": "Skyfire\/[VER]",
+                "Tizen": "Tizen\/[VER]",
+                "Webkit": "webkit[ \/][VER]",
+                "PaleMoon": "PaleMoon\/[VER]",
+                "Gecko": "Gecko\/[VER]",
+                "Trident": "Trident\/[VER]",
+                "Presto": "Presto\/[VER]",
+                "Goanna": "Goanna\/[VER]",
                 "iOS": " \\bi?OS\\b [VER][ ;]{1}",
                 "Android": "Android [VER]",
                 "BlackBerry": [
-                    "BlackBerry[\\w]+/[VER]",
-                    "BlackBerry.*Version/[VER]",
-                    "Version/[VER]"
+                    "BlackBerry[\\w]+\/[VER]",
+                    "BlackBerry.*Version\/[VER]",
+                    "Version\/[VER]"
                 ],
                 "BREW": "BREW [VER]",
-                "Java": "Java/[VER]",
+                "Java": "Java\/[VER]",
                 "Windows Phone OS": [
                     "Windows Phone OS [VER]",
                     "Windows Phone [VER]"
                 ],
                 "Windows Phone": "Windows Phone [VER]",
-                "Windows CE": "Windows CE/[VER]",
+                "Windows CE": "Windows CE\/[VER]",
                 "Windows NT": "Windows NT [VER]",
                 "Symbian": [
-                    "SymbianOS/[VER]",
-                    "Symbian/[VER]"
+                    "SymbianOS\/[VER]",
+                    "Symbian\/[VER]"
                 ],
                 "webOS": [
-                    "webOS/[VER]",
-                    "hpwOS/[VER];"
+                    "webOS\/[VER]",
+                    "hpwOS\/[VER];"
                 ]
             },
             "utils": {
                 "Bot": "Googlebot|facebookexternalhit|AdsBot-Google|Google Keyword Suggestion|Facebot|YandexBot|bingbot|ia_archiver|AhrefsBot|Ezooms|GSLFbot|WBSearchBot|Twitterbot|TweetmemeBot|Twikle|PaperLiBot|Wotbox|UnwindFetchor|Exabot|MJ12bot|YandexImages|TurnitinBot|Pingdom",
-                "MobileBot": "Googlebot-Mobile|AdsBot-Google-Mobile|YahooSeeker/M1A1-R2D2",
+                "MobileBot": "Googlebot-Mobile|AdsBot-Google-Mobile|YahooSeeker\/M1A1-R2D2",
                 "DesktopMode": "WPDesktop",
                 "TV": "SonyDTV|HbbTV",
-                "WebKit": "(webkit)[ /]([\\w.]+)",
+                "WebKit": "(webkit)[ \/]([\\w.]+)",
                 "Console": "\\b(Nintendo|Nintendo WiiU|Nintendo 3DS|PLAYSTATION|Xbox)\\b",
                 "Watch": "SM-V700"
             }

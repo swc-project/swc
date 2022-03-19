@@ -1,4 +1,4 @@
-import A from "./mod1";
+import A from './mod1';
 module.exports = class {
     bar() {
         return 1;

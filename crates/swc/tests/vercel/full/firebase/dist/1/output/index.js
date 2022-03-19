@@ -1,9 +1,9 @@
-"use strict";
-var a, b = require("@firebase/util"), j = require("tslib"), k = require("@firebase/component"), c = require("@firebase/app"), f = require("@firebase/logger"), l = function(a) {
+'use strict';
+var a, b = require('@firebase/util'), j = require('tslib'), k = require('@firebase/component'), c = require('@firebase/app'), f = require('@firebase/logger'), l = function(a) {
     if (a && a.__esModule) return a;
     var b = Object.create(null);
     return a && Object.keys(a).forEach(function(c) {
-        if ("default" !== c) {
+        if ('default' !== c) {
             var d = Object.getOwnPropertyDescriptor(a, c);
             Object.defineProperty(b, c, d.get ? d : {
                 enumerable: !0,
@@ -16,7 +16,7 @@ var a, b = require("@firebase/util"), j = require("tslib"), k = require("@fireba
 }(c), m = function() {
     var a = function(a, b) {
         var d = this;
-        this._delegate = a, this.firebase = b, c._addComponent(a, new k.Component("app-compat", function() {
+        this._delegate = a, this.firebase = b, c._addComponent(a, new k.Component('app-compat', function() {
             return d;
         }, "PUBLIC")), this.container = a.container;
     };
@@ -67,7 +67,7 @@ var a, b = require("@firebase/util"), j = require("tslib"), k = require("@fireba
             options: this.options
         };
     }, a;
-}(), g = ((a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", a), n = new b.ErrorFactory("app-compat", "Firebase", g);
+}(), g = ((a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", a), n = new b.ErrorFactory('app-compat', 'Firebase', g);
 function h() {
     var e, c, f, a, d = (e = m, c = function(a) {
         if (a = a || l._DEFAULT_ENTRY_NAME, !b.contains(f, a)) throw n.create("no-app", {
@@ -91,10 +91,10 @@ function h() {
         SDK_VERSION: l.SDK_VERSION,
         INTERNAL: {
             registerComponent: function(d) {
-                var h = d.name, f = h.replace("-compat", "");
+                var h = d.name, f = h.replace('-compat', '');
                 if (l._registerComponent(d) && "PUBLIC" === d.type) {
                     var g = function(a) {
-                        if (void 0 === a && (a = c()), "function" != typeof a[f]) throw n.create("invalid-app-argument", {
+                        if (void 0 === a && (a = c()), 'function' != typeof a[f]) throw n.create("invalid-app-argument", {
                             appName: h
                         });
                         return a[f]();
@@ -110,11 +110,11 @@ function h() {
                 delete f[a];
             },
             useAsService: function(b, a) {
-                return "serverAuth" === a ? null : a;
+                return 'serverAuth' === a ? null : a;
             },
             modularAPIs: l
         }
-    }).default = a, Object.defineProperty(a, "apps", {
+    }).default = a, Object.defineProperty(a, 'apps', {
         get: function() {
             return Object.keys(f).map(function(a) {
                 return f[a];
@@ -131,10 +131,10 @@ function h() {
         deepExtend: b.deepExtend
     }), d;
 }
-var i = h(), d = new f.Logger("@firebase/app-compat");
+var i = h(), d = new f.Logger('@firebase/app-compat');
 if (b.isBrowser() && void 0 !== self.firebase) {
     d.warn("\n    Warning: Firebase is already defined in the global scope. Please make sure\n    Firebase library is only loaded once.\n  ");
     var e = self.firebase.SDK_VERSION;
-    e && e.indexOf("LITE") >= 0 && d.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
+    e && e.indexOf('LITE') >= 0 && d.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
 }
 c.registerVersion("@firebase/app-compat", "0.1.5", void 0), module.exports = i;

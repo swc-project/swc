@@ -2397,7 +2397,7 @@
                 var match = /([0-9.]*)?@?([0-9.]*)?/.exec(byterangeString || ''), result = {};
                 return match[1] && (result.length = parseInt(match[1], 10)), match[2] && (result.offset = parseInt(match[2], 10)), result;
             }, attributeSeparator = function() {
-                return new RegExp("(?:^|,)((?:[^=]*)=(?:\"[^\"]*\"|[^,]*))");
+                return new RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))');
             }, parseAttributes = function(attributes) {
                 for(var attr, attrs = attributes.split(attributeSeparator()), result = {}, i = attrs.length; i--;)'' !== attrs[i] && ((attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0] = attr[0].replace(/^\s+|\s+$/g, ''), attr[1] = attr[1].replace(/^\s+|\s+$/g, ''), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, '$1'), result[attr[0]] = attr[1]);
                 return result;
@@ -2589,7 +2589,7 @@
                                 (event = {
                                     type: 'tag',
                                     tagType: 'skip'
-                                }).attributes = parseAttributes(match[1]), event.attributes.hasOwnProperty('SKIPPED-SEGMENTS') && (event.attributes['SKIPPED-SEGMENTS'] = parseInt(event.attributes['SKIPPED-SEGMENTS'], 10)), event.attributes.hasOwnProperty('RECENTLY-REMOVED-DATERANGES') && (event.attributes['RECENTLY-REMOVED-DATERANGES'] = event.attributes['RECENTLY-REMOVED-DATERANGES'].split("	")), _this2.trigger('data', event);
+                                }).attributes = parseAttributes(match[1]), event.attributes.hasOwnProperty('SKIPPED-SEGMENTS') && (event.attributes['SKIPPED-SEGMENTS'] = parseInt(event.attributes['SKIPPED-SEGMENTS'], 10)), event.attributes.hasOwnProperty('RECENTLY-REMOVED-DATERANGES') && (event.attributes['RECENTLY-REMOVED-DATERANGES'] = event.attributes['RECENTLY-REMOVED-DATERANGES'].split("\t")), _this2.trigger('data', event);
                                 return;
                             }
                             if ((match = /^#EXT-X-PART:(.*)$/.exec(newLine)) && match[1]) {
@@ -5258,7 +5258,7 @@
             function byteLength1(string, encoding) {
                 if (Buffer.isBuffer(string)) return string.length;
                 if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) return string.byteLength;
-                if ('string' != typeof string) throw new TypeError("The \"string\" argument must be one of type string, Buffer, or ArrayBuffer. Received type " + typeof string);
+                if ('string' != typeof string) throw new TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string);
                 var len = string.length, mustMatch = arguments.length > 2 && !0 === arguments[2];
                 if (!mustMatch && 0 === len) return 0;
                 for(var loweredCase = !1;;)switch(encoding){
@@ -5547,7 +5547,7 @@
                 var str = '', max = exports.INSPECT_MAX_BYTES;
                 return str = this.toString('hex', 0, max).replace(/(.{2})/g, '$1 ').trim(), this.length > max && (str += ' ... '), '<Buffer ' + str + '>';
             }, customInspectSymbol && (Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect), Buffer.prototype.compare = function(target, start, end, thisStart, thisEnd) {
-                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw new TypeError("The \"target\" argument must be one of type Buffer or Uint8Array. Received type " + typeof target);
+                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw new TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target);
                 if (void 0 === start && (start = 0), void 0 === end && (end = target ? target.length : 0), void 0 === thisStart && (thisStart = 0), void 0 === thisEnd && (thisEnd = this.length), start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) throw new RangeError('out of range index');
                 if (thisStart >= thisEnd && start >= end) return 0;
                 if (thisStart >= thisEnd) return -1;

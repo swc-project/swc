@@ -3,7 +3,7 @@ use std::ops::DerefMut;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{quote_ident, quote_js_word};
+use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
@@ -42,7 +42,7 @@ impl VisitMut for DisplayName {
             return expr.right.visit_mut_with(&mut Folder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: prop.span,
-                    raw: quote_js_word!(prop.sym.clone()),
+                    raw: None,
                     value: prop.sym.clone(),
                 })))),
             });
@@ -52,7 +52,7 @@ impl VisitMut for DisplayName {
             expr.right.visit_mut_with(&mut Folder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: ident.span,
-                    raw: quote_js_word!(ident.sym.clone()),
+                    raw: None,
                     value: ident.sym.clone(),
                 })))),
             });
@@ -66,7 +66,7 @@ impl VisitMut for DisplayName {
             e.visit_mut_with(&mut Folder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: DUMMY_SP,
-                    raw: "\"input\"".into(),
+                    raw: None,
                     value: "input".into(),
                 })))),
             });
@@ -81,7 +81,7 @@ impl VisitMut for DisplayName {
                 name: Some(match key {
                     PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
                         span: i.span,
-                        raw: quote_js_word!(i.sym.clone()),
+                        raw: None,
                         value: i.sym.clone(),
                     }))),
                     PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
@@ -99,7 +99,7 @@ impl VisitMut for DisplayName {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: ident.id.span,
                     value: ident.id.sym.clone(),
-                    raw: quote_js_word!(ident.id.sym.clone()),
+                    raw: None,
                 })))),
             });
         }

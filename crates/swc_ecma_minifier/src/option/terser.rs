@@ -6,7 +6,7 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
-use swc_ecma_utils::{drop_span, quote_js_word};
+use swc_ecma_utils::drop_span;
 
 use super::{true_by_default, CompressOptions, TopLevelOptions};
 use crate::option::PureGetterOption;
@@ -508,7 +508,7 @@ fn value_to_expr(v: Value) -> Box<Expr> {
 
             Box::new(Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
-                raw: quote_js_word!(value),
+                raw: None,
                 value,
             })))
         }
@@ -532,7 +532,7 @@ fn value_to_expr(v: Value) -> Box<Expr> {
                 .map(|(key, value)| KeyValueProp {
                     key: PropName::Str(Str {
                         span: DUMMY_SP,
-                        raw: quote_js_word!(key),
+                        raw: None,
                         value: key.into(),
                     }),
                     value,

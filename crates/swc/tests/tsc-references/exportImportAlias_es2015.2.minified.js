@@ -1,6 +1,6 @@
 var A, C, X, Z, K, M;
 !function(A1) {
-    A1.x = "hello world", A1.Point = class {
+    A1.x = 'hello world', A1.Point = class {
         constructor(x, y){
             this.x = x, this.y = y;
         }
@@ -30,4 +30,4 @@ var A, C, X, Z, K, M;
 }(K || (K = {})), function(M1) {
     var D = K.L;
     M1.D = D;
-}(M || (M = {})), new M.D("Hello");
+}(M || (M = {})), new M.D('Hello');

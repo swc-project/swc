@@ -2,20 +2,20 @@ import * as swcHelpers from "@swc/helpers";
 var NoBase = function() {
     "use strict";
     function NoBase() {
-        swcHelpers.classCallCheck(this, NoBase), this.m = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "prototype", this), this.n = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, ""), swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "prototype", this), swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, "");
+        swcHelpers.classCallCheck(this, NoBase), this.m = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "prototype", this), this.n = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, ''), swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "prototype", this), swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, '');
     }
     return NoBase.prototype.fn = function() {
-        swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "prototype", this), swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, "");
+        swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "prototype", this), swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, '');
     }, NoBase.static1 = function() {
-        swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, "");
+        swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, '');
     }, swcHelpers.createClass(NoBase, null, [
         {
             key: "static2",
             get: function() {
-                return swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, ""), "";
+                return swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, ''), '';
             },
             set: function(n) {
-                swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, "");
+                swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, '');
             }
         }
     ]), NoBase;
@@ -86,7 +86,7 @@ var SomeDerived1 = function(SomeBase) {
         {
             key: "a",
             get: function() {
-                return swcHelpers.set(swcHelpers.getPrototypeOf(SomeDerived3.prototype), "publicStaticMember", 3, this, !0), swcHelpers.set(swcHelpers.getPrototypeOf(SomeDerived3.prototype), "privateStaticMember", 3, this, !0), swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerived3), "privateStaticFunc", this).call(this), "";
+                return swcHelpers.set(swcHelpers.getPrototypeOf(SomeDerived3.prototype), "publicStaticMember", 3, this, !0), swcHelpers.set(swcHelpers.getPrototypeOf(SomeDerived3.prototype), "privateStaticMember", 3, this, !0), swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerived3), "privateStaticFunc", this).call(this), '';
             },
             set: function(n) {
                 swcHelpers.set(swcHelpers.getPrototypeOf(SomeDerived3.prototype), "publicStaticMember", 3, this, !0), swcHelpers.set(swcHelpers.getPrototypeOf(SomeDerived3.prototype), "privateStaticMember", 3, this, !0), swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerived3), "privateStaticFunc", this).call(this);

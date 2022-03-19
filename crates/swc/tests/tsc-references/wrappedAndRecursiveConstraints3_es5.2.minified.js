@@ -15,6 +15,6 @@ new C({
 }).foo({
     length: 3,
     charAt: function(x) {
-        "";
+        '';
     }
-})("");
+})('');
