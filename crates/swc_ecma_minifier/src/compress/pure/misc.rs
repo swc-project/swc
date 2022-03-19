@@ -236,6 +236,7 @@ impl Pure<'_> {
                     }
                 }
             } else {
+                self.changed = true;
                 tracing::debug!("Dropping an identifier as it's declared");
                 *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                 return;
