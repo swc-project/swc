@@ -1,0 +1,24 @@
+
+  x Invalid typeof comparison value
+   ,----
+ 2 | typeof foo === "strnig"
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Invalid typeof comparison value
+   ,----
+ 3 | typeof foo == "undefimed"
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Invalid typeof comparison value
+   ,----
+ 4 | typeof bar != "nunber"
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Invalid typeof comparison value
+   ,----
+ 5 | typeof bar !== "fucntion"
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
