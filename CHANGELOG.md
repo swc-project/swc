@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/resolver)** Fix handling of decorators (#4084) ([f662298](https://github.com/swc-project/swc/commit/f66229822c2e44d35854cd9a1ecbdae82242a08c))
+
 ### Features
 
 
