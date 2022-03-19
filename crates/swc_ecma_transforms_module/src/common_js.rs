@@ -165,34 +165,46 @@ impl Fold for CommonJs {
 
         // Make a preliminary pass through to collect exported names ahead of time
         for item in &items {
-            if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                ref specifiers,
-                ..
-            })) = item
-            {
-                for ExportNamedSpecifier { orig, exported, .. } in
-                    specifiers.iter().filter_map(|e| match e {
-                        ExportSpecifier::Named(e) => Some(e),
-                        _ => None,
-                    })
-                {
-                    let exported = match &exported {
-                        Some(ModuleExportName::Ident(ident)) => Some(ident),
-                        Some(ModuleExportName::Str(..)) => {
-                            unimplemented!("module string names unimplemented")
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    ref specifiers,
+                    ..
+                })) => {
+                    for ExportNamedSpecifier { orig, exported, .. } in
+                        specifiers.iter().filter_map(|e| match e {
+                            ExportSpecifier::Named(e) => Some(e),
+                            _ => None,
+                        })
+                    {
+                        let exported = match &exported {
+                            Some(ModuleExportName::Ident(ident)) => Some(ident),
+                            Some(ModuleExportName::Str(..)) => {
+                                unimplemented!("module string names unimplemented")
+                            }
+                            _ => None,
+                        };
+                        let orig = match &orig {
+                            ModuleExportName::Ident(ident) => ident,
+                            _ => unimplemented!("module string names unimplemented"),
+                        };
+                        if let Some(exported) = &exported {
+                            exports.push(exported.sym.clone());
+                        } else {
+                            exports.push(orig.sym.clone());
                         }
-                        _ => None,
-                    };
-                    let orig = match &orig {
-                        ModuleExportName::Ident(ident) => ident,
-                        _ => unimplemented!("module string names unimplemented"),
-                    };
-                    if let Some(exported) = &exported {
-                        exports.push(exported.sym.clone());
-                    } else {
-                        exports.push(orig.sym.clone());
                     }
                 }
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
+                    let mut found: Vec<Ident> = vec![];
+
+                    let mut v = DestructuringFinder { found: &mut found };
+                    decl.visit_with(&mut v);
+
+                    for ident in found {
+                        exports.push(ident.sym.clone());
+                    }
+                }
+                _ => {}
             }
         }
 
@@ -242,7 +254,6 @@ impl Fold for CommonJs {
                             init_export!(js_word!("default"))
                         }};
                         ($name:expr) => {{
-                            exports.push($name.clone());
                             initialized.insert($name.clone());
                         }};
                     }
