@@ -2,19 +2,19 @@ function createCommonjsModule(fn) {
     return fn();
 }
 createCommonjsModule(function(module, exports) {
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports, '__esModule', {
         value: !0
     });
 }), createCommonjsModule(function(module) {
     module.exports = {
         findConfig: function(from) {
             return function(dir) {
-                throw new Error("");
+                throw new Error('');
             };
         }
     };
 }), createCommonjsModule(function(module, exports) {
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports, '__esModule', {
         value: !0
     });
 }), createCommonjsModule(function(module, exports) {

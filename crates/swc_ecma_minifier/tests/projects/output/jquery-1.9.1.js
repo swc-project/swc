@@ -184,7 +184,7 @@
             else for(i in obj)if (!1 === callback.call(obj[i], i, obj[i])) break;
             return obj;
         },
-        trim: core_trim && !core_trim.call("\uFEFF\xa0") ? function(text) {
+        trim: core_trim && !core_trim.call("\uFEFF\xA0") ? function(text) {
             return null == text ? "" : core_trim.call(text);
         } : function(text) {
             return null == text ? "" : (text + "").replace(rtrim1, "");

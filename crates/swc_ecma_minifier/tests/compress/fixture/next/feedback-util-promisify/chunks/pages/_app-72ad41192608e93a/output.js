@@ -6,7 +6,7 @@
         3454: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var ref, ref1;
-            module.exports = (null === (ref = __webpack_require__.g.process) || void 0 === ref ? void 0 : ref.env) && "object" == typeof (null === (ref1 = __webpack_require__.g.process) || void 0 === ref1 ? void 0 : ref1.env) ? __webpack_require__.g.process : __webpack_require__(7663);
+            module.exports = (null === (ref = __webpack_require__.g.process) || void 0 === ref ? void 0 : ref.env) && 'object' == typeof (null === (ref1 = __webpack_require__.g.process) || void 0 === ref1 ? void 0 : ref1.env) ? __webpack_require__.g.process : __webpack_require__(7663);
         },
         1780: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
@@ -199,7 +199,7 @@
                         function byteLength(e, r) {
                             if (Buffer.isBuffer(e)) return e.length;
                             if (ArrayBuffer.isView(e) || isInstance(e, ArrayBuffer)) return e.byteLength;
-                            if ("string" != typeof e) throw new TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof e);
+                            if ("string" != typeof e) throw new TypeError("The \"string\" argument must be one of type string, Buffer, or ArrayBuffer. Received type " + typeof e);
                             var t = e.length, f = arguments.length > 2 && !0 === arguments[2];
                             if (!f && 0 === t) return 0;
                             for(var n = !1;;)switch(r){
@@ -488,7 +488,7 @@
                             var e = "", t = r3.INSPECT_MAX_BYTES;
                             return e = this.toString("hex", 0, t).replace(/(.{2})/g, "$1 ").trim(), this.length > t && (e += " ... "), "<Buffer " + e + ">";
                         }, i2 && (Buffer.prototype[i2] = Buffer.prototype.inspect), Buffer.prototype.compare = function(e, r, t, f, n) {
-                            if (isInstance(e, Uint8Array) && (e = Buffer.from(e, e.offset, e.byteLength)), !Buffer.isBuffer(e)) throw new TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof e);
+                            if (isInstance(e, Uint8Array) && (e = Buffer.from(e, e.offset, e.byteLength)), !Buffer.isBuffer(e)) throw new TypeError("The \"target\" argument must be one of type Buffer or Uint8Array. Received type " + typeof e);
                             if (void 0 === r && (r = 0), void 0 === t && (t = e ? e.length : 0), void 0 === f && (f = 0), void 0 === n && (n = this.length), r < 0 || t > e.length || f < 0 || n > this.length) throw new RangeError("out of range index");
                             if (f >= n && r >= t) return 0;
                             if (f >= n) return -1;
@@ -1997,7 +1997,7 @@
                         }
                         function stylizeWithColor(r, t) {
                             var e = inspect.styles[t];
-                            return e ? "\x1b[" + inspect.colors[e][0] + "m" + r + "\x1b[" + inspect.colors[e][1] + "m" : r;
+                            return e ? "[" + inspect.colors[e][0] + "m" + r + "[" + inspect.colors[e][1] + "m" : r;
                         }
                         function stylizeNoColor(r, t) {
                             return r;

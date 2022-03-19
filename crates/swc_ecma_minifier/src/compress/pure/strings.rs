@@ -1,3 +1,5 @@
+use std::mem::take;
+
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -66,21 +68,21 @@ impl Pure<'_> {
                 let i = i / 2;
                 let q = tpl.quasis[i].take();
 
-                cur_raw.push_str(&q.raw.clone());
+                cur_raw.push_str(&q.raw);
             } else {
                 let i = i / 2;
                 let e = tpl.exprs[i].take();
 
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
-                        cur_raw.push_str(&s.value.clone());
+                        cur_raw.push_str(&s.value);
                     }
                     _ => {
                         quasis.push(TplElement {
                             span: DUMMY_SP,
                             tail: true,
                             cooked: None,
-                            raw: cur_raw.clone().into(),
+                            raw: take(&mut cur_raw).into(),
                         });
 
                         exprs.push(e);
@@ -112,11 +114,11 @@ impl Pure<'_> {
 
                     tracing::debug!(
                         "template: Concatted a string (`{}`) on rhs of `+` to a template literal",
-                        rs.raw
+                        rs.value
                     );
 
                     let new: JsWord =
-                        format!("{}{}", l_last.raw, rs.raw.replace('\\', "\\\\")).into();
+                        format!("{}{}", l_last.raw, rs.value.replace('\\', "\\\\")).into();
                     l_last.raw = new;
 
                     r.take();
@@ -130,11 +132,11 @@ impl Pure<'_> {
 
                     tracing::debug!(
                         "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
-                        ls.raw
+                        ls.value
                     );
 
                     let new: JsWord =
-                        format!("{}{}", ls.raw.replace('\\', "\\\\"), r_first.raw).into();
+                        format!("{}{}", ls.value.replace('\\', "\\\\"), r_first.raw).into();
                     r_first.raw = new;
 
                     l.take();
@@ -162,7 +164,6 @@ impl Pure<'_> {
                 self.changed = true;
                 tracing::debug!("strings: Merged to template literals");
             }
-
             _ => {}
         }
     }

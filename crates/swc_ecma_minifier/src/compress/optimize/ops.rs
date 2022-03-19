@@ -420,7 +420,7 @@ where
                     self.changed = true;
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
-                        raw: quote_js_word!("\"function\""),
+                        raw: quote_js_word!("function"),
                         value: js_word!("function"),
                     }));
                 }
@@ -430,7 +430,7 @@ where
                     self.changed = true;
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
-                        raw: quote_js_word!("\"object\""),
+                        raw: quote_js_word!("object"),
                         value: js_word!("object"),
                     }));
                 }

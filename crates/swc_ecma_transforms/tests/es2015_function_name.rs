@@ -302,7 +302,7 @@ var _store = require("./store");
 let Login =
 /*#__PURE__*/
 function (_Component) {
-  'use strict';
+  "use strict";
   _inherits(Login, _Component);
   var _super = _createSuper(Login);
   function Login() {
