@@ -1,78 +1,78 @@
 
   x Unexpected unknown unit "pp".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:2:1]
- 2 | a { font-size: 13pp; }
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:1:1]
+ 1 | a { font-size: 13pp; }
    :                  ^^
    `----
 
   x Unexpected unknown unit "xpx".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:3:1]
- 3 | a { margin: 13xpx; }
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:2:1]
+ 2 | a { margin: 13xpx; }
    :               ^^^
    `----
 
   x Unexpected unknown unit "remm".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:4:1]
- 4 | a { font-size: .5remm; }
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:3:1]
+ 3 | a { font-size: .5remm; }
    :                  ^^^^
    `----
 
   x Unexpected unknown unit "remm".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:5:1]
- 5 | a { font-size: 0.5remm; }
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:4:1]
+ 4 | a { font-size: 0.5remm; }
    :                   ^^^^
    `----
 
   x Unexpected unknown unit "pix".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:6:1]
- 6 | a { color: rgb(255pix, 0, 51); }
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:5:1]
+ 5 | a { color: rgb(255pix, 0, 51); }
    :                   ^^^
    `----
 
   x Unexpected unknown unit "pix".
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:6:1]
+ 6 | a { margin: calc(13pix + 10px); }
+   :                    ^^^
+   `----
+
+  x Unexpected unknown unit "pix".
    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:7:1]
- 7 | a { margin: calc(13pix + 10px); }
+ 7 | a { margin: calc(10pix*2); }
    :                    ^^^
    `----
 
   x Unexpected unknown unit "pix".
    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:8:1]
- 8 | a { margin: calc(10pix*2); }
-   :                    ^^^
-   `----
-
-  x Unexpected unknown unit "pix".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:9:1]
- 9 | a { margin: calc(2*10pix); }
+ 8 | a { margin: calc(2*10pix); }
    :                      ^^^
    `----
 
   x Unexpected unknown unit "pix".
-    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:10:1]
- 10 | a { -webkit-transition-delay: 10pix; }
-    :                                 ^^^
-    `----
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:9:1]
+ 9 | a { -webkit-transition-delay: 10pix; }
+   :                                 ^^^
+   `----
 
   x Unexpected unknown unit "pix".
-    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:11:1]
- 11 | @media (min-width: 13pix) {}
+    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:10:1]
+ 10 | @media (min-width: 13pix) {}
     :                      ^^^
     `----
 
   x Unexpected unknown unit "pz".
-    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:12:1]
- 12 | a { width: 1e4pz; }
+    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:11:1]
+ 11 | a { width: 1e4pz; }
     :               ^^
     `----
 
   x Unexpected unknown unit "r9".
-    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:13:1]
- 13 | a { flex: 0 9r9 auto; }
+    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:12:1]
+ 12 | a { flex: 0 9r9 auto; }
     :              ^^
     `----
 
   x Unexpected unknown unit "pix".
-    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:17:1]
- 17 | a { background-image: image-set('img1x.png' 1pix, 'img2x.png' 2x); }
+    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:16:1]
+ 16 | a { background-image: image-set('img1x.png' 1pix, 'img2x.png' 2x); }
     :                                              ^^^
     `----

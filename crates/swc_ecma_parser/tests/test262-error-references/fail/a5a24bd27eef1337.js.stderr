@@ -1,6 +1,6 @@
 
   x Expected ident
-   ,-[$DIR/tests/test262-parser/fail/a5a24bd27eef1337.js:3:5]
- 3 | function*({[yield 3]: y}) {}
+   ,-[$DIR/tests/test262-parser/fail/a5a24bd27eef1337.js:2:5]
+ 2 | function*({[yield 3]: y}) {}
    :          ^
    `----

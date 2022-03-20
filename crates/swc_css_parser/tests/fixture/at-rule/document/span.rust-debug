@@ -1,1091 +1,1091 @@
 
   x Stylesheet
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:2:1]
-  2 | ,-> @document url("https://www.example.com/") {
-  3 | |       h1 {
-  4 | |           color: green;
-  5 | |       }
-  6 | |   }
-  7 | |   
-  8 | |   @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-  9 | |       body {
- 10 | |           color: purple;
- 11 | |           background: yellow;
- 12 | |       }
- 13 | |   }
- 14 | |   
- 15 | |   @document url(https://www.example.com/) {}
- 16 | |   @-moz-document url("https://www.example.com/") {}
- 17 | |   @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
- 18 | |   
- 19 | |   @document url("https://www.example.com/") {
- 20 | |       @media screen and (min-width: 900px) {
- 21 | |           article {
- 22 | |               padding: 1rem 3rem;
- 23 | |           }
- 24 | |       }
- 25 | `-> }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+  1 | ,-> @document url("https://www.example.com/") {
+  2 | |       h1 {
+  3 | |           color: green;
+  4 | |       }
+  5 | |   }
+  6 | |   
+  7 | |   @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  8 | |       body {
+  9 | |           color: purple;
+ 10 | |           background: yellow;
+ 11 | |       }
+ 12 | |   }
+ 13 | |   
+ 14 | |   @document url(https://www.example.com/) {}
+ 15 | |   @-moz-document url("https://www.example.com/") {}
+ 16 | |   @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+ 17 | |   
+ 18 | |   @document url("https://www.example.com/") {
+ 19 | |       @media screen and (min-width: 900px) {
+ 20 | |           article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | |           }
+ 23 | |       }
+ 24 | `-> }
     `----
 
   x Rule
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:1]
- 2 | ,-> @document url("https://www.example.com/") {
- 3 | |       h1 {
- 4 | |           color: green;
- 5 | |       }
- 6 | `-> }
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+ 1 | ,-> @document url("https://www.example.com/") {
+ 2 | |       h1 {
+ 3 | |           color: green;
+ 4 | |       }
+ 5 | `-> }
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:1]
- 2 | ,-> @document url("https://www.example.com/") {
- 3 | |       h1 {
- 4 | |           color: green;
- 5 | |       }
- 6 | `-> }
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+ 1 | ,-> @document url("https://www.example.com/") {
+ 2 | |       h1 {
+ 3 | |           color: green;
+ 4 | |       }
+ 5 | `-> }
    `----
 
   x DocumentRule
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:1]
- 2 | ,-> @document url("https://www.example.com/") {
- 3 | |       h1 {
- 4 | |           color: green;
- 5 | |       }
- 6 | `-> }
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+ 1 | ,-> @document url("https://www.example.com/") {
+ 2 | |       h1 {
+ 3 | |           color: green;
+ 4 | |       }
+ 5 | `-> }
    `----
 
   x DocumentRuleMatchingFunction
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:1]
- 2 | @document url("https://www.example.com/") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+ 1 | @document url("https://www.example.com/") {
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:1]
- 2 | @document url("https://www.example.com/") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+ 1 | @document url("https://www.example.com/") {
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:1]
- 2 | @document url("https://www.example.com/") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+ 1 | @document url("https://www.example.com/") {
    :           ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:1]
- 2 | @document url("https://www.example.com/") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+ 1 | @document url("https://www.example.com/") {
    :               ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:1]
- 2 | @document url("https://www.example.com/") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+ 1 | @document url("https://www.example.com/") {
    :               ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:1]
- 2 | ,-> @document url("https://www.example.com/") {
- 3 | |       h1 {
- 4 | |           color: green;
- 5 | |       }
- 6 | `-> }
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+ 1 | ,-> @document url("https://www.example.com/") {
+ 2 | |       h1 {
+ 3 | |           color: green;
+ 4 | |       }
+ 5 | `-> }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:5]
- 3 | ,-> h1 {
- 4 | |           color: green;
- 5 | `->     }
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:5]
+ 2 | ,-> h1 {
+ 3 | |           color: green;
+ 4 | `->     }
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:5]
- 3 | ,-> h1 {
- 4 | |           color: green;
- 5 | `->     }
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:5]
+ 2 | ,-> h1 {
+ 3 | |           color: green;
+ 4 | `->     }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:5]
- 3 | ,-> h1 {
- 4 | |           color: green;
- 5 | `->     }
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:5]
+ 2 | ,-> h1 {
+ 3 | |           color: green;
+ 4 | `->     }
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:5]
- 3 | h1 {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:5]
+ 2 | h1 {
    : ^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:5]
- 3 | h1 {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:5]
+ 2 | h1 {
    : ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:5]
- 3 | h1 {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:5]
+ 2 | h1 {
    : ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:5]
- 3 | h1 {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:5]
+ 2 | h1 {
    : ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:5]
- 3 | h1 {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:5]
+ 2 | h1 {
    : ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:5]
- 3 | h1 {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:5]
+ 2 | h1 {
    : ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:5]
- 3 | h1 {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:5]
+ 2 | h1 {
    : ^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:5]
- 3 | ,-> h1 {
- 4 | |           color: green;
- 5 | `->     }
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:2:5]
+ 2 | ,-> h1 {
+ 3 | |           color: green;
+ 4 | `->     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:4:9]
- 4 | color: green;
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:9]
+ 3 | color: green;
    : ^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:4:9]
- 4 | color: green;
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:9]
+ 3 | color: green;
    : ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:4:9]
- 4 | color: green;
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:9]
+ 3 | color: green;
    : ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:4:9]
- 4 | color: green;
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:9]
+ 3 | color: green;
    : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:4:9]
- 4 | color: green;
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:9]
+ 3 | color: green;
    : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:4:9]
- 4 | color: green;
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:9]
+ 3 | color: green;
    :        ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:4:9]
- 4 | color: green;
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:3:9]
+ 3 | color: green;
    :        ^^^^^
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
-  8 | ,-> @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-  9 | |       body {
- 10 | |           color: purple;
- 11 | |           background: yellow;
- 12 | |       }
- 13 | `-> }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+  7 | ,-> @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  8 | |       body {
+  9 | |           color: purple;
+ 10 | |           background: yellow;
+ 11 | |       }
+ 12 | `-> }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
-  8 | ,-> @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-  9 | |       body {
- 10 | |           color: purple;
- 11 | |           background: yellow;
- 12 | |       }
- 13 | `-> }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+  7 | ,-> @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  8 | |       body {
+  9 | |           color: purple;
+ 10 | |           background: yellow;
+ 11 | |       }
+ 12 | `-> }
     `----
 
   x DocumentRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
-  8 | ,-> @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-  9 | |       body {
- 10 | |           color: purple;
- 11 | |           background: yellow;
- 12 | |       }
- 13 | `-> }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+  7 | ,-> @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  8 | |       body {
+  9 | |           color: purple;
+ 10 | |           background: yellow;
+ 11 | |       }
+ 12 | `-> }
     `----
 
   x DocumentRuleMatchingFunction
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :           ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :               ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :               ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DocumentRuleMatchingFunction
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                      ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DocumentRuleMatchingFunction
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                              ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                              ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                              ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                     ^^^^^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                     ^^^^^^^^^^^^^
    `----
 
   x DocumentRuleMatchingFunction
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                     ^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                                    ^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                                    ^^^^^^^
    `----
 
   x DocumentRuleMatchingFunction
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                                              ^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                                              ^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                                              ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                                                     ^^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
- 8 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                                                     ^^^^^^^^^^
    `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
-  8 | ,-> @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-  9 | |       body {
- 10 | |           color: purple;
- 11 | |           background: yellow;
- 12 | |       }
- 13 | `-> }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+  7 | ,-> @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  8 | |       body {
+  9 | |           color: purple;
+ 10 | |           background: yellow;
+ 11 | |       }
+ 12 | `-> }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:9:5]
-  9 | ,-> body {
- 10 | |           color: purple;
- 11 | |           background: yellow;
- 12 | `->     }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:8:5]
+  8 | ,-> body {
+  9 | |           color: purple;
+ 10 | |           background: yellow;
+ 11 | `->     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:9:5]
-  9 | ,-> body {
- 10 | |           color: purple;
- 11 | |           background: yellow;
- 12 | `->     }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:8:5]
+  8 | ,-> body {
+  9 | |           color: purple;
+ 10 | |           background: yellow;
+ 11 | `->     }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:9:5]
-  9 | ,-> body {
- 10 | |           color: purple;
- 11 | |           background: yellow;
- 12 | `->     }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:8:5]
+  8 | ,-> body {
+  9 | |           color: purple;
+ 10 | |           background: yellow;
+ 11 | `->     }
     `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:5]
- 9 | body {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:5]
+ 8 | body {
    : ^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:5]
- 9 | body {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:5]
+ 8 | body {
    : ^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:5]
- 9 | body {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:5]
+ 8 | body {
    : ^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:5]
- 9 | body {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:5]
+ 8 | body {
    : ^^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:5]
- 9 | body {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:5]
+ 8 | body {
    : ^^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:5]
- 9 | body {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:5]
+ 8 | body {
    : ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:5]
- 9 | body {
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:5]
+ 8 | body {
    : ^^^^
    `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:9:5]
-  9 | ,-> body {
- 10 | |           color: purple;
- 11 | |           background: yellow;
- 12 | `->     }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:8:5]
+  8 | ,-> body {
+  9 | |           color: purple;
+ 10 | |           background: yellow;
+ 11 | `->     }
     `----
 
   x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:9]
+ 9 | color: purple;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:9]
+ 9 | color: purple;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:9]
+ 9 | color: purple;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:9]
+ 9 | color: purple;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:9]
+ 9 | color: purple;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:9]
+ 9 | color: purple;
+   :        ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:9:9]
+ 9 | color: purple;
+   :        ^^^^^^
+   `----
+
+  x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
- 10 | color: purple;
-    : ^^^^^^^^^^^^^
+ 10 | background: yellow;
+    : ^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
- 10 | color: purple;
-    : ^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
- 10 | color: purple;
-    : ^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
- 10 | color: purple;
-    : ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
- 10 | color: purple;
-    : ^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
- 10 | color: purple;
-    :        ^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
- 10 | color: purple;
-    :        ^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:11:9]
- 11 | background: yellow;
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:11:9]
- 11 | background: yellow;
+ 10 | background: yellow;
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:11:9]
- 11 | background: yellow;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
+ 10 | background: yellow;
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:11:9]
- 11 | background: yellow;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
+ 10 | background: yellow;
     : ^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:11:9]
- 11 | background: yellow;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
+ 10 | background: yellow;
     : ^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:11:9]
- 11 | background: yellow;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
+ 10 | background: yellow;
     :             ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:11:9]
- 11 | background: yellow;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:10:9]
+ 10 | background: yellow;
     :             ^^^^^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
- 15 | @document url(https://www.example.com/) {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
+ 14 | @document url(https://www.example.com/) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
- 15 | @document url(https://www.example.com/) {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
+ 14 | @document url(https://www.example.com/) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DocumentRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
- 15 | @document url(https://www.example.com/) {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
+ 14 | @document url(https://www.example.com/) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DocumentRuleMatchingFunction
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
- 15 | @document url(https://www.example.com/) {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
+ 14 | @document url(https://www.example.com/) {}
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Url
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
- 15 | @document url(https://www.example.com/) {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
+ 14 | @document url(https://www.example.com/) {}
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
- 15 | @document url(https://www.example.com/) {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
+ 14 | @document url(https://www.example.com/) {}
     :           ^^^
     `----
 
   x UrlValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
- 15 | @document url(https://www.example.com/) {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
+ 14 | @document url(https://www.example.com/) {}
     :               ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x UrlValueRaw
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
- 15 | @document url(https://www.example.com/) {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
+ 14 | @document url(https://www.example.com/) {}
     :               ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
- 15 | @document url(https://www.example.com/) {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
+ 14 | @document url(https://www.example.com/) {}
     :                                         ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
- 16 | @-moz-document url("https://www.example.com/") {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
+ 15 | @-moz-document url("https://www.example.com/") {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
- 16 | @-moz-document url("https://www.example.com/") {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
+ 15 | @-moz-document url("https://www.example.com/") {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DocumentRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
- 16 | @-moz-document url("https://www.example.com/") {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
+ 15 | @-moz-document url("https://www.example.com/") {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DocumentRuleMatchingFunction
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
- 16 | @-moz-document url("https://www.example.com/") {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
+ 15 | @-moz-document url("https://www.example.com/") {}
     :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Url
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
- 16 | @-moz-document url("https://www.example.com/") {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
+ 15 | @-moz-document url("https://www.example.com/") {}
     :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
- 16 | @-moz-document url("https://www.example.com/") {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
+ 15 | @-moz-document url("https://www.example.com/") {}
     :                ^^^
     `----
 
   x UrlValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
- 16 | @-moz-document url("https://www.example.com/") {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
+ 15 | @-moz-document url("https://www.example.com/") {}
     :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
- 16 | @-moz-document url("https://www.example.com/") {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
+ 15 | @-moz-document url("https://www.example.com/") {}
     :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
- 16 | @-moz-document url("https://www.example.com/") {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
+ 15 | @-moz-document url("https://www.example.com/") {}
     :                                                ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:17:1]
- 17 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
+ 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:17:1]
- 17 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
+ 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DocumentRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:17:1]
- 17 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
+ 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DocumentRuleMatchingFunction
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:17:1]
- 17 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
+ 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     :                                       ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Url
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:17:1]
- 17 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
+ 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     :                                       ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:17:1]
- 17 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
+ 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     :                                       ^^^
     `----
 
   x UrlValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:17:1]
- 17 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
+ 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     :                                           ^^^^^^^^^^^^^^^
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:17:1]
- 17 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
+ 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     :                                           ^^^^^^^^^^^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:17:1]
- 17 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
+ 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     :                                                                    ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:1]
- 19 | ,-> @document url("https://www.example.com/") {
- 20 | |       @media screen and (min-width: 900px) {
- 21 | |           article {
- 22 | |               padding: 1rem 3rem;
- 23 | |           }
- 24 | |       }
- 25 | `-> }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
+ 18 | ,-> @document url("https://www.example.com/") {
+ 19 | |       @media screen and (min-width: 900px) {
+ 20 | |           article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | |           }
+ 23 | |       }
+ 24 | `-> }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:1]
- 19 | ,-> @document url("https://www.example.com/") {
- 20 | |       @media screen and (min-width: 900px) {
- 21 | |           article {
- 22 | |               padding: 1rem 3rem;
- 23 | |           }
- 24 | |       }
- 25 | `-> }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
+ 18 | ,-> @document url("https://www.example.com/") {
+ 19 | |       @media screen and (min-width: 900px) {
+ 20 | |           article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | |           }
+ 23 | |       }
+ 24 | `-> }
     `----
 
   x DocumentRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:1]
- 19 | ,-> @document url("https://www.example.com/") {
- 20 | |       @media screen and (min-width: 900px) {
- 21 | |           article {
- 22 | |               padding: 1rem 3rem;
- 23 | |           }
- 24 | |       }
- 25 | `-> }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
+ 18 | ,-> @document url("https://www.example.com/") {
+ 19 | |       @media screen and (min-width: 900px) {
+ 20 | |           article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | |           }
+ 23 | |       }
+ 24 | `-> }
     `----
 
   x DocumentRuleMatchingFunction
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:1]
- 19 | @document url("https://www.example.com/") {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
+ 18 | @document url("https://www.example.com/") {
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Url
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:1]
- 19 | @document url("https://www.example.com/") {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
+ 18 | @document url("https://www.example.com/") {
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:1]
- 19 | @document url("https://www.example.com/") {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
+ 18 | @document url("https://www.example.com/") {
     :           ^^^
     `----
 
   x UrlValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:1]
- 19 | @document url("https://www.example.com/") {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
+ 18 | @document url("https://www.example.com/") {
     :               ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:1]
- 19 | @document url("https://www.example.com/") {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
+ 18 | @document url("https://www.example.com/") {
     :               ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:1]
- 19 | ,-> @document url("https://www.example.com/") {
- 20 | |       @media screen and (min-width: 900px) {
- 21 | |           article {
- 22 | |               padding: 1rem 3rem;
- 23 | |           }
- 24 | |       }
- 25 | `-> }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
+ 18 | ,-> @document url("https://www.example.com/") {
+ 19 | |       @media screen and (min-width: 900px) {
+ 20 | |           article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | |           }
+ 23 | |       }
+ 24 | `-> }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | ,-> @media screen and (min-width: 900px) {
- 21 | |           article {
- 22 | |               padding: 1rem 3rem;
- 23 | |           }
- 24 | `->     }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | ,-> @media screen and (min-width: 900px) {
+ 20 | |           article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | |           }
+ 23 | `->     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | ,-> @media screen and (min-width: 900px) {
- 21 | |           article {
- 22 | |               padding: 1rem 3rem;
- 23 | |           }
- 24 | `->     }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | ,-> @media screen and (min-width: 900px) {
+ 20 | |           article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | |           }
+ 23 | `->     }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | ,-> @media screen and (min-width: 900px) {
- 21 | |           article {
- 22 | |               padding: 1rem 3rem;
- 23 | |           }
- 24 | `->     }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | ,-> @media screen and (min-width: 900px) {
+ 20 | |           article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | |           }
+ 23 | `->     }
     `----
 
   x MediaRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | ,-> @media screen and (min-width: 900px) {
- 21 | |           article {
- 22 | |               padding: 1rem 3rem;
- 23 | |           }
- 24 | `->     }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | ,-> @media screen and (min-width: 900px) {
+ 20 | |           article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | |           }
+ 23 | `->     }
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :        ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :               ^^^
     `----
 
   x MediaConditionWithoutOr
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                   ^^^^^^^^^^^^^^^^^^
     `----
 
   x MediaConditionWithoutOrType
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                   ^^^^^^^^^^^^^^^^^^
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                   ^^^^^^^^^^^^^^^^^^
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                   ^^^^^^^^^^^^^^^^^^
     `----
 
   x MediaFeaturePlain
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                   ^^^^^^^^^^^^^^^^^^
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                    ^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                    ^^^^^^^^^
     `----
 
   x MediaFeatureValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                               ^^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                               ^^^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                               ^^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                               ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | @media screen and (min-width: 900px) {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
     :                                  ^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:5]
- 20 | ,-> @media screen and (min-width: 900px) {
- 21 | |           article {
- 22 | |               padding: 1rem 3rem;
- 23 | |           }
- 24 | `->     }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | ,-> @media screen and (min-width: 900px) {
+ 20 | |           article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | |           }
+ 23 | `->     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:9]
- 21 | ,-> article {
- 22 | |               padding: 1rem 3rem;
- 23 | `->         }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:9]
+ 20 | ,-> article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | `->         }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:9]
- 21 | ,-> article {
- 22 | |               padding: 1rem 3rem;
- 23 | `->         }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:9]
+ 20 | ,-> article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | `->         }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:9]
- 21 | ,-> article {
- 22 | |               padding: 1rem 3rem;
- 23 | `->         }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:9]
+ 20 | ,-> article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | `->         }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:9]
- 21 | article {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:9]
+ 20 | article {
     : ^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:9]
- 21 | article {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:9]
+ 20 | article {
     : ^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:9]
- 21 | article {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:9]
+ 20 | article {
     : ^^^^^^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:9]
- 21 | article {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:9]
+ 20 | article {
     : ^^^^^^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:9]
- 21 | article {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:9]
+ 20 | article {
     : ^^^^^^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:9]
- 21 | article {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:9]
+ 20 | article {
     : ^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:9]
- 21 | article {
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:9]
+ 20 | article {
     : ^^^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:9]
- 21 | ,-> article {
- 22 | |               padding: 1rem 3rem;
- 23 | `->         }
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:20:9]
+ 20 | ,-> article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | `->         }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     : ^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     : ^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     :          ^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     :          ^^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     :          ^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     :          ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     :           ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     :               ^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     :               ^^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     :               ^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     :               ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:22:13]
- 22 | padding: 1rem 3rem;
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:21:13]
+ 21 | padding: 1rem 3rem;
     :                ^^^
     `----

@@ -15,6 +15,7 @@ use crate::{
     },
 };
 
+#[cfg(feature = "filesystem_cache")]
 #[tracing::instrument(level = "info", skip_all)]
 pub fn load_plugin(
     plugin_path: &std::path::Path,
@@ -122,4 +123,12 @@ pub fn load_plugin(
         }
         Err(err) => Err(err),
     };
+}
+
+#[cfg(not(feature = "filesystem_cache"))]
+pub fn load_plugin(
+    plugin_path: &std::path::Path,
+    cache: &once_cell::sync::Lazy<crate::cache::PluginModuleCache>,
+) -> Result<(Instance, Arc<Mutex<Vec<u8>>>), Error> {
+    unimplemented!("not implemented");
 }

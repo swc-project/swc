@@ -1,6 +1,6 @@
 
   x Identifier cannot follow number
-   ,-[$DIR/tests/test262-parser/fail/7291411fc225eabd.js:2:1]
- 2 | 1.a
+   ,-[$DIR/tests/test262-parser/fail/7291411fc225eabd.js:1:1]
+ 1 | 1.a
    :   ^
    `----

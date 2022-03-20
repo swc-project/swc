@@ -1000,6 +1000,7 @@ impl<'a, I: Tokens> Parser<I> {
                     is_override,
                     readonly,
                     type_ann,
+                    definite,
                 }
                 .into(),
                 Either::Right(key) => {

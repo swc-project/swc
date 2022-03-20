@@ -1,36 +1,36 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:2:1]
- 2 | @import"foo.css";
+   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:1:1]
+ 1 | @import"foo.css";
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:2:1]
- 2 | @import"foo.css";
+   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:1:1]
+ 1 | @import"foo.css";
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:2:1]
- 2 | @import"foo.css";
+   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:1:1]
+ 1 | @import"foo.css";
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x ImportRule
-   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:2:1]
- 2 | @import"foo.css";
+   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:1:1]
+ 1 | @import"foo.css";
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x ImportHref
-   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:2:1]
- 2 | @import"foo.css";
+   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:1:1]
+ 1 | @import"foo.css";
    :        ^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:2:1]
- 2 | @import"foo.css";
+   ,-[$DIR/tests/fixture/esbuild/misc/JSvbTMOyTpeC7Z7Xy_c5zw/input.css:1:1]
+ 1 | @import"foo.css";
    :        ^^^^^^^^^
    `----

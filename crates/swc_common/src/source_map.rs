@@ -1145,11 +1145,10 @@ impl SourceMap {
 
         if let Some(orig) = orig {
             for src in orig.sources() {
-                let idx = builder.add_source(src);
-                src_id = idx as u32 + 1;
-            }
-            for (idx, contents) in orig.source_contents().enumerate() {
-                builder.set_source_contents(idx as _, contents);
+                let id = builder.add_source(src);
+                src_id = id as u32 + 1;
+
+                builder.set_source_contents(id, orig.get_source_contents(id));
             }
         }
 

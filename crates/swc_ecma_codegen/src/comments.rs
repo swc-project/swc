@@ -13,19 +13,26 @@ macro_rules! write_comments {
             match cmt.kind {
                 CommentKind::Line => {
                     if $prefix_space {
-                        $e.wr.write_comment(swc_common::DUMMY_SP, " ")?;
+                        $e.wr.write_comment(" ")?;
                     }
-                    $e.wr.write_comment(cmt.span, "//")?;
-                    $e.wr.write_comment(cmt.span, &cmt.text)?;
+                    srcmap!($e, cmt, true);
+                    $e.wr.write_comment("//")?;
+                    $e.wr.write_comment(&cmt.text)?;
+                    srcmap!($e, cmt, false);
                     $e.wr.write_line()?;
                 }
                 CommentKind::Block => {
                     if $prefix_space {
-                        $e.wr.write_comment(swc_common::DUMMY_SP, " ")?;
+                        $e.wr.write_comment(" ")?;
                     }
-                    $e.wr.write_comment(cmt.span, "/*")?;
-                    $e.wr.write_lit(cmt.span, &cmt.text)?;
-                    $e.wr.write_comment(cmt.span, "*/")?;
+
+                    srcmap!($e, cmt, true);
+
+                    $e.wr.write_comment("/*")?;
+                    $e.wr.write_lit(DUMMY_SP, &cmt.text)?;
+                    $e.wr.write_comment("*/")?;
+
+                    srcmap!($e, cmt, false);
                     $e.wr.write_space()?;
                 }
             }

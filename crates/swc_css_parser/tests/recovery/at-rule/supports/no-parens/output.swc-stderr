@@ -1,6 +1,6 @@
 
   x Expected function or '(' token
-   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:2:1]
- 2 | @supports display: flex {}
+   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
+ 1 | @supports display: flex {}
    :           ^^^^^^^
    `----

@@ -617,7 +617,7 @@ where
                     }
                 }
 
-                let children = el
+                let mut children = el
                     .children
                     .into_iter()
                     .filter_map(|child| self.jsx_elem_child_to_expr(child))
@@ -627,12 +627,20 @@ where
                 match children.len() {
                     0 => {}
                     1 if children[0].as_ref().unwrap().spread.is_none() => {
-                        props_obj
-                            .props
-                            .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!("children")),
-                                value: children.into_iter().next().flatten().unwrap().expr,
-                            }))));
+                        if !use_create_element {
+                            props_obj
+                                .props
+                                .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("children")),
+                                    value: children
+                                        .take()
+                                        .into_iter()
+                                        .next()
+                                        .flatten()
+                                        .unwrap()
+                                        .expr,
+                                }))));
+                        }
                     }
                     _ => {
                         props_obj
@@ -641,7 +649,7 @@ where
                                 key: PropName::Ident(quote_ident!("children")),
                                 value: Box::new(Expr::Array(ArrayLit {
                                     span: DUMMY_SP,
-                                    elems: children,
+                                    elems: children.take(),
                                 })),
                             }))));
                     }
@@ -651,7 +659,7 @@ where
 
                 let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
                 let args = if use_create_element {
-                    args.collect()
+                    args.chain(children.into_iter().flatten()).collect()
                 } else if self.development {
                     // set undefined literal to key if key is None
                     let key = match key {

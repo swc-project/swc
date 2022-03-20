@@ -3,6 +3,7 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "CSS minifier"
 documentation = "https://rustdoc.swc.rs/swc_css_minifier/"
 edition = "2021"
+include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_css_minifier"
 repository = "https://github.com/swc-project/swc.git"
@@ -11,12 +12,12 @@ version = "0.65.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-swc_atoms = { version = "0.2.9", path = "../swc_atoms" }
-swc_common = { version = "0.17.0", path = "../swc_common" }
-swc_css_ast = { version = "0.91.0", path = "../swc_css_ast" }
-swc_css_visit = { version = "0.90.0", path = "../swc_css_visit" }
+swc_atoms = {version = "0.2.9", path = "../swc_atoms"}
+swc_common = {version = "0.17.0", path = "../swc_common"}
+swc_css_ast = {version = "0.91.0", path = "../swc_css_ast"}
+swc_css_visit = {version = "0.90.0", path = "../swc_css_visit"}
 
 [dev-dependencies]
-swc_css_codegen = { version = "0.100.0", path = "../swc_css_codegen" }
-swc_css_parser = { version = "0.99.0", path = "../swc_css_parser" }
-testing = { version = "0.19.0", path = "../testing" }
+swc_css_codegen = {version = "0.100.0", path = "../swc_css_codegen"}
+swc_css_parser = {version = "0.99.0", path = "../swc_css_parser"}
+testing = {version = "0.19.0", path = "../testing"}

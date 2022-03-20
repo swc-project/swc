@@ -43,6 +43,9 @@ check:
     - "hack check --feature-powerset --no-dev-deps"
   swc_ecma_utils:
     - "hack check --feature-powerset --no-dev-deps"
+  swc_cli:
+    - "check"
+    - "check --features plugin"
   swc_node_bundler:
     - "check"
     - "check --no-default-features --features swc_v2"

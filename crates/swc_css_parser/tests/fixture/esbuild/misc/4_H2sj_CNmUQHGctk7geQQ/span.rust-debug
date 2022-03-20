@@ -1,66 +1,66 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:2:1]
- 2 | @k\65yframes abc { from {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:2:1]
- 2 | @k\65yframes abc { from {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:2:1]
- 2 | @k\65yframes abc { from {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x KeyframesRule
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:2:1]
- 2 | @k\65yframes abc { from {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x CustomIdent
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:2:1]
- 2 | @k\65yframes abc { from {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
    :              ^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:2:1]
- 2 | @k\65yframes abc { from {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
    :                  ^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:2:1]
- 2 | @k\65yframes abc { from {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
    :                    ^^^^^^^
    `----
 
   x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:2:1]
- 2 | @k\65yframes abc { from {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
    :                    ^^^^^^^
    `----
 
   x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:2:1]
- 2 | @k\65yframes abc { from {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
    :                    ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:2:1]
- 2 | @k\65yframes abc { from {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
    :                    ^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:2:1]
- 2 | @k\65yframes abc { from {} }
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
    :                         ^^
    `----

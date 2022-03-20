@@ -1,321 +1,321 @@
 
   x Stylesheet
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:2:1]
-  2 | ,-> <!---->
-  3 | |   
-  4 | |   <!-- -->
-  5 | |   
-  6 | |   <!-- .foo { color: red }  -->
-  7 | |   
-  8 | |   div {
-  9 | |       color: red;
- 10 | |   }
- 11 | |   
- 12 | |   <!--
- 13 | |   
- 14 | |   .class {
- 15 | |       color: red;
- 16 | |   }
- 17 | |   
- 18 | `-> -->
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:1:1]
+  1 | ,-> <!---->
+  2 | |   
+  3 | |   <!-- -->
+  4 | |   
+  5 | |   <!-- .foo { color: red }  -->
+  6 | |   
+  7 | |   div {
+  8 | |       color: red;
+  9 | |   }
+ 10 | |   
+ 11 | |   <!--
+ 12 | |   
+ 13 | |   .class {
+ 14 | |       color: red;
+ 15 | |   }
+ 16 | |   
+ 17 | `-> -->
     `----
 
   x Rule
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :      ^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :      ^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :      ^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :      ^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :      ^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :      ^^^^
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :      ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :       ^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :           ^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :             ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :             ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :             ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :             ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :             ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :                    ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:6:1]
- 6 | <!-- .foo { color: red }  -->
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
    :                    ^^^
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:1]
-  8 | ,-> div {
-  9 | |       color: red;
- 10 | `-> }
-    `----
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
+ 7 | ,-> div {
+ 8 | |       color: red;
+ 9 | `-> }
+   `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:1]
-  8 | ,-> div {
-  9 | |       color: red;
- 10 | `-> }
-    `----
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
+ 7 | ,-> div {
+ 8 | |       color: red;
+ 9 | `-> }
+   `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:1]
- 8 | div {
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
+ 7 | div {
    : ^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:1]
- 8 | div {
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
+ 7 | div {
    : ^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:1]
- 8 | div {
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
+ 7 | div {
    : ^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:1]
- 8 | div {
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
+ 7 | div {
    : ^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:1]
- 8 | div {
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
+ 7 | div {
    : ^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:1]
- 8 | div {
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
+ 7 | div {
    : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:1]
- 8 | div {
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
+ 7 | div {
    : ^^^
    `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:1]
-  8 | ,-> div {
-  9 | |       color: red;
- 10 | `-> }
-    `----
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
+ 7 | ,-> div {
+ 8 | |       color: red;
+ 9 | `-> }
+   `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:9:5]
- 9 | color: red;
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
+ 8 | color: red;
    : ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:9:5]
- 9 | color: red;
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
+ 8 | color: red;
    : ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:9:5]
- 9 | color: red;
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
+ 8 | color: red;
    : ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:9:5]
- 9 | color: red;
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
+ 8 | color: red;
    : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:9:5]
- 9 | color: red;
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
+ 8 | color: red;
    : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:9:5]
- 9 | color: red;
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
+ 8 | color: red;
    :        ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:9:5]
- 9 | color: red;
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
+ 8 | color: red;
    :        ^^^
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:1]
- 14 | ,-> .class {
- 15 | |       color: red;
- 16 | `-> }
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
+ 13 | ,-> .class {
+ 14 | |       color: red;
+ 15 | `-> }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:1]
- 14 | ,-> .class {
- 15 | |       color: red;
- 16 | `-> }
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
+ 13 | ,-> .class {
+ 14 | |       color: red;
+ 15 | `-> }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:1]
- 14 | .class {
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
+ 13 | .class {
     : ^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:1]
- 14 | .class {
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
+ 13 | .class {
     : ^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:1]
- 14 | .class {
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
+ 13 | .class {
     : ^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:1]
- 14 | .class {
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
+ 13 | .class {
     : ^^^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:1]
- 14 | .class {
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
+ 13 | .class {
     : ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:1]
- 14 | .class {
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
+ 13 | .class {
     :  ^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:1]
- 14 | ,-> .class {
- 15 | |       color: red;
- 16 | `-> }
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
+ 13 | ,-> .class {
+ 14 | |       color: red;
+ 15 | `-> }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:15:5]
- 15 | color: red;
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
+ 14 | color: red;
     : ^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:15:5]
- 15 | color: red;
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
+ 14 | color: red;
     : ^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:15:5]
- 15 | color: red;
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
+ 14 | color: red;
     : ^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:15:5]
- 15 | color: red;
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
+ 14 | color: red;
     : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:15:5]
- 15 | color: red;
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
+ 14 | color: red;
     : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:15:5]
- 15 | color: red;
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
+ 14 | color: red;
     :        ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:15:5]
- 15 | color: red;
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
+ 14 | color: red;
     :        ^^^
     `----

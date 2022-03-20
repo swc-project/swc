@@ -1,24 +1,24 @@
 
   x Unexpected invalid hex color '#ababa'.
-   ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:3:5]
- 3 | color: #ababa;
+   ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:2:5]
+ 2 | color: #ababa;
    :        ^^^^^^
    `----
 
   x Unexpected invalid hex color '#00'.
-   ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:7:5]
- 7 | unknown: #00, #fff, #ababab;
+   ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:6:5]
+ 6 | unknown: #00, #fff, #ababab;
    :          ^^^
    `----
 
   x Unexpected invalid hex color '#12345abcdefg'.
-    ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:11:5]
- 11 | color: #12345abcdefg;
+    ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:10:5]
+ 10 | color: #12345abcdefg;
     :        ^^^^^^^^^^^^^
     `----
 
   x Unexpected invalid hex color '#xyz'.
-    ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:15:5]
- 15 | color: #xyz;
+    ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:14:5]
+ 14 | color: #xyz;
     :        ^^^^
     `----

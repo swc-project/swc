@@ -1,6 +1,6 @@
 
   x Expected a semicolon
-   ,-[$DIR/tests/typescript-errors/issue-1391/case1/input.ts:2:1]
- 2 | const Methods {
+   ,-[$DIR/tests/typescript-errors/issue-1391/case1/input.ts:1:1]
+ 1 | const Methods {
    :               ^
    `----

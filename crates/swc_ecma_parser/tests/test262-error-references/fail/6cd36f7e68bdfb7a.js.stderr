@@ -1,6 +1,6 @@
 
   x Declaration is now allowed
-   ,-[$DIR/tests/test262-parser/fail/6cd36f7e68bdfb7a.js:2:1]
- 2 | for(;;) function a(){}
+   ,-[$DIR/tests/test262-parser/fail/6cd36f7e68bdfb7a.js:1:1]
+ 1 | for(;;) function a(){}
    :         ^^^^^^^^
    `----

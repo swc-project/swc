@@ -1,0 +1,11 @@
+{
+  "mappings": "AAAA,cAAc,gBAAgB,CAAA;AAC9B,cAAc,uBAAuB,CAAA;AAErC,cAAc,UAAU,CAAA;AACxB,cAAc,cAAc,CAAA",
+  "names": [],
+  "sources": [
+    "../../input/index.ts"
+  ],
+  "sourcesContent": [
+    "export * from './createColors'\nexport * from './createColorsFromMap'\nexport type { Alpha, ColorMap, RGB, RGBA } from './interfaces'\nexport * from './rgbHex'\nexport * from './rgbaString'"
+  ],
+  "version": 3
+}

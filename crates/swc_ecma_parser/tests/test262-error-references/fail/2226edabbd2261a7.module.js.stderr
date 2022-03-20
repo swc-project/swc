@@ -1,6 +1,6 @@
 
   x Expected ident
-   ,-[$DIR/tests/test262-parser/fail/2226edabbd2261a7.module.js:2:1]
- 2 | function f() { var await }
+   ,-[$DIR/tests/test262-parser/fail/2226edabbd2261a7.module.js:1:1]
+ 1 | function f() { var await }
    :                    ^^^^^
    `----

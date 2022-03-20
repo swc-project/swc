@@ -10,6 +10,7 @@ use swc_common::{
     sync::{Lazy, OnceCell},
 };
 use wasmer::{Module, Store};
+#[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
 use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 
 /// Version for bytecode cache stored in local filesystem.
@@ -29,7 +30,9 @@ pub static PLUGIN_MODULE_CACHE: Lazy<PluginModuleCache> = Lazy::new(Default::def
 
 #[derive(Default)]
 pub struct CacheInner {
+    #[cfg(feature = "filesystem_cache")]
     fs_cache: Option<FileSystemCache>,
+    #[cfg(feature = "filesystem_cache")]
     memory_cache: InMemoryCache,
 }
 
@@ -48,6 +51,7 @@ pub struct PluginModuleCache {
     instantiation_lock: Mutex<()>,
 }
 
+#[cfg(feature = "filesystem_cache")]
 #[tracing::instrument(level = "info", skip_all)]
 fn create_filesystem_cache(filesystem_cache_root: &Option<String>) -> Option<FileSystemCache> {
     let mut root_path = if let Some(root) = filesystem_cache_root {
@@ -78,12 +82,18 @@ fn create_filesystem_cache(filesystem_cache_root: &Option<String>) -> Option<Fil
 /// If cache failed to initialize filesystem cache for given location
 /// it'll be serve in-memory cache only.
 pub fn init_plugin_module_cache_once(filesystem_cache_root: &Option<String>) {
+    #[cfg(feature = "filesystem_cache")]
     PLUGIN_MODULE_CACHE.inner.get_or_init(|| {
         Mutex::new(CacheInner {
             fs_cache: create_filesystem_cache(filesystem_cache_root),
             memory_cache: Default::default(),
         })
     });
+
+    #[cfg(target_arch = "wasm32")]
+    PLUGIN_MODULE_CACHE
+        .inner
+        .get_or_init(|| Mutex::new(CacheInner {}));
 }
 
 impl PluginModuleCache {
@@ -106,6 +116,7 @@ impl PluginModuleCache {
     /// [This code](https://github.com/swc-project/swc/blob/fc4c6708f24cda39640fbbfe56123f2f6eeb2474/crates/swc/src/plugin.rs#L19-L44)
     /// includes previous incorrect attempt to workaround file read issues.
     /// In actual transform, `plugins` is also being called per each transform.
+    #[cfg(feature = "filesystem_cache")]
     #[tracing::instrument(level = "info", skip_all)]
     pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
         let binary_path = binary_path.to_path_buf();
@@ -160,5 +171,10 @@ impl PluginModuleCache {
             .insert(binary_path, module.clone());
 
         Ok(module)
+    }
+
+    #[cfg(target_arch = "wasm32")]
+    pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
+        unimplemented!("Not implemented yet");
     }
 }

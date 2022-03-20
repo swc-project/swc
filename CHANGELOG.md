@@ -5,7 +5,106 @@
 
 
 
+- **(common)** Fix the line number of errors (#4082) ([57802cf](https://github.com/swc-project/swc/commit/57802cfcce6293fb6c4591987c39c6141fdd9390))
+
+
+- **(es/codegen)** Support multiline comments in return stmt (#4102) ([552f16d](https://github.com/swc-project/swc/commit/552f16dba6c91876529354f3f5e155a3360a74ea))
+
+
+- **(es/codegen)** Emit decorators on class methods (#4103) ([9b64a69](https://github.com/swc-project/swc/commit/9b64a6960fc413d5aac000d0868d836d881ca895))
+
+
+- **(es/compat)** Visit non-method properties in a nested object literal (#4094) ([f5b9600](https://github.com/swc-project/swc/commit/f5b9600b2befe0053bec2d3e6210bf35dd824dfb))
+
+### Features
+
+
+
+- **(es/lints)** Implement `valid-typeof` rule (#4095) ([9ceefa7](https://github.com/swc-project/swc/commit/9ceefa734f1193cb7379404132ffd89417b4ed8f))
+
+### Miscellaneous Tasks
+- **general**: Typo ([3f78053](https://github.com/swc-project/swc/commit/3f78053227f2d286940e9b118f27aa9474b0c838))- **general**: Fix CI ([565a720](https://github.com/swc-project/swc/commit/565a7202eda1435498f7d98a1f9ec1b34d9fdf33))- **general**: Fix CI ([b31ead5](https://github.com/swc-project/swc/commit/b31ead5cbed61b201991cf55e227a6de52365a24))
+
+## [1.2.159] - 2022-03-19
+
+### Bug Fixes
+
+
+
+- **(api/rust)** Exclude test files from rust packages (#4091) ([533f756](https://github.com/swc-project/swc/commit/533f75627405fbb05fcebf42a49105d019093ffe))
+
+
+- **(common)** Fix handling of input source maps (#4086) ([b716210](https://github.com/swc-project/swc/commit/b716210de1495d11f45f74bdc3941826a9dd5d6a))
+
+
+- **(es/compat)** Visit generated codes from `arrow` (#4090) ([cb0881c](https://github.com/swc-project/swc/commit/cb0881cc3dd4ea8fb880e7cbd9eb6a11031a8e9b))
+
+
+- **(es/compat)** Revert wrong fix of `arrow` (#4093) ([0d6bd81](https://github.com/swc-project/swc/commit/0d6bd813b209155fcf45baa6f0195657ee383845))
+
+
+- **(es/module/cjs)** Fix conflict of a local export and exports-alls (#4089) ([6ac7934](https://github.com/swc-project/swc/commit/6ac793401769028f7e18b642303de46592d39598))
+
+
+- **(es/resolver)** Fix handling of decorators (#4084) ([f662298](https://github.com/swc-project/swc/commit/f66229822c2e44d35854cd9a1ecbdae82242a08c))
+
+### Features
+
+
+
+- **(es/lints)** Implement `no-new-symbol` rule (#4076) ([b39e345](https://github.com/swc-project/swc/commit/b39e345d8e43c3e6c1491f7b75448e3b091d7b0d))
+
+
+- **(es/module/cjs)** Support `import.meta.url` (#4087) ([d0f687b](https://github.com/swc-project/swc/commit/d0f687bf44862e737e189dc585e9f1b789291685))
+
+### Testing
+
+
+
+- **(es/parser)** Add a test for a fixed issue (#4085) ([792ab2c](https://github.com/swc-project/swc/commit/792ab2ca251eadd5a85e496a35af31acada7cf9f))
+
+## [1.2.158] - 2022-03-18
+
+### Bug Fixes
+
+
+
+- **(css/prefixer)** Reduce the number of vars in debug build (#4078) ([4af5e6d](https://github.com/swc-project/swc/commit/4af5e6d77bff7bf6bf247b18185b22754c3ceceb))
+
+
+- **(es/helpers)** Fix decorator helper script (#4072) ([55cfad1](https://github.com/swc-project/swc/commit/55cfad152d52e7f818fc4e71913e94ce84ab91a2))
+
+
+- **(es/modules)** Fix sourcemap, really (#4074) ([22d005e](https://github.com/swc-project/swc/commit/22d005e2246505ad01ee1aef0be714f98ff7b577))
+
+
+- **(es/react)** Fix `_createElement` (#4070) ([bb08354](https://github.com/swc-project/swc/commit/bb08354950beb8155fbe27abcc391e43e1c15e2b))
+
+### Features
+
+
+
+- **(es/modules)** Support namespaced reexports (#4073) ([9458f08](https://github.com/swc-project/swc/commit/9458f08092e544cf051a88001b195f8543035d1c))
+
+### Miscellaneous Tasks
+
+
+
+- **(repo)** Auto-lock outdated issues and PRs (#4066) ([ed7a5e5](https://github.com/swc-project/swc/commit/ed7a5e54ccdf7f6835082286fa9892f0cf3ac270))
+
+## [1.2.157] - 2022-03-17
+
+### Bug Fixes
+
+
+
+- **(es/ast)** Revert removal of `definite` in `PrivateProp` (#4051) ([bbe8f3d](https://github.com/swc-project/swc/commit/bbe8f3d8fe0a5a62fa2624c5cbe46980ad6264ac))
+
+
 - **(es/codegen)** Fix codegen of string literals (#4037) ([bd444c0](https://github.com/swc-project/swc/commit/bd444c0ceb1bfdc8582e15dec439917474b55b25))
+
+
+- **(es/codegen)** Fix sourcemap (#4062) ([9310c39](https://github.com/swc-project/swc/commit/9310c39fe922283b4bea46c30b08f8768cda577d))
 
 
 - **(es/helpers)** Add missing `export` for `classPrivateFieldLooseKey` (#4045) ([3125bba](https://github.com/swc-project/swc/commit/3125bbacbe1dc9afa9e2c809146dcf42ab5c82de))
@@ -13,11 +112,32 @@
 
 - **(es/helpers)** Export `classPrivateFieldLooseKey` as `default` (#4047) ([025c921](https://github.com/swc-project/swc/commit/025c921409caa53131bdacd3db2d4adeb1806d52))
 
+
+- **(es/helpers)** Fix the name of `_classPrivateFieldLooseBase` (#4061) ([f8a3849](https://github.com/swc-project/swc/commit/f8a3849299e666e1b6543fec953732ed9c88a225))
+
+
+- **(es/parser)** Allow nested ambient context in `.d.ts` files (#4060) ([ffcb6ce](https://github.com/swc-project/swc/commit/ffcb6ce523fb4ffba8531d5194f69e62c63d3d9a))
+
+
+- **(plugin/runner)** Make build pass for `wasm32` (#4056) ([5c84fe5](https://github.com/swc-project/swc/commit/5c84fe525f336064eaa5b383cb4606f1b3cd8df2))
+
 ### Features
 
 
 
+- **(cli)** Enable plugins for `swc_cli` (#4059) ([fefb587](https://github.com/swc-project/swc/commit/fefb5870c7ed9bb4a97be778bf3be1eee74aa344))
+
+
+- **(css/prefixer)** Support more properties (#4055) ([f2517a3](https://github.com/swc-project/swc/commit/f2517a345bcae30ebb4f0b2910a8db31e944648d))
+
+
+- **(es/lints)** Implement `yoda` rule (#3886) ([833958b](https://github.com/swc-project/swc/commit/833958bd7469993e756c24dcd1263ef2c5ef9eb9))
+
+
 - **(node-swc)** Add `libc` field in Linux platform packages (#4046) ([db9b988](https://github.com/swc-project/swc/commit/db9b9888459c0394209f68bad421eb31a491547a))
+
+
+- **(node-swc)** Embed target triple string (#4058) ([5a2a603](https://github.com/swc-project/swc/commit/5a2a6037d442d76d557d07795def5653aff91f2a))
 
 ## [1.2.156] - 2022-03-16
 

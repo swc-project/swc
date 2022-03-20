@@ -10,6 +10,7 @@
 }
 div {
   -webkit-background-size: -webkit-calc(20px);
+  -moz-background-size: -moz-calc(20px);
   -o-background-size: calc(20px);
   background-size: -webkit-calc(20px);
   background-size: -moz-calc(20px);

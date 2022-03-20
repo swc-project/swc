@@ -1,0 +1,18 @@
+{
+  "mappings": "AACA,YADA;mCAAA;mBACqB,OAAO;AAArB,QAAKA,GAAG,OAAA,AADf,CACe;AAIR,MAAMC,IAAI,GAAG,CAACC,EAAU,GAAsB;IACjD,sBAAsB;IACtB,OAAO,IAAIC,OAAO,CAAC,CAACC,OAAO,GACvBC,UAAU,CAAC,IAAM;YACbD,OAAO,CAAC,QAAQ,CAAC,CAAC;SACrB,EAAE,IAAI,CAAC;IAAA,CACX,CAAC;CACL,AAAC;QAPWH,IAAI,GAAJA,IAAI,AALjB",
+  "names": [
+    "get",
+    "byID",
+    "id",
+    "Promise",
+    "resolve",
+    "setTimeout"
+  ],
+  "sources": [
+    "../../input/index.ts"
+  ],
+  "sourcesContent": [
+    "// index.ts\nexport * as get from \"./get\";\n\n// get/index.ts\n\nexport const byID = (id: string): Promise<string> => {\n    // Do some async stuff\n    return new Promise((resolve) =>\n        setTimeout(() => {\n            resolve(\"result\");\n        }, 2000)\n    );\n};"
+  ],
+  "version": 3
+}

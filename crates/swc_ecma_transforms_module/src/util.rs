@@ -49,6 +49,8 @@ pub struct Config {
     pub no_interop: bool,
     #[serde(default)]
     pub ignore_dynamic: bool,
+    #[serde(default)]
+    pub preserve_import_meta: bool,
 }
 
 impl Default for Config {
@@ -59,6 +61,7 @@ impl Default for Config {
             lazy: Lazy::default(),
             no_interop: false,
             ignore_dynamic: false,
+            preserve_import_meta: false,
         }
     }
 }
@@ -118,7 +121,7 @@ pub struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>, ahash::RandomState>,
+    pub(crate) imports: IndexMap<JsWord, (Span, Option<(JsWord, Span)>), ahash::RandomState>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)
@@ -305,8 +308,9 @@ impl Scope {
         let entry = self
             .imports
             .entry(src.value.clone())
-            .and_modify(|v| {
+            .and_modify(|(span, v)| {
                 if init && v.is_none() {
+                    *span = src.span;
                     *v = {
                         let ident = private_ident!(local_name_for_src(&src.value));
                         Some((ident.sym, ident.span))
@@ -314,15 +318,17 @@ impl Scope {
                 }
             })
             .or_insert_with(|| {
-                if init {
+                let v = if init {
                     let ident = private_ident!(local_name_for_src(&src.value));
                     Some((ident.sym, ident.span))
                 } else {
                     None
-                }
+                };
+
+                (src.span, v)
             });
         if init {
-            let entry = entry.as_ref().unwrap();
+            let entry = entry.1.as_ref().unwrap();
             let ident = Ident::new(entry.0.clone(), entry.1);
 
             Some(ident)
@@ -335,7 +341,9 @@ impl Scope {
         if import.specifiers.is_empty() {
             // import 'foo';
             //   -> require('foo');
-            self.imports.entry(import.src.value.clone()).or_insert(None);
+            self.imports
+                .entry(import.src.value.clone())
+                .or_insert((import.src.span, None));
         } else if import.specifiers.len() == 1
             && matches!(import.specifiers[0], ImportSpecifier::Namespace(..))
         {
@@ -353,11 +361,19 @@ impl Scope {
             // Override symbol if one exists
             self.imports
                 .entry(import.src.value.clone())
-                .and_modify(|v| match *v {
-                    Some(ref mut v) => v.0 = specifier.local.sym.clone(),
-                    None => *v = Some((specifier.local.sym.clone(), specifier.local.span)),
+                .and_modify(|(span, v)| {
+                    *span = import.src.span;
+                    match *v {
+                        Some(ref mut v) => v.0 = specifier.local.sym.clone(),
+                        None => *v = Some((specifier.local.sym.clone(), specifier.local.span)),
+                    }
                 })
-                .or_insert_with(|| Some((specifier.local.sym.clone(), specifier.local.span)));
+                .or_insert_with(|| {
+                    (
+                        import.src.span,
+                        Some((specifier.local.sym.clone(), specifier.local.span)),
+                    )
+                });
 
             if &*import.src.value != "@swc/helpers" {
                 self.import_types.insert(import.src.value, true);
@@ -365,8 +381,10 @@ impl Scope {
         } else {
             self.imports
                 .entry(import.src.value.clone())
-                .and_modify(|opt| {
+                .and_modify(|(span, opt)| {
                     if opt.is_none() {
+                        *span = import.src.span;
+
                         let ident =
                             private_ident!(import.src.span, local_name_for_src(&import.src.value));
                         *opt = Some((ident.sym, ident.span));
@@ -375,7 +393,7 @@ impl Scope {
                 .or_insert_with(|| {
                     let ident =
                         private_ident!(import.src.span, local_name_for_src(&import.src.value));
-                    Some((ident.sym, ident.span))
+                    (import.src.span, Some((ident.sym, ident.span)))
                 });
 
             let mut has_non_default = false;
@@ -390,11 +408,16 @@ impl Scope {
                         // Override symbol if one exists
                         self.imports
                             .entry(import.src.value.clone())
-                            .and_modify(|v| match *v {
-                                Some(ref mut v) => v.0 = ns.local.sym.clone(),
-                                None => *v = Some((ns.local.sym.clone(), ns.local.span)),
+                            .and_modify(|(span, v)| {
+                                *span = import.src.span;
+                                match *v {
+                                    Some(ref mut v) => v.0 = ns.local.sym.clone(),
+                                    None => *v = Some((ns.local.sym.clone(), ns.local.span)),
+                                }
                             })
-                            .or_insert_with(|| Some((ns.local.sym.clone(), ns.local.span)));
+                            .or_insert_with(|| {
+                                (import.src.span, Some((ns.local.sym.clone(), ns.local.span)))
+                            });
 
                         if &*import.src.value != "@swc/helpers" {
                             self.import_types.insert(import.src.value.clone(), true);
@@ -466,7 +489,14 @@ impl Scope {
                 };
 
                 let scope = folder.scope();
-                let (ident, span) = scope.imports.get(&src).as_ref().unwrap().as_ref().unwrap();
+                let (ident, span) = scope
+                    .imports
+                    .get(&src)
+                    .as_ref()
+                    .unwrap()
+                    .1
+                    .as_ref()
+                    .unwrap();
 
                 let obj = {
                     let ident = Ident::new(ident.clone(), orig_span.with_ctxt(span.ctxt));
