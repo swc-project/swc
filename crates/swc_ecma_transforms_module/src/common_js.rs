@@ -698,19 +698,23 @@ impl Fold for CommonJs {
                                             );
                                         } else {
                                             stmts.push(
-                                                define_property(vec![
-                                                    quote_ident!("exports").as_arg(),
-                                                    {
-                                                        // export { foo }
-                                                        //  -> 'foo'
+                                                define_property(
+                                                    export.span,
+                                                    vec![
+                                                        quote_ident!("exports").as_arg(),
+                                                        {
+                                                            // export { foo }
+                                                            //  -> 'foo'
 
-                                                        // export { foo as bar }
-                                                        //  -> 'bar'
-                                                        let i = exported.unwrap_or(orig).clone();
-                                                        quote_str!(i.span, i.sym).as_arg()
-                                                    },
-                                                    make_descriptor(value).as_arg(),
-                                                ])
+                                                            // export { foo as bar }
+                                                            //  -> 'bar'
+                                                            let i =
+                                                                exported.unwrap_or(orig).clone();
+                                                            quote_str!(i.span, i.sym).as_arg()
+                                                        },
+                                                        make_descriptor(value).as_arg(),
+                                                    ],
+                                                )
                                                 .into_stmt()
                                                 .into(),
                                             );

@@ -187,6 +187,7 @@ impl Scope {
         exported_names: Option<Ident>,
         imported: Ident,
     ) -> Stmt {
+        let imported = Ident::new(imported.sym, DUMMY_SP.with_ctxt(imported.span.ctxt));
         let key_ident = private_ident!("key");
 
         let function = Function {
@@ -200,9 +201,9 @@ impl Scope {
                 pat: key_ident.clone().into(),
             }],
             body: Some(BlockStmt {
-                span: DUMMY_SP,
+                span,
                 stmts: iter::once(Stmt::If(IfStmt {
-                    span: DUMMY_SP,
+                    span,
                     // key === "default" || key === "__esModule"
                     test: Box::new(
                         key_ident
@@ -225,7 +226,7 @@ impl Scope {
                     // We should skip if the file explicitly exports
                     exported_names.map(|exported_names| {
                         Stmt::If(IfStmt {
-                            span: DUMMY_SP,
+                            span,
                             test: Box::new(
                                 CallExpr {
                                     span: DUMMY_SP,
@@ -249,7 +250,7 @@ impl Scope {
                 })
                 .chain({
                     Some(Stmt::If(IfStmt {
-                        span: DUMMY_SP,
+                        span,
                         test: Box::new(
                             key_ident
                                 .clone()
@@ -269,12 +270,15 @@ impl Scope {
                     }))
                 })
                 .chain(iter::once(
-                    define_property(vec![
-                        exports.as_arg(),
-                        key_ident.clone().as_arg(),
-                        make_descriptor(Box::new(imported.clone().computed_member(key_ident)))
-                            .as_arg(),
-                    ])
+                    define_property(
+                        span,
+                        vec![
+                            exports.as_arg(),
+                            key_ident.clone().as_arg(),
+                            make_descriptor(Box::new(imported.clone().computed_member(key_ident)))
+                                .as_arg(),
+                        ],
+                    )
                     .into_stmt(),
                 ))
                 .collect(),
@@ -284,7 +288,7 @@ impl Scope {
         };
 
         Stmt::Expr(ExprStmt {
-            span,
+            span: DUMMY_SP,
             expr: Box::new(Expr::Call(CallExpr {
                 span,
                 // Object.keys(_foo).forEach
@@ -887,9 +891,9 @@ pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
     format!("_{}", src.split('/').last().unwrap().to_camel_case()).into()
 }
 
-pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {
+pub(super) fn define_property(span: Span, args: Vec<ExprOrSpread>) -> Expr {
     Expr::Call(CallExpr {
-        span: DUMMY_SP,
+        span,
         callee: member_expr!(DUMMY_SP, Object.defineProperty).as_callee(),
         args,
 
@@ -906,18 +910,21 @@ pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {
 ///  });
 /// ```
 pub(super) fn define_es_module(exports: Ident) -> Stmt {
-    define_property(vec![
-        exports.as_arg(),
-        Lit::Str(quote_str!("__esModule")).as_arg(),
-        ObjectLit {
-            span: DUMMY_SP,
-            props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(quote_ident!("value")),
-                value: true.into(),
-            })))],
-        }
-        .as_arg(),
-    ])
+    define_property(
+        DUMMY_SP,
+        vec![
+            exports.as_arg(),
+            Lit::Str(quote_str!("__esModule")).as_arg(),
+            ObjectLit {
+                span: DUMMY_SP,
+                props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                    key: PropName::Ident(quote_ident!("value")),
+                    value: true.into(),
+                })))],
+            }
+            .as_arg(),
+        ],
+    )
     .into_stmt()
 }
 

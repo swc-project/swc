@@ -430,19 +430,22 @@ impl Fold for Umd {
                                     );
                                 } else {
                                     stmts.push(
-                                        define_property(vec![
-                                            exports_ident.clone().as_arg(),
-                                            {
-                                                // export { foo }
-                                                //  -> 'foo'
+                                        define_property(
+                                            export.span,
+                                            vec![
+                                                exports_ident.clone().as_arg(),
+                                                {
+                                                    // export { foo }
+                                                    //  -> 'foo'
 
-                                                // export { foo as bar }
-                                                //  -> 'bar'
-                                                let i = exported.unwrap_or(orig);
-                                                quote_str!(i.span, i.sym).as_arg()
-                                            },
-                                            make_descriptor(value).as_arg(),
-                                        ])
+                                                    // export { foo as bar }
+                                                    //  -> 'bar'
+                                                    let i = exported.unwrap_or(orig);
+                                                    quote_str!(i.span, i.sym).as_arg()
+                                                },
+                                                make_descriptor(value).as_arg(),
+                                            ],
+                                        )
                                         .into_stmt(),
                                     );
                                 }
