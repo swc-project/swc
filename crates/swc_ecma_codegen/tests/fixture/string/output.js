@@ -101,3 +101,4 @@ const string93 = new RegExp("").test("");
 const string94 = '퟿';
 const string95 = 'ퟻ';
 const string96 = sql`'#ERROR'`;
+const string97 = '\u{a0}';

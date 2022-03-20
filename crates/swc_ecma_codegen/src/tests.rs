@@ -673,13 +673,39 @@ fn issue_2213() {
 
 #[test]
 fn issue3617() {
+    // Convert characters to es5 compatibility code
     let from = r"// a string of all valid unicode whitespaces
     module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
-      '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';";
+      '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF' + '\u{a0}';";
     let expected = r#"// a string of all valid unicode whitespaces
-module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' + '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';"#;
+module.exports = "\t\n\v\f\r \xa0\u1680\u2000\u2001\u2002" + "\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF" + "\xa0";"#;
 
     let out = parse_then_emit(from, Default::default(), Syntax::default(), EsVersion::Es5);
+
+    dbg!(&out);
+    dbg!(&expected);
+
+    assert_eq!(
+        DebugUsingDisplay(out.trim()),
+        DebugUsingDisplay(expected.trim()),
+    );
+}
+
+#[test]
+fn issue3617_1() {
+    // Print characters as is for ECMA target > 5
+    let from = r"// a string of all valid unicode whitespaces
+    module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
+      '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF' + '\u{a0}';";
+    let expected = r#"// a string of all valid unicode whitespaces
+module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' + '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF' + '\u{a0}';"#;
+
+    let out = parse_then_emit(
+        from,
+        Default::default(),
+        Syntax::default(),
+        EsVersion::Es2022,
+    );
 
     dbg!(&out);
     dbg!(&expected);

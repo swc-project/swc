@@ -517,17 +517,21 @@ where
             return Ok(());
         }
 
+        let target = self.wr.target();
+
         if self.cfg.minify {
-            let value = get_quoted_utf16(&node.value, self.wr.target());
+            let value = get_quoted_utf16(&node.value, target);
 
             self.wr.write_str_lit(DUMMY_SP, &value)?;
         } else {
             match &node.raw {
-                Some(raw_value) => {
+                // TODO `es5_unicode` in `swc_ecma_transforms_compat` and avoid changing AST in
+                // codegen
+                Some(raw_value) if target > EsVersion::Es5 => {
                     self.wr.write_str_lit(DUMMY_SP, raw_value)?;
                 }
                 _ => {
-                    let value = get_quoted_utf16(&node.value, self.wr.target());
+                    let value = get_quoted_utf16(&node.value, target);
 
                     self.wr.write_str_lit(DUMMY_SP, &value)?;
                 }
