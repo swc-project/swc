@@ -1,6 +1,6 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:3:5]
- 3 | color: @ red;
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
+ 2 | color: @ red;
    :        ^
    `----

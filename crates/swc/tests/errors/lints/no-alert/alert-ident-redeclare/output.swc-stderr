@@ -1,6 +1,6 @@
 
   x Unexpected alert
    ,----
- 5 | window.alert(foo);
+ 4 | window.alert(foo);
    : ^^^^^^^^^^^^^^^^^
    `----

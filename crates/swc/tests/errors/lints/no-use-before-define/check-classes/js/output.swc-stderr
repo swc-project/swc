@@ -1,6 +1,6 @@
 
   x 'C' was used before it was defined
    ,----
- 2 | new C();
+ 1 | new C();
    :     ^
    `----

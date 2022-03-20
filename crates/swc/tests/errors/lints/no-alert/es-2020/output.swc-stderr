@@ -1,24 +1,24 @@
 
   x Unexpected alert
    ,----
- 4 | globalThis.alert();
+ 3 | globalThis.alert();
    : ^^^^^^^^^^^^^^^^^^
    `----
 
   x Unexpected alert
    ,----
- 9 | globalThis.alert();
+ 8 | globalThis.alert();
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Unexpected alert
+   ,----
+ 9 | window?.alert(foo);
    : ^^^^^^^^^^^^^^^^^^
    `----
 
   x Unexpected alert
     ,----
- 10 | window?.alert(foo);
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Unexpected alert
-    ,----
- 11 | (window?.alert)(foo);
+ 10 | (window?.alert)(foo);
     : ^^^^^^^^^^^^^^^^^^^^
     `----

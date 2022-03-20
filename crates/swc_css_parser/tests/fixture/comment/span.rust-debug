@@ -1,498 +1,498 @@
 
   x Stylesheet
-    ,-[$DIR/tests/fixture/comment/input.css:2:1]
-  2 | ,-> /* comment */a/* comment */
-  3 | |   {
-  4 | |   /* comment */color/* comment */:/* comment */red/* comment */;
-  5 | |   }
-  6 | |   
-  7 | |   /* a { color: black } */
-  8 | |   /**/
-  9 | |   /* */
- 10 | |   div {
- 11 | |       /* inside */
- 12 | |       color: black;
- 13 | |       /* between */
- 14 | |       background: red;
- 15 | |       /* end */
- 16 | |   }
- 17 | |   /* b */
- 18 | |   
- 19 | |   a {
- 20 | |       color: black;
- 21 | |       /* c */
- 22 | |   }
- 23 | |   
- 24 | |   @media/* comment */screen/* comment */{}
- 25 | |   @media /* comment */ screen /* comment */ {}
- 26 | |   
- 27 | |   /*!test*/
- 28 | |   /*!te
- 29 | |   st*/
- 30 | |   /*!te
+    ,-[$DIR/tests/fixture/comment/input.css:1:1]
+  1 | ,-> /* comment */a/* comment */
+  2 | |   {
+  3 | |   /* comment */color/* comment */:/* comment */red/* comment */;
+  4 | |   }
+  5 | |   
+  6 | |   /* a { color: black } */
+  7 | |   /**/
+  8 | |   /* */
+  9 | |   div {
+ 10 | |       /* inside */
+ 11 | |       color: black;
+ 12 | |       /* between */
+ 13 | |       background: red;
+ 14 | |       /* end */
+ 15 | |   }
+ 16 | |   /* b */
+ 17 | |   
+ 18 | |   a {
+ 19 | |       color: black;
+ 20 | |       /* c */
+ 21 | |   }
+ 22 | |   
+ 23 | |   @media/* comment */screen/* comment */{}
+ 24 | |   @media /* comment */ screen /* comment */ {}
+ 25 | |   
+ 26 | |   /*!test*/
+ 27 | |   /*!te
+ 28 | |   st*/
+ 29 | |   /*!te
+ 30 | |   
  31 | |   
- 32 | |   
- 33 | |   st*/
- 34 | |   /*!te**st*/
- 35 | |   /****************************/
- 36 | |   /*************** FOO *****************/
- 37 | `-> /* comment *//* comment */
+ 32 | |   st*/
+ 33 | |   /*!te**st*/
+ 34 | |   /****************************/
+ 35 | |   /*************** FOO *****************/
+ 36 | `-> /* comment *//* comment */
     `----
 
   x Rule
-   ,-[$DIR/tests/fixture/comment/input.css:2:1]
- 2 | ,-> /* comment */a/* comment */
- 3 | |   {
- 4 | |   /* comment */color/* comment */:/* comment */red/* comment */;
- 5 | `-> }
+   ,-[$DIR/tests/fixture/comment/input.css:1:1]
+ 1 | ,-> /* comment */a/* comment */
+ 2 | |   {
+ 3 | |   /* comment */color/* comment */:/* comment */red/* comment */;
+ 4 | `-> }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/comment/input.css:2:1]
- 2 | ,-> /* comment */a/* comment */
- 3 | |   {
- 4 | |   /* comment */color/* comment */:/* comment */red/* comment */;
- 5 | `-> }
+   ,-[$DIR/tests/fixture/comment/input.css:1:1]
+ 1 | ,-> /* comment */a/* comment */
+ 2 | |   {
+ 3 | |   /* comment */color/* comment */:/* comment */red/* comment */;
+ 4 | `-> }
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/comment/input.css:2:1]
- 2 | /* comment */a/* comment */
+   ,-[$DIR/tests/fixture/comment/input.css:1:1]
+ 1 | /* comment */a/* comment */
    :              ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/comment/input.css:2:1]
- 2 | /* comment */a/* comment */
+   ,-[$DIR/tests/fixture/comment/input.css:1:1]
+ 1 | /* comment */a/* comment */
    :              ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/comment/input.css:2:1]
- 2 | /* comment */a/* comment */
+   ,-[$DIR/tests/fixture/comment/input.css:1:1]
+ 1 | /* comment */a/* comment */
    :              ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/comment/input.css:2:1]
- 2 | /* comment */a/* comment */
+   ,-[$DIR/tests/fixture/comment/input.css:1:1]
+ 1 | /* comment */a/* comment */
    :              ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/comment/input.css:2:1]
- 2 | /* comment */a/* comment */
+   ,-[$DIR/tests/fixture/comment/input.css:1:1]
+ 1 | /* comment */a/* comment */
    :              ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/comment/input.css:2:1]
- 2 | /* comment */a/* comment */
+   ,-[$DIR/tests/fixture/comment/input.css:1:1]
+ 1 | /* comment */a/* comment */
    :              ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/comment/input.css:2:1]
- 2 | /* comment */a/* comment */
+   ,-[$DIR/tests/fixture/comment/input.css:1:1]
+ 1 | /* comment */a/* comment */
    :              ^
    `----
 
   x SimpleBlock
+   ,-[$DIR/tests/fixture/comment/input.css:2:1]
+ 2 | ,-> {
+ 3 | |   /* comment */color/* comment */:/* comment */red/* comment */;
+ 4 | `-> }
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/fixture/comment/input.css:3:1]
- 3 | ,-> {
- 4 | |   /* comment */color/* comment */:/* comment */red/* comment */;
- 5 | `-> }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/comment/input.css:4:1]
- 4 | /* comment */color/* comment */:/* comment */red/* comment */;
+ 3 | /* comment */color/* comment */:/* comment */red/* comment */;
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/comment/input.css:4:1]
- 4 | /* comment */color/* comment */:/* comment */red/* comment */;
+   ,-[$DIR/tests/fixture/comment/input.css:3:1]
+ 3 | /* comment */color/* comment */:/* comment */red/* comment */;
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/comment/input.css:4:1]
- 4 | /* comment */color/* comment */:/* comment */red/* comment */;
+   ,-[$DIR/tests/fixture/comment/input.css:3:1]
+ 3 | /* comment */color/* comment */:/* comment */red/* comment */;
    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/comment/input.css:4:1]
- 4 | /* comment */color/* comment */:/* comment */red/* comment */;
+   ,-[$DIR/tests/fixture/comment/input.css:3:1]
+ 3 | /* comment */color/* comment */:/* comment */red/* comment */;
    :              ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/comment/input.css:4:1]
- 4 | /* comment */color/* comment */:/* comment */red/* comment */;
+   ,-[$DIR/tests/fixture/comment/input.css:3:1]
+ 3 | /* comment */color/* comment */:/* comment */red/* comment */;
    :              ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/comment/input.css:4:1]
- 4 | /* comment */color/* comment */:/* comment */red/* comment */;
+   ,-[$DIR/tests/fixture/comment/input.css:3:1]
+ 3 | /* comment */color/* comment */:/* comment */red/* comment */;
    :                                              ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/comment/input.css:4:1]
- 4 | /* comment */color/* comment */:/* comment */red/* comment */;
+   ,-[$DIR/tests/fixture/comment/input.css:3:1]
+ 3 | /* comment */color/* comment */:/* comment */red/* comment */;
    :                                              ^^^
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/comment/input.css:10:1]
- 10 | ,-> div {
- 11 | |       /* inside */
- 12 | |       color: black;
- 13 | |       /* between */
- 14 | |       background: red;
- 15 | |       /* end */
- 16 | `-> }
+    ,-[$DIR/tests/fixture/comment/input.css:9:1]
+  9 | ,-> div {
+ 10 | |       /* inside */
+ 11 | |       color: black;
+ 12 | |       /* between */
+ 13 | |       background: red;
+ 14 | |       /* end */
+ 15 | `-> }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/comment/input.css:10:1]
- 10 | ,-> div {
- 11 | |       /* inside */
- 12 | |       color: black;
- 13 | |       /* between */
- 14 | |       background: red;
- 15 | |       /* end */
- 16 | `-> }
+    ,-[$DIR/tests/fixture/comment/input.css:9:1]
+  9 | ,-> div {
+ 10 | |       /* inside */
+ 11 | |       color: black;
+ 12 | |       /* between */
+ 13 | |       background: red;
+ 14 | |       /* end */
+ 15 | `-> }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/comment/input.css:10:1]
- 10 | div {
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/comment/input.css:9:1]
+ 9 | div {
+   : ^^^
+   `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/comment/input.css:10:1]
- 10 | div {
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/comment/input.css:9:1]
+ 9 | div {
+   : ^^^
+   `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/comment/input.css:10:1]
- 10 | div {
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/comment/input.css:9:1]
+ 9 | div {
+   : ^^^
+   `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/comment/input.css:10:1]
- 10 | div {
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/comment/input.css:9:1]
+ 9 | div {
+   : ^^^
+   `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/comment/input.css:10:1]
- 10 | div {
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/comment/input.css:9:1]
+ 9 | div {
+   : ^^^
+   `----
 
   x WqName
-    ,-[$DIR/tests/fixture/comment/input.css:10:1]
- 10 | div {
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/comment/input.css:9:1]
+ 9 | div {
+   : ^^^
+   `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:10:1]
- 10 | div {
-    : ^^^
-    `----
+   ,-[$DIR/tests/fixture/comment/input.css:9:1]
+ 9 | div {
+   : ^^^
+   `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/comment/input.css:10:1]
- 10 | ,-> div {
- 11 | |       /* inside */
- 12 | |       color: black;
- 13 | |       /* between */
- 14 | |       background: red;
- 15 | |       /* end */
- 16 | `-> }
+    ,-[$DIR/tests/fixture/comment/input.css:9:1]
+  9 | ,-> div {
+ 10 | |       /* inside */
+ 11 | |       color: black;
+ 12 | |       /* between */
+ 13 | |       background: red;
+ 14 | |       /* end */
+ 15 | `-> }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:12:5]
- 12 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:11:5]
+ 11 | color: black;
     : ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/comment/input.css:12:5]
- 12 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:11:5]
+ 11 | color: black;
     : ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/comment/input.css:12:5]
- 12 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:11:5]
+ 11 | color: black;
     : ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/comment/input.css:12:5]
- 12 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:11:5]
+ 11 | color: black;
     : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:12:5]
- 12 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:11:5]
+ 11 | color: black;
     : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:12:5]
- 12 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:11:5]
+ 11 | color: black;
     :        ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:12:5]
- 12 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:11:5]
+ 11 | color: black;
     :        ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:14:5]
- 14 | background: red;
+    ,-[$DIR/tests/fixture/comment/input.css:13:5]
+ 13 | background: red;
     : ^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/comment/input.css:14:5]
- 14 | background: red;
+    ,-[$DIR/tests/fixture/comment/input.css:13:5]
+ 13 | background: red;
     : ^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/comment/input.css:14:5]
- 14 | background: red;
+    ,-[$DIR/tests/fixture/comment/input.css:13:5]
+ 13 | background: red;
     : ^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/comment/input.css:14:5]
- 14 | background: red;
+    ,-[$DIR/tests/fixture/comment/input.css:13:5]
+ 13 | background: red;
     : ^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:14:5]
- 14 | background: red;
+    ,-[$DIR/tests/fixture/comment/input.css:13:5]
+ 13 | background: red;
     : ^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:14:5]
- 14 | background: red;
+    ,-[$DIR/tests/fixture/comment/input.css:13:5]
+ 13 | background: red;
     :             ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:14:5]
- 14 | background: red;
+    ,-[$DIR/tests/fixture/comment/input.css:13:5]
+ 13 | background: red;
     :             ^^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/comment/input.css:19:1]
- 19 | ,-> a {
- 20 | |       color: black;
- 21 | |       /* c */
- 22 | `-> }
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | ,-> a {
+ 19 | |       color: black;
+ 20 | |       /* c */
+ 21 | `-> }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/comment/input.css:19:1]
- 19 | ,-> a {
- 20 | |       color: black;
- 21 | |       /* c */
- 22 | `-> }
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | ,-> a {
+ 19 | |       color: black;
+ 20 | |       /* c */
+ 21 | `-> }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/comment/input.css:19:1]
- 19 | a {
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
     : ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/comment/input.css:19:1]
- 19 | a {
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
     : ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/comment/input.css:19:1]
- 19 | a {
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
     : ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/comment/input.css:19:1]
- 19 | a {
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
     : ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/comment/input.css:19:1]
- 19 | a {
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
     : ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/comment/input.css:19:1]
- 19 | a {
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
     : ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:19:1]
- 19 | a {
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
     : ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/comment/input.css:19:1]
- 19 | ,-> a {
- 20 | |       color: black;
- 21 | |       /* c */
- 22 | `-> }
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | ,-> a {
+ 19 | |       color: black;
+ 20 | |       /* c */
+ 21 | `-> }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:20:5]
- 20 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:19:5]
+ 19 | color: black;
     : ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/comment/input.css:20:5]
- 20 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:19:5]
+ 19 | color: black;
     : ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/comment/input.css:20:5]
- 20 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:19:5]
+ 19 | color: black;
     : ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/comment/input.css:20:5]
- 20 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:19:5]
+ 19 | color: black;
     : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:20:5]
- 20 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:19:5]
+ 19 | color: black;
     : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:20:5]
- 20 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:19:5]
+ 19 | color: black;
     :        ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:20:5]
- 20 | color: black;
+    ,-[$DIR/tests/fixture/comment/input.css:19:5]
+ 19 | color: black;
     :        ^^^^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/comment/input.css:24:1]
- 24 | @media/* comment */screen/* comment */{}
+    ,-[$DIR/tests/fixture/comment/input.css:23:1]
+ 23 | @media/* comment */screen/* comment */{}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/comment/input.css:24:1]
- 24 | @media/* comment */screen/* comment */{}
+    ,-[$DIR/tests/fixture/comment/input.css:23:1]
+ 23 | @media/* comment */screen/* comment */{}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x MediaRule
-    ,-[$DIR/tests/fixture/comment/input.css:24:1]
- 24 | @media/* comment */screen/* comment */{}
+    ,-[$DIR/tests/fixture/comment/input.css:23:1]
+ 23 | @media/* comment */screen/* comment */{}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/comment/input.css:24:1]
- 24 | @media/* comment */screen/* comment */{}
+    ,-[$DIR/tests/fixture/comment/input.css:23:1]
+ 23 | @media/* comment */screen/* comment */{}
     :                    ^^^^^^
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/comment/input.css:24:1]
- 24 | @media/* comment */screen/* comment */{}
+    ,-[$DIR/tests/fixture/comment/input.css:23:1]
+ 23 | @media/* comment */screen/* comment */{}
     :                    ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:24:1]
- 24 | @media/* comment */screen/* comment */{}
+    ,-[$DIR/tests/fixture/comment/input.css:23:1]
+ 23 | @media/* comment */screen/* comment */{}
     :                    ^^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/comment/input.css:24:1]
- 24 | @media/* comment */screen/* comment */{}
+    ,-[$DIR/tests/fixture/comment/input.css:23:1]
+ 23 | @media/* comment */screen/* comment */{}
     :                                       ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/comment/input.css:25:1]
- 25 | @media /* comment */ screen /* comment */ {}
+    ,-[$DIR/tests/fixture/comment/input.css:24:1]
+ 24 | @media /* comment */ screen /* comment */ {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/comment/input.css:25:1]
- 25 | @media /* comment */ screen /* comment */ {}
+    ,-[$DIR/tests/fixture/comment/input.css:24:1]
+ 24 | @media /* comment */ screen /* comment */ {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x MediaRule
-    ,-[$DIR/tests/fixture/comment/input.css:25:1]
- 25 | @media /* comment */ screen /* comment */ {}
+    ,-[$DIR/tests/fixture/comment/input.css:24:1]
+ 24 | @media /* comment */ screen /* comment */ {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/comment/input.css:25:1]
- 25 | @media /* comment */ screen /* comment */ {}
+    ,-[$DIR/tests/fixture/comment/input.css:24:1]
+ 24 | @media /* comment */ screen /* comment */ {}
     :                      ^^^^^^
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/comment/input.css:25:1]
- 25 | @media /* comment */ screen /* comment */ {}
+    ,-[$DIR/tests/fixture/comment/input.css:24:1]
+ 24 | @media /* comment */ screen /* comment */ {}
     :                      ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:25:1]
- 25 | @media /* comment */ screen /* comment */ {}
+    ,-[$DIR/tests/fixture/comment/input.css:24:1]
+ 24 | @media /* comment */ screen /* comment */ {}
     :                      ^^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/comment/input.css:25:1]
- 25 | @media /* comment */ screen /* comment */ {}
+    ,-[$DIR/tests/fixture/comment/input.css:24:1]
+ 24 | @media /* comment */ screen /* comment */ {}
     :                                           ^^
     `----

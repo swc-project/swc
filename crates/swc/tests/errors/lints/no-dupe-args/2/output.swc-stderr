@@ -1,7 +1,7 @@
 
   x the name `b` is bound more than once in this parameter list
    ,----
- 2 | const foo = (a, b, b) => {};
+ 1 | const foo = (a, b, b) => {};
    :                 |  |
    :                 |  `-- used as parameter more than once
    :                 `-- previous definition here
@@ -9,7 +9,7 @@
 
   x the name `b` is bound more than once in this parameter list
    ,----
- 3 | (a, b, b) => {};
+ 2 | (a, b, b) => {};
    :     |  |
    :     |  `-- used as parameter more than once
    :     `-- previous definition here
@@ -17,7 +17,7 @@
 
   x the name `b` is bound more than once in this parameter list
    ,----
- 4 | ((a, b, b) => {})();
+ 3 | ((a, b, b) => {})();
    :      |  |
    :      |  `-- used as parameter more than once
    :      `-- previous definition here
@@ -25,7 +25,7 @@
 
   x the name `b` is bound more than once in this parameter list
    ,----
- 7 | constructor(a, b, b) {}
+ 6 | constructor(a, b, b) {}
    :                |  |
    :                |  `-- used as parameter more than once
    :                `-- previous definition here
@@ -33,7 +33,7 @@
 
   x the name `b` is bound more than once in this parameter list
    ,----
- 9 | foo = (a, b, b) => {};
+ 8 | foo = (a, b, b) => {};
    :           |  |
    :           |  `-- used as parameter more than once
    :           `-- previous definition here
@@ -41,7 +41,7 @@
 
   x the name `b` is bound more than once in this parameter list
     ,----
- 11 | bar(a, b, b) {}
+ 10 | bar(a, b, b) {}
     :        |  |
     :        |  `-- used as parameter more than once
     :        `-- previous definition here
@@ -49,7 +49,7 @@
 
   x the name `b` is bound more than once in this parameter list
     ,----
- 15 | foo(a, b, b) {},
+ 14 | foo(a, b, b) {},
     :        |  |
     :        |  `-- used as parameter more than once
     :        `-- previous definition here
@@ -57,7 +57,7 @@
 
   x the name `b` is bound more than once in this parameter list
     ,----
- 16 | bar: function (a, b, b) {},
+ 15 | bar: function (a, b, b) {},
     :                   |  |
     :                   |  `-- used as parameter more than once
     :                   `-- previous definition here

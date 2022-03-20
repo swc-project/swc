@@ -3,10 +3,11 @@ authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "CSS linter"
 documentation = "https://rustdoc.swc.rs/swc_css_lints/"
 edition = "2021"
+include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_css_lints"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.9.0"
+version = "0.9.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

@@ -1,96 +1,96 @@
 
   x Unexpected alert
    ,----
- 4 | alert();
+ 3 | alert();
    : ^^^^^^^
    `----
 
   x Unexpected alert
    ,----
- 5 | window.alert();
+ 4 | window.alert();
    : ^^^^^^^^^^^^^^
    `----
 
   x Unexpected alert
    ,----
- 6 | window["alert"]();
+ 5 | window["alert"]();
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x Unexpected confirm
    ,----
- 7 | confirm();
+ 6 | confirm();
    : ^^^^^^^^^
    `----
 
   x Unexpected confirm
    ,----
- 8 | window.confirm();
+ 7 | window.confirm();
    : ^^^^^^^^^^^^^^^^
    `----
 
   x Unexpected confirm
    ,----
- 9 | window["confirm"]();
+ 8 | window["confirm"]();
    : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Unexpected prompt
-    ,----
- 10 | prompt();
-    : ^^^^^^^^
-    `----
+   ,----
+ 9 | prompt();
+   : ^^^^^^^^
+   `----
 
   x Unexpected prompt
     ,----
- 11 | window.prompt();
+ 10 | window.prompt();
     : ^^^^^^^^^^^^^^^
     `----
 
   x Unexpected prompt
     ,----
- 12 | window["prompt"]();
+ 11 | window["prompt"]();
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x Unexpected alert
     ,----
- 14 | window.alert();
+ 13 | window.alert();
     : ^^^^^^^^^^^^^^
     `----
 
   x Unexpected alert
     ,----
- 17 | alert();
+ 16 | alert();
     : ^^^^^^^
     `----
 
   x Unexpected alert
     ,----
- 22 | alert();
+ 21 | alert();
     : ^^^^^^^
     `----
 
   x Unexpected alert
     ,----
- 32 | window.alert();
+ 31 | window.alert();
     : ^^^^^^^^^^^^^^
     `----
 
   x Unexpected alert
     ,----
- 39 | alert(() => alert("foo"));
+ 38 | alert(() => alert("foo"));
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Unexpected alert
     ,----
- 39 | alert(() => alert("foo"));
+ 38 | alert(() => alert("foo"));
     :             ^^^^^^^^^^^^
     `----
 
   x Unexpected alert
     ,----
- 55 | fu(() => alert(""));
+ 54 | fu(() => alert(""));
     :          ^^^^^^^^^
     `----

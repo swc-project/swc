@@ -1,12 +1,12 @@
 
   x `Symbol` cannot be called as a constructor
    ,----
- 2 | new Symbol();
+ 1 | new Symbol();
    : ^^^^^^^^^^^^
    `----
 
   x `Symbol` cannot be called as a constructor
    ,----
- 4 | new A(new Symbol())
+ 3 | new A(new Symbol())
    :       ^^^^^^^^^^^^
    `----

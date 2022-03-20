@@ -638,6 +638,10 @@ where
 
         self.emit_accessibility(n.accessibility)?;
 
+        for dec in &n.decorators {
+            emit!(dec);
+        }
+
         if n.is_override {
             keyword!("override");
             space!();

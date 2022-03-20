@@ -1,6 +1,6 @@
 
   x Expected ',', got 'b'
-   ,-[$DIR/tests/typescript-errors/array-expression/input.ts:2:1]
- 2 | const arr = [a b]
+   ,-[$DIR/tests/typescript-errors/array-expression/input.ts:1:1]
+ 1 | const arr = [a b]
    :                ^
    `----

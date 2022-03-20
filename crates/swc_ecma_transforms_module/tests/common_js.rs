@@ -4043,15 +4043,12 @@ export * from 'react';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _exportNames = {
-};
 
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 
 Object.keys(_react).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   if (key in exports && exports[key] === _react[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
@@ -4923,7 +4920,7 @@ test!(
         strict: true,
         strict_mode: true,
         lazy: Lazy::Bool(false),
-        ignore_dynamic: false
+        ..Default::default()
     }),
     issue_1480_1,
     "
@@ -4944,7 +4941,7 @@ test!(
         strict: true,
         strict_mode: true,
         lazy: Lazy::Bool(false),
-        ignore_dynamic: false
+        ..Default::default()
     }),
     issue_1480_2,
     "
@@ -5094,6 +5091,54 @@ test!(
     const BIZ = 'biz';
     exports.BIZ = BIZ;
     "
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_4064,
+    "
+  export * from './File1';
+  export * from './File2';
+
+  export const BIZ = 'biz';
+  ",
+    "
+  'use strict';
+  Object.defineProperty(exports, '__esModule', {
+      value: true
+  });
+  var _exportNames = {
+      BIZ: true
+  };
+  exports.BIZ = void 0;
+  var _file1 = require('./File1');
+  Object.keys(_file1).forEach(function(key) {
+    if (key === 'default' || key === '__esModule') return;
+    if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+    if (key in exports && exports[key] === _file1[key]) return;
+    Object.defineProperty(exports, key, {
+        enumerable: true,
+        get: function() {
+            return _file1[key];
+        }
+    });
+  });
+  var _file2 = require('./File2');
+  Object.keys(_file2).forEach(function(key) {
+      if (key === 'default' || key === '__esModule') return;
+      if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+      if (key in exports && exports[key] === _file2[key]) return;
+      Object.defineProperty(exports, key, {
+          enumerable: true,
+          get: function() {
+              return _file2[key];
+          }
+      });
+  });
+  const BIZ = 'biz';
+  exports.BIZ = BIZ;
+  "
 );
 
 test!(

@@ -1,2974 +1,2974 @@
 
   x Stylesheet
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
-  2 | ,-> :is(ul) li {}
-  3 | |   :is(ul, ol) li {}
-  4 | |   :is(header, main, footer) p:hover {}
-  5 | |   div:is(.cool, .fun) {}
-  6 | |   :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
-  7 | |   *|*:is(:hover, :focus) {}
-  8 | |   *|*:is(*:hover, *:focus) {}
-  9 | |   :is(ul, ol, .list) > [hidden] {}
- 10 | |   :is(p, p:unsupported) {}
- 11 | |   :is(:valid, :unsupported) {}
- 12 | |   a:is(:not(:hover)) {}
- 13 | |   /*:is(:valid, foo < bar) {}*/
- 14 | |   /*:is(foo < bar) {}*/
- 15 | |   :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
- 16 | |   :is(:nth-child(6),
- 17 | |       :nth-last-child(6),
- 18 | |       :nth-of-type(6),
- 19 | `->     :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+  1 | ,-> :is(ul) li {}
+  2 | |   :is(ul, ol) li {}
+  3 | |   :is(header, main, footer) p:hover {}
+  4 | |   div:is(.cool, .fun) {}
+  5 | |   :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+  6 | |   *|*:is(:hover, :focus) {}
+  7 | |   *|*:is(*:hover, *:focus) {}
+  8 | |   :is(ul, ol, .list) > [hidden] {}
+  9 | |   :is(p, p:unsupported) {}
+ 10 | |   :is(:valid, :unsupported) {}
+ 11 | |   a:is(:not(:hover)) {}
+ 12 | |   /*:is(:valid, foo < bar) {}*/
+ 13 | |   /*:is(foo < bar) {}*/
+ 14 | |   :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+ 15 | |   :is(:nth-child(6),
+ 16 | |       :nth-last-child(6),
+ 17 | |       :nth-of-type(6),
+ 18 | `->     :nth-last-of-type(6)) {}
     `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    : ^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    : ^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    : ^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    : ^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    : ^^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    : ^^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    : ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :  ^^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :     ^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :     ^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :     ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :     ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :     ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :     ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :     ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :     ^^
    `----
 
   x Combinator
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :        ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :         ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :         ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :         ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :         ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :         ^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
- 2 | :is(ul) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+ 1 | :is(ul) li {}
    :            ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    : ^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    : ^^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    : ^^^^^^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    : ^^^^^^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    : ^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :  ^^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :     ^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :     ^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :     ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :     ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :     ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :     ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :     ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :     ^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :         ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :         ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :         ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :         ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :         ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :         ^^
    `----
 
   x Combinator
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :            ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :             ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :             ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :             ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :             ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :             ^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
- 3 | :is(ul, ol) li {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
+ 2 | :is(ul, ol) li {}
    :                ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :  ^^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :     ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :     ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :     ^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :     ^^^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :     ^^^^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :     ^^^^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :     ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :     ^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :             ^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :             ^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :             ^^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :             ^^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :             ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :             ^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                   ^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                   ^^^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                   ^^^^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                   ^^^^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                   ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                   ^^^^^^
    `----
 
   x Combinator
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                          ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                           ^^^^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                           ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                           ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                           ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                           ^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                            ^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                            ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                             ^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
- 4 | :is(header, main, footer) p:hover {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
+ 3 | :is(header, main, footer) p:hover {}
    :                                   ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    : ^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    : ^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    : ^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :    ^^^^^^^^^^^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :    ^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :     ^^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :        ^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :        ^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :        ^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :        ^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :        ^^^^^
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :        ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :         ^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :               ^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :               ^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :               ^^^^
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :               ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :                ^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
- 5 | div:is(.cool, .fun) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
+ 4 | div:is(.cool, .fun) {}
    :                     ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :  ^^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :     ^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :     ^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :     ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :     ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :     ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :     ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :     ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :     ^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :         ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :         ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :         ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :         ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :         ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :         ^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :             ^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :             ^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :             ^^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :             ^^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :             ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :             ^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                   ^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                   ^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                   ^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                   ^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                   ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                   ^^^
    `----
 
   x Combinator
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                       ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                        ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                        ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                        ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                         ^^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                            ^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                            ^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                            ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                            ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                            ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                            ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                            ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                            ^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                ^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                    ^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                    ^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                    ^^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                    ^^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                    ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                    ^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                          ^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                          ^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                          ^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                          ^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                          ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                          ^^^
    `----
 
   x Combinator
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                              ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                               ^^^^^^^^^^^^^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                               ^^^^^^^^^^^^^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                               ^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                ^^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                   ^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                   ^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                   ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                   ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                   ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                   ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                   ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                   ^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                       ^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                       ^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                       ^^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                       ^^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                       ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                       ^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                             ^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                             ^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                             ^^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                             ^^^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                             ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                             ^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
- 6 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
+ 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                                  ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    : ^^^
    `----
 
   x UniversalSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    : ^^^
    `----
 
   x NsPrefix
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    : ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    : ^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :    ^^^^^^^^^^^^^^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :    ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :     ^^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :        ^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :        ^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :        ^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :        ^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :        ^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :        ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :         ^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :                ^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :                ^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :                ^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :                ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :                 ^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
- 7 | *|*:is(:hover, :focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
+ 6 | *|*:is(:hover, :focus) {}
    :                        ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    : ^^^
    `----
 
   x UniversalSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    : ^^^
    `----
 
   x NsPrefix
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    : ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    : ^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :    ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :    ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :     ^^
    `----
 
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :        ^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :        ^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :        ^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :        ^^^^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :        ^
    `----
 
   x UniversalSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :        ^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :         ^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :         ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :          ^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :                 ^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :                 ^^^^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :                 ^
    `----
 
   x UniversalSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :                 ^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :                  ^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :                  ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :                   ^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
- 8 | *|*:is(*:hover, *:focus) {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
+ 7 | *|*:is(*:hover, *:focus) {}
    :                          ^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
    : ^^^^^^^^^^^^^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
    : ^^^^^^^^^^^^^^^^^^
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
    : ^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :  ^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :     ^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :     ^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :     ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :     ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :     ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :     ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :     ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :     ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :         ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :         ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :         ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :         ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :         ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :         ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :             ^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :             ^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :             ^^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :             ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :              ^^^^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :                    ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :                      ^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :                      ^^^^^^^^
+   `----
+
+  x AttributeSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :                      ^^^^^^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :                       ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :                       ^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :                               ^^
+   `----
+
+  x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
+ 9 | :is(p, p:unsupported) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
+ 9 | :is(p, p:unsupported) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
+ 9 | :is(p, p:unsupported) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
+ 9 | :is(p, p:unsupported) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
+ 9 | :is(p, p:unsupported) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
+ 9 | :is(p, p:unsupported) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
+ 9 | :is(p, p:unsupported) {}
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
+ 9 | :is(p, p:unsupported) {}
    :  ^^
    `----
 
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :     ^^^^^^^^^^^^^
+ 9 | :is(p, p:unsupported) {}
+   :     ^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :     ^^^^^^^^^^^^^
+ 9 | :is(p, p:unsupported) {}
+   :     ^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :     ^^
+ 9 | :is(p, p:unsupported) {}
+   :     ^
    `----
 
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :     ^^
+ 9 | :is(p, p:unsupported) {}
+   :     ^
    `----
 
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :     ^^
+ 9 | :is(p, p:unsupported) {}
+   :     ^
    `----
 
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :     ^^
+ 9 | :is(p, p:unsupported) {}
+   :     ^
    `----
 
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :     ^^
+ 9 | :is(p, p:unsupported) {}
+   :     ^
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :     ^^
+ 9 | :is(p, p:unsupported) {}
+   :     ^
    `----
 
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :         ^^
+ 9 | :is(p, p:unsupported) {}
+   :        ^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :         ^^
+ 9 | :is(p, p:unsupported) {}
+   :        ^^^^^^^^^^^^^
    `----
 
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :         ^^
+ 9 | :is(p, p:unsupported) {}
+   :        ^
    `----
 
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :         ^^
+ 9 | :is(p, p:unsupported) {}
+   :        ^
    `----
 
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :         ^^
+ 9 | :is(p, p:unsupported) {}
+   :        ^
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :         ^^
-   `----
-
-  x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :             ^^^^^
-   `----
-
-  x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :             ^^^^^
+ 9 | :is(p, p:unsupported) {}
+   :        ^
    `----
 
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :             ^^^^^
+ 9 | :is(p, p:unsupported) {}
+   :         ^^^^^^^^^^^^
    `----
 
-  x ClassSelector
+  x PseudoClassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :             ^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :              ^^^^
-   `----
-
-  x Combinator
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :                    ^
-   `----
-
-  x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :                      ^^^^^^^^
-   `----
-
-  x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :                      ^^^^^^^^
-   `----
-
-  x AttributeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :                      ^^^^^^^^
-   `----
-
-  x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :                       ^^^^^^
+ 9 | :is(p, p:unsupported) {}
+   :         ^^^^^^^^^^^^
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :                       ^^^^^^
+ 9 | :is(p, p:unsupported) {}
+   :          ^^^^^^^^^^^
    `----
 
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
- 9 | :is(ul, ol, .list) > [hidden] {}
-   :                               ^^
+ 9 | :is(p, p:unsupported) {}
+   :                       ^^
    `----
 
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | :is(:valid, :unsupported) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | :is(:valid, :unsupported) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^
+ 10 | :is(:valid, :unsupported) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^
+ 10 | :is(:valid, :unsupported) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^
+ 10 | :is(:valid, :unsupported) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^
+ 10 | :is(:valid, :unsupported) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^
+ 10 | :is(:valid, :unsupported) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
+ 10 | :is(:valid, :unsupported) {}
     :  ^^
     `----
 
   x PseudoClassSelectorChildren
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :     ^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :     ^^^^^^^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :     ^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :     ^
-    `----
-
-  x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :     ^
-    `----
-
-  x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :     ^
-    `----
-
-  x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :     ^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :     ^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :        ^^^^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :        ^^^^^^^^^^^^^
-    `----
-
-  x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :        ^
-    `----
-
-  x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :        ^
-    `----
-
-  x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :        ^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :        ^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :         ^^^^^^^^^^^^
-    `----
-
-  x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :         ^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :          ^^^^^^^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
- 10 | :is(p, p:unsupported) {}
-    :                       ^^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
-    :  ^^
-    `----
-
-  x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+ 10 | :is(:valid, :unsupported) {}
     :     ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :     ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :     ^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :     ^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :     ^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :     ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :      ^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :             ^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :             ^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :             ^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :             ^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :              ^^^^^^^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
- 11 | :is(:valid, :unsupported) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
+ 10 | :is(:valid, :unsupported) {}
     :                           ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     : ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     : ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     : ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     : ^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :  ^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :  ^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :   ^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :      ^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :      ^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :      ^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :      ^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :      ^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :      ^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :       ^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :           ^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :           ^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :           ^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :           ^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :           ^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :           ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :            ^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:12:1]
- 12 | a:is(:not(:hover)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
+ 11 | a:is(:not(:hover)) {}
     :                    ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :  ^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :     ^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :     ^^^^^^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :     ^^^^^^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :     ^^^^^^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :     ^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :     ^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :              ^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :              ^^^^^^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :              ^^^^^^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :              ^^^^^^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :              ^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :              ^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                       ^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                       ^^^^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                       ^^^^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                       ^^^^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                       ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                       ^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                              ^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                              ^^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                              ^^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                              ^^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                              ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                              ^^^
     `----
 
   x Combinator
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                  ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                    ^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                       ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                       ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                       ^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                       ^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                       ^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                       ^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                       ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                       ^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                           ^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                           ^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                           ^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                           ^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                           ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                           ^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                               ^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                               ^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                               ^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                               ^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                               ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                               ^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                   ^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                   ^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                   ^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                   ^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                   ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                   ^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                       ^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                       ^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                       ^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                       ^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                       ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                       ^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                           ^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                           ^^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                           ^^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                           ^^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                           ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                           ^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
- 15 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
+ 14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                               ^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | ,-> :is(:nth-child(6),
- 17 | |       :nth-last-child(6),
- 18 | |       :nth-of-type(6),
- 19 | `->     :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | ,-> :is(:nth-child(6),
+ 16 | |       :nth-last-child(6),
+ 17 | |       :nth-of-type(6),
+ 18 | `->     :nth-last-of-type(6)) {}
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | ,-> :is(:nth-child(6),
- 17 | |       :nth-last-child(6),
- 18 | |       :nth-of-type(6),
- 19 | `->     :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | ,-> :is(:nth-child(6),
+ 16 | |       :nth-last-child(6),
+ 17 | |       :nth-of-type(6),
+ 18 | `->     :nth-last-of-type(6)) {}
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | ,-> :is(:nth-child(6),
- 17 | |       :nth-last-child(6),
- 18 | |       :nth-of-type(6),
- 19 | `->     :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | ,-> :is(:nth-child(6),
+ 16 | |       :nth-last-child(6),
+ 17 | |       :nth-of-type(6),
+ 18 | `->     :nth-last-of-type(6)) {}
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | ,-> :is(:nth-child(6),
- 17 | |       :nth-last-child(6),
- 18 | |       :nth-of-type(6),
- 19 | `->     :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | ,-> :is(:nth-child(6),
+ 16 | |       :nth-last-child(6),
+ 17 | |       :nth-of-type(6),
+ 18 | `->     :nth-last-of-type(6)) {}
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | ,-> :is(:nth-child(6),
- 17 | |       :nth-last-child(6),
- 18 | |       :nth-of-type(6),
- 19 | `->     :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | ,-> :is(:nth-child(6),
+ 16 | |       :nth-last-child(6),
+ 17 | |       :nth-of-type(6),
+ 18 | `->     :nth-last-of-type(6)) {}
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | ,-> :is(:nth-child(6),
- 17 | |       :nth-last-child(6),
- 18 | |       :nth-of-type(6),
- 19 | `->     :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | ,-> :is(:nth-child(6),
+ 16 | |       :nth-last-child(6),
+ 17 | |       :nth-of-type(6),
+ 18 | `->     :nth-last-of-type(6)) {}
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | ,-> :is(:nth-child(6),
- 17 | |       :nth-last-child(6),
- 18 | |       :nth-of-type(6),
- 19 | `->     :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | ,-> :is(:nth-child(6),
+ 16 | |       :nth-last-child(6),
+ 17 | |       :nth-of-type(6),
+ 18 | `->     :nth-last-of-type(6)) {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | :is(:nth-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | :is(:nth-child(6),
     :  ^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | ,-> :is(:nth-child(6),
- 17 | |       :nth-last-child(6),
- 18 | |       :nth-of-type(6),
- 19 | `->     :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | ,-> :is(:nth-child(6),
+ 16 | |       :nth-last-child(6),
+ 17 | |       :nth-of-type(6),
+ 18 | `->     :nth-last-of-type(6)) {}
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | ,-> :is(:nth-child(6),
- 17 | |       :nth-last-child(6),
- 18 | |       :nth-of-type(6),
- 19 | `->     :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | ,-> :is(:nth-child(6),
+ 16 | |       :nth-last-child(6),
+ 17 | |       :nth-of-type(6),
+ 18 | `->     :nth-last-of-type(6)) {}
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | :is(:nth-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | :is(:nth-child(6),
     :     ^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | :is(:nth-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | :is(:nth-child(6),
     :     ^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | :is(:nth-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | :is(:nth-child(6),
     :     ^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | :is(:nth-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | :is(:nth-child(6),
     :     ^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | :is(:nth-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | :is(:nth-child(6),
     :      ^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | :is(:nth-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | :is(:nth-child(6),
     :                ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | :is(:nth-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | :is(:nth-child(6),
     :                ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
- 16 | :is(:nth-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
+ 15 | :is(:nth-child(6),
     :                ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
     : ^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
     :  ^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
     :                 ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
     :                 ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
     :                 ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
     : ^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
     : ^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
     : ^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
     : ^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
     :  ^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
     :              ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
     :              ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
     :              ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:5]
- 19 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:5]
- 19 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:5]
- 19 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:5]
- 19 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:5]
- 19 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
     :  ^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:5]
- 19 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
     :                   ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:5]
- 19 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
     :                   ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:5]
- 19 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
     :                   ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:5]
- 19 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
     :                       ^^
     `----

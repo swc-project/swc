@@ -1,102 +1,102 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x KeyframesRule
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x CustomIdent
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :            ^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                 ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                   ^^^^^^^^^^^^^^^^^^^
    `----
 
   x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                   ^^^^^^^^^^^^^^^^^^^
    `----
 
   x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                   ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                   ^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                        ^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                          ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                          ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                          ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                          ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                                 ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:2:1]
- 2 | @keyframes name { from { color: red } }
+   ,-[$DIR/tests/fixture/esbuild/misc/Jmhb8p_Oc2-nzkcDSk0dww/input.css:1:1]
+ 1 | @keyframes name { from { color: red } }
    :                                 ^^^
    `----

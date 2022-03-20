@@ -1,6 +1,6 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:3:5]
- 3 | background: url(image'.png);
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
+ 2 | background: url(image'.png);
    :             ^^^^^^^^^^^^^^^
    `----
