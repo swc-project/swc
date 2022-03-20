@@ -1,78 +1,78 @@
 
   x Unexpected empty object pattern
    ,----
- 2 | var {} = foo;
+ 1 | var {} = foo;
    :     ^^
    `----
 
   x Unexpected empty array pattern
    ,----
- 3 | var [] = foo;
+ 2 | var [] = foo;
    :     ^^
    `----
 
   x Unexpected empty object pattern
    ,----
- 4 | var {a: {}} = foo;
+ 3 | var {a: {}} = foo;
    :         ^^
    `----
 
   x Unexpected empty array pattern
    ,----
- 5 | var {a: []} = foo;
+ 4 | var {a: []} = foo;
    :         ^^
    `----
 
   x Unexpected empty object pattern
    ,----
- 6 | var {a: {a: {}}} = foo;
+ 5 | var {a: {a: {}}} = foo;
    :             ^^
    `----
 
   x Unexpected empty array pattern
    ,----
- 7 | var [...[]] = foo;
+ 6 | var [...[]] = foo;
    :         ^^
    `----
 
   x Unexpected empty object pattern
    ,----
- 8 | function foo1({}) {}
+ 7 | function foo1({}) {}
    :               ^^
    `----
 
   x Unexpected empty array pattern
    ,----
- 9 | function foo2([]) {}
+ 8 | function foo2([]) {}
    :               ^^
    `----
 
   x Unexpected empty object pattern
-    ,----
- 10 | function foo3({a: {}}) {}
-    :                   ^^
-    `----
+   ,----
+ 9 | function foo3({a: {}}) {}
+   :                   ^^
+   `----
 
   x Unexpected empty array pattern
     ,----
- 11 | function foo4({a: []}) {}
+ 10 | function foo4({a: []}) {}
     :                   ^^
     `----
 
   x Unexpected empty object pattern
     ,----
- 19 | try {} catch ({}) {}
+ 18 | try {} catch ({}) {}
     :               ^^
     `----
 
   x Unexpected empty object pattern
     ,----
- 22 | constructor({}) {}
+ 21 | constructor({}) {}
     :             ^^
     `----
 
   x Unexpected empty object pattern
     ,----
- 24 | method({}) {}
+ 23 | method({}) {}
     :        ^^
     `----

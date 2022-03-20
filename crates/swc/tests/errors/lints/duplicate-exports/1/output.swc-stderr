@@ -1,14 +1,14 @@
 
   x the name `default` is exported multiple times
-   ,-[2:1]
- 2 | ,-> export default () => {
- 3 | |       let a = 2;
- 4 | |-> }
+   ,-[1:1]
+ 1 | ,-> export default () => {
+ 2 | |       let a = 2;
+ 3 | |-> }
    : `---- previous exported here
- 5 |     
- 6 | ,-> export default () => {
- 7 | |       let b = 2;
- 8 | |-> }
+ 4 |     
+ 5 | ,-> export default () => {
+ 6 | |       let b = 2;
+ 7 | |-> }
    : `---- exported more than once
    `----
 

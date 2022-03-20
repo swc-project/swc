@@ -1,97 +1,97 @@
 
   x Do not use 'new' for side effects
    ,----
- 2 | new A();
+ 1 | new A();
    : ^^^^^^^
    `----
 
   x Do not use 'new' for side effects
    ,----
- 4 | (new A());
+ 3 | (new A());
    :  ^^^^^^^
    `----
 
   x Do not use 'new' for side effects
    ,----
- 6 | (0, new A());
+ 5 | (0, new A());
    :     ^^^^^^^
    `----
 
   x Do not use 'new' for side effects
+   ,----
+ 9 | new A()
+   : ^^^^^^^
+   `----
+
+  x Do not use 'new' for side effects
     ,----
- 10 | new A()
+ 13 | new A()
     : ^^^^^^^
     `----
 
   x Do not use 'new' for side effects
     ,----
- 14 | new A()
-    : ^^^^^^^
-    `----
-
-  x Do not use 'new' for side effects
-    ,----
- 20 | a = () => { new A() },
+ 19 | a = () => { new A() },
     :             ^^^^^^^
     `----
 
   x Do not use 'new' for side effects
     ,----
- 21 | [ b = () => { new A() } ]
+ 20 | [ b = () => { new A() } ]
     :               ^^^^^^^
     `----
 
   x Do not use 'new' for side effects
     ,----
- 24 | (0, new A(), 0);
+ 23 | (0, new A(), 0);
     :     ^^^^^^^
     `----
 
   x Do not use 'new' for side effects
     ,----
- 27 | new B();
+ 26 | new B();
     : ^^^^^^^
     `----
 
   x Do not use 'new' for side effects
     ,----
- 31 | new A(new A());
+ 30 | new A(new A());
     : ^^^^^^^^^^^^^^
     `----
 
   x Do not use 'new' for side effects
-    ,-[33:1]
- 33 | ,-> new A(new A(() => {
- 34 | |       new B();
- 35 | `-> }));
+    ,-[32:1]
+ 32 | ,-> new A(new A(() => {
+ 33 | |       new B();
+ 34 | `-> }));
     `----
 
   x Do not use 'new' for side effects
     ,----
- 34 | new B();
+ 33 | new B();
     : ^^^^^^^
     `----
 
   x Do not use 'new' for side effects
     ,----
- 37 | var x = (new A(), 0);
+ 36 | var x = (new A(), 0);
     :          ^^^^^^^
     `----
 
   x Do not use 'new' for side effects
     ,----
- 40 | new B();
+ 39 | new B();
     : ^^^^^^^
     `----
 
   x Do not use 'new' for side effects
     ,----
- 45 | new B()
+ 44 | new B()
     : ^^^^^^^
     `----
 
   x Do not use 'new' for side effects
     ,----
- 49 | function foo(arg = () => { new A() }) {}
+ 48 | function foo(arg = () => { new A() }) {}
     :                            ^^^^^^^
     `----

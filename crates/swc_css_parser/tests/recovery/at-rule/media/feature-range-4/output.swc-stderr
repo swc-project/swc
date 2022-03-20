@@ -1,6 +1,6 @@
 
   x Expected '>' or '<' operators
-   ,-[$DIR/tests/recovery/at-rule/media/feature-range-4/input.css:2:1]
- 2 | @media (400px >= width ! 700px) {}
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-4/input.css:1:1]
+ 1 | @media (400px >= width ! 700px) {}
    :        ^
    `----

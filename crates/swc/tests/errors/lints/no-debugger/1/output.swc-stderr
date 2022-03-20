@@ -1,12 +1,12 @@
 
   x Unexpected 'debugger' statement
    ,----
- 3 | debugger;
+ 2 | debugger;
    : ^^^^^^^^^
    `----
 
   x Unexpected 'debugger' statement
    ,----
- 6 | debugger;
+ 5 | debugger;
    : ^^^^^^^^^
    `----

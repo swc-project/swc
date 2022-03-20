@@ -1,6 +1,6 @@
 
   x Unexpected empty source.
-   ,-[$DIR/tests/rules/fail/no-empty-source/comments/input.css:2:1]
- 2 | /* comments */
+   ,-[$DIR/tests/rules/fail/no-empty-source/comments/input.css:1:1]
+ 1 | /* comments */
    :               ^
    `----

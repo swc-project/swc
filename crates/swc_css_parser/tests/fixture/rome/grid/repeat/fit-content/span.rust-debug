@@ -1,184 +1,184 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:1]
- 2 | ,-> .style {
- 3 | |   	grid-template-columns: repeat(4, fit-content(300px));
- 4 | `-> }
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	grid-template-columns: repeat(4, fit-content(300px));
+ 3 | `-> }
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:1]
- 2 | ,-> .style {
- 3 | |   	grid-template-columns: repeat(4, fit-content(300px));
- 4 | `-> }
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	grid-template-columns: repeat(4, fit-content(300px));
+ 3 | `-> }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:1]
- 2 | ,-> .style {
- 3 | |   	grid-template-columns: repeat(4, fit-content(300px));
- 4 | `-> }
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	grid-template-columns: repeat(4, fit-content(300px));
+ 3 | `-> }
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:1]
- 2 | .style {
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1]
+ 1 | .style {
    : ^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:1]
- 2 | .style {
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1]
+ 1 | .style {
    : ^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:1]
- 2 | .style {
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1]
+ 1 | .style {
    : ^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:1]
- 2 | .style {
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1]
+ 1 | .style {
    : ^^^^^^
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:1]
- 2 | .style {
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1]
+ 1 | .style {
    : ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:1]
- 2 | .style {
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1]
+ 1 | .style {
    :  ^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:1]
- 2 | ,-> .style {
- 3 | |   	grid-template-columns: repeat(4, fit-content(300px));
- 4 | `-> }
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	grid-template-columns: repeat(4, fit-content(300px));
+ 3 | `-> }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                        ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                               ^
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                               ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                                ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                                ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                                  ^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                                  ^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                                  ^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                                              ^^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                                              ^^^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                                              ^^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                                              ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:3:5]
- 3 | grid-template-columns: repeat(4, fit-content(300px));
+   ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, fit-content(300px));
    :                                                 ^^
    `----

@@ -1,6 +1,6 @@
 
   x Type annotations must come before default assignments
-   ,-[$DIR/tests/typescript-errors/issue-1209/input.ts:2:1]
- 2 | function foo(foo = bar: number) {
+   ,-[$DIR/tests/typescript-errors/issue-1209/input.ts:1:1]
+ 1 | function foo(foo = bar: number) {
    :              ^^^^^^^^^^^^^^^^^
    `----
