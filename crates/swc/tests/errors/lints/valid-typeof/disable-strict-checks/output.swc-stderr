@@ -1,24 +1,24 @@
 
   x Invalid typeof comparison value
    ,----
- 2 | typeof foo === "strnig"
+ 1 | typeof foo === "strnig"
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Invalid typeof comparison value
    ,----
- 3 | typeof foo == "undefimed"
+ 2 | typeof foo == "undefimed"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Invalid typeof comparison value
    ,----
- 4 | typeof bar != "nunber"
+ 3 | typeof bar != "nunber"
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Invalid typeof comparison value
    ,----
- 5 | typeof bar !== "fucntion"
+ 4 | typeof bar !== "fucntion"
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
