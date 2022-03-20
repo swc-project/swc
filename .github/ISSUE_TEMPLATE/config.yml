@@ -2,3 +2,11 @@ contact_links:
   - name: Github discussions
     url: https://github.com/swc-project/swc/discussions
     about: Please write questions at here.
+
+  - name: Discord server
+    url: https://discord.gg/w488Bxgy3y
+    about: You can ask questions here if you prefer Discord.
+
+  - name: Google forms
+    url: https://forms.gle/WGghAcXRqbLrmE8x9
+    about: Please use this if you want a feedback anonymously,
