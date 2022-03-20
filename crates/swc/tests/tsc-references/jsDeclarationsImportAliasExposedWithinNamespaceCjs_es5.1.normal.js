@@ -17,7 +17,7 @@
  * @property {string}           prop2 - Prop 2.
  */ /** @typedef {myTypes.typeB|Function} myTypes.typeC */ exports.myTypes = myTypes;
 // @filename: file2.js
-var myTypes = require('./file.js').myTypes;
+var myTypes = require("./file.js").myTypes;
 /**
  * @namespace testFnTypes
  * @global
@@ -30,7 +30,7 @@ var myTypes = require('./file.js').myTypes;
  * @param {testFnTypes.input} input - Input.
  * @returns {number|null} Result.
  */ function testFn(input) {
-    if (typeof input === 'number') {
+    if (typeof input === "number") {
         return 2 * input;
     } else {
         return null;

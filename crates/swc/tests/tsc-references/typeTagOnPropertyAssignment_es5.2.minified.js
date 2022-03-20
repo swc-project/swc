@@ -1,7 +1,7 @@
 var o = {
     a: "a",
     n: function() {
-        return 'b';
+        return "b";
     }
 };
 o.a, o.n;

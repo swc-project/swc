@@ -8,7 +8,7 @@ var d2, Base = function() {
         {
             key: "c",
             get: function() {
-                return '';
+                return "";
             },
             set: function(v) {}
         }
@@ -16,7 +16,7 @@ var d2, Base = function() {
         {
             key: "t",
             get: function() {
-                return '';
+                return "";
             },
             set: function(v) {}
         }
@@ -30,7 +30,7 @@ var d2, Base = function() {
     }
     return Derived;
 }(Base), d = new Derived(1);
-d.a, d.b(), d.c, d.c = '', Derived.r, Derived.s(), Derived.t, Derived.t = '';
+d.a, d.b(), d.c, d.c = "", Derived.r, Derived.s(), Derived.t, Derived.t = "";
 var Base2 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, Base2);
@@ -43,4 +43,4 @@ var Base2 = function() {
     }
     return Derived2;
 }(Base2);
-d2[''], d2[1];
+d2[""], d2[1];

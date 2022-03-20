@@ -1,3 +1,3 @@
 export var foo = 42;
-var foo = require('./foo_0.js');
+var foo = require("./foo_0.js");
 foo.foo;

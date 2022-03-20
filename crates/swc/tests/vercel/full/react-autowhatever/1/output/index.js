@@ -16,18 +16,18 @@ var c = require("@swc/helpers"), e = require("react/jsx-runtime"), d = c.interop
     return d.shouldComponentUpdate = function(a) {
         return !0;
     }, d.render = function() {
-        var j = this, a = this.props, f = a.items, g = a.itemProps, k = a.renderItem, l = a.renderItemData, b = a.sectionIndex, m = a.highlightedItemIndex, n = a.getItemId, h = a.theme, d = a.keyPrefix, i = null === b ? d : "".concat(d, "section-").concat(b, "-"), o = 'function' == typeof g;
+        var j = this, a = this.props, f = a.items, g = a.itemProps, k = a.renderItem, l = a.renderItemData, b = a.sectionIndex, m = a.highlightedItemIndex, n = a.getItemId, h = a.theme, d = a.keyPrefix, i = null === b ? d : "".concat(d, "section-").concat(b, "-"), o = "function" == typeof g;
         return e.jsx("ul", c.objectSpread({
             role: "listbox"
-        }, h("".concat(i, "items-list"), 'itemsList'), {
+        }, h("".concat(i, "items-list"), "itemsList"), {
             children: f.map(function(p, a) {
                 var d = a === m, q = "".concat(i, "item-").concat(a), r = o ? g({
                     sectionIndex: b,
                     itemIndex: a
                 }) : g, f = c.objectSpread({
                     id: n(b, a),
-                    'aria-selected': d
-                }, h(q, 'item', 0 === a && 'itemFirst', d && 'itemHighlighted'), r);
+                    "aria-selected": d
+                }, h(q, "item", 0 === a && "itemFirst", d && "itemHighlighted"), r);
                 return d && (f.ref = j.storeHighlightedItemReference), e.jsx(Item, c.objectSpread({}, f, {
                     sectionIndex: b,
                     isHighlighted: d,

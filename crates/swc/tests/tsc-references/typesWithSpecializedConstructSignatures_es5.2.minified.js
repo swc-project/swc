@@ -21,4 +21,4 @@ var i, a, Base = function() {
 }(Base), C = function(x) {
     return swcHelpers.classCallCheck(this, C), x;
 };
-new C('a'), a = i = a, new C('hi'), new i('bye'), new a('hm');
+new C("a"), a = i = a, new C("hi"), new i("bye"), new a("hm");

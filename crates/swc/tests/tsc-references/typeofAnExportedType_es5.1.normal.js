@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 export var x = 1;
 export var r1;
 export var y = {
-    foo: ''
+    foo: ""
 };
 export var r2;
 export var C = function C() {
@@ -20,7 +20,7 @@ export var r5;
 export var r5;
 export var M;
 (function(M1) {
-    var _$foo = M1.foo = '';
+    var _$foo = M1.foo = "";
     var C = function C() {
         "use strict";
         swcHelpers.classCallCheck(this, C);

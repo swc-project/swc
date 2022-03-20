@@ -33,7 +33,7 @@ foo1(function(x) {
     ];
 }), foo2(function(x) {
     return [
-        ''
+        ""
     ];
 }), foo3(function(x) {
     return x;

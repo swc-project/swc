@@ -5,7 +5,7 @@ var C = function C() {
 };
 var c;
 var r1 = c["a b"];
-var r1b = C['c d'];
+var r1b = C["c d"];
 var i;
 var r2 = i["a b"];
 var a;

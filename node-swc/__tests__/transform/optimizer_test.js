@@ -19,5 +19,5 @@ it('should perform dce', () => {
     );
     expect(out.map).toBeFalsy();
 
-    expect(out.code.trim()).toBe(`console.log('Foo');`);
+    expect(out.code.trim()).toBe(`console.log("Foo");`);
 });

@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-x = 1, x = '', x = !0, function(E) {
+x = 1, x = "", x = !0, function(E) {
     E[E.A = 0] = "A";
 }(E || (E = {})), x = E, x = E.A;
 var x, E, M, C = function() {

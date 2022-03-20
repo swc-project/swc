@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 switch(y){
-    case 'a':
+    case "a":
         throw y;
     default:
         throw y;

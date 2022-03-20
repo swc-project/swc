@@ -15,7 +15,7 @@ function _getStaticProps() {
                     return _ctx.abrupt("return", {
                         props: {
                             data: {
-                                foo: 'bar'
+                                foo: "bar"
                             }
                         }
                     });

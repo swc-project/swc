@@ -6,7 +6,7 @@ NonGenericParameter || (NonGenericParameter = {}), function(cb) {}(function(x) {
     (function(cb) {})(function(x) {
         return x;
     }), function(cb) {}(function(x, y) {
-        return '';
+        return "";
     }), foo7(1, function(x) {
         return x;
     }), foo7(1, a);

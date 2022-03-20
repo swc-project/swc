@@ -26,7 +26,7 @@ module.exports = {
     SomeClass: SomeClass
 };
 // @filename: main.js
-var ref = require('./lib'), SomeClass = ref.SomeClass, Another = ref.SomeClass;
+var ref = require("./lib"), SomeClass = ref.SomeClass, Another = ref.SomeClass;
 module.exports = {
     SomeClass: SomeClass,
     Another: Another

@@ -1,10 +1,10 @@
 import * as swcHelpers from "@swc/helpers";
 export default x;
-var x = 'x';
+var x = "x";
 var Y = function Y() {
     "use strict";
     swcHelpers.classCallCheck(this, Y);
 };
 export default y;
-var y = 'y';
+var y = "y";
 export { x, x as xx, Y as Z, y, y as yy };

@@ -1,9 +1,9 @@
 var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
     for(var _step, _iterator = [
-        'a',
-        'b',
-        'c'
+        "a",
+        "b",
+        "c"
     ][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
         var v = _step.value;
         console.log(v);

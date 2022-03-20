@@ -1,5 +1,5 @@
 // @declaration: true
 export default function someFunc() {
-    return 'hello!';
+    return "hello!";
 };
-someFunc.someProp = 'yo';
+someFunc.someProp = "yo";

@@ -13,7 +13,7 @@ var A = function() {
     var _super = swcHelpers.createSuper(B);
     function B() {
         var _this;
-        return swcHelpers.classCallCheck(this, B), _this = _super.apply(this, arguments), _this.x = 'B.x', _this;
+        return swcHelpers.classCallCheck(this, B), _this = _super.apply(this, arguments), _this.x = "B.x", _this;
     }
     return B;
 }(A), C = function(A) {
@@ -27,7 +27,7 @@ var A = function() {
         {
             key: "x",
             get: function() {
-                return 'C.x';
+                return "C.x";
             }
         }
     ]), C;

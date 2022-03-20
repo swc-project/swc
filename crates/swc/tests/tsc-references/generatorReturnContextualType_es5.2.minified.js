@@ -5,7 +5,7 @@ var _marked = regeneratorRuntime.mark(function() {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
                 return _ctx.abrupt("return", {
-                    x: 'x'
+                    x: "x"
                 });
             case 1:
             case "end":

@@ -1,7 +1,7 @@
 var A, C, X, Z, K, M;
 import * as swcHelpers from "@swc/helpers";
 !function(A1) {
-    A1.x = 'hello world';
+    A1.x = "hello world";
     var Point = function(x, y) {
         "use strict";
         swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
@@ -30,4 +30,4 @@ import * as swcHelpers from "@swc/helpers";
 }(K || (K = {})), function(M1) {
     var D = K.L;
     M1.D = D;
-}(M || (M = {})), new M.D('Hello');
+}(M || (M = {})), new M.D("Hello");

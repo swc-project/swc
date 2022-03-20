@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 var ref = it.next();
 ref.value, ref.done, f50(function(kind, data) {
-    'A' === kind && data.toFixed(), 'B' === kind && data.toUpperCase();
-}), readFile('hello', function(err, data) {
+    "A" === kind && data.toFixed(), "B" === kind && data.toUpperCase();
+}), readFile("hello", function(err, data) {
     null === err ? data.length : err.message;
 });
 var reducer = function(op, args) {

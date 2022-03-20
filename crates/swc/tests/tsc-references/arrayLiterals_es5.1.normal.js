@@ -6,7 +6,7 @@ var arr1 = [
         1
     ],
     [
-        ''
+        ""
     ]
 ];
 var arr2 = [
@@ -17,20 +17,20 @@ var arr2 = [
         1
     ],
     [
-        ''
+        ""
     ]
 ];
 // Array literal with elements of only EveryType E has type E[]
 var stringArrArr = [
     [
-        ''
+        ""
     ],
     [
         ""
     ]
 ];
 var stringArr = [
-    '',
+    "",
     ""
 ];
 var numberArr = [
@@ -62,9 +62,9 @@ var classTypeArray; // Should OK, not be a parse error
 // Contextual type C with numeric index signature makes array literal of EveryType E of type BCT(E,C)[]
 var context1 = [
     {
-        a: '',
+        a: "",
         b: 0,
-        c: ''
+        c: ""
     },
     {
         a: "",
@@ -74,9 +74,9 @@ var context1 = [
 ];
 var context2 = [
     {
-        a: '',
+        a: "",
         b: 0,
-        c: ''
+        c: ""
     },
     {
         a: "",

@@ -86,6 +86,6 @@ import * as swcHelpers from "@swc/helpers";
     return "" + x;
 }), (function(a, b) {}).apply(this, swcHelpers.toConsumableArray(tuple)), function() {
     for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
-}(1, ''), take(function() {
+}(1, ""), take(function() {
     for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
 });

@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 switch((M || (M = {})).fn = function(x) {
-    return '';
+    return "";
 }, x){
-    case '':
+    case "":
     case 12:
     case !0:
     case null:
@@ -16,15 +16,15 @@ switch((M || (M = {})).fn = function(x) {
         id: 12
     }:
     case [
-        'a'
+        "a"
     ]:
     case void 0 === x ? "undefined" : swcHelpers.typeOf(x):
     case void 0 === M ? "undefined" : swcHelpers.typeOf(M):
     case M.fn(1):
     case function(x) {
-        return '';
+        return "";
     }:
-    case '':
+    case "":
     default:
 }
 var M, x, C = function() {
@@ -43,11 +43,11 @@ switch(new C()){
     case new D():
     case {
         id: 12,
-        name: ''
+        name: ""
     }:
     case new C():
 }
-switch(''){
+switch(""){
 }
 switch(12){
 }
@@ -72,12 +72,12 @@ switch({
 }){
 }
 switch([
-    'a'
+    "a"
 ]){
 }
 switch(function(x) {
-    return '';
+    return "";
 }){
 }
-switch(''){
+switch(""){
 }

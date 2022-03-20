@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var React = require('react'), Button = function(_Component) {
+var React = require("react"), Button = function(_Component) {
     "use strict";
     swcHelpers.inherits(Button, _Component);
     var _super = swcHelpers.createSuper(Button);

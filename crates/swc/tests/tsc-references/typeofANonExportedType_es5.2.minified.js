@@ -13,7 +13,7 @@ export var i;
 export var r5;
 export var r5;
 !function(M1) {
-    M1.foo = '';
+    M1.foo = "";
     var C1 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, C1);

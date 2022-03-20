@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var React = require('react'), obj1 = {
+var React = require("react"), obj1 = {
     x: 2
 }, OverWriteAttr = function(_Component) {
     "use strict";

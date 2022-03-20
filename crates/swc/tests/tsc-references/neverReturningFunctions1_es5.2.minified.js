@@ -16,7 +16,7 @@ var Test = function() {
         this.fail();
     }, Test;
 }();
-registerComponent('test-component', {
+registerComponent("test-component", {
     schema: {
         myProperty: {
             default: [],
@@ -27,12 +27,12 @@ registerComponent('test-component', {
             }
         },
         string: {
-            type: 'string'
+            type: "string"
         },
         num: 0
     },
     init: function() {
-        this.data.num = 0, this.el.setAttribute('custom-attribute', 'custom-value');
+        this.data.num = 0, this.el.setAttribute("custom-attribute", "custom-value");
     },
     update: function() {},
     tick: function() {},

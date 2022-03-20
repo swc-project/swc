@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-import MC from './a';
+import MC from "./a";
 export default function MyClass() {};
 MyClass.bar = function C() {
     "use strict";

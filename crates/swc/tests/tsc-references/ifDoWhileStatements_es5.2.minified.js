@@ -41,7 +41,7 @@ while (0);
 for(;;);
 for(;;);
 do ;
-while ('');
+while ("");
 for(;;);
 for(;;);
 for(;;);
@@ -69,12 +69,12 @@ do ;
 while (c);
 do ;
 while (0);
-for(var e = 'a string'; e;);
+for(var e = "a string"; e;);
 do ;
 while (e);
-'';
+"";
 do ;
-while ('');
+while ("");
 for(var g = /[a-z]/; g;);
 do ;
 while (g);
@@ -92,7 +92,7 @@ do ;
 while (j);
 for(var k = {
     x: 1,
-    y: 'a'
+    y: "a"
 }; k;);
 do ;
 while (k);

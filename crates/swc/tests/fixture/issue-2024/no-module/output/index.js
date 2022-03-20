@@ -20,7 +20,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                     _ctx.next = 6;
                     break;
                 }
-                _ctx.t0 = 'fallback';
+                _ctx.t0 = "fallback";
             case 6:
                 result = _ctx.t0;
                 console.log(result);

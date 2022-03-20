@@ -1,2 +1,2 @@
 // @target: es5
-var x = "\u{DDDDD}";
+var x = "\uDB37\uDDDD";

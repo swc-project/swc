@@ -11,11 +11,11 @@ import * as swcHelpers from "@swc/helpers";
         }, C;
     }(), c = new C();
     c.foo(function(x) {
-        return '';
+        return "";
     }), c.foo(function(x) {
-        return '';
+        return "";
     }), c.foo(function(x) {
-        return '';
+        return "";
     });
     var C2 = function() {
         "use strict";
@@ -42,10 +42,10 @@ import * as swcHelpers from "@swc/helpers";
         }, C;
     }();
     c.foo2(1, function(a) {
-        return '';
+        return "";
     }), c.foo2(1, function(a) {
-        return '';
-    }), c.foo2('', function(a) {
+        return "";
+    }), c.foo2("", function(a) {
         return 1;
     });
     var C2 = function() {
@@ -58,10 +58,10 @@ import * as swcHelpers from "@swc/helpers";
         }, C2;
     }();
     c2.foo3(1, function(a) {
-        return '';
-    }, ''), c2.foo3(1, function(a) {
-        return '';
-    }, '');
+        return "";
+    }, ""), c2.foo3(1, function(a) {
+        return "";
+    }, "");
     var C3 = function() {
         "use strict";
         function C3() {

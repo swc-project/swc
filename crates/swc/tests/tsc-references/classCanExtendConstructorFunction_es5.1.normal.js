@@ -86,7 +86,7 @@ var Conestoga = /*#__PURE__*/ function(Wagon2) {
     function Conestoga(drunkOO) {
         swcHelpers.classCallCheck(this, Conestoga);
         var _this;
-        _this = _super.call(this, 'nope');
+        _this = _super.call(this, "nope");
         _this.drunkOO = drunkOO;
         return _this;
     }

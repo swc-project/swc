@@ -12,7 +12,7 @@ function someGenerics7(a, b, c) {}
 function someGenerics9(a, b, c) {
     return null;
 }
-noParams(), noParams(), noParams(), noGenericParams(''), noGenericParams(''), noGenericParams(''), someGenerics1(3, 4), someGenerics1(3, 4), someGenerics2a(function(n) {
+noParams(), noParams(), noParams(), noGenericParams(""), noGenericParams(""), noGenericParams(""), someGenerics1(3, 4), someGenerics1(3, 4), someGenerics2a(function(n) {
     return n;
 }), someGenerics2a(function(n) {
     return n;
@@ -25,16 +25,16 @@ noParams(), noParams(), noParams(), noGenericParams(''), noGenericParams(''), no
 }), someGenerics2b(function(n, t) {
     return n.substr(t * t);
 }), someGenerics3(function() {
-    return '';
+    return "";
 }), someGenerics3(function() {}), someGenerics3(function() {
     return 3;
 }), someGenerics4(4, function() {
     return null;
-}), someGenerics4('', function() {
+}), someGenerics4("", function() {
     return 3;
 }), someGenerics4(null, null), someGenerics5(4, function() {
     return null;
-}), someGenerics5('', function() {
+}), someGenerics5("", function() {
     return 3;
 }), someGenerics5(null, null), someGenerics6(function(n) {
     return n;
@@ -72,22 +72,22 @@ noParams(), noParams(), noParams(), noGenericParams(''), noGenericParams(''), no
     return n;
 }, function(n) {
     return n;
-}), someGenerics7(null, null, null), someGenerics9('', 0, []), someGenerics9({
+}), someGenerics7(null, null, null), someGenerics9("", 0, []), someGenerics9({
     a: 0
 }, {
-    b: ''
+    b: ""
 }, null), someGenerics9(void 0, {
     x: 6,
     z: new Date()
 }, {
     x: 6,
-    y: ''
+    y: ""
 }), someGenerics9(void 0, {
     x: 6,
     z: new Date()
 }, {
     x: 6,
-    y: ''
+    y: ""
 }), someGenerics9({
     x: 3
 }, {

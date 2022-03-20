@@ -6,13 +6,13 @@ import * as swcHelpers from "@swc/helpers";
 // @target: esnext
 /** @type {Array<[string, {x?:number, y?:number}]>} */ var arr = [
     [
-        'a',
+        "a",
         {
             x: 1
         }
     ],
     [
-        'b',
+        "b",
         {
             y: 2
         }
@@ -21,13 +21,13 @@ import * as swcHelpers from "@swc/helpers";
 /** @return {Array<[string, {x?:number, y?:number}]>} */ function f() {
     return [
         [
-            'a',
+            "a",
             {
                 x: 1
             }
         ],
         [
-            'b',
+            "b",
             {
                 y: 2
             }
@@ -45,13 +45,13 @@ var C = /*#__PURE__*/ function() {
             get: function get() {
                 return [
                     [
-                        'a',
+                        "a",
                         {
                             x: 1
                         }
                     ],
                     [
-                        'b',
+                        "b",
                         {
                             y: 2
                         }

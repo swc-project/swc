@@ -4,23 +4,23 @@ var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);
-        this.a = '';
-        this.b = '';
+        this.a = "";
+        this.b = "";
         this.d = function() {
-            return '';
+            return "";
         };
     }
     var _proto = C.prototype;
     _proto.c = function c() {
-        return '';
+        return "";
     };
     C.f = function f() {
-        return '';
+        return "";
     };
     return C;
 }();
 C.g = function() {
-    return '';
+    return "";
 };
 var c = new C();
 var r1 = c.x;

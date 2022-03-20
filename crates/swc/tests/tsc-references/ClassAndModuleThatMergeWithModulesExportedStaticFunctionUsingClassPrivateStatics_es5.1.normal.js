@@ -11,7 +11,7 @@ var clodule = /*#__PURE__*/ function() {
 }();
 (function(clodule1) {
     var fn = function fn(x, y) {
-        return clodule.sfn('a');
+        return clodule.sfn("a");
     };
     clodule1.fn = fn;
 })(clodule || (clodule = {}));

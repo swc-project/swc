@@ -5,8 +5,8 @@ var Test6, Test7, Test = function() {
 }, Test1 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, Test1), this.data = {
-        foo: ''
-    }, this.this = '', this.data;
+        foo: ""
+    }, this.this = "", this.data;
 }, Test5 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, Test5), this.no = 1, this.f = function() {};

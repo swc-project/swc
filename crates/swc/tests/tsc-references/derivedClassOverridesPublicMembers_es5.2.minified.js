@@ -59,4 +59,4 @@ var Base2 = function() {
     }
     return Derived2;
 }(Base2);
-d2[''], d2[1];
+d2[""], d2[1];

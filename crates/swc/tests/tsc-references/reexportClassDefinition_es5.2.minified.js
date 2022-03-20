@@ -4,7 +4,7 @@ var x = function() {
     swcHelpers.classCallCheck(this, x);
 };
 module.exports = x;
-var foo1 = require('./foo1');
+var foo1 = require("./foo1");
 module.exports = {
     x: foo1
 };
@@ -16,4 +16,4 @@ var x = function(_x) {
         return swcHelpers.classCallCheck(this, x), _super.apply(this, arguments);
     }
     return x;
-}(require('./foo2').x);
+}(require("./foo2").x);

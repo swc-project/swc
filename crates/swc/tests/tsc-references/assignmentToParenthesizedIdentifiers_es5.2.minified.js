@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
-x = 3 = '', function(M1) {
+x = 3 = "", function(M1) {
     var y;
     M1.y = y;
-}(M || (M = {})), M.y = 3, M.y = 3, M.y = 3, M.y = '', M.y = '', M.y = '', M = {
+}(M || (M = {})), M.y = 3, M.y = 3, M.y = 3, M.y = "", M.y = "", M.y = "", M = {
     y: 3
 } = {
     y: 3
@@ -16,11 +16,11 @@ x = 3 = '', function(M1) {
 }, M2.M3 = {
     x: 3
 }, M2.M3 = {
-    x: ''
+    x: ""
 }, M2.M3 = {
-    x: ''
+    x: ""
 }, M2.M3 = {
-    x: ''
+    x: ""
 }, fn = function() {
     return 3;
 }, function(E) {

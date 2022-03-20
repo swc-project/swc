@@ -57,7 +57,7 @@ import * as swcHelpers from "@swc/helpers";
     });
 }(Errors || (Errors = {})), WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}), foo2(function(x) {
     return [
-        ''
+        ""
     ];
 }), foo3(function(x) {
     return null;

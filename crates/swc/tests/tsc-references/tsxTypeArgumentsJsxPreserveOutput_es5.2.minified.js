@@ -1,2 +1,2 @@
-require('react').Fragment;
+require("react").Fragment;
 export { };

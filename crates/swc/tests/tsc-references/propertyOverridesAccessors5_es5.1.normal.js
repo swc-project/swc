@@ -10,7 +10,7 @@ var A = /*#__PURE__*/ function() {
         {
             key: "p",
             get: function get() {
-                return 'oh no';
+                return "oh no";
             }
         }
     ]);

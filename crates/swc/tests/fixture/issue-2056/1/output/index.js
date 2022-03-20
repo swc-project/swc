@@ -25,13 +25,13 @@ import * as swcHelpers from "@swc/helpers";
 */ /**
  * @packageDocumentation
  * @module core/math
- */ import { CCClass } from '../data/class';
-import { Mat3 } from './mat3';
-import { Quat } from './quat';
-import { enumerableProps, EPSILON } from './utils';
-import { Vec3 } from './vec3';
-import { legacyCC } from '../global-exports';
-import { MathBase } from './math-base';
+ */ import { CCClass } from "../data/class";
+import { Mat3 } from "./mat3";
+import { Quat } from "./quat";
+import { enumerableProps, EPSILON } from "./utils";
+import { Vec3 } from "./vec3";
+import { legacyCC } from "../global-exports";
+import { MathBase } from "./math-base";
 function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -129,7 +129,7 @@ export var preTransforms = Object.freeze([
         _classCallCheck(this, Mat41);
         var _this;
         _this = _possibleConstructorReturn(this, _getPrototypeOf(Mat41).call(this));
-        if (m00 && typeof m00 === 'object') {
+        if (m00 && typeof m00 === "object") {
             if (ArrayBuffer.isView(m00)) {
                 _this._array = m00;
                 _this._array.set([
@@ -398,7 +398,7 @@ export var preTransforms = Object.freeze([
             key: "set",
             value: function set(param, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13, param14, param15) {
                 var m00 = param === void 0 ? 1 : param, m01 = param1 === void 0 ? 0 : param1, m02 = param2 === void 0 ? 0 : param2, m03 = param3 === void 0 ? 0 : param3, m04 = param4 === void 0 ? 0 : param4, m05 = param5 === void 0 ? 1 : param5, m06 = param6 === void 0 ? 0 : param6, m07 = param7 === void 0 ? 0 : param7, m08 = param8 === void 0 ? 0 : param8, m09 = param9 === void 0 ? 0 : param9, m10 = param10 === void 0 ? 1 : param10, m11 = param11 === void 0 ? 0 : param11, m12 = param12 === void 0 ? 0 : param12, m13 = param13 === void 0 ? 0 : param13, m14 = param14 === void 0 ? 0 : param14, m15 = param15 === void 0 ? 1 : param15;
-                if (m00 && typeof m00 === 'object') {
+                if (m00 && typeof m00 === "object") {
                     var v = m00.array;
                     this._array[1] = v[1];
                     this._array[2] = v[2];
@@ -798,7 +798,7 @@ export var preTransforms = Object.freeze([
          * @zh 将当前矩阵左乘位移矩阵的结果赋值给当前矩阵，位移矩阵由各个轴的位移给出。
          * @param vec vector to translate by
          */ function translate(vec) {
-                console.warn('function changed');
+                console.warn("function changed");
                 var v = vec.array;
                 this._array[12] += v[0];
                 this._array[13] += v[1];
@@ -1421,7 +1421,7 @@ export var preTransforms = Object.freeze([
          * @en Transform a matrix with the given translation vector and save results to the out matrix
          * @zh 在给定矩阵变换基础上加入新位移变换
          */ function translate(out, a, v) {
-                console.warn('function changed');
+                console.warn("function changed");
                 if (a === out) {
                     out.m12 += v.x;
                     out.m13 += v.y;
@@ -2520,24 +2520,24 @@ Mat4.IDENTITY = Object.freeze(new Mat4());
 var v3_1 = new Vec3();
 var m3_1 = new Mat3();
 enumerableProps(Mat4.prototype, [
-    'm00',
-    'm01',
-    'm02',
-    'm03',
-    'm04',
-    'm05',
-    'm06',
-    'm07',
-    'm08',
-    'm09',
-    'm10',
-    'm11',
-    'm12',
-    'm13',
-    'm14',
-    'm15'
+    "m00",
+    "m01",
+    "m02",
+    "m03",
+    "m04",
+    "m05",
+    "m06",
+    "m07",
+    "m08",
+    "m09",
+    "m10",
+    "m11",
+    "m12",
+    "m13",
+    "m14",
+    "m15"
 ]);
-CCClass.fastDefine('cc.Mat4', Mat4, {
+CCClass.fastDefine("cc.Mat4", Mat4, {
     m00: 1,
     m01: 0,
     m02: 0,

@@ -12,9 +12,9 @@ var C = function() {
 }();
 new C({
     length: 2
-}).foo('')({
+}).foo("")({
     length: 3,
     charAt: function(x) {
-        '';
+        "";
     }
 });

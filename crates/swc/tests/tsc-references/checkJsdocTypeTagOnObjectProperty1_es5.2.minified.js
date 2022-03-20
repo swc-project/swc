@@ -9,4 +9,4 @@ var _obj, obj = (_obj = {
 }, swcHelpers.defineProperty(_obj, "bar1", 42), swcHelpers.defineProperty(_obj, "arrowFunc", function(num) {
     return num + 42;
 }), _obj);
-obj.foo = 'string', obj.lol, obj.bar = void 0, obj.method1(0), obj.bar1 = "42", obj.arrowFunc(0);
+obj.foo = "string", obj.lol, obj.bar = void 0, obj.method1(0), obj.bar1 = "42", obj.arrowFunc(0);

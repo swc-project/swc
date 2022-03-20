@@ -1,10 +1,10 @@
 function testFunc2(a, sa) {
     sa = {
-        test: 'hi',
+        test: "hi",
         arg: a
     }; // not excess (but currently still not assignable)
     sa = {
-        test: 'bye',
+        test: "bye",
         arg: a,
         arr: a
     } // excess

@@ -28,7 +28,7 @@
  * @param {testFnTypes.input} input - Input.
  * @returns {number|null} Result.
  */ function testFn(input) {
-    if (typeof input === 'number') {
+    if (typeof input === "number") {
         return 2 * input;
     } else {
         return null;

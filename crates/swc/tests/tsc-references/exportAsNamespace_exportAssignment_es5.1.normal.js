@@ -1,4 +1,4 @@
-import * as _ns from './a';
+import * as _ns from "./a";
 // @module: commonjs
 // @esModuleInterop: true
 // @noTypesAndSymbols: true

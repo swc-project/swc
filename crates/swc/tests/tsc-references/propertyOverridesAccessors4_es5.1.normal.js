@@ -7,7 +7,7 @@ var Lion = /*#__PURE__*/ function(Animal) {
         swcHelpers.classCallCheck(this, Lion);
         var _this;
         _this = _super.apply(this, arguments);
-        _this.sound = 'RAWR!' // error here
+        _this.sound = "RAWR!" // error here
         ;
         return _this;
     }

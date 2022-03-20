@@ -8,7 +8,7 @@ var C = function() {
         };
     }
     return C.prototype.baz = function(x) {
-        return '';
+        return "";
     }, C.foo = function(x) {}, C.bar = function(x) {}, swcHelpers.createClass(C, [
         {
             key: "ic",

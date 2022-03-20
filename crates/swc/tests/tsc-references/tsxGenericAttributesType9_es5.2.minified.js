@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var React = require('react');
+var React = require("react");
 export function makeP(Ctor) {
     return function(_PureComponent) {
         "use strict";

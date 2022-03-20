@@ -8,4 +8,4 @@ export var ex, crunch, Crunch = function() {
         return this.n;
     }, Crunch;
 }();
-new (require('./ex')).Crunch(1).n;
+new (require("./ex")).Crunch(1).n;

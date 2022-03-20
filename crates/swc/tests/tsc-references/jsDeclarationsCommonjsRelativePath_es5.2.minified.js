@@ -1,5 +1,5 @@
-'use strict';
-'use strict';
+"use strict";
+"use strict";
 import * as swcHelpers from "@swc/helpers";
 var Thing = function() {
     swcHelpers.classCallCheck(this, Thing);
@@ -7,7 +7,7 @@ var Thing = function() {
 module.exports = {
     Thing: Thing
 };
-var Thing = require('./thing').Thing;
+var Thing = require("./thing").Thing;
 module.exports = {
     Thing: Thing
 };

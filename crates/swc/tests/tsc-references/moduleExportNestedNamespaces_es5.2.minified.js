@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-import * as s from './mod';
+import * as s from "./mod";
 module.exports.n = {}, module.exports.n.K = function() {
     this.x = 10;
 }, module.exports.Classic = function _class() {

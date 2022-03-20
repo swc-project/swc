@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-require('react');
+require("react");
 var props = {
     a: 1,
     b: 1

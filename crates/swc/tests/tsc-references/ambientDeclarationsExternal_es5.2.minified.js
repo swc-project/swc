@@ -1,2 +1,2 @@
-require('equ'), require('equ2').x;
+require("equ"), require("equ2").x;
 export { };

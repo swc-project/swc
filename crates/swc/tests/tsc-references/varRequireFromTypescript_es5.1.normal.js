@@ -4,7 +4,7 @@ export var Crunch = function Crunch() {
     swcHelpers.classCallCheck(this, Crunch);
 };
 // @Filename: use.js
-var ex = require('./ex');
+var ex = require("./ex");
 // values work
 var crunch = new ex.Crunch(1);
 crunch.n;

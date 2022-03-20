@@ -4,4 +4,4 @@ var C = function C(x) {
     swcHelpers.classCallCheck(this, C);
 };
 var c = new C(1);
-var c = new C(new C('')); // error
+var c = new C(new C("")); // error

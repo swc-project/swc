@@ -21,7 +21,7 @@ try {
                 ][Symbol.iterator](), _step1; !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = true){
                     var j = _step1.value;
                     if (i === 2) {
-                        throw new Error('ERR');
+                        throw new Error("ERR");
                     }
                 }
             } catch (err) {
@@ -40,7 +40,7 @@ try {
             }
             console.log(i);
         } catch (err) {
-            console.log('E %s %s', i, err);
+            console.log("E %s %s", i, err);
         }
     }
 } catch (err) {

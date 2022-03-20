@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-require('react');
+require("react");
 var defaultObj, obj = {
     yy: 10,
     yy1: "hello"

@@ -36,7 +36,7 @@ if (maybeNumber !== undefined) {
 }
 var test;
 if (!test) {
-    throw new Error('Test is not defined');
+    throw new Error("Test is not defined");
 }
 (function() {
     test.slice(1); // No error

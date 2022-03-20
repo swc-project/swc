@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 // @target: es2015
 var o = {
     a: 1,
-    b: 'no'
+    b: "no"
 };
 var clone = swcHelpers.extends({}, o);
 var a = o.a, justB = swcHelpers.objectWithoutProperties(o, [
@@ -12,18 +12,18 @@ var a = o.a, renamed = o.b, empty = swcHelpers.objectWithoutProperties(o, [
     "a",
     "b"
 ]);
-var renamed = o['b'], justA = swcHelpers.objectWithoutProperties(o, [
-    'b'
+var renamed = o["b"], justA = swcHelpers.objectWithoutProperties(o, [
+    "b"
 ]);
-var renamed = o['b'], justA = swcHelpers.objectWithoutProperties(o, [
-    'b'
+var renamed = o["b"], justA = swcHelpers.objectWithoutProperties(o, [
+    "b"
 ]);
-var _b = o.b, n = _b['0'], oooo = _b['1'], justA = swcHelpers.objectWithoutProperties(o, [
+var _b = o.b, n = _b["0"], oooo = _b["1"], justA = swcHelpers.objectWithoutProperties(o, [
     "b"
 ]);
 var o2 = {
-    c: 'terrible idea?',
-    d: 'yes'
+    c: "terrible idea?",
+    d: "yes"
 };
 var renamed = o2.d, d = swcHelpers.objectWithoutProperties(o2, [
     "d"
@@ -91,8 +91,8 @@ var i = removable;
 var removed = i.removed, removableRest2 = swcHelpers.objectWithoutProperties(i, [
     "removed"
 ]);
-var computed = 'b';
-var computed2 = 'a';
+var computed = "b";
+var computed2 = "a";
 var stillNotGreat = o[computed], soSo = o[computed2], o = swcHelpers.objectWithoutProperties(o, [
     computed,
     computed2

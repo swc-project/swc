@@ -3,10 +3,10 @@ import "core-js/modules/es.object.to-string.js";
 import "core-js/modules/es.promise.js";
 import regeneratorRuntime from "regenerator-runtime";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useEffect, useState } from 'react';
-import { render } from 'react-dom';
-import zhCN from 'antd/es/locale/zh_CN';
-import { Button, ConfigProvider } from 'antd';
+import { useEffect, useState } from "react";
+import { render } from "react-dom";
+import zhCN from "antd/es/locale/zh_CN";
+import { Button, ConfigProvider } from "antd";
 function App() {
     var ref = swcHelpers.slicedToArray(useState({}), 2), state = ref[0], setState = ref[1];
     useEffect(function() {
@@ -16,7 +16,7 @@ function App() {
                     case 0:
                         _ctx.t0 = setState;
                         _ctx.next = 3;
-                        return fetch('/api/user');
+                        return fetch("/api/user");
                     case 3:
                         _ctx.t1 = _ctx.sent;
                         (0, _ctx.t0)(_ctx.t1);
@@ -38,4 +38,4 @@ function App() {
         ]
     });
 }
-render(/*#__PURE__*/ _jsx(App, {}), document.getElementById('root'));
+render(/*#__PURE__*/ _jsx(App, {}), document.getElementById("root"));

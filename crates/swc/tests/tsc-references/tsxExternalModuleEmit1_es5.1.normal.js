@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 //@filename: app.tsx
-import * as React from 'react';
+import * as React from "react";
 //@filename: button.tsx
-import * as React from 'react';
+import * as React from "react";
 export var App = /*#__PURE__*/ function(_Component) {
     "use strict";
     swcHelpers.inherits(App, _Component);

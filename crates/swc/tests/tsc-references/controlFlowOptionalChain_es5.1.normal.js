@@ -440,9 +440,9 @@ function f41(o) {
 }
 function getArea(shape) {
     switch(shape === null || shape === void 0 ? void 0 : shape.type){
-        case 'circle':
+        case "circle":
             return Math.PI * Math.pow(shape.radius, 2);
-        case 'rectangle':
+        case "rectangle":
             return shape.width * shape.height;
         default:
             return 0;
@@ -450,7 +450,7 @@ function getArea(shape) {
 }
 function extractCoordinates(f) {
     var ref20;
-    if (((ref20 = f.geometry) === null || ref20 === void 0 ? void 0 : ref20.type) !== 'test') {
+    if (((ref20 = f.geometry) === null || ref20 === void 0 ? void 0 : ref20.type) !== "test") {
         return [];
     }
     return f.geometry.coordinates;

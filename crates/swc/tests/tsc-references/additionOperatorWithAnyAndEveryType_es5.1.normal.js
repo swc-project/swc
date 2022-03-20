@@ -43,10 +43,10 @@ var r13 = a + new C();
 var r14 = a + E;
 var r15 = a + E.a;
 var r16 = a + M;
-var r17 = a + '';
+var r17 = a + "";
 var r18 = a + 123;
 var r19 = a + {
-    a: ''
+    a: ""
 };
 var r20 = a + function(a2) {
     return a2;

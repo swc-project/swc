@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 // @strict: true
 // @target: es2015
-var a = 'a';
+var a = "a";
 function f1(obj) {
     var r0 = swcHelpers.extends({}, obj);
     var a1 = obj.a, r1 = swcHelpers.objectWithoutProperties(obj, [
@@ -11,11 +11,11 @@ function f1(obj) {
         "a",
         "b"
     ]);
-    var a3 = obj['a'], r3 = swcHelpers.objectWithoutProperties(obj, [
-        'a'
+    var a3 = obj["a"], r3 = swcHelpers.objectWithoutProperties(obj, [
+        "a"
     ]);
-    var a4 = obj['a'], r4 = swcHelpers.objectWithoutProperties(obj, [
-        'a'
+    var a4 = obj["a"], r4 = swcHelpers.objectWithoutProperties(obj, [
+        "a"
     ]);
     var a5 = obj[a], r5 = swcHelpers.objectWithoutProperties(obj, [
         a

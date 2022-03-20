@@ -35,7 +35,7 @@ var M;
 // all of these are errors
 var a;
 var a = 1;
-var a = 'a string';
+var a = "a string";
 var a = new C();
 var a = new D();
 var a = M;
@@ -44,7 +44,7 @@ var b = new C();
 var b = new C2();
 var f = F;
 var f = function(x) {
-    return '';
+    return "";
 };
 var arr;
 var arr = [

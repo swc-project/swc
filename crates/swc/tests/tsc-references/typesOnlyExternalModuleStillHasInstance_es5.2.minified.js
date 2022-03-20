@@ -1,2 +1,2 @@
-require('./foo_0');
+require("./foo_0");
 export { };

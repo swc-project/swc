@@ -48,12 +48,12 @@ var e, C = function() {
         return swcHelpers.classCallCheck(this, E), _super.apply(this, arguments);
     }
     return E.prototype.foo = function() {
-        return '';
+        return "";
     }, swcHelpers.createClass(E, [
         {
             key: "X",
             get: function() {
-                return '';
+                return "";
             }
         }
     ]), E;

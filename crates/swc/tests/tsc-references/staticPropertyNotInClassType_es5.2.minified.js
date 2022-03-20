@@ -18,7 +18,7 @@ import * as swcHelpers from "@swc/helpers";
             }
         ]), C;
     }();
-    (C || (C = {})).bar = '';
+    (C || (C = {})).bar = "";
     var c = new C(1, 2);
     c.fn(), c.foo, c.bar, c.x;
 }(NonGeneric || (NonGeneric = {})), function(Generic) {
@@ -39,7 +39,7 @@ import * as swcHelpers from "@swc/helpers";
             }
         ]), C;
     }();
-    (C || (C = {})).bar = '';
-    var c = new C(1, '');
+    (C || (C = {})).bar = "";
+    var c = new C(1, "");
     c.fn(), c.foo, c.bar, c.x;
 }(Generic || (Generic = {}));

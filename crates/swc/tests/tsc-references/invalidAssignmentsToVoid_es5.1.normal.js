@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 var x;
 x = 1;
 x = true;
-x = '';
+x = "";
 x = {};
 var C = function C() {
     "use strict";

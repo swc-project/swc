@@ -5,7 +5,7 @@ import * as swcHelpers from "@swc/helpers";
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
-var React = require('react');
+var React = require("react");
 var props = {
     a: 1,
     b: 1

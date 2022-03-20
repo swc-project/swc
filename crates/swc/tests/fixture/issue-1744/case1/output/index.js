@@ -1,1 +1,1 @@
-console.log("🤭 ü");
+console.log("\uD83E\uDD2D \xfc");

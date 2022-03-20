@@ -18,4 +18,4 @@ var C2 = function() {
         return this;
     }, C2;
 }(), t2 = C2.bar();
-t2.foo, t2.bar(), new t2('');
+t2.foo, t2.bar(), new t2("");

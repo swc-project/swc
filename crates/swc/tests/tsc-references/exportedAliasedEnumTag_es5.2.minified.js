@@ -1,3 +1,3 @@
 (module.exports = {}).Type = {
-    BEFORE: 'before'
+    BEFORE: "before"
 };

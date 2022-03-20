@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var nestedrest, complex, _complex, ref, _tmp, _o, ref1, o = {
     a: 1,
-    b: 'no'
+    b: "no"
 };
 swcHelpers.extends({}, o), o.a, swcHelpers.objectWithoutProperties(o, [
     "a"
@@ -9,17 +9,17 @@ swcHelpers.extends({}, o), o.a, swcHelpers.objectWithoutProperties(o, [
     "a",
     "b"
 ]), o.b, swcHelpers.objectWithoutProperties(o, [
-    'b'
+    "b"
 ]), o.b, swcHelpers.objectWithoutProperties(o, [
-    'b'
+    "b"
 ]);
 var _b = o.b;
-_b['0'], _b['1'], swcHelpers.objectWithoutProperties(o, [
+_b["0"], _b["1"], swcHelpers.objectWithoutProperties(o, [
     "b"
 ]);
 var o2 = {
-    c: 'terrible idea?',
-    d: 'yes'
+    c: "terrible idea?",
+    d: "yes"
 };
 o2.d, swcHelpers.objectWithoutProperties(o2, [
     "d"
@@ -77,7 +77,7 @@ var i = removable;
 i.removed, swcHelpers.objectWithoutProperties(i, [
     "removed"
 ]);
-var computed = 'b', computed2 = 'a', o = (o[computed], o[computed2], swcHelpers.objectWithoutProperties(o, [
+var computed = "b", computed2 = "a", o = (o[computed], o[computed2], swcHelpers.objectWithoutProperties(o, [
     computed,
     computed2
 ].map(swcHelpers.toPropertyKey)));

@@ -3,4 +3,4 @@ var c, C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
 };
-c.toString(), c.hasOwnProperty('');
+c.toString(), c.hasOwnProperty("");

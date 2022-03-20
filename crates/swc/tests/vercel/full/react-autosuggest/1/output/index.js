@@ -128,17 +128,17 @@ var ItemsList = function(_Component) {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
                 return (0, _compareObjects.default)(nextProps, this.props, [
-                    'itemProps'
+                    "itemProps"
                 ]);
             }
         },
         {
             key: "render",
             value: function() {
-                var _this2 = this, _this$props = this.props, items = _this$props.items, itemProps = _this$props.itemProps, renderItem = _this$props.renderItem, renderItemData = _this$props.renderItemData, sectionIndex = _this$props.sectionIndex, highlightedItemIndex = _this$props.highlightedItemIndex, getItemId = _this$props.getItemId, theme = _this$props.theme, keyPrefix = _this$props.keyPrefix, sectionPrefix = null === sectionIndex ? keyPrefix : "".concat(keyPrefix, "section-").concat(sectionIndex, "-"), isItemPropsFunction = 'function' == typeof itemProps;
+                var _this2 = this, _this$props = this.props, items = _this$props.items, itemProps = _this$props.itemProps, renderItem = _this$props.renderItem, renderItemData = _this$props.renderItemData, sectionIndex = _this$props.sectionIndex, highlightedItemIndex = _this$props.highlightedItemIndex, getItemId = _this$props.getItemId, theme = _this$props.theme, keyPrefix = _this$props.keyPrefix, sectionPrefix = null === sectionIndex ? keyPrefix : "".concat(keyPrefix, "section-").concat(sectionIndex, "-"), isItemPropsFunction = "function" == typeof itemProps;
                 return _react.default.createElement("ul", _extends({
                     role: "listbox"
-                }, theme("".concat(sectionPrefix, "items-list"), 'itemsList')), items.map(function(item, itemIndex) {
+                }, theme("".concat(sectionPrefix, "items-list"), "itemsList")), items.map(function(item, itemIndex) {
                     var isHighlighted = itemIndex === highlightedItemIndex, itemKey = "".concat(sectionPrefix, "item-").concat(itemIndex), itemPropsObj = isItemPropsFunction ? itemProps({
                         sectionIndex: sectionIndex,
                         itemIndex: itemIndex
@@ -154,8 +154,8 @@ var ItemsList = function(_Component) {
                         return target;
                     }({
                         id: getItemId(sectionIndex, itemIndex),
-                        'aria-selected': isHighlighted
-                    }, theme(itemKey, 'item', 0 === itemIndex && 'itemFirst', isHighlighted && 'itemHighlighted'), {}, itemPropsObj);
+                        "aria-selected": isHighlighted
+                    }, theme(itemKey, "item", 0 === itemIndex && "itemFirst", isHighlighted && "itemHighlighted"), {}, itemPropsObj);
                     return isHighlighted && (allItemProps.ref = _this2.storeHighlightedItemReference), _react.default.createElement(_Item.default, _extends({}, allItemProps, {
                         sectionIndex: sectionIndex,
                         isHighlighted: isHighlighted,

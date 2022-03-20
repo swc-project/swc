@@ -5,7 +5,7 @@ var Lion = function(Animal) {
     var _super = swcHelpers.createSuper(Lion);
     function Lion() {
         var _this;
-        return swcHelpers.classCallCheck(this, Lion), _this = _super.apply(this, arguments), _this._sound = 'grrr', _this;
+        return swcHelpers.classCallCheck(this, Lion), _this = _super.apply(this, arguments), _this._sound = "grrr", _this;
     }
     return swcHelpers.createClass(Lion, [
         {

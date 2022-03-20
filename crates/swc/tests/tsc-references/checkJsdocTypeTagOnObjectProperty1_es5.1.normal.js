@@ -13,10 +13,10 @@ var obj = (_obj = {
         return n1 + 42;
     },
     /** @type {string} */ lol: lol
-}, /** @type {number} */ swcHelpers.defineProperty(_obj, 'b' + 'ar1', 42), /** @type {function(number): number} */ swcHelpers.defineProperty(_obj, "arrowFunc", function(num) {
+}, /** @type {number} */ swcHelpers.defineProperty(_obj, "b" + "ar1", 42), /** @type {function(number): number} */ swcHelpers.defineProperty(_obj, "arrowFunc", function(num) {
     return num + 42;
 }), _obj);
-obj.foo = 'string';
+obj.foo = "string";
 obj.lol;
 obj.bar = undefined;
 var k = obj.method1(0);

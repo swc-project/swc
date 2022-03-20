@@ -1,5 +1,5 @@
 // @filename: importer.js
-import { j, k } from './assignmentToVoidZero2';
+import { j, k } from "./assignmentToVoidZero2";
 // @filename: assignmentToVoidZero2.js
 // @declaration: true
 // @module: commonjs

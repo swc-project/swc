@@ -5,6 +5,6 @@ var C = function() {
         swcHelpers.classCallCheck(this, C);
     }
     return C.bar = function() {
-        return swcHelpers.defineProperty({}, '', function() {}), 0;
+        return swcHelpers.defineProperty({}, "", function() {}), 0;
     }, C;
 }();

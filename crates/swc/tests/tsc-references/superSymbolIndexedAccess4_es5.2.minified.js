@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var symbol = Symbol.for('myThing'), _symbol = symbol, Bar = function() {
+var symbol = Symbol.for("myThing"), _symbol = symbol, Bar = function() {
     "use strict";
     function Bar() {
         swcHelpers.classCallCheck(this, Bar);

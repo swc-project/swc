@@ -1,4 +1,4 @@
 //// [scannerNonAsciiHorizontalWhitespace.ts]
-"  function f() {}";
+"\xa0 function f() {}";
 //// [scannerNonAsciiHorizontalWhitespace.js]
-"  function f() {}";
+"\xa0 function f() {}";

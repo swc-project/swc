@@ -13,7 +13,7 @@ var SomeBaseClass = /*#__PURE__*/ function() {
     }
     var _proto = SomeBaseClass.prototype;
     _proto.func = function func() {
-        return '';
+        return "";
     };
     _proto.returnThis = function returnThis() {
         return this;

@@ -1,45 +1,45 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
-it('should compress avif smaller than webp and smaller than jpg', swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+it("should compress avif smaller than webp and smaller than jpg", swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
     var query, res1, res2, res3, avif, webp, jpeg;
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
                 query = {
-                    url: '/test.jpg',
+                    url: "/test.jpg",
                     w: w,
                     q: 75
                 };
                 _ctx.next = 3;
-                return fetchViaHTTP(appPort, '/_next/image', query, {
+                return fetchViaHTTP(appPort, "/_next/image", query, {
                     headers: {
-                        accept: 'image/avif'
+                        accept: "image/avif"
                     }
                 });
             case 3:
                 res1 = _ctx.sent;
                 expect(res1.status).toBe(200);
-                expect(res1.headers.get('Content-Type')).toBe('image/avif');
+                expect(res1.headers.get("Content-Type")).toBe("image/avif");
                 _ctx.next = 8;
-                return fetchViaHTTP(appPort, '/_next/image', query, {
+                return fetchViaHTTP(appPort, "/_next/image", query, {
                     headers: {
-                        accept: 'image/webp'
+                        accept: "image/webp"
                     }
                 });
             case 8:
                 res2 = _ctx.sent;
                 expect(res2.status).toBe(200);
-                expect(res2.headers.get('Content-Type')).toBe('image/webp');
+                expect(res2.headers.get("Content-Type")).toBe("image/webp");
                 _ctx.next = 13;
-                return fetchViaHTTP(appPort, '/_next/image', query, {
+                return fetchViaHTTP(appPort, "/_next/image", query, {
                     headers: {
-                        accept: 'image/jpeg'
+                        accept: "image/jpeg"
                     }
                 });
             case 13:
                 res3 = _ctx.sent;
                 expect(res3.status).toBe(200);
-                expect(res3.headers.get('Content-Type')).toBe('image/jpeg');
+                expect(res3.headers.get("Content-Type")).toBe("image/jpeg");
                 _ctx.next = 18;
                 return res1.buffer();
             case 18:

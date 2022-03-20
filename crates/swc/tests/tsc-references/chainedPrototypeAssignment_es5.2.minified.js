@@ -8,5 +8,5 @@ exports.A = A, exports.B = B, A.prototype = B.prototype = {
         return n + 1;
     }
 };
-var mod = require('./mod'), a = new mod.A(), b = new mod.B();
-a.m('nope'), b.m('not really');
+var mod = require("./mod"), a = new mod.A(), b = new mod.B();
+a.m("nope"), b.m("not really");

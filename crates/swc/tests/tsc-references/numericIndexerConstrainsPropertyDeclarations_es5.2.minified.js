@@ -5,12 +5,12 @@ var C = function() {
         swcHelpers.classCallCheck(this, C);
     }
     return C.prototype.foo = function() {
-        return '';
+        return "";
     }, C.foo = function() {}, swcHelpers.createClass(C, [
         {
             key: "X",
             get: function() {
-                return '';
+                return "";
             },
             set: function(v) {}
         }

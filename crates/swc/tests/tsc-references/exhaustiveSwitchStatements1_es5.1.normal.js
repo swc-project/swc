@@ -5,9 +5,9 @@ function f1(x) {
     if (!!true) {
         switch(x){
             case 1:
-                return 'a';
+                return "a";
             case 2:
-                return 'b';
+                return "b";
         }
         x; // Unreachable
     } else {
@@ -224,10 +224,10 @@ function foo() {
 }
 function ff(o, k) {
     switch(k){
-        case 'c':
-            k = 'a';
+        case "c":
+            k = "a";
     }
-    k === 'c'; // Error
+    k === "c"; // Error
     return o[k];
 }
 function f35431(a) {

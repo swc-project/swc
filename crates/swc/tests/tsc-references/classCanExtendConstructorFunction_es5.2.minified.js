@@ -49,7 +49,7 @@ var Firedrake = function(Dragon2) {
     var _super = swcHelpers.createSuper(Conestoga);
     function Conestoga(drunkOO) {
         var _this;
-        return swcHelpers.classCallCheck(this, Conestoga), (_this = _super.call(this, 'nope')).drunkOO = drunkOO, _this;
+        return swcHelpers.classCallCheck(this, Conestoga), (_this = _super.call(this, "nope")).drunkOO = drunkOO, _this;
     }
     return Conestoga.circle = function(others) {
         return others.length;

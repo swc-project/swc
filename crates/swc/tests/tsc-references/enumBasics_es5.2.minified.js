@@ -13,9 +13,9 @@ E1[e.A], function(E2) {
 }(E5 || (E5 = {})), function(E6) {
     E6[E6.A = 0] = "A", E6[E6.B = 0] = "B", E6[E6.C = 1] = "C";
 }(E6 || (E6 = {})), function(E7) {
-    E7[E7.A = 'foo'.foo] = "A";
+    E7[E7.A = "foo".foo] = "A";
 }(E7 || (E7 = {})), function(E8) {
-    E8[E8.B = 'foo'.foo] = "B";
+    E8[E8.B = "foo".foo] = "B";
 }(E8 || (E8 = {})), function(E9) {
     E9[E9.A = 0] = "A", E9[E9.B = 0] = "B";
 }(E9 || (E9 = {})), E8.B, E7.A, E4.Z, E3.X, E3.Y, E3.Z, E9.A, E9.B, E6.B, E6.C, E6.A, E5.A, E5.B, E5.C;

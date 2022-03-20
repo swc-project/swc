@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-require('react');
+require("react");
 export function MainButton(props) {
     return props.goTo ? this._buildMainLink(props) : this._buildMainButton(props);
 }

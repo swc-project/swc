@@ -14,7 +14,7 @@ function testGenerator() {
                 return _ctx.abrupt("return");
             case 2:
                 _ctx.next = 4;
-                return 'hello';
+                return "hello";
             case 4:
             case "end":
                 return _ctx.stop();

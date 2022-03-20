@@ -9,5 +9,5 @@ var _a1;
 var b3 = (_a1 = x.a) !== null && _a1 !== void 0 ? _a1 : 2;
 var _a2;
 var b4 = (_a2 = x.a) !== null && _a2 !== void 0 ? _a2 : 2;
-var ref = {}, _bar = ref.bar, bar = _bar === void 0 ? 'yo' : _bar;
+var ref = {}, _bar = ref.bar, bar = _bar === void 0 ? "yo" : _bar;
 bar; // "yo" | "ha"

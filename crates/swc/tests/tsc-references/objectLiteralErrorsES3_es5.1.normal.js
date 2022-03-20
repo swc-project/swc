@@ -9,7 +9,7 @@ var e2 = {
 };
 var e3 = {
     get a () {
-        return '';
+        return "";
     },
     set a (n){}
 };

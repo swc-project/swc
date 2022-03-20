@@ -12,7 +12,7 @@ it('should handle a simple case', async () => {
 
     console.log(result)
     expect(result.simple).toBeTruthy();
-    expect(result.simple.code.replace('\n', '')).toBe(`console.log('Foo');`);
+    expect(result.simple.code.replace('\n', '')).toBe(`console.log("Foo");`);
 });
 
 it('should handle loader', async () => {
@@ -34,5 +34,5 @@ it('should handle loader', async () => {
 
     console.log(result)
     expect(result.simple).toBeTruthy();
-    expect(result.simple.code.replace('\n', '')).toBe(`console.log('Foo');`);
+    expect(result.simple.code.replace('\n', '')).toBe(`console.log("Foo");`);
 });

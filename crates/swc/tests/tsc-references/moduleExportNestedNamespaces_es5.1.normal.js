@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 // @Filename: use.js
-import * as s from './mod';
+import * as s from "./mod";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true

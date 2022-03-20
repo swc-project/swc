@@ -6,10 +6,10 @@
 // @filename: index.js
 var x = 12;
 module.exports = {
-    extends: 'base',
+    extends: "base",
     more: {
         others: [
-            'strs'
+            "strs"
         ]
     },
     x: x

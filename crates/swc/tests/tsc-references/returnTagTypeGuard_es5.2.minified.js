@@ -10,7 +10,7 @@ var Entry = function() {
 }(), Group = function() {
     "use strict";
     function Group() {
-        swcHelpers.classCallCheck(this, Group), this.d = 'no';
+        swcHelpers.classCallCheck(this, Group), this.d = "no";
     }
     return Group.prototype.isInit = function(x) {
         return !1;

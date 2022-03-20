@@ -1,2 +1,2 @@
 // @target: es5
-var x = "\u{0}";
+var x = "\0";

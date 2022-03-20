@@ -6,7 +6,7 @@ var Base = /*#__PURE__*/ function() {
     }
     var _proto = Base.prototype;
     _proto.fn = function fn() {
-        return '';
+        return "";
     };
     swcHelpers.createClass(Base, [
         {
@@ -30,7 +30,7 @@ var Derived = /*#__PURE__*/ function(Base) {
     }
     var _proto = Derived.prototype;
     _proto.fn = function fn() {
-        return '';
+        return "";
     };
     swcHelpers.createClass(Derived, [
         {
