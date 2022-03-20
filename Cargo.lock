@@ -3257,7 +3257,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.98.1"
+version = "0.98.2"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3313,7 +3313,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.26.1"
+version = "0.26.2"
 dependencies = [
  "ahash",
  "auto_impl",
