@@ -330,7 +330,11 @@ impl Fold for Umd {
                             let mut scope_ref_mut = self.scope.borrow_mut();
                             let scope = &mut *scope_ref_mut;
                             let imported = export.src.clone().map(|src| {
-                                scope.import_to_export(&src, !export.specifiers.is_empty())
+                                scope.import_to_export(
+                                    export.span,
+                                    &src,
+                                    !export.specifiers.is_empty(),
+                                )
                             });
                             drop(scope_ref_mut);
 
@@ -541,7 +545,7 @@ impl Fold for Umd {
         for export in export_alls {
             let span = export.span;
             let export = scope
-                .import_to_export(&export.src, true)
+                .import_to_export(export.span, &export.src, true)
                 .expect("Export should exists");
             stmts.push(Scope::handle_export_all(
                 span,

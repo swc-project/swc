@@ -307,13 +307,14 @@ impl Scope {
     }
 
     /// Import src to export from it.
-    pub fn import_to_export(&mut self, src: &Str, init: bool) -> Option<Ident> {
+    pub fn import_to_export(&mut self, span: Span, src: &Str, init: bool) -> Option<Ident> {
         let entry = self
             .imports
             .entry(src.value.clone())
-            .and_modify(|(span, v)| {
+            .and_modify(|(stmt_span, src_span, v)| {
                 if init && v.is_none() {
-                    *span = src.span;
+                    *stmt_span = span;
+                    *src_span = src.span;
                     *v = {
                         let ident = private_ident!(local_name_for_src(&src.value));
                         Some((ident.sym, ident.span))
@@ -328,10 +329,10 @@ impl Scope {
                     None
                 };
 
-                (src.span, v)
+                (span, src.span, v)
             });
         if init {
-            let entry = entry.1.as_ref().unwrap();
+            let entry = entry.2.as_ref().unwrap();
             let ident = Ident::new(entry.0.clone(), entry.1);
 
             Some(ident)
@@ -344,9 +345,11 @@ impl Scope {
         if import.specifiers.is_empty() {
             // import 'foo';
             //   -> require('foo');
-            self.imports
-                .entry(import.src.value.clone())
-                .or_insert((import.src.span, None));
+            self.imports.entry(import.src.value.clone()).or_insert((
+                import.span,
+                import.src.span,
+                None,
+            ));
         } else if import.specifiers.len() == 1
             && matches!(import.specifiers[0], ImportSpecifier::Namespace(..))
         {
@@ -364,8 +367,9 @@ impl Scope {
             // Override symbol if one exists
             self.imports
                 .entry(import.src.value.clone())
-                .and_modify(|(span, v)| {
-                    *span = import.src.span;
+                .and_modify(|(stmt_span, src_span, v)| {
+                    *stmt_span = import.span;
+                    *src_span = import.src.span;
                     match *v {
                         Some(ref mut v) => v.0 = specifier.local.sym.clone(),
                         None => *v = Some((specifier.local.sym.clone(), specifier.local.span)),
@@ -373,6 +377,7 @@ impl Scope {
                 })
                 .or_insert_with(|| {
                     (
+                        import.span,
                         import.src.span,
                         Some((specifier.local.sym.clone(), specifier.local.span)),
                     )
@@ -384,9 +389,10 @@ impl Scope {
         } else {
             self.imports
                 .entry(import.src.value.clone())
-                .and_modify(|(span, opt)| {
+                .and_modify(|(stmt_span, src_span, opt)| {
                     if opt.is_none() {
-                        *span = import.src.span;
+                        *stmt_span = import.span;
+                        *src_span = import.src.span;
 
                         let ident =
                             private_ident!(import.src.span, local_name_for_src(&import.src.value));
@@ -396,7 +402,7 @@ impl Scope {
                 .or_insert_with(|| {
                     let ident =
                         private_ident!(import.src.span, local_name_for_src(&import.src.value));
-                    (import.src.span, Some((ident.sym, ident.span)))
+                    (import.span, import.src.span, Some((ident.sym, ident.span)))
                 });
 
             let mut has_non_default = false;
@@ -411,15 +417,20 @@ impl Scope {
                         // Override symbol if one exists
                         self.imports
                             .entry(import.src.value.clone())
-                            .and_modify(|(span, v)| {
-                                *span = import.src.span;
+                            .and_modify(|(stmt_span, src_span, v)| {
+                                *stmt_span = import.span;
+                                *src_span = import.src.span;
                                 match *v {
                                     Some(ref mut v) => v.0 = ns.local.sym.clone(),
                                     None => *v = Some((ns.local.sym.clone(), ns.local.span)),
                                 }
                             })
                             .or_insert_with(|| {
-                                (import.src.span, Some((ns.local.sym.clone(), ns.local.span)))
+                                (
+                                    import.span,
+                                    import.src.span,
+                                    Some((ns.local.sym.clone(), ns.local.span)),
+                                )
                             });
 
                         if &*import.src.value != "@swc/helpers" {
@@ -497,7 +508,7 @@ impl Scope {
                     .get(&src)
                     .as_ref()
                     .unwrap()
-                    .1
+                    .2
                     .as_ref()
                     .unwrap();
 
