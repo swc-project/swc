@@ -109,10 +109,7 @@ impl Default for Lazy {
 
 #[derive(Clone, Default)]
 pub struct Scope {
-    /// `(stmt_span, src_span, map)`
-    ///
     /// Map from source file to ident
-    ///
     ///
     /// e.g.
     ///
@@ -124,7 +121,7 @@ pub struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub(crate) imports: IndexMap<JsWord, (Span, Span, Option<(JsWord, Span)>), ahash::RandomState>,
+    pub(crate) imports: IndexMap<JsWord, (Span, Option<(JsWord, Span)>), ahash::RandomState>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)
@@ -187,7 +184,6 @@ impl Scope {
         exported_names: Option<Ident>,
         imported: Ident,
     ) -> Stmt {
-        let imported = Ident::new(imported.sym, DUMMY_SP.with_ctxt(imported.span.ctxt));
         let key_ident = private_ident!("key");
 
         let function = Function {
@@ -201,9 +197,9 @@ impl Scope {
                 pat: key_ident.clone().into(),
             }],
             body: Some(BlockStmt {
-                span,
+                span: DUMMY_SP,
                 stmts: iter::once(Stmt::If(IfStmt {
-                    span,
+                    span: DUMMY_SP,
                     // key === "default" || key === "__esModule"
                     test: Box::new(
                         key_ident
@@ -226,7 +222,7 @@ impl Scope {
                     // We should skip if the file explicitly exports
                     exported_names.map(|exported_names| {
                         Stmt::If(IfStmt {
-                            span,
+                            span: DUMMY_SP,
                             test: Box::new(
                                 CallExpr {
                                     span: DUMMY_SP,
@@ -250,7 +246,7 @@ impl Scope {
                 })
                 .chain({
                     Some(Stmt::If(IfStmt {
-                        span,
+                        span: DUMMY_SP,
                         test: Box::new(
                             key_ident
                                 .clone()
@@ -270,15 +266,12 @@ impl Scope {
                     }))
                 })
                 .chain(iter::once(
-                    define_property(
-                        span,
-                        vec![
-                            exports.as_arg(),
-                            key_ident.clone().as_arg(),
-                            make_descriptor(Box::new(imported.clone().computed_member(key_ident)))
-                                .as_arg(),
-                        ],
-                    )
+                    define_property(vec![
+                        exports.as_arg(),
+                        key_ident.clone().as_arg(),
+                        make_descriptor(Box::new(imported.clone().computed_member(key_ident)))
+                            .as_arg(),
+                    ])
                     .into_stmt(),
                 ))
                 .collect(),
@@ -288,7 +281,7 @@ impl Scope {
         };
 
         Stmt::Expr(ExprStmt {
-            span: DUMMY_SP,
+            span,
             expr: Box::new(Expr::Call(CallExpr {
                 span,
                 // Object.keys(_foo).forEach
@@ -311,14 +304,13 @@ impl Scope {
     }
 
     /// Import src to export from it.
-    pub fn import_to_export(&mut self, span: Span, src: &Str, init: bool) -> Option<Ident> {
+    pub fn import_to_export(&mut self, src: &Str, init: bool) -> Option<Ident> {
         let entry = self
             .imports
             .entry(src.value.clone())
-            .and_modify(|(stmt_span, src_span, v)| {
+            .and_modify(|(span, v)| {
                 if init && v.is_none() {
-                    *stmt_span = span;
-                    *src_span = src.span;
+                    *span = src.span;
                     *v = {
                         let ident = private_ident!(local_name_for_src(&src.value));
                         Some((ident.sym, ident.span))
@@ -333,10 +325,10 @@ impl Scope {
                     None
                 };
 
-                (span, src.span, v)
+                (src.span, v)
             });
         if init {
-            let entry = entry.2.as_ref().unwrap();
+            let entry = entry.1.as_ref().unwrap();
             let ident = Ident::new(entry.0.clone(), entry.1);
 
             Some(ident)
@@ -349,11 +341,9 @@ impl Scope {
         if import.specifiers.is_empty() {
             // import 'foo';
             //   -> require('foo');
-            self.imports.entry(import.src.value.clone()).or_insert((
-                import.span,
-                import.src.span,
-                None,
-            ));
+            self.imports
+                .entry(import.src.value.clone())
+                .or_insert((import.src.span, None));
         } else if import.specifiers.len() == 1
             && matches!(import.specifiers[0], ImportSpecifier::Namespace(..))
         {
@@ -371,9 +361,8 @@ impl Scope {
             // Override symbol if one exists
             self.imports
                 .entry(import.src.value.clone())
-                .and_modify(|(stmt_span, src_span, v)| {
-                    *stmt_span = import.span;
-                    *src_span = import.src.span;
+                .and_modify(|(span, v)| {
+                    *span = import.src.span;
                     match *v {
                         Some(ref mut v) => v.0 = specifier.local.sym.clone(),
                         None => *v = Some((specifier.local.sym.clone(), specifier.local.span)),
@@ -381,7 +370,6 @@ impl Scope {
                 })
                 .or_insert_with(|| {
                     (
-                        import.span,
                         import.src.span,
                         Some((specifier.local.sym.clone(), specifier.local.span)),
                     )
@@ -393,10 +381,9 @@ impl Scope {
         } else {
             self.imports
                 .entry(import.src.value.clone())
-                .and_modify(|(stmt_span, src_span, opt)| {
+                .and_modify(|(span, opt)| {
                     if opt.is_none() {
-                        *stmt_span = import.span;
-                        *src_span = import.src.span;
+                        *span = import.src.span;
 
                         let ident =
                             private_ident!(import.src.span, local_name_for_src(&import.src.value));
@@ -406,7 +393,7 @@ impl Scope {
                 .or_insert_with(|| {
                     let ident =
                         private_ident!(import.src.span, local_name_for_src(&import.src.value));
-                    (import.span, import.src.span, Some((ident.sym, ident.span)))
+                    (import.src.span, Some((ident.sym, ident.span)))
                 });
 
             let mut has_non_default = false;
@@ -421,20 +408,15 @@ impl Scope {
                         // Override symbol if one exists
                         self.imports
                             .entry(import.src.value.clone())
-                            .and_modify(|(stmt_span, src_span, v)| {
-                                *stmt_span = import.span;
-                                *src_span = import.src.span;
+                            .and_modify(|(span, v)| {
+                                *span = import.src.span;
                                 match *v {
                                     Some(ref mut v) => v.0 = ns.local.sym.clone(),
                                     None => *v = Some((ns.local.sym.clone(), ns.local.span)),
                                 }
                             })
                             .or_insert_with(|| {
-                                (
-                                    import.span,
-                                    import.src.span,
-                                    Some((ns.local.sym.clone(), ns.local.span)),
-                                )
+                                (import.src.span, Some((ns.local.sym.clone(), ns.local.span)))
                             });
 
                         if &*import.src.value != "@swc/helpers" {
@@ -512,7 +494,7 @@ impl Scope {
                     .get(&src)
                     .as_ref()
                     .unwrap()
-                    .2
+                    .1
                     .as_ref()
                     .unwrap();
 
@@ -891,9 +873,9 @@ pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
     format!("_{}", src.split('/').last().unwrap().to_camel_case()).into()
 }
 
-pub(super) fn define_property(span: Span, args: Vec<ExprOrSpread>) -> Expr {
+pub(super) fn define_property(args: Vec<ExprOrSpread>) -> Expr {
     Expr::Call(CallExpr {
-        span,
+        span: DUMMY_SP,
         callee: member_expr!(DUMMY_SP, Object.defineProperty).as_callee(),
         args,
 
@@ -910,21 +892,18 @@ pub(super) fn define_property(span: Span, args: Vec<ExprOrSpread>) -> Expr {
 ///  });
 /// ```
 pub(super) fn define_es_module(exports: Ident) -> Stmt {
-    define_property(
-        DUMMY_SP,
-        vec![
-            exports.as_arg(),
-            Lit::Str(quote_str!("__esModule")).as_arg(),
-            ObjectLit {
-                span: DUMMY_SP,
-                props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(quote_ident!("value")),
-                    value: true.into(),
-                })))],
-            }
-            .as_arg(),
-        ],
-    )
+    define_property(vec![
+        exports.as_arg(),
+        Lit::Str(quote_str!("__esModule")).as_arg(),
+        ObjectLit {
+            span: DUMMY_SP,
+            props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(quote_ident!("value")),
+                value: true.into(),
+            })))],
+        }
+        .as_arg(),
+    ])
     .into_stmt()
 }
 

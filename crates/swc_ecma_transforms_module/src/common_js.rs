@@ -275,7 +275,7 @@ impl Fold for CommonJs {
                         )) => {}
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
-                            scope.import_to_export(export.span, &export.src, true);
+                            scope.import_to_export(&export.src, true);
 
                             scope
                                 .import_types
@@ -289,12 +289,11 @@ impl Fold for CommonJs {
                         }
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                            span,
                             src: Some(ref src),
                             ref specifiers,
                             ..
                         })) => {
-                            scope.import_to_export(span, src, !specifiers.is_empty());
+                            scope.import_to_export(src, !specifiers.is_empty());
                         }
 
                         _ => {}
@@ -348,7 +347,7 @@ impl Fold for CommonJs {
                             }
 
                             let mut data = scope
-                                .import_to_export(export.span, &export.src, true)
+                                .import_to_export(&export.src, true)
                                 .expect("Export should exists");
                             data.span.lo = span.lo;
                             data.span.hi = span.hi;
@@ -562,11 +561,7 @@ impl Fold for CommonJs {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                             let mut scope = self.scope.borrow_mut();
                             let imported = export.src.clone().map(|src| {
-                                scope.import_to_export(
-                                    export.span,
-                                    &src,
-                                    !export.specifiers.is_empty(),
-                                )
+                                scope.import_to_export(&src, !export.specifiers.is_empty())
                             });
 
                             stmts.reserve(export.specifiers.len());
@@ -698,23 +693,19 @@ impl Fold for CommonJs {
                                             );
                                         } else {
                                             stmts.push(
-                                                define_property(
-                                                    export.span,
-                                                    vec![
-                                                        quote_ident!("exports").as_arg(),
-                                                        {
-                                                            // export { foo }
-                                                            //  -> 'foo'
+                                                define_property(vec![
+                                                    quote_ident!("exports").as_arg(),
+                                                    {
+                                                        // export { foo }
+                                                        //  -> 'foo'
 
-                                                            // export { foo as bar }
-                                                            //  -> 'bar'
-                                                            let i =
-                                                                exported.unwrap_or(orig).clone();
-                                                            quote_str!(i.span, i.sym).as_arg()
-                                                        },
-                                                        make_descriptor(value).as_arg(),
-                                                    ],
-                                                )
+                                                        // export { foo as bar }
+                                                        //  -> 'bar'
+                                                        let i = exported.unwrap_or(orig).clone();
+                                                        quote_str!(i.span, i.sym).as_arg()
+                                                    },
+                                                    make_descriptor(value).as_arg(),
+                                                ])
                                                 .into_stmt()
                                                 .into(),
                                             );
@@ -738,9 +729,7 @@ impl Fold for CommonJs {
                                         let id = if let Some(ref src) = export.src {
                                             let mut scope = self.scope.borrow_mut();
 
-                                            let id = scope
-                                                .import_to_export(export.span, src, true)
-                                                .unwrap();
+                                            let id = scope.import_to_export(src, true).unwrap();
                                             scope
                                                 .import_types
                                                 .entry(src.value.clone())
@@ -806,7 +795,7 @@ impl Fold for CommonJs {
         let scope = &mut *scope_ref_mut;
 
         let scope = &mut *scope;
-        for (src, (stmt_span, _, import)) in scope.imports.drain(..) {
+        for (src, (src_span, import)) in scope.imports.drain(..) {
             let lazy = if scope.lazy_blacklist.contains(&src) {
                 false
             } else {
@@ -815,7 +804,7 @@ impl Fold for CommonJs {
 
             let require =
                 self.resolver
-                    .make_require_call(self.top_level_mark, src.clone(), DUMMY_SP);
+                    .make_require_call(self.top_level_mark, src.clone(), src_span);
 
             match import {
                 Some(import) => {
@@ -904,7 +893,7 @@ impl Fold for CommonJs {
                         }))));
                     } else {
                         stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: stmt_span,
+                            span: import.1,
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
@@ -924,7 +913,7 @@ impl Fold for CommonJs {
             let exported = export_alls.remove(&src);
             if let Some(export) = exported {
                 stmts.push(ModuleItem::Stmt(Scope::handle_export_all(
-                    stmt_span.with_ctxt(SyntaxContext::empty()),
+                    export.span.with_ctxt(SyntaxContext::empty()),
                     quote_ident!("exports"),
                     exported_names.clone(),
                     export,

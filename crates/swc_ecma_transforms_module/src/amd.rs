@@ -332,11 +332,7 @@ impl Fold for Amd {
                             let mut scope_ref_mut = self.scope.borrow_mut();
                             let scope = &mut *scope_ref_mut;
                             let imported = export.src.clone().map(|src| {
-                                scope.import_to_export(
-                                    export.span,
-                                    &src,
-                                    !export.specifiers.is_empty(),
-                                )
+                                scope.import_to_export(&src, !export.specifiers.is_empty())
                             });
                             drop(scope_ref_mut);
 
@@ -432,22 +428,19 @@ impl Fold for Amd {
                                     );
                                 } else {
                                     stmts.push(
-                                        define_property(
-                                            DUMMY_SP,
-                                            vec![
-                                                exports_ident.clone().as_arg(),
-                                                {
-                                                    // export { foo }
-                                                    //  -> 'foo'
+                                        define_property(vec![
+                                            exports_ident.clone().as_arg(),
+                                            {
+                                                // export { foo }
+                                                //  -> 'foo'
 
-                                                    // export { foo as bar }
-                                                    //  -> 'bar'
-                                                    let i = exported.unwrap_or(orig);
-                                                    Lit::Str(quote_str!(i.span, i.sym)).as_arg()
-                                                },
-                                                make_descriptor(value).as_arg(),
-                                            ],
-                                        )
+                                                // export { foo as bar }
+                                                //  -> 'bar'
+                                                let i = exported.unwrap_or(orig);
+                                                Lit::Str(quote_str!(i.span, i.sym)).as_arg()
+                                            },
+                                            make_descriptor(value).as_arg(),
+                                        ])
                                         .into_stmt(),
                                     );
                                 }
@@ -544,7 +537,7 @@ impl Fold for Amd {
         for export in export_alls {
             let span = export.span;
             let export = scope
-                .import_to_export(export.span, &export.src, true)
+                .import_to_export(&export.src, true)
                 .expect("Export should exists");
             stmts.push(Scope::handle_export_all(
                 span,
@@ -558,7 +551,7 @@ impl Fold for Amd {
             stmts.extend(initialize_to_undefined(exports_ident, initialized));
         }
 
-        for (src, (_, _, import)) in scope.imports.drain(..) {
+        for (src, (_, import)) in scope.imports.drain(..) {
             let import = import.unwrap_or_else(|| {
                 (
                     local_name_for_src(&src),
