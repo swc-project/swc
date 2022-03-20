@@ -101,3 +101,7 @@ const string93 = new RegExp("").test("");
 const string94 = '퟿';
 const string95 = 'ퟻ';
 const string96 = sql`'#ERROR'`;
+// const string97 = '\u{D800}';
+// const string97 = '\u{DBFF}';
+// const string98 = '\u{DC00}';
+// const string99 = '\u{DFFF}';

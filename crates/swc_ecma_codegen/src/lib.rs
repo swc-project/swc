@@ -507,18 +507,20 @@ where
 
         srcmap!(node, false);
 
-        if self.cfg.minify {
-            if &*node.value == "use strict"
-                && node.raw.is_some()
-                && node.raw.as_ref().unwrap().contains('\\')
-            {
-                self.wr
-                    .write_str_lit(DUMMY_SP, node.raw.as_ref().unwrap())?;
-            } else {
-                let value = get_quoted_utf16(&node.value, self.wr.target());
+        if &*node.value == "use strict"
+            && node.raw.is_some()
+            && node.raw.as_ref().unwrap().contains('\\')
+        {
+            self.wr
+                .write_str_lit(DUMMY_SP, node.raw.as_ref().unwrap())?;
 
-                self.wr.write_str_lit(DUMMY_SP, &value)?;
-            }
+            return Ok(());
+        }
+
+        if self.cfg.minify {
+            let value = get_quoted_utf16(&node.value, self.wr.target());
+
+            self.wr.write_str_lit(DUMMY_SP, &value)?;
         } else {
             match &node.raw {
                 Some(raw_value) => {
