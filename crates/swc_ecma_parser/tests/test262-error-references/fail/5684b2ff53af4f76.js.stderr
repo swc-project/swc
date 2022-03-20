@@ -1,6 +1,6 @@
 
   x Expected ident
-   ,-[$DIR/tests/test262-parser/fail/5684b2ff53af4f76.js:2:1]
- 2 | function t(true) { }
+   ,-[$DIR/tests/test262-parser/fail/5684b2ff53af4f76.js:1:1]
+ 1 | function t(true) { }
    :            ^^^^
    `----

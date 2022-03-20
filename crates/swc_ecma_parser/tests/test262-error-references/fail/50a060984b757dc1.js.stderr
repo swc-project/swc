@@ -1,6 +1,6 @@
 
   x Not a pattern
-   ,-[$DIR/tests/test262-parser/fail/50a060984b757dc1.js:2:1]
- 2 | ({a:(b = 0)} = 1)
+   ,-[$DIR/tests/test262-parser/fail/50a060984b757dc1.js:1:1]
+ 1 | ({a:(b = 0)} = 1)
    :     ^^^^^^^
    `----

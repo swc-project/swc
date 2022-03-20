@@ -1,6 +1,6 @@
 
   x Invalid unicode code point
-   ,-[$DIR/tests/test262-parser/fail/f8b20220d8c85d71.js:2:1]
- 2 | "\u{110000}"
+   ,-[$DIR/tests/test262-parser/fail/f8b20220d8c85d71.js:1:1]
+ 1 | "\u{110000}"
    :     ^^^^^^
    `----

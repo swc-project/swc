@@ -1,6 +1,6 @@
 
   x Expected a semicolon
-   ,-[$DIR/tests/test262-parser/fail/48dee14b7a3a3767.module.js:2:1]
- 2 | export let[a] = 0 export let[b] = 0
+   ,-[$DIR/tests/test262-parser/fail/48dee14b7a3a3767.module.js:1:1]
+ 1 | export let[a] = 0 export let[b] = 0
    :                   ^^^^^^
    `----
