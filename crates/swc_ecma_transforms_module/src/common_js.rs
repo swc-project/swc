@@ -795,7 +795,7 @@ impl Fold for CommonJs {
         let scope = &mut *scope_ref_mut;
 
         let scope = &mut *scope;
-        for (src, (src_span, import)) in scope.imports.drain(..) {
+        for (src, (stmt_span, src_span, import)) in scope.imports.drain(..) {
             let lazy = if scope.lazy_blacklist.contains(&src) {
                 false
             } else {
@@ -804,7 +804,7 @@ impl Fold for CommonJs {
 
             let require =
                 self.resolver
-                    .make_require_call(self.top_level_mark, src.clone(), src_span);
+                    .make_require_call(self.top_level_mark, src.clone(), DUMMY_SP);
 
             match import {
                 Some(import) => {
@@ -893,7 +893,7 @@ impl Fold for CommonJs {
                         }))));
                     } else {
                         stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: import.1,
+                            span: stmt_span,
                             kind: VarDeclKind::Var,
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
@@ -913,7 +913,7 @@ impl Fold for CommonJs {
             let exported = export_alls.remove(&src);
             if let Some(export) = exported {
                 stmts.push(ModuleItem::Stmt(Scope::handle_export_all(
-                    export.span.with_ctxt(SyntaxContext::empty()),
+                    stmt_span.with_ctxt(SyntaxContext::empty()),
                     quote_ident!("exports"),
                     exported_names.clone(),
                     export,

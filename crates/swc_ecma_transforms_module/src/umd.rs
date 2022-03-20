@@ -555,7 +555,7 @@ impl Fold for Umd {
             stmts.extend(initialize_to_undefined(exports_ident, initialized));
         }
 
-        for (src, (src_span, import)) in scope.imports.drain(..) {
+        for (src, (_, src_span, import)) in scope.imports.drain(..) {
             let global_ident = Ident::new(self.config.global_name(&src), DUMMY_SP);
             let import = import.unwrap_or_else(|| {
                 (
