@@ -5,7 +5,7 @@
    :                ^
    `----
 
-  x Not a pattern
+  x Cannot assign to this
    ,-[$DIR/tests/test262-parser/fail/e4963d9605864d9a.js:1:1]
  1 | ([(a = b)] = []
    :   ^^^^^^^
