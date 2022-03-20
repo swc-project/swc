@@ -18,7 +18,11 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver::resolver_with_mark;
+use swc_ecma_transforms_base::{
+    helpers::{inject_helpers, Helpers, HELPERS},
+    resolver::resolver_with_mark,
+};
+use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_react::react;
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::FoldWith;
@@ -128,15 +132,22 @@ impl Load for Loader {
         });
 
         let mark = Mark::fresh(Mark::root());
-        let module = module
-            .fold_with(&mut resolver_with_mark(mark))
-            .fold_with(&mut strip(mark))
-            .fold_with(&mut react::<SingleThreadedComments>(
-                self.cm.clone(),
-                None,
-                Default::default(),
-                top_level_mark,
-            ));
+        let module = HELPERS.set(&Helpers::new(false), || {
+            module
+                .fold_with(&mut resolver_with_mark(mark))
+                .fold_with(&mut decorators(decorators::Config {
+                    legacy: true,
+                    emit_metadata: Default::default(),
+                }))
+                .fold_with(&mut strip(mark))
+                .fold_with(&mut react::<SingleThreadedComments>(
+                    self.cm.clone(),
+                    None,
+                    Default::default(),
+                    top_level_mark,
+                ))
+                .fold_with(&mut inject_helpers())
+        });
 
         Ok(ModuleData {
             fm,

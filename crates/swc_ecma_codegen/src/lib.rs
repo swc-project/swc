@@ -1223,6 +1223,10 @@ where
 
         srcmap!(n, true);
 
+        for d in &n.function.decorators {
+            emit!(d);
+        }
+
         self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
