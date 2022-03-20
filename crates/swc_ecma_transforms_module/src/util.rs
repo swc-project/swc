@@ -109,7 +109,10 @@ impl Default for Lazy {
 
 #[derive(Clone, Default)]
 pub struct Scope {
+    /// `(stmt_span, src_span, map)`
+    ///
     /// Map from source file to ident
+    ///
     ///
     /// e.g.
     ///
@@ -121,7 +124,7 @@ pub struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub(crate) imports: IndexMap<JsWord, (Span, Option<(JsWord, Span)>), ahash::RandomState>,
+    pub(crate) imports: IndexMap<JsWord, (Span, Span, Option<(JsWord, Span)>), ahash::RandomState>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)
