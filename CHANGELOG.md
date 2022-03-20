@@ -16,6 +16,9 @@
 
 - **(es/compat)** Visit non-method properties in a nested object literal (#4094) ([f5b9600](https://github.com/swc-project/swc/commit/f5b9600b2befe0053bec2d3e6210bf35dd824dfb))
 
+
+- **(es/parser)** Allow parentheses in assignment target (#4105) ([d38117d](https://github.com/swc-project/swc/commit/d38117d4cb6fb2819efc18dae843546018c39362))
+
 ### Features
 
 
@@ -23,7 +26,13 @@
 - **(es/lints)** Implement `valid-typeof` rule (#4095) ([9ceefa7](https://github.com/swc-project/swc/commit/9ceefa734f1193cb7379404132ffd89417b4ed8f))
 
 ### Miscellaneous Tasks
-- **general**: Typo ([3f78053](https://github.com/swc-project/swc/commit/3f78053227f2d286940e9b118f27aa9474b0c838))- **general**: Fix CI ([565a720](https://github.com/swc-project/swc/commit/565a7202eda1435498f7d98a1f9ec1b34d9fdf33))- **general**: Fix CI ([b31ead5](https://github.com/swc-project/swc/commit/b31ead5cbed61b201991cf55e227a6de52365a24))
+
+
+
+- **(issues)** Add some links ([69f16da](https://github.com/swc-project/swc/commit/69f16da7369c3c001d01a9581d1e574f28e460f4))
+
+
+- **(issues)** Typo ([ea0bbc6](https://github.com/swc-project/swc/commit/ea0bbc6f5fb3cb728e0bfa93fabca0d49cebc95e))- **general**: Typo ([3f78053](https://github.com/swc-project/swc/commit/3f78053227f2d286940e9b118f27aa9474b0c838))- **general**: Fix CI ([565a720](https://github.com/swc-project/swc/commit/565a7202eda1435498f7d98a1f9ec1b34d9fdf33))- **general**: Fix CI ([b31ead5](https://github.com/swc-project/swc/commit/b31ead5cbed61b201991cf55e227a6de52365a24))
 
 ## [1.2.159] - 2022-03-19
 
