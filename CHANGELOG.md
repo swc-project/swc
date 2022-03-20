@@ -11,6 +11,9 @@
 - **(es/codegen)** Support multiline comments in return stmt (#4102) ([552f16d](https://github.com/swc-project/swc/commit/552f16dba6c91876529354f3f5e155a3360a74ea))
 
 
+- **(es/codegen)** Emit decorators on class methods (#4103) ([9b64a69](https://github.com/swc-project/swc/commit/9b64a6960fc413d5aac000d0868d836d881ca895))
+
+
 - **(es/compat)** Visit non-method properties in a nested object literal (#4094) ([f5b9600](https://github.com/swc-project/swc/commit/f5b9600b2befe0053bec2d3e6210bf35dd824dfb))
 
 ### Features
