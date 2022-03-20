@@ -1,6 +1,6 @@
 
   x Unexpected token `}`. Expected identifier
-   ,-[$DIR/tests/test262-parser/fail/f3bcafbbae99ba29.js:2:1]
- 2 | ({ 42 }) = obj
+   ,-[$DIR/tests/test262-parser/fail/f3bcafbbae99ba29.js:1:1]
+ 1 | ({ 42 }) = obj
    :       ^
    `----
