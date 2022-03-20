@@ -1,60 +1,60 @@
 
   x Use the isNaN function to compare with NaN
    ,----
- 2 | if (foo == NaN) {}
+ 1 | if (foo == NaN) {}
    :     ^^^^^^^^^^
    `----
 
   x Use the isNaN function to compare with NaN
    ,----
- 4 | if (NaN == foo) {}
+ 3 | if (NaN == foo) {}
    :     ^^^^^^^^^^
    `----
 
   x Use the isNaN function to compare with NaN
    ,----
- 6 | if (foo != NaN) {}
+ 5 | if (foo != NaN) {}
    :     ^^^^^^^^^^
    `----
 
   x Use the isNaN function to compare with NaN
    ,----
- 8 | if (foo == Number.NaN) {}
+ 7 | if (foo == Number.NaN) {}
+   :     ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 9 | if (foo != Number.NaN) {}
    :     ^^^^^^^^^^^^^^^^^
    `----
 
   x Use the isNaN function to compare with NaN
     ,----
- 10 | if (foo != Number.NaN) {}
-    :     ^^^^^^^^^^^^^^^^^
-    `----
-
-  x Use the isNaN function to compare with NaN
-    ,----
- 12 | if (foo == Number['NaN']) {}
+ 11 | if (foo == Number['NaN']) {}
     :     ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Use the isNaN function to compare with NaN
     ,----
- 21 | myArray.indexOf(NaN);
+ 20 | myArray.indexOf(NaN);
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Use the isNaN function to compare with NaN
     ,----
- 23 | myArray.lastIndexOf(NaN);
+ 22 | myArray.lastIndexOf(NaN);
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Use the isNaN function to compare with NaN
     ,----
- 25 | myArray.lastIndexOf(Number.NaN);
+ 24 | myArray.lastIndexOf(Number.NaN);
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Use the isNaN function to compare with NaN
     ,----
- 27 | myArray.lastIndexOf(Number['NaN']);
+ 26 | myArray.lastIndexOf(Number['NaN']);
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----

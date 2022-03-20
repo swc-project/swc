@@ -1,6 +1,6 @@
 
   x Use the isNaN function to compare with NaN
    ,----
- 2 | if (a == NaN) {}
+ 1 | if (a == NaN) {}
    :     ^^^^^^^^
    `----
