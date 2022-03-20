@@ -110,9 +110,9 @@ macro_rules! srcmap {
         }
     }};
     ($emitter:expr, $n:expr, false) => {
-        let span = $n.span();
-        if !span.is_dummy() {
-            $emitter.wr.add_srcmap(span.hi)?;
+        let hi = $n.span().hi;
+        if hi != swc_common::BytePos(0) {
+            $emitter.wr.add_srcmap(hi)?;
         }
     };
 }
