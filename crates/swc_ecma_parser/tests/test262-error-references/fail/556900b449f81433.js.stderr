@@ -1,6 +1,6 @@
 
   x Unexpected line break between arrow head and arrow
-   ,-[$DIR/tests/test262-parser/fail/556900b449f81433.js:2:1]
- 2 | (a,...a)/* */ => 0
+   ,-[$DIR/tests/test262-parser/fail/556900b449f81433.js:1:1]
+ 1 | (a,...a)/* */ => 0
    : ^^^^^^^^
    `----

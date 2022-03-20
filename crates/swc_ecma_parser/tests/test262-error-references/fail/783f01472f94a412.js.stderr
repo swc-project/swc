@@ -1,6 +1,6 @@
 
   x Expected 4 hex characters
-   ,-[$DIR/tests/test262-parser/fail/783f01472f94a412.js:2:1]
- 2 | "\u000";
+   ,-[$DIR/tests/test262-parser/fail/783f01472f94a412.js:1:1]
+ 1 | "\u000";
    :  ^^^^^
    `----
