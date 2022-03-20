@@ -1,6 +1,6 @@
 
   x Unexpected token `(`. Expected yield, an identifier, [ or {
-   ,-[$DIR/tests/test262-parser/fail/96914a2df2c94687.js:2:1]
- 2 | (function((a)){})
+   ,-[$DIR/tests/test262-parser/fail/96914a2df2c94687.js:1:1]
+ 1 | (function((a)){})
    :           ^
    `----

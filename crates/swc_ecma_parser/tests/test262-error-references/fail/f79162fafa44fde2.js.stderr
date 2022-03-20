@@ -1,6 +1,6 @@
 
   x Expected a decimal digit
-   ,-[$DIR/tests/test262-parser/fail/f79162fafa44fde2.js:2:1]
- 2 | 3ea
+   ,-[$DIR/tests/test262-parser/fail/f79162fafa44fde2.js:1:1]
+ 1 | 3ea
    :   ^
    `----

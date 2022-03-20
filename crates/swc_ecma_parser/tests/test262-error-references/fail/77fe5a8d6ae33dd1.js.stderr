@@ -1,6 +1,6 @@
 
   x Unexpected eof
-   ,-[$DIR/tests/test262-parser/fail/77fe5a8d6ae33dd1.js:2:1]
- 2 | function t() { ;  ;
+   ,-[$DIR/tests/test262-parser/fail/77fe5a8d6ae33dd1.js:1:1]
+ 1 | function t() { ;  ;
    :                    ^
    `----

@@ -1,6 +1,6 @@
 
   x Unexpected token `unknown_property`. Expected target
-   ,-[$DIR/tests/test262-parser/fail/cac0705bab074520.js:2:1]
- 2 | var f = function() { new.unknown_property; }
+   ,-[$DIR/tests/test262-parser/fail/cac0705bab074520.js:1:1]
+ 1 | var f = function() { new.unknown_property; }
    :                          ^^^^^^^^^^^^^^^^
    `----
