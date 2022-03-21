@@ -667,7 +667,7 @@ impl<I: Tokens> Parser<I> {
                 TsEnumMemberId::Str(Str {
                     span,
                     value: v.to_string().into(),
-                    raw: Some(("\"".to_owned() + &v.to_string() + "\"").into()),
+                    raw: Some(format!("\"{}\"", v).into()),
                 })
             }
             Token::LBracket => {

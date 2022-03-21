@@ -770,7 +770,7 @@ impl Take for TplElement {
         TplElement {
             span: DUMMY_SP,
             tail: Default::default(),
-            cooked: Some("".into()),
+            cooked: None,
             raw: "".into(),
         }
     }

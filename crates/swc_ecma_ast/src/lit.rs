@@ -150,7 +150,7 @@ impl Take for Str {
         Str {
             span: DUMMY_SP,
             value: js_word!(""),
-            raw: Some("\"\"".into()),
+            raw: None,
         }
     }
 }
