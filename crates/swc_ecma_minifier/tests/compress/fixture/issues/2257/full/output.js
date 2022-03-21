@@ -1948,10 +1948,8 @@
                             }), request = null;
                         }
                     }
-                    if (request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), !0), request.timeout = config.timeout, "onloadend" in request ? request.onloadend = onloadend : request.onreadystatechange = function() {
-                        request && 4 === request.readyState && (0 !== request.status || request.responseURL && 0 === request.responseURL.indexOf("file:")) && setTimeout(onloadend);
                     if (request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), !0), request.timeout = config.timeout, 'onloadend' in request ? request.onloadend = onloadend : request.onreadystatechange = function() {
-                        !request || 4 !== request.readyState || (0 !== request.status || request.responseURL && 0 === request.responseURL.indexOf('file:')) && setTimeout(onloadend);
+                        request && 4 === request.readyState && (0 !== request.status || request.responseURL && 0 === request.responseURL.indexOf('file:')) && setTimeout(onloadend);
                     }, request.onabort = function() {
                         request && (reject(createError('Request aborted', config, 'ECONNABORTED', request)), request = null);
                     }, request.onerror = function() {

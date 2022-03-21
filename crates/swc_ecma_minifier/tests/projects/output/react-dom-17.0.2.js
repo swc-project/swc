@@ -4755,12 +4755,8 @@
     var isArray$1 = Array.isArray;
     function coerceRef(returnFiber, current, element) {
         var mixedRef = element.ref;
-        if (null !== mixedRef && "function" != typeof mixedRef && "object" != typeof mixedRef) {
-            if (1 & returnFiber.mode && !(element._owner && element._self && element._owner.stateNode !== element._self)) {
-                var componentName = getComponentName(returnFiber.type) || "Component";
-                didWarnAboutStringRefs[componentName] || (error1('A string ref, "%s", has been found within a strict mode tree. String refs are a source of potential bugs and should be avoided. We recommend using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', mixedRef), didWarnAboutStringRefs[componentName] = !0);
         if (null !== mixedRef && 'function' != typeof mixedRef && 'object' != typeof mixedRef) {
-            if ((1 & returnFiber.mode || 0) && !(element._owner && element._self && element._owner.stateNode !== element._self)) {
+            if (1 & returnFiber.mode && !(element._owner && element._self && element._owner.stateNode !== element._self)) {
                 var componentName = getComponentName(returnFiber.type) || 'Component';
                 didWarnAboutStringRefs[componentName] || (error1('A string ref, "%s", has been found within a strict mode tree. String refs are a source of potential bugs and should be avoided. We recommend using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', mixedRef), didWarnAboutStringRefs[componentName] = !0);
             }

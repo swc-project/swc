@@ -1835,11 +1835,7 @@
     }, $28.mobile.page.prototype.options.degradeInputs = $28.mobile.degradeInputs, $28.mobile.degradeInputsWithin = function(target) {
         (target = $28(target)).find("input").not($28.mobile.page.prototype.keepNativeSelector()).each(function() {
             var html, hasType, findstr, repstr, element = $28(this), type = this.getAttribute("type"), optType = $28.mobile.degradeInputs[type] || "text";
-            $28.mobile.degradeInputs[type] && (findstr = (hasType = (html = $28("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = ' type="' + optType + '" data-' + $28.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
-    }, $21.mobile.page.prototype.options.degradeInputs = $21.mobile.degradeInputs, $21.mobile.degradeInputsWithin = function(target) {
-        (target = $21(target)).find("input").not($21.mobile.page.prototype.keepNativeSelector()).each(function() {
-            var html, hasType, findstr, repstr, element = $21(this), type = this.getAttribute("type"), optType = $21.mobile.degradeInputs[type] || "text";
-            $21.mobile.degradeInputs[type] && (findstr = (hasType = (html = $21("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = " type=\"" + optType + "\" data-" + $21.mobile.ns + "type=\"" + type + "\"" + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
+            $28.mobile.degradeInputs[type] && (findstr = (hasType = (html = $28("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = " type=\"" + optType + "\" data-" + $28.mobile.ns + "type=\"" + type + "\"" + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
         });
     }, function($, window, undefined) {
         $.widget("mobile.page", $.mobile.page, {
