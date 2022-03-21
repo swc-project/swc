@@ -144,14 +144,16 @@ impl Visit for UseIsNan {
     fn visit_call_expr(&mut self, call_expr: &CallExpr) {
         if self.enforce_for_index_of {
             if let Callee::Expr(expr) = &call_expr.callee {
-                if let Expr::Member(MemberExpr { prop, .. }) = expr.as_ref() {
-                    if let MemberProp::Ident(prop) = prop {
-                        let sym: &str = &*prop.sym;
+                if let Expr::Member(MemberExpr {
+                    prop: MemberProp::Ident(prop),
+                    ..
+                }) = expr.as_ref()
+                {
+                    let sym: &str = &*prop.sym;
 
-                        if sym == "indexOf" || sym == "lastIndexOf" {
-                            if let Some(ExprOrSpread { expr, .. }) = call_expr.args.first() {
-                                self.check(Some(call_expr.span), expr);
-                            }
+                    if sym == "indexOf" || sym == "lastIndexOf" {
+                        if let Some(ExprOrSpread { expr, .. }) = call_expr.args.first() {
+                            self.check(Some(call_expr.span), expr);
                         }
                     }
                 }
