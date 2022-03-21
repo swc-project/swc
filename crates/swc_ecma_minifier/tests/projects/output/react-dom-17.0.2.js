@@ -4756,7 +4756,7 @@
     function coerceRef(returnFiber, current, element) {
         var mixedRef = element.ref;
         if (null !== mixedRef && "function" != typeof mixedRef && "object" != typeof mixedRef) {
-            if ((1 & returnFiber.mode || 0) && !(element._owner && element._self && element._owner.stateNode !== element._self)) {
+            if (1 & returnFiber.mode && !(element._owner && element._self && element._owner.stateNode !== element._self)) {
                 var componentName = getComponentName(returnFiber.type) || "Component";
                 didWarnAboutStringRefs[componentName] || (error1('A string ref, "%s", has been found within a strict mode tree. String refs are a source of potential bugs and should be avoided. We recommend using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', mixedRef), didWarnAboutStringRefs[componentName] = !0);
             }
@@ -5202,7 +5202,7 @@
                         parentProps2 = parentProps, parentInstance2 = parentInstance, text = _text, !0 !== parentProps2[SUPPRESS_HYDRATION_WARNING$1] && warnForInsertedHydratedText(parentInstance2, text);
                         break;
                     case 13:
-                        !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1];
+                        parentProps[SUPPRESS_HYDRATION_WARNING$1];
                         break;
                 }
                 break;
@@ -7127,7 +7127,7 @@
                                 break;
                         }
                         return updatePayload;
-                    }(instance, type9, props7, hostContext2.namespace), fiber.updateQueue = updatePayload1, (null !== updatePayload1 || 0) && markUpdate(workInProgress);
+                    }(instance, type9, props7, hostContext2.namespace), fiber.updateQueue = updatePayload1, null !== updatePayload1 && markUpdate(workInProgress);
                     else {
                         var type8, props9, rootContainerInstance1, hostContext, internalInstanceHandle, hostContextDev, domElement1, fiber, hostContext1, instance, type9, props7, hostContext2, internalInstanceHandle1, updatePayload1, type10, props8, instance7 = (type8 = type11, props9 = newProps, rootContainerInstance1 = rootContainerInstance, hostContext = currentHostContext, internalInstanceHandle = workInProgress, validateDOMNesting(type8, null, (hostContextDev = hostContext).ancestorInfo), ("string" == typeof props9.children || "number" == typeof props9.children) && validateDOMNesting(null, "" + props9.children, updatedAncestorInfo(hostContextDev.ancestorInfo, type8)), precacheFiberNode(internalInstanceHandle, domElement1 = function(type, props, rootContainerElement, parentNamespace) {
                             var isCustomComponentTag, domElement, ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement), namespaceURI = parentNamespace;
@@ -7846,7 +7846,7 @@
     }
     function insertOrAppendPlacementNodeIntoContainer(node, before, parent) {
         var tag = node.tag, isHost = 5 === tag || 6 === tag;
-        if (isHost || 0) {
+        if (isHost) {
             var container, child, beforeChild, container1, child1, parentNode, stateNode = isHost ? node.stateNode : node.stateNode.instance;
             before ? (container = parent, child = stateNode, beforeChild = before, 8 === container.nodeType ? container.parentNode.insertBefore(child, beforeChild) : container.insertBefore(child, beforeChild)) : (container1 = parent, child1 = stateNode, 8 === container1.nodeType ? (parentNode = container1.parentNode).insertBefore(child1, container1) : (parentNode = container1).appendChild(child1), null == container1._reactRootContainer && null === parentNode.onclick && trapClickOnNonInteractiveElement(parentNode));
         } else if (4 === tag) ;
@@ -7860,7 +7860,7 @@
     }
     function insertOrAppendPlacementNode(node, before, parent) {
         var tag = node.tag, isHost = 5 === tag || 6 === tag;
-        if (isHost || 0) {
+        if (isHost) {
             var stateNode = isHost ? node.stateNode : node.stateNode.instance;
             before ? function(parentInstance, child, beforeChild) {
                 parentInstance.insertBefore(child, beforeChild);
@@ -8415,7 +8415,7 @@
         if (root6.finishedWork = null, root6.finishedLanes = NoLanes, !(finishedWork !== root6.current)) throw Error("Cannot commit the same tree as before. This error is likely caused by a bug in React. Please file an issue.");
         root6.callbackNode = null;
         var remainingLanes1 = mergeLanes(finishedWork.lanes, finishedWork.childLanes);
-        if (function(root, remainingLanes) {
+        if (!function(root, remainingLanes) {
             var noLongerPendingLanes = root.pendingLanes & ~remainingLanes;
             root.pendingLanes = remainingLanes, root.suspendedLanes = 0, root.pingedLanes = 0, root.expiredLanes &= remainingLanes, root.mutableReadLanes &= remainingLanes, root.entangledLanes &= remainingLanes;
             for(var entanglements = root.entanglements, eventTimes = root.eventTimes, expirationTimes = root.expirationTimes, lanes = noLongerPendingLanes; lanes > 0;){

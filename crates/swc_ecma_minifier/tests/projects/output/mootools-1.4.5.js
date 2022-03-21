@@ -3085,7 +3085,7 @@ Elements.prototype = {
                             return m.toLowerCase();
                         }) : null;
                         selectorText && selectorTest.test(selectorText) && Object.each(Element.Styles, function(value, style) {
-                            !rule.style[style] || Element.ShortStyles[style] || (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
+                            rule.style[style] && !Element.ShortStyles[style] && (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
                         });
                     }
                 });

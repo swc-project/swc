@@ -5537,7 +5537,7 @@
                 }, _proto.handleTechClick_ = function(event) {
                     this.controls_ && (void 0 === this.options_ || void 0 === this.options_.userActions || void 0 === this.options_.userActions.click || !1 !== this.options_.userActions.click) && (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.click ? this.options_.userActions.click.call(this, event) : this.paused() ? silencePromise(this.play()) : this.pause());
                 }, _proto.handleTechDoubleClick_ = function(event) {
-                    !!this.controls_ && (Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
+                    this.controls_ && (Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
                         return el.contains(event.target);
                     }) || (void 0 === this.options_ || void 0 === this.options_.userActions || void 0 === this.options_.userActions.doubleClick || !1 !== this.options_.userActions.doubleClick) && (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen()));
                 }, _proto.handleTechTap_ = function() {
@@ -6162,7 +6162,7 @@
                     enabled ? (this.trigger("debugon"), this.previousLogLevel_ = this.log.level, this.log.level("debug"), this.debugEnabled_ = !0) : (this.trigger("debugoff"), this.log.level(this.previousLogLevel_), this.previousLogLevel_ = void 0, this.debugEnabled_ = !1);
                 }, _proto.playbackRates = function(newRates) {
                     if (void 0 === newRates) return this.cache_.playbackRates;
-                    !Array.isArray(newRates) || newRates.every(function(rate) {
+                    Array.isArray(newRates) && newRates.every(function(rate) {
                         return "number" == typeof rate;
                     }) && (this.cache_.playbackRates = newRates, this.trigger("playbackrateschange"));
                 }, Player;
@@ -7051,7 +7051,7 @@
                     media && !media.endList ? this.trigger("mediaupdatetimeout") : this.trigger("loadedplaylist");
                 }, _proto.updateMediaUpdateTimeout_ = function(delay) {
                     var _this6 = this;
-                    this.mediaUpdateTimeout && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null), !this.media() || this.media().endList || (this.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
+                    this.mediaUpdateTimeout && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null), this.media() && !this.media().endList && (this.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                         _this6.mediaUpdateTimeout = null, _this6.trigger("mediaupdatetimeout"), _this6.updateMediaUpdateTimeout_(delay);
                     }, delay));
                 }, _proto.start = function() {
@@ -12147,7 +12147,7 @@
                             });
                             if (switchCandidate) {
                                 var timeSavedBySwitching = requestTimeRemaining - timeUntilRebuffer$1 - switchCandidate.rebufferingImpact, minimumTimeSaving = 0.5;
-                                timeUntilRebuffer$1 <= TIME_FUDGE_FACTOR && (minimumTimeSaving = 1), !switchCandidate.playlist || switchCandidate.playlist.uri === this.playlist_.uri || timeSavedBySwitching < minimumTimeSaving || (this.bandwidth = switchCandidate.playlist.attributes.BANDWIDTH * Config.BANDWIDTH_VARIANCE + 1, this.trigger("earlyabort"));
+                                timeUntilRebuffer$1 <= TIME_FUDGE_FACTOR && (minimumTimeSaving = 1), switchCandidate.playlist && switchCandidate.playlist.uri !== this.playlist_.uri && !(timeSavedBySwitching < minimumTimeSaving) && (this.bandwidth = switchCandidate.playlist.attributes.BANDWIDTH * Config.BANDWIDTH_VARIANCE + 1, this.trigger("earlyabort"));
                             }
                         }
                     }

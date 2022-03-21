@@ -6,7 +6,7 @@ var M, N, C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, D);
 };
-(function(M1) {
+!function(M1) {
     var A = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A);
@@ -14,7 +14,7 @@ var M, N, C = function() {
     M1.A = A, M1.F2 = function(x) {
         return x.toString();
     };
-})(M || (M = {})), function(N1) {
+}(M || (M = {})), function(N1) {
     var A = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A);
