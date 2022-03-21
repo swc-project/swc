@@ -145,6 +145,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             top_level_ctxt,
             &lint_config.use_isnan,
         ));
+
         rules.extend(valid_typeof::valid_typeof(&lint_config.valid_typeof));
     }
 
