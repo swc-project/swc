@@ -1649,7 +1649,6 @@ dependencies = [
  "swc_ecma_lints",
  "swc_ecma_loader",
  "swc_ecma_parser",
- "swc_ecma_utils",
  "swc_node_base",
  "swc_node_bundler",
  "swc_plugin_runner",
