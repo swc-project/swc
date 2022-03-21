@@ -203,8 +203,7 @@ drop_unused/unused_null_conditional_chain/input.js
 drop_unused/var_catch_toplevel/input.js
 drop_unused/variable_refs_outside_unused_class/input.js
 evaluate/call_args_drop_param/input.js
-evaluate/delete_expr_1/input.js
-evaluate/delete_expr_2/input.js
+evaluate/issue_2207_3/input.js
 evaluate/issue_2919/input.js
 evaluate/issue_2926_1/input.js
 evaluate/issue_399/input.js
@@ -427,7 +426,6 @@ issue_1443/keep_fnames/input.js
 issue_1443/unsafe_undefined/input.js
 issue_1446/typeof_eq_undefined_ie8/input.js
 issue_1446/undefined_redefined_mangle/input.js
-issue_1447/conditional_false_stray_else_in_loop/input.js
 issue_1466/different_variable_in_multiple_forIn/input.js
 issue_1466/different_variable_in_multiple_forOf/input.js
 issue_1466/different_variable_in_multiple_for_loop/input.js
