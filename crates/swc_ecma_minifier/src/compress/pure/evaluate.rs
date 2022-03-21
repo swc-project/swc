@@ -319,16 +319,23 @@ impl Pure<'_> {
         };
 
         if bin_expr.op == op!("||") {
-            // foo || 1 => foo, 1
-            if let Value::Known(true) = bin_expr.right.as_pure_bool() {
-                self.changed = true;
-                tracing::debug!("evaluate: `foo || true` => `foo, 1`");
+            if let Value::Known(v) = bin_expr.right.as_pure_bool() {
+                // foo || 1 => foo, 1
+                if v {
+                    self.changed = true;
+                    tracing::debug!("evaluate: `foo || true` => `foo, 1`");
 
-                *e = Expr::Seq(SeqExpr {
-                    span: bin_expr.span,
-                    exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
-                });
-                e.visit_mut_with(self);
+                    *e = Expr::Seq(SeqExpr {
+                        span: bin_expr.span,
+                        exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
+                    });
+                    e.visit_mut_with(self);
+                } else {
+                    self.changed = true;
+                    tracing::debug!("evaluate: `foo || false` => `foo` (bool ctx)");
+
+                    *e = *bin_expr.left.take();
+                }
                 return;
             }
 
@@ -340,6 +347,25 @@ impl Pure<'_> {
                 *e = *bin_expr.right.take();
             }
         } else {
+            debug_assert_eq!(bin_expr.op, op!("&&"));
+
+            if let Value::Known(v) = bin_expr.right.as_pure_bool() {
+                if v {
+                    self.changed = true;
+                    tracing::debug!("evaluate: `foo && true` => `foo` (bool ctx)");
+
+                    *e = *bin_expr.left.take();
+                } else {
+                    self.changed = true;
+                    tracing::debug!("evaluate: `foo && false` => `foo, false`");
+
+                    *e = Expr::Seq(SeqExpr {
+                        span: bin_expr.span,
+                        exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
+                    });
+                    e.visit_mut_with(self);
+                }
+            }
         }
     }
 }
