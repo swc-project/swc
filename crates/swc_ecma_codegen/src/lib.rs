@@ -505,7 +505,7 @@ where
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, false);
+        srcmap!(node, true);
 
         if &*node.value == "use strict"
             && node.raw.is_some()
@@ -531,14 +531,14 @@ where
                     self.wr.write_str_lit(DUMMY_SP, raw_value)?;
                 }
                 _ => {
-                    println!("{:?}", node);
-
                     let value = get_quoted_utf16(&node.value, target);
 
                     self.wr.write_str_lit(DUMMY_SP, &value)?;
                 }
             }
         }
+
+        srcmap!(node, false);
     }
 
     #[emitter]
