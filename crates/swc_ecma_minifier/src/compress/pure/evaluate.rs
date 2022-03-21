@@ -365,6 +365,14 @@ impl Pure<'_> {
                     });
                     e.visit_mut_with(self);
                 }
+                return;
+            }
+
+            if let Value::Known(true) = bin_expr.left.as_pure_bool() {
+                self.changed = true;
+                tracing::debug!("evaluate: `true && foo` => `foo`");
+
+                *e = *bin_expr.right.take();
             }
         }
     }
