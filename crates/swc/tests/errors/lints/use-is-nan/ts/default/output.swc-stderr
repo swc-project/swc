@@ -1,0 +1,42 @@
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 1 | switch (NaN as any) {
+   :         ^^^^^^^^^^
+   `----
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 2 | case NaN as any:
+   :      ^^^^^^^^^^
+   `----
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 3 | case Number.NaN as any:
+   :      ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 8 | if (foo == Number.NaN as any) {}
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Use the isNaN function to compare with NaN
+    ,----
+ 10 | myArray.lastIndexOf(NaN as any);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Use the isNaN function to compare with NaN
+    ,----
+ 12 | myArray.lastIndexOf(Number.NaN as any);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Use the isNaN function to compare with NaN
+    ,----
+ 14 | myArray.lastIndexOf(Number['NaN'] as any);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----

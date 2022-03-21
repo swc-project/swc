@@ -1,0 +1,6 @@
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 1 | if (a == NaN) {}
+   :     ^^^^^^^^
+   `----
