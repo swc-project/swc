@@ -1,1 +1,1 @@
-console.log("\\\0ud83d\\\0ude00", "\\\0ud83d@\\\0ude00");
+console.log("\ud83d\ude00", "\ud83d@\ude00");

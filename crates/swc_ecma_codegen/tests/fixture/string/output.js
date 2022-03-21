@@ -102,3 +102,5 @@ const string94 = '퟿';
 const string95 = 'ퟻ';
 const string96 = sql`'#ERROR'`;
 const string97 = '\u{a0}';
+const string98 = "\ud83d\ude00";
+const string99 = "\ud83d@\ude00";

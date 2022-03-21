@@ -531,6 +531,8 @@ where
                     self.wr.write_str_lit(DUMMY_SP, raw_value)?;
                 }
                 _ => {
+                    println!("{:?}", node);
+
                     let value = get_quoted_utf16(&node.value, target);
 
                     self.wr.write_str_lit(DUMMY_SP, &value)?;
@@ -3220,7 +3222,56 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
             '\r' => buf.push_str("\\r"),
             '\u{000b}' => buf.push_str("\\v"),
             '\t' => buf.push_str("\\t"),
-            '\\' => buf.push_str("\\\\"),
+            '\\' => {
+                let next = iter.peek();
+
+                match next {
+                    // TODO fix me - workaround for surrogate pairs
+                    Some('\x00') => {
+                        let mut inner_iter = iter.clone();
+
+                        inner_iter.next();
+
+                        let next = inner_iter.peek();
+
+                        if let Some('u') = next {
+                            inner_iter.next();
+
+                            let mut is_valid = true;
+                            let mut inner_buf = String::new();
+
+                            inner_buf.push('\\');
+                            inner_buf.push('u');
+
+                            for _ in 0..4 {
+                                let c = inner_iter.next();
+
+                                match c {
+                                    Some('0'..='9') | Some('a'..='f') | Some('A'..='F') => {
+                                        inner_buf.push(c.unwrap());
+                                    }
+                                    _ => {
+                                        is_valid = false;
+
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if is_valid {
+                                buf.push_str(&inner_buf);
+
+                                for _ in 0..6 {
+                                    iter.next();
+                                }
+                            }
+                        }
+                    }
+                    _ => {
+                        buf.push_str("\\\\");
+                    }
+                }
+            }
             '\'' => {
                 sq += 1;
                 buf.push('\'');

@@ -664,10 +664,16 @@ impl<I: Tokens> Parser<I> {
                 // Recover from error
                 self.emit_err(span, SyntaxError::TS2452);
 
+                let mut raw = String::new();
+
+                raw.push('"');
+                raw.push_str(&v.to_string());
+                raw.push('"');
+
                 TsEnumMemberId::Str(Str {
                     span,
                     value: v.to_string().into(),
-                    raw: Some(format!("\"{}\"", v).into()),
+                    raw: Some(raw.into()),
                 })
             }
             Token::LBracket => {
