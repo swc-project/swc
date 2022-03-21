@@ -16,8 +16,9 @@ where
             Decl::Fn(ref n) => emit!(n),
 
             Decl::Var(ref n) => {
-                emit!(n);
-                formatting_semi!(); // VarDecl is also used for for-loops
+                self.emit_var_decl_inner(n, false)?;
+                formatting_semi!();
+                srcmap!(n, false);
             }
             Decl::TsEnum(ref n) => emit!(n),
             Decl::TsInterface(ref n) => emit!(n),
@@ -79,16 +80,20 @@ where
 
     #[emitter]
     fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
+        self.emit_var_decl_inner(node, true)?;
+    }
+
+    fn emit_var_decl_inner(&mut self, node: &VarDecl, last_source_map: bool) -> Result {
         self.emit_leading_comments_of_span(node.span, false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         if node.declare {
-            keyword!("declare");
-            space!();
+            keyword!(self, "declare");
+            space!(self);
         }
 
-        keyword!(node.kind.as_str());
+        keyword!(self, node.kind.as_str());
 
         let starts_with_ident = match node.decls.first() {
             Some(VarDeclarator {
@@ -98,9 +103,9 @@ where
             _ => true,
         };
         if starts_with_ident {
-            space!();
+            space!(self);
         } else {
-            formatting_space!();
+            formatting_space!(self);
         }
 
         self.emit_list(
@@ -109,7 +114,11 @@ where
             ListFormat::VariableDeclarationList,
         )?;
 
-        srcmap!(node, false);
+        if last_source_map {
+            srcmap!(self, node, false);
+        }
+
+        Ok(())
     }
 
     #[emitter]
