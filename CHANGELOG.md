@@ -14,6 +14,9 @@
 - **(es/codegen)** Emit decorators on class methods (#4103) ([9b64a69](https://github.com/swc-project/swc/commit/9b64a6960fc413d5aac000d0868d836d881ca895))
 
 
+- **(es/codegen)** Fix codes related to sourcemap (#4106) ([61f1a37](https://github.com/swc-project/swc/commit/61f1a374928a0c0dd314fdbc4decdee421121abb))
+
+
 - **(es/compat)** Visit non-method properties in a nested object literal (#4094) ([f5b9600](https://github.com/swc-project/swc/commit/f5b9600b2befe0053bec2d3e6210bf35dd824dfb))
 
 
