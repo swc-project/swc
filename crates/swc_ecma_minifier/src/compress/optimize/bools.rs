@@ -92,7 +92,7 @@ where
     }
 
     pub(super) fn compress_if_stmt_as_expr(&mut self, s: &mut Stmt) {
-        if !self.options.bools {
+        if !self.options.conditionals && !self.options.bools {
             return;
         }
 

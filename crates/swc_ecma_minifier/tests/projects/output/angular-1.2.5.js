@@ -976,7 +976,7 @@
                     },
                     remove: function(key) {
                         var lruEntry = lruHash[key];
-                        !!lruEntry && (lruEntry == freshEnd && (freshEnd = lruEntry.p), lruEntry == staleEnd && (staleEnd = lruEntry.n), link(lruEntry.n, lruEntry.p), delete lruHash[key], delete data[key], size--);
+                        lruEntry && (lruEntry == freshEnd && (freshEnd = lruEntry.p), lruEntry == staleEnd && (staleEnd = lruEntry.n), link(lruEntry.n, lruEntry.p), delete lruHash[key], delete data[key], size--);
                     },
                     removeAll: function() {
                         data = {}, size = 0, lruHash = {}, freshEnd = staleEnd = null;
@@ -3441,7 +3441,7 @@
                 priority: 99,
                 link: function(scope, element, attr) {
                     attr.$observe(normalized, function(value) {
-                        !!value && (attr.$set(attrName, value), msie && element.prop(attrName, attr[attrName]));
+                        value && (attr.$set(attrName, value), msie && element.prop(attrName, attr[attrName]));
                     });
                 }
             };

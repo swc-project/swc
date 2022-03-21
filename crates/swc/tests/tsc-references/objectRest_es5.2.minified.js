@@ -84,4 +84,4 @@ var computed = "b", computed2 = "a", o = (o[computed], o[computed2], swcHelpers.
 _o = o, o = swcHelpers.objectWithoutProperties(_o, [
     computed,
     computed2
-].map(swcHelpers.toPropertyKey)), (ref1 = _o)[computed], ref1[computed2];
+].map(swcHelpers.toPropertyKey)), ref1 = _o, ref1[computed], ref1[computed2];

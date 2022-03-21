@@ -323,7 +323,7 @@
                                             if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(o);
                                             if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
                                         }
-                                    }(o3)) || 0) {
+                                    }(o3))) {
                                         it && (o3 = it);
                                         var i = 0, F = function() {};
                                         return {

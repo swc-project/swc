@@ -1,6 +1,6 @@
-(function() {
+!function() {
     arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
-})(12), function() {
+}(12), function() {
     arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
 }(), function() {
     for(var _len = arguments.length, numbers = new Array(_len), _key = 0; _key < _len; _key++)numbers[_key] = arguments[_key];

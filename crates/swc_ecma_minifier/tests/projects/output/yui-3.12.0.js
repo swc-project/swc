@@ -915,7 +915,7 @@ var YUI = function() {
             !this._pending && (item = this._queue.shift()) && (this._pending = item, item.transaction.execute(item.callback));
         },
         _purge: function(nodes) {
-            for(var index, node, purgeNodes = this._purgeNodes, isTransaction = nodes !== purgeNodes; node = nodes.pop();)!!node._yuiget_finished && (node.parentNode && node.parentNode.removeChild(node), isTransaction && (index = Y.Array.indexOf(purgeNodes, node)) > -1 && purgeNodes.splice(index, 1));
+            for(var index, node, purgeNodes = this._purgeNodes, isTransaction = nodes !== purgeNodes; node = nodes.pop();)node._yuiget_finished && (node.parentNode && node.parentNode.removeChild(node), isTransaction && (index = Y.Array.indexOf(purgeNodes, node)) > -1 && purgeNodes.splice(index, 1));
         }
     }, Get.script = Get.js, Get.Transaction = Transaction = function(requests, options) {
         var self = this;
