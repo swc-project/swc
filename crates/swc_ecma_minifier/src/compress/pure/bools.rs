@@ -274,7 +274,7 @@ impl Pure<'_> {
 
                     {
                         let last = exprs.last_mut().unwrap();
-                        self.optimize_expr_in_bool_ctx(last);
+                        self.optimize_expr_in_bool_ctx(last, false);
                         // Negate last element.
                         negate(last, false, false);
                     }
@@ -287,7 +287,7 @@ impl Pure<'_> {
     }
 
     /// This method converts `!1` to `0`.
-    pub(super) fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr) {
+    pub(super) fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr, is_ignore: bool) {
         self.optmize_known_logical_expr(n);
 
         match n {
@@ -299,14 +299,14 @@ impl Pure<'_> {
             }) => {
                 // Regardless if it's truthy or falsy, we can optimize it because it will be
                 // casted as bool anyway.
-                self.optimize_expr_in_bool_ctx(&mut **left);
-                self.optimize_expr_in_bool_ctx(&mut **right);
+                self.optimize_expr_in_bool_ctx(&mut **left, is_ignore);
+                self.optimize_expr_in_bool_ctx(&mut **right, is_ignore);
                 return;
             }
 
             Expr::Seq(e) => {
                 if let Some(last) = e.exprs.last_mut() {
-                    self.optimize_expr_in_bool_ctx(&mut **last);
+                    self.optimize_expr_in_bool_ctx(&mut **last, is_ignore);
                 }
             }
 
@@ -373,12 +373,14 @@ impl Pure<'_> {
             }
 
             Expr::Lit(Lit::Str(s)) => {
-                tracing::debug!("Converting string as boolean expressions");
-                self.changed = true;
-                *n = Expr::Lit(Lit::Num(Number {
-                    span: s.span,
-                    value: if s.value.is_empty() { 0.0 } else { 1.0 },
-                }));
+                if !is_ignore {
+                    tracing::debug!("Converting string as boolean expressions");
+                    self.changed = true;
+                    *n = Expr::Lit(Lit::Num(Number {
+                        span: s.span,
+                        value: if s.value.is_empty() { 0.0 } else { 1.0 },
+                    }));
+                }
             }
 
             Expr::Lit(Lit::Num(num)) => {
