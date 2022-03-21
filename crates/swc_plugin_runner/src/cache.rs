@@ -13,6 +13,15 @@ use wasmer::{Module, Store};
 #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
 use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 
+#[cfg(all(not(feature = "filesystem_cache"), not(feature = "memory_cache")))]
+compile_error!("Plugin_runner should enable either filesystem, or memory cache");
+
+#[cfg(all(feature = "filesystem_cache", feature = "memory_cache"))]
+compile_error!(
+    "Only one cache feature should be enabled. If you enabled filesystem_cache, it activates its \
+     memory cache as well."
+);
+
 /// Version for bytecode cache stored in local filesystem.
 ///
 /// This MUST be updated when bump up wasmer.
@@ -24,30 +33,32 @@ use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 const MODULE_SERIALIZATION_VERSION: &str = "v2";
 
 /// A shared instance to plugin's module bytecode cache.
-/// TODO: it is unclear how we'll support plugin itself in wasm target of
-/// swc, as well as cache.
 pub static PLUGIN_MODULE_CACHE: Lazy<PluginModuleCache> = Lazy::new(Default::default);
 
+#[cfg(feature = "filesystem_cache")]
 #[derive(Default)]
 pub struct CacheInner {
-    #[cfg(feature = "filesystem_cache")]
     fs_cache: Option<FileSystemCache>,
-    #[cfg(feature = "filesystem_cache")]
-    memory_cache: InMemoryCache,
+    // A naive hashmap to the compiled plugin modules.
+    // Current it doesn't have any invalidation or expiration logics like lru,
+    // having a lot of plugins may create some memory pressure.
+    loaded_module_bytes: AHashMap<PathBuf, Module>,
 }
 
-/// Lightweight in-memory cache to hold plugin module instances.
-/// Current it doesn't have any invalidation or expiration logics like lru,
-/// having a lot of plugins may create some memory pressure.
+#[cfg(feature = "memory_cache")]
 #[derive(Default)]
-pub struct InMemoryCache {
-    modules: AHashMap<PathBuf, Module>,
+pub struct CacheInner {
+    // Unlike sys::Module, we'll keep raw bytes from the module instead of js::Module which
+    // implies bindgen's JsValue
+    loaded_module_bytes: AHashMap<PathBuf, Vec<u8>>,
 }
 
 #[derive(Default)]
 pub struct PluginModuleCache {
     inner: OnceCell<Mutex<CacheInner>>,
-    /// To prevent concurrent access to `WasmerInstance::new`
+    /// To prevent concurrent access to `WasmerInstance::new`.
+    /// This is a precaution only yet, for the preparation of wasm thread
+    /// support in the future.
     instantiation_lock: Mutex<()>,
 }
 
@@ -86,14 +97,16 @@ pub fn init_plugin_module_cache_once(filesystem_cache_root: &Option<String>) {
     PLUGIN_MODULE_CACHE.inner.get_or_init(|| {
         Mutex::new(CacheInner {
             fs_cache: create_filesystem_cache(filesystem_cache_root),
-            memory_cache: Default::default(),
+            loaded_module_bytes: Default::default(),
         })
     });
 
     #[cfg(target_arch = "wasm32")]
-    PLUGIN_MODULE_CACHE
-        .inner
-        .get_or_init(|| Mutex::new(CacheInner {}));
+    PLUGIN_MODULE_CACHE.inner.get_or_init(|| {
+        Mutex::new(CacheInner {
+            loaded_module_bytes: Default::default(),
+        })
+    });
 }
 
 impl PluginModuleCache {
@@ -125,7 +138,7 @@ impl PluginModuleCache {
         // if constructed Module is available in-memory, directly return it.
         // Note we do not invalidate in-memory cache currently: if wasm binary is
         // replaced in-process lifecycle (i.e devserver) it won't be reflected.
-        let in_memory_module = inner_cache.memory_cache.modules.get(&binary_path);
+        let in_memory_module = inner_cache.loaded_module_bytes.get(&binary_path);
         if let Some(module) = in_memory_module {
             return Ok(module.clone());
         }
@@ -166,8 +179,7 @@ impl PluginModuleCache {
         };
 
         inner_cache
-            .memory_cache
-            .modules
+            .loaded_module_bytes
             .insert(binary_path, module.clone());
 
         Ok(module)
@@ -175,6 +187,19 @@ impl PluginModuleCache {
 
     #[cfg(target_arch = "wasm32")]
     pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
+        let binary_path = binary_path.to_path_buf();
+        let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
+
+        // if constructed Module is available in-memory, directly return it.
+        // Note we do not invalidate in-memory cache currently: if wasm binary is
+        // replaced in-process lifecycle (i.e devserver) it won't be reflected.
+        let in_memory_module_bytes = inner_cache.loaded_module_bytes.get(&binary_path);
+        if let Some(module) = in_memory_module_bytes {
+            //TODO: In native runtime we have to reconstruct module using raw bytes in
+            // memory cache. requires https://github.com/wasmerio/wasmer/pull/2821
+            unimplemented!("Not implemented yet");
+        }
+
         unimplemented!("Not implemented yet");
     }
 }
