@@ -132,7 +132,7 @@ impl<'a> arbitrary::Arbitrary<'a> for BigInt {
 
 /// A string literal.
 #[ast_node("StringLiteral")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct Str {
     pub span: Span,
 
@@ -171,6 +171,12 @@ impl Str {
     #[inline]
     pub fn is_empty(&self) -> bool {
         self.value.is_empty()
+    }
+}
+
+impl EqIgnoreSpan for Str {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
     }
 }
 

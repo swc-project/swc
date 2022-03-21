@@ -1,10 +1,10 @@
 var x, y, z, a, b;
 x = 2;
 x = 2;
-x = y ? "foo" : "foo";
-x = y ? "foo" : y ? "foo" : "foo";
+x = "foo";
+x = "foo";
 condition(), x = 20;
-x = z ? "fuji" : condition() ? "fuji" : "fuji";
-x = condition() ? "foobar" : "foobar";
+z || condition(), x = "fuji";
+x = (condition(), "foobar");
 x = y ? a : b;
 x = y ? "foo" : "fo";
