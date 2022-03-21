@@ -33,6 +33,7 @@ pub(crate) mod non_critical_lints {
     pub mod quotes;
     pub mod radix;
     pub mod use_is_nan;
+    pub mod valid_typeof;
     pub mod yoda;
 }
 
@@ -144,6 +145,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             top_level_ctxt,
             &lint_config.use_isnan,
         ));
+        rules.extend(valid_typeof::valid_typeof(&lint_config.valid_typeof));
     }
 
     rules

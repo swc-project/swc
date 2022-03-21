@@ -137,18 +137,6 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     }
 
     fn write_semi(&mut self, span: Option<Span>) -> Result {
-        if span == Some(DUMMY_SP) {
-            if let Some(ref mut srcmap) = self.srcmap {
-                srcmap.push((
-                    BytePos(u32::MAX),
-                    LineCol {
-                        line: self.line_count as _,
-                        col: self.line_pos as _,
-                    },
-                ))
-            }
-        }
-
         self.write(span, ";")?;
         Ok(())
     }
