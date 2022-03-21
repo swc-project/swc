@@ -100,7 +100,7 @@
                     var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], excluded.indexOf(key) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                     }
                     return target;
                 }(_param, [
@@ -641,7 +641,7 @@
                 }(source1, excluded1);
                 if (Object.getOwnPropertySymbols) {
                     var sourceSymbolKeys = Object.getOwnPropertySymbols(source1);
-                    for(i3 = 0; i3 < sourceSymbolKeys.length; i3++)key2 = sourceSymbolKeys[i3], excluded1.indexOf(key2) >= 0 || Object.prototype.propertyIsEnumerable.call(source1, key2) && (target1[key2] = source1[key2]);
+                    for(i3 = 0; i3 < sourceSymbolKeys.length; i3++)key2 = sourceSymbolKeys[i3], !(excluded1.indexOf(key2) >= 0) && Object.prototype.propertyIsEnumerable.call(source1, key2) && (target1[key2] = source1[key2]);
                 }
                 return target1;
             }

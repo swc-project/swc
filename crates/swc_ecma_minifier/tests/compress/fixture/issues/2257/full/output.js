@@ -1582,7 +1582,7 @@
                 var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
                 if (Object.getOwnPropertySymbols) {
                     var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                    for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], excluded.indexOf(key) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                    for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                 }
                 return target;
             }
@@ -1949,7 +1949,7 @@
                         }
                     }
                     if (request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), !0), request.timeout = config.timeout, "onloadend" in request ? request.onloadend = onloadend : request.onreadystatechange = function() {
-                        !request || 4 !== request.readyState || (0 !== request.status || request.responseURL && 0 === request.responseURL.indexOf("file:")) && setTimeout(onloadend);
+                        request && 4 === request.readyState && (0 !== request.status || request.responseURL && 0 === request.responseURL.indexOf("file:")) && setTimeout(onloadend);
                     }, request.onabort = function() {
                         request && (reject(createError("Request aborted", config, "ECONNABORTED", request)), request = null);
                     }, request.onerror = function() {
@@ -15957,7 +15957,7 @@
                         } catch (e9) {
                             throw t.preventDefault(), e9;
                         }
-                        t.defaultPrevented || 0 !== t.button || i && "_self" !== i || !!((e = t).metaKey || e.altKey || e.ctrlKey || e.shiftKey) || (t.preventDefault(), o());
+                        t.defaultPrevented || 0 !== t.button || i && "_self" !== i || (e = t).metaKey || e.altKey || e.ctrlKey || e.shiftKey || (t.preventDefault(), o());
                     }
                 });
                 return c.ref = forwardRefShim !== forwardRef && t2 || r, React.createElement("a", c);

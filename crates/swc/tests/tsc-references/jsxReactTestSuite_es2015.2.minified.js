@@ -11,7 +11,7 @@ Component, Namespace.Component, Namespace.DeepNamespace.Component, Component, sw
     z: !0
 }), Component, swcHelpers.extends({}, this.props, {
     sound: "moo"
-}), Component, swcHelpers.extends({}, x), Component, swcHelpers.extends({}, x, {
+}), Component, Component, swcHelpers.extends({}, x), Component, swcHelpers.extends({}, x, {
     y: 2
 }), Component, swcHelpers.extends({}, x, {
     y: 2,

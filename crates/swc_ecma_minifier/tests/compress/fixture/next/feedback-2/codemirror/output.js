@@ -1823,7 +1823,7 @@
         val = Math.max(0, Math.min(cm.display.scroller.scrollHeight - cm.display.scroller.clientHeight, val)), (cm.display.scroller.scrollTop != val || forceScroll) && (cm.doc.scrollTop = val, cm.display.scrollbars.setScrollTop(val), cm.display.scroller.scrollTop != val && (cm.display.scroller.scrollTop = val));
     }
     function setScrollLeft(cm, val, isScroller, forceScroll) {
-        val = Math.max(0, Math.min(val, cm.display.scroller.scrollWidth - cm.display.scroller.clientWidth)), (isScroller ? val == cm.doc.scrollLeft : 2 > Math.abs(cm.doc.scrollLeft - val)) && !forceScroll || (cm.doc.scrollLeft = val, alignHorizontally(cm), cm.display.scroller.scrollLeft != val && (cm.display.scroller.scrollLeft = val), cm.display.scrollbars.setScrollLeft(val));
+        val = Math.max(0, Math.min(val, cm.display.scroller.scrollWidth - cm.display.scroller.clientWidth)), ((isScroller ? val != cm.doc.scrollLeft : !(2 > Math.abs(cm.doc.scrollLeft - val))) || forceScroll) && (cm.doc.scrollLeft = val, alignHorizontally(cm), cm.display.scroller.scrollLeft != val && (cm.display.scroller.scrollLeft = val), cm.display.scrollbars.setScrollLeft(val));
     }
     function measureForScrollbars(cm) {
         var d = cm.display, gutterW = d.gutters.offsetWidth, docH = Math.round(cm.doc.height + paddingVert(cm.display));
@@ -2294,7 +2294,7 @@
             wheelSamples < 20 && 0 !== e.deltaMode && (null == display.wheelStartX ? (display.wheelStartX = scroll.scrollLeft, display.wheelStartY = scroll.scrollTop, display.wheelDX = dx, display.wheelDY = dy, setTimeout(function() {
                 if (null != display.wheelStartX) {
                     var movedX = scroll.scrollLeft - display.wheelStartX, movedY = scroll.scrollTop - display.wheelStartY, sample = movedY && display.wheelDY && movedY / display.wheelDY || movedX && display.wheelDX && movedX / display.wheelDX;
-                    display.wheelStartX = display.wheelStartY = null, !!sample && (wheelPixelsPerUnit = (wheelPixelsPerUnit * wheelSamples + sample) / (wheelSamples + 1), ++wheelSamples);
+                    display.wheelStartX = display.wheelStartY = null, sample && (wheelPixelsPerUnit = (wheelPixelsPerUnit * wheelSamples + sample) / (wheelSamples + 1), ++wheelSamples);
                 }
             }, 200)) : (display.wheelDX += dx, display.wheelDY += dy));
         }
@@ -2425,7 +2425,7 @@
                 var rel = doc.linked[i];
                 if (rel.doc != skip) {
                     var shared = sharedHist && rel.sharedHist;
-                    sharedHistOnly && !shared || (f(rel.doc, shared), propagate(rel.doc, doc, shared));
+                    (!sharedHistOnly || shared) && (f(rel.doc, shared), propagate(rel.doc, doc, shared));
                 }
             }
         }
@@ -2990,7 +2990,7 @@
         var this$1 = this, oldH = this.height, cm = this.doc.cm, line = this.line;
         this.height = null;
         var diff = widgetHeight1(this) - oldH;
-        !!diff && (lineIsHidden(this.doc, line) || updateLineHeight(line, line.height + diff), cm && runInOp(cm, function() {
+        diff && (lineIsHidden(this.doc, line) || updateLineHeight(line, line.height + diff), cm && runInOp(cm, function() {
             cm.curOp.forceUpdate = !0, adjustScrollWhenAboveVisible(cm, line, diff), signalLater(cm, "lineWidgetChanged", cm, this$1, lineNo1(line));
         }));
     }, eventMixin(LineWidget);

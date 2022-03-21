@@ -247,7 +247,7 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
         e.visit_mut_children_with(self);
 
-        self.optimize_expr_in_bool_ctx(&mut e.test);
+        self.optimize_expr_in_bool_ctx(&mut e.test, false);
 
         self.negate_cond_expr(e);
     }
@@ -370,7 +370,7 @@ impl VisitMut for Pure<'_> {
         self.merge_for_if_break(s);
 
         if let Some(test) = &mut s.test {
-            self.optimize_expr_in_bool_ctx(&mut **test);
+            self.optimize_expr_in_bool_ctx(&mut **test, false);
         }
 
         if let Stmt::Block(body) = &mut *s.body {
@@ -395,7 +395,7 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
 
-        self.optimize_expr_in_bool_ctx(&mut s.test);
+        self.optimize_expr_in_bool_ctx(&mut s.test, false);
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
@@ -499,6 +499,20 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
         e.visit_mut_children_with(self);
+
+        if e.exprs.iter().any(|e| e.is_seq()) {
+            let mut exprs = vec![];
+
+            for e in e.exprs.take() {
+                if let Expr::Seq(seq) = *e {
+                    exprs.extend(seq.exprs);
+                } else {
+                    exprs.push(e);
+                }
+            }
+
+            e.exprs = exprs;
+        }
 
         e.exprs.retain(|e| {
             if e.is_invalid() {
@@ -680,7 +694,7 @@ impl VisitMut for Pure<'_> {
 
         match e.op {
             op!("!") => {
-                self.optimize_expr_in_bool_ctx(&mut e.arg);
+                self.optimize_expr_in_bool_ctx(&mut e.arg, false);
             }
 
             op!(unary, "+") | op!(unary, "-") => {
@@ -702,6 +716,6 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {
         s.visit_mut_children_with(self);
 
-        self.optimize_expr_in_bool_ctx(&mut s.test);
+        self.optimize_expr_in_bool_ctx(&mut s.test, false);
     }
 }

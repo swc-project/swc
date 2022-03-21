@@ -982,7 +982,7 @@
     }
     function addSubtract(mom, duration, isAdding, updateOffset) {
         var milliseconds = duration._milliseconds, days = absRound(duration._days), months = absRound(duration._months);
-        !!mom.isValid() && (updateOffset = null == updateOffset || updateOffset, months && setMonth(mom, get(mom, "Month") + months * isAdding), days && set$1(mom, "Date", get(mom, "Date") + days * isAdding), milliseconds && mom._d.setTime(mom._d.valueOf() + milliseconds * isAdding), updateOffset && hooks.updateOffset(mom, days || months));
+        mom.isValid() && (updateOffset = null == updateOffset || updateOffset, months && setMonth(mom, get(mom, "Month") + months * isAdding), days && set$1(mom, "Date", get(mom, "Date") + days * isAdding), milliseconds && mom._d.setTime(mom._d.valueOf() + milliseconds * isAdding), updateOffset && hooks.updateOffset(mom, days || months));
     }
     createDuration.fn = Duration.prototype, createDuration.invalid = function() {
         return createDuration(NaN);
