@@ -1,6 +1,6 @@
 
   x Expected 4 hex characters
-   ,-[$DIR/tests/test262-parser/fail/6cb3fc8ff354bd89.js:2:1]
- 2 | a\uz
+   ,-[$DIR/tests/test262-parser/fail/6cb3fc8ff354bd89.js:1:1]
+ 1 | a\uz
    :  ^^
    `----

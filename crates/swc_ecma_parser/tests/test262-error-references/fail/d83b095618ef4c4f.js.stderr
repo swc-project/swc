@@ -1,6 +1,6 @@
 
   x Expected ident
-   ,-[$DIR/tests/test262-parser/fail/d83b095618ef4c4f.js:2:1]
- 2 | class extends A{}
+   ,-[$DIR/tests/test262-parser/fail/d83b095618ef4c4f.js:1:1]
+ 1 | class extends A{}
    :       ^^^^^^^
    `----

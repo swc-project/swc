@@ -3039,6 +3039,7 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_optimization",
+ "swc_ecma_transforms_proposal",
  "swc_ecma_transforms_react",
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
@@ -3256,7 +3257,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.98.1"
+version = "0.98.3"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3312,7 +3313,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.26.1"
+version = "0.26.2"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3389,7 +3390,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.95.1"
+version = "0.95.2"
 dependencies = [
  "either",
  "enum_kind",
@@ -3764,7 +3765,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "miette",
  "swc_common",

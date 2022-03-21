@@ -1223,6 +1223,10 @@ where
 
         srcmap!(n, true);
 
+        for d in &n.function.decorators {
+            emit!(d);
+        }
+
         self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
@@ -2538,7 +2542,14 @@ where
 
             // see #415
             if let Some(cmt) = cmt.get_leading(lo) {
-                if cmt.iter().any(|cmt| cmt.kind == CommentKind::Line) {
+                if cmt.iter().any(|cmt| {
+                    cmt.kind == CommentKind::Line
+                        || cmt
+                            .text
+                            .chars()
+                            // https://tc39.es/ecma262/#table-line-terminator-code-points
+                            .any(|c| c == '\n' || c == '\r' || c == '\u{2028}' || c == '\u{2029}')
+                }) {
                     return true;
                 }
             }
