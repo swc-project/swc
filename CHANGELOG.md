@@ -29,6 +29,9 @@
 - **(es/lints)** Implement `valid-typeof` rule (#4095) ([9ceefa7](https://github.com/swc-project/swc/commit/9ceefa734f1193cb7379404132ffd89417b4ed8f))
 
 
+- **(es/lints)** Implement `use-isnan` rule (#4080) ([dd862ba](https://github.com/swc-project/swc/commit/dd862ba9f8c50242f0f508aecfe29aef3f6052f0))
+
+
 - **(es/minifier)** Implement more evaluation rules (#4030) ([c6f8742](https://github.com/swc-project/swc/commit/c6f8742669a4161efec07e8c6fce493139e04cc5))
 
 ### Miscellaneous Tasks

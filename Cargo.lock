@@ -3313,7 +3313,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.26.2"
+version = "0.26.3"
 dependencies = [
  "ahash",
  "auto_impl",
