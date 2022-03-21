@@ -115,10 +115,10 @@ impl<'a, I: Tokens> Parser<I> {
                     p.emit_err(p.input.prev_span(), SyntaxError::InvalidIdentInStrict);
                 }
                 Word::Keyword(Keyword::Yield)
+                | Word::Keyword(Keyword::Let)
                 | Word::Ident(js_word!("static"))
                 | Word::Ident(js_word!("implements"))
                 | Word::Ident(js_word!("interface"))
-                | Word::Ident(js_word!("let"))
                 | Word::Ident(js_word!("package"))
                 | Word::Ident(js_word!("private"))
                 | Word::Ident(js_word!("protected"))
