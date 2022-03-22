@@ -143,4 +143,5 @@ const template_literal91 = `\\\x32`;
 const template_literal92 = `\\`;
 String.raw`\01`
 String.raw`\0a`
-
+const template_literal93 = `\u1234`;
+const template_literal94 = `\u{1234}`;
