@@ -3255,8 +3255,10 @@ fn get_template_element_from_raw(s: &str) -> String {
             // we don't use this for tagged templates, they are printing as is
             Some('\u{0008}') => buf.push_str("\\b"),
             Some('\u{000c}') => buf.push_str("\\f"),
+            Some('\n') => buf.push('\n'),
+            // `\r` is impossible here, because it was removed on parser stage
             Some('\u{000b}') => buf.push_str("\\v"),
-            // Print `\n`, `\t` and `\r` as is
+            Some('\t') => buf.push('\t'),
             // Print `"` and `'` without quotes
             Some(c @ '\x20'..='\x7e') => {
                 buf.push(c);
