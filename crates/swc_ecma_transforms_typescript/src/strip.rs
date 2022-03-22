@@ -1489,6 +1489,8 @@ where
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         if !self.in_var_pat {
             n.key.visit_with(self);
+        } else {
+            self.decl_names.insert(n.key.to_id());
         }
         n.value.visit_with(self);
     }
@@ -1500,6 +1502,8 @@ where
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
         if !self.in_var_pat {
             n.visit_children_with(self)
+        } else {
+            self.decl_names.insert(n.to_id());
         }
     }
 
@@ -1607,6 +1611,13 @@ where
         self.non_top_level = true;
         n.iter().for_each(|n| n.visit_with(self));
         self.non_top_level = old;
+    }
+
+    fn visit_expr(&mut self, n: &Expr) {
+        let old = self.in_var_pat;
+        self.in_var_pat = false;
+        n.visit_children_with(self);
+        self.in_var_pat = old;
     }
 
     fn visit_ts_entity_name(&mut self, _: &TsEntityName) {}
