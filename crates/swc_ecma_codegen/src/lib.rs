@@ -514,6 +514,8 @@ where
             self.wr
                 .write_str_lit(DUMMY_SP, node.raw.as_ref().unwrap())?;
 
+            srcmap!(node, false);
+
             return Ok(());
         }
 
