@@ -191,3 +191,6 @@ const template_literal114 = `﻿`;
 const template_literal115 = `\﻿`;
 test//test
 `\n`
+String.raw`\0`
+String.raw`\01`
+String.raw`\011`

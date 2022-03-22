@@ -1586,6 +1586,20 @@ where
     }
 
     #[emitter]
+    fn emit_quasi(&mut self, node: &TplElement) -> Result {
+        srcmap!(node, true);
+
+        if self.cfg.minify {
+            self.wr
+                .write_str_lit(DUMMY_SP, &get_template_element_from_raw(&node.raw))?;
+        } else {
+            self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
+        }
+
+        srcmap!(node, false);
+    }
+
+    #[emitter]
     fn emit_tagged_tpl_lit(&mut self, node: &TaggedTpl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1639,20 +1653,6 @@ where
         srcmap!(self, node, false);
 
         Ok(())
-    }
-
-    #[emitter]
-    fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        srcmap!(node, true);
-
-        if self.cfg.minify {
-            self.wr
-                .write_str_lit(DUMMY_SP, &get_template_element_from_raw(&node.raw))?;
-        } else {
-            self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
-        }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
