@@ -12,7 +12,7 @@ const template_literal8 = `header ${isLargeScreen() ? '' : `icon-${item.isCollap
 const template_literal9 = `test \u00A9`;
 const template_literal10 = `test \u{2F804}`;
 const template_literal11 = `test \xa9`;
-const template_literal12 = `test \o251`;
+const template_literal12 = `test \0o251`;
 function latex(str) {
     return {
         "cooked": str[0],
@@ -141,5 +141,7 @@ const template_literal84 = `\x7f`;
 const template_literal85 = `\0`;
 const template_literal86 = `\0a`;
 const template_literal87 = `\0b`;
-const template_literal88 = `\o0`;
-const template_literal89 = `\x00`;
+const template_literal88 = `\0o`;
+const template_literal89 = `\0x`;
+const template_literal90 = `\\x32`;
+const template_literal91 = `\\2`;

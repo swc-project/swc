@@ -3185,8 +3185,6 @@ fn unescape_tpl_lit(s: &str) -> String {
             Some(c) => {
                 match c {
                     '0' => match chars.next() {
-                        Some('o') => read_escaped(8, None, &mut result, &mut chars),
-                        Some('x') => read_escaped(16, Some(2), &mut result, &mut chars),
                         nc => {
                             // This is wrong, but it seems like a mistake made by user.
                             result.push_str("\\0");

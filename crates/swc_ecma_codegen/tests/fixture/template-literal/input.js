@@ -138,4 +138,6 @@ const template_literal86 = `\0a`;
 const template_literal87 = `\0b`;
 const template_literal88 = `\0o`;
 const template_literal89 = `\0x`;
+const template_literal90 = `\\x32`;
+const template_literal91 = `\\\x32`;
 
