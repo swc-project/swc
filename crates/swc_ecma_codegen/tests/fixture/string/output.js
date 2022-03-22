@@ -105,3 +105,4 @@ const string97 = '\u{a0}';
 const string98 = "\ud83d\ude00";
 const string99 = "\ud83d@\ude00";
 const string100 = "\a";
+const string101 = " ";

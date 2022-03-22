@@ -3165,6 +3165,7 @@ fn get_template_element_from_raw(s: &str) -> String {
                     'x' => read_escaped(16, Some(2), &mut buf, &mut iter),
                     // TODO handle `\u1111` and `\u{1111}` too
                     _ => match c {
+                        // Source - https://github.com/eslint/eslint/blob/main/lib/rules/no-useless-escape.js
                         '\\'
                         | 'n'
                         | 'r'
@@ -3178,6 +3179,7 @@ fn get_template_element_from_raw(s: &str) -> String {
                         | '\n'
                         | '\u{2028}'
                         | '\u{2029}'
+                        | '\u{FEFF}'
                         | '`'
                         | '0'..='7' => {
                             buf.push('\\');
