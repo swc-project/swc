@@ -3156,24 +3156,23 @@ fn get_template_element_from_raw(s: &str) -> String {
 
         match radix {
             16 => {
-                if v < 16 {
-                    write!(buf, "\\x0{:x}", v).unwrap()
-                } else {
-                    match v {
-                        // '\x20'..='\x7e'
-                        32..=126 => {
-                            let c = char::from_u32(v);
+                match v {
+                    0..=15 => write!(buf, "\\x0{:x}", v).unwrap(),
+                    // '\x20'..='\x7e'
+                    32..=126 => {
+                        let c = char::from_u32(v);
 
-                            match c {
-                                Some(c) => write!(buf, "{}", c).unwrap(),
-                                _ => {
-                                    unreachable!()
-                                }
+                        match c {
+                            Some(c) => write!(buf, "{}", c).unwrap(),
+                            _ => {
+                                unreachable!()
                             }
                         }
-                        _ => {
-                            write!(buf, "\\x{:x}", v).unwrap();
-                        }
+                    }
+                    // '\x10'..='\x1f'
+                    // '\u{7f}'..='\u{ff}'
+                    _ => {
+                        write!(buf, "\\x{:x}", v).unwrap();
                     }
                 }
             }
