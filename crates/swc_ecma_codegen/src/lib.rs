@@ -3151,25 +3151,20 @@ fn get_template_element_from_raw(s: &str) -> String {
     let mut iter = s.chars().peekable();
 
     while let Some(c) = iter.next() {
-        match c {
+        let unescape = match c {
             '\\' => match iter.next() {
                 Some(c) => match c {
-                    'n' => buf.push('\n'),
-                    't' => buf.push('\t'),
-                    '\'' => {
-                        buf.push('\'');
+                    'n' => Some('\n'),
+                    't' => Some('\t'),
+                    'x' => {
+                        read_escaped(16, Some(2), &mut buf, &mut iter);
+
+                        None
                     }
-                    '"' => {
-                        buf.push('"');
-                    }
-                    'x' => read_escaped(16, Some(2), &mut buf, &mut iter),
                     // TODO handle `\u1111` and `\u{1111}` too
                     _ => match c {
                         // Source - https://github.com/eslint/eslint/blob/main/lib/rules/no-useless-escape.js
-                        '\u{2028}' | '\u{2029}' => {}
-                        '\u{FEFF}' => {
-                            buf.push_str("\\uFEFF");
-                        }
+                        '\u{2028}' | '\u{2029}' => None,
                         '\\'
                         | 'n'
                         | 'r'
@@ -3185,35 +3180,38 @@ fn get_template_element_from_raw(s: &str) -> String {
                         | '0'..='7' => {
                             buf.push('\\');
                             buf.push(c);
+
+                            None
                         }
-                        _ => {
-                            buf.push(c);
-                        }
+                        _ => Some(c),
                     },
                 },
-                None => {
-                    buf.push('\\');
-                }
+                None => Some('\\'),
             },
-            '\x20'..='\x7e' => {
+            _ => Some(c),
+        };
+
+        match unescape {
+            Some(c @ '\x20'..='\x7e') => {
                 buf.push(c);
             }
-            '\u{7f}'..='\u{ff}' => {
+            Some('\u{7f}'..='\u{ff}') => {
                 let _ = write!(buf, "\\x{:x}", c as u8);
             }
-            '\u{2028}' => {
+            Some('\u{2028}') => {
                 buf.push_str("\\u2028");
             }
-            '\u{2029}' => {
+            Some('\u{2029}') => {
                 buf.push_str("\\u2029");
             }
-            '\u{FEFF}' => {
+            Some('\u{FEFF}') => {
                 buf.push_str("\\uFEFF");
             }
             // TODO handle unicode characters and surrogate pairs
-            _ => {
+            Some(c) => {
                 buf.push(c);
             }
+            None => {}
         }
     }
 
