@@ -1242,10 +1242,10 @@
         reset: function() {
             base1.element.attr("href", $13.mobile.path.documentBase.hrefNoSearch);
         }
-    }, $13.mobile.base = base1, $14 = jQuery, $14.mobile.widgets = {}, originalWidget = $14.widget, keepNativeFactoryDefault = $14.mobile.keepNative, orig1 = $14.widget, $14.widget = function() {
+    }, $13.mobile.base = base1, $14 = jQuery, $14.mobile.widgets = {}, originalWidget = $14.widget, keepNativeFactoryDefault = $14.mobile.keepNative, $14.widget = (orig1 = $14.widget, function() {
         var constructor = orig1.apply(this, arguments), name = constructor.prototype.widgetName;
         return constructor.initSelector = undefined5 !== constructor.prototype.initSelector ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", $14.mobile.widgets[name] = constructor, constructor;
-    }, $14.extend($14.widget, originalWidget), $14.mobile.document.on("create", function(event) {
+    }), $14.extend($14.widget, originalWidget), $14.mobile.document.on("create", function(event) {
         $14(event.target).enhanceWithin();
     }), $14.widget("mobile.page", {
         options: {
@@ -4387,9 +4387,9 @@
         _setWidget: function(widget) {
             if (!this._widget && widget) {
                 var self, orig;
-                this._widget = widget, self = this, orig = this._widget._setOptions, this._widget._setOptions = function(options) {
+                this._widget = widget, this._widget._setOptions = (self = this, orig = this._widget._setOptions, function(options) {
                     orig.call(this, options), self._syncTextInputOptions(options);
-                };
+                });
             }
             return this._widget && (this._syncTextInputOptions(this._widget.options), "listview" === this._widget.widgetName && (this._widget.options.hideDividers = !0, this._widget.element.listview("refresh"))), !!this._widget;
         },

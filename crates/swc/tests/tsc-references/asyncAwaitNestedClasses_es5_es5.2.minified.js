@@ -4,7 +4,7 @@ var _B, A = function() {
     "use strict";
     swcHelpers.classCallCheck(this, A);
 };
-(_B = function() {
+A.B = ((_B = function() {
     "use strict";
     function B() {
         swcHelpers.classCallCheck(this, B);
@@ -32,4 +32,4 @@ var _B, A = function() {
             }, _callee);
         }))();
     }, C;
-}(), A.B = _B, A.B.C.func();
+}(), _B), A.B.C.func();

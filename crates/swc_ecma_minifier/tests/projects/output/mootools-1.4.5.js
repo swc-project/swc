@@ -764,19 +764,19 @@ var $try = Function.attempt;
         },
         Plugins: {}
     };
-    Browser[Browser.name] = !0, Browser[Browser.name + parseInt(Browser.version, 10)] = !0, Browser.Platform[Browser.Platform.name] = !0, XMLHTTP = function() {
+    Browser[Browser.name] = !0, Browser[Browser.name + parseInt(Browser.version, 10)] = !0, Browser.Platform[Browser.Platform.name] = !0, Browser.Request = (XMLHTTP = function() {
         return new XMLHttpRequest();
     }, MSXML2 = function() {
         return new ActiveXObject("MSXML2.XMLHTTP");
     }, MSXML = function() {
         return new ActiveXObject("Microsoft.XMLHTTP");
-    }, Browser.Request = Function.attempt(function() {
+    }, Function.attempt(function() {
         return XMLHTTP(), XMLHTTP;
     }, function() {
         return MSXML2(), MSXML2;
     }, function() {
         return MSXML(), MSXML;
-    }), Browser.Features.xhr = !!Browser.Request;
+    })), Browser.Features.xhr = !!Browser.Request;
     var version1 = (Function.attempt(function() {
         return navigator.plugins["Shockwave Flash"].description;
     }, function() {
@@ -1687,9 +1687,9 @@ var Element = function(tag, props) {
     }
     return document.newElement(tag, props);
 };
-Browser.Element && (Element.prototype = Browser.Element.prototype, fireEvent = Element.prototype.fireEvent, Element.prototype._fireEvent = function(type, event) {
+Browser.Element && (Element.prototype = Browser.Element.prototype, Element.prototype._fireEvent = (fireEvent = Element.prototype.fireEvent, function(type, event) {
     return fireEvent.call(this, type, event);
-}), new Type("Element", Element).mirror(function(name) {
+})), new Type("Element", Element).mirror(function(name) {
     if (!Array.prototype[name]) {
         var obj = {};
         obj[name] = function() {

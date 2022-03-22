@@ -63,7 +63,7 @@
                     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     logByType("log", level1, args);
                 };
-                return name1 = name, log = log1, logByType = function(type, level, args) {
+                return logByType = (name1 = name, log = log1, function(type, level, args) {
                     var lvl = log.levels[level], lvlRegExp = new RegExp("^(" + lvl + ")$");
                     if ("log" !== type && args.unshift(type.toUpperCase() + ":"), args.unshift(name1 + ":"), history) {
                         history.push([].concat(args));
@@ -74,7 +74,7 @@
                         var fn = global_window__WEBPACK_IMPORTED_MODULE_0___default().console[type];
                         fn || "debug" !== type || (fn = global_window__WEBPACK_IMPORTED_MODULE_0___default().console.info || global_window__WEBPACK_IMPORTED_MODULE_0___default().console.log), fn && lvl && lvlRegExp.test(type) && fn[Array.isArray(args) ? "apply" : "call"](global_window__WEBPACK_IMPORTED_MODULE_0___default().console, args);
                     }
-                }, log1.createLogger = function(subname) {
+                }), log1.createLogger = function(subname) {
                     return createLogger$1(name + ": " + subname);
                 }, log1.levels = {
                     all: "debug|log|warn|error",
@@ -13695,7 +13695,7 @@
                     "SUBTITLES"
                 ].forEach(function(type) {
                     var type2, settings, type3, settings1, type4, settings2, type5, settings3;
-                    type2 = type, settings = settings4, mediaTypes[type].activeGroup = function(track) {
+                    mediaTypes[type].activeGroup = (type2 = type, settings = settings4, function(track) {
                         var masterPlaylistLoader = settings.masterPlaylistLoader, groups = settings.mediaTypes[type2].groups, media = masterPlaylistLoader.media();
                         if (!media) return null;
                         var variants = null;
@@ -13712,7 +13712,7 @@
                         return void 0 === track ? variants : null !== track && variants ? variants.filter(function(props) {
                             return props.id === track.id;
                         })[0] || null : null;
-                    }, mediaTypes[type].activeTrack = activeTrack1[type](type, settings4), type3 = type, settings1 = settings4, mediaTypes[type].onGroupChanged = function() {
+                    }), mediaTypes[type].activeTrack = activeTrack1[type](type, settings4), mediaTypes[type].onGroupChanged = (type3 = type, settings1 = settings4, function() {
                         var _settings$segmentLoad = settings1.segmentLoaders, segmentLoader = _settings$segmentLoad[type3], mainSegmentLoader = _settings$segmentLoad.main, mediaType = settings1.mediaTypes[type3], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastGroup = mediaType.lastGroup_;
                         if ((!activeGroup || !lastGroup || activeGroup.id !== lastGroup.id) && (mediaType.lastGroup_ = activeGroup, mediaType.lastTrack_ = activeTrack, stopLoaders(segmentLoader, mediaType), activeGroup && !activeGroup.isMasterPlaylist)) {
                             if (!activeGroup.playlistLoader) {
@@ -13721,10 +13721,10 @@
                             }
                             segmentLoader.resyncLoader(), startLoaders(activeGroup.playlistLoader, mediaType);
                         }
-                    }, type4 = type, settings2 = settings4, mediaTypes[type].onGroupChanging = function() {
+                    }), mediaTypes[type].onGroupChanging = (type4 = type, settings2 = settings4, function() {
                         var segmentLoader = settings2.segmentLoaders[type4];
                         settings2.mediaTypes[type4].lastGroup_ = null, segmentLoader.abort(), segmentLoader.pause();
-                    }, type5 = type, settings3 = settings4, mediaTypes[type].onTrackChanged = function() {
+                    }), mediaTypes[type].onTrackChanged = (type5 = type, settings3 = settings4, function() {
                         var masterPlaylistLoader = settings3.masterPlaylistLoader, _settings$segmentLoad2 = settings3.segmentLoaders, segmentLoader = _settings$segmentLoad2[type5], mainSegmentLoader = _settings$segmentLoad2.main, mediaType = settings3.mediaTypes[type5], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastTrack = mediaType.lastTrack_;
                         if ((!lastTrack || !activeTrack || lastTrack.id !== activeTrack.id) && (mediaType.lastGroup_ = activeGroup, mediaType.lastTrack_ = activeTrack, stopLoaders(segmentLoader, mediaType), activeGroup)) {
                             if (activeGroup.isMasterPlaylist) {
@@ -13747,7 +13747,7 @@
                             }
                             segmentLoader.track && segmentLoader.track(activeTrack), segmentLoader.resetEverything(), startLoaders(activeGroup.playlistLoader, mediaType);
                         }
-                    }, mediaTypes[type].getActiveGroup = getActiveGroup(type, settings4);
+                    }), mediaTypes[type].getActiveGroup = getActiveGroup(type, settings4);
                 });
                 var audioGroup = mediaTypes.AUDIO.activeGroup();
                 if (audioGroup) {
@@ -14441,10 +14441,10 @@
                     var resolution = playlist1.attributes.RESOLUTION;
                     this.width = resolution && resolution.width, this.height = resolution && resolution.height, this.bandwidth = playlist1.attributes.BANDWIDTH;
                 }
-                this.codecs = codecsForPlaylist(mpc.master(), playlist1), this.playlist = playlist1, this.id = id, loader = vhsHandler.playlists, playlistID = playlist1.id, changePlaylistFn = qualityChangeFunction, this.enabled = function(enable) {
+                this.codecs = codecsForPlaylist(mpc.master(), playlist1), this.playlist = playlist1, this.id = id, this.enabled = (loader = vhsHandler.playlists, playlistID = playlist1.id, changePlaylistFn = qualityChangeFunction, function(enable) {
                     var playlist = loader.master.playlists[playlistID], incompatible = isIncompatible(playlist), currentlyEnabled = isEnabled(playlist);
                     return void 0 === enable ? currentlyEnabled : (enable ? delete playlist.disabled : playlist.disabled = !0, enable === currentlyEnabled || incompatible || (changePlaylistFn(), enable ? loader.trigger("renditionenabled") : loader.trigger("renditiondisabled")), enable);
-                };
+                });
             }, renditionSelectionMixin = function(vhsHandler) {
                 vhsHandler.representations = function() {
                     var master = vhsHandler.masterPlaylistController_.master(), playlists = isAudioOnly(master) ? vhsHandler.masterPlaylistController_.getAudioTrackPlaylists_() : master.playlists;

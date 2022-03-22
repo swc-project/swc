@@ -11118,9 +11118,9 @@
                 var a6, b4;
                 return a7 = m({
                     children: void 0
-                }, b), a6 = b.children, b4 = "", aa.Children.forEach(a6, function(a) {
+                }, b), (b = (a6 = b.children, b4 = "", aa.Children.forEach(a6, function(a) {
                     null != a && (b4 += a);
-                }), (b = b4) && (a7.children = b), a7;
+                }), b4)) && (a7.children = b), a7;
             }
             function fb(a, b, c, d) {
                 if (a = a.options, b) {
@@ -16153,7 +16153,7 @@
                 var key, _Provider$childContex, _Consumer$contextType, contextProp = "__create-react-context-" + (commonjsGlobal[key = "__global_unique_id__"] = (commonjsGlobal[key] || 0) + 1) + "__", Provider1 = function(_Component) {
                     function Provider() {
                         var _this, value, handlers;
-                        return _this = _Component.apply(this, arguments) || this, value = _this.props.value, handlers = [], _this.emitter = {
+                        return _this = _Component.apply(this, arguments) || this, _this.emitter = (value = _this.props.value, handlers = [], {
                             on: function(handler) {
                                 handlers.push(handler);
                             },
@@ -16170,7 +16170,7 @@
                                     return handler(value, changedBits);
                                 });
                             }
-                        }, _this;
+                        }), _this;
                     }
                     (0, inheritsLoose.Z)(Provider, _Component);
                     var _proto = Provider.prototype;
@@ -16216,7 +16216,7 @@
                         return (children = this.props.children, Array.isArray(children) ? children[0] : children)(this.state.value);
                     }, Consumer;
                 }(_react_17_0_2_react.Component);
-                return (_Consumer$contextType = {})[contextProp] = _prop_types_15_7_2_prop_types_default().object, Consumer1.contextTypes = _Consumer$contextType, {
+                return Consumer1.contextTypes = ((_Consumer$contextType = {})[contextProp] = _prop_types_15_7_2_prop_types_default().object, _Consumer$contextType), {
                     Provider: Provider1,
                     Consumer: Consumer1
                 };
@@ -16426,9 +16426,9 @@
                 var _proto = StaticRouter.prototype;
                 return _proto.navigateTo = function(location, action) {
                     var basename, location1, _this$props = this.props, _this$props$basename = _this$props.basename, _this$props$context = _this$props.context, context = void 0 === _this$props$context ? {} : _this$props$context;
-                    context.action = action, basename = void 0 === _this$props$basename ? "" : _this$props$basename, location1 = (0, esm_history.createLocation)(location), context.location = basename ? (0, esm_extends.Z)({}, location1, {
+                    context.action = action, context.location = (basename = void 0 === _this$props$basename ? "" : _this$props$basename, location1 = (0, esm_history.createLocation)(location), basename ? (0, esm_extends.Z)({}, location1, {
                         pathname: addLeadingSlash(basename) + location1.pathname
-                    }) : location1, context.url = createURL(context.location);
+                    }) : location1), context.url = createURL(context.location);
                 }, _proto.render = function() {
                     var _this$props2 = this.props, _this$props2$basename = _this$props2.basename, basename1 = void 0 === _this$props2$basename ? "" : _this$props2$basename, _this$props2$context = _this$props2.context, _this$props2$location = _this$props2.location, rest = (0, objectWithoutPropertiesLoose.Z)(_this$props2, [
                         "basename",

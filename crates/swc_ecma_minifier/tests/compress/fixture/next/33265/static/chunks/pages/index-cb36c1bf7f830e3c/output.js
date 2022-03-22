@@ -464,11 +464,11 @@
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
             }, findEbml1 = function findEbml(bytes, paths) {
-                paths1 = paths, paths = Array.isArray(paths1) ? paths1.map(function(p) {
+                paths = (paths1 = paths, Array.isArray(paths1) ? paths1.map(function(p) {
                     return ebml_helpers_normalizePath(p);
                 }) : [
                     ebml_helpers_normalizePath(paths1)
-                ], bytes = (0, byte_helpers.Ki)(bytes);
+                ]), bytes = (0, byte_helpers.Ki)(bytes);
                 var paths1, results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
@@ -1083,9 +1083,9 @@
                 pt.constructor != Class && ("function" != typeof Class && console.error("unknown Class:" + Class), pt.constructor = Class);
             }
             var NodeType = {}, ELEMENT_NODE = NodeType.ELEMENT_NODE = 1, ATTRIBUTE_NODE = NodeType.ATTRIBUTE_NODE = 2, TEXT_NODE = NodeType.TEXT_NODE = 3, CDATA_SECTION_NODE = NodeType.CDATA_SECTION_NODE = 4, ENTITY_REFERENCE_NODE = NodeType.ENTITY_REFERENCE_NODE = 5, ENTITY_NODE = NodeType.ENTITY_NODE = 6, PROCESSING_INSTRUCTION_NODE = NodeType.PROCESSING_INSTRUCTION_NODE = 7, COMMENT_NODE = NodeType.COMMENT_NODE = 8, DOCUMENT_NODE = NodeType.DOCUMENT_NODE = 9, DOCUMENT_TYPE_NODE = NodeType.DOCUMENT_TYPE_NODE = 10, DOCUMENT_FRAGMENT_NODE = NodeType.DOCUMENT_FRAGMENT_NODE = 11, NOTATION_NODE = NodeType.NOTATION_NODE = 12, ExceptionCode = {}, ExceptionMessage = {};
-            ExceptionMessage[1] = "Index size error", ExceptionCode.INDEX_SIZE_ERR = 1, ExceptionMessage[2] = "DOMString size error", ExceptionCode.DOMSTRING_SIZE_ERR = 2;
+            ExceptionCode.INDEX_SIZE_ERR = (ExceptionMessage[1] = "Index size error", 1), ExceptionCode.DOMSTRING_SIZE_ERR = (ExceptionMessage[2] = "DOMString size error", 2);
             var HIERARCHY_REQUEST_ERR = ExceptionCode.HIERARCHY_REQUEST_ERR = (ExceptionMessage[3] = "Hierarchy request error", 3);
-            ExceptionMessage[4] = "Wrong document", ExceptionCode.WRONG_DOCUMENT_ERR = 4, ExceptionMessage[5] = "Invalid character", ExceptionCode.INVALID_CHARACTER_ERR = 5, ExceptionMessage[6] = "No data allowed", ExceptionCode.NO_DATA_ALLOWED_ERR = 6, ExceptionMessage[7] = "No modification allowed", ExceptionCode.NO_MODIFICATION_ALLOWED_ERR = 7;
+            ExceptionCode.WRONG_DOCUMENT_ERR = (ExceptionMessage[4] = "Wrong document", 4), ExceptionCode.INVALID_CHARACTER_ERR = (ExceptionMessage[5] = "Invalid character", 5), ExceptionCode.NO_DATA_ALLOWED_ERR = (ExceptionMessage[6] = "No data allowed", 6), ExceptionCode.NO_MODIFICATION_ALLOWED_ERR = (ExceptionMessage[7] = "No modification allowed", 7);
             var NOT_FOUND_ERR = ExceptionCode.NOT_FOUND_ERR = (ExceptionMessage[8] = "Not found", 8);
             ExceptionCode.NOT_SUPPORTED_ERR = (ExceptionMessage[9] = "Not supported", 9);
             var INUSE_ATTRIBUTE_ERR = ExceptionCode.INUSE_ATTRIBUTE_ERR = (ExceptionMessage[10] = "Attribute in use", 10);
@@ -1344,7 +1344,7 @@
             function __set__(object, key, value) {
                 object[key] = value;
             }
-            ExceptionMessage[11] = "Invalid state", ExceptionCode.INVALID_STATE_ERR = 11, ExceptionMessage[12] = "Syntax error", ExceptionCode.SYNTAX_ERR = 12, ExceptionMessage[13] = "Invalid modification", ExceptionCode.INVALID_MODIFICATION_ERR = 13, ExceptionMessage[14] = "Invalid namespace", ExceptionCode.NAMESPACE_ERR = 14, ExceptionMessage[15] = "Invalid access", ExceptionCode.INVALID_ACCESS_ERR = 15, DOMException.prototype = Error.prototype, copy(ExceptionCode, DOMException), NodeList.prototype = {
+            ExceptionCode.INVALID_STATE_ERR = (ExceptionMessage[11] = "Invalid state", 11), ExceptionCode.SYNTAX_ERR = (ExceptionMessage[12] = "Syntax error", 12), ExceptionCode.INVALID_MODIFICATION_ERR = (ExceptionMessage[13] = "Invalid modification", 13), ExceptionCode.NAMESPACE_ERR = (ExceptionMessage[14] = "Invalid namespace", 14), ExceptionCode.INVALID_ACCESS_ERR = (ExceptionMessage[15] = "Invalid access", 15), DOMException.prototype = Error.prototype, copy(ExceptionCode, DOMException), NodeList.prototype = {
                 length: 0,
                 item: function(index) {
                     return this[index] || null;
@@ -3144,9 +3144,9 @@
                     return o[k];
                 })).map(function(playlist) {
                     var l, key;
-                    return l = playlist.segments, key = "discontinuity", playlist.discontinuityStarts = l.reduce(function(a, e, i) {
+                    return playlist.discontinuityStarts = (l = playlist.segments, key = "discontinuity", l.reduce(function(a, e, i) {
                         return e[key] && a.push(i), a;
-                    }, []), playlist;
+                    }, [])), playlist;
                 });
             }, addSidxSegmentsToPlaylist$1 = function(playlist, sidxMapping) {
                 var sidxKey = generateSidxKey(playlist.sidx), sidxMatch = sidxKey && sidxMapping[sidxKey] && sidxMapping[sidxKey].sidx;
