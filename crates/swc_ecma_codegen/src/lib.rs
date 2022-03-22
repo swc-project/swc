@@ -3148,67 +3148,62 @@ fn unescape_tpl_lit(s: &str) -> String {
     }
 
     let mut result = String::with_capacity(s.len() * 6 / 5);
-    let mut chars = s.chars().peekable();
+    let mut iter = s.chars().peekable();
 
-    while let Some(c) = chars.next() {
-        if c != '\\' {
-            match c {
-                '\r' => {
-                    if chars.peek().copied() == Some('\n') {
-                        continue;
-                    }
-
-                    result.push('\r');
-                }
-                '\n' => {
-                    result.push('\n');
-                }
-
-                '`' => {
-                    result.push_str("\\`");
-                }
-
-                // TODO: Handle all escapes
-                _ => {
-                    result.push(c);
-                }
-            }
-
-            continue;
-        }
-
-        match chars.next() {
-            None => {
-                result.push('\\');
-            }
-            Some(c) => {
-                match c {
-                    '0' => match chars.next() {
-                        nc => {
-                            // This is wrong, but it seems like a mistake made by user.
-                            result.push_str("\\0");
-                            result.extend(nc);
-                        }
-                    },
-                    'b' => result.push_str("\\\u{0008}"),
-                    'f' => result.push_str("\\\u{000C}"),
-                    'n' => result.push_str("\\n"),
-                    'r' => result.push_str("\\r"),
-                    'v' => result.push_str("\\\u{000B}"),
-                    't' => result.push_str("\\t"),
-                    '\\' => result.push_str(r"\\"),
-                    '\'' => {
-                        result.push('\'');
-                    }
-                    '"' => {
-                        result.push('"');
-                    }
-                    'x' => read_escaped(16, Some(2), &mut result, &mut chars),
-                    _ => {
+    while let Some(c) = iter.next() {
+        match c {
+            '\\' => {
+                match iter.next() {
+                    None => {
                         result.push('\\');
-                        result.push(c);
+                    }
+                    Some(c) => {
+                        match c {
+                            '0' => match iter.next() {
+                                nc => {
+                                    // This is wrong, but it seems like a mistake made by user.
+                                    result.push_str("\\0");
+                                    result.extend(nc);
+                                }
+                            },
+                            'b' => result.push_str("\\\u{0008}"),
+                            'f' => result.push_str("\\\u{000C}"),
+                            'n' => result.push_str("\\n"),
+                            'r' => result.push_str("\\r"),
+                            'v' => result.push_str("\\\u{000B}"),
+                            't' => result.push_str("\\t"),
+                            '\\' => result.push_str(r"\\"),
+                            '\'' => {
+                                result.push('\'');
+                            }
+                            '"' => {
+                                result.push('"');
+                            }
+                            'x' => read_escaped(16, Some(2), &mut result, &mut iter),
+                            _ => {
+                                result.push('\\');
+                                result.push(c);
+                            }
+                        }
                     }
                 }
+            }
+            '\r' => {
+                if iter.peek() == Some(&'\n') {
+                    continue;
+                }
+
+                result.push('\r');
+            }
+            '\n' => {
+                result.push('\n');
+            }
+            '`' => {
+                result.push_str("\\`");
+            }
+            // TODO: Handle all escapes
+            _ => {
+                result.push(c);
             }
         }
     }
