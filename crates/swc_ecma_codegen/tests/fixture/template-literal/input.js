@@ -198,3 +198,8 @@ console.log(`\t\n\\\r`);
 console.log(``);
 console.log(`\r\n`);
 console.log(`\x0d\x0a`);
+console.log(`
+
+test
+
+`)
