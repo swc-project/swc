@@ -185,7 +185,7 @@ impl VisitMut for PartialInliner {
                                 span: s.span,
                                 tail: true,
                                 // TODO possible bug for quotes
-                                raw: s.value.clone().into(),
+                                raw: s.value.clone(),
                                 cooked: Some(s.value),
                             };
                             tt.tpl = Tpl {
