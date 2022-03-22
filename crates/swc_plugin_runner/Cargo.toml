@@ -26,11 +26,11 @@ swc_ecma_ast = { version = "0.71.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
 tracing = "0.1.32"
-wasmer = { version = "2.2.0", default-features = false }
-wasmer-wasi = { version = "2.2.0", default-features = false }
+wasmer = { version = "2.2.1", default-features = false }
+wasmer-wasi = { version = "2.2.1", default-features = false }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-cache = { version = "2.2.0", optional = true }
+wasmer-cache = { version = "2.2.1", optional = true }
 
 [dev-dependencies]
 swc_atoms = { version = "0.2.7", path = '../swc_atoms' }
@@ -39,5 +39,5 @@ swc_ecma_parser = { version = "0.95.0", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "0.57.0", path = "../swc_ecma_visit" }
 testing = { version = "0.19.0", path = "../testing" }
 # This allows we can run non-wasm32 target build command while some pkg select features for wasmer/js omits its transitive deps
-wasmer = { version = "2.2.0" }
-wasmer-wasi = { version = "2.2.0" }
+wasmer = "2.2.1"
+wasmer-wasi = "2.2.1"
