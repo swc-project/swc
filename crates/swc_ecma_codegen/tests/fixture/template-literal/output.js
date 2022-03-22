@@ -11,7 +11,7 @@ const template_literal7 = example`string text ${expression} string text`;
 const template_literal8 = `header ${isLargeScreen() ? '' : `icon-${item.isCollapsed ? 'expander' : 'collapser'}`}`;
 const template_literal9 = `test \u00A9`;
 const template_literal10 = `test \u{2F804}`;
-const template_literal11 = `test \xA9`;
+const template_literal11 = `test \xa9`;
 const template_literal12 = `test \o251`;
 function latex(str) {
     return {
@@ -89,7 +89,7 @@ const template_literal68 = `1 ${2 + `3 ${any} 4` + 5} 6`;
 const template_literal69 = `</script>${content}`;
 const template_literal70 = `<!--`;
 const template_literal71 = `-->`;
-const template_literal72 = `\u0020\u{20}\u{00020}\x20 `;
+const template_literal72 = `\u0020\u{20}\u{00020}  `;
 console.log(`\\n\\r\\u2028\\u2029\n\r\u2028\u2029`);
 function a() {
     return `\
@@ -116,10 +116,10 @@ function x(s) {
 }
 console.log(String.raw`\u`);
 console.log(x`\u`);
-console.log(String.raw`\unicode \xerces \1234567890`);
+console.log(String.raw`\unicode \x0erces \1234567890`);
 let z = ()=>String.raw
 ;
-console.log(z()`\4321\u\x`);
+console.log(z()`\4321\u\x00`);
 var str = `foo ${'`;\n`${any}'} bar`;
 var concat = `foo ${any} bar` + '`;\n`${any}';
 var template = `foo ${'`;\n`${any}'} ${any} bar`;
@@ -133,3 +133,13 @@ const template_literal78 = `\uD800`;
 const template_literal79 = `\uDBFF`;
 const template_literal80 = `\uDC00`;
 const template_literal81 = `\uDFFF`;
+const template_literal81 = `2`;
+const template_literal82 = `~`;
+const template_literal82 = `\x01`;
+const template_literal83 = `\x10`;
+const template_literal84 = `\x7f`;
+const template_literal85 = `\0`;
+const template_literal86 = `\0a`;
+const template_literal87 = `\0b`;
+const template_literal88 = `\o0`;
+const template_literal89 = `\x00`;

@@ -128,3 +128,14 @@ const template_literal78 = `\uD800`;
 const template_literal79 = `\uDBFF`;
 const template_literal80 = `\uDC00`;
 const template_literal81 = `\uDFFF`;
+const template_literal81 = `\x32`;
+const template_literal82 = `\x7e`;
+const template_literal82 = `\x01`;
+const template_literal83 = `\x10`;
+const template_literal84 = `\x7f`;
+const template_literal85 = `\0`;
+const template_literal86 = `\0a`;
+const template_literal87 = `\0b`;
+const template_literal88 = `\0o`;
+const template_literal89 = `\0x`;
+

@@ -3120,7 +3120,22 @@ fn unescape_tpl_lit(s: &str) -> String {
                 if v < 16 {
                     write!(buf, "\\x0{:x}", v).unwrap()
                 } else {
-                    write!(buf, "\\x{:x}", v).unwrap()
+                    match v {
+                        // '\x20'..='\x7e'
+                        32..=126 => {
+                            let c = char::from_u32(v);
+
+                            match c {
+                                Some(c) => write!(buf, "{}", c).unwrap(),
+                                _ => {
+                                    unreachable!()
+                                }
+                            }
+                        }
+                        _ => {
+                            write!(buf, "\\x{:x}", v).unwrap();
+                        }
+                    }
                 }
             }
 
@@ -3170,7 +3185,6 @@ fn unescape_tpl_lit(s: &str) -> String {
             Some(c) => {
                 match c {
                     '0' => match chars.next() {
-                        Some('b') => read_escaped(2, None, &mut result, &mut chars),
                         Some('o') => read_escaped(8, None, &mut result, &mut chars),
                         Some('x') => read_escaped(16, Some(2), &mut result, &mut chars),
                         nc => {
@@ -3192,6 +3206,7 @@ fn unescape_tpl_lit(s: &str) -> String {
                     '"' => {
                         result.push('"');
                     }
+                    'x' => read_escaped(16, Some(2), &mut result, &mut chars),
                     _ => {
                         result.push('\\');
                         result.push(c);
