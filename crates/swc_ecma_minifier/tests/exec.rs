@@ -9587,7 +9587,7 @@ fn plotly_1() {
 
 #[test]
 fn internal_1() {
-    let src = r###""
+    let src = r###"
     function H (x) {
         return function (y, z) {
             return x._ + y + z
