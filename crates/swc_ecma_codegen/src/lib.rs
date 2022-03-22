@@ -3154,9 +3154,6 @@ fn unescape_tpl_lit(s: &str) -> String {
         match c {
             '\\' => {
                 match iter.next() {
-                    None => {
-                        result.push('\\');
-                    }
                     Some(c) => {
                         match c {
                             '0' => match iter.next() {
@@ -3186,17 +3183,21 @@ fn unescape_tpl_lit(s: &str) -> String {
                             }
                         }
                     }
+                    None => {
+                        result.push('\\');
+                    }
                 }
             }
+            '\n' => {
+                result.push('\n');
+            }
             '\r' => {
+                // TODO only for minify
                 if iter.peek() == Some(&'\n') {
                     continue;
                 }
 
                 result.push('\r');
-            }
-            '\n' => {
-                result.push('\n');
             }
             '`' => {
                 result.push_str("\\`");
