@@ -189,3 +189,5 @@ console.log(`
 `\ `;
 const template_literal114 = `﻿`;
 const template_literal115 = `\﻿`;
+test//test
+`\n`

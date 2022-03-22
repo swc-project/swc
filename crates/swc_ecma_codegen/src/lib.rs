@@ -1567,6 +1567,7 @@ where
         srcmap!(node, true);
 
         punct!("`");
+
         let i = 0;
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
@@ -1597,9 +1598,47 @@ where
         }
 
         emit!(node.type_params);
-        emit!(node.tpl);
+        self.emit_template_for_tagged_template(&node.tpl)?;
 
         srcmap!(node, false);
+    }
+
+    fn emit_template_for_tagged_template(&mut self, node: &Tpl) -> Result {
+        debug_assert!(node.quasis.len() == node.exprs.len() + 1);
+
+        self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(self, node, true);
+
+        punct!(self, "`");
+
+        let i = 0;
+
+        for i in 0..(node.quasis.len() + node.exprs.len()) {
+            if i % 2 == 0 {
+                self.emit_template_element_for_tagged_template(&node.quasis[i / 2])?;
+            } else {
+                punct!(self, "${");
+                emit!(self, node.exprs[i / 2]);
+                punct!(self, "}");
+            }
+        }
+
+        punct!(self, "`");
+
+        srcmap!(self, node, false);
+
+        Ok(())
+    }
+
+    fn emit_template_element_for_tagged_template(&mut self, node: &TplElement) -> Result {
+        srcmap!(self, node, true);
+
+        self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
+
+        srcmap!(self, node, false);
+
+        Ok(())
     }
 
     #[emitter]
