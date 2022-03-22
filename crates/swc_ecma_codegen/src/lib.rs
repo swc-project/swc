@@ -3088,12 +3088,12 @@ fn unescape_tpl_lit(s: &str) -> String {
         radix: u32,
         len: Option<usize>,
         buf: &mut String,
-        chars: impl Iterator<Item = char>,
+        iter: impl Iterator<Item = char>,
     ) {
         let mut v = 0;
         let mut pending = None;
 
-        for (i, c) in chars.enumerate() {
+        for (i, c) in iter.enumerate() {
             if let Some(len) = len {
                 if i == len {
                     pending = Some(c);
@@ -3113,10 +3113,6 @@ fn unescape_tpl_lit(s: &str) -> String {
         }
 
         match radix {
-            2 => write!(buf, "\\b{:b}", v).unwrap(),
-
-            8 => write!(buf, "\\o{:o}", v).unwrap(),
-
             16 => {
                 if v < 16 {
                     write!(buf, "\\x0{:x}", v).unwrap()
@@ -3155,9 +3151,8 @@ fn unescape_tpl_lit(s: &str) -> String {
         match c {
             '\\' => match iter.next() {
                 Some(c) => match c {
-                    '\u{0008}' => buf.push_str("\\b"),
-                    '\u{000c}' => buf.push_str("\\f"),
-                    '\u{000b}' => buf.push_str("\\v"),
+                    'n' => buf.push('\n'),
+                    't' => buf.push('\t'),
                     '\'' => {
                         buf.push('\'');
                     }
@@ -3174,16 +3169,6 @@ fn unescape_tpl_lit(s: &str) -> String {
                     buf.push('\\');
                 }
             },
-            '\n' => {
-                buf.push('\n');
-            }
-            '\r' => {
-                if iter.peek() == Some(&'\n') {
-                    continue;
-                }
-
-                buf.push('\r');
-            }
             '\x20'..='\x7e' => {
                 buf.push(c);
             }
@@ -3199,7 +3184,7 @@ fn unescape_tpl_lit(s: &str) -> String {
             '\u{FEFF}' => {
                 buf.push_str("\\uFEFF");
             }
-            // TODO: Handle all escapes
+            // TODO handle unicode characters and surrogate pairs
             _ => {
                 buf.push(c);
             }

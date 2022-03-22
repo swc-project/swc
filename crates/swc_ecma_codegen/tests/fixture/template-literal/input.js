@@ -156,7 +156,17 @@ const template_literal102 = `
 test 
 test 
 test§
+	test	
 `;
 const template_literal103 = `\0z`;
 const template_literal104 = `\0`;
 const template_literal105 = `x``x`;
+const template_literal106 = `😀`;
+const template_literal107 = `\u1111`;
+const template_literal108 = `\u{1111}`;
+const template_literal109 = `\x10`;
+const template_literal110 = `\\x10`;
+const template_literal111 = `\\\\`;
+const template_literal112 = ``;
+const template_literal113 = ``;
+const template_literal113 = ``;

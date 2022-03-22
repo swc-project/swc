@@ -90,7 +90,8 @@ const template_literal69 = `</script>${content}`;
 const template_literal70 = `<!--`;
 const template_literal71 = `-->`;
 const template_literal72 = `\u0020\u{20}\u{00020}  `;
-console.log(`\\n\\r\\u2028\\u2029\n\r\u2028\u2029`);
+console.log(`\\n\\r\\u2028\\u2029
+\r\u2028\u2029`);
 function a() {
     return `\
 foo`;
@@ -109,7 +110,8 @@ function d() {
     `qux`;
 }
 function e() {
-    return `\nfin`;
+    return `
+fin`;
 }
 function x(s) {
     return s.raw[0];
@@ -151,17 +153,28 @@ String.raw`\0a`;
 const template_literal93 = `\u1234`;
 const template_literal94 = `\u{1234}`;
 const template_literal95 = `    `;
-const template_literal96 = `\n`;
+const template_literal96 = `
+`;
 const template_literal97 = `\r`;
 const template_literal98 = `\v`;
-const template_literal99 = `\t`;
+const template_literal99 = `	`;
 const template_literal100 = `\b`;
 const template_literal101 = `\f`;
 const template_literal102 = `
 test\u2028
 test\u2029
 test\xa7
+	test	
 `;
 const template_literal103 = `\0z`;
 const template_literal104 = `\0`;
 const template_literal105 = `x``x`;
+const template_literal106 = `😀`;
+const template_literal107 = `\u1111`;
+const template_literal108 = `\u{1111}`;
+const template_literal109 = `\x10`;
+const template_literal110 = `\\x10`;
+const template_literal111 = `\\\\`;
+const template_literal112 = ``;
+const template_literal113 = ``;
+const template_literal113 = `\x7f`;
