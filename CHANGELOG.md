@@ -22,6 +22,9 @@
 
 - **(es/parser)** Allow parentheses in assignment target (#4105) ([d38117d](https://github.com/swc-project/swc/commit/d38117d4cb6fb2819efc18dae843546018c39362))
 
+
+- **(es/parser)** Make `let` a reserved word in strict mode (#4113) ([9a8fc27](https://github.com/swc-project/swc/commit/9a8fc2776e8bbd349a0a86eb558e2e96f33c0242))
+
 ### Features
 
 
