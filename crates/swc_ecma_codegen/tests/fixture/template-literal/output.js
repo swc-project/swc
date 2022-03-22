@@ -207,3 +207,64 @@ console.log(`
 test
 
 `);
+console.log(`#!/usr/bin/env bash
+# bash completion support for ${path}${version}
+_${replaceSpecialChars(path)}() {
+  local word cur prev
+  local -a opts
+  COMPREPLY=()
+  cur="\${COMP_WORDS[COMP_CWORD]}"
+  prev="\${COMP_WORDS[COMP_CWORD-1]}"
+  cmd="_"
+  opts=()
+  _${replaceSpecialChars(this.cmd.getName())}_complete() {
+    local action="$1"; shift
+    mapfile -t values < <( ${this.cmd.getName()} completions complete "\${action}" "\${@}" )
+    for i in "\${values[@]}"; do
+      opts+=("$i")
+    done
+  }
+  ${this.generateCompletions(this.cmd).trim()}
+  for word in "\${COMP_WORDS[@]}"; do
+    case "\${word}" in
+      -*) ;;
+      *)
+        cmd_tmp="\${cmd}_\${word//[^[:alnum:]]/_}"
+        if type "\${cmd_tmp}" &>/dev/null; then
+          cmd="\${cmd_tmp}"
+        fi
+    esac
+  done
+  \${cmd}
+  if [[ \${#opts[@]} -eq 0 ]]; then
+    # shellcheck disable=SC2207
+    COMPREPLY=($(compgen -f "\${cur}"))
+    return 0
+  fi
+  local values
+  values="$( printf "\\n%s" "\${opts[@]}" )"
+  local IFS=$'\\n'
+  # shellcheck disable=SC2207
+  local result=($(compgen -W "\${values[@]}" -- "\${cur}"))
+  if [[ \${#result[@]} -eq 0 ]]; then
+    # shellcheck disable=SC2207
+    COMPREPLY=($(compgen -f "\${cur}"))
+  else
+    # shellcheck disable=SC2207
+    COMPREPLY=($(printf '%q\\n' "\${result[@]}"))
+  fi
+  return 0
+}
+complete -F _${replaceSpecialChars(path)} -o bashdefault -o default ${path}`);
+console.log(`\$`);
+console.log(`\$0`);
+console.log(`\$a`);
+console.log(`\${`);
+console.log(`$\{`);
+console.log(`$\{$`);
+console.log(`\$\{`);
+console.log(`\$\{\{`);
+console.log(`\$\{\$\{\$\{`);
+console.log(`\$\{{`);
+console.log(`\$\{\}`);
+console.log(`\$\{\}\$\{\}\$\{\}`);

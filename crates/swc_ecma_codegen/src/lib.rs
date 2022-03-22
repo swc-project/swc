@@ -3189,6 +3189,8 @@ fn get_template_element_from_raw(s: &str) -> String {
     let mut buf = String::with_capacity(s.len());
     let mut iter = s.chars().peekable();
 
+    let mut is_dollar_prev = false;
+
     while let Some(c) = iter.next() {
         let unescape = match c {
             '\\' => match iter.next() {
@@ -3222,6 +3224,20 @@ fn get_template_element_from_raw(s: &str) -> String {
 
                             None
                         }
+                        '$' if iter.peek() == Some(&'{') => {
+                            buf.push('\\');
+                            buf.push('$');
+
+                            None
+                        }
+                        '{' if is_dollar_prev => {
+                            buf.push('\\');
+                            buf.push('{');
+
+                            is_dollar_prev = false;
+
+                            None
+                        }
                         _ => Some(c),
                     },
                 },
@@ -3231,6 +3247,11 @@ fn get_template_element_from_raw(s: &str) -> String {
         };
 
         match unescape {
+            Some(c @ '$') => {
+                is_dollar_prev = true;
+
+                buf.push(c);
+            }
             // Octal doesn't supported in template literals, except in tagged templates, but
             // we don't use this for tagged templates, they are printing as is
             Some('\u{0008}') => buf.push_str("\\b"),
@@ -3240,7 +3261,7 @@ fn get_template_element_from_raw(s: &str) -> String {
             Some(c @ '\x20'..='\x7e') => {
                 buf.push(c);
             }
-            Some('\u{7f}'..='\u{ff}') => {
+            Some(c @ '\u{7f}'..='\u{ff}') => {
                 let _ = write!(buf, "\\x{:x}", c as u8);
             }
             Some('\u{2028}') => {
