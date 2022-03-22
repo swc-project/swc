@@ -202,4 +202,26 @@ impl PluginModuleCache {
 
         unimplemented!("Not implemented yet");
     }
+
+    /// An experimental interface to store externally loaded module bytes into
+    /// cache. This is primarily to support swc/wasm-* target, which does
+    /// not have way to access system, especially filesystem by default.
+    ///
+    /// Currently this doesn't do any validation or expiration: once a bytes set
+    /// with specific id, subsequent call will noop.
+    ///
+    /// This interface is not a public, but also will likely change anytime
+    /// while stablizing plugin interface.
+    #[cfg(target_arch = "wasm32")]
+    pub fn store_once(&self, module_name: &str, module_bytes: Vec<u8>) {
+        // We use path as canonical id for the cache
+        let binary_path = PathBuf::from(module_name);
+        let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
+
+        if !inner_cache.loaded_module_bytes.contains_key(&binary_path) {
+            inner_cache
+                .loaded_module_bytes
+                .insert(binary_path, module_bytes);
+        }
+    }
 }
