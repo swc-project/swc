@@ -75,8 +75,6 @@
                         fn || 'debug' !== type || (fn = global_window__WEBPACK_IMPORTED_MODULE_0___default().console.info || global_window__WEBPACK_IMPORTED_MODULE_0___default().console.log), fn && lvl && lvlRegExp.test(type) && fn[Array.isArray(args) ? 'apply' : 'call'](global_window__WEBPACK_IMPORTED_MODULE_0___default().console, args);
                     }
                 }), log1.createLogger = function(subname) {
-                    return createLogger$1(name + ": " + subname);
-                }, log1.createLogger = function(subname) {
                     return createLogger$1(name + ': ' + subname);
                 }, log1.levels = {
                     all: 'debug|log|warn|error',
@@ -14445,10 +14443,8 @@
                 }
                 this.codecs = codecsForPlaylist(mpc.master(), playlist1), this.playlist = playlist1, this.id = id, this.enabled = (loader = vhsHandler.playlists, playlistID = playlist1.id, changePlaylistFn = qualityChangeFunction, function(enable) {
                     var playlist = loader.master.playlists[playlistID], incompatible = isIncompatible(playlist), currentlyEnabled = isEnabled(playlist);
-                    return void 0 === enable ? currentlyEnabled : (enable ? delete playlist.disabled : playlist.disabled = !0, enable === currentlyEnabled || incompatible || (changePlaylistFn(), enable ? loader.trigger("renditionenabled") : loader.trigger("renditiondisabled")), enable);
-                });
                     return void 0 === enable ? currentlyEnabled : (enable ? delete playlist.disabled : playlist.disabled = !0, enable === currentlyEnabled || incompatible || (changePlaylistFn(), enable ? loader.trigger('renditionenabled') : loader.trigger('renditiondisabled')), enable);
-                };
+                });
             }, renditionSelectionMixin = function(vhsHandler) {
                 vhsHandler.representations = function() {
                     var master = vhsHandler.masterPlaylistController_.master(), playlists = isAudioOnly(master) ? vhsHandler.masterPlaylistController_.getAudioTrackPlaylists_() : master.playlists;

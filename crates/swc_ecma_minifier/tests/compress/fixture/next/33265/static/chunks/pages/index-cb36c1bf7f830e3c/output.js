@@ -3144,8 +3144,7 @@
                     return o[k];
                 })).map(function(playlist) {
                     var l, key;
-                    return playlist.discontinuityStarts = (l = playlist.segments, key = "discontinuity", l.reduce(function(a, e, i) {
-                    return l = playlist.segments, key = 'discontinuity', playlist.discontinuityStarts = l.reduce(function(a, e, i) {
+                    return playlist.discontinuityStarts = (l = playlist.segments, key = 'discontinuity', l.reduce(function(a, e, i) {
                         return e[key] && a.push(i), a;
                     }, [])), playlist;
                 });

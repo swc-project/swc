@@ -769,10 +769,8 @@ var $try = Function.attempt;
     }, MSXML2 = function() {
         return new ActiveXObject('MSXML2.XMLHTTP');
     }, MSXML = function() {
-        return new ActiveXObject("Microsoft.XMLHTTP");
-    }, Function.attempt(function() {
         return new ActiveXObject('Microsoft.XMLHTTP');
-    }, Browser.Request = Function.attempt(function() {
+    }, Function.attempt(function() {
         return XMLHTTP(), XMLHTTP;
     }, function() {
         return MSXML2(), MSXML2;
@@ -1691,8 +1689,7 @@ var Element = function(tag, props) {
 };
 Browser.Element && (Element.prototype = Browser.Element.prototype, Element.prototype._fireEvent = (fireEvent = Element.prototype.fireEvent, function(type, event) {
     return fireEvent.call(this, type, event);
-})), new Type("Element", Element).mirror(function(name) {
-}), new Type('Element', Element).mirror(function(name) {
+})), new Type('Element', Element).mirror(function(name) {
     if (!Array.prototype[name]) {
         var obj = {};
         obj[name] = function() {
