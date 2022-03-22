@@ -3157,7 +3157,11 @@ fn get_template_element_from_raw(s: &str) -> String {
         match radix {
             16 => {
                 match v {
-                    0..=15 => write!(buf, "\\x0{:x}", v).unwrap(),
+                    0 => match pending {
+                        Some('1'..='9') => write!(buf, "\\x00").unwrap(),
+                        _ => write!(buf, "\\0").unwrap(),
+                    },
+                    1..=15 => write!(buf, "\\x0{:x}", v).unwrap(),
                     // '\x20'..='\x7e'
                     32..=126 => {
                         let c = char::from_u32(v);
@@ -3239,12 +3243,21 @@ fn get_template_element_from_raw(s: &str) -> String {
 
                 buf.push(c);
             }
+            Some('\x00') => {
+                let next = iter.peek();
+
+                match next {
+                    Some('1'..='9') => buf.push_str("\\x00"),
+                    _ => buf.push_str("\\0"),
+                }
+            }
             // Octal doesn't supported in template literals, except in tagged templates, but
             // we don't use this for tagged templates, they are printing as is
             Some('\u{0008}') => buf.push_str("\\b"),
             Some('\u{000c}') => buf.push_str("\\f"),
             Some('\u{000b}') => buf.push_str("\\v"),
             // Print `\n`, `\t` and `\r` as is
+            // Print `"` and `'` without quotes
             Some(c @ '\x20'..='\x7e') => {
                 buf.push(c);
             }
