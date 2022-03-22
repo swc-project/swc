@@ -437,8 +437,7 @@ fn tpl_escape_6() {
 }"#;
     let to = r#"export class MultipartReader {
     newLine = encoder.encode("\r\n");
-    newLineDashBoundary = encoder.encode(`\r
---${this.boundary}`);
+    newLineDashBoundary = encoder.encode(`\r\n--${this.boundary}`);
     dashBoundaryDash = encoder.encode(`--${this.boundary}--`);
 }"#;
 

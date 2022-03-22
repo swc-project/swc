@@ -1606,9 +1606,11 @@ where
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
         srcmap!(node, true);
 
-        // TODO print as is raw when minify is disabled
-        self.wr
-            .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw))?;
+        if self.cfg.minify {
+            self.wr.write_str_lit(DUMMY_SP, &get_raw_utf16(&node.raw))?;
+        } else {
+            self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
+        }
 
         srcmap!(node, false);
     }
@@ -3083,7 +3085,7 @@ where
     }
 }
 
-fn unescape_tpl_lit(s: &str) -> String {
+fn get_raw_utf16(s: &str) -> String {
     fn read_escaped(
         radix: u32,
         len: Option<usize>,
