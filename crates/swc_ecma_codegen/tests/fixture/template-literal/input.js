@@ -156,3 +156,5 @@ const template_literal102 = `
 test 
 test 
 `;
+const template_literal103 = `\0z`;
+const template_literal104 = `\0`;

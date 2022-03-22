@@ -161,3 +161,5 @@ const template_literal102 = `
 test\u2028
 test\u2029
 `;
+const template_literal103 = `\0z`;
+const template_literal104 = `\0`;

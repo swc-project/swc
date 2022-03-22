@@ -3155,12 +3155,6 @@ fn unescape_tpl_lit(s: &str) -> String {
         match c {
             '\\' => match iter.next() {
                 Some(c) => match c {
-                    '0' => {
-                        let next = iter.next();
-
-                        buf.push_str("\\0");
-                        buf.extend(next);
-                    }
                     '\u{0008}' => buf.push_str("\\b"),
                     '\u{000c}' => buf.push_str("\\f"),
                     '\u{000b}' => buf.push_str("\\v"),
