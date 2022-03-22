@@ -3203,43 +3203,31 @@ fn get_template_element_from_raw(s: &str) -> String {
                         None
                     }
                     // TODO handle `\u1111` and `\u{1111}` too
-                    _ => match c {
-                        // Source - https://github.com/eslint/eslint/blob/main/lib/rules/no-useless-escape.js
-                        '\u{2028}' | '\u{2029}' => None,
-                        '\\'
-                        | 'n'
-                        | 'r'
-                        | 'v'
-                        | 't'
-                        | 'b'
-                        | 'f'
-                        | 'u'
-                        | 'x'
-                        | '\r'
-                        | '\n'
-                        | '`'
-                        | '0'..='7' => {
-                            buf.push('\\');
-                            buf.push(c);
+                    // Source - https://github.com/eslint/eslint/blob/main/lib/rules/no-useless-escape.js
+                    '\u{2028}' | '\u{2029}' => None,
+                    // `\t` and `\h` are special cases, because they can be replaced on real
+                    // characters `\xXX` can be replaced on character
+                    '\\' | 'r' | 'v' | 'b' | 'f' | 'u' | '\r' | '\n' | '`' | '0'..='7' => {
+                        buf.push('\\');
+                        buf.push(c);
 
-                            None
-                        }
-                        '$' if iter.peek() == Some(&'{') => {
-                            buf.push('\\');
-                            buf.push('$');
+                        None
+                    }
+                    '$' if iter.peek() == Some(&'{') => {
+                        buf.push('\\');
+                        buf.push('$');
 
-                            None
-                        }
-                        '{' if is_dollar_prev => {
-                            buf.push('\\');
-                            buf.push('{');
+                        None
+                    }
+                    '{' if is_dollar_prev => {
+                        buf.push('\\');
+                        buf.push('{');
 
-                            is_dollar_prev = false;
+                        is_dollar_prev = false;
 
-                            None
-                        }
-                        _ => Some(c),
-                    },
+                        None
+                    }
+                    _ => Some(c),
                 },
                 None => Some('\\'),
             },
