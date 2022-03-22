@@ -157,3 +157,7 @@ const template_literal98 = `\v`;
 const template_literal99 = `\t`;
 const template_literal100 = `\b`;
 const template_literal101 = `\f`;
+const template_literal102 = `
+test\u2028
+test\u2029
+`;

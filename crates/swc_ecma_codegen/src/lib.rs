@@ -1606,6 +1606,7 @@ where
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
         srcmap!(node, true);
 
+        // TODO print as is raw when minify is disabled
         self.wr
             .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw))?;
 
@@ -3147,66 +3148,68 @@ fn unescape_tpl_lit(s: &str) -> String {
         }
     }
 
-    let mut result = String::with_capacity(s.len() * 6 / 5);
+    let mut buf = String::with_capacity(s.len());
     let mut iter = s.chars().peekable();
 
     while let Some(c) = iter.next() {
         match c {
-            '\\' => {
-                match iter.next() {
-                    Some(c) => {
-                        match c {
-                            '0' => match iter.next() {
-                                nc => {
-                                    // This is wrong, but it seems like a mistake made by user.
-                                    result.push_str("\\0");
-                                    result.extend(nc);
-                                }
-                            },
-                            '\u{0008}' => result.push_str("\\b"),
-                            '\u{000c}' => result.push_str("\\f"),
-                            '\u{000b}' => result.push_str("\\v"),
-                            '\\' => result.push_str(r"\\"),
-                            '\'' => {
-                                result.push('\'');
-                            }
-                            '"' => {
-                                result.push('"');
-                            }
-                            'x' => read_escaped(16, Some(2), &mut result, &mut iter),
-                            _ => {
-                                result.push('\\');
-                                result.push(c);
-                            }
-                        }
+            '\\' => match iter.next() {
+                Some(c) => match c {
+                    '0' => {
+                        let next = iter.next();
+
+                        buf.push_str("\\0");
+                        buf.extend(next);
                     }
-                    None => {
-                        result.push('\\');
+                    '\u{0008}' => buf.push_str("\\b"),
+                    '\u{000c}' => buf.push_str("\\f"),
+                    '\u{000b}' => buf.push_str("\\v"),
+                    '\'' => {
+                        buf.push('\'');
                     }
+                    '"' => {
+                        buf.push('"');
+                    }
+                    'x' => read_escaped(16, Some(2), &mut buf, &mut iter),
+                    _ => {
+                        buf.push('\\');
+                        buf.push(c);
+                    }
+                },
+                None => {
+                    buf.push('\\');
                 }
-            }
+            },
             '\n' => {
-                result.push('\n');
+                buf.push('\n');
             }
             '\r' => {
-                // TODO only for minify
                 if iter.peek() == Some(&'\n') {
                     continue;
                 }
 
-                result.push('\r');
+                buf.push('\r');
             }
             '`' => {
-                result.push_str("\\`");
+                buf.push_str("\\`");
+            }
+            '\u{2028}' => {
+                buf.push_str("\\u2028");
+            }
+            '\u{2029}' => {
+                buf.push_str("\\u2029");
+            }
+            '\u{FEFF}' => {
+                buf.push_str("\\uFEFF");
             }
             // TODO: Handle all escapes
             _ => {
-                result.push(c);
+                buf.push(c);
             }
         }
     }
 
-    result
+    buf
 }
 
 fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
