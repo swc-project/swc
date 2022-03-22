@@ -3163,12 +3163,9 @@ fn unescape_tpl_lit(s: &str) -> String {
                                     result.extend(nc);
                                 }
                             },
-                            'b' => result.push_str("\\\u{0008}"),
-                            'f' => result.push_str("\\\u{000C}"),
-                            'n' => result.push_str("\\n"),
-                            'r' => result.push_str("\\r"),
-                            'v' => result.push_str("\\\u{000B}"),
-                            't' => result.push_str("\\t"),
+                            '\u{0008}' => result.push_str("\\b"),
+                            '\u{000c}' => result.push_str("\\f"),
+                            '\u{000b}' => result.push_str("\\v"),
                             '\\' => result.push_str(r"\\"),
                             '\'' => {
                                 result.push('\'');

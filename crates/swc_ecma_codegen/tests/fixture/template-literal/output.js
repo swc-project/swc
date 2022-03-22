@@ -153,7 +153,7 @@ const template_literal94 = `\u{1234}`;
 const template_literal95 = `    `;
 const template_literal96 = `\n`;
 const template_literal97 = `\r`;
-const template_literal98 = `\`;
+const template_literal98 = `\v`;
 const template_literal99 = `\t`;
-const template_literal100 = `\`;
-const template_literal101 = `\`;
+const template_literal100 = `\b`;
+const template_literal101 = `\f`;
