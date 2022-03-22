@@ -1607,7 +1607,8 @@ where
         srcmap!(node, true);
 
         if self.cfg.minify {
-            self.wr.write_str_lit(DUMMY_SP, &get_raw_utf16(&node.raw))?;
+            self.wr
+                .write_str_lit(DUMMY_SP, &get_template_element_from_raw(&node.raw))?;
         } else {
             self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
         }
@@ -3085,7 +3086,7 @@ where
     }
 }
 
-fn get_raw_utf16(s: &str) -> String {
+fn get_template_element_from_raw(s: &str) -> String {
     fn read_escaped(
         radix: u32,
         len: Option<usize>,
@@ -3162,10 +3163,30 @@ fn get_raw_utf16(s: &str) -> String {
                         buf.push('"');
                     }
                     'x' => read_escaped(16, Some(2), &mut buf, &mut iter),
-                    _ => {
-                        buf.push('\\');
-                        buf.push(c);
-                    }
+                    // TODO handle `\u1111` and `\u{1111}` too
+                    _ => match c {
+                        '\\'
+                        | 'n'
+                        | 'r'
+                        | 'v'
+                        | 't'
+                        | 'b'
+                        | 'f'
+                        | 'u'
+                        | 'x'
+                        | '\r'
+                        | '\n'
+                        | '\u{2028}'
+                        | '\u{2029}'
+                        | '`'
+                        | '0'..='7' => {
+                            buf.push('\\');
+                            buf.push(c);
+                        }
+                        _ => {
+                            buf.push(c);
+                        }
+                    },
                 },
                 None => {
                     buf.push('\\');
