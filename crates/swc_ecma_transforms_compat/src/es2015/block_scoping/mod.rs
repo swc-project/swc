@@ -1039,7 +1039,7 @@ impl Visit for YieldFinder {
 
     fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_yield_expr(&mut self, e: &YieldExpr) {
+    fn visit_yield_expr(&mut self, _: &YieldExpr) {
         self.found = true;
     }
 }
