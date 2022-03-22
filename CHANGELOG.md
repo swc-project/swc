@@ -61,6 +61,12 @@
 
 - **(plugin/runner)** Update `wasmer-*` (#4111) ([f41a717](https://github.com/swc-project/swc/commit/f41a717c457d7ca3e9b5cd6a24ce0fa48040b6f4))- **general**: Typo ([3f78053](https://github.com/swc-project/swc/commit/3f78053227f2d286940e9b118f27aa9474b0c838))- **general**: Fix CI ([565a720](https://github.com/swc-project/swc/commit/565a7202eda1435498f7d98a1f9ec1b34d9fdf33))- **general**: Fix CI ([b31ead5](https://github.com/swc-project/swc/commit/b31ead5cbed61b201991cf55e227a6de52365a24))
 
+### Testing
+
+
+
+- **(es/codegen)** Add a test for fixed issue (#4121) ([95c572f](https://github.com/swc-project/swc/commit/95c572f20710e4770a58d99d8028be1651099bb2))
+
 ## [1.2.159] - 2022-03-19
 
 ### Bug Fixes
