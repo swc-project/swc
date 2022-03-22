@@ -9584,3 +9584,32 @@ fn plotly_1() {
 
     run_exec_test(src, config, false);
 }
+
+#[test]
+fn internal_1() {
+    let src = r###""
+    function H (x) {
+        return function (y, z) {
+            return x._ + y + z
+        }
+    }
+    
+    function P () {
+        var a = 0
+        a = {
+            _: 1
+        }
+        a.calc = H(a)
+        return a
+    }
+    
+    console.log(P().calc(1, 1))
+    "###;
+
+    let config = r###"{
+        "defaults": true,
+        "toplevel": true
+    }"###;
+
+    run_exec_test(src, config, false);
+}
