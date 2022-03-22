@@ -3184,8 +3184,11 @@ fn unescape_tpl_lit(s: &str) -> String {
 
                 buf.push('\r');
             }
-            '`' => {
-                buf.push_str("\\`");
+            '\x20'..='\x7e' => {
+                buf.push(c);
+            }
+            '\u{7f}'..='\u{ff}' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
             }
             '\u{2028}' => {
                 buf.push_str("\\u2028");

@@ -160,6 +160,8 @@ const template_literal101 = `\f`;
 const template_literal102 = `
 test\u2028
 test\u2029
+test\xa7
 `;
 const template_literal103 = `\0z`;
 const template_literal104 = `\0`;
+const template_literal105 = `x``x`;

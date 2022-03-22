@@ -155,6 +155,8 @@ const template_literal101 = `\f`;
 const template_literal102 = `
 test 
 test 
+test§
 `;
 const template_literal103 = `\0z`;
 const template_literal104 = `\0`;
+const template_literal105 = `x``x`;
