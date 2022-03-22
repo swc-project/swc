@@ -140,4 +140,7 @@ const template_literal88 = `\0o`;
 const template_literal89 = `\0x`;
 const template_literal90 = `\\x32`;
 const template_literal91 = `\\\x32`;
+const template_literal92 = `\\`;
+String.raw`\01`
+String.raw`\0a`
 

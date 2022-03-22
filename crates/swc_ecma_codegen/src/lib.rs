@@ -3179,7 +3179,6 @@ fn unescape_tpl_lit(s: &str) -> String {
 
         match chars.next() {
             None => {
-                // This is wrong, but it seems like a mistake made by user.
                 result.push('\\');
             }
             Some(c) => {
