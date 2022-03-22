@@ -3195,6 +3195,8 @@ fn get_template_element_from_raw(s: &str) -> String {
                 Some(c) => match c {
                     'n' => Some('\n'),
                     't' => Some('\t'),
+                    // Octal doesn't supported in template literals, except in tagged templates, but
+                    // we don't use this for tagged templates, they are printing as is
                     'x' => {
                         read_escaped(16, Some(2), &mut buf, &mut iter);
 
