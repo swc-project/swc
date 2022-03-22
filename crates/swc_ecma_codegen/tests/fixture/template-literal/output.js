@@ -20,10 +20,10 @@ function latex(str) {
     };
 }
 const template_literal14 = latex`\unicode`;
-const template_literal15 = `\"test\"test\"test`;
-const template_literal16 = `\"test\'test\'test`;
-const template_literal17 = `\"test\"test\"test`;
-const template_literal18 = `\'test\'test\'test`;
+const template_literal15 = `"test"test"test`;
+const template_literal16 = `"test'test'test`;
+const template_literal17 = `"test"test"test`;
+const template_literal18 = `'test'test'test`;
 const template_literal19 = `\0`;
 const template_literal20 = `\x01`;
 const template_literal21 = `\0${0}`;
@@ -124,5 +124,5 @@ var str = `foo ${'`;\n`${any}'} bar`;
 var concat = `foo ${any} bar` + '`;\n`${any}';
 var template = `foo ${'`;\n`${any}'} ${any} bar`;
 const template_weird = `\xb43`;
-const template_literal73 = `\'`;
-const template_literal74 = `\"`;
+const template_literal73 = `'`;
+const template_literal74 = `"`;

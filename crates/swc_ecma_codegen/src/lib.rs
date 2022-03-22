@@ -1607,7 +1607,7 @@ where
         srcmap!(node, true);
 
         self.wr
-            .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw, true))?;
+            .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw))?;
 
         srcmap!(node, false);
     }
@@ -3082,7 +3082,7 @@ where
     }
 }
 
-fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
+fn unescape_tpl_lit(s: &str) -> String {
     fn read_escaped(
         radix: u32,
         len: Option<usize>,
@@ -3149,7 +3149,7 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
                     result.push('\n');
                 }
 
-                '`' if is_synthesized => {
+                '`' => {
                     result.push_str("\\`");
                 }
 
@@ -3169,13 +3169,6 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
             }
             Some(c) => {
                 match c {
-                    '\\' => result.push_str(r"\\"),
-                    'n' => result.push_str("\\n"),
-                    'r' => result.push_str("\\r"),
-                    't' => result.push_str("\\t"),
-                    'b' => result.push_str("\\\u{0008}"),
-                    'f' => result.push_str("\\\u{000C}"),
-                    'v' => result.push_str("\\\u{000B}"),
                     '0' => match chars.next() {
                         Some('b') => read_escaped(2, None, &mut result, &mut chars),
                         Some('o') => read_escaped(8, None, &mut result, &mut chars),
@@ -3186,7 +3179,19 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
                             result.extend(nc);
                         }
                     },
-
+                    'b' => result.push_str("\\\u{0008}"),
+                    'f' => result.push_str("\\\u{000C}"),
+                    'n' => result.push_str("\\n"),
+                    'r' => result.push_str("\\r"),
+                    'v' => result.push_str("\\\u{000B}"),
+                    't' => result.push_str("\\t"),
+                    '\\' => result.push_str(r"\\"),
+                    '\'' => {
+                        result.push('\'');
+                    }
+                    '"' => {
+                        result.push('"');
+                    }
                     _ => {
                         result.push('\\');
                         result.push(c);
