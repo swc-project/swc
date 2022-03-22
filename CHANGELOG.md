@@ -20,6 +20,9 @@
 - **(es/compat)** Visit non-method properties in a nested object literal (#4094) ([f5b9600](https://github.com/swc-project/swc/commit/f5b9600b2befe0053bec2d3e6210bf35dd824dfb))
 
 
+- **(es/compat)** Fix regression of `es2015` (#4119) ([154d443](https://github.com/swc-project/swc/commit/154d443c88d7e08bd8a51da190a06a312976c6e2))
+
+
 - **(es/minifier)** Consider side effects while lifting sequences (#4116) ([4a9817f](https://github.com/swc-project/swc/commit/4a9817f003d5ce053c0eeaa5cd47c46bd30548a1))
 
 
