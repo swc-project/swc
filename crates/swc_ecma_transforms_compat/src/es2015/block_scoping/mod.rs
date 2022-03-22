@@ -127,6 +127,8 @@ impl BlockScoping {
             }
         }
         {
+            // This is a hack.
+            // We need to revisit this
             let mut v = YieldFinder { found: false };
             body_stmt.visit_with(&mut v);
             if v.found {
