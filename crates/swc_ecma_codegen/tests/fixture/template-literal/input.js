@@ -187,3 +187,5 @@ console.log(`
 `\u0032`;
 ` `;
 `\ `;
+const template_literal114 = `﻿`;
+const template_literal115 = `\﻿`;
