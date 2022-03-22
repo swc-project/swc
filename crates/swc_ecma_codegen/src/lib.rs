@@ -1610,8 +1610,6 @@ where
             .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw, true))?;
 
         srcmap!(node, false);
-
-        return Ok(());
     }
 
     #[emitter]
