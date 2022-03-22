@@ -32,6 +32,9 @@
 
 
 
+- **(es/ast)** Add `raw` to `Str` (#4071) ([634d732](https://github.com/swc-project/swc/commit/634d7328030e44be0376019c156624e073d56fde))
+
+
 - **(es/lints)** Implement `valid-typeof` rule (#4095) ([9ceefa7](https://github.com/swc-project/swc/commit/9ceefa734f1193cb7379404132ffd89417b4ed8f))
 
 
