@@ -253,11 +253,7 @@
                               "ctxt": 0
                             },
                             "value": "a",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"a\""
                           }
                         }
                       },
@@ -1700,11 +1696,7 @@
                             "ctxt": 0
                           },
                           "value": "x",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"x\""
                         }
                       },
                       "value": {
@@ -1790,11 +1782,7 @@
                               "ctxt": 0
                             },
                             "value": "x",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"x\""
                           },
                           "right": {
                             "type": "StringLiteral",
@@ -1804,11 +1792,7 @@
                               "ctxt": 0
                             },
                             "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"\""
                           }
                         }
                       },
@@ -2016,11 +2000,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 }
               }
             ]

@@ -37,14 +37,14 @@ true ? {
     a: 1
 } : {
     a: 2,
-    b: 'string'
+    b: "string"
 };
 var result2 = true ? {} : 1;
 var result3 = true ? {
     a: 1
 } : {
     a: 2,
-    b: 'string'
+    b: "string"
 };
 //Contextually typed
 var resultIsX1 = true ? x : a;
@@ -61,14 +61,14 @@ var result5 = true ? a : x;
 true ? 1 : {};
 true ? {
     a: 2,
-    b: 'string'
+    b: "string"
 } : {
     a: 1
 };
 var result6 = true ? 1 : {};
 var result7 = true ? {
     a: 2,
-    b: 'string'
+    b: "string"
 } : {
     a: 1
 };
@@ -88,4 +88,4 @@ var result10 = true ? function(m) {
     return n.propertyX2;
 };
 //Expr1 and Expr2 are literals
-var result11 = true ? 1 : 'string';
+var result11 = true ? 1 : "string";

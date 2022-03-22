@@ -6,7 +6,7 @@ var Base = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, Base);
     }
     Base.fn = function fn() {
-        return '';
+        return "";
     };
     swcHelpers.createClass(Base, null, [
         {
@@ -29,7 +29,7 @@ var Derived = /*#__PURE__*/ function(Base) {
         return _super.apply(this, arguments);
     }
     Derived.fn = function fn() {
-        return '';
+        return "";
     };
     swcHelpers.createClass(Derived, null, [
         {

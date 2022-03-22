@@ -9,13 +9,13 @@ a = c; // error
 a = d; // error
 e = a; // ok
 a = e; // ok
-if (typeof b !== 'object') {
+if (typeof b !== "object") {
     b.toString(); // error, never
 }
-if (typeof b === 'object') {
+if (typeof b === "object") {
     a = b; // error, b is not narrowed
 }
-if (typeof d === 'object') {
+if (typeof d === "object") {
     b = d; // ok
     d.toString(); // error, object | null
 } else {
@@ -31,7 +31,7 @@ if (d === null) {
 } else {
     d.toString(); // error, object | undefined
 }
-if (typeof d === 'undefined') {
+if (typeof d === "undefined") {
     d.toString(); // error, undefined
 } else {
     d.toString(); // error, object | null

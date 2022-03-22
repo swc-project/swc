@@ -805,8 +805,7 @@ impl VisitMut for FlowHelper<'_> {
                         Expr::Lit(Lit::Str(Str {
                             span,
                             value: "continue".into(),
-                            has_escape: false,
-                            kind: Default::default(),
+                            raw: None,
                         }))
                         .into(),
                     ),
@@ -822,8 +821,7 @@ impl VisitMut for FlowHelper<'_> {
                     arg: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span,
                         value: "break".into(),
-                        has_escape: false,
-                        kind: Default::default(),
+                        raw: None,
                     })))),
                 });
             }

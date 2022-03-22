@@ -123,11 +123,7 @@
               "ctxt": 0
             },
             "value": "roar",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'roar'"
           },
           "typeAnnotation": null,
           "isStatic": false,

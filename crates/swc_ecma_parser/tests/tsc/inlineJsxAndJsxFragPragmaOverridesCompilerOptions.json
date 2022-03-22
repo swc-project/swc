@@ -460,11 +460,7 @@
           "ctxt": 0
         },
         "value": "./react",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./react\""
       },
       "typeOnly": false,
       "asserts": null
@@ -608,11 +604,7 @@
           "ctxt": 0
         },
         "value": "./preact",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./preact\""
       },
       "typeOnly": false,
       "asserts": null
@@ -736,11 +728,7 @@
           "ctxt": 0
         },
         "value": "./snabbdom",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./snabbdom\""
       },
       "typeOnly": false,
       "asserts": null
@@ -864,11 +852,7 @@
           "ctxt": 0
         },
         "value": "./preact",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./preact\""
       },
       "typeOnly": false,
       "asserts": null
@@ -910,11 +894,7 @@
           "ctxt": 0
         },
         "value": "./react",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./react\""
       },
       "typeOnly": false,
       "asserts": null

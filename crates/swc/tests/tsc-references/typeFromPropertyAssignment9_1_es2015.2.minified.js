@@ -6,7 +6,7 @@ my.method = function(n) {
     me.property = !1;
 }, new my.predicate.query(), my.predicate.query.another = function() {
     return 1;
-}, my.predicate.query.result = "none", my.predicate.sort = null !== (_sort = my.predicate.sort) && void 0 !== _sort ? _sort : function(first, second) {
+}, my.predicate.query.result = 'none', my.predicate.sort = null !== (_sort = my.predicate.sort) && void 0 !== _sort ? _sort : function(first, second) {
     return first > second ? first : second;
 }, my.predicate.type = class {
     m() {

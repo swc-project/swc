@@ -21,7 +21,7 @@ var ra3 = swcHelpers._instanceof(a3, x);
 var ra4 = swcHelpers._instanceof(a4, x);
 var ra5 = swcHelpers._instanceof(0, x);
 var ra6 = swcHelpers._instanceof(true, x);
-var ra7 = swcHelpers._instanceof('', x);
+var ra7 = swcHelpers._instanceof("", x);
 var ra8 = swcHelpers._instanceof(null, x);
 var ra9 = swcHelpers._instanceof(undefined, x);
 // invalid right operand
@@ -39,9 +39,9 @@ var rb3 = swcHelpers._instanceof(x, b3);
 var rb4 = swcHelpers._instanceof(x, b4);
 var rb5 = swcHelpers._instanceof(x, 0);
 var rb6 = swcHelpers._instanceof(x, true);
-var rb7 = swcHelpers._instanceof(x, '');
+var rb7 = swcHelpers._instanceof(x, "");
 var rb8 = swcHelpers._instanceof(x, o1);
 var rb9 = swcHelpers._instanceof(x, o2);
 var rb10 = swcHelpers._instanceof(x, o3);
 // both operands are invalid
-var rc1 = swcHelpers._instanceof('', {});
+var rc1 = swcHelpers._instanceof("", {});

@@ -185,11 +185,7 @@
           "ctxt": 0
         },
         "value": "tslib",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"tslib\""
       },
       "body": {
         "type": "TsModuleBlock",

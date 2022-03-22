@@ -87,11 +87,7 @@
                 "ctxt": 0
               },
               "value": "D",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"D\""
             }
           }
         },
@@ -154,11 +150,7 @@
                 "ctxt": 0
               },
               "value": "Does not work yet",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"Does not work yet\""
             }
           }
         },

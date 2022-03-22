@@ -366,9 +366,8 @@ impl Fold for Polyfills {
                         specifiers: vec![],
                         src: Str {
                             span: DUMMY_SP,
+                            raw: None,
                             value: src,
-                            has_escape: false,
-                            kind: Default::default(),
                         },
                         type_only: false,
                         asserts: None,
@@ -384,9 +383,8 @@ impl Fold for Polyfills {
                         specifiers: vec![],
                         src: Str {
                             span: DUMMY_SP,
+                            raw: None,
                             value: src,
-                            has_escape: false,
-                            kind: Default::default(),
                         },
                         type_only: false,
                         asserts: None,

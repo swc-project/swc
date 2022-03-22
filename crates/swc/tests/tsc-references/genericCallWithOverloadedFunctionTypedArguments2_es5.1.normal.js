@@ -26,7 +26,7 @@ var GenericParameter;
         return x;
     }); // ok
     var r10 = foo6(function(x, y) {
-        return '';
+        return "";
     }); // error
     var r13 = foo7(1, function(x) {
         return x;

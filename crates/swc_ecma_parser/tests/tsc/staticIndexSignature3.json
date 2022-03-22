@@ -588,11 +588,7 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"f\""
               }
             }
           },
@@ -727,11 +723,7 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"f\""
               }
             }
           },
@@ -866,11 +858,7 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"f\""
               }
             }
           },
@@ -1005,11 +993,7 @@
                   "ctxt": 0
                 },
                 "value": "f",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"f\""
               }
             }
           },

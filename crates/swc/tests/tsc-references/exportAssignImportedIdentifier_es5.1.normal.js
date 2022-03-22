@@ -3,9 +3,9 @@ export function x() {
     return true;
 }
 // @Filename: foo2.ts
-var foo1 = require('./foo1');
+var foo1 = require("./foo1");
 var x = foo1.x;
 module.exports = x;
 // @Filename: foo3.ts
-var foo2 = require('./foo2');
+var foo2 = require("./foo2");
 var x = foo2(); // should be boolean

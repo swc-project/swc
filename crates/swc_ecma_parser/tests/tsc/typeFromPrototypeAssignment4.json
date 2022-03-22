@@ -148,11 +148,7 @@
                 "ctxt": 0
               },
               "value": "prototype",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"prototype\""
             }
           }
         },
@@ -285,11 +281,7 @@
                               "ctxt": 0
                             },
                             "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "''"
                           }
                         }
                       }
@@ -360,11 +352,7 @@
                   "ctxt": 0
                 },
                 "value": "prototype",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"prototype\""
               }
             }
           },
@@ -383,11 +371,7 @@
                 "ctxt": 0
               },
               "value": "add-on",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"add-on\""
             }
           }
         },
@@ -471,11 +455,7 @@
                   "ctxt": 0
                 },
                 "value": "prototype",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"prototype\""
               }
             }
           },
@@ -494,11 +474,7 @@
                 "ctxt": 0
               },
               "value": "addon",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"addon\""
             }
           }
         },
@@ -582,11 +558,7 @@
                   "ctxt": 0
                 },
                 "value": "prototype",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"prototype\""
               }
             }
           },
@@ -605,11 +577,7 @@
                 "ctxt": 0
               },
               "value": "__underscores__",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"__underscores__\""
             }
           }
         },
@@ -744,11 +712,7 @@
                 "ctxt": 0
               },
               "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"\""
             }
           }
         ],
@@ -801,11 +765,7 @@
                 "ctxt": 0
               },
               "value": "add-on",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"add-on\""
             }
           }
         },

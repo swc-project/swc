@@ -1,4 +1,4 @@
-var symbol = Symbol.for("myThing");
+var symbol = Symbol.for('myThing');
 class Foo {
     [symbol]() {
         return 0;

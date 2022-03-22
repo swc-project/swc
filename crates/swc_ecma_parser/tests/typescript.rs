@@ -77,7 +77,6 @@ fn spec(file: PathBuf) {
 }
 
 #[testing::fixture("tests/tsc/**/*.ts")]
-#[testing::fixture("tests/tsc/**/*.tsx")]
 fn tsc_spec(file: PathBuf) {
     let output = file.with_extension("json");
     run_spec(&file, &output);

@@ -895,11 +895,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "",
-                                "hasEscape": false,
-                                "kind": {
-                                  "type": "normal",
-                                  "containsQuote": true
-                                }
+                                "raw": "\"\""
                               }
                             }
                           ],
@@ -1506,11 +1502,7 @@
                                                             "ctxt": 0
                                                           },
                                                           "value": "GetIndentationEdits(",
-                                                          "hasEscape": false,
-                                                          "kind": {
-                                                            "type": "normal",
-                                                            "containsQuote": true
-                                                          }
+                                                          "raw": "\"GetIndentationEdits(\""
                                                         },
                                                         "right": {
                                                           "type": "StringLiteral",
@@ -1520,11 +1512,7 @@
                                                             "ctxt": 0
                                                           },
                                                           "value": "t1=[",
-                                                          "hasEscape": false,
-                                                          "kind": {
-                                                            "type": "normal",
-                                                            "containsQuote": true
-                                                          }
+                                                          "raw": "\"t1=[\""
                                                         }
                                                       },
                                                       "right": {
@@ -1592,11 +1580,7 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": ",",
-                                                      "hasEscape": false,
-                                                      "kind": {
-                                                        "type": "normal",
-                                                        "containsQuote": true
-                                                      }
+                                                      "raw": "\",\""
                                                     }
                                                   },
                                                   "right": {
@@ -1664,11 +1648,7 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "], ",
-                                                  "hasEscape": false,
-                                                  "kind": {
-                                                    "type": "normal",
-                                                    "containsQuote": true
-                                                  }
+                                                  "raw": "\"], \""
                                                 }
                                               },
                                               "right": {
@@ -1679,11 +1659,7 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "t2=[",
-                                                "hasEscape": false,
-                                                "kind": {
-                                                  "type": "normal",
-                                                  "containsQuote": true
-                                                }
+                                                "raw": "\"t2=[\""
                                               }
                                             },
                                             "right": {
@@ -1735,11 +1711,7 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "null",
-                                                  "hasEscape": false,
-                                                  "kind": {
-                                                    "type": "normal",
-                                                    "containsQuote": true
-                                                  }
+                                                  "raw": "\"null\""
                                                 },
                                                 "alternate": {
                                                   "type": "ParenthesisExpression",
@@ -1828,11 +1800,7 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": ",",
-                                                        "hasEscape": false,
-                                                        "kind": {
-                                                          "type": "normal",
-                                                          "containsQuote": true
-                                                        }
+                                                        "raw": "\",\""
                                                       }
                                                     },
                                                     "right": {
@@ -1904,11 +1872,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "]",
-                                            "hasEscape": false,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"]\""
                                           }
                                         },
                                         "right": {
@@ -1919,11 +1883,7 @@
                                             "ctxt": 0
                                           },
                                           "value": ")",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\")\""
                                         }
                                       }
                                     }
@@ -2459,11 +2419,7 @@
                                                             "ctxt": 0
                                                           },
                                                           "value": "edit: minChar=",
-                                                          "hasEscape": false,
-                                                          "kind": {
-                                                            "type": "normal",
-                                                            "containsQuote": true
-                                                          }
+                                                          "raw": "\"edit: minChar=\""
                                                         },
                                                         "right": {
                                                           "type": "MemberExpression",
@@ -2502,11 +2458,7 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": ", limChar=",
-                                                        "hasEscape": false,
-                                                        "kind": {
-                                                          "type": "normal",
-                                                          "containsQuote": true
-                                                        }
+                                                        "raw": "\", limChar=\""
                                                       }
                                                     },
                                                     "right": {
@@ -2591,11 +2543,7 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": ", text=\"",
-                                                    "hasEscape": true,
-                                                    "kind": {
-                                                      "type": "normal",
-                                                      "containsQuote": true
-                                                    }
+                                                    "raw": "\", text=\\\"\""
                                                   }
                                                 },
                                                 "right": {
@@ -2689,11 +2637,7 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "\"",
-                                                "hasEscape": true,
-                                                "kind": {
-                                                  "type": "normal",
-                                                  "containsQuote": true
-                                                }
+                                                "raw": "\"\\\"\""
                                               }
                                             }
                                           }
@@ -7451,11 +7395,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "\t",
-                                    "hasEscape": true,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "'\\t'"
                                   }
                                 },
                                 "consequent": {
@@ -7638,11 +7578,7 @@
                                         "ctxt": 0
                                       },
                                       "value": " ",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "' '"
                                     }
                                   },
                                   "consequent": {
@@ -11497,11 +11433,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "//",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"//\""
                                   }
                                 },
                                 "right": {
@@ -11558,11 +11490,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "/*",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"/*\""
                                   }
                                 }
                               }
@@ -14885,11 +14813,7 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "Formatting error: Will remove user code when indenting the line: ",
-                                                                  "hasEscape": false,
-                                                                  "kind": {
-                                                                    "type": "normal",
-                                                                    "containsQuote": true
-                                                                  }
+                                                                  "raw": "\"Formatting error: Will remove user code when indenting the line: \""
                                                                 },
                                                                 "right": {
                                                                   "type": "CallExpression",
@@ -15593,11 +15517,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"\""
                                   }
                                 },
                                 "alternate": null
@@ -15762,11 +15682,7 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "\t",
-                                                  "hasEscape": true,
-                                                  "kind": {
-                                                    "type": "normal",
-                                                    "containsQuote": true
-                                                  }
+                                                  "raw": "'\\t'"
                                                 }
                                               },
                                               "consequent": {
@@ -15955,11 +15871,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"\""
                                   }
                                 },
                                 "alternate": {
@@ -16519,11 +16431,7 @@
                                           "ctxt": 0
                                         },
                                         "value": " ",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "' '"
                                       }
                                     },
                                     {
@@ -16550,11 +16458,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "\t",
-                                  "hasEscape": true,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"\\t\""
                                 }
                               },
                               "definite": false
@@ -16597,11 +16501,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "",
-                                "hasEscape": false,
-                                "kind": {
-                                  "type": "normal",
-                                  "containsQuote": true
-                                }
+                                "raw": "\"\""
                               },
                               "definite": false
                             }
@@ -16976,11 +16876,7 @@
                                       "ctxt": 0
                                     },
                                     "value": " ",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "' '"
                                   }
                                 }
                               },
@@ -19560,11 +19456,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "Error: caller must pass 'null' for undefined position",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"Error: caller must pass 'null' for undefined position\""
                                 }
                               }
                             ],
@@ -25910,11 +25802,7 @@
                                             "ctxt": 0
                                           },
                                           "value": " ",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "' '"
                                         }
                                       },
                                       "right": {
@@ -25985,11 +25873,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "\t",
-                                          "hasEscape": true,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "'\\t'"
                                         }
                                       }
                                     }

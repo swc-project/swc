@@ -1,8 +1,8 @@
 var x = {
     o: false
 };
-if (x['o'] === false) {
-    x['o'] = true;
+if (x["o"] === false) {
+    x["o"] = true;
 }
 var y = [
     0,

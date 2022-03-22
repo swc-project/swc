@@ -3,7 +3,7 @@ var C = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
     this.x = 1;
-    this.y = 'hello';
+    this.y = "hello";
 };
 var c = new C();
 var c2 = new C(null); // error

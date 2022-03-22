@@ -123,7 +123,7 @@ flat([
 ]); // number[]
 flat([
     1,
-    'a',
+    "a",
     [
         2
     ]
@@ -132,13 +132,13 @@ flat([
     1,
     [
         2,
-        'a'
+        "a"
     ]
 ]); // (string | number)[]
 flat([
     1,
     [
-        'a'
+        "a"
     ]
 ]); // Error
 flat1([
@@ -159,7 +159,7 @@ flat1([
 ]); // number[][]
 flat1([
     1,
-    'a',
+    "a",
     [
         2
     ]
@@ -168,13 +168,13 @@ flat1([
     1,
     [
         2,
-        'a'
+        "a"
     ]
 ]); // (string | number)[]
 flat1([
     1,
     [
-        'a'
+        "a"
     ]
 ]); // Error
 flat2([
@@ -195,7 +195,7 @@ flat2([
 ]); // number[]
 flat2([
     1,
-    'a',
+    "a",
     [
         2
     ]
@@ -204,29 +204,29 @@ flat2([
     1,
     [
         2,
-        'a'
+        "a"
     ]
 ]); // (string | number)[]
 flat2([
     1,
     [
-        'a'
+        "a"
     ]
 ]); // Error
 var x1 = foo1(ra1); // Boom!
 var x2 = foo2(ra2); // Boom!
 function parse(node) {
     var index = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
-    return html('ul', node.map(function(param, i) {
+    return html("ul", node.map(function(param, i) {
         var _param = swcHelpers.slicedToArray(param, 2), el = _param[0], children = _param[1];
         var idx = swcHelpers.toConsumableArray(index).concat([
             i + 1
         ]);
-        return html('li', [
-            html('a', {
+        return html("li", [
+            html("a", {
                 href: "#".concat(el.id),
-                rel: 'noopener',
-                'data-index': idx.join('.')
+                rel: "noopener",
+                "data-index": idx.join(".")
             }, el.textContent),
             children.length > 0 ? parse(children, idx) : frag()
         ]);

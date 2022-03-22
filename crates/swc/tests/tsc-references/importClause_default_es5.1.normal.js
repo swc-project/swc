@@ -6,7 +6,7 @@ var A = function A() {
 export { A as default };
 new A();
 var a = {
-    a: ''
+    a: ""
 };
 var b = {
     A: A

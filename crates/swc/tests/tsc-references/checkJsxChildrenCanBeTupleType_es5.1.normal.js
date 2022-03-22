@@ -3,7 +3,7 @@ import * as swcHelpers from "@swc/helpers";
 // @strict: true
 // @esModuleInterop: true
 /// <reference path="/.lib/react16.d.ts" />
-import React from 'react';
+import React from "react";
 var ResizablePanel = /*#__PURE__*/ function(_Component) {
     "use strict";
     swcHelpers.inherits(ResizablePanel, _Component);

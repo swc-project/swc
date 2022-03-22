@@ -10,7 +10,7 @@ Errors || (Errors = {}), foo2((x)=>null
 ), foo16((x)=>null
 ), foo17((x)=>null
 ), WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}), foo2((x)=>[
-        ""
+        ''
     ]
 ), foo3((x)=>null
 );

@@ -12,7 +12,7 @@ var NonGeneric, Generic;
             this.a = a, this.b = b;
         }
     }
-    (C || (C = {})).bar = "";
+    (C || (C = {})).bar = '';
     var c = new C(1, 2);
     c.fn(), c.foo, c.bar, c.x;
 }(NonGeneric || (NonGeneric = {})), function(Generic) {
@@ -28,7 +28,7 @@ var NonGeneric, Generic;
             this.a = a, this.b = b;
         }
     }
-    (C || (C = {})).bar = "";
-    var c = new C(1, "");
+    (C || (C = {})).bar = '';
+    var c = new C(1, '');
     c.fn(), c.foo, c.bar, c.x;
 }(Generic || (Generic = {}));

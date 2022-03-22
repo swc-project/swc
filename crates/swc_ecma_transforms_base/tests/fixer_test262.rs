@@ -297,12 +297,9 @@ impl Fold for Normalizer {
 
         match name {
             PropName::Ident(i) => PropName::Str(Str {
+                raw: None,
                 value: i.sym,
                 span: i.span,
-                has_escape: false,
-                kind: StrKind::Normal {
-                    contains_quote: false,
-                },
             }),
             PropName::Num(n) => {
                 let s = if n.value.is_infinite() {
@@ -315,10 +312,9 @@ impl Fold for Normalizer {
                     format!("{}", n.value)
                 };
                 PropName::Str(Str {
+                    raw: None,
                     value: s.into(),
                     span: n.span,
-                    has_escape: false,
-                    kind: Default::default(),
                 })
             }
             _ => name,
@@ -334,6 +330,14 @@ impl Fold for Normalizer {
                 _ => Stmt::Expr(ExprStmt { span, expr }),
             },
             _ => stmt,
+        }
+    }
+
+    fn fold_str(&mut self, s: Str) -> Str {
+        Str {
+            span: s.span,
+            raw: None,
+            value: s.value,
         }
     }
 }

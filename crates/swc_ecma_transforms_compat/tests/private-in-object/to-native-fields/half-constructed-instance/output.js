@@ -6,14 +6,12 @@ class F {
         _brand_check_y.has(this);
         _brand_check_F.has(this);
     }
-    get #w() {
-    }
+    get #w() {}
     #x = (_tmp = 0, _brand_check_x.add(this), _tmp);
     #y = (_tmp1 = (()=>{
-        throw "error";
+        throw 'error';
     })(), _brand_check_y.add(this), _tmp1);
-     #z() {
-    }
+     #z() {}
     constructor(){
         _brand_check_F.add(this);
     }

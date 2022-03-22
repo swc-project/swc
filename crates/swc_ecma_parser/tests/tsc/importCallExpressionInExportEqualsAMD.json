@@ -109,11 +109,7 @@
                               "ctxt": 0
                             },
                             "value": "./something",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"./something\""
                           }
                         }
                       ],

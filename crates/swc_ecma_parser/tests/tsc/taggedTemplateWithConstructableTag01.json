@@ -74,34 +74,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 28,
-                  "end": 40,
-                  "ctxt": 0
-                },
-                "value": "Hello world!",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 28,
-                  "end": 40,
-                  "ctxt": 0
-                },
-                "value": "Hello world!",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "Hello world!",
+              "raw": "Hello world!"
             }
           ]
         }

@@ -207,11 +207,7 @@
               "ctxt": 0
             },
             "value": "RAWR!",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'RAWR!'"
           },
           "typeAnnotation": null,
           "isStatic": false,

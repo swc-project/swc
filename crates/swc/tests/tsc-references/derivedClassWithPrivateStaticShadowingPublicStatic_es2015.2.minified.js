@@ -1,6 +1,6 @@
 class Base {
     static fn() {
-        return "";
+        return '';
     }
     static get a() {
         return 1;
@@ -9,7 +9,7 @@ class Base {
 }
 class Derived extends Base {
     static fn() {
-        return "";
+        return '';
     }
     static get a() {
         return 1;

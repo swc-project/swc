@@ -59,11 +59,7 @@
                       "ctxt": 0
                     },
                     "value": "hello",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"hello\""
                   }
                 },
                 "params": [],
@@ -118,11 +114,7 @@
                       "ctxt": 0
                     },
                     "value": "goodbye",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"goodbye\""
                   }
                 },
                 "typeAnnotation": null,

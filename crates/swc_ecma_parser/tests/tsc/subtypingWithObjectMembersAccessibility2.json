@@ -565,11 +565,7 @@
                     "ctxt": 0
                   },
                   "value": "1",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'1'"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -651,11 +647,7 @@
                     "ctxt": 0
                   },
                   "value": "1",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'1'"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1120,11 +1112,7 @@
                     "ctxt": 0
                   },
                   "value": "1",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'1'"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1206,11 +1194,7 @@
                     "ctxt": 0
                   },
                   "value": "1",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'1'"
                 },
                 "value": null,
                 "typeAnnotation": {

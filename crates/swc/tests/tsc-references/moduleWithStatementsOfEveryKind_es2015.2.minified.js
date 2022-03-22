@@ -16,9 +16,9 @@ var A, Y;
     let Color;
     (Color = Color = Y1.Color || (Y1.Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
         return 2;
-    }, Y1.array = null, Y1.fn = (s)=>"hello " + s
+    }, Y1.array = null, Y1.fn = (s)=>'hello ' + s
     , Y1.ol = {
-        s: "hello",
+        s: 'hello',
         id: 2,
         isvalid: !0
     };

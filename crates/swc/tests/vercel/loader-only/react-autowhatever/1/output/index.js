@@ -1,9 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 import { jsx as _jsx } from "react/jsx-runtime";
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Item from './Item';
-import compareObjects from './compareObjects';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Item from "./Item";
+import compareObjects from "./compareObjects";
 var ItemsList = /*#__PURE__*/ function(Component1) {
     "use strict";
     swcHelpers.inherits(ItemsList, Component1);
@@ -20,17 +20,17 @@ var ItemsList = /*#__PURE__*/ function(Component1) {
     var _proto = ItemsList.prototype;
     _proto.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
         return compareObjects(nextProps, this.props, [
-            'itemProps'
+            "itemProps"
         ]);
     };
     _proto.render = function render() {
         var _this = this;
         var _props = this.props, items = _props.items, itemProps = _props.itemProps, renderItem = _props.renderItem, renderItemData = _props.renderItemData, sectionIndex = _props.sectionIndex, highlightedItemIndex = _props.highlightedItemIndex, getItemId = _props.getItemId, theme = _props.theme, keyPrefix = _props.keyPrefix;
         var sectionPrefix = sectionIndex === null ? keyPrefix : "".concat(keyPrefix, "section-").concat(sectionIndex, "-");
-        var isItemPropsFunction = typeof itemProps === 'function';
+        var isItemPropsFunction = typeof itemProps === "function";
         return /*#__PURE__*/ _jsx("ul", swcHelpers.objectSpread({
             role: "listbox"
-        }, theme("".concat(sectionPrefix, "items-list"), 'itemsList'), {
+        }, theme("".concat(sectionPrefix, "items-list"), "itemsList"), {
             children: items.map(function(item, itemIndex) {
                 var isFirst = itemIndex === 0;
                 var isHighlighted = itemIndex === highlightedItemIndex;
@@ -41,8 +41,8 @@ var ItemsList = /*#__PURE__*/ function(Component1) {
                 }) : itemProps;
                 var allItemProps = swcHelpers.objectSpread({
                     id: getItemId(sectionIndex, itemIndex),
-                    'aria-selected': isHighlighted
-                }, theme(itemKey, 'item', isFirst && 'itemFirst', isHighlighted && 'itemHighlighted'), itemPropsObj);
+                    "aria-selected": isHighlighted
+                }, theme(itemKey, "item", isFirst && "itemFirst", isHighlighted && "itemHighlighted"), itemPropsObj);
                 if (isHighlighted) {
                     allItemProps.ref = _this.storeHighlightedItemReference;
                 }

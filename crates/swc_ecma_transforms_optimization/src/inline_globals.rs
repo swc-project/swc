@@ -133,9 +133,8 @@ impl VisitMut for InlineGlobals {
                     if let Some(value) = self.typeofs.get(sym).cloned() {
                         *expr = Expr::Lit(Lit::Str(Str {
                             span: *span,
+                            raw: None,
                             value,
-                            has_escape: false,
-                            kind: Default::default(),
                         }));
                     }
                 }

@@ -3,6 +3,6 @@ export class Super {
 }
 export class Sub extends Super {
     constructor(){
-        super("first", "second");
+        super('first', 'second');
     }
 }

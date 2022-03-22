@@ -6,7 +6,7 @@
         3454: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var ref, ref1;
-            module.exports = (null === (ref = __webpack_require__.g.process) || void 0 === ref ? void 0 : ref.env) && "object" == typeof (null === (ref1 = __webpack_require__.g.process) || void 0 === ref1 ? void 0 : ref1.env) ? __webpack_require__.g.process : __webpack_require__(7663);
+            module.exports = (null === (ref = __webpack_require__.g.process) || void 0 === ref ? void 0 : ref.env) && 'object' == typeof (null === (ref1 = __webpack_require__.g.process) || void 0 === ref1 ? void 0 : ref1.env) ? __webpack_require__.g.process : __webpack_require__(7663);
         },
         1780: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
@@ -1997,7 +1997,7 @@
                         }
                         function stylizeWithColor(r, t) {
                             var e = inspect.styles[t];
-                            return e ? "\x1b[" + inspect.colors[e][0] + "m" + r + "\x1b[" + inspect.colors[e][1] + "m" : r;
+                            return e ? "[" + inspect.colors[e][0] + "m" + r + "[" + inspect.colors[e][1] + "m" : r;
                         }
                         function stylizeNoColor(r, t) {
                             return r;

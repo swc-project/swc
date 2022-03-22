@@ -13,7 +13,7 @@ var X = /*#__PURE__*/ function() {
     function X() {
         swcHelpers.classCallCheck(this, X);
         this.m = this.m.bind(this);
-        this.mistake = 'frankly, complete nonsense';
+        this.mistake = "frankly, complete nonsense";
     }
     var _proto = X.prototype;
     _proto.m = function m() {};
@@ -29,7 +29,7 @@ var Y = /*#__PURE__*/ function() {
     function Y() {
         swcHelpers.classCallCheck(this, Y);
         this.m = this.m.bind(this);
-        this.mistake = 'even more nonsense';
+        this.mistake = "even more nonsense";
     }
     var _proto = Y.prototype;
     _proto.mistake = function mistake() {};

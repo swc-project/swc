@@ -69,11 +69,7 @@
                       "ctxt": 0
                     },
                     "value": "tty",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"tty\""
                   }
                 }
               ],
@@ -101,11 +97,7 @@
                     "ctxt": 0
                   },
                   "value": "tty",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"tty\""
                 },
                 "qualifier": null,
                 "typeArguments": null

@@ -17,9 +17,9 @@ function _func() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    packageName = '.';
+                    packageName = ".";
                     _ctx.next = 3;
-                    return import(packageName + '/package.json');
+                    return import(packageName + "/package.json");
                 case 3:
                     packageJson = _ctx.sent;
                 case 4:

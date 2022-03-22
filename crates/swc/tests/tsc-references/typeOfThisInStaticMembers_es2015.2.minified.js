@@ -11,4 +11,4 @@ var t2 = (class {
     }
     constructor(x){}
 }).bar();
-t2.foo, t2.bar(), new t2("");
+t2.foo, t2.bar(), new t2('');

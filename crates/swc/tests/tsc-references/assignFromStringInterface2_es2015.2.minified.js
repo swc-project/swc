@@ -1,2 +1,2 @@
-var a, b, x = "";
+var a, b, x = '';
 a = x, b = a = b, b = x, x = a, x = b;

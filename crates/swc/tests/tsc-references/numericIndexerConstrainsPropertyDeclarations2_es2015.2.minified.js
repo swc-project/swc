@@ -1,11 +1,11 @@
 class A {
     foo() {
-        return "";
+        return '';
     }
 }
 class B extends A {
     bar() {
-        return "";
+        return '';
     }
 }
 new A(), new B(), new B();

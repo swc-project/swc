@@ -59,13 +59,13 @@ function k(t) {
 }
 function l(anyrequired) {
     return swcHelpers.objectSpread({
-        a: 'zzz'
+        a: "zzz"
     }, anyrequired) // error
     ;
 }
 function m(anyoptional) {
     return swcHelpers.objectSpread({
-        a: 'zzz'
+        a: "zzz"
     }, anyoptional) // ok
     ;
 }

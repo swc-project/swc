@@ -1,3 +1,3 @@
 export class Crunch {
 }
-new (require("./ex")).Crunch(1).n;
+new (require('./ex')).Crunch(1).n;

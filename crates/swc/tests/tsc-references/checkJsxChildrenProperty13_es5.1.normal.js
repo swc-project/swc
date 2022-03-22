@@ -5,7 +5,7 @@ import * as swcHelpers from "@swc/helpers";
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 // @strictNullChecks: true
-var React = require('react');
+var React = require("react");
 var Button = /*#__PURE__*/ function(_Component) {
     "use strict";
     swcHelpers.inherits(Button, _Component);

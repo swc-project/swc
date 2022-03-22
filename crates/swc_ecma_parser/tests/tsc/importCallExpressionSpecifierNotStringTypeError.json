@@ -312,11 +312,7 @@
                       "ctxt": 0
                     },
                     "value": "defaulPath",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"defaulPath\""
                   }
                 }
               }
@@ -522,11 +518,7 @@
                           "ctxt": 0
                         },
                         "value": "path1",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"path1\""
                       }
                     },
                     {
@@ -539,11 +531,7 @@
                           "ctxt": 0
                         },
                         "value": "path2",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"path2\""
                       }
                     }
                   ]
@@ -618,11 +606,7 @@
                       "ctxt": 0
                     },
                     "value": "PathToModule",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"PathToModule\""
                   },
                   "async": false,
                   "generator": false,

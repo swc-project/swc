@@ -173,11 +173,7 @@
                 "ctxt": 0
               },
               "value": "y",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"y\""
             }
           }
         },
@@ -244,11 +240,7 @@
                   "ctxt": 0
                 },
                 "value": "y",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"y\""
               }
             }
           },
@@ -267,11 +259,7 @@
                 "ctxt": 0
               },
               "value": "z",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"z\""
             }
           }
         },
@@ -481,11 +469,7 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"b\""
                   }
                 }
               },
@@ -552,11 +536,7 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"b\""
                     }
                   }
                 },
@@ -575,11 +555,7 @@
                       "ctxt": 0
                     },
                     "value": "c",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"c\""
                   }
                 }
               },

@@ -21,11 +21,7 @@
           "ctxt": 0
         },
         "value": "use strict",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'use strict'"
       }
     },
     {
@@ -134,11 +130,7 @@
           "ctxt": 0
         },
         "value": "use strict",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'use strict'"
       }
     },
     {
@@ -204,11 +196,7 @@
                       "ctxt": 0
                     },
                     "value": "./thing",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'./thing'"
                   }
                 }
               ],

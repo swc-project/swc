@@ -59,11 +59,7 @@
                 "ctxt": 0
               },
               "value": "routeWillChange",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'routeWillChange'"
             }
           },
           {

@@ -14,7 +14,7 @@ e = E2.A;
 e2 = E.A;
 e = null;
 e = {};
-e = '';
+e = "";
 function f(a) {
     e = a;
 }

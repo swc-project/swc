@@ -1,6 +1,6 @@
 class A {
     foo() {
-        return "";
+        return '';
     }
 }
 new class {
@@ -16,6 +16,6 @@ var i, a, b = {
 };
 b.foo(new class extends A {
     bar() {
-        return "";
+        return '';
     }
 }());

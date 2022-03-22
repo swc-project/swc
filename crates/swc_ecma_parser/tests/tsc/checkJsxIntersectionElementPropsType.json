@@ -573,11 +573,7 @@
                           "ctxt": 0
                         },
                         "value": "example",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"example\""
                       }
                     }
                   ]
@@ -668,11 +664,7 @@
                       "ctxt": 0
                     },
                     "value": "example",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"example\""
                   }
                 }
               ],

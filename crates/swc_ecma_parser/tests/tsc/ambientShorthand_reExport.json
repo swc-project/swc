@@ -23,11 +23,7 @@
           "ctxt": 0
         },
         "value": "jquery",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"jquery\""
       },
       "body": null
     },
@@ -68,11 +64,7 @@
           "ctxt": 0
         },
         "value": "jquery",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"jquery\""
       },
       "typeOnly": false,
       "asserts": null
@@ -92,11 +84,7 @@
           "ctxt": 0
         },
         "value": "jquery",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"jquery\""
       },
       "asserts": null
     },
@@ -137,11 +125,7 @@
           "ctxt": 0
         },
         "value": "./reExportX",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./reExportX\""
       },
       "typeOnly": false,
       "asserts": null
@@ -181,11 +165,7 @@
           "ctxt": 0
         },
         "value": "./reExportAll",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./reExportAll\""
       },
       "typeOnly": false,
       "asserts": null

@@ -979,11 +979,7 @@
                             "ctxt": 0
                           },
                           "value": "constructor",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"constructor\""
                         }
                       },
                       {

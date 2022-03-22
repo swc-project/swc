@@ -369,11 +369,7 @@
                     "ctxt": 0
                   },
                   "value": "./a-ext",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./a-ext\""
                 }
               }
             ],
@@ -696,11 +692,7 @@
                     "ctxt": 0
                   },
                   "value": "./b-ext",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./b-ext\""
                 }
               }
             ],
@@ -973,11 +965,7 @@
                     "ctxt": 0
                   },
                   "value": "./c-ext",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./c-ext\""
                 }
               }
             ],
@@ -1272,11 +1260,7 @@
                     "ctxt": 0
                   },
                   "value": "./d-ext",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./d-ext\""
                 }
               }
             ],
@@ -1572,11 +1556,7 @@
                     "ctxt": 0
                   },
                   "value": "./e-ext",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./e-ext\""
                 }
               }
             ],

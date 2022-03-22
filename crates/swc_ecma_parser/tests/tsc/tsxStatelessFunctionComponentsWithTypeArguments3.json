@@ -41,11 +41,7 @@
             "ctxt": 0
           },
           "value": "react",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'react'"
         }
       }
     },
@@ -297,11 +293,7 @@
                         "ctxt": 0
                       },
                       "value": "ignore-prop",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"ignore-prop\""
                     },
                     "computed": false,
                     "optional": false,
@@ -883,11 +875,7 @@
                             "ctxt": 0
                           },
                           "value": "hello",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"hello\""
                         }
                       },
                       {
@@ -1016,11 +1004,7 @@
                             "ctxt": 0
                           },
                           "value": "hello world",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"hello world\""
                         }
                       }
                     ],
@@ -1376,11 +1360,7 @@
                             "ctxt": 0
                           },
                           "value": "hello",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"hello\""
                         }
                       },
                       {

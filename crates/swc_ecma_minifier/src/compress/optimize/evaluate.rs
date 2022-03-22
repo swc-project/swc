@@ -191,11 +191,13 @@ where
                                     char_code,
                                     v
                                 );
+
+                                let value = v.to_string();
+
                                 *e = Expr::Lit(Lit::Str(Str {
                                     span: e.span(),
-                                    value: v.to_string().into(),
-                                    has_escape: false,
-                                    kind: Default::default(),
+                                    raw: None,
+                                    value: value.into(),
                                 }));
                             }
                         }
@@ -227,9 +229,8 @@ where
                                             spread: None,
                                             expr: Box::new(Expr::Lit(Lit::Str(Str {
                                                 span: p.span,
+                                                raw: None,
                                                 value: p.sym.clone(),
-                                                has_escape: false,
-                                                kind: Default::default(),
                                             }))),
                                         }));
                                     }
@@ -239,9 +240,8 @@ where
                                                 spread: None,
                                                 expr: Box::new(Expr::Lit(Lit::Str(Str {
                                                     span: key.span,
+                                                    raw: None,
                                                     value: key.sym.clone(),
-                                                    has_escape: false,
-                                                    kind: Default::default(),
                                                 }))),
                                             }));
                                         }

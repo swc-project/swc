@@ -505,55 +505,42 @@ where
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        match node.kind {
-            StrKind::Normal { contains_quote } => {
-                let is_invalid_use_strict = node.has_escape && &*node.value == "use strict";
+        srcmap!(node, true);
 
-                if self.cfg.minify && !is_invalid_use_strict {
-                    let value = get_quoted_utf16(&node.value, self.wr.target(), false, false, true);
+        if &*node.value == "use strict"
+            && node.raw.is_some()
+            && node.raw.as_ref().unwrap().contains('\\')
+        {
+            self.wr
+                .write_str_lit(DUMMY_SP, node.raw.as_ref().unwrap())?;
+
+            srcmap!(node, false);
+
+            return Ok(());
+        }
+
+        let target = self.wr.target();
+
+        if self.cfg.minify {
+            let value = get_quoted_utf16(&node.value, target);
+
+            self.wr.write_str_lit(DUMMY_SP, &value)?;
+        } else {
+            match &node.raw {
+                // TODO `es5_unicode` in `swc_ecma_transforms_compat` and avoid changing AST in
+                // codegen
+                Some(raw_value) if target > EsVersion::Es5 => {
+                    self.wr.write_str_lit(DUMMY_SP, raw_value)?;
+                }
+                _ => {
+                    let value = get_quoted_utf16(&node.value, target);
 
                     self.wr.write_str_lit(DUMMY_SP, &value)?;
-                } else {
-                    let single_quote = if contains_quote {
-                        is_single_quote(&self.cm, node.span)
-                    } else {
-                        None
-                    };
-
-                    let value = escape_with_source(
-                        &self.cm,
-                        self.wr.target(),
-                        node.span,
-                        &node.value,
-                        single_quote,
-                        is_invalid_use_strict,
-                    );
-
-                    let single_quote = single_quote.unwrap_or(false);
-
-                    srcmap!(node, true);
-                    if single_quote {
-                        punct!("'");
-                        self.wr.write_str_lit(DUMMY_SP, &value)?;
-                        punct!("'");
-                    } else {
-                        punct!("\"");
-                        self.wr.write_str_lit(DUMMY_SP, &value)?;
-                        punct!("\"");
-                    }
-                    srcmap!(node, false);
                 }
             }
-            StrKind::Synthesized => {
-                srcmap!(node, true);
+        }
 
-                let value = get_quoted_utf16(&node.value, self.wr.target(), false, false, true);
-
-                self.wr.write_str_lit(DUMMY_SP, &value)?;
-
-                srcmap!(node, false);
-            }
-        };
+        srcmap!(node, false);
     }
 
     #[emitter]
@@ -1617,15 +1604,10 @@ where
 
     #[emitter]
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        let is_synthesized = match node.raw.kind {
-            StrKind::Synthesized => true,
-            _ => false,
-        };
-
         srcmap!(node, true);
 
         self.wr
-            .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw.value, is_synthesized))?;
+            .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw, true))?;
 
         srcmap!(node, false);
 
@@ -3219,13 +3201,7 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
     result
 }
 
-fn get_quoted_utf16(
-    v: &str,
-    target: EsVersion,
-    single_quote: bool,
-    emit_non_ascii_as_unicode: bool,
-    pure_quotes: bool,
-) -> String {
+fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
     let mut buf = String::with_capacity(v.len());
     let mut iter = v.chars().peekable();
 
@@ -3248,28 +3224,63 @@ fn get_quoted_utf16(
             '\r' => buf.push_str("\\r"),
             '\u{000b}' => buf.push_str("\\v"),
             '\t' => buf.push_str("\\t"),
-            '\\' => buf.push_str("\\\\"),
-            '\'' => {
-                if pure_quotes {
-                    sq += 1;
+            '\\' => {
+                let next = iter.peek();
 
-                    buf.push('\'');
-                } else if single_quote {
-                    buf.push_str("\\'");
-                } else {
-                    buf.push('\'');
+                match next {
+                    // TODO fix me - workaround for surrogate pairs
+                    Some('\x00') => {
+                        let mut inner_iter = iter.clone();
+
+                        inner_iter.next();
+
+                        let next = inner_iter.peek();
+
+                        if let Some('u') = next {
+                            inner_iter.next();
+
+                            let mut is_valid = true;
+                            let mut inner_buf = String::new();
+
+                            inner_buf.push('\\');
+                            inner_buf.push('u');
+
+                            for _ in 0..4 {
+                                let c = inner_iter.next();
+
+                                match c {
+                                    Some('0'..='9') | Some('a'..='f') | Some('A'..='F') => {
+                                        inner_buf.push(c.unwrap());
+                                    }
+                                    _ => {
+                                        is_valid = false;
+
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if is_valid {
+                                buf.push_str(&inner_buf);
+
+                                for _ in 0..6 {
+                                    iter.next();
+                                }
+                            }
+                        }
+                    }
+                    _ => {
+                        buf.push_str("\\\\");
+                    }
                 }
             }
+            '\'' => {
+                sq += 1;
+                buf.push('\'');
+            }
             '"' => {
-                if pure_quotes {
-                    dq += 1;
-
-                    buf.push('"');
-                } else if !single_quote {
-                    buf.push_str("\\\"");
-                } else {
-                    buf.push('\"');
-                }
+                dq += 1;
+                buf.push('"');
             }
             '\x01'..='\x0f' => {
                 let _ = write!(buf, "\\x0{:x}", c as u8);
@@ -3317,203 +3328,11 @@ fn get_quoted_utf16(
         }
     }
 
-    if pure_quotes {
-        if dq > sq {
-            format!("'{}'", buf.replace('\'', "\\'"))
-        } else {
-            format!("\"{}\"", buf.replace('"', "\\\""))
-        }
+    if dq > sq {
+        format!("'{}'", buf.replace('\'', "\\'"))
     } else {
-        buf
+        format!("\"{}\"", buf.replace('"', "\\\""))
     }
-}
-
-fn escape_with_source(
-    cm: &SourceMap,
-    target: EsVersion,
-    span: Span,
-    s: &str,
-    single_quote: Option<bool>,
-    is_invalid_use_strict: bool,
-) -> String {
-    if span.is_dummy() {
-        return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
-    }
-
-    let orig = cm.span_to_snippet(span);
-    let orig = match orig {
-        Ok(orig) => orig,
-        Err(v) => {
-            return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
-        }
-    };
-
-    if is_invalid_use_strict {
-        return orig[1..orig.len() - 1].to_string();
-    }
-
-    if target <= EsVersion::Es5 {
-        let emit_non_ascii_as_unicode = orig.contains("\\u");
-
-        return get_quoted_utf16(
-            s,
-            target,
-            single_quote.unwrap_or(false),
-            emit_non_ascii_as_unicode,
-            false,
-        );
-    }
-
-    let mut orig = &*orig;
-
-    if (single_quote == Some(true) && orig.starts_with('\''))
-        || (single_quote == Some(false) && orig.starts_with('"'))
-    {
-        orig = &orig[1..orig.len() - 1];
-    } else if single_quote.is_some() {
-        return get_quoted_utf16(s, target, single_quote.unwrap_or(false), false, false);
-    }
-
-    let mut buf = String::with_capacity(s.len());
-    let mut orig_iter = orig.chars().peekable();
-    let mut s_iter = s.chars();
-
-    while let Some(orig_c) = orig_iter.next() {
-        // Javascript literal should not contain newlines
-        if orig_c == '\n' {
-            s_iter.next();
-            s_iter.next();
-            buf.push_str("\\n");
-            continue;
-        }
-
-        if single_quote.is_none() && orig_c == '"' {
-            s_iter.next();
-            s_iter.next();
-            buf.push_str("\\\"");
-            continue;
-        }
-
-        if orig_c == '\\' {
-            if s_iter.as_str().starts_with("\\\0") {
-                for _ in 0..6 {
-                    s_iter.next();
-                }
-            }
-
-            buf.push('\\');
-            match orig_iter.next() {
-                Some('\\') => {
-                    buf.push('\\');
-                    s_iter.next();
-                    continue;
-                }
-                Some(escaper) => {
-                    buf.push(escaper);
-                    match escaper {
-                        'x' => {
-                            buf.extend(orig_iter.next());
-                            buf.extend(orig_iter.next());
-                            s_iter.next();
-                        }
-                        'u' => match orig_iter.next() {
-                            Some('{') => {
-                                buf.push('{');
-                                loop {
-                                    let ch = orig_iter.next();
-                                    buf.extend(ch);
-                                    if ch == Some('}') {
-                                        break;
-                                    }
-                                }
-                                s_iter.next();
-                            }
-                            Some(ch) => {
-                                buf.push(ch);
-                                buf.extend(orig_iter.next());
-                                buf.extend(orig_iter.next());
-                                buf.extend(orig_iter.next());
-                                s_iter.next();
-                            }
-                            None => break,
-                        },
-                        'b' | 'f' | 'n' | 'r' | 't' | 'v' | '0' => {
-                            s_iter.next();
-                        }
-
-                        '\'' if single_quote == Some(true) => {
-                            s_iter.next();
-                        }
-
-                        '"' if single_quote == Some(false) => {
-                            s_iter.next();
-                        }
-
-                        _ => {
-                            s_iter.next();
-                        }
-                    }
-
-                    continue;
-                }
-                _ => {}
-            }
-        }
-
-        s_iter.next();
-        buf.push(orig_c);
-    }
-
-    buf.extend(s_iter);
-
-    buf
-}
-
-/// Returns [Some] if the span points to a string literal written by user.
-///
-/// Returns [None] if the span is created from a pass of swc. For example,
-/// spans of string literals created from [TplElement] do not have `starting`
-/// quote.
-fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
-    if span.is_dummy() {
-        return None;
-    }
-
-    let start = cm.lookup_byte_offset(span.lo);
-    let end = cm.lookup_byte_offset(span.hi);
-
-    if start.sf.start_pos != end.sf.start_pos {
-        return None;
-    }
-
-    // Empty file
-    if start.sf.start_pos == start.sf.end_pos {
-        return None;
-    }
-
-    let start_index = start.pos.0;
-    let end_index = end.pos.0;
-    let source_len = (start.sf.end_pos - start.sf.start_pos).0;
-
-    if start_index > end_index || end_index > source_len {
-        return None;
-    }
-
-    let src = &start.sf.src;
-    let single_quote = match src.as_bytes()[start_index as usize] {
-        b'\'' => true,
-        b'"' => false,
-        _ => return None,
-    };
-    if end_index == 0 {
-        return None;
-    }
-
-    if src.as_bytes()[start_index as usize] != src.as_bytes()[(end_index - 1) as usize] {
-        return None;
-    }
-
-    Some(single_quote)
 }
 
 fn handle_invalid_unicodes(s: &str) -> Cow<str> {

@@ -140,11 +140,7 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"foo\""
             },
             "right": {
               "type": "TsAsExpression",
@@ -161,11 +157,7 @@
                   "ctxt": 0
                 },
                 "value": "bar",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"bar\""
               },
               "typeAnnotation": {
                 "type": "TsLiteralType",
@@ -182,11 +174,7 @@
                     "ctxt": 0
                   },
                   "value": "baz",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"baz\""
                 }
               }
             }
@@ -239,11 +227,7 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"foo\""
             },
             "right": {
               "type": "ParenthesisExpression",
@@ -267,11 +251,7 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"bar\""
                 },
                 "typeAnnotation": {
                   "type": "TsLiteralType",
@@ -288,11 +268,7 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"foo\""
                   }
                 }
               }
@@ -346,11 +322,7 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"foo\""
             },
             "right": {
               "type": "ParenthesisExpression",
@@ -374,11 +346,7 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"bar\""
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
@@ -440,11 +408,7 @@
                 "ctxt": 0
               },
               "value": "foo",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"foo\""
             },
             "right": {
               "type": "ParenthesisExpression",
@@ -468,11 +432,7 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"bar\""
                 },
                 "typeAnnotation": {
                   "type": "TsTypeReference",

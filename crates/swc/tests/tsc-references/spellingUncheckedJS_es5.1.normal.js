@@ -16,7 +16,7 @@ var Classe = /*#__PURE__*/ function() {
     "use strict";
     function Classe() {
         swcHelpers.classCallCheck(this, Classe);
-        this.non = 'oui';
+        this.non = "oui";
     }
     var _proto = Classe.prototype;
     _proto.methode = function methode() {
@@ -55,7 +55,7 @@ new Date().getGMTDate() // OK, from another file
 ;
 // No suggestions for globals from other files
 var atoc = setIntegral(function() {
-    return console.log('ok');
+    return console.log("ok");
 }, 500);
 AudioBuffin // etc
 ;

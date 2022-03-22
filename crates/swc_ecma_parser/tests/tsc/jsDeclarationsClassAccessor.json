@@ -35,11 +35,7 @@
           "ctxt": 0
         },
         "value": "./argument.js",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./argument.js\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -443,11 +439,7 @@
           "ctxt": 0
         },
         "value": "./base.js",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./base.js\""
       },
       "typeOnly": false,
       "asserts": null
@@ -604,11 +596,7 @@
                         "ctxt": 0
                       },
                       "value": "argument",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"argument\""
                     }
                   }
                 ]

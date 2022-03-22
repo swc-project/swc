@@ -1070,11 +1070,7 @@
               "ctxt": 0
             },
             "value": "string",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"string\""
           },
           {
             "type": "NewExpression",
@@ -1511,11 +1507,7 @@
                           "ctxt": 0
                         },
                         "value": "s",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"s\""
                       }
                     }
                   ]
@@ -1578,11 +1570,7 @@
                     "ctxt": 0
                   },
                   "value": "string",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"string\""
                 },
                 {
                   "type": "NewExpression",

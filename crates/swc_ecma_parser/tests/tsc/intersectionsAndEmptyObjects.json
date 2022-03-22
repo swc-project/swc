@@ -2401,11 +2401,7 @@
                     "ctxt": 0
                   },
                   "value": "",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "''"
                 }
               }
             ]
@@ -4245,11 +4241,7 @@
                       "ctxt": 0
                     },
                     "value": "./ex",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'./ex'"
                   }
                 }
               ],

@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var _complex, _tmp, _o, o = {
     a: 1,
-    b: "no"
+    b: 'no'
 };
 swcHelpers.extends({}, o);
 var { a  } = o;
@@ -13,21 +13,21 @@ swcHelpers.objectWithoutProperties(o, [
     "a",
     "b"
 ]);
-var { ["b"]: renamed  } = o;
+var { ['b']: renamed  } = o;
 swcHelpers.objectWithoutProperties(o, [
-    "b"
+    'b'
 ]);
 var { b: renamed  } = o;
 swcHelpers.objectWithoutProperties(o, [
-    "b"
+    'b'
 ]);
-var { b: { "0": n , "1": oooo  }  } = o;
+var { b: { '0': n , '1': oooo  }  } = o;
 swcHelpers.objectWithoutProperties(o, [
     "b"
 ]);
 let o2 = {
-    c: "terrible idea?",
-    d: "yes"
+    c: 'terrible idea?',
+    d: 'yes'
 };
 var { d: renamed  } = o2;
 swcHelpers.objectWithoutProperties(o2, [
@@ -79,7 +79,7 @@ var i = removable, { removed  } = i;
 swcHelpers.objectWithoutProperties(i, [
     "removed"
 ]);
-let computed = "b", computed2 = "a";
+let computed = 'b', computed2 = 'a';
 var { [computed]: stillNotGreat , [computed2]: soSo  } = o, o = swcHelpers.objectWithoutProperties(o, [
     computed,
     computed2

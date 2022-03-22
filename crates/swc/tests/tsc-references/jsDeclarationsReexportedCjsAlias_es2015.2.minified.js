@@ -9,7 +9,7 @@ module.exports = {
     },
     SomeClass
 };
-const { SomeClass , SomeClass: Another  } = require("./lib");
+const { SomeClass , SomeClass: Another  } = require('./lib');
 module.exports = {
     SomeClass,
     Another

@@ -15,7 +15,7 @@ suddenly((_param)=>{
         z: 1,
         ka: 1
     },
-    y: "noo"
+    y: 'noo'
 })=>{
     var { x: { z =12  }  } = _param, nested = swcHelpers.objectWithoutProperties(_param.x, [
         "z"
@@ -24,9 +24,9 @@ suddenly((_param)=>{
     ]);
     return rest.y + nested.ka;
 }), foobar(), foobar({
-    baz: "hello"
+    baz: 'hello'
 }), foobar({
     bar: {
-        greeting: "hello"
+        greeting: 'hello'
     }
 });

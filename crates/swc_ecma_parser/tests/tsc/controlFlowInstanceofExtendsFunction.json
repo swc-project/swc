@@ -201,11 +201,7 @@
                     "ctxt": 0
                   },
                   "value": "now",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"now\""
                 }
               }
             ]

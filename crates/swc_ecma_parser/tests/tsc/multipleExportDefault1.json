@@ -82,11 +82,7 @@
                 "ctxt": 0
               },
               "value": "another default",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"another default\""
             }
           }
         ]

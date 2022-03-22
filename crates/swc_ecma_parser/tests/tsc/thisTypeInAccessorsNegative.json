@@ -199,11 +199,7 @@
                         "ctxt": 0
                       },
                       "value": "place",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"place\""
                     }
                   },
                   {
@@ -221,11 +217,7 @@
                         "ctxt": 0
                       },
                       "value": "time",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"time\""
                     }
                   },
                   {
@@ -243,11 +235,7 @@
                         "ctxt": 0
                       },
                       "value": "method",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"method\""
                     }
                   },
                   {
@@ -265,11 +253,7 @@
                         "ctxt": 0
                       },
                       "value": "technique",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"technique\""
                     }
                   }
                 ]
@@ -512,11 +496,7 @@
                             "ctxt": 0
                           },
                           "value": "method",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"method\""
                         }
                       }
                     }

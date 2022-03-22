@@ -155,11 +155,7 @@
                   "ctxt": 0
                 },
                 "value": "before",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "'before'"
               }
             }
           ]

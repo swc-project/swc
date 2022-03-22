@@ -798,8 +798,8 @@ define!({
     pub struct TplElement {
         pub span: Span,
         pub tail: bool,
-        pub cooked: Option<Str>,
-        pub raw: Str,
+        pub cooked: Option<JsWord>,
+        pub raw: JsWord,
     }
     pub struct ParenExpr {
         pub span: Span,
@@ -990,8 +990,7 @@ define!({
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
-        pub has_escape: bool,
-        pub kind: StrKind,
+        pub raw: Option<JsWord>,
     }
     pub struct Bool {
         pub span: Span,

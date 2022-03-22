@@ -11,4 +11,4 @@ import * as swcHelpers from "@swc/helpers";
             return _ref.apply(this, arguments);
         })
     };
-}("test");
+}('test');

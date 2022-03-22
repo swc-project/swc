@@ -3,7 +3,7 @@ function Multimap4() {
 }
 Multimap4.prototype = {
     get (key) {
-        return this._map[key + ""];
+        return this._map[key + ''];
     }
 }, Multimap4.prototype["add-on"] = function() {}, Multimap4.prototype.addon = function() {}, Multimap4.prototype["__underscores__"] = function() {};
 const map4 = new Multimap4();

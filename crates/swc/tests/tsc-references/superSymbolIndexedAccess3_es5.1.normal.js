@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 //@target: ES6
-var symbol = Symbol.for('myThing');
+var symbol = Symbol.for("myThing");
 var _symbol = symbol;
 var Foo = /*#__PURE__*/ function() {
     "use strict";

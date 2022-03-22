@@ -192,7 +192,7 @@ test!(
 }
 Ref.nextID = 0"#,
     r#"var Ref = function Ref1() {
-        'use strict';
+        "use strict";
         var id = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : ++Ref1.nextID;
         _classCallCheck(this, Ref1);
         this.id = id;
@@ -236,13 +236,13 @@ class X {
   }
 }"#,
     r#"var Ref = function Ref1() {
-      'use strict';
+      "use strict";
       var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : Ref1;
       _classCallCheck(this, Ref1);
       this.ref = ref;
   }
 var X = function X1() {
-      'use strict';
+      "use strict";
       var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
       _classCallCheck(this, X1);
         this.x = x;
@@ -275,13 +275,13 @@ var a = function (e, f = 5) {
   return e + " bar " + f;
 };"#,
     "var t = function() {
-    var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 'foo', f = \
+    var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : \"foo\", f = \
      arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 5;
-    return e + ' bar ' + f;
+    return e + \" bar \" + f;
 };
 var a = function(e) {
     var f = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 5;
-    return e + ' bar ' + f;
+    return e + \" bar \" + f;
 };
 "
 );
@@ -459,7 +459,7 @@ test!(
 };"#,
     r#"var t = function() {
     var f = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "foo";
-    return f + ' bar';
+    return f + " bar";
 };"#
 );
 
@@ -1268,7 +1268,7 @@ test!(
     }
     if (true) {
         let Foo = function(Bar) {
-            'use strict';
+            "use strict";
             _inherits(Foo, Bar);
             var _super = _createSuper(Foo);
             function Foo() {

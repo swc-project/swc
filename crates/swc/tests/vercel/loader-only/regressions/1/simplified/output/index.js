@@ -23,5 +23,5 @@ var Test = function Test(name) {
     this.name = name;
 };
 function Parent() {
-    new Test('name').print('test');
+    new Test("name").print("test");
 }

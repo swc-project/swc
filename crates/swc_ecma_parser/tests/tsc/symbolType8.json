@@ -80,11 +80,7 @@
                     "ctxt": 0
                   },
                   "value": "compare",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"compare\""
                 }
               }
             ],

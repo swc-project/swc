@@ -40,7 +40,7 @@
               10,
               17
             ],
-            "raw": "hello",
+            "raw": "\"hello\"",
             "start": 10,
             "type": "Literal",
             "value": "hello"

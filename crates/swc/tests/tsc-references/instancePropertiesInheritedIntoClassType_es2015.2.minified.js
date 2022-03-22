@@ -29,6 +29,6 @@ var NonGeneric, Generic;
         }
     }
     var d = new class extends C {
-    }(1, ""), r = d.fn();
-    r.x, r.y, r.y = "", d.y();
+    }(1, ''), r = d.fn();
+    r.x, r.y, r.y = '', d.y();
 }(Generic || (Generic = {}));

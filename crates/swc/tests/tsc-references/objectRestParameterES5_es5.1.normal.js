@@ -17,7 +17,7 @@ suddenly(function() {
             z: 1,
             ka: 1
         },
-        y: 'noo'
+        y: "noo"
     };
     var _x = _param.x, _z = _x.z, z = _z === void 0 ? 12 : _z, nested = swcHelpers.objectWithoutProperties(_param.x, [
         "z"
@@ -59,10 +59,10 @@ function foobar() {
 }
 foobar();
 foobar({
-    baz: 'hello'
+    baz: "hello"
 });
 foobar({
     bar: {
-        greeting: 'hello'
+        greeting: "hello"
     }
 });

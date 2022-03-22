@@ -82,11 +82,7 @@
                           "ctxt": 0
                         },
                         "value": "parseHTML",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'parseHTML'"
                       }
                     },
                     {
@@ -109,11 +105,7 @@
                           "ctxt": 0
                         },
                         "value": "Parse HTML & CSS",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'Parse HTML & CSS'"
                       }
                     }
                   ]
@@ -159,11 +151,7 @@
                           "ctxt": 0
                         },
                         "value": "styleLayout",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'styleLayout'"
                       }
                     },
                     {
@@ -186,11 +174,7 @@
                           "ctxt": 0
                         },
                         "value": "Style & Layout",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'Style & Layout'"
                       }
                     }
                   ]
@@ -413,11 +397,7 @@
                     "ctxt": 0
                   },
                   "value": "./module.js",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'./module.js'"
                 }
               }
             ],

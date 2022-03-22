@@ -80,11 +80,7 @@
                     "ctxt": 0
                   },
                   "value": "add",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"add\""
                 }
               }
             ],
@@ -250,11 +246,7 @@
             "ctxt": 0
           },
           "value": "",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"\""
         }
       }
     },
@@ -354,11 +346,7 @@
             "ctxt": 0
           },
           "value": "",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"\""
         },
         "right": {
           "type": "Identifier",
@@ -565,11 +553,7 @@
                 "ctxt": 0
               },
               "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"\""
             }
           }
         },
@@ -581,11 +565,7 @@
             "ctxt": 0
           },
           "value": "",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"\""
         }
       }
     },
@@ -612,11 +592,7 @@
             "ctxt": 0
           },
           "value": "",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"\""
         },
         "right": {
           "type": "ParenthesisExpression",
@@ -651,11 +627,7 @@
                 "ctxt": 0
               },
               "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"\""
             }
           }
         }

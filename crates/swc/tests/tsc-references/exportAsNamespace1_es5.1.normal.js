@@ -1,6 +1,6 @@
-import * as _ns from './0';
+import * as _ns from "./0";
 // @filename: 2.ts
-import * as foo from './1';
+import * as foo from "./1";
 // @module: esnext, es2015, commonjs, amd, system, umd
 // @filename: 0.ts
 // @declaration: true

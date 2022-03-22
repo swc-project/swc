@@ -7,7 +7,7 @@ class X {
     m() {}
     mistake() {}
     constructor(){
-        this.m = this.m.bind(this), this.mistake = "frankly, complete nonsense";
+        this.m = this.m.bind(this), this.mistake = 'frankly, complete nonsense';
     }
 }
 let x = new X();
@@ -16,7 +16,7 @@ class Y {
     mistake() {}
     m() {}
     constructor(){
-        this.m = this.m.bind(this), this.mistake = "even more nonsense";
+        this.m = this.m.bind(this), this.mistake = 'even more nonsense';
     }
 }
 Y.prototype.mistake = !0;

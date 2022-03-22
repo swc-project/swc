@@ -123,11 +123,7 @@
               "ctxt": 0
             },
             "value": "grrr",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'grrr'"
           },
           "typeAnnotation": null,
           "isStatic": false,

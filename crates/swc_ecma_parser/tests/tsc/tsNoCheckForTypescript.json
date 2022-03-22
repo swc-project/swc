@@ -205,11 +205,7 @@
                 "ctxt": 0
               },
               "value": "lol",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"lol\""
             },
             "typeAnnotation": {
               "type": "TsTypeAnnotation",

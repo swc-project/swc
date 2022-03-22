@@ -1149,11 +1149,7 @@
                       "ctxt": 0
                     },
                     "value": "Nothing",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"Nothing\""
                   }
                 },
                 {
@@ -1374,11 +1370,7 @@
                       "ctxt": 0
                     },
                     "value": "Nothing",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"Nothing\""
                   }
                 },
                 {
@@ -1608,11 +1600,7 @@
                       "ctxt": 0
                     },
                     "value": "Nothing",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"Nothing\""
                   }
                 },
                 {

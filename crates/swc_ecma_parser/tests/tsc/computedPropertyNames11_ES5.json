@@ -512,11 +512,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"\""
                   }
                 },
                 "param": {
@@ -740,34 +736,8 @@
                           "ctxt": 0
                         },
                         "tail": true,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 321,
-                            "end": 330,
-                            "ctxt": 0
-                          },
-                          "value": "hello bye",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 321,
-                            "end": 330,
-                            "ctxt": 0
-                          },
-                          "value": "hello bye",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        }
+                        "cooked": "hello bye",
+                        "raw": "hello bye"
                       }
                     ]
                   }
@@ -835,34 +805,8 @@
                           "ctxt": 0
                         },
                         "tail": false,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 351,
-                            "end": 357,
-                            "ctxt": 0
-                          },
-                          "value": "hello ",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 351,
-                            "end": 357,
-                            "ctxt": 0
-                          },
-                          "value": "hello ",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        }
+                        "cooked": "hello ",
+                        "raw": "hello "
                       },
                       {
                         "type": "TemplateElement",
@@ -872,34 +816,8 @@
                           "ctxt": 0
                         },
                         "tail": true,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 361,
-                            "end": 365,
-                            "ctxt": 0
-                          },
-                          "value": " bye",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 361,
-                            "end": 365,
-                            "ctxt": 0
-                          },
-                          "value": " bye",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        }
+                        "cooked": " bye",
+                        "raw": " bye"
                       }
                     ]
                   }

@@ -506,10 +506,7 @@ impl Legacy {
                     PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
                         span: i.span,
                         value: i.sym.clone(),
-                        has_escape: false,
-                        kind: StrKind::Normal {
-                            contains_quote: false,
-                        },
+                        raw: None,
                     }))),
                     _ => prop_name_to_expr(p.key.clone()).into(),
                 };

@@ -262,9 +262,8 @@ impl Pure<'_> {
 
                 *e = Expr::Lit(Lit::Str(Str {
                     span: e.span(),
+                    raw: None,
                     value: value.into(),
-                    has_escape: false,
-                    kind: Default::default(),
                 }))
             }
         }

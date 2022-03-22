@@ -1,1 +1,1 @@
-console.info("dog"), console.info("cat");
+console.info('dog'), console.info('cat');

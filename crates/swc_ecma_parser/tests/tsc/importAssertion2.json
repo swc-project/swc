@@ -120,11 +120,7 @@
           "ctxt": 0
         },
         "value": "./0",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./0'"
       },
       "typeOnly": false,
       "asserts": {
@@ -155,11 +151,7 @@
                 "ctxt": 0
               },
               "value": "json",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"json\""
             }
           }
         ]
@@ -222,11 +214,7 @@
           "ctxt": 0
         },
         "value": "./0",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./0'"
       },
       "typeOnly": false,
       "asserts": {
@@ -257,11 +245,7 @@
                 "ctxt": 0
               },
               "value": "json",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"json\""
             }
           }
         ]
@@ -282,11 +266,7 @@
           "ctxt": 0
         },
         "value": "./0",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./0'"
       },
       "asserts": {
         "type": "ObjectExpression",
@@ -316,11 +296,7 @@
                 "ctxt": 0
               },
               "value": "json",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"json\""
             }
           }
         ]
@@ -361,11 +337,7 @@
           "ctxt": 0
         },
         "value": "./0",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./0'"
       },
       "typeOnly": false,
       "asserts": {
@@ -396,11 +368,7 @@
                 "ctxt": 0
               },
               "value": "json",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"json\""
             }
           }
         ]
@@ -463,11 +431,7 @@
           "ctxt": 0
         },
         "value": "./0",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./0'"
       },
       "typeOnly": false,
       "asserts": {
@@ -555,11 +519,7 @@
           "ctxt": 0
         },
         "value": "./0",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./0'"
       },
       "typeOnly": false,
       "asserts": {
@@ -590,11 +550,7 @@
                 "ctxt": 0
               },
               "value": "a",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"a\""
             }
           },
           {
@@ -617,11 +573,7 @@
                 "ctxt": 0
               },
               "value": "b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"b\""
             }
           },
           {
@@ -644,11 +596,7 @@
                 "ctxt": 0
               },
               "value": "c",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"c\""
             }
           }
         ]

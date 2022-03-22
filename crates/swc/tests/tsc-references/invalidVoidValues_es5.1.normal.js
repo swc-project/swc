@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 var x;
 x = 1;
-x = '';
+x = "";
 x = true;
 var E;
 (function(E) {

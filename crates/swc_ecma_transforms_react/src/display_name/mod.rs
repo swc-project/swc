@@ -42,9 +42,8 @@ impl VisitMut for DisplayName {
             return expr.right.visit_mut_with(&mut Folder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: prop.span,
+                    raw: None,
                     value: prop.sym.clone(),
-                    has_escape: false,
-                    kind: Default::default(),
                 })))),
             });
         };
@@ -53,9 +52,8 @@ impl VisitMut for DisplayName {
             expr.right.visit_mut_with(&mut Folder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: ident.span,
+                    raw: None,
                     value: ident.sym.clone(),
-                    has_escape: false,
-                    kind: Default::default(),
                 })))),
             });
         }
@@ -68,9 +66,8 @@ impl VisitMut for DisplayName {
             e.visit_mut_with(&mut Folder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: DUMMY_SP,
+                    raw: None,
                     value: "input".into(),
-                    has_escape: false,
-                    kind: Default::default(),
                 })))),
             });
         }
@@ -84,11 +81,8 @@ impl VisitMut for DisplayName {
                 name: Some(match key {
                     PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
                         span: i.span,
+                        raw: None,
                         value: i.sym.clone(),
-                        has_escape: false,
-                        kind: StrKind::Normal {
-                            contains_quote: false,
-                        },
                     }))),
                     PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
                     PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(*n))),
@@ -105,10 +99,7 @@ impl VisitMut for DisplayName {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: ident.id.span,
                     value: ident.id.sym.clone(),
-                    has_escape: false,
-                    kind: StrKind::Normal {
-                        contains_quote: false,
-                    },
+                    raw: None,
                 })))),
             });
         }

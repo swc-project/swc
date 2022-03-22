@@ -19,7 +19,7 @@ var q = new my.predicate.query();
 my.predicate.query.another = function() {
     return 1;
 };
-my.predicate.query.result = 'none';
+my.predicate.query.result = "none";
 /** @param {number} first
  *  @param {number} second
  */ my.predicate.sort = my.predicate.sort || function(first, second) {

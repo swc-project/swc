@@ -77,11 +77,7 @@
           "ctxt": 0
         },
         "value": "./a",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./a'"
       },
       "typeOnly": true,
       "asserts": null
@@ -101,11 +97,7 @@
           "ctxt": 0
         },
         "value": "./b",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./b'"
       },
       "asserts": null
     },
@@ -146,11 +138,7 @@
           "ctxt": 0
         },
         "value": "./c",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./c'"
       },
       "typeOnly": false,
       "asserts": null

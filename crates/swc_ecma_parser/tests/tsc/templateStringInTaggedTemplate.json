@@ -53,34 +53,8 @@
                         "ctxt": 0
                       },
                       "tail": true,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 18,
-                          "end": 21,
-                          "ctxt": 0
-                        },
-                        "value": "TAG",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 18,
-                          "end": 21,
-                          "ctxt": 0
-                        },
-                        "value": "TAG",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "TAG",
+                      "raw": "TAG"
                     }
                   ]
                 }
@@ -94,34 +68,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 14,
-                      "end": 14,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 14,
-                      "end": 14,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -131,34 +79,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 24,
-                      "end": 25,
-                      "ctxt": 0
-                    },
-                    "value": " ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 24,
-                      "end": 25,
-                      "ctxt": 0
-                    },
-                    "value": " ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
+                  "cooked": " ",
+                  "raw": " "
                 }
               ]
             }
@@ -172,34 +94,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 1,
-                  "end": 10,
-                  "ctxt": 0
-                },
-                "value": "I AM THE ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 1,
-                  "end": 10,
-                  "ctxt": 0
-                },
-                "value": "I AM THE ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "I AM THE ",
+              "raw": "I AM THE "
             },
             {
               "type": "TemplateElement",
@@ -209,34 +105,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 28,
-                  "end": 36,
-                  "ctxt": 0
-                },
-                "value": " PORTION",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 28,
-                  "end": 36,
-                  "ctxt": 0
-                },
-                "value": " PORTION",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": " PORTION",
+              "raw": " PORTION"
             }
           ]
         },
@@ -257,11 +127,7 @@
                 "ctxt": 0
               },
               "value": "AM",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"AM\""
             }
           ],
           "quasis": [
@@ -273,34 +139,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 42,
-                  "end": 44,
-                  "ctxt": 0
-                },
-                "value": "I ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 42,
-                  "end": 44,
-                  "ctxt": 0
-                },
-                "value": "I ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "I ",
+              "raw": "I "
             },
             {
               "type": "TemplateElement",
@@ -310,34 +150,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 53,
-                  "end": 74,
-                  "ctxt": 0
-                },
-                "value": " THE TEMPLATE PORTION",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 53,
-                  "end": 74,
-                  "ctxt": 0
-                },
-                "value": " THE TEMPLATE PORTION",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": " THE TEMPLATE PORTION",
+              "raw": " THE TEMPLATE PORTION"
             }
           ]
         }

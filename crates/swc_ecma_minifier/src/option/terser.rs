@@ -503,12 +503,15 @@ fn value_to_expr(v: Value) -> Box<Expr> {
                 value: v.as_f64().unwrap(),
             })))
         }
-        Value::String(v) => Box::new(Expr::Lit(Lit::Str(Str {
-            span: DUMMY_SP,
-            value: v.into(),
-            has_escape: false,
-            kind: Default::default(),
-        }))),
+        Value::String(v) => {
+            let value: JsWord = v.into();
+
+            Box::new(Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                raw: None,
+                value,
+            })))
+        }
 
         Value::Array(arr) => {
             let elems = arr
@@ -529,9 +532,8 @@ fn value_to_expr(v: Value) -> Box<Expr> {
                 .map(|(key, value)| KeyValueProp {
                     key: PropName::Str(Str {
                         span: DUMMY_SP,
+                        raw: None,
                         value: key.into(),
-                        has_escape: false,
-                        kind: Default::default(),
                     }),
                     value,
                 })

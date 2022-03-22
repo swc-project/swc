@@ -156,10 +156,10 @@ function getProps(obj, list) {
 }
 var myAny = {};
 var o1 = getProps(myAny, [
-    'foo',
-    'bar'
+    "foo",
+    "bar"
 ]);
 var o2 = getProps(myAny, [
-    'foo',
-    'bar'
+    "foo",
+    "bar"
 ]);

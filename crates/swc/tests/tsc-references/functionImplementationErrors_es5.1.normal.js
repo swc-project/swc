@@ -2,22 +2,22 @@ import * as swcHelpers from "@swc/helpers";
 // @allowUnreachableCode: true
 // FunctionExpression with no return type annotation with multiple return statements with unrelated types
 var f1 = function f1() {
-    return '';
+    return "";
     return 3;
 };
 var f2 = function x() {
-    return '';
+    return "";
     return 3;
 };
 var f3 = function() {
-    return '';
+    return "";
     return 3;
 };
 // FunctionExpression with no return type annotation with return branch of number[] and other of string[]
 var f4 = function f4() {
     if (true) {
         return [
-            ''
+            ""
         ];
     } else {
         return [

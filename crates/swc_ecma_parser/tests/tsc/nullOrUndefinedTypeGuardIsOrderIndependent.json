@@ -197,11 +197,7 @@
                     "ctxt": 0
                   },
                   "value": "original",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"original\""
                 },
                 "definite": false
               }

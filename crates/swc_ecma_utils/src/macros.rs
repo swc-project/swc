@@ -30,9 +30,8 @@ macro_rules! quote_str {
     ($span:expr, $s:expr) => {{
         $crate::swc_ecma_ast::Str {
             span: $span,
+            raw: None,
             value: $s.into(),
-            has_escape: false,
-            kind: Default::default(),
         }
     }};
 }

@@ -935,42 +935,11 @@ impl<'a, I: Tokens> Parser<I> {
 
         let (raw, cooked) = match *cur!(self, true)? {
             Token::Template { .. } => match bump!(self) {
-                Token::Template {
-                    raw,
-                    cooked,
-                    has_escape,
-                } => match cooked {
-                    Ok(cooked) => (
-                        Str {
-                            span: span!(self, start),
-                            value: raw,
-                            has_escape,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
-                        },
-                        Some(Str {
-                            span: span!(self, start),
-                            value: cooked,
-                            has_escape,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
-                        }),
-                    ),
+                Token::Template { raw, cooked, .. } => match cooked {
+                    Ok(cooked) => (raw, Some(cooked)),
                     Err(err) => {
                         if is_tagged_tpl {
-                            (
-                                Str {
-                                    span: span!(self, start),
-                                    value: raw,
-                                    has_escape,
-                                    kind: StrKind::Normal {
-                                        contains_quote: false,
-                                    },
-                                },
-                                None,
-                            )
+                            (raw, None)
                         } else {
                             return Err(err);
                         }
@@ -980,7 +949,9 @@ impl<'a, I: Tokens> Parser<I> {
             },
             _ => unexpected!(self, "template token"),
         };
+
         let tail = is!(self, '`');
+
         Ok(TplElement {
             span: span!(self, start),
             raw,
@@ -1840,13 +1811,10 @@ impl<'a, I: Tokens> Parser<I> {
                 Lit::Bool(Bool { span, value })
             }
             Token::Str { .. } => match bump!(self) {
-                Token::Str { value, has_escape } => Lit::Str(Str {
+                Token::Str { value, raw } => Lit::Str(Str {
                     span: span!(self, start),
                     value,
-                    has_escape,
-                    kind: StrKind::Normal {
-                        contains_quote: true,
-                    },
+                    raw: Some(raw),
                 }),
                 _ => unreachable!(),
             },

@@ -925,7 +925,7 @@ test!(
     r#"
     var ref;
     const PATCHES = new Map();
-    const ident = "foo";
+    const ident = 'foo';
     const patch = (ref = PATCHES.get(ident)) === null || ref === void 0 ? void 0 : ref();
     "#
 );

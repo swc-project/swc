@@ -98,11 +98,7 @@
             "ctxt": 0
           },
           "value": "vs/foo",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"vs/foo\""
         }
       }
     },

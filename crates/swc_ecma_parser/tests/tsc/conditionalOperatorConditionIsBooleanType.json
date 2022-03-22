@@ -1203,11 +1203,7 @@
                 "ctxt": 0
               },
               "value": "123",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"123\""
             }
           },
           "right": {
@@ -1218,11 +1214,7 @@
               "ctxt": 0
             },
             "value": "string",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"string\""
           }
         },
         "consequent": {
@@ -2539,11 +2531,7 @@
                     "ctxt": 0
                   },
                   "value": "123",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"123\""
                 }
               },
               "right": {
@@ -2554,11 +2542,7 @@
                   "ctxt": 0
                 },
                 "value": "string",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"string\""
               }
             },
             "consequent": {
@@ -2906,11 +2890,7 @@
                     "ctxt": 0
                   },
                   "value": "123",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"123\""
                 }
               },
               "right": {
@@ -2921,11 +2901,7 @@
                   "ctxt": 0
                 },
                 "value": "string",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"string\""
               }
             },
             "consequent": {

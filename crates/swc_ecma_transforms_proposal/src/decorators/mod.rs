@@ -435,11 +435,8 @@ impl Decorators {
                         );
                         let key_prop_value = Box::new(Expr::Lit(Lit::Str(Str {
                             span: method.key.id.span,
+                            raw: None,
                             value: method.key.id.sym.clone(),
-                            has_escape: false,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
                         })));
                         fold_method!(method, Some(fn_name), key_prop_value)
                     }
@@ -448,9 +445,8 @@ impl Decorators {
                         let key_prop_value = match prop.key {
                             PropName::Ident(i) => Box::new(Expr::Lit(Lit::Str(Str {
                                 span: i.span,
+                                raw: None,
                                 value: i.sym,
-                                has_escape: false,
-                                kind: Default::default(),
                             }))),
                             _ => prop_name_to_expr(prop.key).into(),
                         };

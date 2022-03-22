@@ -128,7 +128,7 @@ test!(
     |_| tr(),
     super_increment_postfix,
     r#"var Base = {
-        test: '1',
+        test: "1",
     };
       
     var obj = {
@@ -155,7 +155,7 @@ test!(
     |_| tr(),
     super_increment_postfix2,
     r#"var Base = {
-        test: '1',
+        test: "1",
     };
       
     var obj = {
@@ -182,7 +182,7 @@ test!(
     |_| tr(),
     super_increment_prefix,
     r#"var Base = {
-        test: '1',
+        test: "1",
     };
       
     var obj = {
@@ -227,14 +227,14 @@ f0.prototype = {
 var _obj;
 function f0() {}
 f0.prototype = _obj = {
-    name: "Nicholas",
+    name: 'Nicholas',
     age: 29,
-    job: "Software Engineer",
+    job: 'Software Engineer',
     sayName: function sayName() {
         v0[args](1, {
             v9: (v7)=>_get(_getPrototypeOf(_obj), "v3", this).call(this, v27),
             foo: a,
-            done: "a"
+            done: 'a'
         });
     }
 };    

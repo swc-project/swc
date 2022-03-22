@@ -41,11 +41,7 @@
               "ctxt": 0
             },
             "value": "A",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"A\""
           },
           "init": null
         },
@@ -64,11 +60,7 @@
               "ctxt": 0
             },
             "value": "B",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"B\""
           },
           "init": null
         },
@@ -87,11 +79,7 @@
               "ctxt": 0
             },
             "value": "C",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"C\""
           },
           "init": null
         }

@@ -41,8 +41,8 @@ var rb4 = x in b4;
 var rb5 = x in b5;
 var rb6 = x in 0;
 var rb7 = x in false;
-var rb8 = x in '';
+var rb8 = x in "";
 var rb9 = x in null;
 var rb10 = x in undefined;
 // both operands are invalid
-var rc1 = {} in '';
+var rc1 = {} in "";

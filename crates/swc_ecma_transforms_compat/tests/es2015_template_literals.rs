@@ -26,7 +26,7 @@ test_exec!(
     |_| tr(Default::default()),
     issue_388,
     "
-'use strict';
+\"use strict\";
 const write = (text) => {
   console.log(text)
 }
@@ -40,7 +40,7 @@ test!(
     |_| tr(Default::default()),
     escape_quotes,
     r#"var t = `'${foo}' "${bar}"`;"#,
-    r#"var t = "'".concat(foo, '\' "').concat(bar, '"');"#,
+    r#"var t = "'".concat(foo, "' \"").concat(bar, '"');"#,
     ok_if_code_eq
 );
 
@@ -49,7 +49,7 @@ test!(
     |_| tr(Default::default()),
     multiple,
     r#"var foo = `test ${foo} ${bar}`;"#,
-    r#"var foo = 'test '.concat(foo, ' ').concat(bar);"#
+    r#"var foo = "test ".concat(foo, " ").concat(bar);"#
 );
 
 test!(
@@ -65,7 +65,7 @@ test!(
     |_| tr(Default::default()),
     only,
     r#"var foo = `${test}`;"#,
-    r#"var foo = ''.concat(test);"#
+    r#"var foo = "".concat(test);"#
 );
 
 test_exec!(
@@ -127,7 +127,7 @@ test!(
     |_| tr(Default::default()),
     single,
     r#"var foo = `test ${foo}`;"#,
-    r#"var foo = 'test '.concat(foo);"#
+    r#"var foo = "test ".concat(foo);"#
 );
 
 test!(
@@ -135,7 +135,7 @@ test!(
     |_| tr(Default::default()),
     statement,
     r#"var foo = `test ${foo + bar}`;"#,
-    r#"var foo = 'test '.concat(foo + bar);"#,
+    r#"var foo = "test ".concat(foo + bar);"#,
     ok_if_code_eq
 );
 
@@ -398,7 +398,7 @@ var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;
 
 "#,
     r#"
-var foo = ''.concat(1).concat(f, 'oo', true).concat(b, 'ar', 0).concat(baz);
+var foo = "".concat(1).concat(f, "oo", true).concat(b, "ar", 0).concat(baz);
 
 "#
 );
@@ -830,7 +830,7 @@ test!(
     |_| tr(Default::default()),
     codegen_01,
     "`\"`",
-    r#""\"""#,
+    r#"'"'"#,
     ok_if_code_eq
 );
 
@@ -840,7 +840,7 @@ test!(
     codegen_02,
     "`\"\"`",
     r#"
-    "\"\""
+    '""'
     "#,
     ok_if_code_eq
 );
@@ -851,7 +851,7 @@ test!(
     codegen_03,
     "`\"${foo}`",
     r#"
-    "\"".concat(foo);
+    '"'.concat(foo);
     "#,
     ok_if_code_eq
 );
@@ -862,7 +862,7 @@ test!(
     codegen_04,
     "`\"${foo}\"`",
     r#"
-    "\"".concat(foo, "\"");
+    '"'.concat(foo, '"');
     "#,
     ok_if_code_eq
 );
@@ -873,7 +873,7 @@ test!(
     codegen_05,
     "`\"\"${foo}\"\"`",
     r#"
-    "\"\"".concat(foo, "\"\"");
+    '""'.concat(foo, '""');
     "#,
     ok_if_code_eq
 );
@@ -892,7 +892,7 @@ test!(
     |_| tr(Default::default()),
     codegen_07,
     r#"`The ${argumentName} has unexpected type of "`"#,
-    r#""The ".concat(argumentName, " has unexpected type of \"");"#,
+    r#""The ".concat(argumentName, ' has unexpected type of "');"#,
     ok_if_code_eq
 );
 
@@ -901,7 +901,7 @@ test!(
     |_| tr(Default::default()),
     codegen_08,
     r#"`". Expected argument to be an object with the following `"#,
-    r#""\". Expected argument to be an object with the following ";"#,
+    r#"'". Expected argument to be an object with the following ';"#,
     ok_if_code_eq
 );
 
@@ -910,7 +910,7 @@ test!(
     |_| tr(Default::default()),
     codegen_09,
     r#"`keys: "${reducerKeys.join('", "')}"`"#,
-    r#""keys: \"".concat(reducerKeys.join('\", \"'), "\"");"#,
+    r#"'keys: "'.concat(reducerKeys.join('", "'), '"');"#,
     ok_if_code_eq
 );
 
@@ -922,7 +922,7 @@ test!(
   matchType +
   `". Expected argument to be an object with the following ` +
   `keys: "${reducerKeys.join('", "')}"`"#,
-    r#""The ".concat(argumentName, " has unexpected type of \"") + matchType + "\". Expected argument to be an object with the following " + "keys: \"".concat(reducerKeys.join('", "'), "\"")"#,
+    r#""The ".concat(argumentName, ' has unexpected type of "') + matchType + '". Expected argument to be an object with the following ' + 'keys: "'.concat(reducerKeys.join('", "'), '"')"#,
     ok_if_code_eq
 );
 
@@ -957,7 +957,7 @@ test!(
     `\\``
     ",
     "
-    '`'
+    \"`\"
     "
 );
 
@@ -991,7 +991,7 @@ test!(
     "
     function _templateObject() {
       const data = _taggedTemplateLiteral([
-          'template'
+          \"template\"
       ]);
       _templateObject = function() {
           return data;
@@ -1027,7 +1027,7 @@ test!(
     }),
     loose_escape_quotes,
     r#"var t = `'${foo}' "${bar}"`;"#,
-    r#"var t = "'" + foo + "' \"" + bar + "\"";"#
+    r#"var t = "'" + foo + "' \"" + bar + '"';"#
 );
 
 test!(
@@ -1235,7 +1235,7 @@ test!(
     }),
     loose_no_tag,
     "`foo ${bar} baz`;",
-    "'foo '.concat(bar, ' baz');"
+    "\"foo \".concat(bar, \" baz\");"
 );
 
 test!(

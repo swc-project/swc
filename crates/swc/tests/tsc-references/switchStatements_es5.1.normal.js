@@ -2,13 +2,13 @@ import * as swcHelpers from "@swc/helpers";
 var M;
 (function(M1) {
     var fn = function fn(x) {
-        return '';
+        return "";
     };
     M1.fn = fn;
 })(M || (M = {}));
 var x;
 switch(x){
-    case '':
+    case "":
     case 12:
     case true:
     case null:
@@ -22,16 +22,16 @@ switch(x){
         id: 12
     }:
     case [
-        'a'
+        "a"
     ]:
     case typeof x === "undefined" ? "undefined" : swcHelpers.typeOf(x):
     case typeof M === "undefined" ? "undefined" : swcHelpers.typeOf(M):
     case M.fn(1):
     case function(x) {
-        return '';
+        return "";
     }:
     case function(x) {
-        return '';
+        return "";
     }(2):
     default:
 }
@@ -54,11 +54,11 @@ switch(new C()){
     case new D():
     case {
         id: 12,
-        name: ''
+        name: ""
     }:
     case new C():
 }
-switch(''){
+switch(""){
 }
 switch(12){
 }
@@ -83,14 +83,14 @@ switch({
 }){
 }
 switch([
-    'a'
+    "a"
 ]){
 }
 switch(function(x) {
-    return '';
+    return "";
 }){
 }
 switch(function(x) {
-    return '';
+    return "";
 }(1)){
 }

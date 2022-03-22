@@ -143,11 +143,7 @@
           "ctxt": 0
         },
         "value": "./exports.js",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./exports.js\""
       },
       "typeOnly": false,
       "asserts": null
@@ -209,11 +205,7 @@
           "ctxt": 0
         },
         "value": "./exports.js",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./exports.js\""
       },
       "typeOnly": false,
       "asserts": null

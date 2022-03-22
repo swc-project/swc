@@ -5,7 +5,7 @@ import * as swcHelpers from "@swc/helpers";
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
-var React = require('react');
+var React = require("react");
 function createComponent(arg) {
     var a1 = /*#__PURE__*/ React.createElement(Component, swcHelpers.extends({}, arg));
     var a2 = /*#__PURE__*/ React.createElement(Component, swcHelpers.extends({}, arg, {

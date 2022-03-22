@@ -226,7 +226,7 @@ fn issue_226() {
     let s = file("tests/projects/issue-226/input.js").unwrap();
     println!("{}", s);
 
-    assert!(s.contains("import * as _Foo from 'bar';"));
+    assert!(s.contains("import * as _Foo from \"bar\";"));
     assert!(s.contains("export { _Foo as Foo }"));
 }
 
@@ -610,7 +610,7 @@ fn codegen_1() {
     let f = file("tests/projects/codegen-1/input.js").unwrap();
     println!("{}", f);
 
-    assert_eq!(f.to_string(), "\"\\\"\";\n");
+    assert_eq!(f.to_string(), "'\"';\n");
 }
 
 #[test]

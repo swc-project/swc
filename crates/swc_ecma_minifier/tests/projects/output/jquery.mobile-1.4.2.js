@@ -525,10 +525,10 @@
             }
         });
     }(jQuery, this), function($, window, undefined) {
-        "$:nomunge";
-        var fake_onhashchange, str_hashchange = "hashchange", doc = document1, special = $.event.special, doc_mode = doc.documentMode, supports_onhashchange = "on" + str_hashchange in window && (doc_mode === undefined || doc_mode > 7);
+        '$:nomunge';
+        var fake_onhashchange, str_hashchange = 'hashchange', doc = document1, special = $.event.special, doc_mode = doc.documentMode, supports_onhashchange = 'on' + str_hashchange in window && (doc_mode === undefined || doc_mode > 7);
         function get_fragment(url) {
-            return "#" + (url = url || location.href).replace(/^[^#]*#?(.*)$/, "$1");
+            return '#' + (url = url || location.href).replace(/^[^#]*#?(.*)$/, '$1');
         }
         $.fn[str_hashchange] = function(fn) {
             return fn ? this.bind(str_hashchange, fn) : this.trigger(str_hashchange);
@@ -547,18 +547,18 @@
             }, history_set = fn_retval, history_get = fn_retval;
             function poll() {
                 var hash = get_fragment(), history_hash = history_get(last_hash);
-                hash !== last_hash ? (history_set(last_hash = hash, history_hash), $(window).trigger(str_hashchange)) : history_hash !== last_hash && (location.href = location.href.replace(/#.*/, "") + history_hash), timeout_id = setTimeout(poll, $.fn[str_hashchange].delay);
+                hash !== last_hash ? (history_set(last_hash = hash, history_hash), $(window).trigger(str_hashchange)) : history_hash !== last_hash && (location.href = location.href.replace(/#.*/, '') + history_hash), timeout_id = setTimeout(poll, $.fn[str_hashchange].delay);
             }
             return self.start = function() {
                 timeout_id || poll();
             }, self.stop = function() {
                 timeout_id && clearTimeout(timeout_id), timeout_id = undefined;
             }, !window.attachEvent || window.addEventListener || supports_onhashchange || (self.start = function() {
-                iframe || (iframe_src = (iframe_src = $.fn[str_hashchange].src) && iframe_src + get_fragment(), iframe = $('<iframe tabindex="-1" title="empty"/>').hide().one("load", function() {
+                iframe || (iframe_src = (iframe_src = $.fn[str_hashchange].src) && iframe_src + get_fragment(), iframe = $('<iframe tabindex="-1" title="empty"/>').hide().one('load', function() {
                     iframe_src || history_set(get_fragment()), poll();
-                }).attr("src", iframe_src || "javascript:0").insertAfter("body")[0].contentWindow, doc.onpropertychange = function() {
+                }).attr('src', iframe_src || 'javascript:0').insertAfter('body')[0].contentWindow, doc.onpropertychange = function() {
                     try {
-                        "title" === event.propertyName && (iframe.document.title = doc.title);
+                        'title' === event.propertyName && (iframe.document.title = doc.title);
                     } catch (e) {}
                 });
             }, self.stop = fn_retval, history_get = function() {
@@ -569,7 +569,7 @@
             }), self;
         }();
     }(jQuery, this), $4 = jQuery, window3.matchMedia = window3.matchMedia || (refNode = (docElem = (doc1 = document1).documentElement).firstElementChild || docElem.firstChild, fakeBody1 = doc1.createElement("body"), div1 = doc1.createElement("div"), div1.id = "mq-test-1", div1.style.cssText = "position:absolute;top:-100em", fakeBody1.style.background = "none", fakeBody1.appendChild(div1), function(q) {
-        return div1.innerHTML = '&shy;<style media="' + q + '"> #mq-test-1 { width: 42px; }</style>', docElem.insertBefore(fakeBody1, refNode), bool = 42 === div1.offsetWidth, docElem.removeChild(fakeBody1), {
+        return div1.innerHTML = "&shy;<style media=\"" + q + "\"> #mq-test-1 { width: 42px; }</style>", docElem.insertBefore(fakeBody1, refNode), bool = 42 === div1.offsetWidth, docElem.removeChild(fakeBody1), {
             matches: bool,
             media: q
         };
@@ -1835,7 +1835,7 @@
     }, $28.mobile.page.prototype.options.degradeInputs = $28.mobile.degradeInputs, $28.mobile.degradeInputsWithin = function(target) {
         (target = $28(target)).find("input").not($28.mobile.page.prototype.keepNativeSelector()).each(function() {
             var html, hasType, findstr, repstr, element = $28(this), type = this.getAttribute("type"), optType = $28.mobile.degradeInputs[type] || "text";
-            $28.mobile.degradeInputs[type] && (findstr = (hasType = (html = $28("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = ' type="' + optType + '" data-' + $28.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
+            $28.mobile.degradeInputs[type] && (findstr = (hasType = (html = $28("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = " type=\"" + optType + "\" data-" + $28.mobile.ns + "type=\"" + type + "\"" + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
         });
     }, function($, window, undefined) {
         $.widget("mobile.page", $.mobile.page, {

@@ -27,11 +27,8 @@ impl<'a> VisitMut for ClassNameTdzFolder<'a> {
                                 callee: helper!(class_name_tdz_error, "classNameTDZError"),
                                 args: vec![Str {
                                     span: i.span,
+                                    raw: None,
                                     value: i.sym.clone(),
-                                    has_escape: false,
-                                    kind: StrKind::Normal {
-                                        contains_quote: false,
-                                    },
                                 }
                                 .as_arg()],
 

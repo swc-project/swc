@@ -2,10 +2,10 @@
 var swcHelpers = require("@swc/helpers");
 require("reflect-metadata");
 var _class, _descriptor, _dec, _dec1;
-var COL_KEY = Symbol('col');
+var COL_KEY = Symbol("col");
 var column = function() {
     return function(object, key) {
-        Reflect.defineMetadata(COL_KEY, 'value', object, key);
+        Reflect.defineMetadata(COL_KEY, "value", object, key);
     };
 };
 var User = ((_class = function User() {

@@ -200,11 +200,7 @@
             "ctxt": 0
           },
           "value": "symbol",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"symbol\""
         }
       },
       "consequent": {

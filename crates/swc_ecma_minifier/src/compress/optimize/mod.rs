@@ -251,14 +251,16 @@ where
                     if let Expr::Lit(Lit::Str(v)) = &**expr {
                         directive_count += 1;
 
-                        if v.value == *"use strict" && !v.has_escape {
-                            child_ctx.in_strict = true;
-                        }
-
-                        if v.value == *"use asm" && !v.has_escape {
-                            child_ctx.in_asm = true;
-                            self.ctx.in_asm = true;
-                            use_asm = true;
+                        match &v.raw {
+                            Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
+                                child_ctx.in_strict = true;
+                            }
+                            Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
+                                child_ctx.in_asm = true;
+                                self.ctx.in_asm = true;
+                                use_asm = true;
+                            }
+                            _ => {}
                         }
                     }
                 }
@@ -541,15 +543,13 @@ where
 
             let sep = Box::new(Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
+                raw: None,
                 value: separator,
-                has_escape: false,
-                kind: Default::default(),
             })));
             let mut res = Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
+                raw: None,
                 value: js_word!(""),
-                has_escape: false,
-                kind: Default::default(),
             }));
 
             fn add(to: &mut Expr, right: Box<Expr>) {
@@ -616,9 +616,8 @@ where
         self.changed = true;
         *e = Expr::Lit(Lit::Str(Str {
             span: call.span,
+            raw: None,
             value: res.into(),
-            has_escape: false,
-            kind: Default::default(),
         }))
     }
 
@@ -2536,11 +2535,9 @@ where
         // Skip if `use asm` exists.
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
             Some(Stmt::Expr(stmt)) => match &*stmt.expr {
-                Expr::Lit(Lit::Str(Str {
-                    value,
-                    has_escape: false,
-                    ..
-                })) => &**value == "use asm",
+                Expr::Lit(Lit::Str(Str { raw, .. })) => {
+                    matches!(raw, Some(value) if value == "\"use asm\"" || value == "'use asm'")
+                }
                 _ => false,
             },
             _ => false,
@@ -2578,8 +2575,6 @@ where
 
     fn visit_mut_str(&mut self, s: &mut Str) {
         s.visit_mut_children_with(self);
-
-        s.kind = Default::default()
     }
 
     fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {

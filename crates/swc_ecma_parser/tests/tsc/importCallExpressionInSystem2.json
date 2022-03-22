@@ -81,11 +81,7 @@
                         "ctxt": 0
                       },
                       "value": "I am B",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"I am B\""
                     }
                   }
                 ]
@@ -464,11 +460,7 @@
                       "ctxt": 0
                     },
                     "value": "./0",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"./0\""
                   }
                 }
               ],

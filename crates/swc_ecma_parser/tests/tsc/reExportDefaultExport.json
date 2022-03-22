@@ -115,11 +115,7 @@
           "ctxt": 0
         },
         "value": "./m1",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./m1\""
       },
       "typeOnly": false,
       "asserts": null
@@ -161,11 +157,7 @@
           "ctxt": 0
         },
         "value": "./m1",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./m1\""
       },
       "typeOnly": false,
       "asserts": null

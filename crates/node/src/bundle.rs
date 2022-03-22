@@ -267,14 +267,15 @@ impl swc_bundler::Hook for Hook {
         span: Span,
         module_record: &ModuleRecord,
     ) -> Result<Vec<KeyValueProp>, Error> {
+        let file_name = module_record.file_name.to_string();
+
         Ok(vec![
             KeyValueProp {
                 key: PropName::Ident(Ident::new(js_word!("url"), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    value: module_record.file_name.to_string().into(),
-                    has_escape: false,
-                    kind: Default::default(),
+                    raw: None,
+                    value: file_name.into(),
                 }))),
             },
             KeyValueProp {

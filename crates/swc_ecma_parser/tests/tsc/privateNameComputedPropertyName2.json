@@ -318,11 +318,7 @@
                       "ctxt": 0
                     },
                     "value": "_",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"_\""
                   }
                 ]
               }

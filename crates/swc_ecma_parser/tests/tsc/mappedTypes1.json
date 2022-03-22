@@ -226,11 +226,7 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"x\""
                 }
               },
               {
@@ -248,11 +244,7 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"y\""
                 }
               }
             ]
@@ -339,11 +331,7 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"x\""
                 }
               },
               {
@@ -361,11 +349,7 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"y\""
                 }
               }
             ]
@@ -462,11 +446,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"a\""
                 }
               },
               {
@@ -484,11 +464,7 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"b\""
                 }
               }
             ]
@@ -2268,11 +2244,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"a\""
                 }
               },
               {
@@ -2290,11 +2262,7 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"b\""
                 }
               }
             ]
@@ -2381,11 +2349,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"a\""
                 }
               },
               {
@@ -2403,11 +2367,7 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"b\""
                 }
               },
               {
@@ -2425,11 +2385,7 @@
                     "ctxt": 0
                   },
                   "value": "0",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"0\""
                 }
               },
               {
@@ -2447,11 +2403,7 @@
                     "ctxt": 0
                   },
                   "value": "1",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"1\""
                 }
               }
             ]
@@ -2547,11 +2499,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"a\""
                 }
               },
               {
@@ -2569,11 +2517,7 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"b\""
                 }
               },
               {
@@ -2591,11 +2535,7 @@
                     "ctxt": 0
                   },
                   "value": "0",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"0\""
                 }
               },
               {
@@ -2613,11 +2553,7 @@
                     "ctxt": 0
                   },
                   "value": "1",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"1\""
                 }
               }
             ]

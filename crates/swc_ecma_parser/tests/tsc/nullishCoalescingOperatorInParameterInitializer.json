@@ -179,11 +179,7 @@
                       "ctxt": 0
                     },
                     "value": "d",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"d\""
                   }
                 },
                 "typeAnnotation": null

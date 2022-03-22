@@ -9,7 +9,7 @@ class C {
         return 1;
     }
     baz(x) {
-        return "";
+        return '';
     }
     get ic() {
         return 1;

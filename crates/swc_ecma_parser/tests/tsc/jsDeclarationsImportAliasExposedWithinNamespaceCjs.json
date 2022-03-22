@@ -178,11 +178,7 @@
                     "ctxt": 0
                   },
                   "value": "./file.js",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'./file.js'"
                 }
               }
             ],
@@ -324,11 +320,7 @@
                   "ctxt": 0
                 },
                 "value": "number",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "'number'"
               }
             },
             "consequent": {

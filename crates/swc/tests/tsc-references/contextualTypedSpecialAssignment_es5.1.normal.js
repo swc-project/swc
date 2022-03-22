@@ -10,11 +10,11 @@ import * as swcHelpers from "@swc/helpers";
 }} DoneStatus */ // property assignment
 var ns = {};
 /** @type {DoneStatus} */ ns.x = {
-    status: 'done',
+    status: "done",
     m: function m(n) {}
 };
 ns.x = {
-    status: 'done',
+    status: "done",
     m: function m(n) {}
 };
 ns.x;
@@ -24,14 +24,14 @@ var Thing = /*#__PURE__*/ function() {
     function Thing() {
         swcHelpers.classCallCheck(this, Thing);
         /** @type {DoneStatus} */ this.s = {
-            status: 'done',
+            status: "done",
             m: function m(n) {}
         };
     }
     var _proto = Thing.prototype;
     _proto.fail = function fail() {
         this.s = {
-            status: 'done',
+            status: "done",
             m: function m(n) {}
         };
     };
@@ -50,7 +50,7 @@ exports.x;
 module.exports.y;
 // prototype-property assignment
 /** @type {DoneStatus} */ Thing.prototype.x = {
-    status: 'done',
+    status: "done",
     m: function m(n) {}
 };
 Thing.prototype.x;

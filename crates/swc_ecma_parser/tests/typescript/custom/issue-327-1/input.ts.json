@@ -164,11 +164,7 @@
                         "ctxt": 0
                       },
                       "value": "bas",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"bas\""
                     },
                     "alternate": {
                       "type": "StringLiteral",
@@ -178,11 +174,7 @@
                         "ctxt": 0
                       },
                       "value": "bar",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"bar\""
                     }
                   }
                 },
@@ -194,11 +186,7 @@
                     "ctxt": 0
                   },
                   "value": "bat",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"bat\""
                 }
               }
             },

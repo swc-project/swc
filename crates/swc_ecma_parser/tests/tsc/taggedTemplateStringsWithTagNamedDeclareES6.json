@@ -187,34 +187,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 69,
-                  "end": 75,
-                  "ctxt": 0
-                },
-                "value": "Hello ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 69,
-                  "end": 75,
-                  "ctxt": 0
-                },
-                "value": "Hello ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "Hello ",
+              "raw": "Hello "
             },
             {
               "type": "TemplateElement",
@@ -224,34 +198,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 79,
-                  "end": 86,
-                  "ctxt": 0
-                },
-                "value": " world!",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 79,
-                  "end": 86,
-                  "ctxt": 0
-                },
-                "value": " world!",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": " world!",
+              "raw": " world!"
             }
           ]
         }

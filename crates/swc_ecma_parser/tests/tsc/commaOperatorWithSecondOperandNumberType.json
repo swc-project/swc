@@ -1010,11 +1010,7 @@
               "ctxt": 0
             },
             "value": "",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"\""
           },
           {
             "type": "AssignmentExpression",
@@ -1498,11 +1494,7 @@
                     "ctxt": 0
                   },
                   "value": "",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"\""
                 },
                 {
                   "type": "AssignmentExpression",

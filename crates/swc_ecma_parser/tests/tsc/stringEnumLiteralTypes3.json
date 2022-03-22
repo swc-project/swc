@@ -51,11 +51,7 @@
               "ctxt": 0
             },
             "value": "",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"\""
           }
         },
         {
@@ -83,11 +79,7 @@
               "ctxt": 0
             },
             "value": "yes",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"yes\""
           }
         },
         {
@@ -115,11 +107,7 @@
               "ctxt": 0
             },
             "value": "no",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"no\""
           }
         }
       ]

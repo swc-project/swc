@@ -35,7 +35,7 @@ var M;
 // all of these are errors
 for(var a;;){}
 for(var a = 1;;){}
-for(var a = 'a string';;){}
+for(var a = "a string";;){}
 for(var a = new C();;){}
 for(var a = new D();;){}
 for(var a = M;;){}
@@ -44,7 +44,7 @@ for(var b = new C();;){}
 for(var b = new C2();;){}
 for(var f = F;;){}
 for(var f = function(x) {
-    return '';
+    return "";
 };;){}
 for(var arr;;){}
 for(var arr = [

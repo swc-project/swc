@@ -58,11 +58,7 @@
           "ctxt": 0
         },
         "value": "./a",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./a'"
       },
       "typeOnly": false,
       "asserts": null
@@ -102,11 +98,7 @@
           "ctxt": 0
         },
         "value": "./a.js",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./a.js'"
       },
       "typeOnly": false,
       "asserts": null
@@ -213,11 +205,7 @@
           "ctxt": 0
         },
         "value": "./jquery",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./jquery\""
       },
       "typeOnly": false,
       "asserts": null
@@ -257,11 +245,7 @@
           "ctxt": 0
         },
         "value": "./jquery.js",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./jquery.js\""
       },
       "typeOnly": false,
       "asserts": null

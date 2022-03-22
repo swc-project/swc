@@ -5,7 +5,7 @@
 // @strictNullChecks: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
-var React = require('react');
+var React = require("react");
 var Foo = function(props) {
     return null;
 };

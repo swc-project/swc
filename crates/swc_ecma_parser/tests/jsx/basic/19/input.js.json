@@ -63,11 +63,7 @@
                   "ctxt": 0
                 },
                 "value": "leading",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"leading\""
               }
             },
             {
@@ -95,11 +91,7 @@
                   "ctxt": 0
                 },
                 "value": "attribute",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"attribute\""
               }
             },
             {

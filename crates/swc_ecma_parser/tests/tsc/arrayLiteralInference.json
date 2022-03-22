@@ -58,11 +58,7 @@
                 "ctxt": 0
               },
               "value": "HeaderDetail",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'HeaderDetail'"
             }
           },
           {
@@ -90,11 +86,7 @@
                 "ctxt": 0
               },
               "value": "HeaderMultiDetail",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'HeaderMultiDetail'"
             }
           },
           {
@@ -122,11 +114,7 @@
                 "ctxt": 0
               },
               "value": "AdvancedList",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'AdvancedList'"
             }
           },
           {
@@ -154,11 +142,7 @@
                 "ctxt": 0
               },
               "value": "Standard",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'Standard'"
             }
           },
           {
@@ -186,11 +170,7 @@
                 "ctxt": 0
               },
               "value": "Relationship",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'Relationship'"
             }
           },
           {
@@ -218,11 +198,7 @@
                 "ctxt": 0
               },
               "value": "Report",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'Report'"
             }
           },
           {
@@ -250,11 +226,7 @@
                 "ctxt": 0
               },
               "value": "Composite",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'Composite'"
             }
           },
           {
@@ -282,11 +254,7 @@
                 "ctxt": 0
               },
               "value": "ListOnly",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'ListOnly'"
             }
           },
           {
@@ -314,11 +282,7 @@
                 "ctxt": 0
               },
               "value": "ModuleSettings",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'ModuleSettings'"
             }
           }
         ]

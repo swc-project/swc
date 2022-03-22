@@ -206,7 +206,7 @@ var lyrics = [...parts, "head", "and", "toes"];
 
 "#,
     r#"
-var lyrics = _toConsumableArray(parts).concat(['head', 'and', 'toes']);
+var lyrics = _toConsumableArray(parts).concat(["head", "and", "toes"]);
 
 "#
 );

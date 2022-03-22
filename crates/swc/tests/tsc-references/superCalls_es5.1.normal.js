@@ -12,11 +12,11 @@ var Derived = /*#__PURE__*/ function(Base) {
     function Derived(q) {
         swcHelpers.classCallCheck(this, Derived);
         var _this;
-        _this = _super.call(this, '');
+        _this = _super.call(this, "");
         _this.q = q;
         var _temp;
         //type of super call expression is void
-        var p = (_temp = _this = _super.call(this, ''), _this.q = q, _temp);
+        var p = (_temp = _this = _super.call(this, ""), _this.q = q, _temp);
         var p = v();
         return _this;
     }
@@ -32,7 +32,7 @@ var OtherDerived = /*#__PURE__*/ function(OtherBase) {
     var _super = swcHelpers.createSuper(OtherDerived);
     function OtherDerived() {
         swcHelpers.classCallCheck(this, OtherDerived);
-        var p = '';
+        var p = "";
         return _super.call(this);
     }
     return OtherDerived;

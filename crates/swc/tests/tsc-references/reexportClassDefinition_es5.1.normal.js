@@ -7,12 +7,12 @@ var x = function x() {
 };
 module.exports = x;
 // @Filename: foo2.ts
-var foo1 = require('./foo1');
+var foo1 = require("./foo1");
 module.exports = {
     x: foo1
 };
 // @Filename: foo3.ts
-var foo2 = require('./foo2');
+var foo2 = require("./foo2");
 var x = /*#__PURE__*/ function(_x) {
     "use strict";
     swcHelpers.inherits(x, _x);

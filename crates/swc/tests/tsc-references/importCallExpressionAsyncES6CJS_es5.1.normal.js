@@ -13,7 +13,7 @@ function _fn() {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _ctx.next = 2;
-                    return import('./test') // ONE
+                    return import("./test") // ONE
                     ;
                 case 2:
                     req = _ctx.sent;
@@ -38,7 +38,7 @@ export var cl1 = /*#__PURE__*/ function() {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
                         _ctx.next = 2;
-                        return import('./test') // TWO
+                        return import("./test") // TWO
                         ;
                     case 2:
                         req = _ctx.sent;
@@ -58,7 +58,7 @@ export var obj = {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _ctx.next = 2;
-                    return import('./test') // THREE
+                    return import("./test") // THREE
                     ;
                 case 2:
                     req = _ctx.sent;
@@ -79,7 +79,7 @@ export var cl2 = function cl2() {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
                         _ctx.next = 2;
-                        return import('./test') // FOUR
+                        return import("./test") // FOUR
                         ;
                     case 2:
                         req = _ctx.sent;
@@ -98,7 +98,7 @@ export var l = function() {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _ctx.next = 2;
-                    return import('./test') // FIVE
+                    return import("./test") // FIVE
                     ;
                 case 2:
                     req = _ctx.sent;

@@ -1,7 +1,7 @@
 export var c2, i2, x = 1;
 export var r1;
 export var y = {
-    foo: ""
+    foo: ''
 };
 export var r2;
 export class C {
@@ -15,7 +15,7 @@ export var r5;
 export var r5;
 export var M;
 !function(M1) {
-    M1.foo = "", M1.C = class {
+    M1.foo = '', M1.C = class {
     };
 }(M || (M = {}));
 export var r6;

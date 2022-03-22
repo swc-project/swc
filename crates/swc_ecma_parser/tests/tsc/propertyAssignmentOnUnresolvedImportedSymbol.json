@@ -41,11 +41,7 @@
           "ctxt": 0
         },
         "value": "arglebaz",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'arglebaz'"
       },
       "typeOnly": false,
       "asserts": null

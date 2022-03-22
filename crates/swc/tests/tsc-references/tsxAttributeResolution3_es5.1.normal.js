@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 // OK
 var obj1 = {
-    x: 'foo'
+    x: "foo"
 };
 /*#__PURE__*/ React.createElement("test1", swcHelpers.extends({}, obj1));
 // Error, x is not string
@@ -32,14 +32,14 @@ var obj5 = {
 }, obj5));
 // Ok
 var obj6 = {
-    x: 'ok',
+    x: "ok",
     y: 32,
     extra: 100
 };
 /*#__PURE__*/ React.createElement("test1", swcHelpers.extends({}, obj6));
 // OK (spread override)
 var obj7 = {
-    x: 'foo'
+    x: "foo"
 };
 /*#__PURE__*/ React.createElement("test1", swcHelpers.extends({
     x: 32

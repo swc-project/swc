@@ -8,7 +8,7 @@ try {
     var _loop = function(_iterator, _step) {
         var comp = _step.value;
         comp.sp.y = comp.sp.r.find(function(k) {
-            return k.c == (comp.xp ? '1' : '0');
+            return k.c == (comp.xp ? "1" : "0");
         });
         var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorError1 = undefined;
         try {

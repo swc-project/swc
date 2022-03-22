@@ -191,11 +191,7 @@
                     "ctxt": 0
                   },
                   "value": "toFixed",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'toFixed'"
                 }
               }
             ],
@@ -272,11 +268,7 @@
                     "ctxt": 0
                   },
                   "value": "toExponential",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'toExponential'"
                 }
               }
             },
@@ -354,11 +346,7 @@
                     "ctxt": 0
                   },
                   "value": "hasOwnProperty",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'hasOwnProperty'"
                 }
               }
             },
@@ -373,11 +361,7 @@
                     "ctxt": 0
                   },
                   "value": "toFixed",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'toFixed'"
                 }
               }
             ],

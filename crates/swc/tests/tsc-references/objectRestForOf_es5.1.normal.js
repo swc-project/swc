@@ -61,7 +61,7 @@ var _iteratorNormalCompletion2 = true, _didIteratorError2 = false, _iteratorErro
 try {
     for(var _iterator2 = array.map(function(a) {
         return swcHelpers.objectSpread({}, a, {
-            x: 'a string'
+            x: "a string"
         });
     })[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true){
         var norest = _step2.value;

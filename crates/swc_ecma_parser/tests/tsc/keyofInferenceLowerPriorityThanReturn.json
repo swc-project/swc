@@ -2212,11 +2212,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "serial",
-                                "hasEscape": false,
-                                "kind": {
-                                  "type": "normal",
-                                  "containsQuote": true
-                                }
+                                "raw": "\"serial\""
                               }
                             }
                           ]

@@ -1098,11 +1098,7 @@
             "ctxt": 0
           },
           "value": "",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "''"
         },
         "consequent": {
           "type": "Identifier",

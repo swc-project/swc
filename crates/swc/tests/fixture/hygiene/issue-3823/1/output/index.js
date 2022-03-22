@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 function print() {
     var value$43 = 2;
     var value$41 = value$43 + 100;

@@ -1836,11 +1836,7 @@
                     "ctxt": 0
                   },
                   "value": "asd",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"asd\""
                 }
               }
             },
@@ -1929,11 +1925,7 @@
                 "ctxt": 0
               },
               "value": "asd",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"asd\""
             }
           }
         },
