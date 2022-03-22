@@ -28,6 +28,9 @@
 
 - **(es/parser)** Make `let` a reserved word in strict mode (#4113) ([9a8fc27](https://github.com/swc-project/swc/commit/9a8fc2776e8bbd349a0a86eb558e2e96f33c0242))
 
+
+- **(es/typescript)** Collect all bindings in `strip` (#4118) ([13b2f38](https://github.com/swc-project/swc/commit/13b2f38cdd9b11b5a4e021ef3340458071d4a926))
+
 ### Features
 
 
