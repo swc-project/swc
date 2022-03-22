@@ -1525,12 +1525,14 @@ where
                 f.function.visit_with(self)
             }
             Decl::Var(ref var) => {
+                let old = self.in_var_pat;
                 for decl in &var.decls {
                     self.in_var_pat = true;
                     decl.name.visit_with(self);
                     self.in_var_pat = false;
                     decl.init.visit_with(self);
                 }
+                self.in_var_pat = old;
             }
             Decl::TsEnum(e) => {
                 e.members.visit_with(self);
