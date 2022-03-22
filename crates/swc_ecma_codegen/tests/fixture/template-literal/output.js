@@ -175,3 +175,15 @@ const template_literal111 = `\\\\`;
 const template_literal112 = ``;
 const template_literal113 = ``;
 const template_literal113 = ``;
+console.log(`
+
+
+
+`);
+`\'`;
+`\"`;
+`\#`;
+`\e`;
+`\"`;
+`\"${foo}\"`;
+`\#{foo}`;
