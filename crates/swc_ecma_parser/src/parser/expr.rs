@@ -357,27 +357,12 @@ impl<'a, I: Tokens> Parser<I> {
             || (self.input.syntax().typescript() && is_one_of!(self, IdentRef, "await"))
             || is!(self, IdentRef)
         {
-            // TODO: Handle [Yield, Await]
             let id = self.parse_ident_name()?;
-            match id.sym {
-                //                    js_word!("eval") | js_word!("arguments") => {
-                //                        self.emit_err(id.span,
-                // SyntaxError::EvalAndArgumentsInStrict)
-                // }
-                js_word!("yield")
-                | js_word!("static")
-                | js_word!("implements")
-                | js_word!("let")
-                | js_word!("package")
-                | js_word!("private")
-                | js_word!("protected")
-                | js_word!("public") => {
-                    self.emit_strict_mode_err(
-                        self.input.prev_span(),
-                        SyntaxError::InvalidIdentInStrict,
-                    );
-                }
-                _ => {}
+            if id.is_reserved_in_strict_mode(self.ctx().module && !self.ctx().in_declare) {
+                self.emit_strict_mode_err(
+                    self.input.prev_span(),
+                    SyntaxError::InvalidIdentInStrict,
+                );
             }
 
             if can_be_arrow && id.sym == js_word!("async") && is!(self, BindingIdent) {
