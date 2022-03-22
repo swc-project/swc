@@ -1178,9 +1178,9 @@
                 return l.JSON.parse(a, void 0);
             }, t(pd, Yb), pd.prototype.g = function() {
                 return new qd(this.l, this.j);
-            }, a2 = {}, pd.prototype.i = function() {
+            }, pd.prototype.i = (a2 = {}, function() {
                 return a2;
-            }, t(qd, C);
+            }), t(qd, C);
             var rd = 0;
             function ud(a) {
                 a.j.read().then(a.Sa.bind(a)).catch(a.ha.bind(a));
@@ -1355,9 +1355,9 @@
                     d = !0;
                 }
                 let b6;
-                d || (b6 = "", xa(c8, function(c, d) {
+                d || (c8 = (b6 = "", xa(c8, function(c, d) {
                     b6 += d, b6 += ":", b6 += c, b6 += "\r\n";
-                }), c8 = b6, "string" == typeof a ? null != c8 && encodeURIComponent(String(c8)) : R(a, b, c8));
+                }), b6), "string" == typeof a ? null != c8 && encodeURIComponent(String(c8)) : R(a, b, c8));
             }
             function Hd(a, b, c) {
                 return c && c.internalChannelParams ? c.internalChannelParams[a] || b : b;
