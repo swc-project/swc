@@ -28,14 +28,12 @@ impl CompressDeclaration {
             ) if value_1.value == value_2.value
                 && unit_1.value.to_lowercase() == unit_2.value.to_lowercase() =>
             {
-                return true;
+                true
             }
             (
                 Some(ComponentValue::Integer(Integer { value: 0, .. })),
                 Some(ComponentValue::Integer(Integer { value: 0, .. })),
-            ) => {
-                return true;
-            }
+            ) => true,
             _ => false,
         }
     }
@@ -45,13 +43,10 @@ impl CompressDeclaration {
         node_1: Option<&ComponentValue>,
         node_2: Option<&ComponentValue>,
     ) -> bool {
-        match (node_1, node_2) {
-            (
-                Some(ComponentValue::Ident(Ident { value: value_1, .. })),
+        matches!((node_1, node_2), (
+                 Some(ComponentValue::Ident(Ident { value: value_1, .. })),
                 Some(ComponentValue::Ident(Ident { value: value_2, .. })),
-            ) if value_1.to_lowercase() == value_2.to_lowercase() => true,
-            _ => false,
-        }
+            ) if value_1.to_lowercase() == value_2.to_lowercase())
     }
 }
 
