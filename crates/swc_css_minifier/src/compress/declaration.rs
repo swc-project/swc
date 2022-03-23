@@ -383,7 +383,12 @@ impl VisitMut for CompressDeclaration {
                         }
                     }
                 }
-                "overscroll-behavior" | "scroll-snap-align" | "overflow"
+                "border-image-repeat"
+                | "mask-border-repeat"
+                | "-webkit-mask-box-image-repeat"
+                | "overscroll-behavior"
+                | "scroll-snap-align"
+                | "overflow"
                     if declaration.value.len() == 2 =>
                 {
                     let first = declaration.value.get(0);
