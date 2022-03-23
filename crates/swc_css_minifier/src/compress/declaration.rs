@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, EqIgnoreSpan};
+use swc_common::util::take::Take;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 pub fn compress_declaration() -> impl VisitMut {
@@ -36,6 +36,20 @@ impl CompressDeclaration {
             ) => {
                 return true;
             }
+            _ => false,
+        }
+    }
+
+    fn is_same_ident(
+        &self,
+        node_1: Option<&ComponentValue>,
+        node_2: Option<&ComponentValue>,
+    ) -> bool {
+        match (node_1, node_2) {
+            (
+                Some(ComponentValue::Ident(Ident { value: value_1, .. })),
+                Some(ComponentValue::Ident(Ident { value: value_2, .. })),
+            ) if value_1.to_lowercase() == value_2.to_lowercase() => true,
             _ => false,
         }
     }
@@ -274,8 +288,13 @@ impl VisitMut for CompressDeclaration {
                         }
                     }
                 }
-                "padding-block"
+                "padding-inline"
+                | "padding-block"
+                | "margin-inline"
                 | "margin-block"
+                | "margin-inline"
+                | "border-inline-width"
+                | "border-block-width"
                 | "scroll-padding-inline"
                 | "scroll-padding-block"
                 | "scroll-margin-inline"
@@ -285,7 +304,9 @@ impl VisitMut for CompressDeclaration {
                     let first = declaration.value.get(0);
                     let second = declaration.value.get(1);
 
-                    if self.is_same_dimension_length_nodes(first, second) {
+                    if self.is_same_dimension_length_nodes(first, second)
+                        || self.is_same_ident(first, second)
+                    {
                         declaration.value.remove(1);
                     }
                 }
@@ -364,14 +385,8 @@ impl VisitMut for CompressDeclaration {
                     let first = declaration.value.get(0);
                     let second = declaration.value.get(1);
 
-                    match (first, second) {
-                        (
-                            Some(ComponentValue::Ident(first_ident)),
-                            Some(ComponentValue::Ident(second_ident)),
-                        ) if first_ident.eq_ignore_span(second_ident) => {
-                            declaration.value.remove(1);
-                        }
-                        _ => {}
+                    if self.is_same_ident(first, second) {
+                        declaration.value.remove(1);
                     }
                 }
                 _ => {}
