@@ -18,6 +18,7 @@ swc_v2 = []
 # This feature exists to allow cargo operations
 plugin = [
   "swc/plugin",
+  "swc_plugin_runner/memory_cache",
   "wasmer",
   "wasmer-wasi",
   "wasmer/js-default",
@@ -38,6 +39,7 @@ swc_ecma_lints = { path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
 swc_ecmascript = { path = "../swc_ecmascript" }
+swc_plugin_runner = { version = "0.46.0", path = "../swc_plugin_runner", default-features = false, optional = true }
 tracing = { version = "0.1.32", features = ["release_max_level_off"] }
 wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
 wasmer = { version = "2.2.1", optional = true, default-features = false }

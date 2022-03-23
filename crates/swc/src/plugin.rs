@@ -41,12 +41,12 @@ pub struct PluginContext {
     pub env_name: String,
 }
 
+#[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
 pub fn plugins(
     resolver: CachingResolver<NodeModulesResolver>,
     config: crate::config::JscExperimental,
     plugin_context: PluginContext,
 ) -> impl Fold {
-    #[cfg(feature = "plugin")]
     {
         RustPlugins {
             resolver,
@@ -54,11 +54,16 @@ pub fn plugins(
             plugin_context,
         }
     }
+}
 
-    #[cfg(not(feature = "plugin"))]
-    {
-        noop()
-    }
+#[cfg(all(feature = "plugin", target_arch = "wasm32"))]
+pub fn plugins(config: crate::config::JscExperimental, plugin_context: PluginContext) -> impl Fold {
+    swc_ecma_transforms::pass::noop()
+}
+
+#[cfg(not(feature = "plugin"))]
+pub fn plugins() -> impl Fold {
+    noop()
 }
 
 struct RustPlugins {
