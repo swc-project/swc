@@ -2589,7 +2589,7 @@
                                 (event = {
                                     type: 'tag',
                                     tagType: 'skip'
-                                }).attributes = parseAttributes(match[1]), event.attributes.hasOwnProperty('SKIPPED-SEGMENTS') && (event.attributes['SKIPPED-SEGMENTS'] = parseInt(event.attributes['SKIPPED-SEGMENTS'], 10)), event.attributes.hasOwnProperty('RECENTLY-REMOVED-DATERANGES') && (event.attributes['RECENTLY-REMOVED-DATERANGES'] = event.attributes['RECENTLY-REMOVED-DATERANGES'].split("\t")), _this2.trigger('data', event);
+                                }).attributes = parseAttributes(match[1]), event.attributes.hasOwnProperty('SKIPPED-SEGMENTS') && (event.attributes['SKIPPED-SEGMENTS'] = parseInt(event.attributes['SKIPPED-SEGMENTS'], 10)), event.attributes.hasOwnProperty('RECENTLY-REMOVED-DATERANGES') && (event.attributes['RECENTLY-REMOVED-DATERANGES'] = event.attributes['RECENTLY-REMOVED-DATERANGES'].split("	")), _this2.trigger('data', event);
                                 return;
                             }
                             if ((match = /^#EXT-X-PART:(.*)$/.exec(newLine)) && match[1]) {
