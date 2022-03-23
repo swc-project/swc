@@ -13,27 +13,31 @@ impl CompressDeclaration {
         node_1: Option<&ComponentValue>,
         node_2: Option<&ComponentValue>,
     ) -> bool {
-        if let Some(ComponentValue::Dimension(Dimension::Length(Length {
-            value: value_1,
-            unit: unit_1,
-            ..
-        }))) = node_1
-        {
-            if let Some(ComponentValue::Dimension(Dimension::Length(Length {
-                value: value_2,
-                unit: unit_2,
-                ..
-            }))) = node_2
+        match (node_1, node_2) {
+            (
+                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                    value: value_1,
+                    unit: unit_1,
+                    ..
+                }))),
+                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                    value: value_2,
+                    unit: unit_2,
+                    ..
+                }))),
+            ) if value_1.value == value_2.value
+                && unit_1.value.to_lowercase() == unit_2.value.to_lowercase() =>
             {
-                if value_1.value == value_2.value
-                    && unit_1.value.to_lowercase() == unit_2.value.to_lowercase()
-                {
-                    return true;
-                }
+                return true;
             }
+            (
+                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+            ) => {
+                return true;
+            }
+            _ => false,
         }
-
-        false
     }
 }
 
@@ -234,7 +238,8 @@ impl VisitMut for CompressDeclaration {
                         _ => {}
                     }
                 }
-                "padding" | "margin" | "inset" | "scroll-margin" | "scroll-padding"
+                "padding" | "margin" | "border-width" | "inset" | "scroll-margin"
+                | "scroll-padding"
                     if declaration.value.len() > 1 =>
                 {
                     let top = declaration.value.get(0);
