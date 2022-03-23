@@ -124,11 +124,54 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
     .map_err(convert_err)
 }
 
-#[wasm_bindgen(js_name = "transformSync")]
-pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
+#[wasm_bindgen(typescript_custom_section)]
+const TRANSFORM_SYNC_DEFINITION: &'static str = r#"
+/**
+* @param {string} code
+* @param {any} opts
+* @param {Record<string, ArrayBuffer>} experimental_plugin_bytes_resolver An object contains bytes array for the plugin
+* specified in config. Key of record represents the name of the plugin specified in config. Note this is an experimental
+* interface, likely will change.
+* @returns {any}
+*/
+export function transformSync(code: string, opts: any, experimental_plugin_bytes_resolver?: any): any;
+"#;
+
+#[wasm_bindgen(
+    js_name = "transformSync",
+    typescript_type = "transformSync",
+    skip_typescript
+)]
+#[allow(unused_variables)]
+pub fn transform_sync(
+    s: &str,
+    opts: JsValue,
+    experimental_plugin_bytes_resolver: JsValue,
+) -> Result<JsValue, JsValue> {
     console_error_panic_hook::set_once();
 
     let c = compiler();
+
+    #[cfg(feature = "plugin")]
+    {
+        // TODO: This is probably very inefficient, including each transform
+        // deserializes plugin bytes.
+        let plugin_bytes = if experimental_plugin_bytes_resolver.is_object() {
+            JsValue::into_serde::<std::collections::HashMap<String, Vec<u8>>>(
+                &experimental_plugin_bytes_resolver,
+            )
+            .expect("Object should be available")
+        } else {
+            Default::default()
+        };
+
+        // In here we 'inject' externally loaded bytes into the cache, so remaining
+        // plugin_runner execution path works as much as similar between embedded
+        // runtime.
+        plugin_bytes.into_iter().for_each(|(key, bytes)| {
+            swc_plugin_runner::cache::PLUGIN_MODULE_CACHE.store_once(&key, bytes.clone())
+        });
+    }
 
     try_with_handler(
         c.cm.clone(),

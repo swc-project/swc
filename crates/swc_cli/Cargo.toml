@@ -14,7 +14,7 @@ path = "./src/main.rs"
 
 [features]
 default = []
-plugin = ["swc/plugin", "wasmer/default", "wasmer-wasi/default"]
+plugin = ["swc/plugin", "swc_plugin_runner/filesystem_cache", "wasmer/default", "wasmer-wasi/default"]
 
 [dependencies]
 anyhow = "1.0.53"
@@ -27,6 +27,7 @@ serde_json = { version = "1", features = ["unbounded_depth"] }
 swc = { version = "0.159.0", path = "../swc" }
 swc_common = { version = "0.17.5", path = "../swc_common" }
 swc_trace_macro = { version = "0.1.0", path = "../swc_trace_macro" }
+swc_plugin_runner = { version = "0.46.0", path = "../swc_plugin_runner", default-features = false, optional = true }
 tracing = "0.1.32"
 tracing-chrome = "0.4.0"
 tracing-futures = "0.2.5"
