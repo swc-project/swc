@@ -3073,6 +3073,7 @@ dependencies = [
  "anyhow",
  "atty",
  "clap 3.1.0",
+ "glob",
  "path-absolutize",
  "rayon",
  "relative-path",
