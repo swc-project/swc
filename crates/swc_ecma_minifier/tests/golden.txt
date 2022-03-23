@@ -826,6 +826,9 @@ loops/drop_if_break_1/input.js
 loops/drop_if_break_2/input.js
 loops/drop_if_break_3/input.js
 loops/drop_if_break_4/input.js
+loops/drop_if_else_break_2/input.js
+loops/drop_if_else_break_3/input.js
+loops/drop_if_else_break_4/input.js
 loops/evaluate/input.js
 loops/in_parenthesis_1/input.js
 loops/in_parenthesis_2/input.js
