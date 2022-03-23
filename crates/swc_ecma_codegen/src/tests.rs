@@ -571,7 +571,7 @@ fn test_get_quoted_utf16() {
     );
 
     es2020("\n", "\"\\n\"");
-    es2020("\t", "\"\\t\"");
+    es2020("\t", "\"\t\"");
 
     es2020("'string'", "\"'string'\"");
 
@@ -678,7 +678,7 @@ fn issue3617() {
     module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
       '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF' + '\u{a0}';";
     let expected = r#"// a string of all valid unicode whitespaces
-module.exports = "\t\n\v\f\r \xa0\u1680\u2000\u2001\u2002" + "\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF" + "\xa0";"#;
+module.exports = "	\n\v\f\r \xa0\u1680\u2000\u2001\u2002" + "\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF" + "\xa0";"#;
 
     let out = parse_then_emit(from, Default::default(), Syntax::default(), EsVersion::Es5);
 

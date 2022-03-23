@@ -1,0 +1,19 @@
+.class-1 {
+    scroll-padding-block: 10px;
+}
+
+.class-2 {
+    scroll-padding-block: 1em .5em ;
+}
+
+.class-3 {
+    scroll-padding-block: inherit;
+}
+
+.class-4 {
+    scroll-padding-block: 10px 10px;
+}
+
+.class-5 {
+    scroll-padding-block: 1rem 1rem;
+}

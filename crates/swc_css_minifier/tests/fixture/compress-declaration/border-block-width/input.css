@@ -1,0 +1,35 @@
+.class-1 {
+    border-block-width: 10px;
+}
+
+.class-2 {
+    border-block-width: 1em .5em ;
+}
+
+.class-3 {
+    border-block-width: inherit;
+}
+
+.class-4 {
+    border-block-width: 10px 10px;
+}
+
+.class-5 {
+    border-block-width: 1rem 1rem;
+}
+
+.class-9 {
+    border-block-width: medium medium;
+}
+
+.class-10 {
+    border-block-width: thick thick;
+}
+
+.class-11 {
+    border-block-width: thin thin;
+}
+
+.class-12 {
+    border-block-width: medium thick;
+}
