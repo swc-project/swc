@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{undefined, ExprExt, Value};
+use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
 use swc_ecma_visit::VisitMutWith;
 
 use super::Pure;
@@ -124,6 +124,17 @@ impl Pure<'_> {
                         }
                     }
                 }
+                return;
+            }
+
+            if self.options.unsafe_passes && &*method_name.sym == "toString" && arr.elems.len() == 1
+            {
+                tracing::debug!("evaluate: Reducing array.toString() call");
+                self.changed = true;
+                *obj = arr.elems[0]
+                    .take()
+                    .map(|elem| elem.expr)
+                    .unwrap_or_else(|| undefined(*span));
             }
         }
     }
@@ -165,7 +176,7 @@ impl Pure<'_> {
                 return;
             }
 
-            let _f = match &mut **obj {
+            let f = match &mut **obj {
                 Expr::Fn(v) => v,
                 _ => return,
             };
@@ -181,6 +192,31 @@ impl Pure<'_> {
                 );
 
                 *e = *obj.take();
+                return;
+            }
+
+            if self.options.unsafe_passes
+                && &*method_name.sym == "toString"
+                && f.function.params.is_empty()
+                && f.function.body.is_empty()
+            {
+                tracing::debug!("evaluate: Reducing function.toString() call");
+
+                if has_spread {
+                    return;
+                }
+
+                self.changed = true;
+                tracing::debug!(
+                    "evaluate: Reduced `function.toString()` into a function expression"
+                );
+
+                *e = Str {
+                    span: call.span,
+                    value: "function(){}".into(),
+                    raw: None,
+                }
+                .into();
             }
         }
     }
