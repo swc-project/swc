@@ -23,11 +23,7 @@
           "ctxt": 0
         },
         "value": "foo",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"foo\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -219,11 +215,7 @@
                     "ctxt": 0
                   },
                   "value": "fo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"fo\""
                 },
                 "qualifier": null,
                 "typeArguments": null

@@ -3,14 +3,14 @@ import * as swcHelpers from "@swc/helpers";
 // @target: es5
 var o = {
     a: 1,
-    b: 'no'
+    b: "no"
 };
 var o2 = {
-    b: 'yes',
+    b: "yes",
     c: true
 };
 var swap = {
-    a: 'yes',
+    a: "yes",
     b: -1
 };
 var addAfter = swcHelpers.objectSpread({}, o, {
@@ -20,25 +20,25 @@ var addBefore = swcHelpers.objectSpread({
     c: false
 }, o);
 var override = swcHelpers.objectSpread({}, o, {
-    b: 'override'
+    b: "override"
 });
 var nested = swcHelpers.objectSpread({}, swcHelpers.objectSpread({
     a: 3
 }, {
     b: false,
-    c: 'overriden'
+    c: "overriden"
 }), {
-    c: 'whatever'
+    c: "whatever"
 });
 var combined = swcHelpers.objectSpread({}, o, o2);
 var combinedAfter = swcHelpers.objectSpread({}, o, o2, {
-    b: 'ok'
+    b: "ok"
 });
 var combinedNestedChangeType = swcHelpers.objectSpread({}, swcHelpers.objectSpread({
     a: 1
 }, {
     b: false,
-    c: 'overriden'
+    c: "overriden"
 }), {
     c: -1
 });
@@ -92,7 +92,7 @@ function conditionalSpreadNumber(nt) {
 }
 function conditionalSpreadString(st) {
     var o4 = {
-        x: 'hi',
+        x: "hi",
         y: 17
     };
     o4 = swcHelpers.objectSpread({}, o4, st && {
@@ -128,7 +128,7 @@ var cplus = swcHelpers.objectSpread({}, c, {
 cplus.plus();
 // new field's type conflicting with existing field is OK
 var changeTypeAfter = swcHelpers.objectSpread({}, o, {
-    a: 'wrong type?'
+    a: "wrong type?"
 });
 var changeTypeBoth = swcHelpers.objectSpread({}, o, swap);
 // optional
@@ -137,12 +137,12 @@ function container(definiteBoolean, definiteString, optionalString, optionalNumb
     var optionalUnionDuplicates = swcHelpers.objectSpread({}, definiteBoolean, definiteString, optionalString, optionalNumber);
     var allOptional = swcHelpers.objectSpread({}, optionalString, optionalNumber);
     // computed property
-    var computedFirst = swcHelpers.objectSpread(swcHelpers.defineProperty({}, 'before everything', 12), o, {
-        b: 'yes'
+    var computedFirst = swcHelpers.objectSpread(swcHelpers.defineProperty({}, "before everything", 12), o, {
+        b: "yes"
     });
     var computedAfter = swcHelpers.objectSpread({}, o, swcHelpers.defineProperty({
-        b: 'yeah'
-    }, 'at the end', 14));
+        b: "yeah"
+    }, "at the end", 14));
 }
 // shortcut syntax
 var a = 12;
@@ -154,33 +154,33 @@ var spreadNonPrimitive = swcHelpers.objectSpread({}, {});
 // generic spreads
 function f(t, u) {
     return swcHelpers.objectSpread({}, t, u, {
-        id: 'id'
+        id: "id"
     });
 }
 var exclusive = f({
     a: 1,
-    b: 'yes'
+    b: "yes"
 }, {
-    c: 'no',
+    c: "no",
     d: false
 });
 var overlap = f({
     a: 1
 }, {
     a: 2,
-    b: 'extra'
+    b: "extra"
 });
 var overlapConflict = f({
     a: 1
 }, {
-    a: 'mismatch'
+    a: "mismatch"
 });
 var overwriteId = f({
     a: 1,
     id: true
 }, {
     c: 1,
-    d: 'no'
+    d: "no"
 });
 function genericSpread(t, u, v, w, obj) {
     var x01 = swcHelpers.objectSpread({}, t);
@@ -189,28 +189,28 @@ function genericSpread(t, u, v, w, obj) {
     var x04 = swcHelpers.objectSpread({}, u, t);
     var x05 = swcHelpers.objectSpread({
         a: 5,
-        b: 'hi'
+        b: "hi"
     }, t);
     var x06 = swcHelpers.objectSpread({}, t, {
         a: 5,
-        b: 'hi'
+        b: "hi"
     });
     var x07 = swcHelpers.objectSpread({
         a: 5,
-        b: 'hi'
+        b: "hi"
     }, t, {
         c: true
     }, obj);
     var x09 = swcHelpers.objectSpread({
         a: 5
     }, t, {
-        b: 'hi',
+        b: "hi",
         c: true
     }, obj);
     var x10 = swcHelpers.objectSpread({
         a: 5
     }, t, {
-        b: 'hi'
+        b: "hi"
     }, u, obj);
     var x11 = swcHelpers.objectSpread({}, v);
     var x12 = swcHelpers.objectSpread({}, v, obj);

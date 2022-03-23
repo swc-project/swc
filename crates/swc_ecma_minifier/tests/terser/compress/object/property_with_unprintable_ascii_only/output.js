@@ -1,23 +1,23 @@
 var foo1 = {
-    "\x00\x01": "foo",
-    get "\x00\x01" () {
+    "\0\x01": "foo",
+    get "\0\x01" () {
         return "bar";
     },
-    set "\x00\x01" (foo){
+    set "\0\x01" (foo){
         save(foo);
     },
-    *"\x00\x01" () {
+    *"\0\x01" () {
         return "foobar";
     }
 };
 class bar {
-    get "\x00\x01"() {
+    get "\0\x01"() {
         return "bar";
     }
-    set "\x00\x01"(foo) {
+    set "\0\x01"(foo) {
         save(foo);
     }
-    *"\x00\x01"() {
+    *"\0\x01"() {
         return "foobar";
     }
 }

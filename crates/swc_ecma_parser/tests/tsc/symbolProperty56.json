@@ -235,11 +235,7 @@
                         "ctxt": 0
                       },
                       "value": "iterator",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"iterator\""
                     }
                   }
                 }

@@ -23,11 +23,7 @@
           "ctxt": 0
         },
         "value": "too*many*asterisks",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"too*many*asterisks\""
       },
       "body": {
         "type": "TsModuleBlock",

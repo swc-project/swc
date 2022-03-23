@@ -316,6 +316,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     fn parse_class_body(&mut self) -> PResult<Vec<ClassMember>> {
         let mut elems = vec![];
+        let mut has_constructor_with_body = false;
         while !eof!(self) && !is!(self, '}') {
             if eat_exact!(self, ';') {
                 let span = self.input.prev_span();
@@ -328,7 +329,22 @@ impl<'a, I: Tokens> Parser<I> {
                 allow_direct_super: true,
                 ..self.ctx()
             });
-            elems.push(p.parse_class_member()?);
+            let elem = p.parse_class_member()?;
+
+            if !p.ctx().in_declare {
+                if let ClassMember::Constructor(Constructor {
+                    body: Some(..),
+                    span,
+                    ..
+                }) = elem
+                {
+                    if has_constructor_with_body {
+                        p.emit_err(span, SyntaxError::DuplicateConstructor);
+                    }
+                    has_constructor_with_body = true;
+                }
+            }
+            elems.push(elem);
         }
         Ok(elems)
     }
@@ -706,6 +722,14 @@ impl<'a, I: Tokens> Parser<I> {
                 let body: Option<_> =
                     self.parse_fn_body(false, false, params.is_simple_parameter_list())?;
 
+                if body.is_none() {
+                    for param in params.iter() {
+                        if param.is_ts_param_prop() {
+                            self.emit_err(param.span(), SyntaxError::TS2369)
+                        }
+                    }
+                }
+
                 if self.syntax().typescript() && body.is_none() {
                     // Declare constructors cannot have assignment pattern in parameters
                     for p in &params {
@@ -976,6 +1000,7 @@ impl<'a, I: Tokens> Parser<I> {
                     is_override,
                     readonly,
                     type_ann,
+                    definite,
                 }
                 .into(),
                 Either::Right(key) => {

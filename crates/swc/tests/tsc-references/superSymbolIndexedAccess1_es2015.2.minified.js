@@ -1,1 +1,1 @@
-Symbol.for("myThing");
+Symbol.for('myThing');

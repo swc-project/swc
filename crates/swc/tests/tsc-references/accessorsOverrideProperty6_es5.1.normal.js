@@ -4,7 +4,7 @@ import * as swcHelpers from "@swc/helpers";
 var A = function A() {
     "use strict";
     swcHelpers.classCallCheck(this, A);
-    this.p = 'yep';
+    this.p = "yep";
 };
 var B = /*#__PURE__*/ function(A) {
     "use strict";
@@ -18,7 +18,7 @@ var B = /*#__PURE__*/ function(A) {
         {
             key: "p",
             get: function get() {
-                return 'oh no';
+                return "oh no";
             } // error
         }
     ]);

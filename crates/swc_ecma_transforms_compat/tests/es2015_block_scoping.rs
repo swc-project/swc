@@ -210,7 +210,7 @@ test!(
             var _this = this, _loop = function(i) {
                 elem = _this.elements[i];
                 name = elem.name;
-                if (!name) return 'continue';
+                if (!name) return \"continue\";
                 val = values[name];
                 if (val == null) val = '';
                 switch(elem.type){
@@ -243,7 +243,7 @@ test!(
             var elem = null, name, val;
             for(var i = 0; i < this.elements.length; i++){
                 var _ret = _loop(i);
-                if (_ret === 'continue') continue;
+                if (_ret === \"continue\") continue;
             }
             return vars;
         };

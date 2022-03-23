@@ -169,6 +169,7 @@ pub enum SyntaxError {
     PrivateNameModifier(JsWord),
     ReadOnlyMethod,
     GeneratorConstructor,
+    DuplicateConstructor,
     TsBindingPatCannotBeOptional,
     SuperCallOptional,
 
@@ -423,6 +424,7 @@ impl SyntaxError {
             SyntaxError::PropertyNamedConstructor => {
                 "Classes may not have a non-static field named 'constructor'".into()
             }
+            SyntaxError::DuplicateConstructor => "A class can only have one constructor".into(),
             SyntaxError::PrivateNameModifier(modifier) => format!(
                 "'{}' modifier cannot be used with a private identifier",
                 modifier

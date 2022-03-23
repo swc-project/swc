@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
-var source = Math.random() < 2 ? 'matilda' : 'fred';
+var source = Math.random() < 2 ? "matilda" : "fred";
 var details = {
-    _id: '1'
+    _id: "1"
 };
 function request(path) {
     return _request.apply(this, arguments);
@@ -26,7 +26,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
-                if (!(source === 'matilda')) {
+                if (!(source === "matilda")) {
                     _ctx.next = 4;
                     break;
                 }

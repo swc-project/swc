@@ -249,11 +249,7 @@
                     "ctxt": 0
                   },
                   "value": "./MW",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./MW\""
                 }
               }
             ],

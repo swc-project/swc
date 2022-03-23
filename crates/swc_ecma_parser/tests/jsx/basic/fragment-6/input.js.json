@@ -113,11 +113,7 @@
                 "ctxt": 0
               },
               "value": "JSXExpressionContainer",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'JSXExpressionContainer'"
             }
           }
         ],

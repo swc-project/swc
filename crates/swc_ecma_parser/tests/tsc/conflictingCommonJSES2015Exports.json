@@ -229,11 +229,7 @@
           "ctxt": 0
         },
         "value": "./bug24934",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./bug24934'"
       },
       "typeOnly": false,
       "asserts": null

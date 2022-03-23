@@ -541,11 +541,7 @@
             "ctxt": 0
           },
           "value": "string",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"string\""
         },
         "right": {
           "type": "UnaryExpression",
@@ -687,11 +683,7 @@
             "ctxt": 0
           },
           "value": "function",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"function\""
         },
         "right": {
           "type": "UnaryExpression",
@@ -833,11 +825,7 @@
             "ctxt": 0
           },
           "value": "number",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"number\""
         },
         "right": {
           "type": "UnaryExpression",
@@ -979,11 +967,7 @@
             "ctxt": 0
           },
           "value": "boolean",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"boolean\""
         },
         "right": {
           "type": "UnaryExpression",

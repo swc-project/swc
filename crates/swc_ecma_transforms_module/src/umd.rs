@@ -539,10 +539,12 @@ impl Fold for Umd {
         };
 
         for export in export_alls {
+            let span = export.span;
             let export = scope
                 .import_to_export(&export.src, true)
                 .expect("Export should exists");
             stmts.push(Scope::handle_export_all(
+                span,
                 exports_ident.clone(),
                 exported_names.clone(),
                 export,
@@ -553,7 +555,7 @@ impl Fold for Umd {
             stmts.extend(initialize_to_undefined(exports_ident, initialized));
         }
 
-        for (src, import) in scope.imports.drain(..) {
+        for (src, (src_span, import)) in scope.imports.drain(..) {
             let global_ident = Ident::new(self.config.global_name(&src), DUMMY_SP);
             let import = import.unwrap_or_else(|| {
                 (
@@ -573,7 +575,7 @@ impl Fold for Umd {
             });
             factory_args.push(
                 self.resolver
-                    .make_require_call(self.root_mark, src.clone())
+                    .make_require_call(self.root_mark, src.clone(), src_span)
                     .as_arg(),
             );
             global_factory_args.push(quote_ident!("global").make_member(global_ident).as_arg());

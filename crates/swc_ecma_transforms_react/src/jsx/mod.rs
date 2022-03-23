@@ -558,11 +558,8 @@ where
                                     let key = if i.sym.contains('-') {
                                         PropName::Str(Str {
                                             span: i.span,
+                                            raw: None,
                                             value: i.sym,
-                                            has_escape: false,
-                                            kind: StrKind::Normal {
-                                                contains_quote: false,
-                                            },
                                         })
                                     } else {
                                         PropName::Ident(i)
@@ -592,11 +589,11 @@ where
                                         None => true.into(),
                                     };
 
+                                    let str_value = format!("{}:{}", ns.sym, name.sym);
                                     let key = Str {
                                         span,
-                                        value: format!("{}:{}", ns.sym, name.sym).into(),
-                                        has_escape: false,
-                                        kind: Default::default(),
+                                        raw: None,
+                                        value: str_value.into(),
                                     };
                                     let key = PropName::Str(key);
 
@@ -617,7 +614,7 @@ where
                     }
                 }
 
-                let children = el
+                let mut children = el
                     .children
                     .into_iter()
                     .filter_map(|child| self.jsx_elem_child_to_expr(child))
@@ -627,12 +624,20 @@ where
                 match children.len() {
                     0 => {}
                     1 if children[0].as_ref().unwrap().spread.is_none() => {
-                        props_obj
-                            .props
-                            .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!("children")),
-                                value: children.into_iter().next().flatten().unwrap().expr,
-                            }))));
+                        if !use_create_element {
+                            props_obj
+                                .props
+                                .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("children")),
+                                    value: children
+                                        .take()
+                                        .into_iter()
+                                        .next()
+                                        .flatten()
+                                        .unwrap()
+                                        .expr,
+                                }))));
+                        }
                     }
                     _ => {
                         props_obj
@@ -641,7 +646,7 @@ where
                                 key: PropName::Ident(quote_ident!("children")),
                                 value: Box::new(Expr::Array(ArrayLit {
                                     span: DUMMY_SP,
-                                    elems: children,
+                                    elems: children.take(),
                                 })),
                             }))));
                     }
@@ -651,7 +656,7 @@ where
 
                 let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
                 let args = if use_create_element {
-                    args.collect()
+                    args.chain(children.into_iter().flatten()).collect()
                 } else if self.development {
                     // set undefined literal to key if key is None
                     let key = match key {
@@ -713,12 +718,13 @@ where
         Some(match c {
             JSXElementChild::JSXText(text) => {
                 // TODO(kdy1): Optimize
+                let value = jsx_text_to_str(text.value);
                 let s = Str {
                     span: text.span,
-                    has_escape: text.raw != text.value,
-                    value: jsx_text_to_str(text.value),
-                    kind: Default::default(),
+                    raw: None,
+                    value,
                 };
+
                 if s.value.is_empty() {
                     return None;
                 }
@@ -870,12 +876,15 @@ where
         let value = a
             .value
             .map(|v| match v {
-                JSXAttrValue::Lit(Lit::Str(s)) => Box::new(Expr::Lit(Lit::Str(Str {
-                    span: s.span,
-                    value: transform_jsx_attr_str(&s.value).into(),
-                    has_escape: false,
-                    kind: Default::default(),
-                }))),
+                JSXAttrValue::Lit(Lit::Str(s)) => {
+                    let value = transform_jsx_attr_str(&s.value);
+
+                    Box::new(Expr::Lit(Lit::Str(Str {
+                        span: s.span,
+                        raw: None,
+                        value: value.into(),
+                    })))
+                }
                 JSXAttrValue::JSXExprContainer(JSXExprContainer {
                     expr: JSXExpr::Expr(e),
                     ..
@@ -1034,9 +1043,8 @@ where
                         specifiers: vec![specifier],
                         src: Str {
                             span: DUMMY_SP,
+                            raw: None,
                             value: "react".into(),
-                            has_escape: false,
-                            kind: Default::default(),
                         },
                         type_only: Default::default(),
                         asserts: Default::default(),
@@ -1101,6 +1109,9 @@ where
                 } else {
                     "jsx-runtime"
                 };
+
+                let value = format!("{}/{}", self.import_source, jsx_runtime);
+
                 prepend(
                     &mut module.body,
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
@@ -1108,9 +1119,8 @@ where
                         specifiers: imports,
                         src: Str {
                             span: DUMMY_SP,
-                            value: format!("{}/{}", self.import_source, jsx_runtime).into(),
-                            has_escape: false,
-                            kind: Default::default(),
+                            raw: None,
+                            value: value.into(),
                         },
                         type_only: Default::default(),
                         asserts: Default::default(),
@@ -1137,11 +1147,8 @@ where
                 if i.as_ref().starts_with(|c: char| c.is_ascii_lowercase()) {
                     Box::new(Expr::Lit(Lit::Str(Str {
                         span,
+                        raw: None,
                         value: i.sym,
-                        has_escape: false,
-                        kind: StrKind::Normal {
-                            contains_quote: false,
-                        },
                     })))
                 } else {
                     Box::new(Expr::Ident(i))
@@ -1161,11 +1168,13 @@ where
                             .emit()
                     });
                 }
+
+                let value = format!("{}:{}", ns.sym, name.sym);
+
                 Box::new(Expr::Lit(Lit::Str(Str {
                     span,
-                    value: format!("{}:{}", ns.sym, name.sym).into(),
-                    has_escape: false,
-                    kind: Default::default(),
+                    raw: None,
+                    value: value.into(),
                 })))
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop }) => {
@@ -1206,22 +1215,22 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
             if i.sym.contains('-') {
                 PropName::Str(Str {
                     span,
+                    raw: None,
                     value: i.sym,
-                    has_escape: false,
-                    kind: StrKind::Normal {
-                        contains_quote: false,
-                    },
                 })
             } else {
                 PropName::Ident(i)
             }
         }
-        JSXAttrName::JSXNamespacedName(JSXNamespacedName { ns, name }) => PropName::Str(Str {
-            span,
-            value: format!("{}:{}", ns.sym, name.sym).into(),
-            has_escape: false,
-            kind: Default::default(),
-        }),
+        JSXAttrName::JSXNamespacedName(JSXNamespacedName { ns, name }) => {
+            let value = format!("{}:{}", ns.sym, name.sym);
+
+            PropName::Str(Str {
+                span,
+                raw: None,
+                value: value.into(),
+            })
+        }
     }
 }
 
@@ -1260,12 +1269,15 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
 
 fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
     Some(match v {
-        JSXAttrValue::Lit(Lit::Str(s)) => Box::new(Expr::Lit(Lit::Str(Str {
-            span: s.span,
-            value: transform_jsx_attr_str(&s.value).into(),
-            has_escape: false,
-            kind: Default::default(),
-        }))),
+        JSXAttrValue::Lit(Lit::Str(s)) => {
+            let value = transform_jsx_attr_str(&s.value);
+
+            Box::new(Expr::Lit(Lit::Str(Str {
+                span: s.span,
+                raw: None,
+                value: value.into(),
+            })))
+        }
         JSXAttrValue::Lit(lit) => Box::new(lit.into()),
         JSXAttrValue::JSXExprContainer(e) => match e.expr {
             JSXExpr::JSXEmptyExpr(_) => None?,

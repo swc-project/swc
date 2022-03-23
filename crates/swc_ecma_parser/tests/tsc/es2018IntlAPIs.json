@@ -52,11 +52,7 @@
                     "ctxt": 0
                   },
                   "value": "ban",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'ban'"
                 }
               },
               {
@@ -69,11 +65,7 @@
                     "ctxt": 0
                   },
                   "value": "id-u-co-pinyin",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'id-u-co-pinyin'"
                 }
               },
               {
@@ -86,11 +78,7 @@
                     "ctxt": 0
                   },
                   "value": "de-ID",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'de-ID'"
                 }
               }
             ]
@@ -162,11 +150,7 @@
                       "ctxt": 0
                     },
                     "value": "lookup",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'lookup'"
                   }
                 }
               ]
@@ -340,11 +324,7 @@
                       "ctxt": 0
                     },
                     "value": ", ",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "', '"
                   }
                 }
               ],

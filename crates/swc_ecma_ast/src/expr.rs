@@ -2,6 +2,7 @@
 use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
 use string_enum::StringEnum;
+use swc_atoms::JsWord;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 use crate::{
@@ -9,7 +10,7 @@ use crate::{
     function::Function,
     ident::{Ident, PrivateName},
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
-    lit::{Lit, Str},
+    lit::Lit,
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
     pat::Pat,
     prop::Prop,
@@ -747,7 +748,6 @@ impl Take for TaggedTpl {
 
 #[ast_node("TemplateElement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
-#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TplElement {
     pub span: Span,
     pub tail: bool,
@@ -757,8 +757,12 @@ pub struct TplElement {
     ///
     /// If you are going to use codegen right after creating a [TplElement], you
     /// don't have to worry about this value.
-    pub cooked: Option<Str>,
-    pub raw: Str,
+
+    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
+    pub cooked: Option<JsWord>,
+
+    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
+    pub raw: JsWord,
 }
 
 impl Take for TplElement {
@@ -766,9 +770,26 @@ impl Take for TplElement {
         TplElement {
             span: DUMMY_SP,
             tail: Default::default(),
-            cooked: Take::dummy(),
-            raw: Take::dummy(),
+            cooked: None,
+            raw: "".into(),
         }
+    }
+}
+
+#[cfg(feature = "arbitrary")]
+#[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
+impl<'a> arbitrary::Arbitrary<'a> for TplElement {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        let span = u.arbitrary()?;
+        let cooked = Some(u.arbitrary::<String>()?.into());
+        let raw = u.arbitrary::<String>()?.into();
+
+        Ok(Self {
+            span,
+            tail: false,
+            cooked,
+            raw,
+        })
     }
 }
 

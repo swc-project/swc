@@ -9,7 +9,7 @@ export var i;
 export var r5;
 export var r5;
 !function(M1) {
-    M1.foo = "", M1.C = class {
+    M1.foo = '', M1.C = class {
     };
 }(M || (M = {}));
 export var r6;

@@ -21,7 +21,7 @@ function f(b) {
     }
     _$d.r;
     if (b) {
-        _$d.s = 'hi';
+        _$d.s = "hi";
     }
     return _$d;
 }
@@ -54,7 +54,7 @@ if (!!false) {
 g.expando // error
 ;
 if (!!false) {
-    g.both = 'hi';
+    g.both = "hi";
 } else {
     g.both = 0;
 }

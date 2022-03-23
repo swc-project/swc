@@ -66,7 +66,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "ClassProperty",
@@ -164,11 +165,7 @@
                 "ctxt": 0
               },
               "value": "X_ z_ zz",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"X_ z_ zz\""
             }
           },
           "value": {
@@ -230,7 +227,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "ClassMethod",
@@ -854,7 +852,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "ClassProperty",
@@ -952,11 +951,7 @@
                 "ctxt": 0
               },
               "value": "X_ z_ zz",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"X_ z_ zz\""
             }
           },
           "value": {
@@ -1018,7 +1013,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "ClassMethod",

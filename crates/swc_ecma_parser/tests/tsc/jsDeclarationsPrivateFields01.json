@@ -66,11 +66,7 @@
                 "ctxt": 0
               },
               "value": "hello",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"hello\""
             },
             "typeAnnotation": null,
             "isStatic": false,
@@ -78,7 +74,8 @@
             "accessibility": null,
             "isOptional": false,
             "isOverride": false,
-            "readonly": false
+            "readonly": false,
+            "definite": false
           },
           {
             "type": "PrivateProperty",
@@ -120,7 +117,8 @@
             "accessibility": null,
             "isOptional": false,
             "isOverride": false,
-            "readonly": false
+            "readonly": false,
+            "definite": false
           },
           {
             "type": "PrivateMethod",
@@ -421,11 +419,7 @@
                         "ctxt": 0
                       },
                       "value": "NO",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"NO\""
                     }
                   }
                 ]

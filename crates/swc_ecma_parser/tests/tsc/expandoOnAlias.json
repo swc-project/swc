@@ -169,11 +169,7 @@
           "ctxt": 0
         },
         "value": "./vue",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./vue\""
       },
       "typeOnly": false,
       "asserts": null

@@ -90,11 +90,7 @@
                 "ctxt": 0
               },
               "value": "a",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"a\""
             }
           },
           {
@@ -244,11 +240,7 @@
                 "ctxt": 0
               },
               "value": "b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"b\""
             }
           },
           {
@@ -416,11 +408,7 @@
                 "ctxt": 0
               },
               "value": "cat",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"cat\""
             }
           },
           {
@@ -453,11 +441,7 @@
                       "ctxt": 0
                     },
                     "value": "cat",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"cat\""
                   }
                 }
               ]
@@ -651,11 +635,7 @@
                 "ctxt": 0
               },
               "value": "d",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"d\""
             }
           },
           {
@@ -882,11 +862,7 @@
                 "ctxt": 0
               },
               "value": "e",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"e\""
             }
           },
           {
@@ -1087,11 +1063,7 @@
                 "ctxt": 0
               },
               "value": "f",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"f\""
             }
           },
           {
@@ -1236,11 +1208,7 @@
                 "ctxt": 0
               },
               "value": "self",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"self\""
             }
           },
           {
@@ -1562,11 +1530,7 @@
                 "ctxt": 0
               },
               "value": "g",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"g\""
             }
           },
           {
@@ -1852,11 +1816,7 @@
                 "ctxt": 0
               },
               "value": "h",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"h\""
             }
           },
           {
@@ -1983,11 +1943,7 @@
                 "ctxt": 0
               },
               "value": "i",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"i\""
             }
           },
           {
@@ -2137,11 +2093,7 @@
                 "ctxt": 0
               },
               "value": "ii",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"ii\""
             }
           },
           {
@@ -2304,11 +2256,7 @@
                 "ctxt": 0
               },
               "value": "jj",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"jj\""
             }
           },
           {
@@ -2471,11 +2419,7 @@
                 "ctxt": 0
               },
               "value": "j",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"j\""
             }
           },
           {

@@ -2,6 +2,7 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, Value};
+use swc_ecma_visit::VisitMutWith;
 
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
@@ -261,9 +262,8 @@ impl Pure<'_> {
 
                 *e = Expr::Lit(Lit::Str(Str {
                     span: e.span(),
+                    raw: None,
                     value: value.into(),
-                    has_escape: false,
-                    kind: Default::default(),
                 }))
             }
         }
@@ -299,6 +299,79 @@ impl Pure<'_> {
 
                     *e = *undefined(*span);
                 }
+            }
+        }
+    }
+
+    /// Note: this method requires boolean context.
+    ///
+    /// - `foo || 1` => `foo, 1`
+    pub(super) fn optmize_known_logical_expr(&mut self, e: &mut Expr) {
+        let bin_expr = match e {
+            Expr::Bin(
+                e @ BinExpr {
+                    op: op!("||") | op!("&&"),
+                    ..
+                },
+            ) => e,
+            _ => return,
+        };
+
+        if bin_expr.op == op!("||") {
+            if let Value::Known(v) = bin_expr.right.as_pure_bool() {
+                // foo || 1 => foo, 1
+                if v {
+                    self.changed = true;
+                    tracing::debug!("evaluate: `foo || true` => `foo, 1`");
+
+                    *e = Expr::Seq(SeqExpr {
+                        span: bin_expr.span,
+                        exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
+                    });
+                    e.visit_mut_with(self);
+                } else {
+                    self.changed = true;
+                    tracing::debug!("evaluate: `foo || false` => `foo` (bool ctx)");
+
+                    *e = *bin_expr.left.take();
+                }
+                return;
+            }
+
+            // 1 || foo => foo
+            if let Value::Known(true) = bin_expr.left.as_pure_bool() {
+                self.changed = true;
+                tracing::debug!("evaluate: `true || foo` => `foo`");
+
+                *e = *bin_expr.right.take();
+            }
+        } else {
+            debug_assert_eq!(bin_expr.op, op!("&&"));
+
+            if let Value::Known(v) = bin_expr.right.as_pure_bool() {
+                if v {
+                    self.changed = true;
+                    tracing::debug!("evaluate: `foo && true` => `foo` (bool ctx)");
+
+                    *e = *bin_expr.left.take();
+                } else {
+                    self.changed = true;
+                    tracing::debug!("evaluate: `foo && false` => `foo, false`");
+
+                    *e = Expr::Seq(SeqExpr {
+                        span: bin_expr.span,
+                        exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
+                    });
+                    e.visit_mut_with(self);
+                }
+                return;
+            }
+
+            if let Value::Known(true) = bin_expr.left.as_pure_bool() {
+                self.changed = true;
+                tracing::debug!("evaluate: `true && foo` => `foo`");
+
+                *e = *bin_expr.right.take();
             }
         }
     }

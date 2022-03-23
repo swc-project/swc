@@ -2031,11 +2031,7 @@
                     "ctxt": 0
                   },
                   "value": "number",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'number'"
                 }
               }
             }
@@ -2586,34 +2582,8 @@
                                             "ctxt": 0
                                           },
                                           "tail": true,
-                                          "cooked": {
-                                            "type": "StringLiteral",
-                                            "span": {
-                                              "start": 1465,
-                                              "end": 1488,
-                                              "ctxt": 0
-                                            },
-                                            "value": "pegasus - 4 legs, wings",
-                                            "hasEscape": false,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": false
-                                            }
-                                          },
-                                          "raw": {
-                                            "type": "StringLiteral",
-                                            "span": {
-                                              "start": 1465,
-                                              "end": 1488,
-                                              "ctxt": 0
-                                            },
-                                            "value": "pegasus - 4 legs, wings",
-                                            "hasEscape": false,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": false
-                                            }
-                                          }
+                                          "cooked": "pegasus - 4 legs, wings",
+                                          "raw": "pegasus - 4 legs, wings"
                                         }
                                       ]
                                     }
@@ -2729,34 +2699,8 @@
                                               "ctxt": 0
                                             },
                                             "tail": true,
-                                            "cooked": {
-                                              "type": "StringLiteral",
-                                              "span": {
-                                                "start": 1568,
-                                                "end": 1588,
-                                                "ctxt": 0
-                                              },
-                                              "value": "bird - 2 legs, wings",
-                                              "hasEscape": false,
-                                              "kind": {
-                                                "type": "normal",
-                                                "containsQuote": false
-                                              }
-                                            },
-                                            "raw": {
-                                              "type": "StringLiteral",
-                                              "span": {
-                                                "start": 1568,
-                                                "end": 1588,
-                                                "ctxt": 0
-                                              },
-                                              "value": "bird - 2 legs, wings",
-                                              "hasEscape": false,
-                                              "kind": {
-                                                "type": "normal",
-                                                "containsQuote": false
-                                              }
-                                            }
+                                            "cooked": "bird - 2 legs, wings",
+                                            "raw": "bird - 2 legs, wings"
                                           }
                                         ]
                                       }
@@ -2848,34 +2792,8 @@
                                               "ctxt": 0
                                             },
                                             "tail": false,
-                                            "cooked": {
-                                              "type": "StringLiteral",
-                                              "span": {
-                                                "start": 1646,
-                                                "end": 1656,
-                                                "ctxt": 0
-                                              },
-                                              "value": "unknown - ",
-                                              "hasEscape": false,
-                                              "kind": {
-                                                "type": "normal",
-                                                "containsQuote": false
-                                              }
-                                            },
-                                            "raw": {
-                                              "type": "StringLiteral",
-                                              "span": {
-                                                "start": 1646,
-                                                "end": 1656,
-                                                "ctxt": 0
-                                              },
-                                              "value": "unknown - ",
-                                              "hasEscape": false,
-                                              "kind": {
-                                                "type": "normal",
-                                                "containsQuote": false
-                                              }
-                                            }
+                                            "cooked": "unknown - ",
+                                            "raw": "unknown - "
                                           },
                                           {
                                             "type": "TemplateElement",
@@ -2885,34 +2803,8 @@
                                               "ctxt": 0
                                             },
                                             "tail": true,
-                                            "cooked": {
-                                              "type": "StringLiteral",
-                                              "span": {
-                                                "start": 1669,
-                                                "end": 1681,
-                                                "ctxt": 0
-                                              },
-                                              "value": " legs, wings",
-                                              "hasEscape": false,
-                                              "kind": {
-                                                "type": "normal",
-                                                "containsQuote": false
-                                              }
-                                            },
-                                            "raw": {
-                                              "type": "StringLiteral",
-                                              "span": {
-                                                "start": 1669,
-                                                "end": 1681,
-                                                "ctxt": 0
-                                              },
-                                              "value": " legs, wings",
-                                              "hasEscape": false,
-                                              "kind": {
-                                                "type": "normal",
-                                                "containsQuote": false
-                                              }
-                                            }
+                                            "cooked": " legs, wings",
+                                            "raw": " legs, wings"
                                           }
                                         ]
                                       }
@@ -3008,34 +2900,8 @@
                                       "ctxt": 0
                                     },
                                     "tail": false,
-                                    "cooked": {
-                                      "type": "StringLiteral",
-                                      "span": {
-                                        "start": 1785,
-                                        "end": 1798,
-                                        "ctxt": 0
-                                      },
-                                      "value": "manbearpig - ",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": false
-                                      }
-                                    },
-                                    "raw": {
-                                      "type": "StringLiteral",
-                                      "span": {
-                                        "start": 1785,
-                                        "end": 1798,
-                                        "ctxt": 0
-                                      },
-                                      "value": "manbearpig - ",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": false
-                                      }
-                                    }
+                                    "cooked": "manbearpig - ",
+                                    "raw": "manbearpig - "
                                   },
                                   {
                                     "type": "TemplateElement",
@@ -3045,34 +2911,8 @@
                                       "ctxt": 0
                                     },
                                     "tail": true,
-                                    "cooked": {
-                                      "type": "StringLiteral",
-                                      "span": {
-                                        "start": 1811,
-                                        "end": 1826,
-                                        "ctxt": 0
-                                      },
-                                      "value": " legs, no wings",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": false
-                                      }
-                                    },
-                                    "raw": {
-                                      "type": "StringLiteral",
-                                      "span": {
-                                        "start": 1811,
-                                        "end": 1826,
-                                        "ctxt": 0
-                                      },
-                                      "value": " legs, no wings",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": false
-                                      }
-                                    }
+                                    "cooked": " legs, no wings",
+                                    "raw": " legs, no wings"
                                   }
                                 ]
                               }
@@ -3187,34 +3027,8 @@
                                       "ctxt": 0
                                     },
                                     "tail": true,
-                                    "cooked": {
-                                      "type": "StringLiteral",
-                                      "span": {
-                                        "start": 1941,
-                                        "end": 1970,
-                                        "ctxt": 0
-                                      },
-                                      "value": "quetzalcoatl - no legs, wings",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": false
-                                      }
-                                    },
-                                    "raw": {
-                                      "type": "StringLiteral",
-                                      "span": {
-                                        "start": 1941,
-                                        "end": 1970,
-                                        "ctxt": 0
-                                      },
-                                      "value": "quetzalcoatl - no legs, wings",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": false
-                                      }
-                                    }
+                                    "cooked": "quetzalcoatl - no legs, wings",
+                                    "raw": "quetzalcoatl - no legs, wings"
                                   }
                                 ]
                               }
@@ -3277,34 +3091,8 @@
                                       "ctxt": 0
                                     },
                                     "tail": true,
-                                    "cooked": {
-                                      "type": "StringLiteral",
-                                      "span": {
-                                        "start": 2015,
-                                        "end": 2040,
-                                        "ctxt": 0
-                                      },
-                                      "value": "snake - no legs, no wings",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": false
-                                      }
-                                    },
-                                    "raw": {
-                                      "type": "StringLiteral",
-                                      "span": {
-                                        "start": 2015,
-                                        "end": 2040,
-                                        "ctxt": 0
-                                      },
-                                      "value": "snake - no legs, no wings",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": false
-                                      }
-                                    }
+                                    "cooked": "snake - no legs, no wings",
+                                    "raw": "snake - no legs, no wings"
                                   }
                                 ]
                               }

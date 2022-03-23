@@ -103,7 +103,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "ClassProperty",
@@ -130,11 +131,7 @@
               "ctxt": 0
             },
             "value": "hello",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"hello\""
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -179,7 +176,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "ClassMethod",
@@ -355,11 +353,7 @@
                         "ctxt": 0
                       },
                       "value": "hello",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"hello\""
                     }
                   }
                 },
@@ -494,11 +488,7 @@
               "ctxt": 0
             },
             "value": "test",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"test\""
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -506,7 +496,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -540,7 +531,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "ClassMethod",
@@ -754,11 +746,7 @@
                               "ctxt": 0
                             },
                             "value": "test",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"test\""
                           }
                         }
                       }
@@ -833,7 +821,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         }
       ],
       "superClass": null,

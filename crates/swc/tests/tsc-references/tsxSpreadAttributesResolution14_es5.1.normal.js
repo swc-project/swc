@@ -4,7 +4,7 @@ import * as swcHelpers from "@swc/helpers";
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
-var React = require('react');
+var React = require("react");
 export default function Component(props) {
     return(// Error extra property
     /*#__PURE__*/ React.createElement(AnotherComponent, swcHelpers.extends({}, props, {

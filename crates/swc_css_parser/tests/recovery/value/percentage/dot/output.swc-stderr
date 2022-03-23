@@ -1,12 +1,12 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/value/percentage/dot/input.css:2:1]
- 2 | a { width: 0.%; }
+   ,-[$DIR/tests/recovery/value/percentage/dot/input.css:1:1]
+ 1 | a { width: 0.%; }
    :             ^
    `----
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/value/percentage/dot/input.css:2:1]
- 2 | a { width: 0.%; }
+   ,-[$DIR/tests/recovery/value/percentage/dot/input.css:1:1]
+ 1 | a { width: 0.%; }
    :              ^
    `----

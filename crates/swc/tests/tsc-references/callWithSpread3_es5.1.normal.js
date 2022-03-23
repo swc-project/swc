@@ -1,28 +1,28 @@
 import * as swcHelpers from "@swc/helpers";
 // error
 fs2.apply(void 0, [
-    'a'
+    "a"
 ].concat(swcHelpers.toConsumableArray(s2))); // error on ...s2
 fs2.apply(void 0, [
-    'a',
-    'b',
-    'c'
+    "a",
+    "b",
+    "c"
 ].concat(swcHelpers.toConsumableArray(s2))); // error on 'c' and ...s2
 fs2.apply(void 0, [
-    'a',
-    'b'
+    "a",
+    "b"
 ].concat(swcHelpers.toConsumableArray(s2), [
-    'c'
+    "c"
 ])); // error on ...s2 and 'c'
 fs2.apply(void 0, [
-    'a',
-    'b',
-    'c'
+    "a",
+    "b",
+    "c"
 ].concat(swcHelpers.toConsumableArray(s2), [
-    'd'
+    "d"
 ])); // error on 'c', ...s2 and 'd'
 fs2.apply(void 0, swcHelpers.toConsumableArray(s2).concat([
-    'a'
+    "a"
 ])); // error on 'a'
 fs2.apply(void 0, swcHelpers.toConsumableArray(s3)); // error on ...s3
 fs2_.apply(void 0, swcHelpers.toConsumableArray(s_)); // error on ...s_

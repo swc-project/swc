@@ -1,16 +1,16 @@
 class C {
     c() {
-        return "";
+        return '';
     }
     static f() {
-        return "";
+        return '';
     }
     constructor(){
-        this.a = "", this.b = "", this.d = ()=>""
+        this.a = '', this.b = '', this.d = ()=>''
         ;
     }
 }
-C.g = ()=>""
+C.g = ()=>''
 ;
 class D extends C {
     method() {

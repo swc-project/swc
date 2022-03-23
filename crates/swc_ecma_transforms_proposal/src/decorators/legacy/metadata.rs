@@ -276,8 +276,7 @@ impl Metadata<'_> {
                         right: Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
                             value: "undefined".into(),
-                            has_escape: false,
-                            kind: Default::default(),
+                            raw: None,
                         }))),
                     })),
                     op: op!("&&"),
@@ -292,8 +291,7 @@ impl Metadata<'_> {
                         right: Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
                             value: "function".into(),
-                            has_escape: false,
-                            kind: Default::default(),
+                            raw: None,
                         }))),
                     })),
                 })),
@@ -305,8 +303,7 @@ impl Metadata<'_> {
                         Str {
                             span: DUMMY_SP,
                             value: design.into(),
-                            has_escape: false,
-                            kind: Default::default(),
+                            raw: None,
                         }
                         .as_arg(),
                         type_arg,
@@ -351,8 +348,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                             right: Box::new(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
                                 value: "undefined".into(),
-                                has_escape: false,
-                                kind: Default::default(),
+                                raw: None,
                             }))),
                         })),
                     }))
@@ -368,8 +364,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     right: Box::new(Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
                         value: "undefined".into(),
-                        has_escape: false,
-                        kind: Default::default(),
+                        raw: None,
                     }))),
                 })),
             }

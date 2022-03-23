@@ -221,7 +221,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let mut read_any = false;
 
-        let res = self.read_digits::<RADIX, _, f64>(
+        let res = self.read_digits::<_, f64, RADIX>(
             |total, radix, v| {
                 read_any = true;
                 Ok((f64::mul_add(total, radix as f64, v as f64), true))
@@ -255,7 +255,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut read_any = false;
 
         let mut raw = Raw(Some(String::new()));
-        self.read_digits::<RADIX, _, f64>(
+        self.read_digits::<_, f64, RADIX>(
             |total, radix, v| {
                 read_any = true;
 
@@ -306,7 +306,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         raw: &mut Raw,
     ) -> LexResult<Option<f64>> {
         let mut count = 0u16;
-        let v = self.read_digits::<RADIX, _, Option<f64>>(
+        let v = self.read_digits::<_, Option<f64>, RADIX>(
             |opt: Option<f64>, radix, val| {
                 count += 1;
                 let total = opt.unwrap_or_default() * radix as f64 + val as f64;
@@ -331,7 +331,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let start = self.state.start;
 
         let mut count = 0;
-        let v = self.read_digits::<RADIX, _, Option<u32>>(
+        let v = self.read_digits::<_, Option<u32>, RADIX>(
             |opt: Option<u32>, radix, val| {
                 count += 1;
 
@@ -359,7 +359,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// `op`- |total, radix, value| -> (total * radix + value, continue)
-    fn read_digits<const RADIX: u8, F, Ret>(
+    fn read_digits<F, Ret, const RADIX: u8>(
         &mut self,
         mut op: F,
         raw: &mut Raw,

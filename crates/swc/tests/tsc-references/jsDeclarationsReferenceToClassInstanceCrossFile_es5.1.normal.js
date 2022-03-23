@@ -14,7 +14,7 @@ module.exports = {
     Rectangle: Rectangle
 };
 // @filename: index.js
-var Rectangle = require('./rectangle').Rectangle;
+var Rectangle = require("./rectangle").Rectangle;
 var Render = /*#__PURE__*/ function() {
     "use strict";
     function Render() {

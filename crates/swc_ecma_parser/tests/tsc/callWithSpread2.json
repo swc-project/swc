@@ -1388,11 +1388,7 @@
                 "ctxt": 0
               },
               "value": "a",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"a\""
             }
           },
           {
@@ -1451,11 +1447,7 @@
                 "ctxt": 0
               },
               "value": "d",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"d\""
             }
           },
           {
@@ -1514,11 +1506,7 @@
                 "ctxt": 0
               },
               "value": "g",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"g\""
             }
           },
           {
@@ -1715,11 +1703,7 @@
                 "ctxt": 0
               },
               "value": "b",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"b\""
             }
           },
           {
@@ -1778,11 +1762,7 @@
                 "ctxt": 0
               },
               "value": "c",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"c\""
             }
           },
           {
@@ -1841,11 +1821,7 @@
                 "ctxt": 0
               },
               "value": "e",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"e\""
             }
           },
           {
@@ -1904,11 +1880,7 @@
                 "ctxt": 0
               },
               "value": "f",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"f\""
             }
           },
           {
@@ -2105,11 +2077,7 @@
                 "ctxt": 0
               },
               "value": "g",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"g\""
             }
           },
           {

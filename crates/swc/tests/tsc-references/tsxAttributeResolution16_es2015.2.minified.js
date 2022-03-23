@@ -1,4 +1,4 @@
-const React = require("react");
+const React = require('react');
 export class AddressComp extends React.Component {
     render() {
         return null;

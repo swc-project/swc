@@ -462,11 +462,7 @@
                       "ctxt": 0
                     },
                     "value": "world",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'world'"
                   }
                 }
               ],

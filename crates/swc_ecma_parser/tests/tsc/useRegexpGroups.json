@@ -122,11 +122,7 @@
                     "ctxt": 0
                   },
                   "value": "2015-01-02",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"2015-01-02\""
                 }
               }
             ],
@@ -709,11 +705,7 @@
                         "ctxt": 0
                       },
                       "value": "foo",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"foo\""
                     },
                     "property": {
                       "type": "Identifier",

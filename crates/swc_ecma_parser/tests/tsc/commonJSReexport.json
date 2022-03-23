@@ -62,11 +62,7 @@
                     "ctxt": 0
                   },
                   "value": "hard",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"hard\""
                 }
               }
             ]
@@ -231,11 +227,7 @@
                         "ctxt": 0
                       },
                       "value": "./first",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'./first'"
                     }
                   }
                 ],
@@ -329,11 +321,7 @@
                       "ctxt": 0
                     },
                     "value": "./second",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'./second'"
                   }
                 }
               ],

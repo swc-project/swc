@@ -221,11 +221,7 @@
                   "ctxt": 0
                 },
                 "value": "number",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"number\""
               }
             },
             "consequent": {
@@ -601,11 +597,7 @@
                   "ctxt": 0
                 },
                 "value": "object",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"object\""
               }
             },
             "consequent": {
@@ -761,11 +753,7 @@
                   "ctxt": 0
                 },
                 "value": "number",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"number\""
               }
             },
             "consequent": {
@@ -1050,11 +1038,7 @@
                   "ctxt": 0
                 },
                 "value": "string",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"string\""
               }
             },
             "consequent": {

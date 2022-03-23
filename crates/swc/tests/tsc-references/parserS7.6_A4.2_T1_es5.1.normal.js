@@ -8,133 +8,133 @@
  */ //CHECK#А-Я
 var А = 1;
 if (А !== 1) {
-    $ERROR('#А');
+    $ERROR("#\u0410");
 }
 var Б = 1;
 if (Б !== 1) {
-    $ERROR('#Б');
+    $ERROR("#\u0411");
 }
 var В = 1;
 if (В !== 1) {
-    $ERROR('#В');
+    $ERROR("#\u0412");
 }
 var Г = 1;
 if (Г !== 1) {
-    $ERROR('#Г');
+    $ERROR("#\u0413");
 }
 var Д = 1;
 if (Д !== 1) {
-    $ERROR('#Д');
+    $ERROR("#\u0414");
 }
 var Е = 1;
 if (Е !== 1) {
-    $ERROR('#Е');
+    $ERROR("#\u0415");
 }
 var Ж = 1;
 if (Ж !== 1) {
-    $ERROR('#Ж');
+    $ERROR("#\u0416");
 }
 var З = 1;
 if (З !== 1) {
-    $ERROR('#З');
+    $ERROR("#\u0417");
 }
 var И = 1;
 if (И !== 1) {
-    $ERROR('#И');
+    $ERROR("#\u0418");
 }
 var Й = 1;
 if (Й !== 1) {
-    $ERROR('#Й');
+    $ERROR("#\u0419");
 }
 var К = 1;
 if (К !== 1) {
-    $ERROR('#К');
+    $ERROR("#\u041A");
 }
 var Л = 1;
 if (Л !== 1) {
-    $ERROR('#Л');
+    $ERROR("#\u041B");
 }
 var М = 1;
 if (М !== 1) {
-    $ERROR('#М');
+    $ERROR("#\u041C");
 }
 var Н = 1;
 if (Н !== 1) {
-    $ERROR('#Н');
+    $ERROR("#\u041D");
 }
 var О = 1;
 if (О !== 1) {
-    $ERROR('#О');
+    $ERROR("#\u041E");
 }
 var П = 1;
 if (П !== 1) {
-    $ERROR('#П');
+    $ERROR("#\u041F");
 }
 var Р = 1;
 if (Р !== 1) {
-    $ERROR('#Р');
+    $ERROR("#\u0420");
 }
 var С = 1;
 if (С !== 1) {
-    $ERROR('#С');
+    $ERROR("#\u0421");
 }
 var Т = 1;
 if (Т !== 1) {
-    $ERROR('#Т');
+    $ERROR("#\u0422");
 }
 var У = 1;
 if (У !== 1) {
-    $ERROR('#У');
+    $ERROR("#\u0423");
 }
 var Ф = 1;
 if (Ф !== 1) {
-    $ERROR('#Ф');
+    $ERROR("#\u0424");
 }
 var Х = 1;
 if (Х !== 1) {
-    $ERROR('#Х');
+    $ERROR("#\u0425");
 }
 var Ц = 1;
 if (Ц !== 1) {
-    $ERROR('#Ц');
+    $ERROR("#\u0426");
 }
 var Ч = 1;
 if (Ч !== 1) {
-    $ERROR('#Ч');
+    $ERROR("#\u0427");
 }
 var Ш = 1;
 if (Ш !== 1) {
-    $ERROR('#Ш');
+    $ERROR("#\u0428");
 }
 var Щ = 1;
 if (Щ !== 1) {
-    $ERROR('#Щ');
+    $ERROR("#\u0429");
 }
 var Ъ = 1;
 if (Ъ !== 1) {
-    $ERROR('#Ъ');
+    $ERROR("#\u042A");
 }
 var Ы = 1;
 if (Ы !== 1) {
-    $ERROR('#Ы');
+    $ERROR("#\u042B");
 }
 var Ь = 1;
 if (Ь !== 1) {
-    $ERROR('#Ь');
+    $ERROR("#\u042C");
 }
 var Э = 1;
 if (Э !== 1) {
-    $ERROR('#Э');
+    $ERROR("#\u042D");
 }
 var Ю = 1;
 if (Ю !== 1) {
-    $ERROR('#Ю');
+    $ERROR("#\u042E");
 }
 var Я = 1;
 if (Я !== 1) {
-    $ERROR('#Я');
+    $ERROR("#\u042F");
 }
 var Ё = 1;
 if (Ё !== 1) {
-    $ERROR('#Ё');
+    $ERROR("#\u0401");
 }

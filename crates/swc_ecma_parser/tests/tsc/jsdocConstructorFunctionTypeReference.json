@@ -110,11 +110,7 @@
                         "ctxt": 0
                       },
                       "value": "gim",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"gim\""
                     }
                   }
                 }

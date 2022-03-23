@@ -563,6 +563,7 @@ impl<'a, I: Tokens> Parser<I> {
                 | Expr::Ident(..)
                 | Expr::Fn(..)
                 | Expr::Class(..)
+                | Expr::Paren(..)
                 | Expr::Tpl(..) => {
                     if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
                         self.emit_err(span, SyntaxError::NotSimpleAssign)
@@ -651,9 +652,8 @@ impl<'a, I: Tokens> Parser<I> {
                                     Ok(ObjectPatProp::Rest(RestPat {
                                         span,
                                         dot3_token,
-                                        // FIXME: is BindingPat correct?
                                         arg: Box::new(
-                                            self.reparse_expr_as_pat(PatType::BindingPat, expr)?,
+                                            self.reparse_expr_as_pat(pat_ty.element(), expr)?,
                                         ),
                                         type_ann: None,
                                     }))
@@ -1086,39 +1086,27 @@ mod tests {
                             prop(
                                 PropName::Str(Str {
                                     span,
-                                    has_escape: false,
                                     value: "".into(),
-                                    kind: StrKind::Normal {
-                                        contains_quote: true
-                                    }
+                                    raw: Some("''".into()),
                                 }),
                                 "sym",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
-                                    has_escape: false,
                                     value: "".into(),
-                                    kind: StrKind::Normal {
-                                        contains_quote: true
-                                    }
+                                    raw: Some("''".into()),
                                 }))
                             ),
                             prop(
                                 PropName::Str(Str {
                                     span,
-                                    has_escape: false,
                                     value: " ".into(),
-                                    kind: StrKind::Normal {
-                                        contains_quote: true
-                                    }
+                                    raw: Some("\" \"".into()),
                                 }),
                                 "quote",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
-                                    has_escape: false,
                                     value: " ".into(),
-                                    kind: StrKind::Normal {
-                                        contains_quote: true
-                                    }
+                                    raw: Some("\" \"".into()),
                                 }))
                             ),
                             prop(

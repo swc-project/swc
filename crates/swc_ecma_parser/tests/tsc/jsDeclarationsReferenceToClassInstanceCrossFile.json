@@ -105,11 +105,7 @@
                           "ctxt": 0
                         },
                         "value": "I'm a rectangle!",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"I'm a rectangle!\""
                       }
                     }
                   ],
@@ -269,11 +265,7 @@
                     "ctxt": 0
                   },
                   "value": "./rectangle",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'./rectangle'"
                 }
               }
             ],
@@ -727,11 +719,7 @@
                     "ctxt": 0
                   },
                   "value": "./index",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./index\""
                 }
               }
             ],
@@ -892,11 +880,7 @@
                 "ctxt": 0
               },
               "value": "Objects",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"Objects\""
             }
           },
           {

@@ -6,7 +6,7 @@ var _this = this;
 // @skipLibCheck: true
 // @noImplicitAny: true
 // @libFiles: react.d.ts,lib.d.ts
-var React = require('react');
+var React = require("react");
 var BigGreeter = /*#__PURE__*/ function(_Component) {
     "use strict";
     swcHelpers.inherits(BigGreeter, _Component);

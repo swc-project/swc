@@ -54,11 +54,7 @@
                     "ctxt": 0
                   },
                   "value": "ABC",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"ABC\""
                 }
               }
             }
@@ -71,11 +67,7 @@
               "ctxt": 0
             },
             "value": "ABC",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"ABC\""
           },
           "definite": false
         }
@@ -129,11 +121,7 @@
                     "ctxt": 0
                   },
                   "value": "XYZ",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"XYZ\""
                 }
               }
             }
@@ -146,11 +134,7 @@
               "ctxt": 0
             },
             "value": "XYZ",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"XYZ\""
           },
           "definite": false
         }
@@ -212,11 +196,7 @@
                         "ctxt": 0
                       },
                       "value": "ABC",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"ABC\""
                     }
                   },
                   {
@@ -234,11 +214,7 @@
                         "ctxt": 0
                       },
                       "value": "XYZ",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"XYZ\""
                     }
                   }
                 ]
@@ -334,11 +310,7 @@
                         "ctxt": 0
                       },
                       "value": "ABC",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"ABC\""
                     }
                   },
                   {
@@ -356,11 +328,7 @@
                         "ctxt": 0
                       },
                       "value": "XYZ",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"XYZ\""
                     }
                   },
                   {
@@ -452,11 +420,7 @@
                 "ctxt": 0
               },
               "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"\""
             },
             "right": {
               "type": "Identifier",
@@ -527,11 +491,7 @@
                 "ctxt": 0
               },
               "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"\""
             }
           },
           "definite": false
@@ -1197,11 +1157,7 @@
                 "ctxt": 0
               },
               "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"\""
             }
           },
           "definite": false
@@ -1252,11 +1208,7 @@
                 "ctxt": 0
               },
               "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"\""
             },
             "right": {
               "type": "Identifier",

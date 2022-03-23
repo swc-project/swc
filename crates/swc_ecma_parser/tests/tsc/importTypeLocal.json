@@ -720,11 +720,7 @@
                       "ctxt": 0
                     },
                     "value": "./foo",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"./foo\""
                   },
                   "qualifier": null,
                   "typeArguments": null
@@ -845,11 +841,7 @@
                       "ctxt": 0
                     },
                     "value": "./foo2",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"./foo2\""
                   },
                   "qualifier": {
                     "type": "TsQualifiedName",
@@ -906,11 +898,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"\""
                   }
                 },
                 {
@@ -1275,11 +1263,7 @@
                         "ctxt": 0
                       },
                       "value": "./foo2",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"./foo2\""
                     },
                     "qualifier": null,
                     "typeArguments": null

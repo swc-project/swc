@@ -568,7 +568,7 @@ where
                     }
 
                     tok!("#") => {
-                        return Ok(ComponentValue::Color(Color::HexColor(self.parse()?)));
+                        return Ok(ComponentValue::Color(self.parse()?));
                     }
 
                     _ => {}

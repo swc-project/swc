@@ -335,11 +335,7 @@
             "ctxt": 0
           },
           "value": "foo",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'foo'"
         }
       }
     },
@@ -378,11 +374,7 @@
             "ctxt": 0
           },
           "value": "./other",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./other'"
         }
       }
     },
@@ -421,11 +413,7 @@
             "ctxt": 0
           },
           "value": "./sub/relMod",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./sub/relMod'"
         }
       }
     },

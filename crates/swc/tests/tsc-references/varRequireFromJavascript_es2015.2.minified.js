@@ -6,4 +6,4 @@ export class Crunch {
         this.n = n;
     }
 }
-new (require("./ex")).Crunch(1).n;
+new (require('./ex')).Crunch(1).n;

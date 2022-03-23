@@ -73,7 +73,6 @@ pub enum Token {
     Template {
         raw: JsWord,
         cooked: LexResult<JsWord>,
-        has_escape: bool,
     },
     /// ':'
     #[kind(before_expr)]
@@ -111,9 +110,7 @@ pub enum Token {
     #[kind(starts_expr)]
     Str {
         value: JsWord,
-        /// This field exists because 'use\x20strict' is **not** an use strict
-        /// directive.
-        has_escape: bool,
+        raw: JsWord,
     },
 
     /// Regexp literal.

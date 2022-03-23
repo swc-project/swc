@@ -103,11 +103,7 @@
                 "ctxt": 0
               },
               "value": "120",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"120\""
             },
             "async": false,
             "generator": false,
@@ -373,11 +369,7 @@
                 "ctxt": 0
               },
               "value": "cecil",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"cecil\""
             },
             "async": false,
             "generator": false,

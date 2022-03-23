@@ -21,11 +21,7 @@
           "ctxt": 0
         },
         "value": "use strict",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"use strict\""
       }
     },
     {
@@ -84,11 +80,7 @@
                     "ctxt": 0
                   },
                   "value": "../config",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"../config\""
                 }
               }
             ],
@@ -305,11 +297,7 @@
                             "ctxt": 0
                           },
                           "value": "/auth/login",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"/auth/login\""
                         }
                       }
                     },
@@ -447,11 +435,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "/auth/live",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"/auth/live\""
                                     }
                                   }
                                 ],

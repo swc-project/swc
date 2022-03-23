@@ -9,8 +9,8 @@ for (const i of [
         1,
         2,
         3
-    ])if (2 === i) throw new Error("ERR");
+    ])if (2 === i) throw new Error('ERR');
     console.log(i);
 } catch (err) {
-    console.log("E %s %s", i, err);
+    console.log('E %s %s', i, err);
 }

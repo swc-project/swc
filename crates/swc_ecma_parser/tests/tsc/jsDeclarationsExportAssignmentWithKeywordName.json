@@ -118,11 +118,7 @@
                   "ctxt": 0
                 },
                 "value": "base",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "'base'"
               }
             },
             {
@@ -175,11 +171,7 @@
                               "ctxt": 0
                             },
                             "value": "strs",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "'strs'"
                           }
                         }
                       ]

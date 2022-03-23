@@ -1004,11 +1004,7 @@
                       "ctxt": 0
                     },
                     "value": "@@iterator",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"@@iterator\""
                   },
                   "computed": false,
                   "optional": false,
@@ -1196,11 +1192,7 @@
                       "ctxt": 0
                     },
                     "value": "@@iterator",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"@@iterator\""
                   },
                   "computed": false,
                   "optional": false,
@@ -8964,11 +8956,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "object",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"object\""
                                 }
                               },
                               "consequent": {
@@ -9023,11 +9011,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "object",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"object\""
                                   }
                                 },
                                 "consequent": {
@@ -9080,11 +9064,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "object",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"object\""
                                     }
                                   },
                                   "consequent": {
@@ -9130,11 +9110,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "return this;",
-                                            "hasEscape": false,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"return this;\""
                                           }
                                         }
                                       ],
@@ -9276,11 +9252,7 @@
                               "ctxt": 0
                             },
                             "value": "undefined",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"undefined\""
                           }
                         },
                         "consequent": {
@@ -9978,11 +9950,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "function",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\"function\""
                                         }
                                       },
                                       "consequent": {
@@ -10475,11 +10443,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "function",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"function\""
                                 }
                               },
                               "definite": false
@@ -10592,11 +10556,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "undefined",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"undefined\""
                                     }
                                   }
                                 },
@@ -10636,11 +10596,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "@@toPrimitive",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"@@toPrimitive\""
                                 }
                               },
                               "definite": false
@@ -10753,11 +10709,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "undefined",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"undefined\""
                                     }
                                   }
                                 },
@@ -10797,11 +10749,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "@@iterator",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"@@iterator\""
                                 }
                               },
                               "definite": false
@@ -10889,11 +10837,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "function",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"function\""
                                 }
                               },
                               "definite": false
@@ -12925,11 +12869,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "object",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"object\""
                                     }
                                   },
                                   "right": {
@@ -13019,11 +12959,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "REFLECT_METADATA_USE_MAP_POLYFILL",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "\"REFLECT_METADATA_USE_MAP_POLYFILL\""
                                       }
                                     }
                                   },
@@ -13035,11 +12971,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "true",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"true\""
                                   }
                                 }
                               },
@@ -13178,11 +13110,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "function",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "\"function\""
                                       }
                                     }
                                   },
@@ -13257,11 +13185,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "function",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"function\""
                                     }
                                   }
                                 },
@@ -13431,11 +13355,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "function",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "\"function\""
                                       }
                                     }
                                   },
@@ -13510,11 +13430,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "function",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"function\""
                                     }
                                   }
                                 },
@@ -13676,11 +13592,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "function",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"function\""
                                     }
                                   }
                                 },
@@ -15996,11 +15908,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "decorate",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"decorate\""
                                 }
                               },
                               {
@@ -16850,11 +16758,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "metadata",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"metadata\""
                                 }
                               },
                               {
@@ -17756,11 +17660,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "defineMetadata",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"defineMetadata\""
                                 }
                               },
                               {
@@ -18541,11 +18441,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "hasMetadata",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"hasMetadata\""
                                 }
                               },
                               {
@@ -19326,11 +19222,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "hasOwnMetadata",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"hasOwnMetadata\""
                                 }
                               },
                               {
@@ -20111,11 +20003,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "getMetadata",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"getMetadata\""
                                 }
                               },
                               {
@@ -20896,11 +20784,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "getOwnMetadata",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"getOwnMetadata\""
                                 }
                               },
                               {
@@ -21584,11 +21468,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "getMetadataKeys",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"getMetadataKeys\""
                                 }
                               },
                               {
@@ -22272,11 +22152,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "getOwnMetadataKeys",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"getOwnMetadataKeys\""
                                 }
                               },
                               {
@@ -23592,11 +23468,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "deleteMetadata",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"deleteMetadata\""
                                 }
                               },
                               {
@@ -31538,11 +31410,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "undefined",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"undefined\""
                                     },
                                     "consequent": [
                                       {
@@ -31598,11 +31466,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "boolean",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"boolean\""
                                     },
                                     "consequent": [
                                       {
@@ -31658,11 +31522,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "string",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"string\""
                                     },
                                     "consequent": [
                                       {
@@ -31718,11 +31578,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "symbol",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"symbol\""
                                     },
                                     "consequent": [
                                       {
@@ -31778,11 +31634,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "number",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"number\""
                                     },
                                     "consequent": [
                                       {
@@ -31838,11 +31690,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "object",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"object\""
                                     },
                                     "consequent": [
                                       {
@@ -32592,11 +32440,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "symbol",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"symbol\""
                                   }
                                 }
                               }
@@ -32838,11 +32682,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "object",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"object\""
                                     }
                                   },
                                   "consequent": {
@@ -32907,11 +32747,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "function",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"function\""
                                     }
                                   }
                                 }
@@ -33554,11 +33390,7 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "string",
-                                                "hasEscape": false,
-                                                "kind": {
-                                                  "type": "normal",
-                                                  "containsQuote": true
-                                                }
+                                                "raw": "\"string\""
                                               }
                                             },
                                             {
@@ -33576,11 +33408,7 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "number",
-                                                "hasEscape": false,
-                                                "kind": {
-                                                  "type": "normal",
-                                                  "containsQuote": true
-                                                }
+                                                "raw": "\"number\""
                                               }
                                             },
                                             {
@@ -33598,11 +33426,7 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "default",
-                                                "hasEscape": false,
-                                                "kind": {
-                                                  "type": "normal",
-                                                  "containsQuote": true
-                                                }
+                                                "raw": "\"default\""
                                               }
                                             }
                                           ]
@@ -33671,11 +33495,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "string",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "\"string\""
                                       },
                                       "alternate": {
                                         "type": "ConditionalExpression",
@@ -33739,11 +33559,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "number",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\"number\""
                                         },
                                         "alternate": {
                                           "type": "StringLiteral",
@@ -33753,11 +33569,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "default",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\"default\""
                                         }
                                       }
                                     },
@@ -34151,11 +33963,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "default",
-                                            "hasEscape": false,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"default\""
                                           }
                                         },
                                         "consequent": {
@@ -34166,11 +33974,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "number",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\"number\""
                                         },
                                         "alternate": {
                                           "type": "Identifier",
@@ -34363,11 +34167,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "string",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\"string\""
                                         }
                                       },
                                       {
@@ -34385,11 +34185,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "number",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\"number\""
                                         }
                                       }
                                     ]
@@ -34445,11 +34241,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "string",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"string\""
                                   }
                                 },
                                 "consequent": {
@@ -35859,11 +35651,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"\""
                                   },
                                   "right": {
                                     "type": "Identifier",
@@ -36535,11 +36323,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "[object Array]",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "\"[object Array]\""
                                       }
                                     }
                                   }
@@ -36710,11 +36494,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "function",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"function\""
                                   }
                                 }
                               }
@@ -36885,11 +36665,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "function",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"function\""
                                   }
                                 }
                               }
@@ -38937,11 +38713,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "return",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\"return\""
                                         }
                                       }
                                     },
@@ -39265,11 +39037,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "function",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"function\""
                                     }
                                   },
                                   "right": {
@@ -39763,11 +39531,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "function",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"function\""
                                   }
                                 },
                                 "consequent": {
@@ -40805,11 +40569,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "@@iterator",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"@@iterator\""
                                     },
                                     "function": {
                                       "params": [],
@@ -46035,11 +45795,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "@@iterator",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "\"@@iterator\""
                                       },
                                       "function": {
                                         "params": [],
@@ -49046,11 +48802,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "@@iterator",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "\"@@iterator\""
                                       },
                                       "function": {
                                         "params": [],
@@ -51416,11 +51168,7 @@
                                                 "ctxt": 0
                                               },
                                               "value": "@@WeakMap@@",
-                                              "hasEscape": false,
-                                              "kind": {
-                                                "type": "normal",
-                                                "containsQuote": true
-                                              }
+                                              "raw": "\"@@WeakMap@@\""
                                             },
                                             "right": {
                                               "type": "CallExpression",
@@ -53029,11 +52777,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "function",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\"function\""
                                         }
                                       },
                                       "consequent": {
@@ -53086,11 +52830,7 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "undefined",
-                                                "hasEscape": false,
-                                                "kind": {
-                                                  "type": "normal",
-                                                  "containsQuote": true
-                                                }
+                                                "raw": "\"undefined\""
                                               }
                                             },
                                             "consequent": {
@@ -53258,11 +52998,7 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "undefined",
-                                                "hasEscape": false,
-                                                "kind": {
-                                                  "type": "normal",
-                                                  "containsQuote": true
-                                                }
+                                                "raw": "\"undefined\""
                                               }
                                             },
                                             "consequent": {
@@ -53975,11 +53711,7 @@
                                               "ctxt": 0
                                             },
                                             "value": "",
-                                            "hasEscape": false,
-                                            "kind": {
-                                              "type": "normal",
-                                              "containsQuote": true
-                                            }
+                                            "raw": "\"\""
                                           },
                                           "definite": false
                                         }
@@ -54301,11 +54033,7 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "-",
-                                                  "hasEscape": false,
-                                                  "kind": {
-                                                    "type": "normal",
-                                                    "containsQuote": true
-                                                  }
+                                                  "raw": "\"-\""
                                                 }
                                               }
                                             },
@@ -54380,11 +54108,7 @@
                                                     "ctxt": 0
                                                   },
                                                   "value": "0",
-                                                  "hasEscape": false,
-                                                  "kind": {
-                                                    "type": "normal",
-                                                    "containsQuote": true
-                                                  }
+                                                  "raw": "\"0\""
                                                 }
                                               }
                                             },

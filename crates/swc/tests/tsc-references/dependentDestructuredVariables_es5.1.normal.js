@@ -1,29 +1,29 @@
 import * as swcHelpers from "@swc/helpers";
 function f10(param) {
     var kind = param.kind, payload = param.payload;
-    if (kind === 'A') {
+    if (kind === "A") {
         payload.toFixed();
     }
-    if (kind === 'B') {
+    if (kind === "B") {
         payload.toUpperCase();
     }
 }
 function f11(action) {
     var kind = action.kind, payload = action.payload;
-    if (kind === 'A') {
+    if (kind === "A") {
         payload.toFixed();
     }
-    if (kind === 'B') {
+    if (kind === "B") {
         payload.toUpperCase();
     }
 }
 function f12(param) {
     var kind = param.kind, payload = param.payload;
     switch(kind){
-        case 'A':
+        case "A":
             payload.toFixed();
             break;
-        case 'B':
+        case "B":
             payload.toUpperCase();
             break;
         default:
@@ -33,10 +33,10 @@ function f12(param) {
 function f20(param) {
     var kind = param.kind, payload = param.payload;
     if (payload) {
-        if (kind === 'A') {
+        if (kind === "A") {
             payload.toFixed();
         }
-        if (kind === 'B') {
+        if (kind === "B") {
             payload.toUpperCase();
         }
     }
@@ -44,10 +44,10 @@ function f20(param) {
 function f21(action) {
     var kind = action.kind, payload = action.payload;
     if (payload) {
-        if (kind === 'A') {
+        if (kind === "A") {
             payload.toFixed();
         }
-        if (kind === 'B') {
+        if (kind === "B") {
             payload.toUpperCase();
         }
     }
@@ -55,10 +55,10 @@ function f21(action) {
 function f22(action) {
     if (action.payload) {
         var kind = action.kind, payload = action.payload;
-        if (kind === 'A') {
+        if (kind === "A") {
             payload.toFixed();
         }
-        if (kind === 'B') {
+        if (kind === "B") {
             payload.toUpperCase();
         }
     }
@@ -67,10 +67,10 @@ function f23(param) {
     var kind = param.kind, payload = param.payload;
     if (payload) {
         switch(kind){
-            case 'A':
+            case "A":
                 payload.toFixed();
                 break;
-            case 'B':
+            case "B":
                 payload.toUpperCase();
                 break;
             default:
@@ -80,13 +80,13 @@ function f23(param) {
 }
 function f30(param) {
     var kind = param.kind, isA = param.isA;
-    if (kind === 'A') {
+    if (kind === "A") {
         isA; // true
     }
-    if (kind === 'B') {
+    if (kind === "B") {
         isA; // false
     }
-    if (kind === 'C') {
+    if (kind === "C") {
         isA; // false
     }
     if (isA) {
@@ -100,16 +100,16 @@ function f40() {
         _tmp[_key] = arguments[_key];
     }
     var __tmp = swcHelpers.slicedToArray(_tmp, 2), kind = __tmp[0], data = __tmp[1];
-    if (kind === 'A') {
+    if (kind === "A") {
         data.toFixed();
     }
-    if (kind === 'B') {
+    if (kind === "B") {
         data.toUpperCase();
     }
 }
 function unrefined1(ab) {
     var variant = ab.variant, value1 = ab.value;
-    if (variant === 'a') {
+    if (variant === "a") {
         printValue(value1);
     } else {
         printValueList(value1);
@@ -118,9 +118,9 @@ function unrefined1(ab) {
 var reducerBroken = function(state, param) {
     var type = param.type, payload = param.payload;
     switch(type){
-        case 'add':
+        case "add":
             return state + payload.toAdd;
-        case 'remove':
+        case "remove":
             return state - payload.toRemove;
     }
 };
@@ -129,29 +129,29 @@ if (!done) {
     value; // number
 }
 f50(function(kind, data) {
-    if (kind === 'A') {
+    if (kind === "A") {
         data.toFixed();
     }
-    if (kind === 'B') {
+    if (kind === "B") {
         data.toUpperCase();
     }
 });
 var f51 = function(kind, payload) {
-    if (kind === 'A') {
+    if (kind === "A") {
         payload.toFixed();
     }
-    if (kind === 'B') {
+    if (kind === "B") {
         payload.toUpperCase();
     }
 };
 var f52 = function(kind, payload) {
-    if (kind === 'A') {
+    if (kind === "A") {
         payload.toFixed();
     } else {
         payload; // undefined
     }
 };
-readFile('hello', function(err, data) {
+readFile("hello", function(err, data) {
     if (err === null) {
         data.length;
     } else {

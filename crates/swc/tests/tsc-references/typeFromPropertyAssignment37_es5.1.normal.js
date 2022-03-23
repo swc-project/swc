@@ -7,7 +7,7 @@ if (!!false) {
     util.existy = function() {};
 }
 // @Filename: use.js
-var util = require('./mod');
+var util = require("./mod");
 function n() {
     util.existy // no error
     ;

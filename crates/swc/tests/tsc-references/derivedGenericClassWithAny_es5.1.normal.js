@@ -61,13 +61,13 @@ var E = /*#__PURE__*/ function(D) {
     }
     var _proto = E.prototype;
     _proto.foo = function foo() {
-        return ''; // error
+        return ""; // error
     };
     swcHelpers.createClass(E, [
         {
             key: "X",
             get: function get() {
-                return '';
+                return "";
             } // error
         }
     ]);

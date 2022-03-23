@@ -1,8 +1,8 @@
 import * as swcHelpers from "@swc/helpers";
 // @target: esnext
 var y = {
-    a: 'yes',
-    b: 'no'
+    a: "yes",
+    b: "no"
 };
 var o = swcHelpers.objectSpread({
     x: 1

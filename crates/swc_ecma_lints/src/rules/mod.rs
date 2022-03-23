@@ -26,11 +26,15 @@ pub(crate) mod non_critical_lints {
     pub mod no_empty_pattern;
     pub mod no_loop_func;
     pub mod no_new;
+    pub mod no_new_symbol;
     pub mod no_restricted_syntax;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
     pub mod quotes;
     pub mod radix;
+    pub mod use_is_nan;
+    pub mod valid_typeof;
+    pub mod yoda;
 }
 
 #[cfg(feature = "non_critical_lints")]
@@ -127,6 +131,22 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(default_param_last::default_param_last(
             &lint_config.default_param_last,
         ));
+
+        rules.extend(yoda::yoda(&lint_config.yoda));
+
+        rules.extend(no_new_symbol::no_new_symbol(
+            program,
+            top_level_ctxt,
+            &lint_config.no_new_symbol,
+        ));
+
+        rules.extend(use_is_nan::use_is_nan(
+            program,
+            top_level_ctxt,
+            &lint_config.use_isnan,
+        ));
+
+        rules.extend(valid_typeof::valid_typeof(&lint_config.valid_typeof));
     }
 
     rules

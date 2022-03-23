@@ -8,7 +8,7 @@ if (true) {
 var x = undefined;
 // new declaration space, making redeclaring x as a string valid
 function declSpace() {
-    var x = 'this is a string';
+    var x = "this is a string";
 }
 var p;
 var p = {
@@ -44,8 +44,8 @@ var fn = null;
 var fn;
 var a;
 var a = [
-    'a',
-    'b'
+    "a",
+    "b"
 ];
 var a = [];
 var a = [];

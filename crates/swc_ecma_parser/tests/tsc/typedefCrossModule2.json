@@ -405,11 +405,7 @@
                     "ctxt": 0
                   },
                   "value": "./mod1.js",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'./mod1.js'"
                 }
               }
             ],

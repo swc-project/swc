@@ -6,7 +6,7 @@ Promise.all(assignAll).then(function() {
         return b.wrap(function(a) {
             for(;;)switch(a.prev = a.next){
                 case 0:
-                    d = "DELETE FROM \"TABLE\" WHERE \"UUID\" IN ( ", a.t0 = regeneratorRuntime.keys(obj);
+                    d = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', a.t0 = regeneratorRuntime.keys(obj);
                 case 2:
                     if ((a.t1 = a.t0()).done) {
                         a.next = 12;
@@ -15,7 +15,7 @@ Promise.all(assignAll).then(function() {
                     return f = obj[e = a.t1.value], d += "'".concat(f.id, "', "), a.next = 8, listOfUser(f.id);
                 case 8:
                     (g = a.sent).forEach(function(a) {
-                        insertQuery += "INSERT INTO \"TABLE\"(\"UUID\", id, other_ids_here) VALUES ('".concat(uuidv4(), "', '").concat(f.id, "', now());");
+                        insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(f.id, "', now());");
                     }), a.next = 2;
                     break;
                 case 12:
@@ -35,7 +35,7 @@ export var listOfUser = function(d) {
         return b.wrap(function(a) {
             for(;;)switch(a.prev = a.next){
                 case 0:
-                    f = "Select Distinct id from \"TABLE\" Where id = '".concat(d, "' And user_id IS not null"), postgreSQL.query(f, null, function(a, b) {
+                    f = 'Select Distinct id from "TABLE" Where id = \''.concat(d, "' And user_id IS not null"), postgreSQL.query(f, null, function(a, b) {
                         a ? e(a) : c(b.rows);
                     });
                 case 2:

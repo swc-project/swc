@@ -7,7 +7,7 @@ var A = /*#__PURE__*/ function() {
         swcHelpers.classCallCheck(this, A);
         swcHelpers.classPrivateFieldInit(this, _a, {
             writable: true,
-            value: 'a'
+            value: "a"
         });
         swcHelpers.classPrivateFieldInit(this, _b, {
             writable: true,
@@ -15,7 +15,7 @@ var A = /*#__PURE__*/ function() {
         });
         swcHelpers.classPrivateFieldInit(this, _c, {
             writable: true,
-            value: 'c'
+            value: "c"
         });
         swcHelpers.classPrivateFieldInit(this, _d, {
             writable: true,
@@ -23,21 +23,21 @@ var A = /*#__PURE__*/ function() {
         });
         swcHelpers.classPrivateFieldInit(this, _e, {
             writable: true,
-            value: ''
+            value: ""
         });
-        swcHelpers.classPrivateFieldSet(this, _b, 'b');
-        swcHelpers.classPrivateFieldSet(this, _d, 'd');
+        swcHelpers.classPrivateFieldSet(this, _b, "b");
+        swcHelpers.classPrivateFieldSet(this, _d, "d");
     }
     var _proto = A.prototype;
     _proto.test = function test() {
         var data = {
-            a: 'a',
-            b: 'b',
-            c: 'c',
-            d: 'd',
-            e: 'e'
+            a: "a",
+            b: "b",
+            c: "c",
+            d: "d",
+            e: "e"
         };
-        var a = data[swcHelpers.classPrivateFieldGet(this, _a)], b = data[swcHelpers.classPrivateFieldGet(this, _b)], c = data[swcHelpers.classPrivateFieldGet(this, _c)], d = data[swcHelpers.classPrivateFieldGet(this, _d)], e = data[swcHelpers.classPrivateFieldSet(this, _e, 'e')];
+        var a = data[swcHelpers.classPrivateFieldGet(this, _a)], b = data[swcHelpers.classPrivateFieldGet(this, _b)], c = data[swcHelpers.classPrivateFieldGet(this, _c)], d = data[swcHelpers.classPrivateFieldGet(this, _d)], e = data[swcHelpers.classPrivateFieldSet(this, _e, "e")];
         console.log(a, b, c, d, e);
         var a1 = data[swcHelpers.classPrivateFieldGet(this, _a)];
         var b1 = data[swcHelpers.classPrivateFieldGet(this, _b)];

@@ -366,9 +366,8 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     sym: value, span, ..
                 }) => Expr::Lit(Lit::Str(Str {
                     span,
+                    raw: None,
                     value,
-                    has_escape: false,
-                    kind: Default::default(),
                 })),
                 SuperProp::Computed(c) => *c.expr,
             }
@@ -530,9 +529,8 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     sym: value, span, ..
                 }) => Box::new(Expr::Lit(Lit::Str(Str {
                     span,
+                    raw: None,
                     value,
-                    has_escape: false,
-                    kind: Default::default(),
                 }))),
                 SuperProp::Computed(c) if op == op!("=") => c.expr,
                 SuperProp::Computed(c) => Box::new(Expr::Assign(AssignExpr {

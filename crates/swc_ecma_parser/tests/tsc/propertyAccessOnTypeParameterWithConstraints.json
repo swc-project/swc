@@ -185,11 +185,7 @@
                                 "ctxt": 0
                               },
                               "value": "getDate",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'getDate'"
                             }
                           }
                         },
@@ -842,11 +838,7 @@
                     "ctxt": 0
                   },
                   "value": "getDate",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'getDate'"
                 }
               }
             },
@@ -1178,11 +1170,7 @@
                     "ctxt": 0
                   },
                   "value": "getDate",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'getDate'"
                 }
               }
             },
@@ -1362,11 +1350,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "getDate",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "'getDate'"
                                   }
                                 }
                               },

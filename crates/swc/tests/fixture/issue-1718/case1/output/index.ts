@@ -25,7 +25,7 @@ function _scanUser() {
                                             break;
                                         }
                                         user = _step.value;
-                                        console.log('user', user);
+                                        console.log("user", user);
                                         _ctx.next = 9;
                                         return new Promise(function(resolve) {
                                             return setTimeout(resolve, 30);

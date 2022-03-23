@@ -90,11 +90,7 @@
             "ctxt": 0
           },
           "value": "./test/foo_0",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./test/foo_0'"
         }
       }
     },

@@ -80,11 +80,7 @@
                     "ctxt": 0
                   },
                   "value": "shift",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"shift\""
                 }
               }
             ],

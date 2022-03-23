@@ -7,7 +7,7 @@ var A = /*#__PURE__*/ function() {
     }
     var _proto = A.prototype;
     _proto.foo = function foo() {
-        return '';
+        return "";
     };
     return A;
 }();
@@ -21,7 +21,7 @@ var B = /*#__PURE__*/ function(A) {
     }
     var _proto = B.prototype;
     _proto.bar = function bar() {
-        return '';
+        return "";
     };
     return B;
 }(A);
@@ -33,11 +33,11 @@ var C = /*#__PURE__*/ function() {
     var _proto = C.prototype;
     _proto.f = function f() {
         var x;
-        var a1 = x['foo'](); // should be string
+        var a1 = x["foo"](); // should be string
         return a1 + x.foo();
     };
     _proto.g = function g(x) {
-        var a2 = x['foo'](); // should be string
+        var a2 = x["foo"](); // should be string
         return a2 + x.foo();
     };
     return C;
@@ -60,7 +60,7 @@ var r1b = new C().g(new B());
 //}
 var i;
 var r2 = i.foo.foo();
-var r2b = i.foo['foo']();
+var r2b = i.foo["foo"]();
 var a;
 //var a: {
 //    <U extends T, T extends A>(): U;
@@ -68,14 +68,14 @@ var a;
 //    <U extends T, T extends A>(x: U, y: T): U;
 //}
 var r3 = a().foo();
-var r3b = a()['foo']();
+var r3b = a()["foo"]();
 // parameter supplied for type argument inference to succeed
 var aB = new B();
 var r3c = a(aB, aB).foo();
-var r3d = a(aB, aB)['foo']();
+var r3d = a(aB, aB)["foo"]();
 var b = {
     foo: function(x, y) {
-        var a3 = x['foo'](); // should be string
+        var a3 = x["foo"](); // should be string
         return a3 + x.foo();
     }
 };

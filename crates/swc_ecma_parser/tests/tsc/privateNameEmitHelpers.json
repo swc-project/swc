@@ -73,7 +73,8 @@
             "accessibility": null,
             "isOptional": false,
             "isOverride": false,
-            "readonly": false
+            "readonly": false,
+            "definite": false
           },
           {
             "type": "PrivateMethod",

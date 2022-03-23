@@ -89,3 +89,12 @@ button::-webkit-search-cancel-button {
     transition-duration: 1s, 2s;
 }
 
+div {
+    transition-property: transform;
+    transform: rotate(10deg);
+}
+
+div {
+    transition: calc(1s);
+}
+

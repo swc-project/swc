@@ -1,5 +1,5 @@
 // @Filename: use.js
-import * as debug from './mod';
+import * as debug from "./mod";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
@@ -7,12 +7,12 @@ import * as debug from './mod';
 // Based on a pattern from adonis
 exports.formatters = {};
 // @Filename: first.js
-exports = require('./mod');
+exports = require("./mod");
 exports.formatters.j = function(v) {
     return v;
 };
 // @Filename: second.js
-exports = require('./mod');
+exports = require("./mod");
 exports.formatters.o = function(v) {
     return v;
 };

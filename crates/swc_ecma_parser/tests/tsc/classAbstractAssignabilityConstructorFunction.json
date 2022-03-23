@@ -182,11 +182,7 @@
             "ctxt": 0
           },
           "value": "asdf",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"asdf\""
         }
       }
     }

@@ -4,13 +4,13 @@ import * as swcHelpers from "@swc/helpers";
 function f1(obj, k0, k1, k2) {
     obj[k0] = 1;
     obj[k0] = 2;
-    obj[k0] = 'x'; // Error
+    obj[k0] = "x"; // Error
     obj[k1] = 1;
     obj[k1] = 2; // Error
-    obj[k1] = 'x'; // Error
+    obj[k1] = "x"; // Error
     obj[k2] = 1; // Error
     obj[k2] = 2; // Error
-    obj[k2] = 'x'; // Error
+    obj[k2] = "x"; // Error
 }
 function f2(a, b, c1, k) {
     a = b; // Error, index signature in source doesn't imply properties are present
@@ -87,8 +87,8 @@ function fn3(param, cb) {
     cb(param[0]);
 }
 function fn4() {
-    var x = 'abc';
-    var y = 'abc';
+    var x = "abc";
+    var y = "abc";
 }
 // Repro from #31439 and #31691
 export var c = function c() {
@@ -99,8 +99,8 @@ export var c = function c() {
 };
 // Repro from #32038
 var actions = [
-    'resizeTo',
-    'resizeBy'
+    "resizeTo",
+    "resizeBy"
 ];
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {

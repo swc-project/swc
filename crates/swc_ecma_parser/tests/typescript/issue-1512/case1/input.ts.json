@@ -41,11 +41,7 @@
           "ctxt": 0
         },
         "value": "./index",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./index'"
       },
       "typeOnly": false,
       "asserts": null

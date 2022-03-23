@@ -42,11 +42,7 @@
               "ctxt": 0
             },
             "value": "a",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'a'"
           },
           "definite": false
         }
@@ -88,11 +84,7 @@
               "ctxt": 0
             },
             "value": "b",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'b'"
           },
           "definite": false
         }
@@ -134,11 +126,7 @@
               "ctxt": 0
             },
             "value": "d",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'d'"
           },
           "definite": false
         }
@@ -397,11 +385,7 @@
             "ctxt": 0
           },
           "value": "a",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'a'"
         },
         "right": {
           "type": "Identifier",
@@ -479,11 +463,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'a'"
                 }
               }
             }
@@ -515,11 +495,7 @@
             "ctxt": 0
           },
           "value": "d",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'d'"
         },
         "right": {
           "type": "Identifier",

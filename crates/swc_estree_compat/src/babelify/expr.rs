@@ -641,8 +641,8 @@ impl Babelify for TplElement {
             base: ctx.base(self.span),
             tail: self.tail,
             value: TemplateElVal {
-                raw: self.raw.value,
-                cooked: self.cooked.map(|s| s.value),
+                raw: self.raw,
+                cooked: self.cooked,
             },
         }
     }

@@ -2,7 +2,7 @@ use std::io;
 
 use anyhow::{Context, Error};
 use crc::{Crc, Digest, CRC_64_ECMA_182};
-use swc_common::{sync::Lrc, SourceMap, Span};
+use swc_common::{sync::Lrc, BytePos, SourceMap, Span};
 use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 
@@ -92,7 +92,7 @@ impl WriteJs for &mut Hasher<'_> {
         Ok(())
     }
 
-    fn write_comment(&mut self, _: Span, s: &str) -> io::Result<()> {
+    fn write_comment(&mut self, s: &str) -> io::Result<()> {
         self.w(s);
         Ok(())
     }
@@ -120,5 +120,10 @@ impl WriteJs for &mut Hasher<'_> {
     #[inline]
     fn care_about_srcmap(&self) -> bool {
         false
+    }
+
+    #[inline]
+    fn add_srcmap(&mut self, _: BytePos) -> io::Result<()> {
+        Ok(())
     }
 }

@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 //@filename: app.tsx
-import * as React from 'react';
+import * as React from "react";
 export var Text = /*#__PURE__*/ function(_Component) {
     "use strict";
     swcHelpers.inherits(Text, _Component);
@@ -9,7 +9,7 @@ export var Text = /*#__PURE__*/ function(_Component) {
         swcHelpers.classCallCheck(this, Text);
         var _this;
         _this = _super.apply(this, arguments);
-        _this._tagName = 'div';
+        _this._tagName = "div";
         return _this;
     }
     var _proto = Text.prototype;

@@ -87,11 +87,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -99,7 +95,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateProperty",
@@ -134,11 +131,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -146,7 +139,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -208,11 +202,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -220,7 +210,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -336,11 +327,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -348,7 +335,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -406,11 +394,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -487,11 +471,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -499,7 +479,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -652,11 +633,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -664,7 +641,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateProperty",
@@ -699,11 +677,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -711,7 +685,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -773,11 +748,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -785,7 +756,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -901,11 +873,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -913,7 +881,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -971,11 +940,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -1052,11 +1017,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -1064,7 +1025,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -1306,11 +1268,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -1318,7 +1276,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -1592,11 +1551,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -1899,11 +1854,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -1911,7 +1862,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -2185,11 +2137,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -2496,11 +2444,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -2550,11 +2494,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -2562,7 +2502,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -2647,11 +2588,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -2805,11 +2742,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -2882,11 +2815,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -2986,11 +2915,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -3181,11 +3106,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -3339,11 +3260,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -3497,11 +3414,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -3574,11 +3487,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -3678,11 +3587,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -3976,11 +3881,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -3988,7 +3889,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -4336,11 +4238,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -4717,11 +4615,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -4729,7 +4623,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -5077,11 +4972,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -5402,11 +5293,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -5414,7 +5301,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateProperty",
@@ -5449,11 +5337,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -5461,7 +5345,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -5523,11 +5408,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -5535,7 +5416,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -5651,11 +5533,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -5663,7 +5541,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -5721,11 +5600,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -5802,11 +5677,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -5814,7 +5685,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -5967,11 +5839,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -5979,7 +5847,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateProperty",
@@ -6014,11 +5883,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -6026,7 +5891,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -6088,11 +5954,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -6100,7 +5962,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -6216,11 +6079,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -6228,7 +6087,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -6286,11 +6146,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -6367,11 +6223,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -6379,7 +6231,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               },
               {
                 "type": "PrivateMethod",
@@ -6621,11 +6474,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -6633,7 +6482,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -6907,11 +6757,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -7214,11 +7060,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -7226,7 +7068,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -7500,11 +7343,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -7811,11 +7650,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -7865,11 +7700,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -7877,7 +7708,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -7962,11 +7794,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -8120,11 +7948,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -8197,11 +8021,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -8301,11 +8121,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -8496,11 +8312,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -8654,11 +8466,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -8812,11 +8620,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -8889,11 +8693,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -8993,11 +8793,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -9291,11 +9087,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": false,
@@ -9303,7 +9095,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -9651,11 +9444,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]
@@ -10032,11 +9821,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 },
                 "typeAnnotation": null,
                 "isStatic": true,
@@ -10044,7 +9829,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -10392,11 +10178,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         }
                       }
                     ]

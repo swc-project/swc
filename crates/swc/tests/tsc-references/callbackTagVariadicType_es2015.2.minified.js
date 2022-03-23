@@ -1,3 +1,3 @@
 export const x = ()=>1
 ;
-x("a", "b");
+x('a', 'b');

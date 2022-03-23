@@ -68,21 +68,18 @@ impl VisitMut for JsonParse {
             Expr::Array(..) | Expr::Object(..) => {
                 let (is_lit, cost) = calc_literal_cost(&*expr, false);
                 if is_lit && cost >= self.min_cost {
+                    let value =
+                        serde_json::to_string(&jsonify(expr.take())).unwrap_or_else(|err| {
+                            unreachable!("failed to serialize serde_json::Value as json: {}", err)
+                        });
+
                     *expr = Expr::Call(CallExpr {
                         span: expr.span(),
                         callee: member_expr!(DUMMY_SP, JSON.parse).as_callee(),
                         args: vec![Lit::Str(Str {
                             span: DUMMY_SP,
-                            value: serde_json::to_string(&jsonify(expr.take()))
-                                .unwrap_or_else(|err| {
-                                    unreachable!(
-                                        "failed to serialize serde_json::Value as json: {}",
-                                        err
-                                    )
-                                })
-                                .into(),
-                            has_escape: false,
-                            kind: Default::default(),
+                            raw: None,
+                            value: value.into(),
                         })
                         .as_arg()],
                         type_args: Default::default(),
@@ -132,7 +129,7 @@ fn jsonify(e: Expr) -> Value {
         Expr::Lit(Lit::Bool(v)) => Value::Bool(v.value),
         Expr::Tpl(Tpl { quasis, .. }) => Value::String(match quasis.get(0) {
             Some(TplElement {
-                cooked: Some(Str { value, .. }),
+                cooked: Some(value),
                 ..
             }) => value.to_string(),
             _ => String::new(),
@@ -148,12 +145,8 @@ mod tests {
     use super::*;
 
     struct Normalizer;
-    impl Fold for Normalizer {
-        fn fold_str(&mut self, mut node: Str) -> Str {
-            node.has_escape = false;
-            node
-        }
-    }
+
+    impl Fold for Normalizer {}
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -176,7 +169,7 @@ mod tests {
         |_| json_parse(0),
         empty_object,
         "const a = {};",
-        r#"const a = JSON.parse('{}');"#
+        r#"const a = JSON.parse("{}");"#
     );
 
     test!(

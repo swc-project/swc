@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useEffect } from 'react';
-import { select, selectAll } from 'd3-selection';
+import { useEffect } from "react";
+import { select, selectAll } from "d3-selection";
 export default function Home() {
     useEffect(function() {
         new MyClass();
@@ -28,7 +28,7 @@ export default function Home() {
 var MyClass = function MyClass() {
     "use strict";
     swcHelpers.classCallCheck(this, MyClass);
-    selectAll('.group').each(function() {
-        select(this).selectAll('path');
+    selectAll(".group").each(function() {
+        select(this).selectAll("path");
     });
 };

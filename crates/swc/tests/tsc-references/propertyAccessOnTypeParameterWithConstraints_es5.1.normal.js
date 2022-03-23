@@ -9,7 +9,7 @@ var C = /*#__PURE__*/ function() {
     var _proto = C.prototype;
     _proto.f = function f() {
         var x;
-        var a1 = x['getDate'](); // number
+        var a1 = x["getDate"](); // number
         return a1 + x.getDate();
     };
     return C;
@@ -17,13 +17,13 @@ var C = /*#__PURE__*/ function() {
 var r = new C().f();
 var i;
 var r2 = i.foo.getDate();
-var r2b = i.foo['getDate']();
+var r2b = i.foo["getDate"]();
 var a;
 var r3 = a().getDate();
-var r3b = a()['getDate']();
+var r3b = a()["getDate"]();
 var b = {
     foo: function(x) {
-        var a2 = x['getDate'](); // number
+        var a2 = x["getDate"](); // number
         return a2 + x.getDate();
     }
 };

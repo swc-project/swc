@@ -139,11 +139,7 @@
                 "ctxt": 0
               },
               "value": "computedName1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedName1\""
             }
           },
           "function": {
@@ -197,11 +193,7 @@
                 "ctxt": 0
               },
               "value": "computedName2",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedName2\""
             }
           },
           "function": {
@@ -292,11 +284,7 @@
                 "ctxt": 0
               },
               "value": "computedName3",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedName3\""
             }
           },
           "function": {
@@ -617,11 +605,7 @@
                       "ctxt": 0
                     },
                     "value": "HELLO",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"HELLO\""
                   }
                 }
               ]
@@ -676,11 +660,7 @@
                 "ctxt": 0
               },
               "value": "computedname4",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedname4\""
             }
           },
           "function": {
@@ -734,11 +714,7 @@
                 "ctxt": 0
               },
               "value": "computedname5",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedname5\""
             }
           },
           "function": {
@@ -829,11 +805,7 @@
                 "ctxt": 0
               },
               "value": "computedname6",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"computedname6\""
             }
           },
           "function": {

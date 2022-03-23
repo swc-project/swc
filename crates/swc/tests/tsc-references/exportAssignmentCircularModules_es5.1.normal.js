@@ -1,6 +1,6 @@
 // @module: amd
 // @Filename: foo_0.ts
-var foo1 = require('./foo_1');
+var foo1 = require("./foo_1");
 var Foo;
 (function(Foo1) {
     var x = Foo1.x = foo1.x;

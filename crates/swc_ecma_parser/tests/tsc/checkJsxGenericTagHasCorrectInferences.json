@@ -41,11 +41,7 @@
           "ctxt": 0
         },
         "value": "react",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"react\""
       },
       "typeOnly": false,
       "asserts": null
@@ -647,11 +643,7 @@
                               "ctxt": 0
                             },
                             "value": "y",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"y\""
                           }
                         }
                       ]
@@ -995,11 +987,7 @@
                               "ctxt": 0
                             },
                             "value": "y",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"y\""
                           }
                         }
                       ]
@@ -1232,11 +1220,7 @@
                               "ctxt": 0
                             },
                             "value": "y",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"y\""
                           }
                         }
                       ]

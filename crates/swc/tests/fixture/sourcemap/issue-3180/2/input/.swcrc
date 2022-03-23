@@ -1,0 +1,11 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "sourceMaps": true
+}

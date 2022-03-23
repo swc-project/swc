@@ -76,11 +76,7 @@
                       "ctxt": 0
                     },
                     "value": "hello world",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'hello world'"
                   },
                   "definite": false
                 }

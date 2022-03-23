@@ -1,7 +1,7 @@
 
   x the name `b` is bound more than once in this parameter list
    ,----
- 2 | function a(a, b, b) {}
+ 1 | function a(a, b, b) {}
    :               |  |
    :               |  `-- used as parameter more than once
    :               `-- previous definition here
@@ -9,7 +9,7 @@
 
   x the name `a` is bound more than once in this parameter list
    ,----
- 3 | function b(a, a, a) {}
+ 2 | function b(a, a, a) {}
    :            |  |
    :            |  `-- used as parameter more than once
    :            `-- previous definition here
@@ -17,7 +17,7 @@
 
   x the name `a` is bound more than once in this parameter list
    ,----
- 3 | function b(a, a, a) {}
+ 2 | function b(a, a, a) {}
    :               |  |
    :               |  `-- used as parameter more than once
    :               `-- previous definition here
@@ -25,7 +25,7 @@
 
   x the name `a` is bound more than once in this parameter list
    ,----
- 4 | function c(a, b, a) {}
+ 3 | function c(a, b, a) {}
    :            |     |
    :            |     `-- used as parameter more than once
    :            `-- previous definition here
@@ -33,7 +33,7 @@
 
   x the name `a` is bound more than once in this parameter list
    ,----
- 5 | function d(a, b, a, b) {}
+ 4 | function d(a, b, a, b) {}
    :            |     |
    :            |     `-- used as parameter more than once
    :            `-- previous definition here
@@ -41,7 +41,7 @@
 
   x the name `b` is bound more than once in this parameter list
    ,----
- 5 | function d(a, b, a, b) {}
+ 4 | function d(a, b, a, b) {}
    :               |     |
    :               |     `-- used as parameter more than once
    :               `-- previous definition here
@@ -49,7 +49,7 @@
 
   x the name `b` is bound more than once in this parameter list
    ,----
- 6 | var e = function (a, b, b) {};
+ 5 | var e = function (a, b, b) {};
    :                      |  |
    :                      |  `-- used as parameter more than once
    :                      `-- previous definition here
@@ -57,7 +57,7 @@
 
   x the name `a` is bound more than once in this parameter list
    ,----
- 7 | var f = function (a, a, a) {};
+ 6 | var f = function (a, a, a) {};
    :                   |  |
    :                   |  `-- used as parameter more than once
    :                   `-- previous definition here
@@ -65,7 +65,7 @@
 
   x the name `a` is bound more than once in this parameter list
    ,----
- 7 | var f = function (a, a, a) {};
+ 6 | var f = function (a, a, a) {};
    :                      |  |
    :                      |  `-- used as parameter more than once
    :                      `-- previous definition here
@@ -73,7 +73,7 @@
 
   x the name `a` is bound more than once in this parameter list
    ,----
- 8 | var g = function (a, b, a) {};
+ 7 | var g = function (a, b, a) {};
    :                   |     |
    :                   |     `-- used as parameter more than once
    :                   `-- previous definition here
@@ -81,7 +81,7 @@
 
   x the name `a` is bound more than once in this parameter list
    ,----
- 9 | var h = function (a, b, a, b) {};
+ 8 | var h = function (a, b, a, b) {};
    :                   |     |
    :                   |     `-- used as parameter more than once
    :                   `-- previous definition here
@@ -89,7 +89,7 @@
 
   x the name `b` is bound more than once in this parameter list
    ,----
- 9 | var h = function (a, b, a, b) {};
+ 8 | var h = function (a, b, a, b) {};
    :                      |     |
    :                      |     `-- used as parameter more than once
    :                      `-- previous definition here

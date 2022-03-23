@@ -42,7 +42,7 @@
                   19,
                   23
                 ],
-                "raw": "fs",
+                "raw": "\"fs\"",
                 "start": 19,
                 "type": "Literal",
                 "value": "fs"
@@ -166,7 +166,7 @@
                   52,
                   66
                 ],
-                "raw": "_placeholder",
+                "raw": "\"_placeholder\"",
                 "start": 52,
                 "type": "Literal",
                 "value": "_placeholder"

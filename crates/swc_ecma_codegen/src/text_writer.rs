@@ -37,7 +37,7 @@ pub trait WriteJs {
     fn write_line(&mut self) -> Result;
 
     fn write_lit(&mut self, span: Span, s: &str) -> Result;
-    fn write_comment(&mut self, span: Span, s: &str) -> Result;
+    fn write_comment(&mut self, s: &str) -> Result;
 
     fn write_str_lit(&mut self, span: Span, s: &str) -> Result;
     fn write_str(&mut self, s: &str) -> Result;
@@ -47,6 +47,8 @@ pub trait WriteJs {
     fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result;
 
     fn care_about_srcmap(&self) -> bool;
+
+    fn add_srcmap(&mut self, pos: BytePos) -> Result;
 }
 
 impl<W> WriteJs for Box<W>
@@ -109,8 +111,8 @@ where
     }
 
     #[inline]
-    fn write_comment(&mut self, span: Span, s: &str) -> Result {
-        (**self).write_comment(span, s)
+    fn write_comment(&mut self, s: &str) -> Result {
+        (**self).write_comment(s)
     }
 
     #[inline]
@@ -136,5 +138,10 @@ where
     #[inline]
     fn care_about_srcmap(&self) -> bool {
         (**self).care_about_srcmap()
+    }
+
+    #[inline]
+    fn add_srcmap(&mut self, pos: BytePos) -> Result {
+        (**self).add_srcmap(pos)
     }
 }

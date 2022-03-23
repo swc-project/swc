@@ -3,7 +3,7 @@ import * as swcHelpers from "@swc/helpers";
 // @strictNullChecks: true
 var o = {
     a: 1,
-    b: 'no'
+    b: "no"
 };
 /// private propagates
 var PrivateOptionalX = function PrivateOptionalX() {
@@ -31,47 +31,47 @@ var b = {
 spread = b; // error, missing 's'
 // literal repeats are not allowed, but spread repeats are fine
 var duplicated = swcHelpers.objectSpread({
-    b: 'bad'
+    b: "bad"
 }, o, {
-    b: 'bad'
+    b: "bad"
 }, o2, {
-    b: 'bad'
+    b: "bad"
 });
 var duplicatedSpread = swcHelpers.objectSpread({}, o, o);
 // Note: ignore changes the order that properties are printed
 var ignore = swcHelpers.objectSpread({
-    b: 'ignored'
+    b: "ignored"
 }, o);
 var o3 = {
     a: 1,
-    b: 'no'
+    b: "no"
 };
 var o4 = {
-    b: 'yes',
+    b: "yes",
     c: true
 };
 var combinedBefore = swcHelpers.objectSpread({
-    b: 'ok'
+    b: "ok"
 }, o3, o4);
 var combinedMid = swcHelpers.objectSpread({}, o3, {
-    b: 'ok'
+    b: "ok"
 }, o4);
 var combinedNested = swcHelpers.objectSpread({}, swcHelpers.objectSpread({
     a: 4
 }, {
     b: false,
-    c: 'overriden'
+    c: "overriden"
 }), {
-    d: 'actually new'
+    d: "actually new"
 }, {
     a: 5,
-    d: 'maybe new'
+    d: "maybe new"
 });
 var changeTypeBefore = swcHelpers.objectSpread({
-    a: 'wrong type?'
+    a: "wrong type?"
 }, o3);
 var _obj;
-var computedMiddle = swcHelpers.objectSpread({}, o3, (_obj = {}, swcHelpers.defineProperty(_obj, 'in the middle', 13), swcHelpers.defineProperty(_obj, "b", 'maybe?'), _obj), o4);
+var computedMiddle = swcHelpers.objectSpread({}, o3, (_obj = {}, swcHelpers.defineProperty(_obj, "in the middle", 13), swcHelpers.defineProperty(_obj, "b", "maybe?"), _obj), o4);
 // primitives are not allowed, except for falsy ones
 var spreadNum = swcHelpers.objectSpread({}, 12);
 var spreadSum = swcHelpers.objectSpread({}, 1 + 1);
@@ -79,7 +79,7 @@ var spreadZero = swcHelpers.objectSpread({}, 0);
 spreadZero.toFixed(); // error, no methods even from a falsy number
 var spreadBool = swcHelpers.objectSpread({}, true);
 spreadBool.valueOf();
-var spreadStr = swcHelpers.objectSpread({}, 'foo');
+var spreadStr = swcHelpers.objectSpread({}, "foo");
 spreadStr.length; // error, no 'length'
 spreadStr.charAt(1); // error, no methods either
 // functions are skipped

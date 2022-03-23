@@ -78,11 +78,7 @@
                     "ctxt": 0
                   },
                   "value": "square",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"square\""
                 }
               }
             },
@@ -204,11 +200,7 @@
                     "ctxt": 0
                   },
                   "value": "rectangle",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"rectangle\""
                 }
               }
             },
@@ -371,11 +363,7 @@
                     "ctxt": 0
                   },
                   "value": "circle",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"circle\""
                 }
               }
             },
@@ -638,11 +626,7 @@
                   "ctxt": 0
                 },
                 "value": "square",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"square\""
               }
             },
             "consequent": {
@@ -779,11 +763,7 @@
                     "ctxt": 0
                   },
                   "value": "circle",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"circle\""
                 }
               },
               "consequent": {
@@ -957,11 +937,7 @@
                       "ctxt": 0
                     },
                     "value": "rectangle",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"rectangle\""
                   }
                 },
                 "consequent": {
@@ -1210,11 +1186,7 @@
                     "ctxt": 0
                   },
                   "value": "square",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"square\""
                 },
                 "consequent": [
                   {
@@ -1307,11 +1279,7 @@
                     "ctxt": 0
                   },
                   "value": "rectangle",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"rectangle\""
                 },
                 "consequent": [
                   {
@@ -1404,11 +1372,7 @@
                     "ctxt": 0
                   },
                   "value": "circle",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"circle\""
                 },
                 "consequent": [
                   {
@@ -1640,11 +1604,7 @@
                         "ctxt": 0
                       },
                       "value": "Unexpected object: ",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"Unexpected object: \""
                     },
                     "right": {
                       "type": "Identifier",
@@ -1811,11 +1771,7 @@
                     "ctxt": 0
                   },
                   "value": "square",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"square\""
                 },
                 "consequent": [
                   {
@@ -1908,11 +1864,7 @@
                     "ctxt": 0
                   },
                   "value": "rectangle",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"rectangle\""
                 },
                 "consequent": [
                   {
@@ -2005,11 +1957,7 @@
                     "ctxt": 0
                   },
                   "value": "circle",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"circle\""
                 },
                 "consequent": [
                   {
@@ -2312,11 +2260,7 @@
                     "ctxt": 0
                   },
                   "value": "square",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"square\""
                 },
                 "consequent": [
                   {
@@ -2409,11 +2353,7 @@
                     "ctxt": 0
                   },
                   "value": "rectangle",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"rectangle\""
                 },
                 "consequent": [
                   {
@@ -2506,11 +2446,7 @@
                     "ctxt": 0
                   },
                   "value": "circle",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"circle\""
                 },
                 "consequent": [
                   {
@@ -2755,11 +2691,7 @@
                         "ctxt": 0
                       },
                       "value": "A",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"A\""
                     }
                   }
                 },
@@ -2868,11 +2800,7 @@
                             "ctxt": 0
                           },
                           "value": "B",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"B\""
                         }
                       },
                       {
@@ -2890,11 +2818,7 @@
                             "ctxt": 0
                           },
                           "value": "C",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"C\""
                         }
                       }
                     ]
@@ -2997,11 +2921,7 @@
                         "ctxt": 0
                       },
                       "value": "D",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"D\""
                     }
                   }
                 },
@@ -3138,11 +3058,7 @@
                   "ctxt": 0
                 },
                 "value": "A",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"A\""
               }
             },
             "consequent": {
@@ -3224,11 +3140,7 @@
                     "ctxt": 0
                   },
                   "value": "D",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"D\""
                 }
               },
               "consequent": {
@@ -3422,11 +3334,7 @@
                   "ctxt": 0
                 },
                 "value": "A",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"A\""
               }
             },
             "consequent": {
@@ -3601,11 +3509,7 @@
                   "ctxt": 0
                 },
                 "value": "X",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"X\""
               }
             },
             "consequent": {
@@ -3752,11 +3656,7 @@
                         "ctxt": 0
                       },
                       "value": "A",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"A\""
                     }
                   },
                   {
@@ -3774,11 +3674,7 @@
                         "ctxt": 0
                       },
                       "value": "D",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"D\""
                     }
                   }
                 ]
@@ -4018,11 +3914,7 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"A\""
                 },
                 "consequent": [
                   {
@@ -4069,11 +3961,7 @@
                     "ctxt": 0
                   },
                   "value": "D",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"D\""
                 },
                 "consequent": [
                   {
@@ -4269,11 +4157,7 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"A\""
                 },
                 "consequent": [
                   {
@@ -4311,11 +4195,7 @@
                     "ctxt": 0
                   },
                   "value": "D",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"D\""
                 },
                 "consequent": [
                   {
@@ -4511,11 +4391,7 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"A\""
                 },
                 "consequent": []
               },
@@ -4534,11 +4410,7 @@
                     "ctxt": 0
                   },
                   "value": "B",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"B\""
                 },
                 "consequent": [
                   {
@@ -4705,11 +4577,7 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"A\""
                 },
                 "consequent": [
                   {
@@ -4738,11 +4606,7 @@
                     "ctxt": 0
                   },
                   "value": "D",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"D\""
                 },
                 "consequent": [
                   {

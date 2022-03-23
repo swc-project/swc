@@ -29,8 +29,8 @@ test!(
     "import bar from 'bar';
 
 obj[bar('bas')] = '123'",
-    "define(['bar'], function(_bar) {
-    'use strict';
+    "define([\"bar\"], function(_bar) {
+    \"use strict\";
     _bar = _interopRequireDefault(_bar);
     obj[(0, _bar).default('bas')] = '123';
 });"
@@ -46,10 +46,10 @@ test!(
 
 export const bar = { foo }",
     "
-define(['exports', 'foo'], function(_exports, _foo) {
-    'use strict';
+define([\"exports\", \"foo\"], function(_exports, _foo) {
+    \"use strict\";
     _foo = _interopRequireDefault(_foo);
-    Object.defineProperty(_exports, '__esModule', {
+    Object.defineProperty(_exports, \"__esModule\", {
         value: true
     });
     _exports.bar = void 0;
@@ -73,8 +73,8 @@ test!(
     custom_strict,
     r#"export function foo(){}"#,
     r#"
-define(['exports'], function(_exports) {
-    'use strict';
+define(["exports"], function(_exports) {
+    "use strict";
     _exports.foo = foo;
     function foo(){}
 });
@@ -93,8 +93,8 @@ test!(
     custom_non_strict_mode,
     r#"export function foo(){}"#,
     r#"
-define(['exports'], function(_exports) {
-    Object.defineProperty(_exports, '__esModule', {
+define(["exports"], function(_exports) {
+    Object.defineProperty(_exports, "__esModule", {
         value: true
     });
     _exports.foo = foo;
@@ -116,8 +116,8 @@ test!(
     r#"import * as foo from 'foo';
     import bar from 'bar';"#,
     r#"
-define(['foo', 'bar'], function(foo, _bar) {
-    'use strict';
+define(["foo", "bar"], function(foo, _bar) {
+    "use strict";
 });
 "#
 );
@@ -133,8 +133,8 @@ import React from 'react'
 window.React = React;
   "#,
     r#"
-define(['react'], function(_react) {
-    'use strict';
+define(["react"], function(_react) {
+    "use strict";
     _react = _interopRequireDefault(_react);
     window.React = _react.default;
 });
@@ -152,12 +152,12 @@ test!(
 import {foo} from 'src';
 export {foo};
   "#,
-    r#"define('moduleId', ['exports', 'src'], function(_exports, _src) {
-    'use strict';
-    Object.defineProperty(_exports, '__esModule', {
+    r#"define("moduleId", ["exports", "src"], function(_exports, _src) {
+    "use strict";
+    Object.defineProperty(_exports, "__esModule", {
         value: true
     });
-    Object.defineProperty(_exports, 'foo', {
+    Object.defineProperty(_exports, "foo", {
         enumerable: true,
         get: function() {
             return _src.foo;
@@ -1130,9 +1130,9 @@ export const foo = function () {
   function e(t) {}
   return A(e, {}), e
 }();",
-    "define(['exports', 'path'], function(_exports, _path) {
-    'use strict';
-    Object.defineProperty(_exports, '__esModule', {
+    "define([\"exports\", \"path\"], function(_exports, _path) {
+    \"use strict\";
+    Object.defineProperty(_exports, \"__esModule\", {
         value: true
     });
     _exports.foo = void 0;
@@ -1157,9 +1157,9 @@ export const foo = function () {
   var e = 1;
   return A(e, {}), e
 }();",
-    "define(['exports', 'path'], function(_exports, _path) {
-    'use strict';
-    Object.defineProperty(_exports, '__esModule', {
+    "define([\"exports\", \"path\"], function(_exports, _path) {
+    \"use strict\";
+    Object.defineProperty(_exports, \"__esModule\", {
         value: true
     });
     _exports.foo = void 0;

@@ -42,11 +42,7 @@
               "ctxt": 0
             },
             "value": "hello Lol",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"hello Lol\""
           },
           "definite": false
         }
@@ -131,11 +127,7 @@
                     "ctxt": 0
                   },
                   "value": "42",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"42\""
                 }
               },
               {
@@ -264,11 +256,7 @@
                         "ctxt": 0
                       },
                       "value": "b",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'b'"
                     },
                     "right": {
                       "type": "StringLiteral",
@@ -278,11 +266,7 @@
                         "ctxt": 0
                       },
                       "value": "ar1",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'ar1'"
                     }
                   }
                 },
@@ -419,11 +403,7 @@
             "ctxt": 0
           },
           "value": "string",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'string'"
         }
       }
     },
@@ -652,11 +632,7 @@
             "ctxt": 0
           },
           "value": "42",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"42\""
         }
       }
     },

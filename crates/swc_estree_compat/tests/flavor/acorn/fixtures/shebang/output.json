@@ -40,7 +40,7 @@
               32,
               37
             ],
-            "raw": "abc",
+            "raw": "\"abc\"",
             "start": 32,
             "type": "Literal",
             "value": "abc"

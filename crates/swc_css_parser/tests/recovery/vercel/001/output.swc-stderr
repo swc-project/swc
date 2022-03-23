@@ -1,12 +1,12 @@
 
   x Invalid selector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:16:1]
- 16 | }
+    ,-[$DIR/tests/recovery/vercel/001/input.css:15:1]
+ 15 | }
     : ^
     `----
 
   x Unexpected end of file
-   ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
- 2 | @media (min-width: 935px) {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:1:1]
+ 1 | @media (min-width: 935px) {
    : ^
    `----

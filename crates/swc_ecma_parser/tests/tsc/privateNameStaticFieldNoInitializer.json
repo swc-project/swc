@@ -76,7 +76,8 @@
                 "accessibility": null,
                 "isOptional": false,
                 "isOverride": false,
-                "readonly": false
+                "readonly": false,
+                "definite": false
               }
             ],
             "superClass": null,
@@ -141,7 +142,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         }
       ],
       "superClass": null,

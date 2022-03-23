@@ -77,7 +77,7 @@ swcHelpers.asyncToGenerator(_regeneratorRuntime.default.mark(function _callee1()
                                     _ctx.next = 28;
                                     break;
                                 }
-                                throw new Error('');
+                                throw new Error("");
                             case 28:
                             case "end":
                                 return _ctx.stop();

@@ -294,13 +294,10 @@ impl<I: Tokens> Parser<I> {
 
         let arg = match cur!(self, true)? {
             Token::Str { .. } => match bump!(self) {
-                Token::Str { value, has_escape } => Str {
+                Token::Str { value, raw } => Str {
                     span: arg_span,
                     value,
-                    has_escape,
-                    kind: StrKind::Normal {
-                        contains_quote: true,
-                    },
+                    raw: Some(raw),
                 },
                 _ => unreachable!(),
             },
@@ -310,8 +307,7 @@ impl<I: Tokens> Parser<I> {
                 Str {
                     span: arg_span,
                     value: "".into(),
-                    has_escape: false,
-                    kind: Default::default(),
+                    raw: Some("\"\"".into()),
                 }
             }
         };
@@ -700,6 +696,7 @@ impl<I: Tokens> Parser<I> {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
             })?,
+            // TODO we need `raw` for `Num` token too
             Token::Num(v) => {
                 bump!(self);
                 let span = span!(self, start);
@@ -707,13 +704,16 @@ impl<I: Tokens> Parser<I> {
                 // Recover from error
                 self.emit_err(span, SyntaxError::TS2452);
 
+                let mut raw = String::new();
+
+                raw.push('"');
+                raw.push_str(&v.to_string());
+                raw.push('"');
+
                 TsEnumMemberId::Str(Str {
                     span,
                     value: v.to_string().into(),
-                    has_escape: false,
-                    kind: StrKind::Normal {
-                        contains_quote: false,
-                    },
+                    raw: Some(raw.into()),
                 })
             }
             Token::LBracket => {
@@ -2288,7 +2288,12 @@ impl<I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        if self.ctx().in_declare {
+        if self.ctx().in_declare
+            && matches!(
+                self.syntax(),
+                Syntax::Typescript(TsConfig { dts: false, .. })
+            )
+        {
             let span_of_declare = span!(self, start);
             self.emit_err(span_of_declare, SyntaxError::TS1038);
         }

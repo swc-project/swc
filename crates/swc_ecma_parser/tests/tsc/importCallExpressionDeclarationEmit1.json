@@ -329,34 +329,8 @@
                         "ctxt": 0
                       },
                       "tail": false,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 269,
-                          "end": 269,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 269,
-                          "end": 269,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     },
                     {
                       "type": "TemplateElement",
@@ -366,34 +340,8 @@
                         "ctxt": 0
                       },
                       "tail": false,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 281,
-                          "end": 283,
-                          "ctxt": 0
-                        },
-                        "value": "\\",
-                        "hasEscape": true,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 281,
-                          "end": 283,
-                          "ctxt": 0
-                        },
-                        "value": "\\\\",
-                        "hasEscape": true,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "\\",
+                      "raw": "\\\\"
                     },
                     {
                       "type": "TemplateElement",
@@ -403,34 +351,8 @@
                         "ctxt": 0
                       },
                       "tail": true,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 296,
-                          "end": 296,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 296,
-                          "end": 296,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     }
                   ]
                 }
@@ -607,11 +529,7 @@
                       "ctxt": 0
                     },
                     "value": "defaulPath",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"defaulPath\""
                   }
                 }
               }

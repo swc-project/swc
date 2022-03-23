@@ -15,7 +15,7 @@ where
 {
     /// Evaluate expression if possible.
     ///
-    /// This method call apppropriate methods for each ast types.
+    /// This method call appropriate methods for each ast types.
     pub(super) fn evaluate(&mut self, e: &mut Expr) {
         self.eval_global_vars(e);
 
@@ -37,8 +37,8 @@ where
         if let Expr::Ident(i) = e {
             if self
                 .data
-                .as_ref()
-                .and_then(|data| data.vars.get(&i.to_id()))
+                .vars
+                .get(&i.to_id())
                 .map(|var| var.declared)
                 .unwrap_or(false)
             {
@@ -65,7 +65,7 @@ where
                 tracing::debug!("evaluate: `Infinity` -> `1 / 0`");
                 self.changed = true;
                 *e = Expr::Bin(BinExpr {
-                    span: span.with_ctxt(self.done_ctxt),
+                    span: *span,
                     op: op!("/"),
                     left: Box::new(Expr::Lit(Lit::Num(Number {
                         span: DUMMY_SP,
@@ -187,15 +187,17 @@ where
                             if let Some(v) = char::from_u32(v) {
                                 self.changed = true;
                                 tracing::debug!(
-                                    "evanluate: Evaluated `String.charCodeAt({})` as `{}`",
+                                    "evaluate: Evaluated `String.charCodeAt({})` as `{}`",
                                     char_code,
                                     v
                                 );
+
+                                let value = v.to_string();
+
                                 *e = Expr::Lit(Lit::Str(Str {
                                     span: e.span(),
-                                    value: v.to_string().into(),
-                                    has_escape: false,
-                                    kind: Default::default(),
+                                    raw: None,
+                                    value: value.into(),
                                 }));
                             }
                         }
@@ -227,9 +229,8 @@ where
                                             spread: None,
                                             expr: Box::new(Expr::Lit(Lit::Str(Str {
                                                 span: p.span,
+                                                raw: None,
                                                 value: p.sym.clone(),
-                                                has_escape: false,
-                                                kind: Default::default(),
                                             }))),
                                         }));
                                     }
@@ -239,9 +240,8 @@ where
                                                 spread: None,
                                                 expr: Box::new(Expr::Lit(Lit::Str(Str {
                                                     span: key.span,
+                                                    raw: None,
                                                     value: key.sym.clone(),
-                                                    has_escape: false,
-                                                    kind: Default::default(),
                                                 }))),
                                             }));
                                         }
@@ -306,7 +306,7 @@ where
                 if let Known(l) = l {
                     if let Known(r) = r {
                         self.changed = true;
-                        tracing::debug!("evaluate: Evaulated `{:?} ** {:?}`", l, r);
+                        tracing::debug!("evaluate: Evaluated `{:?} ** {:?}`", l, r);
 
                         let value = l.powf(r);
                         *e = Expr::Lit(Lit::Num(Number {
@@ -337,13 +337,9 @@ where
                             // If a variable named `NaN` is in scope, don't convert e into NaN.
                             if self
                                 .data
-                                .as_ref()
-                                .map(|data| {
-                                    data.vars
-                                        .iter()
-                                        .any(|(name, v)| v.declared && name.0 == js_word!("NaN"))
-                                })
-                                .unwrap_or(false)
+                                .vars
+                                .iter()
+                                .any(|(name, v)| v.declared && name.0 == js_word!("NaN"))
                             {
                                 return;
                             }

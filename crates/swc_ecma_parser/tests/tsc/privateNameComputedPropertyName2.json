@@ -171,7 +171,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "ClassMethod",
@@ -317,11 +318,7 @@
                       "ctxt": 0
                     },
                     "value": "_",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"_\""
                   }
                 ]
               }

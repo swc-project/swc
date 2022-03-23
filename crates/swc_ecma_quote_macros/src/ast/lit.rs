@@ -10,14 +10,7 @@ use crate::ctxt::Ctx;
 fail_todo!(BigInt);
 fail_todo!(JSXText);
 
-impl_struct!(Str, [span, value, has_escape, kind]);
-
-impl ToCode for StrKind {
-    fn to_code(&self, _: &Ctx) -> syn::Expr {
-        q!(Vars {}, { Default::default() }).parse()
-    }
-}
-
+impl_struct!(Str, [span, value, raw]);
 impl_struct!(Bool, [span, value]);
 impl_struct!(Null, [span]);
 impl_struct!(Number, [span, value]);

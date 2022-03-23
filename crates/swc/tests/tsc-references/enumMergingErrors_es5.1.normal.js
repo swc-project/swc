@@ -17,11 +17,11 @@ var M;
 (function(M4) {
     var E1;
     (function(E1) {
-        E1[E1["B"] = 'foo'.length] = "B";
+        E1[E1["B"] = "foo".length] = "B";
     })(E1 = M4.E1 || (M4.E1 = {}));
     var E2;
     (function(E2) {
-        E2[E2["B"] = 'foo'.length] = "B";
+        E2[E2["B"] = "foo".length] = "B";
     })(E2 = M4.E2 || (M4.E2 = {}));
     var E3;
     (function(E3) {
@@ -39,7 +39,7 @@ var M;
     })(E2 = M5.E2 || (M5.E2 = {}));
     var E3;
     (function(E3) {
-        E3[E3["B"] = 'foo'.length] = "B";
+        E3[E3["B"] = "foo".length] = "B";
     })(E3 = M5.E3 || (M5.E3 = {}));
 })(M || (M = {}));
 // Enum with no initializer in either declaration with constant members with the same root module

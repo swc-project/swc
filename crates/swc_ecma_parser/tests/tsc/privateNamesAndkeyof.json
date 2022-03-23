@@ -66,7 +66,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateMethod",
@@ -461,11 +462,7 @@
               "ctxt": 0
             },
             "value": "bar",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"bar\""
           },
           "definite": false
         }
@@ -505,11 +502,7 @@
             "ctxt": 0
           },
           "value": "baz",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"baz\""
         }
       }
     },
@@ -547,11 +540,7 @@
             "ctxt": 0
           },
           "value": "#fooField",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"#fooField\""
         }
       }
     },
@@ -589,11 +578,7 @@
             "ctxt": 0
           },
           "value": "#fooMethod",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"#fooMethod\""
         }
       }
     },
@@ -631,11 +616,7 @@
             "ctxt": 0
           },
           "value": "#fooProp",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"#fooProp\""
         }
       }
     },
@@ -673,11 +654,7 @@
             "ctxt": 0
           },
           "value": "fooField",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"fooField\""
         }
       }
     },
@@ -715,11 +692,7 @@
             "ctxt": 0
           },
           "value": "fooMethod",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"fooMethod\""
         }
       }
     },
@@ -757,11 +730,7 @@
             "ctxt": 0
           },
           "value": "fooProp",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"fooProp\""
         }
       }
     }

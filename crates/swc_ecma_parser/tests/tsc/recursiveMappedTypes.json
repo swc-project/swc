@@ -3067,11 +3067,7 @@
                   "ctxt": 0
                 },
                 "value": "type",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"type\""
               },
               "computed": false,
               "optional": false,
@@ -3099,11 +3095,7 @@
                       "ctxt": 0
                     },
                     "value": "list",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"list\""
                   }
                 }
               },
@@ -3125,11 +3117,7 @@
                   "ctxt": 0
                 },
                 "value": "minimum_count",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"minimum_count\""
               },
               "computed": false,
               "optional": false,
@@ -3170,11 +3158,7 @@
                   "ctxt": 0
                 },
                 "value": "maximum_count",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"maximum_count\""
               },
               "computed": false,
               "optional": false,
@@ -3215,11 +3199,7 @@
                   "ctxt": 0
                 },
                 "value": "collapsable",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"collapsable\""
               },
               "computed": false,
               "optional": true,
@@ -3260,11 +3240,7 @@
                   "ctxt": 0
                 },
                 "value": "each",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"each\""
               },
               "computed": false,
               "optional": false,

@@ -113,11 +113,7 @@
                 "ctxt": 0
               },
               "value": "name",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"name\""
             }
           },
           {
@@ -150,11 +146,7 @@
                       "ctxt": 0
                     },
                     "value": "Charles",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"Charles\""
                   }
                 },
                 {
@@ -252,11 +244,7 @@
                 "ctxt": 0
               },
               "value": "middleInit",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"middleInit\""
             }
           },
           {
@@ -289,11 +277,7 @@
                       "ctxt": 0
                     },
                     "value": "H",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"H\""
                   }
                 }
               ]
@@ -369,11 +353,7 @@
                 "ctxt": 0
               },
               "value": "lastName",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"lastName\""
             }
           },
           {
@@ -406,11 +386,7 @@
                       "ctxt": 0
                     },
                     "value": "Smith",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"Smith\""
                   }
                 },
                 {
@@ -508,11 +484,7 @@
                 "ctxt": 0
               },
               "value": "zip",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"zip\""
             }
           },
           {
@@ -703,11 +675,7 @@
                 "ctxt": 0
               },
               "value": "houseNumber",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"houseNumber\""
             }
           },
           {
@@ -844,11 +812,7 @@
                 "ctxt": 0
               },
               "value": "zipStr",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"zipStr\""
             }
           },
           {
@@ -1744,11 +1708,7 @@
             "ctxt": 0
           },
           "value": "./",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"./\""
         }
       }
     },
@@ -2019,11 +1979,7 @@
             "ctxt": 0
           },
           "value": "Another",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"Another\""
         }
       }
     },
@@ -2132,11 +2088,7 @@
             "ctxt": 0
           },
           "value": "OK",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"OK\""
         }
       }
     },
@@ -2191,11 +2143,7 @@
             "ctxt": 0
           },
           "value": "should fail",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"should fail\""
         }
       }
     },
@@ -2358,11 +2306,7 @@
             "ctxt": 0
           },
           "value": "R",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"R\""
         }
       }
     }

@@ -2877,11 +2877,11 @@ var _class, _class1;
 let A = ((_class = class A{
      foo() {
     }
-}) || _class, _applyDecoratedDescriptor(_class.prototype, 'foo', [dec], Object.getOwnPropertyDescriptor(_class.prototype, 'foo'), _class.prototype), _class);
+}) || _class, _applyDecoratedDescriptor(_class.prototype, "foo", [dec], Object.getOwnPropertyDescriptor(_class.prototype, "foo"), _class.prototype), _class);
 let B = ((_class1 = class B{
      foo() {
     }
-}) || _class1, _applyDecoratedDescriptor(_class1.prototype, 'foo', [dec], Object.getOwnPropertyDescriptor(_class1.prototype, 'foo'), _class1.prototype), _class1);
+}) || _class1, _applyDecoratedDescriptor(_class1.prototype, "foo", [dec], Object.getOwnPropertyDescriptor(_class1.prototype, "foo"), _class1.prototype), _class1);
 export { A as default }
 
 "#
@@ -4233,11 +4233,11 @@ export class Example {
     var _class, _descriptor, _dec, _descriptor1, _dec1;
     export let Example = ((_class = class Example {
         constructor(){
-            _initializerDefineProperty(this, 'bar', _descriptor, this);
-            _initializerDefineProperty(this, 'baz', _descriptor1, this);
+            _initializerDefineProperty(this, \"bar\", _descriptor, this);
+            _initializerDefineProperty(this, \"baz\", _descriptor1, this);
         }
     }) || _class, _dec = foo(), _dec1 = foo(), _descriptor = \
-     _applyDecoratedDescriptor(_class.prototype, 'bar', [
+     _applyDecoratedDescriptor(_class.prototype, \"bar\", [
         _dec
     ], {
         configurable: true,
@@ -4246,7 +4246,7 @@ export class Example {
         initializer: function() {
             return '1';
         }
-    }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, 'baz', [
+    }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, \"baz\", [
         _dec1
     ], {
         configurable: true,
@@ -4274,11 +4274,11 @@ test!(
     var _class, _descriptor, _dec, _descriptor1, _dec1;
     let Example = ((_class = class Example {
         constructor(){
-            _initializerDefineProperty(this, 'bar', _descriptor, this);
-            _initializerDefineProperty(this, 'baz', _descriptor1, this);
+            _initializerDefineProperty(this, \"bar\", _descriptor, this);
+            _initializerDefineProperty(this, \"baz\", _descriptor1, this);
         }
     }) || _class, _dec = foo(), _dec1 = foo(), _descriptor = \
-     _applyDecoratedDescriptor(_class.prototype, 'bar', [
+     _applyDecoratedDescriptor(_class.prototype, \"bar\", [
         _dec
     ], {
         configurable: true,
@@ -4287,7 +4287,7 @@ test!(
         initializer: function() {
             return '1';
         }
-    }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, 'baz', [
+    }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, \"baz\", [
         _dec1
     ], {
         configurable: true,
@@ -4333,9 +4333,9 @@ let Person = ((_class = (_Person = class Person {
         console.log('Hello World!');
     }
 }, _Person.debounceTime = 500, _Person)) || _class, _dec = Debounce(_class.debounceTime), \
-     _applyDecoratedDescriptor(_class.prototype, 'save', [
+     _applyDecoratedDescriptor(_class.prototype, \"save\", [
     _dec
-], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+], Object.getOwnPropertyDescriptor(_class.prototype, \"save\"), _class.prototype), _class);
 const p = new Person();
 p.save();"
 );
@@ -4376,9 +4376,9 @@ let Person = ((_class = (_Person = class Person {
         console.log('Hello World!');
     }
 }, _Person.debounceTime = 500, _Person)) || _class, _dec = Debounce(_class.debounceTime), \
-     _applyDecoratedDescriptor(_class.prototype, 'save', [
+     _applyDecoratedDescriptor(_class.prototype, \"save\", [
     _dec
-], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+], Object.getOwnPropertyDescriptor(_class.prototype, \"save\"), _class.prototype), _class);
 const p = new Person();
 p.save();
 "
@@ -4416,13 +4416,13 @@ p.save();",
 var _class, _dec;
 import { Debounce } from 'lodash-decorators';
 let Person = ((_class = (_Person = function() {
-    'use strict';
+    \"use strict\";
     function Person1() {
         _classCallCheck(this, Person1);
     }
     _createClass(Person1, [
         {
-            key: 'save',
+            key: \"save\",
             value: function save() {
                 console.log('Hello World!');
             }
@@ -4430,9 +4430,9 @@ let Person = ((_class = (_Person = function() {
     ]);
     return Person1;
 }(), _Person.debounceTime = 500, _Person)) || _class, _dec = Debounce(_class.debounceTime), \
-     _applyDecoratedDescriptor(_class.prototype, 'save', [
+     _applyDecoratedDescriptor(_class.prototype, \"save\", [
     _dec
-], Object.getOwnPropertyDescriptor(_class.prototype, 'save'), _class.prototype), _class);
+], Object.getOwnPropertyDescriptor(_class.prototype, \"save\"), _class.prototype), _class);
 const p = new Person();
 p.save();"
 );
@@ -4470,12 +4470,12 @@ export class Product extends TimestampedEntity {
 export let Product = _class = _dec6(((_class = class Product extends TimestampedEntity {
     constructor(...args){
         super(...args);
-        _initializerDefineProperty(this, 'id', _descriptor, this);
-        _initializerDefineProperty(this, 'price', _descriptor1, this);
-        _initializerDefineProperty(this, 'type', _descriptor2, this);
-        _initializerDefineProperty(this, 'productEntityId', _descriptor3, this);
-        _initializerDefineProperty(this, 'orders', _descriptor4, this);
-        _initializerDefineProperty(this, 'discounts', _descriptor5, this);
+        _initializerDefineProperty(this, \"id\", _descriptor, this);
+        _initializerDefineProperty(this, \"price\", _descriptor1, this);
+        _initializerDefineProperty(this, \"type\", _descriptor2, this);
+        _initializerDefineProperty(this, \"productEntityId\", _descriptor3, this);
+        _initializerDefineProperty(this, \"orders\", _descriptor4, this);
+        _initializerDefineProperty(this, \"discounts\", _descriptor5, this);
       }
     }) || _class, _dec = PrimaryGeneratedColumn('uuid'), _dec1 = Column(), _dec2 = Column({
       enum: ProductType
@@ -4483,42 +4483,42 @@ export let Product = _class = _dec6(((_class = class Product extends Timestamped
   , (order)=>order.product
   ), _dec5 = OneToMany(()=>Discount
   , (discount)=>discount.product
-  ), _descriptor = _applyDecoratedDescriptor(_class.prototype,'id', [
+  ), _descriptor = _applyDecoratedDescriptor(_class.prototype,\"id\", [
     _dec
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null,
-}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, 'price', [
+}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, \"price\", [
     _dec1
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null,
-}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'type', [
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, \"type\", [
     _dec2
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null,
-}), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'productEntityId', [
+}), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, \"productEntityId\", [
     _dec3
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null,
-}), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'orders', [
+}), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, \"orders\", [
     _dec4
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null,
-}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'discounts', [
+}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, \"discounts\", [
     _dec5
 ], {
     configurable: true,
@@ -4545,10 +4545,10 @@ export class Product extends TimestampedEntity {
     export let Product = _class = _dec1(((_class = class Product extends TimestampedEntity {
         constructor(...args){
             super(...args);
-            _initializerDefineProperty(this, 'id', _descriptor, this);
+            _initializerDefineProperty(this, \"id\", _descriptor, this);
         }
     }) || _class, _dec = PrimaryGeneratedColumn('uuid'), _descriptor = \
-     _applyDecoratedDescriptor(_class.prototype, 'id', [
+     _applyDecoratedDescriptor(_class.prototype, \"id\", [
         _dec
     ], {
         configurable: true,
@@ -4600,10 +4600,10 @@ test!(
 let ProductController = ((_class = class ProductController {
     findById(id) {
     }
-}) || _class, foo()(_class.prototype, 'findById', 0), _dec = bar(), \
-     _applyDecoratedDescriptor(_class.prototype, 'findById', [
+}) || _class, foo()(_class.prototype, \"findById\", 0), _dec = bar(), \
+     _applyDecoratedDescriptor(_class.prototype, \"findById\", [
     _dec
-], Object.getOwnPropertyDescriptor(_class.prototype, 'findById'), _class.prototype), _class);"
+], Object.getOwnPropertyDescriptor(_class.prototype, \"findById\"), _class.prototype), _class);"
 );
 
 test_exec!(
@@ -4660,9 +4660,9 @@ test!(
     "var _class, _descriptor;
 let X = ((_class = class X {
     constructor(){
-        _initializerDefineProperty(this, 'prop', _descriptor, this);
+        _initializerDefineProperty(this, \"prop\", _descriptor, this);
     }
-}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'prop', [
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, \"prop\", [
     networked
 ], {
     configurable: true,
@@ -4786,9 +4786,9 @@ test!(
     }",
     r#"
     var _class, _descriptor, _dec, _dec1, _descriptor1, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11;
-import { AppService } from "./app.service";
-import { Session, Res } from "@nestjs/common";
-import * as express from "express";
+import { AppService } from './app.service';
+import { Session, Res } from '@nestjs/common';
+import * as express from 'express';
 var _dec12 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof AppService === "undefined" ? Object : AppService
 ]), _dec13 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec14 = Controller();
@@ -4805,7 +4805,7 @@ export let AppController = _class = _dec14(_class = _dec13(_class = _dec12(((_cl
         const user = await this.getUserInfo(token.access_token);
         session.oauth2Token = token;
         session.user = user;
-        return res.redirect(state.returnUrl ?? "/");
+        return res.redirect(state.returnUrl ?? '/');
     }
 }) || _class, _dec = Inject(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _dec2 = Inject(), _dec3 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", typeof AppService === "undefined" ? Object : AppService), _descriptor = _applyDecoratedDescriptor(_class.prototype, "appService", [
     _dec,
@@ -4827,7 +4827,7 @@ export let AppController = _class = _dec14(_class = _dec13(_class = _dec12(((_cl
     _dec4,
     _dec5,
     _dec6
-], Object.getOwnPropertyDescriptor(_class.prototype, "getHello"), _class.prototype), _dec7 = Get("/callback"), _dec8 = function(target, key) {
+], Object.getOwnPropertyDescriptor(_class.prototype, "getHello"), _class.prototype), _dec7 = Get('/callback'), _dec8 = function(target, key) {
     return Res()(target, key, 0);
 }, _dec9 = function(target, key) {
     return Session()(target, key, 1);
@@ -4896,7 +4896,7 @@ test!(
         typeof Injected === "undefined" ? Object : Injected,
         typeof Injected === "undefined" ? Object : Injected
     ]), _dec16 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec17 = function(target, key) {
-        return inject("KIND")(target, undefined, 1);
+        return inject('KIND')(target, undefined, 1);
     }, _dec18 = function(target, key) {
         return inject()(target, undefined, 0);
     };
@@ -4916,7 +4916,7 @@ test!(
         _dec,
         _dec1,
         _dec2
-    ], Object.getOwnPropertyDescriptor(_class1.prototype, "methodUndecorated"), _class1.prototype), _dec3 = decorate("named"), _dec4 = function(target, key) {
+    ], Object.getOwnPropertyDescriptor(_class1.prototype, "methodUndecorated"), _class1.prototype), _dec3 = decorate('named'), _dec4 = function(target, key) {
         return inject()(target, key, 0);
     }, _dec5 = function(target, key) {
         return arg()(target, key, 1);
@@ -4943,7 +4943,7 @@ test!(
         }
         method(param: string) {
         }
-    }) || _class2, _dec8 = decorate("example"), _dec9 = function(target, key) {
+    }) || _class2, _dec8 = decorate('example'), _dec9 = function(target, key) {
         return inject()(target, key, 0);
     }, _dec10 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec11 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
         String
@@ -5032,8 +5032,8 @@ test!(
       ) {}
     }",
     r##"var _class, _dec, _dec1, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8;
-import { Service } from "./service";
-import { Decorate } from "./Decorate";
+import { Service } from './service';
+import { Decorate } from './Decorate';
 const sym = Symbol();
 var _dec9 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof String === "undefined" ? Object : String,
@@ -5057,13 +5057,13 @@ var _dec9 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "funct
     String
 ]), _dec10 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec11 = Decorate();
 let Sample = _class = _dec11(_class = _dec10(_class = _dec9(((_class = class Sample {
-    constructor(private p0: String, p1: Number, p2: 10, p3: "ABC", p4: boolean, p5: string, p6: number, p7: Object, p8: () => any, p9: "abc" | "def", p10: String | Number, p11: Function, p12: null, p13: undefined, p14: any, p15: (abc: any) => void, p16: false, p17: true, p18: string = "abc"){
+    constructor(private p0: String, p1: Number, p2: 10, p3: 'ABC', p4: boolean, p5: string, p6: number, p7: Object, p8: () => any, p9: 'abc' | 'def', p10: String | Number, p11: Function, p12: null, p13: undefined, p14: any, p15: (abc: any) => void, p16: false, p17: true, p18: string = 'abc'){
     }
     method(p0: Symbol, p1: typeof sym, p2: string | null, p3: never, p4: string | never, p5: (string | null), p6: Maybe<string>, p7: Object | string, p8: string & MyStringType, p9: string[], p10: [string, number], p11: void, p12: this is number, p13: null | undefined, p14: (string | (string | null)), p15: Object, p16: any, p17: bigint) {
     }
-    method2(p0: Decorate.Name. = "abc", p1: Decorate.Name.) {
+    method2(p0: Decorate.Name. = 'abc', p1: Decorate.Name.) {
     }
-    assignments(p0: string = "abc") {
+    assignments(p0: string = 'abc') {
     }
 }) || _class, _dec = function(target, key) {
     return Arg()(target, key, 0);
@@ -5133,16 +5133,16 @@ test!(
     "
     var _class, _descriptor, _dec, _dec1;
     enum MyEnum {
-        x = 'xxx',
-        y = 'yyy'
+        x = \"xxx\",
+        y = \"yyy\"
     }
     let Xpto = ((_class = class Xpto {
         constructor(){
-            _initializerDefineProperty(this, 'value', _descriptor, this);
+            _initializerDefineProperty(this, \"value\", _descriptor, this);
         }
-    }) || _class, _dec = Decorator(), _dec1 = typeof Reflect !== 'undefined' && typeof \
-     Reflect.metadata === 'function' && Reflect.metadata('design:type', String), _descriptor = \
-     _applyDecoratedDescriptor(_class.prototype, 'value', [
+    }) || _class, _dec = Decorator(), _dec1 = typeof Reflect !== \"undefined\" && typeof \
+     Reflect.metadata === \"function\" && Reflect.metadata(\"design:type\", String), _descriptor \
+     = _applyDecoratedDescriptor(_class.prototype, \"value\", [
         _dec,
         _dec1
     ], {
@@ -5257,8 +5257,8 @@ class Demo {
 }
 ",
     "
-'use strict';
-var _moduleAJs = require('./moduleA.js');
+\"use strict\";
+var _moduleAJs = require(\"./moduleA.js\");
 let Demo = _decorate([(0, _moduleAJs).default('0.0.1')], function(_initialize) {
   class Demo{
       constructor(){
@@ -5301,8 +5301,8 @@ return (target) => {
 export default Test
 ",
     "
-'use strict';
-Object.defineProperty(exports, '__esModule', {
+\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
   value: true
 });
 exports.default = void 0;
@@ -5642,7 +5642,7 @@ var _events = _interopRequireDefault(require("events"));
 let Template =
 /*#__PURE__*/
 function () {
-'use strict';
+"use strict";
 function Template() {
   _classCallCheck(this, Template);
 }
@@ -5733,11 +5733,11 @@ test!(
     var _class, _descriptor, _dec, _dec1;
     let User = ((_class = class User {
         constructor(){
-            _initializerDefineProperty(this, 'currency', _descriptor, this);
+            _initializerDefineProperty(this, \"currency\", _descriptor, this);
         }
-    }) || _class, _dec = column(), _dec1 = typeof Reflect !== 'undefined' && typeof \
-     Reflect.metadata === 'function' && Reflect.metadata('design:type', String), _descriptor = \
-     _applyDecoratedDescriptor(_class.prototype, 'currency', [
+    }) || _class, _dec = column(), _dec1 = typeof Reflect !== \"undefined\" && typeof \
+     Reflect.metadata === \"function\" && Reflect.metadata(\"design:type\", String), _descriptor \
+     = _applyDecoratedDescriptor(_class.prototype, \"currency\", [
         _dec,
         _dec1
     ], {
@@ -5805,11 +5805,11 @@ test!(
             F: SomeClass,
             d: [
                 {
-                    kind: 'method',
+                    kind: \"method\",
                     decorators: [
                         dec
                     ],
-                    key: 'someMethod',
+                    key: \"someMethod\",
                     value: function someMethod() {
                     }
                 }
@@ -5827,13 +5827,14 @@ test!(
             F: OtherClass,
             d: [
                 {
-                    kind: 'method',
+                    kind: \"method\",
                     decorators: [
                         dec
                     ],
-                    key: 'anotherMethod',
+                    key: \"anotherMethod\",
                     value: function anotherMethod() {
-                        _get(_getPrototypeOf(OtherClass.prototype), 'someMethod', this).call(this);
+                        _get(_getPrototypeOf(OtherClass.prototype), \"someMethod\", \
+     this).call(this);
                     }
                 }
             ]
@@ -5872,11 +5873,11 @@ test!(
     }
     let MyClass = ((_class = class MyClass {
         constructor(){
-            _initializerDefineProperty(this, 'prop', _descriptor, this);
+            _initializerDefineProperty(this, \"prop\", _descriptor, this);
         }
-    }) || _class, _dec = MyDecorator(_class), _dec1 = typeof Reflect !== 'undefined' && typeof \
-     Reflect.metadata === 'function' && Reflect.metadata('design:type', String), _descriptor = \
-     _applyDecoratedDescriptor(_class.prototype, 'prop', [
+    }) || _class, _dec = MyDecorator(_class), _dec1 = typeof Reflect !== \"undefined\" && typeof \
+     Reflect.metadata === \"function\" && Reflect.metadata(\"design:type\", String), _descriptor \
+     = _applyDecoratedDescriptor(_class.prototype, \"prop\", [
         _dec,
         _dec1
     ], {
@@ -5911,10 +5912,10 @@ class Store {
 var _class, _descriptor;
 let Store = ((_class = class Store {
     constructor(){
-        _initializerDefineProperty(this, 'doSomething', _descriptor, this);
+        _initializerDefineProperty(this, \"doSomething\", _descriptor, this);
         this.doSomething();
     }
-}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'doSomething', [
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, \"doSomething\", [
     action
 ], {
     configurable: true,
@@ -5953,10 +5954,10 @@ var _class, _descriptor;
 let Store = ((_class = class Store extends BaseStore {
     constructor(){
         super();
-        _initializerDefineProperty(this, 'doSomething', _descriptor, this);
+        _initializerDefineProperty(this, \"doSomething\", _descriptor, this);
         this.doSomething();
     }
-}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'doSomething', [
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, \"doSomething\", [
     action
 ], {
     configurable: true,
@@ -6059,6 +6060,43 @@ test!(
       writable: true,
       initializer: null
   }), _class);"
+);
+
+test!(
+    ts(),
+    |_| decorators(Config {
+        legacy: true,
+        emit_metadata: false,
+    }),
+    issue_3979,
+    "
+class A {
+  @foo x = 1;
+  constructor()
+  constructor() {
+    console.log(123)
+  }
+}
+",
+    r#"
+var _class, _descriptor;
+let A = ((_class = class A {
+    constructor();
+    constructor(){
+        _initializerDefineProperty(this, "x", _descriptor, this);
+        console.log(123);
+    }
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "x", [
+    foo
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return 1;
+    }
+}), _class);
+"#
 );
 
 #[testing::fixture("tests/fixture/decorator/**/exec.ts")]

@@ -184,8 +184,9 @@ impl VisitMut for PartialInliner {
                             let el = TplElement {
                                 span: s.span,
                                 tail: true,
-                                cooked: Some(s.clone()),
-                                raw: s,
+                                // TODO possible bug for quotes
+                                raw: s.value.clone(),
+                                cooked: Some(s.value),
                             };
                             tt.tpl = Tpl {
                                 span: el.span,

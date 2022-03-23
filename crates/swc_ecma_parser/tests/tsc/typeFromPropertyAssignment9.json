@@ -872,11 +872,7 @@
             "ctxt": 0
           },
           "value": "none",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'none'"
         }
       }
     },

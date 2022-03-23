@@ -637,17 +637,17 @@ fn test_folding_mix_types_early() {
 fn test_folding_add1() {
     fold("x = null + true", "x=1");
     fold_same("x = a + true");
-    fold("x = '' + {}", "x = '[object Object]'");
-    fold("x = [] + {}", "x = '[object Object]'");
-    fold("x = {} + []", "x = '[object Object]'");
-    fold("x = {} + ''", "x = '[object Object]'");
+    fold("x = '' + {}", "x = \"[object Object]\"");
+    fold("x = [] + {}", "x = \"[object Object]\"");
+    fold("x = {} + []", "x = \"[object Object]\"");
+    fold("x = {} + ''", "x = \"[object Object]\"");
 }
 
 #[test]
 fn test_folding_add2() {
-    fold("x = false + []", "x='false'");
-    fold("x = [] + true", "x='true'");
-    fold("NaN + []", "'NaN'");
+    fold("x = false + []", "x=\"false\"");
+    fold("x = [] + true", "x=\"true\"");
+    fold("NaN + []", "\"NaN\"");
 }
 
 #[test]
@@ -969,11 +969,11 @@ fn test_fold_get_elem1() {
 
 #[test]
 fn test_fold_get_elem2_1() {
-    fold("x = 'string'[5]", "x = 'g'");
-    fold("x = 'string'[0]", "x = 's'");
-    fold("x = 's'[0]", "x = 's'");
-    fold("x = '\\uD83D\\uDCA9'[0]", "x = '\\uD83D'");
-    fold("x = '\\uD83D\\uDCA9'[1]", "x = '\\uDCA9'");
+    fold("x = 'string'[5]", "x = \"g\"");
+    fold("x = 'string'[0]", "x = \"s\"");
+    fold("x = 's'[0]", "x = \"s\"");
+    fold("x = '\\uD83D\\uDCA9'[0]", "x = \"\\ud83d\"");
+    fold("x = '\\uD83D\\uDCA9'[1]", "x = \"\\udca9\"");
 }
 
 #[test]
@@ -1099,7 +1099,7 @@ fn test_fold_typeof() {
     fold("x = typeof [1]", "x = \"object\"");
     fold("x = typeof [1,[]]", "x = \"object\"");
     fold("x = typeof {}", "x = \"object\"");
-    fold("x = typeof function() {}", "x = 'function'");
+    fold("x = typeof function() {}", "x = \"function\"");
 
     fold_same("x = typeof[1,[foo()]]");
     fold_same("x = typeof{bathwater:baby()}");
@@ -1301,13 +1301,13 @@ fn test_not_fold_back_to_true_false() {
 fn test_fold_bang_constants() {
     fold("1 + !0", "2");
     fold("1 + !1", "1");
-    fold("'a ' + !1", "'a false'");
-    fold("'a ' + !0", "'a true'");
+    fold("'a ' + !1", "\"a false\"");
+    fold("'a ' + !0", "\"a true\"");
 }
 
 #[test]
 fn test_fold_mixed() {
-    fold("''+[1]", "'1'");
+    fold("''+[1]", "\"1\"");
     fold("false+[]", "\"false\"");
 }
 

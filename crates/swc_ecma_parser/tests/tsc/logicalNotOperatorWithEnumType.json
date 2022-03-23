@@ -241,11 +241,7 @@
                     "ctxt": 0
                   },
                   "value": "B",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"B\""
                 }
               }
             }
@@ -365,11 +361,7 @@
                         "ctxt": 0
                       },
                       "value": "C",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"C\""
                     }
                   }
                 }
@@ -539,11 +531,7 @@
                             "ctxt": 0
                           },
                           "value": "B",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"B\""
                         }
                       }
                     },

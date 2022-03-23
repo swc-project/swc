@@ -69,11 +69,7 @@
                       "ctxt": 0
                     },
                     "value": "my-symbol",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"my-symbol\""
                   }
                 }
               ],

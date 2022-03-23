@@ -74,11 +74,7 @@
                       "ctxt": 0
                     },
                     "value": "oh no",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'oh no'"
                   }
                 }
               ]

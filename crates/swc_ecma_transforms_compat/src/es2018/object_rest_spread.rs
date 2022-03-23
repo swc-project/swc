@@ -785,9 +785,8 @@ impl ObjectRest {
                                 span,
                                 expr: Box::new(Expr::Lit(Lit::Str(Str {
                                     span,
+                                    raw: None,
                                     value: format!("{}", value).into(),
-                                    has_escape: false,
-                                    kind: Default::default(),
                                 }))),
                             }),
                         ),
@@ -799,9 +798,8 @@ impl ObjectRest {
                                     span,
                                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                                         span,
+                                        raw: None,
                                         value: format!("{}", value).into(),
-                                        has_escape: false,
-                                        kind: Default::default(),
                                     }))),
                                 }),
                             )
@@ -939,9 +937,8 @@ fn object_without_properties(
                 Expr::Lit(Lit::Num(Number { span, value })) => ExprOrSpread {
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span,
+                        raw: None,
                         value: value.to_string().into(),
-                        has_escape: false,
-                        kind: Default::default(),
                     }))),
                     ..v
                 },
@@ -995,37 +992,29 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
             ObjectPatProp::KeyValue(KeyValuePatProp { key, .. }) => match key {
                 PropName::Ident(ident) => Lit::Str(Str {
                     span: ident.span,
+                    raw: None,
                     value: ident.sym.clone(),
-                    has_escape: false,
-                    kind: StrKind::Normal {
-                        contains_quote: false,
-                    },
                 })
                 .as_arg(),
                 PropName::Str(s) => Lit::Str(s.clone()).as_arg(),
                 PropName::Num(Number { span, value }) => Lit::Str(Str {
                     span: *span,
+                    raw: None,
                     value: format!("{}", value).into(),
-                    has_escape: false,
-                    kind: Default::default(),
                 })
                 .as_arg(),
                 PropName::BigInt(BigInt { span, value }) => Lit::Str(Str {
                     span: *span,
+                    raw: None,
                     value: format!("{}", value).into(),
-                    has_escape: false,
-                    kind: Default::default(),
                 })
                 .as_arg(),
                 PropName::Computed(c) => c.expr.clone().as_arg(),
             },
             ObjectPatProp::Assign(AssignPatProp { key, .. }) => Lit::Str(Str {
                 span: key.span,
+                raw: None,
                 value: key.sym.clone(),
-                has_escape: false,
-                kind: StrKind::Normal {
-                    contains_quote: false,
-                },
             })
             .as_arg(),
             ObjectPatProp::Rest(..) => unreachable!("invalid syntax (multiple rest element)"),

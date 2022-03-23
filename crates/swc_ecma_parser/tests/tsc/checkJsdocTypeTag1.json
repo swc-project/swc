@@ -42,11 +42,7 @@
               "ctxt": 0
             },
             "value": "hello world",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"hello world\""
           },
           "definite": false
         }
@@ -168,11 +164,7 @@
             "ctxt": 0
           },
           "value": "hello",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"hello\""
         }
       }
     },
@@ -251,11 +243,7 @@
             "ctxt": 0
           },
           "value": "hi",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"hi\""
         }
       }
     },

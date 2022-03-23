@@ -87,11 +87,7 @@
                 "ctxt": 0
               },
               "value": "prop",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"prop\""
             }
           }
         },
@@ -209,11 +205,7 @@
                 "ctxt": 0
               },
               "value": "prop",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"prop\""
             }
           }
         },

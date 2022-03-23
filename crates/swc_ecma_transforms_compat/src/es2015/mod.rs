@@ -66,8 +66,8 @@ where
         parameters(c.parameters),
         computed_properties(c.computed_props),
         destructuring(c.destructuring),
-        regenerator(c.regenerator, global_mark),
         block_scoping(),
+        regenerator(c.regenerator, global_mark),
     )
 }
 
@@ -127,13 +127,13 @@ export class Foo {
 "#,
         r#"
 export var Foo = function() {
-    'use strict';
+    "use strict";
     function Foo() {
         _classCallCheck(this, Foo);
     }
 
     _createClass(Foo, [{
-            key: 'func',
+            key: "func",
             value: function func(a) {
                 var b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : Date.now();
                 return {
@@ -297,13 +297,13 @@ class B extends A {
 }
 ",
         "var A = function() {
-    'use strict';
+    \"use strict\";
     function A() {
         _classCallCheck(this, A);
         this.a_num = 10;
     }
     _createClass(A, [{
-            key: 'print',
+            key: \"print\",
             value: function print() {
                 expect(this.a_num).toBe(10);
             }
@@ -311,7 +311,7 @@ class B extends A {
     return A;
 }();
 var B = function(A) {
-    'use strict';
+    \"use strict\";
     _inherits(B, A);
     var _super = _createSuper(B);
     function B(num) {
@@ -322,10 +322,10 @@ var B = function(A) {
         return _this;
     }
     _createClass(B, [{
-            key: 'print',
+            key: \"print\",
             value: function print() {
                 expect(this.b_num).toBe(20);
-                _get(_getPrototypeOf(B.prototype), 'print', this).call(this);
+                _get(_getPrototypeOf(B.prototype), \"print\", this).call(this);
             }
         }]);
     return B;
@@ -378,13 +378,13 @@ return new B(20).print()"
         ",
         "
         console.log(function() {
-            'use strict';
+            \"use strict\";
             function _class() {
                 _classCallCheck(this, _class);
             }
             _createClass(_class, [
                 {
-                    key: 'run',
+                    key: \"run\",
                     value: function run() {
                     }
                 }

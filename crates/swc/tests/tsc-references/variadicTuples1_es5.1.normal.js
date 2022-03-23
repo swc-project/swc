@@ -10,7 +10,7 @@ function tup2(t, u) {
     ]);
 }
 var t2 = tup2([
-    'hello'
+    "hello"
 ], [
     10,
     true
@@ -20,7 +20,7 @@ function concat(t, u) {
 }
 var tc1 = concat([], []);
 var tc2 = concat([
-    'hello'
+    "hello"
 ], [
     42
 ]);
@@ -47,7 +47,7 @@ var tc5 = concat2([
     6
 ]); // (1 | 2 | 3 | 4 | 5 | 6)[]
 function foo2(t1, t21, a1) {
-    foo1(1, 'abc', true, 42, 43, 44);
+    foo1(1, "abc", true, 42, 43, 44);
     foo1.apply(void 0, swcHelpers.toConsumableArray(t1).concat([
         true,
         42,
@@ -67,29 +67,29 @@ function foo2(t1, t21, a1) {
 }
 function foo4(u) {
     foo3(1, 2);
-    foo3(1, 'hello', true, 2);
+    foo3(1, "hello", true, 2);
     foo3.apply(void 0, [
         1
     ].concat(swcHelpers.toConsumableArray(u), [
-        'hi',
+        "hi",
         2
     ]));
     foo3(1);
 }
 ft1([
-    'hello',
+    "hello",
     42
 ]); // (string | number)[]
 ft2([
-    'hello',
+    "hello",
     42
 ]); // readonly (string | number)[]
 ft3([
-    'hello',
+    "hello",
     42
 ]); // [string, number]
 ft4([
-    'hello',
+    "hello",
     42
 ]); // readonly [string, number]
 // Indexing variadic tuple types
@@ -118,7 +118,7 @@ function f3(t) {
 }
 var tm1 = fm1([
     [
-        'abc'
+        "abc"
     ],
     [
         42
@@ -127,37 +127,37 @@ var tm1 = fm1([
         true
     ],
     [
-        'def'
+        "def"
     ]
 ]); // [boolean, string]
 function gx1(u, v) {
-    fx1('abc'); // []
+    fx1("abc"); // []
     fx1.apply(void 0, [
-        'abc'
+        "abc"
     ].concat(swcHelpers.toConsumableArray(u))); // U
     fx1.apply(void 0, [
-        'abc'
+        "abc"
     ].concat(swcHelpers.toConsumableArray(v))); // [...V]
     fx1.apply(void 0, [
-        'abc'
+        "abc"
     ].concat(swcHelpers.toConsumableArray(u))); // U
     fx1.apply(void 0, [
-        'abc'
+        "abc"
     ].concat(swcHelpers.toConsumableArray(v))); // Error
 }
 function gx2(u, v) {
-    fx2('abc'); // []
+    fx2("abc"); // []
     fx2.apply(void 0, [
-        'abc'
+        "abc"
     ].concat(swcHelpers.toConsumableArray(u))); // U
     fx2.apply(void 0, [
-        'abc'
+        "abc"
     ].concat(swcHelpers.toConsumableArray(v))); // [...V]
     fx2.apply(void 0, [
-        'abc'
+        "abc"
     ].concat(swcHelpers.toConsumableArray(u))); // U
     fx2.apply(void 0, [
-        'abc'
+        "abc"
     ].concat(swcHelpers.toConsumableArray(v))); // V
 }
 // Relations involving variadic tuple types
@@ -204,15 +204,15 @@ function f14(t0, t1, t23) {
     t23 = t1; // Error
 }
 function f15(k0, k1, k2, k3) {
-    k0 = 'length';
-    k1 = 'length';
-    k2 = 'length';
-    k0 = 'slice';
-    k1 = 'slice';
-    k2 = 'slice';
-    k3 = '0';
-    k3 = '1';
-    k3 = '2'; // Error
+    k0 = "length";
+    k1 = "length";
+    k2 = "length";
+    k0 = "slice";
+    k1 = "slice";
+    k2 = "slice";
+    k3 = "0";
+    k3 = "1";
+    k3 = "2"; // Error
 }
 // Inference to [...T, ...U] with implied arity for T
 function curry(f) {
@@ -231,11 +231,11 @@ var fn1 = function(a, b, c, d) {
 };
 var c0 = curry(fn1); // (a: number, b: string, c: boolean, d: string[]) => number
 var c1 = curry(fn1, 1); // (b: string, c: boolean, d: string[]) => number
-var c2 = curry(fn1, 1, 'abc'); // (c: boolean, d: string[]) => number
-var c3 = curry(fn1, 1, 'abc', true); // (d: string[]) => number
-var c4 = curry(fn1, 1, 'abc', true, [
-    'x',
-    'y'
+var c2 = curry(fn1, 1, "abc"); // (c: boolean, d: string[]) => number
+var c3 = curry(fn1, 1, "abc", true); // (d: string[]) => number
+var c4 = curry(fn1, 1, "abc", true, [
+    "x",
+    "y"
 ]); // () => number
 var fn2 = function(x, b) {
     for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
@@ -246,7 +246,7 @@ var fn2 = function(x, b) {
 var c10 = curry(fn2); // (x: number, b: boolean, ...args: string[]) => number
 var c11 = curry(fn2, 1); // (b: boolean, ...args: string[]) => number
 var c12 = curry(fn2, 1, true); // (...args: string[]) => number
-var c13 = curry(fn2, 1, true, 'abc', 'def'); // (...args: string[]) => number
+var c13 = curry(fn2, 1, true, "abc", "def"); // (...args: string[]) => number
 var fn3 = function() {
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
         args[_key] = arguments[_key];
@@ -254,7 +254,7 @@ var fn3 = function() {
     return 0;
 };
 var c20 = curry(fn3); // (...args: string[]) => number
-var c21 = curry(fn3, 'abc', 'def'); // (...args: string[]) => number
+var c21 = curry(fn3, "abc", "def"); // (...args: string[]) => number
 var c22 = curry.apply(void 0, [
     fn3
 ].concat(swcHelpers.toConsumableArray(sa))); // (...args: string[]) => number
@@ -263,13 +263,13 @@ function curry2(f, t, u) {
     return f.apply(void 0, swcHelpers.toConsumableArray(t).concat(swcHelpers.toConsumableArray(u)));
 }
 curry2(fn10, [
-    'hello',
+    "hello",
     42
 ], [
     true
 ]);
 curry2(fn10, [
-    'hello'
+    "hello"
 ], [
     42,
     true
@@ -292,21 +292,21 @@ ft([
     3
 ]);
 ft([
-    'a',
-    'b'
+    "a",
+    "b"
 ], [
-    'c',
-    'd'
+    "c",
+    "d"
 ]);
 ft([
-    'a',
-    'b'
+    "a",
+    "b"
 ], [
-    'c',
-    'd',
+    "c",
+    "d",
     42
 ]);
-call('hello', 32, function(a, b) {
+call("hello", 32, function(a, b) {
     return 42;
 });
 call.apply(void 0, swcHelpers.toConsumableArray(sa).concat([

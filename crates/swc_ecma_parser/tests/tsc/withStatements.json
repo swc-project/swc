@@ -106,11 +106,7 @@
                   "ctxt": 0
                 },
                 "value": "twelve",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "'twelve'"
               }
             }
           },

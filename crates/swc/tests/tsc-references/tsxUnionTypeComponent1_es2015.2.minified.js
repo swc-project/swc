@@ -1,4 +1,4 @@
-const React = require("react");
+const React = require('react');
 class MyComponent extends React.Component {
     render() {
         const { AnyComponent  } = this.props;

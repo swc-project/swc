@@ -5,7 +5,7 @@ class Base {
 }
 class Derived extends Base {
     constructor(...args){
-        super(...args), this.x = 1, this.y = "hello";
+        super(...args), this.x = 1, this.y = 'hello';
     }
 }
 new Derived(), new Derived(1), new Derived(1, 2), new Derived(1, 2, 3);

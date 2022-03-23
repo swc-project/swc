@@ -59,34 +59,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 46,
-                  "end": 47,
-                  "ctxt": 0
-                },
-                "value": "/",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 46,
-                  "end": 47,
-                  "ctxt": 0
-                },
-                "value": "/",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "/",
+              "raw": "/"
             },
             {
               "type": "TemplateElement",
@@ -96,34 +70,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 56,
-                  "end": 56,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 56,
-                  "end": 56,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             }
           ]
         }
@@ -191,11 +139,7 @@
               "ctxt": 0
             },
             "value": "/bin",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"/bin\""
           },
           "definite": false
         }
@@ -263,11 +207,7 @@
               "ctxt": 0
             },
             "value": "no slash",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"no slash\""
           },
           "definite": false
         }
@@ -424,34 +364,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 215,
-                  "end": 215,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 215,
-                  "end": 215,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             },
             {
               "type": "TemplateElement",
@@ -461,34 +375,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 219,
-                  "end": 222,
-                  "ctxt": 0
-                },
-                "value": "://",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 219,
-                  "end": 222,
-                  "ctxt": 0
-                },
-                "value": "://",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "://",
+              "raw": "://"
             },
             {
               "type": "TemplateElement",
@@ -498,34 +386,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 226,
-                  "end": 226,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 226,
-                  "end": 226,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             }
           ]
         }
@@ -617,11 +479,7 @@
                               "ctxt": 0
                             },
                             "value": "http",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"http\""
                           }
                         },
                         {
@@ -639,11 +497,7 @@
                               "ctxt": 0
                             },
                             "value": "https",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"https\""
                           }
                         },
                         {
@@ -661,11 +515,7 @@
                               "ctxt": 0
                             },
                             "value": "ftp",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"ftp\""
                           }
                         }
                       ]
@@ -741,11 +591,7 @@
                 "ctxt": 0
               },
               "value": "http://example.com/protocol",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"http://example.com/protocol\""
             }
           }
         ],
@@ -787,11 +633,7 @@
                 "ctxt": 0
               },
               "value": "example.com/noprotocol",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"example.com/noprotocol\""
             }
           }
         ],
@@ -833,11 +675,7 @@
                 "ctxt": 0
               },
               "value": "gopher://example.com/protocol",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"gopher://example.com/protocol\""
             }
           }
         ],
@@ -1034,34 +872,8 @@
                         "ctxt": 0
                       },
                       "tail": false,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 608,
-                          "end": 608,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 608,
-                          "end": 608,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     },
                     {
                       "type": "TemplateElement",
@@ -1071,34 +883,8 @@
                         "ctxt": 0
                       },
                       "tail": true,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 618,
-                          "end": 618,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 618,
-                          "end": 618,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     }
                   ]
                 }
@@ -1170,11 +956,7 @@
                 "ctxt": 0
               },
               "value": "true",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"true\""
             }
           }
         ],
@@ -1216,11 +998,7 @@
                 "ctxt": 0
               },
               "value": "false",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"false\""
             }
           }
         ],
@@ -1262,11 +1040,7 @@
                 "ctxt": 0
               },
               "value": "other",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"other\""
             }
           }
         ],
@@ -1403,34 +1177,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 742,
-                  "end": 742,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 742,
-                  "end": 742,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             },
             {
               "type": "TemplateElement",
@@ -1440,34 +1188,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 746,
-                  "end": 746,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 746,
-                  "end": 746,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             }
           ]
         }
@@ -1634,11 +1356,7 @@
                 "ctxt": 0
               },
               "value": "null",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"null\""
             }
           }
         ],
@@ -1680,11 +1398,7 @@
                 "ctxt": 0
               },
               "value": "undefined",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"undefined\""
             }
           }
         ],
@@ -1726,11 +1440,7 @@
                 "ctxt": 0
               },
               "value": "0",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0\""
             }
           }
         ],
@@ -1772,11 +1482,7 @@
                 "ctxt": 0
               },
               "value": "false",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"false\""
             }
           }
         ],
@@ -1818,11 +1524,7 @@
                 "ctxt": 0
               },
               "value": "NaN",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"NaN\""
             }
           }
         ],
@@ -1864,11 +1566,7 @@
                 "ctxt": 0
               },
               "value": "",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"\""
             }
           }
         ],
@@ -1910,11 +1608,7 @@
                 "ctxt": 0
               },
               "value": "other",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"other\""
             }
           }
         ],
@@ -1993,34 +1687,8 @@
                         "ctxt": 0
                       },
                       "tail": false,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 987,
-                          "end": 987,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 987,
-                          "end": 987,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     },
                     {
                       "type": "TemplateElement",
@@ -2030,34 +1698,8 @@
                         "ctxt": 0
                       },
                       "tail": true,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 996,
-                          "end": 996,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 996,
-                          "end": 996,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     }
                   ]
                 }
@@ -2129,11 +1771,7 @@
                 "ctxt": 0
               },
               "value": "1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1\""
             }
           }
         ],
@@ -2175,11 +1813,7 @@
                 "ctxt": 0
               },
               "value": "-1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1\""
             }
           }
         ],
@@ -2221,11 +1855,7 @@
                 "ctxt": 0
               },
               "value": "0",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0\""
             }
           }
         ],
@@ -2267,11 +1897,7 @@
                 "ctxt": 0
               },
               "value": "0b1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0b1\""
             }
           }
         ],
@@ -2313,11 +1939,7 @@
                 "ctxt": 0
               },
               "value": "0x1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0x1\""
             }
           }
         ],
@@ -2359,11 +1981,7 @@
                 "ctxt": 0
               },
               "value": "0o1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0o1\""
             }
           }
         ],
@@ -2405,11 +2023,7 @@
                 "ctxt": 0
               },
               "value": "1e21",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1e21\""
             }
           }
         ],
@@ -2451,11 +2065,7 @@
                 "ctxt": 0
               },
               "value": "1E21",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1E21\""
             }
           }
         ],
@@ -2497,11 +2107,7 @@
                 "ctxt": 0
               },
               "value": "1e-21",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1e-21\""
             }
           }
         ],
@@ -2543,11 +2149,7 @@
                 "ctxt": 0
               },
               "value": "1E-21",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1E-21\""
             }
           }
         ],
@@ -2589,11 +2191,7 @@
                 "ctxt": 0
               },
               "value": "1.1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1.1\""
             }
           }
         ],
@@ -2635,11 +2233,7 @@
                 "ctxt": 0
               },
               "value": "-1.1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1.1\""
             }
           }
         ],
@@ -2681,11 +2275,7 @@
                 "ctxt": 0
               },
               "value": "-1.1e-10",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1.1e-10\""
             }
           }
         ],
@@ -2727,11 +2317,7 @@
                 "ctxt": 0
               },
               "value": "-1.1E-10",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1.1E-10\""
             }
           }
         ],
@@ -2773,11 +2359,7 @@
                 "ctxt": 0
               },
               "value": "1.1e-10",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1.1e-10\""
             }
           }
         ],
@@ -2819,11 +2401,7 @@
                 "ctxt": 0
               },
               "value": "?",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"?\""
             }
           }
         ],
@@ -2865,11 +2443,7 @@
                 "ctxt": 0
               },
               "value": "NaN",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"NaN\""
             }
           }
         ],
@@ -2911,11 +2485,7 @@
                 "ctxt": 0
               },
               "value": "Infinity",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"Infinity\""
             }
           }
         ],
@@ -2957,11 +2527,7 @@
                 "ctxt": 0
               },
               "value": "+Infinity",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"+Infinity\""
             }
           }
         ],
@@ -3003,11 +2569,7 @@
                 "ctxt": 0
               },
               "value": "-Infinity",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-Infinity\""
             }
           }
         ],
@@ -3049,11 +2611,7 @@
                 "ctxt": 0
               },
               "value": "1_000",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1_000\""
             }
           }
         ],
@@ -3095,11 +2653,7 @@
                 "ctxt": 0
               },
               "value": "a10",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"a10\""
             }
           }
         ],
@@ -3141,11 +2695,7 @@
                 "ctxt": 0
               },
               "value": "10a",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"10a\""
             }
           }
         ],
@@ -3187,11 +2737,7 @@
                 "ctxt": 0
               },
               "value": "- 1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"- 1\""
             }
           }
         ],
@@ -3233,11 +2779,7 @@
                 "ctxt": 0
               },
               "value": "-/**/1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-/**/1\""
             }
           }
         ],
@@ -3316,34 +2858,8 @@
                         "ctxt": 0
                       },
                       "tail": false,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 1683,
-                          "end": 1683,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 1683,
-                          "end": 1683,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     },
                     {
                       "type": "TemplateElement",
@@ -3353,34 +2869,8 @@
                         "ctxt": 0
                       },
                       "tail": true,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 1692,
-                          "end": 1692,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 1692,
-                          "end": 1692,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     }
                   ]
                 }
@@ -3452,11 +2942,7 @@
                 "ctxt": 0
               },
               "value": "1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1\""
             }
           }
         ],
@@ -3498,11 +2984,7 @@
                 "ctxt": 0
               },
               "value": "-1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1\""
             }
           }
         ],
@@ -3544,11 +3026,7 @@
                 "ctxt": 0
               },
               "value": "0",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0\""
             }
           }
         ],
@@ -3590,11 +3068,7 @@
                 "ctxt": 0
               },
               "value": "0b1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0b1\""
             }
           }
         ],
@@ -3636,11 +3110,7 @@
                 "ctxt": 0
               },
               "value": "0x1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0x1\""
             }
           }
         ],
@@ -3682,11 +3152,7 @@
                 "ctxt": 0
               },
               "value": "0o1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0o1\""
             }
           }
         ],
@@ -3728,11 +3194,7 @@
                 "ctxt": 0
               },
               "value": "1e21",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1e21\""
             }
           }
         ],
@@ -3774,11 +3236,7 @@
                 "ctxt": 0
               },
               "value": "1E21",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1E21\""
             }
           }
         ],
@@ -3820,11 +3278,7 @@
                 "ctxt": 0
               },
               "value": "1e-21",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1e-21\""
             }
           }
         ],
@@ -3866,11 +3320,7 @@
                 "ctxt": 0
               },
               "value": "1E-21",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1E-21\""
             }
           }
         ],
@@ -3912,11 +3362,7 @@
                 "ctxt": 0
               },
               "value": "1.0",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1.0\""
             }
           }
         ],
@@ -3958,11 +3404,7 @@
                 "ctxt": 0
               },
               "value": "1.1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1.1\""
             }
           }
         ],
@@ -4004,11 +3446,7 @@
                 "ctxt": 0
               },
               "value": "-1.1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1.1\""
             }
           }
         ],
@@ -4050,11 +3488,7 @@
                 "ctxt": 0
               },
               "value": "-1.1e-10",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1.1e-10\""
             }
           }
         ],
@@ -4096,11 +3530,7 @@
                 "ctxt": 0
               },
               "value": "-1.1E-10",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1.1E-10\""
             }
           }
         ],
@@ -4142,11 +3572,7 @@
                 "ctxt": 0
               },
               "value": "1.1e-10",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1.1e-10\""
             }
           }
         ],
@@ -4188,11 +3614,7 @@
                 "ctxt": 0
               },
               "value": "?",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"?\""
             }
           }
         ],
@@ -4234,11 +3656,7 @@
                 "ctxt": 0
               },
               "value": "NaN",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"NaN\""
             }
           }
         ],
@@ -4280,11 +3698,7 @@
                 "ctxt": 0
               },
               "value": "Infinity",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"Infinity\""
             }
           }
         ],
@@ -4326,11 +3740,7 @@
                 "ctxt": 0
               },
               "value": "+Infinity",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"+Infinity\""
             }
           }
         ],
@@ -4372,11 +3782,7 @@
                 "ctxt": 0
               },
               "value": "-Infinity",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-Infinity\""
             }
           }
         ],
@@ -4418,11 +3824,7 @@
                 "ctxt": 0
               },
               "value": "1_000",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1_000\""
             }
           }
         ],
@@ -4464,11 +3866,7 @@
                 "ctxt": 0
               },
               "value": "- 1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"- 1\""
             }
           }
         ],
@@ -4510,11 +3908,7 @@
                 "ctxt": 0
               },
               "value": "-/**/1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-/**/1\""
             }
           }
         ],
@@ -4556,11 +3950,7 @@
                 "ctxt": 0
               },
               "value": "a10n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"a10n\""
             }
           }
         ],
@@ -4602,11 +3992,7 @@
                 "ctxt": 0
               },
               "value": "10an",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"10an\""
             }
           }
         ],
@@ -4648,11 +4034,7 @@
                 "ctxt": 0
               },
               "value": "1n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1n\""
             }
           }
         ],
@@ -4694,11 +4076,7 @@
                 "ctxt": 0
               },
               "value": "-1n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1n\""
             }
           }
         ],
@@ -4740,11 +4118,7 @@
                 "ctxt": 0
               },
               "value": "0n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0n\""
             }
           }
         ],
@@ -4786,11 +4160,7 @@
                 "ctxt": 0
               },
               "value": "0b1n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0b1n\""
             }
           }
         ],
@@ -4832,11 +4202,7 @@
                 "ctxt": 0
               },
               "value": "0x1n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0x1n\""
             }
           }
         ],
@@ -4878,11 +4244,7 @@
                 "ctxt": 0
               },
               "value": "0o1n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"0o1n\""
             }
           }
         ],
@@ -4924,11 +4286,7 @@
                 "ctxt": 0
               },
               "value": "1e21n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1e21n\""
             }
           }
         ],
@@ -4970,11 +4328,7 @@
                 "ctxt": 0
               },
               "value": "1E21n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1E21n\""
             }
           }
         ],
@@ -5016,11 +4370,7 @@
                 "ctxt": 0
               },
               "value": "1e-21n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1e-21n\""
             }
           }
         ],
@@ -5062,11 +4412,7 @@
                 "ctxt": 0
               },
               "value": "1E-21n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1E-21n\""
             }
           }
         ],
@@ -5108,11 +4454,7 @@
                 "ctxt": 0
               },
               "value": "1.1n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1.1n\""
             }
           }
         ],
@@ -5154,11 +4496,7 @@
                 "ctxt": 0
               },
               "value": "-1.1n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1.1n\""
             }
           }
         ],
@@ -5200,11 +4538,7 @@
                 "ctxt": 0
               },
               "value": "-1.1e-10n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1.1e-10n\""
             }
           }
         ],
@@ -5246,11 +4580,7 @@
                 "ctxt": 0
               },
               "value": "-1.1E-10n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"-1.1E-10n\""
             }
           }
         ],
@@ -5292,11 +4622,7 @@
                 "ctxt": 0
               },
               "value": "1.1e-10n",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"1.1e-10n\""
             }
           }
         ],
@@ -5356,34 +4682,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 2948,
-                  "end": 2949,
-                  "ctxt": 0
-                },
-                "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 2948,
-                  "end": 2949,
-                  "ctxt": 0
-                },
-                "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "a",
+              "raw": "a"
             },
             {
               "type": "TemplateElement",
@@ -5393,34 +4693,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 2958,
-                  "end": 2958,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 2958,
-                  "end": 2958,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             }
           ]
         }
@@ -5479,34 +4753,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 2974,
-                  "end": 2975,
-                  "ctxt": 0
-                },
-                "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 2974,
-                  "end": 2975,
-                  "ctxt": 0
-                },
-                "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "a",
+              "raw": "a"
             },
             {
               "type": "TemplateElement",
@@ -5516,34 +4764,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 2984,
-                  "end": 2984,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 2984,
-                  "end": 2984,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             }
           ]
         }
@@ -5602,34 +4824,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3000,
-                  "end": 3001,
-                  "ctxt": 0
-                },
-                "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3000,
-                  "end": 3001,
-                  "ctxt": 0
-                },
-                "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "a",
+              "raw": "a"
             },
             {
               "type": "TemplateElement",
@@ -5639,34 +4835,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3007,
-                  "end": 3007,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3007,
-                  "end": 3007,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             }
           ]
         }
@@ -5930,34 +5100,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3115,
-                  "end": 3118,
-                  "ctxt": 0
-                },
-                "value": "bno",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3115,
-                  "end": 3118,
-                  "ctxt": 0
-                },
-                "value": "bno",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "bno",
+              "raw": "bno"
             }
           ]
         }
@@ -6196,34 +5340,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3204,
-                  "end": 3207,
-                  "ctxt": 0
-                },
-                "value": "aok",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3204,
-                  "end": 3207,
-                  "ctxt": 0
-                },
-                "value": "aok",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "aok",
+              "raw": "aok"
             }
           ]
         }
@@ -6387,34 +5505,8 @@
                         "ctxt": 0
                       },
                       "tail": false,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 3318,
-                          "end": 3319,
-                          "ctxt": 0
-                        },
-                        "value": "a",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 3318,
-                          "end": 3319,
-                          "ctxt": 0
-                        },
-                        "value": "a",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "a",
+                      "raw": "a"
                     },
                     {
                       "type": "TemplateElement",
@@ -6424,34 +5516,8 @@
                         "ctxt": 0
                       },
                       "tail": true,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 3323,
-                          "end": 3323,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 3323,
-                          "end": 3323,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     }
                   ]
                 }
@@ -6606,11 +5672,7 @@
                         "ctxt": 0
                       },
                       "value": "yes",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"yes\""
                     }
                   }
                 ]
@@ -6820,34 +5882,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3502,
-                  "end": 3502,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3502,
-                  "end": 3502,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             },
             {
               "type": "TemplateElement",
@@ -6857,34 +5893,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3511,
-                  "end": 3511,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3511,
-                  "end": 3511,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             }
           ]
         }
@@ -6972,34 +5982,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3524,
-                  "end": 3524,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3524,
-                  "end": 3524,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             },
             {
               "type": "TemplateElement",
@@ -7009,34 +5993,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3528,
-                  "end": 3529,
-                  "ctxt": 0
-                },
-                "value": " ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3528,
-                  "end": 3529,
-                  "ctxt": 0
-                },
-                "value": " ",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": " ",
+              "raw": " "
             },
             {
               "type": "TemplateElement",
@@ -7046,34 +6004,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3533,
-                  "end": 3533,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 3533,
-                  "end": 3533,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             }
           ]
         }
@@ -7141,11 +6073,7 @@
               "ctxt": 0
             },
             "value": "anything",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"anything\""
           },
           "definite": false
         }
@@ -7213,11 +6141,7 @@
               "ctxt": 0
             },
             "value": "1 2",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"1 2\""
           },
           "definite": false
         }
@@ -7271,11 +6195,7 @@
                     "ctxt": 0
                   },
                   "value": "0",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'0'"
                 }
               }
             }
@@ -7341,11 +6261,7 @@
                         "ctxt": 0
                       },
                       "value": "0",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'0'"
                     }
                   },
                   {
@@ -7382,34 +6298,8 @@
                             "ctxt": 0
                           },
                           "tail": false,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3666,
-                              "end": 3666,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3666,
-                              "end": 3666,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "",
+                          "raw": ""
                         },
                         {
                           "type": "TemplateElement",
@@ -7419,34 +6309,8 @@
                             "ctxt": 0
                           },
                           "tail": true,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3675,
-                              "end": 3675,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3675,
-                              "end": 3675,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "",
+                          "raw": ""
                         }
                       ]
                     }
@@ -7535,34 +6399,8 @@
                             "ctxt": 0
                           },
                           "tail": false,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3759,
-                              "end": 3762,
-                              "ctxt": 0
-                            },
-                            "value": "foo",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3759,
-                              "end": 3762,
-                              "ctxt": 0
-                            },
-                            "value": "foo",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "foo",
+                          "raw": "foo"
                         },
                         {
                           "type": "TemplateElement",
@@ -7572,34 +6410,8 @@
                             "ctxt": 0
                           },
                           "tail": true,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3771,
-                              "end": 3771,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3771,
-                              "end": 3771,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "",
+                          "raw": ""
                         }
                       ]
                     }
@@ -7619,11 +6431,7 @@
                         "ctxt": 0
                       },
                       "value": "foo1",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'foo1'"
                     }
                   },
                   {
@@ -7641,11 +6449,7 @@
                         "ctxt": 0
                       },
                       "value": "1foo",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'1foo'"
                     }
                   }
                 ]
@@ -7722,34 +6526,8 @@
                             "ctxt": 0
                           },
                           "tail": true,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3829,
-                              "end": 3833,
-                              "ctxt": 0
-                            },
-                            "value": "foo1",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3829,
-                              "end": 3833,
-                              "ctxt": 0
-                            },
-                            "value": "foo1",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "foo1",
+                          "raw": "foo1"
                         }
                       ]
                     }
@@ -7769,11 +6547,7 @@
                         "ctxt": 0
                       },
                       "value": "1foo",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'1foo'"
                     }
                   },
                   {
@@ -7791,11 +6565,7 @@
                         "ctxt": 0
                       },
                       "value": "foofoo",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'foofoo'"
                     }
                   },
                   {
@@ -7832,34 +6602,8 @@
                             "ctxt": 0
                           },
                           "tail": false,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3858,
-                              "end": 3861,
-                              "ctxt": 0
-                            },
-                            "value": "foo",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3858,
-                              "end": 3861,
-                              "ctxt": 0
-                            },
-                            "value": "foo",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "foo",
+                          "raw": "foo"
                         },
                         {
                           "type": "TemplateElement",
@@ -7869,34 +6613,8 @@
                             "ctxt": 0
                           },
                           "tail": true,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3870,
-                              "end": 3870,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3870,
-                              "end": 3870,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "",
+                          "raw": ""
                         }
                       ]
                     }
@@ -7916,11 +6634,7 @@
                         "ctxt": 0
                       },
                       "value": "foox",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'foox'"
                     }
                   },
                   {
@@ -7938,11 +6652,7 @@
                         "ctxt": 0
                       },
                       "value": "xfoo",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'xfoo'"
                     }
                   }
                 ]
@@ -8019,34 +6729,8 @@
                             "ctxt": 0
                           },
                           "tail": true,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3937,
-                              "end": 3941,
-                              "ctxt": 0
-                            },
-                            "value": "foo1",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3937,
-                              "end": 3941,
-                              "ctxt": 0
-                            },
-                            "value": "foo1",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "foo1",
+                          "raw": "foo1"
                         }
                       ]
                     }
@@ -8066,11 +6750,7 @@
                         "ctxt": 0
                       },
                       "value": "1foo",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'1foo'"
                     }
                   },
                   {
@@ -8088,11 +6768,7 @@
                         "ctxt": 0
                       },
                       "value": "foofoo",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'foofoo'"
                     }
                   },
                   {
@@ -8129,34 +6805,8 @@
                             "ctxt": 0
                           },
                           "tail": false,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3966,
-                              "end": 3969,
-                              "ctxt": 0
-                            },
-                            "value": "foo",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3966,
-                              "end": 3969,
-                              "ctxt": 0
-                            },
-                            "value": "foo",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "foo",
+                          "raw": "foo"
                         },
                         {
                           "type": "TemplateElement",
@@ -8166,34 +6816,8 @@
                             "ctxt": 0
                           },
                           "tail": true,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3978,
-                              "end": 3978,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 3978,
-                              "end": 3978,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "",
+                          "raw": ""
                         }
                       ]
                     }
@@ -8213,11 +6837,7 @@
                         "ctxt": 0
                       },
                       "value": "foox",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'foox'"
                     }
                   },
                   {
@@ -8235,11 +6855,7 @@
                         "ctxt": 0
                       },
                       "value": "xfoo",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'xfoo'"
                     }
                   },
                   {
@@ -8276,34 +6892,8 @@
                             "ctxt": 0
                           },
                           "tail": false,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 4001,
-                              "end": 4001,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 4001,
-                              "end": 4001,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "",
+                          "raw": ""
                         },
                         {
                           "type": "TemplateElement",
@@ -8313,34 +6903,8 @@
                             "ctxt": 0
                           },
                           "tail": true,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 4010,
-                              "end": 4013,
-                              "ctxt": 0
-                            },
-                            "value": "foo",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 4010,
-                              "end": 4013,
-                              "ctxt": 0
-                            },
-                            "value": "foo",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "foo",
+                          "raw": "foo"
                         }
                       ]
                     }
@@ -8421,34 +6985,8 @@
                         "ctxt": 0
                       },
                       "tail": false,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 4070,
-                          "end": 4070,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 4070,
-                          "end": 4070,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     },
                     {
                       "type": "TemplateElement",
@@ -8458,34 +6996,8 @@
                         "ctxt": 0
                       },
                       "tail": true,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 4079,
-                          "end": 4079,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 4079,
-                          "end": 4079,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     }
                   ]
                 }
@@ -8572,34 +7084,8 @@
                             "ctxt": 0
                           },
                           "tail": false,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 4091,
-                              "end": 4091,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 4091,
-                              "end": 4091,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "",
+                          "raw": ""
                         },
                         {
                           "type": "TemplateElement",
@@ -8609,34 +7095,8 @@
                             "ctxt": 0
                           },
                           "tail": true,
-                          "cooked": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 4100,
-                              "end": 4100,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          },
-                          "raw": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 4100,
-                              "end": 4100,
-                              "ctxt": 0
-                            },
-                            "value": "",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": false
-                            }
-                          }
+                          "cooked": "",
+                          "raw": ""
                         }
                       ]
                     }
@@ -8656,11 +7116,7 @@
                         "ctxt": 0
                       },
                       "value": "0",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'0'"
                     }
                   }
                 ]
@@ -8823,34 +7279,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4199,
-                  "end": 4199,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4199,
-                  "end": 4199,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             },
             {
               "type": "TemplateElement",
@@ -8860,34 +7290,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4203,
-                  "end": 4203,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4203,
-                  "end": 4203,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             },
             {
               "type": "TemplateElement",
@@ -8897,34 +7301,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4207,
-                  "end": 4207,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4207,
-                  "end": 4207,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             }
           ]
         }
@@ -8983,34 +7361,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4223,
-                  "end": 4223,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4223,
-                  "end": 4223,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             },
             {
               "type": "TemplateElement",
@@ -9020,34 +7372,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4232,
-                  "end": 4232,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4232,
-                  "end": 4232,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             }
           ]
         }
@@ -9124,34 +7450,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4258,
-                  "end": 4258,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4258,
-                  "end": 4258,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             },
             {
               "type": "TemplateElement",
@@ -9161,34 +7461,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4267,
-                  "end": 4267,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4267,
-                  "end": 4267,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             },
             {
               "type": "TemplateElement",
@@ -9198,34 +7472,8 @@
                 "ctxt": 0
               },
               "tail": false,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4276,
-                  "end": 4276,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4276,
-                  "end": 4276,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             },
             {
               "type": "TemplateElement",
@@ -9235,34 +7483,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4285,
-                  "end": 4285,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 4285,
-                  "end": 4285,
-                  "ctxt": 0
-                },
-                "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "",
+              "raw": ""
             }
           ]
         }
@@ -9415,34 +7637,8 @@
                         "ctxt": 0
                       },
                       "tail": false,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 4360,
-                          "end": 4360,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 4360,
-                          "end": 4360,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     },
                     {
                       "type": "TemplateElement",
@@ -9452,34 +7648,8 @@
                         "ctxt": 0
                       },
                       "tail": false,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 4369,
-                          "end": 4370,
-                          "ctxt": 0
-                        },
-                        "value": "-",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 4369,
-                          "end": 4370,
-                          "ctxt": 0
-                        },
-                        "value": "-",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "-",
+                      "raw": "-"
                     },
                     {
                       "type": "TemplateElement",
@@ -9489,34 +7659,8 @@
                         "ctxt": 0
                       },
                       "tail": true,
-                      "cooked": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 4379,
-                          "end": 4379,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      },
-                      "raw": {
-                        "type": "StringLiteral",
-                        "span": {
-                          "start": 4379,
-                          "end": 4379,
-                          "ctxt": 0
-                        },
-                        "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": false
-                        }
-                      }
+                      "cooked": "",
+                      "raw": ""
                     }
                   ]
                 }
@@ -9824,34 +7968,8 @@
                   "ctxt": 0
                 },
                 "tail": false,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 4541,
-                    "end": 4541,
-                    "ctxt": 0
-                  },
-                  "value": "",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 4541,
-                    "end": 4541,
-                    "ctxt": 0
-                  },
-                  "value": "",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
-                }
+                "cooked": "",
+                "raw": ""
               },
               {
                 "type": "TemplateElement",
@@ -9861,34 +7979,8 @@
                   "ctxt": 0
                 },
                 "tail": false,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 4547,
-                    "end": 4548,
-                    "ctxt": 0
-                  },
-                  "value": "-",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 4547,
-                    "end": 4548,
-                    "ctxt": 0
-                  },
-                  "value": "-",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
-                }
+                "cooked": "-",
+                "raw": "-"
               },
               {
                 "type": "TemplateElement",
@@ -9898,34 +7990,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 4554,
-                    "end": 4554,
-                    "ctxt": 0
-                  },
-                  "value": "",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 4554,
-                    "end": 4554,
-                    "ctxt": 0
-                  },
-                  "value": "",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
-                }
+                "cooked": "",
+                "raw": ""
               }
             ]
           }

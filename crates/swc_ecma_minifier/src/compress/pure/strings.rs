@@ -14,25 +14,25 @@ impl Pure<'_> {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
                 let c = &t.quasis[0].raw;
 
-                if c.value.chars().all(|c| match c {
+                if c.chars().all(|c| match c {
                     '\u{0020}'..='\u{007e}' => true,
                     '\n' | '\r' => self.ctx.force_str_for_tpl,
                     _ => false,
-                }) && (self.ctx.force_str_for_tpl
-                    || (!c.value.contains("\\n") && !c.value.contains("\\r")))
-                    && !c.value.contains("\\0")
-                    && !c.value.contains("\\x")
+                }) && (self.ctx.force_str_for_tpl || (!c.contains("\\n") && !c.contains("\\r")))
+                    && !c.contains("\\0")
+                    && !c.contains("\\x")
                 {
+                    let value = c
+                        .replace("\\`", "`")
+                        .replace("\\$", "$")
+                        .replace("\\n", "\n")
+                        .replace("\\r", "\r")
+                        .replace("\\\\", "\\");
+
                     *e = Expr::Lit(Lit::Str(Str {
-                        value: c
-                            .value
-                            .replace("\\`", "`")
-                            .replace("\\$", "$")
-                            .replace("\\n", "\n")
-                            .replace("\\r", "\r")
-                            .replace("\\\\", "\\")
-                            .into(),
-                        ..c.clone()
+                        span: t.span,
+                        raw: None,
+                        value: value.into(),
                     }));
                 }
             }
@@ -68,7 +68,7 @@ impl Pure<'_> {
                 let i = i / 2;
                 let q = tpl.quasis[i].take();
 
-                cur_raw.push_str(&q.raw.value);
+                cur_raw.push_str(&q.raw);
             } else {
                 let i = i / 2;
                 let e = tpl.exprs[i].take();
@@ -82,12 +82,7 @@ impl Pure<'_> {
                             span: DUMMY_SP,
                             tail: true,
                             cooked: None,
-                            raw: Str {
-                                span: DUMMY_SP,
-                                value: take(&mut cur_raw).into(),
-                                has_escape: false,
-                                kind: Default::default(),
-                            },
+                            raw: take(&mut cur_raw).into(),
                         });
 
                         exprs.push(e);
@@ -100,12 +95,7 @@ impl Pure<'_> {
             span: DUMMY_SP,
             tail: true,
             cooked: None,
-            raw: Str {
-                span: DUMMY_SP,
-                value: cur_raw.into(),
-                has_escape: false,
-                kind: Default::default(),
-            },
+            raw: cur_raw.into(),
         });
 
         debug_assert_eq!(exprs.len() + 1, quasis.len());
@@ -126,12 +116,10 @@ impl Pure<'_> {
                         "template: Concatted a string (`{}`) on rhs of `+` to a template literal",
                         rs.value
                     );
-                    let l_str = &mut l_last.raw;
 
                     let new: JsWord =
-                        format!("{}{}", l_str.value, rs.value.replace('\\', "\\\\")).into();
-                    l_str.value = new.clone();
-                    l_last.raw.value = new;
+                        format!("{}{}", l_last.raw, rs.value.replace('\\', "\\\\")).into();
+                    l_last.raw = new;
 
                     r.take();
                 }
@@ -146,12 +134,10 @@ impl Pure<'_> {
                         "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
                         ls.value
                     );
-                    let r_str = &mut r_first.raw;
 
                     let new: JsWord =
-                        format!("{}{}", ls.value.replace('\\', "\\\\"), r_str.value).into();
-                    r_str.value = new.clone();
-                    r_first.raw.value = new;
+                        format!("{}{}", ls.value.replace('\\', "\\\\"), r_first.raw).into();
+                    r_first.raw = new;
 
                     l.take();
                 }
@@ -164,12 +150,9 @@ impl Pure<'_> {
                 {
                     let l_last = l.quasis.pop().unwrap();
                     let mut r_first = rt.quasis.first_mut().unwrap();
+                    let new: JsWord = format!("{}{}", l_last.raw, r_first.raw).into();
 
-                    let r_str = &mut r_first.raw;
-
-                    let new: JsWord = format!("{}{}", l_last.raw.value, r_str.value).into();
-                    r_str.value = new.clone();
-                    r_first.raw.value = new;
+                    r_first.raw = new;
                 }
 
                 l.quasis.extend(rt.quasis.take());
@@ -181,7 +164,6 @@ impl Pure<'_> {
                 self.changed = true;
                 tracing::debug!("strings: Merged to template literals");
             }
-
             _ => {}
         }
     }
@@ -225,9 +207,8 @@ impl Pure<'_> {
                                     left: left.left.take(),
                                     right: Box::new(Expr::Lit(Lit::Str(Str {
                                         span: left_span,
+                                        raw: None,
                                         value: new_str.into(),
-                                        has_escape: false,
-                                        kind: Default::default(),
                                     }))),
                                 });
                             }

@@ -32,7 +32,7 @@ let b2 = swcHelpers.objectSpread({}, b1, {
 });
 swcHelpers.objectSpread({}, b2), opts;
 let d1 = {
-    kind: "a",
+    kind: 'a',
     pos: {
         x: 0,
         y: 0

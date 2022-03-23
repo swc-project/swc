@@ -155,11 +155,7 @@
             "ctxt": 0
           },
           "value": "./vs/foo_0",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"./vs/foo_0\""
         }
       }
     },
@@ -198,11 +194,7 @@
             "ctxt": 0
           },
           "value": "./vs/fum",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"./vs/fum\""
         }
       }
     },

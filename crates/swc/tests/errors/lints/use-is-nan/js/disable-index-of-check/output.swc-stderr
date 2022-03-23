@@ -1,0 +1,48 @@
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 1 | if (foo == NaN) {}
+   :     ^^^^^^^^^^
+   `----
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 3 | if (NaN == foo) {}
+   :     ^^^^^^^^^^
+   `----
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 5 | if (foo != NaN) {}
+   :     ^^^^^^^^^^
+   `----
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 7 | if (foo == Number.NaN) {}
+   :     ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 9 | if (foo != Number.NaN) {}
+   :     ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Use the isNaN function to compare with NaN
+    ,----
+ 11 | if (foo == Number['NaN']) {}
+    :     ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Use the isNaN function to compare with NaN
+    ,----
+ 33 | case NaN:
+    :      ^^^
+    `----
+
+  x Use the isNaN function to compare with NaN
+    ,----
+ 41 | switch (NaN) {
+    :         ^^^
+    `----

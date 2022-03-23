@@ -1,6 +1,6 @@
 var y;
 switch(y){
-    case "a":
+    case 'a':
         throw y;
     default:
         throw y;

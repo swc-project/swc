@@ -652,11 +652,7 @@
                     "ctxt": 0
                   },
                   "value": "./minimatch",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'./minimatch'"
                 }
               }
             ],

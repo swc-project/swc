@@ -4,7 +4,7 @@
     )
 )(5, 6, 7), ((...mixed)=>mixed.every((n)=>!!n
     )
-)(5, "oops", "oh no"), ((...noNumbers)=>noNumbers.some((n)=>n > 0
+)(5, 'oops', 'oh no'), ((...noNumbers)=>noNumbers.some((n)=>n > 0
     )
 )(), ((first, ...rest)=>[]
 )(8, 9, 10), (({ q  })=>q

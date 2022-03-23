@@ -160,11 +160,7 @@
                       "ctxt": 0
                     },
                     "value": "string_named",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'string_named'"
                   },
                   "computed": false,
                   "optional": false,
@@ -189,11 +185,7 @@
                       "ctxt": 0
                     },
                     "value": "var",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'var'"
                   },
                   "computed": false,
                   "optional": false,
@@ -402,11 +394,7 @@
                       "ctxt": 0
                     },
                     "value": "hello",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"hello\""
                   }
                 }
               ],

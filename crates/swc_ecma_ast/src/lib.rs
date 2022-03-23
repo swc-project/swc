@@ -34,7 +34,7 @@ pub use self::{
         JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
         JSXOpeningFragment, JSXSpreadChild, JSXText,
     },
-    lit::{BigInt, Bool, Lit, Null, Number, Regex, Str, StrKind},
+    lit::{BigInt, Bool, Lit, Null, Number, Regex, Str},
     module::{Module, ModuleItem, Program, Script},
     module_decl::{
         DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,

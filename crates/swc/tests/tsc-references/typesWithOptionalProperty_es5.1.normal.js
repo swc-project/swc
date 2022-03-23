@@ -1,16 +1,16 @@
 var a;
 var b = {
-    foo: ''
+    foo: ""
 };
 var c = {
-    foo: '',
+    foo: "",
     bar: 3
 };
 var d = {
-    foo: '',
+    foo: "",
     bar: 3,
     baz: function() {
-        return '';
+        return "";
     }
 };
 var i;

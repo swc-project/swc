@@ -77,11 +77,7 @@
                       "ctxt": 0
                     },
                     "value": "yep",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"yep\""
                   }
                 }
               ],

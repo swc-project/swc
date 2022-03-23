@@ -23,7 +23,7 @@ var Group = /*#__PURE__*/ function() {
     "use strict";
     function Group() {
         swcHelpers.classCallCheck(this, Group);
-        this.d = 'no';
+        this.d = "no";
     }
     var _proto = Group.prototype;
     /**

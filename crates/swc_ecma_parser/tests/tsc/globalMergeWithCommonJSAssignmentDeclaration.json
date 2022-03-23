@@ -147,11 +147,7 @@
             "ctxt": 0
           },
           "value": "anything",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'anything'"
         }
       }
     }

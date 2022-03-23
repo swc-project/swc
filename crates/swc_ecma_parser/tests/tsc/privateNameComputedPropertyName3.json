@@ -58,7 +58,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "Constructor",
@@ -327,7 +328,8 @@
                       "accessibility": null,
                       "isOptional": false,
                       "isOverride": false,
-                      "readonly": false
+                      "readonly": false,
+                      "definite": false
                     },
                     {
                       "type": "ClassMethod",
@@ -676,11 +678,7 @@
                           "ctxt": 0
                         },
                         "value": "NAME",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"NAME\""
                       }
                     }
                   ],

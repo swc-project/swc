@@ -73,6 +73,7 @@ fn fixtures() -> Result<(), Error> {
                 should_panic: ShouldPanic::No,
                 compile_fail: false,
                 no_run: false,
+                ignore_message: Default::default(),
             },
             testfn: DynTestFn(Box::alloc().init(move || {
                 let syntax = if is_typescript {
@@ -207,6 +208,12 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
 
                 _ => {}
             }
+        }
+
+        "raw" => {
+            // TODO fix me
+            // Remove
+            *v = Value::Null;
         }
 
         _ => {}

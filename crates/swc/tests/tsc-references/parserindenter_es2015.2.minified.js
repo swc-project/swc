@@ -47,8 +47,8 @@ var Formatting;
         static GetIndentSizeFromText(text, editorOptions, includeNonIndentChars) {
             for(var indentSize = 0, i = 0; i < text.length; i++){
                 var c = text.charAt(i);
-                if ("\t" == c) indentSize = indentSize + editorOptions.TabSize - indentSize % editorOptions.TabSize;
-                else if (" " == c) indentSize += 1;
+                if ('\t' == c) indentSize = indentSize + editorOptions.TabSize - indentSize % editorOptions.TabSize;
+                else if (' ' == c) indentSize += 1;
                 else if (includeNonIndentChars) indentSize += 1;
                 else break;
             }
@@ -145,16 +145,16 @@ var Formatting;
                 if (StringUtils.IsNullOrEmpty(existingIndentation)) return "";
                 var totalIndent = 0;
                 return (StringUtils.foreach(existingIndentation, (c)=>{
-                    "\t" == c ? totalIndent += tabSize : totalIndent++;
+                    '\t' == c ? totalIndent += tabSize : totalIndent++;
                 }), (totalIndent += level * indentSize) < 0) ? "" : this.GetIndentString(null, totalIndent, tabSize, convertTabsToSpaces);
             }
             return this.GetIndentString(existingIndentation, level * indentSize, tabSize, convertTabsToSpaces);
         }
         GetIndentString(prefix, totalIndentSize, tabSize, convertTabsToSpaces) {
-            var tabString = convertTabsToSpaces ? StringUtils.create(" ", tabSize) : "\t", text = "";
+            var tabString = convertTabsToSpaces ? StringUtils.create(' ', tabSize) : "\t", text = "";
             StringUtils.IsNullOrEmpty(prefix) || (text += prefix);
             for(var pos = 0; pos <= totalIndentSize - tabSize;)text += tabString, pos += tabSize;
-            for(; pos < totalIndentSize;)text += " ", pos++;
+            for(; pos < totalIndentSize;)text += ' ', pos++;
             return text;
         }
         ApplyIndentationDeltaFromParent(token, node) {
@@ -220,7 +220,7 @@ var Formatting;
         GetLineIndentationForOffset(offset) {
             var indentationEdit;
             if (null != (indentationEdit = this.indentationBag.FindIndent(offset))) return indentationEdit.Indentation();
-            for(var lineText = this.snapshot.GetLineFromPosition(offset).getText(), index = 0; index < lineText.length && (" " == lineText.charAt(index) || "\t" == lineText.charAt(index));)++index;
+            for(var lineText = this.snapshot.GetLineFromPosition(offset).getText(), index = 0; index < lineText.length && (' ' == lineText.charAt(index) || '\t' == lineText.charAt(index));)++index;
             return lineText.substr(0, index);
         }
         RegisterIndentation(indent, sameLineIndent) {

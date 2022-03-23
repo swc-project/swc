@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-require("react");
+require('react');
 let obj0 = {
     to: "world"
 }, obj2 = {

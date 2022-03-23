@@ -1,12 +1,12 @@
 
   x Regular expression literal is unnecessarily wrapped within a 'RegExp' constructor
    ,----
- 2 | new RegExp(/redundant/);
+ 1 | new RegExp(/redundant/);
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Use regular expression literal with flags instead of the 'RegExp' constructor
    ,----
- 4 | new RegExp(/redundant/, "g");
+ 3 | new RegExp(/redundant/, "g");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

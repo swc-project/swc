@@ -12,6 +12,9 @@
         "swc.linux-arm64-musl.node",
         "swc"
     ],
+    "libc": [
+        "musl"
+    ],
     "description": "Super-fast alternative for babel",
     "keywords": [
         "swc",

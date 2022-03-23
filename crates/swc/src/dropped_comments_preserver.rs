@@ -40,11 +40,15 @@ impl VisitMut for DroppedCommentsPreserver {
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         module.visit_mut_children_with(self);
+        self.known_spans
+            .sort_by(|span_a, span_b| span_a.lo.cmp(&span_b.lo));
         self.shift_comments_to_known_spans();
     }
 
     fn visit_mut_script(&mut self, script: &mut Script) {
         script.visit_mut_children_with(self);
+        self.known_spans
+            .sort_by(|span_a, span_b| span_a.lo.cmp(&span_b.lo));
         self.shift_comments_to_known_spans();
     }
 

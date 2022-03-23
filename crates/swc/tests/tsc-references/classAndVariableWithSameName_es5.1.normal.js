@@ -4,7 +4,7 @@ var C = function C() {
     swcHelpers.classCallCheck(this, C);
 } // error
 ;
-var C = ''; // error
+var C = ""; // error
 var M;
 (function(M) {
     var D = function D() {

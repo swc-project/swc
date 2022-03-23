@@ -35,9 +35,9 @@ applySpec({
 });
 const myAny = {};
 getProps(myAny, [
-    "foo",
-    "bar"
+    'foo',
+    'bar'
 ]), getProps(myAny, [
-    "foo",
-    "bar"
+    'foo',
+    'bar'
 ]);

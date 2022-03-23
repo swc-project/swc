@@ -7,29 +7,29 @@ var NoBase = /*#__PURE__*/ function() {
     function NoBase() {
         swcHelpers.classCallCheck(this, NoBase);
         this.m = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "prototype", this);
-        this.n = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, '');
+        this.n = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, "");
         var a = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "prototype", this);
-        var b = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, '');
+        var b = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, "");
     }
     var _proto = NoBase.prototype;
     _proto.fn = function fn() {
         var a = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "prototype", this);
-        var b = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, '');
+        var b = swcHelpers.get(swcHelpers.getPrototypeOf(NoBase.prototype), "hasOwnProperty", this).call(this, "");
     };
     //super static property access in static member function of class with no base type
     //super static property access in static member accessor(get and set) of class with no base type
     NoBase.static1 = function static1() {
-        swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, '');
+        swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, "");
     };
     swcHelpers.createClass(NoBase, null, [
         {
             key: "static2",
             get: function get() {
-                swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, '');
-                return '';
+                swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, "");
+                return "";
             },
             set: function set(n) {
-                swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, '');
+                swcHelpers.get(swcHelpers.getPrototypeOf(NoBase), "hasOwnProperty", this).call(this, "");
             }
         }
     ]);
@@ -148,7 +148,7 @@ var SomeDerived3 = /*#__PURE__*/ function(SomeBase) {
                 swcHelpers.set(swcHelpers.getPrototypeOf(SomeDerived3.prototype), "publicStaticMember", 3, this, true);
                 swcHelpers.set(swcHelpers.getPrototypeOf(SomeDerived3.prototype), "privateStaticMember", 3, this, true);
                 swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerived3), "privateStaticFunc", this).call(this);
-                return '';
+                return "";
             },
             set: function set(n) {
                 swcHelpers.set(swcHelpers.getPrototypeOf(SomeDerived3.prototype), "publicStaticMember", 3, this, true);

@@ -9254,11 +9254,7 @@
                             "ctxt": 0
                           },
                           "value": "",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"\""
                         },
                         "definite": false
                       }
@@ -9715,11 +9711,7 @@
                                                         "ctxt": 0
                                                       },
                                                       "value": "|",
-                                                      "hasEscape": false,
-                                                      "kind": {
-                                                        "type": "normal",
-                                                        "containsQuote": true
-                                                      }
+                                                      "raw": "\"|\""
                                                     }
                                                   }
                                                 }

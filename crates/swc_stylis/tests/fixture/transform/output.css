@@ -7,11 +7,14 @@
 }
 a {
   -webkit-transition: -webkit-transform 1s;
+  -moz-transition: -moz-transform 1s;
+  -o-transition: -o-transform 1s;
+  transition: -webkit-transform 1s;
+  transition: -moz-transform 1s;
+  transition: -o-transform 1s;
   transition: transform 1s;
   -webkit-transform: rotateX(45deg);
   -moz-transform: rotateX(45deg);
-  -ms-transform: rotateX(45deg);
-  -o-transform: rotateX(45deg);
   transform: rotateX(45deg);
 }
 b {
@@ -29,15 +32,12 @@ b {
 em {
   -webkit-transform: rotateZ(45deg);
   -moz-transform: rotateZ(45deg);
-  -ms-transform: rotateZ(45deg);
-  -o-transform: rotateZ(45deg);
   transform: rotateZ(45deg);
 }
 @keyframes anim {
   from {
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     transform: rotate(90deg);
   }
@@ -46,4 +46,9 @@ em {
   -webkit-transform-style: flat;
   -moz-transform-style: flat;
   transform-style: flat;
+}
+.class {
+  -webkit-transform: perspective(500px) rotateY(3deg);
+  -moz-transform: perspective(500px) rotateY(3deg);
+  transform: perspective(500px) rotateY(3deg);
 }

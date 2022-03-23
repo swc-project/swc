@@ -43,11 +43,7 @@
           "ctxt": 0
         },
         "value": "nope",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'nope'"
       },
       "typeOnly": false,
       "asserts": null

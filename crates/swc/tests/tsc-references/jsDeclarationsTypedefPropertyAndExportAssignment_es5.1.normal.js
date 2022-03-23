@@ -14,12 +14,12 @@ import * as swcHelpers from "@swc/helpers";
  * @type {{[P in TaskGroupIds]: {id: P, label: string}}}
  */ var taskGroups = {
     parseHTML: {
-        id: 'parseHTML',
-        label: 'Parse HTML & CSS'
+        id: "parseHTML",
+        label: "Parse HTML & CSS"
     },
     styleLayout: {
-        id: 'styleLayout',
-        label: 'Style & Layout'
+        id: "styleLayout",
+        label: "Style & Layout"
     }
 };
 /** @type {Object<string, TaskGroup>} */ var taskNameToGroup = {};
@@ -28,7 +28,7 @@ module.exports = {
     taskNameToGroup: taskNameToGroup
 };
 // @filename: index.js
-var ref = require('./module.js'), taskGroups = ref.taskGroups, taskNameToGroup = ref.taskNameToGroup;
+var ref = require("./module.js"), taskGroups = ref.taskGroups, taskNameToGroup = ref.taskNameToGroup;
 /** @typedef {import('./module.js').TaskGroup} TaskGroup */ /**
  * @typedef TaskNode
  * @prop {TaskNode[]} children

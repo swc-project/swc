@@ -1,7 +1,7 @@
 
   x Unexpected empty function pattern
-   ,-[2:1]
- 2 | ,-> function foo1() {
- 3 | |       // commnet into
- 4 | `-> }
+   ,-[1:1]
+ 1 | ,-> function foo1() {
+ 2 | |       // commnet into
+ 3 | `-> }
    `----

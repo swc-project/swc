@@ -1,6 +1,7 @@
 use std::io::{self, Write};
 
-use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span, DUMMY_SP};
+use rustc_hash::FxHashSet;
+use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 use swc_ecma_ast::EsVersion;
 
 use super::{Result, WriteJs};
@@ -18,6 +19,9 @@ pub struct JsWriter<'a, W: Write> {
     line_pos: usize,
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
+    srcmap_done: FxHashSet<(BytePos, u32, u32)>,
+    /// Used to avoid including whitespaces created by indention.
+    pending_srcmap: Option<BytePos>,
     wr: W,
     target: EsVersion,
 }
@@ -48,6 +52,8 @@ impl<'a, W: Write> JsWriter<'a, W> {
             srcmap,
             wr,
             target,
+            pending_srcmap: Default::default(),
+            srcmap_done: Default::default(),
         }
     }
 
@@ -75,6 +81,10 @@ impl<'a, W: Write> JsWriter<'a, W> {
             if self.line_start {
                 cnt += self.write_indent_string()?;
                 self.line_start = false;
+
+                if let Some(pending) = self.pending_srcmap.take() {
+                    self.srcmap(pending);
+                }
             }
 
             if let Some(span) = span {
@@ -96,18 +106,17 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     fn srcmap(&mut self, byte_pos: BytePos) {
-        if byte_pos.is_reserved_for_comments() {
-            return;
-        }
-
         if let Some(ref mut srcmap) = self.srcmap {
-            srcmap.push((
-                byte_pos,
-                LineCol {
+            if self
+                .srcmap_done
+                .insert((byte_pos, self.line_count as _, self.line_pos as _))
+            {
+                let loc = LineCol {
                     line: self.line_count as _,
                     col: self.line_pos as _,
-                },
-            ))
+                };
+                srcmap.push((byte_pos, loc));
+            }
         }
     }
 }
@@ -128,18 +137,6 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     }
 
     fn write_semi(&mut self, span: Option<Span>) -> Result {
-        if span == Some(DUMMY_SP) {
-            if let Some(ref mut srcmap) = self.srcmap {
-                srcmap.push((
-                    BytePos(u32::MAX),
-                    LineCol {
-                        line: self.line_count as _,
-                        col: self.line_pos as _,
-                    },
-                ))
-            }
-        }
-
         self.write(span, ";")?;
         Ok(())
     }
@@ -170,11 +167,16 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     }
 
     fn write_line(&mut self) -> Result {
+        let pending = self.pending_srcmap.take();
         if !self.line_start {
             self.raw_write(self.new_line.as_bytes())?;
             self.line_count += 1;
             self.line_pos = 0;
             self.line_start = true;
+
+            if let Some(pending) = pending {
+                self.srcmap(pending)
+            }
         }
 
         Ok(())
@@ -202,8 +204,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
-    fn write_comment(&mut self, span: Span, s: &str) -> Result {
-        self.write(Some(span), s)?;
+    fn write_comment(&mut self, s: &str) -> Result {
+        self.write(None, s)?;
         {
             let line_start_of_s = compute_line_starts(s);
             if line_start_of_s.len() > 1 {
@@ -253,6 +255,15 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
 
     fn care_about_srcmap(&self) -> bool {
         self.srcmap.is_some()
+    }
+
+    fn add_srcmap(&mut self, pos: BytePos) -> Result {
+        if self.line_start {
+            self.pending_srcmap = Some(pos);
+        } else {
+            self.srcmap(pos);
+        }
+        Ok(())
     }
 }
 

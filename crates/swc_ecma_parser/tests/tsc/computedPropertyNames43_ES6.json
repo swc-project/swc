@@ -282,11 +282,7 @@
                 "ctxt": 0
               },
               "value": "get1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"get1\""
             }
           },
           "function": {
@@ -369,11 +365,7 @@
                 "ctxt": 0
               },
               "value": "set1",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"set1\""
             }
           },
           "function": {

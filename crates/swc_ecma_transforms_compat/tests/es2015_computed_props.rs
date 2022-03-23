@@ -64,15 +64,15 @@ test!(
 var obj = ( _obj = {
 }, _mutatorMap[foobar] = _mutatorMap[foobar] || {
 }, _mutatorMap[foobar].get = function() {
-    return 'foobar';
+    return "foobar";
 }, _mutatorMap[foobar] = _mutatorMap[foobar] || {
 }, _mutatorMap[foobar].set = function(x) {
     console.log(x);
-}, _mutatorMap['test'] = _mutatorMap['test'] || {
-}, _mutatorMap['test'].get = function() {
-    return 'regular getter after computed property';
-}, _mutatorMap['test'] = _mutatorMap['test'] || {
-}, _mutatorMap['test'].set = function(x) {
+}, _mutatorMap["test"] = _mutatorMap["test"] || {
+}, _mutatorMap["test"].get = function() {
+    return "regular getter after computed property";
+}, _mutatorMap["test"] = _mutatorMap["test"] || {
+}, _mutatorMap["test"].set = function(x) {
     console.log(x);
 }, _defineEnumerableProperties(_obj, _mutatorMap), _obj);"#
 );
@@ -273,7 +273,7 @@ var foo = {
 var _obj, _mutatorMap = {
 };
 var foo = ( _obj = {
-}, _defineProperty(_obj, Symbol.iterator, 'foobar'), _mutatorMap[k] = _mutatorMap[k] || {
+}, _defineProperty(_obj, Symbol.iterator, "foobar"), _mutatorMap[k] = _mutatorMap[k] || {
 }, _mutatorMap[k].get = function() {
     return k;
 }, _defineEnumerableProperties(_obj, _mutatorMap), _obj);"#

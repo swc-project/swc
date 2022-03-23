@@ -135,8 +135,17 @@ impl VisitMut for SuperReplacer {
     fn visit_mut_object_lit(&mut self, obj: &mut ObjectLit) {
         for prop_or_spread in obj.props.iter_mut() {
             if let PropOrSpread::Prop(prop) = prop_or_spread {
-                if let Prop::Method(MethodProp { key, function: _ }) = &mut **prop {
-                    key.visit_mut_with(self);
+                match &mut **prop {
+                    Prop::Method(MethodProp { key, .. })
+                    | Prop::Getter(GetterProp { key, .. })
+                    | Prop::Setter(SetterProp { key, .. }) => key.visit_mut_with(self),
+                    Prop::KeyValue(KeyValueProp { key, value }) => {
+                        key.visit_mut_with(self);
+                        if !(value.is_fn_expr() || value.is_class()) {
+                            value.visit_mut_with(self)
+                        }
+                    }
+                    Prop::Shorthand(_) | Prop::Assign(_) => (),
                 }
             }
         }
@@ -179,10 +188,9 @@ impl SuperReplacer {
             SuperProp::Ident(Ident {
                 sym: value, span, ..
             }) => Box::new(Expr::Lit(Lit::Str(Str {
-                span,
+                raw: None,
                 value,
-                has_escape: false,
-                kind: Default::default(),
+                span,
             }))),
 
             SuperProp::Computed(ComputedPropName { expr, .. }) => expr,

@@ -1,6 +1,6 @@
 
   x Unexpected token `,`. Expected identifier or string
-   ,-[$DIR/tests/test262-parser/fail/87d2d99776638ab6.module.js:2:1]
- 2 | import {b,,} from 'a';
+   ,-[$DIR/tests/test262-parser/fail/87d2d99776638ab6.module.js:1:1]
+ 1 | import {b,,} from 'a';
    :           ^
    `----

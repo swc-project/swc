@@ -1,7 +1,7 @@
 //@Filename: test.tsx
 // Should emit 'react-router' in the AMD dependency list
-var React = require('react');
-var ReactRouter = require('react-router');
+var React = require("react");
+var ReactRouter = require("react-router");
 var Route = ReactRouter.Route;
 var routes1 = /*#__PURE__*/ React.createElement(Route, null);
 var M;

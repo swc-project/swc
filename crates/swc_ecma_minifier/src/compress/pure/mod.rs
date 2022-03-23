@@ -11,6 +11,7 @@ use tracing::{span, Level};
 
 use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
+    analyzer::ProgramData,
     debug::{dump, AssertValid},
     marks::Marks,
     option::CompressOptions,
@@ -38,6 +39,7 @@ mod vars;
 #[allow(clippy::needless_lifetimes)]
 pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
+    data: Option<&'a ProgramData>,
     marks: Marks,
     force_str_for_tpl: bool,
     enable_everything: bool,
@@ -46,6 +48,7 @@ pub(crate) fn pure_optimizer<'a>(
     Pure {
         options,
         marks,
+        data,
         ctx: Ctx {
             force_str_for_tpl,
             ..Default::default()
@@ -60,6 +63,8 @@ pub(crate) fn pure_optimizer<'a>(
 struct Pure<'a> {
     options: &'a CompressOptions,
     marks: Marks,
+    #[allow(unused)]
+    data: Option<&'a ProgramData>,
     ctx: Ctx,
     changed: bool,
     enable_everything: bool,
@@ -153,13 +158,9 @@ impl Pure<'_> {
         if self.ctx.par_depth >= MAX_PAR_DEPTH * 2 || cfg!(target_arch = "wasm32") {
             for node in nodes {
                 let mut v = Pure {
-                    options: self.options,
-                    marks: self.marks,
-                    ctx: self.ctx,
                     changed: false,
-                    enable_everything: self.enable_everything,
-                    debug_infinite_loop: self.debug_infinite_loop,
                     bindings: self.bindings.clone(),
+                    ..*self
                 };
                 node.visit_mut_with(&mut v);
 
@@ -172,16 +173,13 @@ impl Pure<'_> {
                     .map(|node| {
                         GLOBALS.set(globals, || {
                             let mut v = Pure {
-                                options: self.options,
-                                marks: self.marks,
                                 ctx: Ctx {
                                     par_depth: self.ctx.par_depth + 1,
                                     ..self.ctx
                                 },
                                 changed: false,
-                                enable_everything: self.enable_everything,
-                                debug_infinite_loop: self.debug_infinite_loop,
                                 bindings: self.bindings.clone(),
+                                ..*self
                             };
                             node.visit_mut_with(&mut v);
 
@@ -249,7 +247,7 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
         e.visit_mut_children_with(self);
 
-        self.optimize_expr_in_bool_ctx(&mut e.test);
+        self.optimize_expr_in_bool_ctx(&mut e.test, false);
 
         self.negate_cond_expr(e);
     }
@@ -372,7 +370,7 @@ impl VisitMut for Pure<'_> {
         self.merge_for_if_break(s);
 
         if let Some(test) = &mut s.test {
-            self.optimize_expr_in_bool_ctx(&mut **test);
+            self.optimize_expr_in_bool_ctx(&mut **test, false);
         }
 
         if let Stmt::Block(body) = &mut *s.body {
@@ -397,7 +395,7 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
 
-        self.optimize_expr_in_bool_ctx(&mut s.test);
+        self.optimize_expr_in_bool_ctx(&mut s.test, false);
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
@@ -501,6 +499,20 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
         e.visit_mut_children_with(self);
+
+        if e.exprs.iter().any(|e| e.is_seq()) {
+            let mut exprs = vec![];
+
+            for e in e.exprs.take() {
+                if let Expr::Seq(seq) = *e {
+                    exprs.extend(seq.exprs);
+                } else {
+                    exprs.push(e);
+                }
+            }
+
+            e.exprs = exprs;
+        }
 
         e.exprs.retain(|e| {
             if e.is_invalid() {
@@ -682,7 +694,7 @@ impl VisitMut for Pure<'_> {
 
         match e.op {
             op!("!") => {
-                self.optimize_expr_in_bool_ctx(&mut e.arg);
+                self.optimize_expr_in_bool_ctx(&mut e.arg, false);
             }
 
             op!(unary, "+") | op!(unary, "-") => {
@@ -704,6 +716,6 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {
         s.visit_mut_children_with(self);
 
-        self.optimize_expr_in_bool_ctx(&mut s.test);
+        self.optimize_expr_in_bool_ctx(&mut s.test, false);
     }
 }

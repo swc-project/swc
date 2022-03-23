@@ -262,11 +262,7 @@
                         "ctxt": 0
                       },
                       "value": "todoapp",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"todoapp\""
                     }
                   }
                 ],
@@ -334,11 +330,7 @@
                             "ctxt": 0
                           },
                           "value": "header",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"header\""
                         }
                       }
                     ],
@@ -475,11 +467,7 @@
                                 "ctxt": 0
                               },
                               "value": "new-todo",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"new-todo\""
                             }
                           },
                           {
@@ -526,11 +514,7 @@
                                 "ctxt": 0
                               },
                               "value": "off",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"off\""
                             }
                           },
                           {
@@ -558,11 +542,7 @@
                                 "ctxt": 0
                               },
                               "value": "What needs to be done?",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"What needs to be done?\""
                             }
                           },
                           {
@@ -825,11 +805,7 @@
                             "ctxt": 0
                           },
                           "value": "main",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"main\""
                         }
                       },
                       {
@@ -982,11 +958,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "block",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"block\""
                                   },
                                   "alternate": {
                                     "type": "StringLiteral",
@@ -996,11 +968,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "none",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"none\""
                                   }
                                 }
                               }
@@ -1073,11 +1041,7 @@
                                 "ctxt": 0
                               },
                               "value": "toggle-all",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"toggle-all\""
                             }
                           },
                           {
@@ -1105,11 +1069,7 @@
                                 "ctxt": 0
                               },
                               "value": "checkbox",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"checkbox\""
                             }
                           },
                           {
@@ -1275,11 +1235,7 @@
                                 "ctxt": 0
                               },
                               "value": "todo-list",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"todo-list\""
                             }
                           }
                         ],
@@ -1629,11 +1585,7 @@
                                                   "ctxt": 0
                                                 },
                                                 "value": "view",
-                                                "hasEscape": false,
-                                                "kind": {
-                                                  "type": "normal",
-                                                  "containsQuote": true
-                                                }
+                                                "raw": "\"view\""
                                               }
                                             }
                                           ],
@@ -1760,11 +1712,7 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "toggle",
-                                                        "hasEscape": false,
-                                                        "kind": {
-                                                          "type": "normal",
-                                                          "containsQuote": true
-                                                        }
+                                                        "raw": "\"toggle\""
                                                       }
                                                     },
                                                     {
@@ -1792,11 +1740,7 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "checkbox",
-                                                        "hasEscape": false,
-                                                        "kind": {
-                                                          "type": "normal",
-                                                          "containsQuote": true
-                                                        }
+                                                        "raw": "\"checkbox\""
                                                       }
                                                     }
                                                   ],
@@ -2098,11 +2042,7 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "destroy",
-                                                    "hasEscape": false,
-                                                    "kind": {
-                                                      "type": "normal",
-                                                      "containsQuote": true
-                                                    }
+                                                    "raw": "\"destroy\""
                                                   }
                                                 },
                                                 {
@@ -2298,11 +2238,7 @@
                                                       "ctxt": 0
                                                     },
                                                     "value": "iconBorder",
-                                                    "hasEscape": false,
-                                                    "kind": {
-                                                      "type": "normal",
-                                                      "containsQuote": true
-                                                    }
+                                                    "raw": "\"iconBorder\""
                                                   }
                                                 }
                                               ],
@@ -2370,11 +2306,7 @@
                                                           "ctxt": 0
                                                         },
                                                         "value": "icon",
-                                                        "hasEscape": false,
-                                                        "kind": {
-                                                          "type": "normal",
-                                                          "containsQuote": true
-                                                        }
+                                                        "raw": "\"icon\""
                                                       }
                                                     }
                                                   ],

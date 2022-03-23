@@ -1,1 +1,1 @@
-while(a){try{}catch(b){}(function(){c('d')}())}
+while(a){try{}catch(b){}(function(){c("d")}())}

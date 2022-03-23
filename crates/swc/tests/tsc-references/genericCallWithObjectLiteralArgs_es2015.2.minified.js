@@ -3,7 +3,7 @@ function foo(x) {
 }
 foo({
     bar: 1,
-    baz: ""
+    baz: ''
 }), foo({
     bar: 1,
     baz: 1
@@ -12,5 +12,5 @@ foo({
     baz: foo
 }), foo({
     bar: 1,
-    baz: ""
+    baz: ''
 });

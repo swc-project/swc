@@ -1,1 +1,1 @@
-exports.inherits = factory("inherits");
+exports.inherits = factory('inherits');

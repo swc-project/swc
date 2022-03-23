@@ -1,8 +1,8 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/function/bad-comment/input.css:3:5]
- 3 | ,-> background: url(
- 4 | |           /* test */
- 5 | |           test.png
- 6 | `->     );
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:2:5]
+ 2 | ,-> background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | `->     );
    `----

@@ -1,5 +1,5 @@
 for (var v of [
-    "a",
-    "b",
-    "c"
+    'a',
+    'b',
+    'c'
 ])console.log(v);

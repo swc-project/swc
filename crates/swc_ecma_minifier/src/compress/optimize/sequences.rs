@@ -433,7 +433,11 @@ where
             let can_work = e.exprs.iter().any(|e| {
                 if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) = &**e {
                     if let Expr::Seq(right) = &*assign.right {
-                        if right.exprs.len() >= 2 {
+                        if right.exprs.len() >= 2
+                            && right.exprs[..right.exprs.len() - 1]
+                                .iter()
+                                .all(|e| !e.may_have_side_effects())
+                        {
                             return true;
                         }
                     }
@@ -454,7 +458,11 @@ where
         for expr in e.exprs.take() {
             if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) = *expr {
                 match *assign.right {
-                    Expr::Seq(mut right) => {
+                    Expr::Seq(mut right)
+                        if right.exprs[..right.exprs.len() - 1]
+                            .iter()
+                            .all(|e| !e.may_have_side_effects()) =>
+                    {
                         new_exprs.extend(right.exprs.drain(..right.exprs.len() - 1));
                         new_exprs.push(Box::new(Expr::Assign(AssignExpr {
                             right: right.exprs.pop().unwrap(),
@@ -1404,11 +1412,7 @@ where
                             }
                         };
 
-                        if let Some(usage) = self
-                            .data
-                            .as_ref()
-                            .and_then(|data| data.vars.get(&left_id.to_id()))
-                        {
+                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
                             if usage.inline_prevented {
                                 return Ok(false);
                             }
@@ -1440,11 +1444,7 @@ where
                     _ => return Ok(false),
                 };
 
-                if let Some(usage) = self
-                    .data
-                    .as_ref()
-                    .and_then(|data| data.vars.get(&left.to_id()))
-                {
+                if let Some(usage) = self.data.vars.get(&left.to_id()) {
                     if usage.ref_count != 1 {
                         return Ok(false);
                     }

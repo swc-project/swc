@@ -96,11 +96,7 @@
                       "ctxt": 0
                     },
                     "value": "\r\n",
-                    "hasEscape": true,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"\\r\\n\""
                   }
                 }
               ],

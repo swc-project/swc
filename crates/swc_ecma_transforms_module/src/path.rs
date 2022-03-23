@@ -8,7 +8,7 @@ use std::{
 use anyhow::{Context, Error};
 use pathdiff::diff_paths;
 use swc_atoms::JsWord;
-use swc_common::{FileName, Mark, DUMMY_SP};
+use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolve;
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -33,17 +33,16 @@ impl Resolver {
         }
     }
 
-    pub(crate) fn make_require_call(&self, mark: Mark, src: JsWord) -> Expr {
+    pub(crate) fn make_require_call(&self, mark: Mark, src: JsWord, src_span: Span) -> Expr {
         let src = self.resolve(src);
 
         Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: quote_ident!(DUMMY_SP.apply_mark(mark), "require").as_callee(),
             args: vec![Lit::Str(Str {
-                span: DUMMY_SP,
+                span: src_span,
+                raw: None,
                 value: src,
-                has_escape: false,
-                kind: Default::default(),
             })
             .as_arg()],
 

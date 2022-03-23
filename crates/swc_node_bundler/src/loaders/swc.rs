@@ -70,9 +70,8 @@ impl SwcLoader {
                 k,
                 Expr::Lit(Lit::Str(Str {
                     span: DUMMY_SP,
+                    raw: None,
                     value: v,
-                    has_escape: false,
-                    kind: Default::default(),
                 })),
             );
         }

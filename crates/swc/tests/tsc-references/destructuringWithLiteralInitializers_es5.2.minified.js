@@ -45,9 +45,9 @@ function g5() {
     var ref = swcHelpers.slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
     ref[0], ref[1];
 }
-(function(param) {
+!function(param) {
     param.x, param.y;
-})({
+}({
     x: 1,
     y: 1
 }), f2({

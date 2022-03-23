@@ -18,10 +18,10 @@ var JustStrings;
     var a;
     var b;
     var a2 = {
-        '1.0': ''
+        "1.0": ""
     };
     var b2 = {
-        '1': ''
+        "1": ""
     };
     s = t;
     t = s;
@@ -60,10 +60,10 @@ var NumbersAndStrings;
     var a;
     var b;
     var a2 = {
-        '1.0': ''
+        "1.0": ""
     };
     var b2 = {
-        1: ''
+        1: ""
     };
     s = t; // ok
     t = s; // ok

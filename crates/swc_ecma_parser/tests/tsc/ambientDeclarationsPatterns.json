@@ -23,11 +23,7 @@
           "ctxt": 0
         },
         "value": "foo*baz",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"foo*baz\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -144,11 +140,7 @@
           "ctxt": 0
         },
         "value": "foo*baz",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"foo*baz\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -235,11 +227,7 @@
           "ctxt": 0
         },
         "value": "foos*",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"foos*\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -326,11 +314,7 @@
           "ctxt": 0
         },
         "value": "*!text",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"*!text\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -467,11 +451,7 @@
           "ctxt": 0
         },
         "value": "foobarbaz",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"foobarbaz\""
       },
       "typeOnly": false,
       "asserts": null
@@ -555,11 +535,7 @@
           "ctxt": 0
         },
         "value": "foosball",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"foosball\""
       },
       "typeOnly": false,
       "asserts": null
@@ -641,11 +617,7 @@
           "ctxt": 0
         },
         "value": "./file!text",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./file!text\""
       },
       "typeOnly": false,
       "asserts": null

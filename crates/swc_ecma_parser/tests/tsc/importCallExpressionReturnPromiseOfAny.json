@@ -75,11 +75,7 @@
           "ctxt": 0
         },
         "value": "./defaultPath",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./defaultPath\""
       },
       "typeOnly": false,
       "asserts": null
@@ -378,34 +374,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 374,
-                      "end": 374,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 374,
-                      "end": 374,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
+                  "cooked": "",
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -415,34 +385,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 386,
-                      "end": 388,
-                      "ctxt": 0
-                    },
-                    "value": "\\",
-                    "hasEscape": true,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 386,
-                      "end": 388,
-                      "ctxt": 0
-                    },
-                    "value": "\\\\",
-                    "hasEscape": true,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
+                  "cooked": "\\",
+                  "raw": "\\\\"
                 },
                 {
                   "type": "TemplateElement",
@@ -452,34 +396,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 401,
-                      "end": 401,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 401,
-                      "end": 401,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -619,11 +537,7 @@
                       "ctxt": 0
                     },
                     "value": "./0",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"./0\""
                   },
                   "alternate": {
                     "type": "StringLiteral",
@@ -633,11 +547,7 @@
                       "ctxt": 0
                     },
                     "value": "externalModule",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"externalModule\""
                   }
                 }
               }
@@ -992,11 +902,7 @@
                         "ctxt": 0
                       },
                       "value": "defaulPath",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"defaulPath\""
                     }
                   }
                 }
@@ -1571,34 +1477,8 @@
                               "ctxt": 0
                             },
                             "tail": false,
-                            "cooked": {
-                              "type": "StringLiteral",
-                              "span": {
-                                "start": 964,
-                                "end": 964,
-                                "ctxt": 0
-                              },
-                              "value": "",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": false
-                              }
-                            },
-                            "raw": {
-                              "type": "StringLiteral",
-                              "span": {
-                                "start": 964,
-                                "end": 964,
-                                "ctxt": 0
-                              },
-                              "value": "",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": false
-                              }
-                            }
+                            "cooked": "",
+                            "raw": ""
                           },
                           {
                             "type": "TemplateElement",
@@ -1608,34 +1488,8 @@
                               "ctxt": 0
                             },
                             "tail": true,
-                            "cooked": {
-                              "type": "StringLiteral",
-                              "span": {
-                                "start": 976,
-                                "end": 988,
-                                "ctxt": 0
-                              },
-                              "value": "\\moduleFile",
-                              "hasEscape": true,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": false
-                              }
-                            },
-                            "raw": {
-                              "type": "StringLiteral",
-                              "span": {
-                                "start": 976,
-                                "end": 988,
-                                "ctxt": 0
-                              },
-                              "value": "\\\\moduleFile",
-                              "hasEscape": true,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": false
-                              }
-                            }
+                            "cooked": "\\moduleFile",
+                            "raw": "\\\\moduleFile"
                           }
                         ]
                       },

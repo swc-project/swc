@@ -1,2 +1,2 @@
 do a();
-while (true)
+while (true);

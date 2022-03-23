@@ -23,11 +23,7 @@
           "ctxt": 0
         },
         "value": "react",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'react'"
       },
       "body": {
         "type": "TsModuleBlock",
@@ -154,11 +150,7 @@
           "ctxt": 0
         },
         "value": "react",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'react'"
       },
       "typeOnly": false,
       "asserts": null
@@ -215,11 +207,7 @@
                 "ctxt": 0
               },
               "value": "div",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'div'"
             },
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
@@ -243,11 +231,7 @@
                     "ctxt": 0
                   },
                   "value": "div",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"div\""
                 }
               }
             },

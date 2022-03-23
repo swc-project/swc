@@ -3,7 +3,7 @@ use std::path::{Path, PathBuf};
 use swc_common::{chain, sync::Lrc, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::{
     fixer::fixer,
     resolver::{resolver_with_mark, ts_resolver},
@@ -90,15 +90,22 @@ fn test_resolver(input: PathBuf) {
 
 #[fixture("tests/ts-resolver/**/input.ts")]
 fn test_ts_resolver(input: PathBuf) {
-    run(Syntax::Typescript(Default::default()), &input, || {
-        let top_level_mark = Mark::fresh(Mark::root());
+    run(
+        Syntax::Typescript(TsConfig {
+            decorators: true,
+            ..Default::default()
+        }),
+        &input,
+        || {
+            let top_level_mark = Mark::fresh(Mark::root());
 
-        chain!(
-            ts_resolver(top_level_mark),
-            as_folder(TsHygiene { top_level_mark }),
-            fixer(None)
-        )
-    });
+            chain!(
+                ts_resolver(top_level_mark),
+                as_folder(TsHygiene { top_level_mark }),
+                fixer(None)
+            )
+        },
+    );
 }
 
 struct TsHygiene {

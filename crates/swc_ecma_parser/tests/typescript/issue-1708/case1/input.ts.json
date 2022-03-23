@@ -57,11 +57,7 @@
                     "ctxt": 0
                   },
                   "value": "a-b",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"a-b\""
                 },
                 "typeAnnotation": null,
                 "body": {
@@ -87,11 +83,7 @@
                           "ctxt": 0
                         },
                         "value": "abc",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"abc\""
                       }
                     }
                   ]
@@ -180,11 +172,7 @@
                     "ctxt": 0
                   },
                   "value": "a-b",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'a-b'"
                 }
               }
             }

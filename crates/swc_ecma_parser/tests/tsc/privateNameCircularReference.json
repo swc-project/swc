@@ -91,7 +91,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateProperty",
@@ -158,7 +159,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "ClassProperty",
@@ -182,11 +184,7 @@
                 "ctxt": 0
               },
               "value": "#baz",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"#baz\""
             }
           },
           "value": {
@@ -219,11 +217,7 @@
                   "ctxt": 0
                 },
                 "value": "#baz",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"#baz\""
               }
             }
           },

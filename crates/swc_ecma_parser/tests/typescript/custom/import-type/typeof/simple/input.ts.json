@@ -61,11 +61,7 @@
                       "ctxt": 0
                     },
                     "value": "readline",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"readline\""
                   },
                   "qualifier": null,
                   "typeArguments": null

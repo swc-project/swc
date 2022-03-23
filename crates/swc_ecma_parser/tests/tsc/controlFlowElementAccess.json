@@ -175,11 +175,7 @@
                 "ctxt": 0
               },
               "value": "o",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "'o'"
             }
           }
         },
@@ -248,11 +244,7 @@
                       "ctxt": 0
                     },
                     "value": "o",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'o'"
                   }
                 }
               },

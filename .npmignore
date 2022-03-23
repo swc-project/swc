@@ -67,3 +67,4 @@ jest.config.js
 cliff.toml
 .kodiak.toml
 clippy.toml
+.tsbuildinfo

@@ -14,6 +14,13 @@ use tracing_subscriber::{
     filter, prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, EnvFilter, Layer,
 };
 
+static TARGET_TRIPLE: &str = include_str!(concat!(env!("OUT_DIR"), "/triple.txt"));
+
+#[napi]
+pub fn get_target_triple() -> napi::Result<String> {
+    Ok(TARGET_TRIPLE.to_string())
+}
+
 #[napi]
 pub fn init_custom_trace_subscriber(
     mut env: Env,
@@ -49,7 +56,7 @@ pub fn init_default_trace_subscriber() {
         .with_target(false)
         .with_ansi(true)
         .with_env_filter(EnvFilter::from_env("SWC_LOG"))
-        .with_env_filter(EnvFilter::from_default_env().add_directive(tracing::Level::WARN.into()))
+        .with_env_filter(EnvFilter::from_default_env().add_directive(tracing::Level::ERROR.into()))
         .try_init();
 }
 

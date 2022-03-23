@@ -153,7 +153,14 @@ define!({
     }
 
     pub enum Color {
+        AbsoluteColorBase(AbsoluteColorBase),
+        CurrentColorOrSystemColor(Ident),
+        Function(Function),
+    }
+
+    pub enum AbsoluteColorBase {
         HexColor(HexColor),
+        NamedColorOrTransparent(Ident),
         Function(Function),
     }
 
@@ -176,6 +183,7 @@ define!({
     pub enum CmykComponent {
         Number(Number),
         Percentage(Percentage),
+        Function(Function),
     }
 
     pub enum Dimension {

@@ -6,7 +6,7 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::{fixer::fixer, resolver::resolver};
 use swc_ecma_transforms_compat::{
     es2015,
-    es2015::{arrow, destructuring, function_name, parameters},
+    es2015::{arrow, block_scoping, destructuring, function_name, parameters},
     es2017::async_to_generator,
     es2022::class_properties,
 };
@@ -90,7 +90,7 @@ let TestClass = {
 "#,
     r#"
 let TestClass = {
-     name: 'John Doe',
+     name: "John Doe",
      testMethodFailure () {
         var _this = this;
         return new Promise(function() {
@@ -129,7 +129,7 @@ function foo(param) {
 }
 function _foo() {
     _foo = _asyncToGenerator(function*(param) {
-        let a = param.a, _b = param.b, b = _b === void 0 ? mandatory('b') : _b;
+        let a = param.a, _b = param.b, b = _b === void 0 ? mandatory("b") : _b;
         return Promise.resolve(b);
     });
     return _foo.apply(this, arguments);
@@ -1372,7 +1372,7 @@ let TestClass = {
 "#,
     r#"
 let TestClass = {
-    name: 'John Doe',
+    name: "John Doe",
     testMethodFailure () {
         var _this = this;
         return new Promise(function() {
@@ -2598,7 +2598,7 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     const cache = {
     };
     function getThing(key) {
@@ -2621,9 +2621,9 @@ test!(
                         _ctx.t0 = _ctx.sent;
                     case 5:
                         it = _ctx.t0;
-                        return _ctx.abrupt('return', it);
+                        return _ctx.abrupt(\"return\", it);
                     case 7:
-                    case 'end':
+                    case \"end\":
                         return _ctx.stop();
                 }
             }, _callee);
@@ -2754,7 +2754,7 @@ test!(
   });
 ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
 function MyClass(item) {
     this.item = item;
     console.log('Constructor | this.item', this.item);
@@ -2765,9 +2765,9 @@ MyClass.prototype.fun = function() {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     console.log('fun | this.item', this.item);
-                    return _ctx.abrupt('return', this.item);
+                    return _ctx.abrupt(\"return\", this.item);
                 case 2:
-                case 'end':
+                case \"end\":
                     return _ctx.stop();
             }
         }, _callee, this);
@@ -2854,7 +2854,7 @@ test!(
     myclass.handle()
   ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
 function MyClass() {
 }
 MyClass.prototype.handle = function() {
@@ -2875,11 +2875,11 @@ MyClass.prototype.init = function() {
                         _ctx.next = 4;
                         break;
                     }
-                    return _ctx.abrupt('return', false);
+                    return _ctx.abrupt(\"return\", false);
                 case 4:
-                    return _ctx.abrupt('return', true);
+                    return _ctx.abrupt(\"return\", true);
                 case 5:
-                case 'end':
+                case \"end\":
                     return _ctx.stop();
             }
         }, _callee, this);
@@ -2916,7 +2916,7 @@ export default async function someCall() {
 }
   ",
     "
-            var regeneratorRuntime = require('regenerator-runtime');
+            var regeneratorRuntime = require(\"regenerator-runtime\");
 function region() {
   return _region.apply(this, arguments);
 }
@@ -2925,7 +2925,7 @@ function _region() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                case 'end':
+                case \"end\":
                     return _ctx.stop();
             }
         }, _callee);
@@ -2943,7 +2943,7 @@ function _otherCall() {
                     _ctx.next = 2;
                     return region();
                 case 2:
-                case 'end':
+                case \"end\":
                     return _ctx.stop();
             }
         }, _callee);
@@ -2961,7 +2961,7 @@ function _someCall() {
                   _ctx.next = 2;
                   return region();
               case 2:
-              case 'end':
+              case \"end\":
                   return _ctx.stop();
           }
       }, _callee);
@@ -2990,7 +2990,7 @@ export default async function() {
 }
 ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     function region() {
       return _region.apply(this, arguments);
     }
@@ -2999,7 +2999,7 @@ export default async function() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                    case 'end':
+                    case \"end\":
                         return _ctx.stop();
                 }
             }, _callee);
@@ -3017,7 +3017,7 @@ export default async function() {
                         _ctx.next = 2;
                         return region();
                     case 2:
-                    case 'end':
+                    case \"end\":
                         return _ctx.stop();
                 }
             }, _callee);
@@ -3586,6 +3586,7 @@ fn exec_regenerator(input: PathBuf) {
                 class_properties(Some(t.comments.clone()), Default::default()),
                 async_to_generator(Default::default()),
                 es2015::for_of(Default::default()),
+                block_scoping(),
                 regenerator(Default::default(), top_level_mark)
             )
         },

@@ -193,6 +193,7 @@ where
         es2015::spread(es2015::spread::Config { loose }),
         true
     );
+    let pass = add!(pass, ObjectSuper, es2015::object_super());
     let pass = add!(pass, FunctionName, es2015::function_name());
     let pass = add!(pass, ArrowFunctions, es2015::arrow());
     let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
@@ -365,9 +366,8 @@ impl Fold for Polyfills {
                         specifiers: vec![],
                         src: Str {
                             span: DUMMY_SP,
+                            raw: None,
                             value: src,
-                            has_escape: false,
-                            kind: Default::default(),
                         },
                         type_only: false,
                         asserts: None,
@@ -383,9 +383,8 @@ impl Fold for Polyfills {
                         specifiers: vec![],
                         src: Str {
                             span: DUMMY_SP,
+                            raw: None,
                             value: src,
-                            has_escape: false,
-                            kind: Default::default(),
                         },
                         type_only: false,
                         asserts: None,

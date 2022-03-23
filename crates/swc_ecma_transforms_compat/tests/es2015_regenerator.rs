@@ -34,7 +34,7 @@ var o = {
 
 "#,
     r#"
-var regeneratorRuntime = require('regenerator-runtime');
+var regeneratorRuntime = require("regenerator-runtime");
 
 var o = {
   foo() {
@@ -118,7 +118,7 @@ test!(
     "function* foo(a,b,c){}
 ",
     r#"
-var regeneratorRuntime = require('regenerator-runtime');
+var regeneratorRuntime = require("regenerator-runtime");
 var _marked = regeneratorRuntime.mark(foo);
 
 function foo(a, b, c) {
@@ -1013,7 +1013,7 @@ test!(
     "export function* myGenerator() {
         yield* [1,2,3];
     }",
-    "var regeneratorRuntime = require('regenerator-runtime');
+    "var regeneratorRuntime = require(\"regenerator-runtime\");
 var _marked = regeneratorRuntime.mark(myGenerator);
 export function myGenerator() {
     return regeneratorRuntime.wrap(function myGenerator$(_ctx) {
@@ -1025,7 +1025,7 @@ export function myGenerator() {
                     3
                 ], \"t0\", 1);
             case 1:
-            case 'end':
+            case \"end\":
                 return _ctx.stop();
         }
     }, _marked);
@@ -1589,7 +1589,7 @@ test!(
     test();
     ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
 
     function _test() {
         _test = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
@@ -1607,7 +1607,7 @@ test!(
                   return _ctx.finish(3);
 
                 case 6:
-                case 'end':
+                case \"end\":
                   return _ctx.stop();
               }
           }, _callee, null, [[0,, 3, 6]]);
@@ -1637,7 +1637,7 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     var _marked = regeneratorRuntime.mark(foo);
 
     function foo() {
@@ -1655,7 +1655,7 @@ test!(
                 return _ctx.finish(3);
 
                 case 6:
-                case 'end':
+                case \"end\":
                 return _ctx.stop();
             }
         }, _marked, null, [[0,, 3, 6]]);
@@ -1677,7 +1677,7 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     var _marked = regeneratorRuntime.mark(foo);
 
     function foo() {
@@ -1695,11 +1695,11 @@ test!(
 
             case 5:
               _ctx.prev = 5;
-              _ctx.t0 = _ctx['catch'](0);
+              _ctx.t0 = _ctx[\"catch\"](0);
               console.log(2);
 
             case 8:
-            case 'end':
+            case \"end\":
               return _ctx.stop();
           }
       }, _marked, null, [[0, 5]]);
@@ -1717,7 +1717,7 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
             var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
@@ -1727,7 +1727,7 @@ test!(
                             _ctx.next = 2;
                             return doSomething();
                         case 2:
-                        case 'end':
+                        case \"end\":
                             return _ctx.stop();
                     }
                 }, _callee);
@@ -1756,7 +1756,7 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
             var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
@@ -1766,7 +1766,7 @@ test!(
                             _ctx.next = 2;
                             return doSomething();
                         case 2:
-                        case 'end':
+                        case \"end\":
                             return _ctx.stop();
                     }
                 }, _callee);
@@ -1796,7 +1796,7 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
             var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
@@ -1806,7 +1806,7 @@ test!(
                             _ctx.next = 2;
                             return doSomething();
                         case 2:
-                        case 'end':
+                        case \"end\":
                             return _ctx.stop();
                     }
                 }, _callee);
@@ -1839,7 +1839,7 @@ test!(
     }
     ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     export default function Foo() {
         return call(function() {
             var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
@@ -1849,7 +1849,7 @@ test!(
                             _ctx.next = 2;
                             return doSomething();
                         case 2:
-                        case 'end':
+                        case \"end\":
                             return _ctx.stop();
                     }
                 }, _callee);
@@ -2048,7 +2048,7 @@ test!(
     })();
     ",
     "
-    var regeneratorRuntime = require('regenerator-runtime');
+    var regeneratorRuntime = require(\"regenerator-runtime\");
     _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         var sleep, result;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
@@ -2074,7 +2074,7 @@ test!(
                     result = _ctx.t0;
                     console.log(result);
                 case 8:
-                case 'end':
+                case \"end\":
                     return _ctx.stop();
             }
         }, _callee);

@@ -1,0 +1,12 @@
+
+  x Expected literal to be on the right side of >
+   ,----
+ 1 | if (10 > a) {}
+   :     ^^^^^^
+   `----
+
+  x Expected literal to be on the right side of <
+   ,----
+ 7 | if (c && (10 < a) && a > 30) {}
+   :           ^^^^^^
+   `----

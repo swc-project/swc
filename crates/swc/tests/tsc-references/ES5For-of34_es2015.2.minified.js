@@ -4,7 +4,7 @@ function foo() {
     };
 }
 for (foo().x of [
-    "a",
-    "b",
-    "c"
+    'a',
+    'b',
+    'c'
 ])foo().x;

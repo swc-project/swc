@@ -29,14 +29,6 @@ impl VisitMut for Debugger {
         n.sym = format!("{}{:?}", n.sym, n.span.ctxt).into();
         n.span.ctxt = SyntaxContext::empty();
     }
-
-    fn visit_mut_str_kind(&mut self, n: &mut StrKind) {
-        if !cfg!(feature = "debug") {
-            return;
-        }
-
-        *n = Default::default();
-    }
 }
 
 pub(crate) fn dump<N>(node: &N, force: bool) -> String

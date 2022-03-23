@@ -1506,11 +1506,7 @@
                           "ctxt": 0
                         },
                         "value": "length",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"length\""
                       }
                     }
                   }
@@ -1911,11 +1907,7 @@
                         "ctxt": 0
                       },
                       "value": "length",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"length\""
                     }
                   }
                 }

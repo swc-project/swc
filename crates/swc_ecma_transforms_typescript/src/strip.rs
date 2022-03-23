@@ -511,26 +511,31 @@ where
                             },
                         })
                     }
-                    (TsLit::Str(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => TsLit::Str(Str {
-                        span,
-                        value: format!("{}{}", l.value, r.value).into(),
-                        has_escape: l.has_escape || r.has_escape,
-                        kind: Default::default(),
-                    }),
-                    (TsLit::Number(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => {
+                    (TsLit::Str(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => {
+                        let value = format!("{}{}", l.value, r.value);
+
                         TsLit::Str(Str {
                             span,
-                            value: format!("{}{}", l.value, r.value).into(),
-                            has_escape: r.has_escape,
-                            kind: Default::default(),
+                            raw: None,
+                            value: value.into(),
+                        })
+                    }
+                    (TsLit::Number(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => {
+                        let value = format!("{}{}", l.value, r.value);
+
+                        TsLit::Str(Str {
+                            span,
+                            raw: None,
+                            value: value.into(),
                         })
                     }
                     (TsLit::Str(l), TsLit::Number(r)) if expr.op == op!(bin, "+") => {
+                        let value = format!("{}{}", l.value, r.value);
+
                         TsLit::Str(Str {
                             span,
-                            value: format!("{}{}", l.value, r.value).into(),
-                            has_escape: l.has_escape,
-                            kind: Default::default(),
+                            raw: None,
+                            value: value.into(),
                         })
                     }
                     _ => return Err(()),
@@ -588,7 +593,11 @@ where
 
                     Expr::Tpl(ref t) if t.exprs.is_empty() => {
                         if let Some(v) = &t.quasis[0].cooked {
-                            return Ok(v.clone().into());
+                            return Ok(TsLit::Str(Str {
+                                span,
+                                raw: None,
+                                value: v.into(),
+                            }));
                         }
                     }
 
@@ -644,7 +653,13 @@ where
                             TsLit::Str(v) => Expr::Lit(Lit::Str(v)),
                             TsLit::Bool(v) => Expr::Lit(Lit::Bool(v)),
                             TsLit::Tpl(v) => {
-                                Expr::Lit(Lit::Str(v.quasis.into_iter().next().unwrap().raw))
+                                let value = v.quasis.into_iter().next().unwrap().raw;
+
+                                Expr::Lit(Lit::Str(Str {
+                                    span: v.span,
+                                    raw: None,
+                                    value,
+                                }))
                             }
                             TsLit::BigInt(v) => Expr::Lit(Lit::BigInt(v)),
                         }
@@ -719,11 +734,8 @@ where
                                     TsEnumMemberId::Str(s) => s,
                                     TsEnumMemberId::Ident(i) => Str {
                                         span: i.span,
+                                        raw: None,
                                         value: i.sym,
-                                        has_escape: false,
-                                        kind: StrKind::Normal {
-                                            contains_quote: false,
-                                        },
                                     },
                                 };
                                 let prop = if no_init_required {
@@ -1477,6 +1489,8 @@ where
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
         if !self.in_var_pat {
             n.key.visit_with(self);
+        } else {
+            self.decl_names.insert(n.key.to_id());
         }
         n.value.visit_with(self);
     }
@@ -1488,6 +1502,8 @@ where
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
         if !self.in_var_pat {
             n.visit_children_with(self)
+        } else {
+            self.decl_names.insert(n.to_id());
         }
     }
 
@@ -1509,12 +1525,14 @@ where
                 f.function.visit_with(self)
             }
             Decl::Var(ref var) => {
+                let old = self.in_var_pat;
                 for decl in &var.decls {
                     self.in_var_pat = true;
                     decl.name.visit_with(self);
                     self.in_var_pat = false;
                     decl.init.visit_with(self);
                 }
+                self.in_var_pat = old;
             }
             Decl::TsEnum(e) => {
                 e.members.visit_with(self);
@@ -1595,6 +1613,13 @@ where
         self.non_top_level = true;
         n.iter().for_each(|n| n.visit_with(self));
         self.non_top_level = old;
+    }
+
+    fn visit_expr(&mut self, n: &Expr) {
+        let old = self.in_var_pat;
+        self.in_var_pat = false;
+        n.visit_children_with(self);
+        self.in_var_pat = old;
     }
 
     fn visit_ts_entity_name(&mut self, _: &TsEntityName) {}
@@ -2376,6 +2401,7 @@ where
     fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
         prop.visit_mut_children_with(self);
         prop.readonly = false;
+        prop.definite = false;
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {

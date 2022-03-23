@@ -230,11 +230,7 @@
           "ctxt": 0
         },
         "value": "./items",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./items\""
       },
       "typeOnly": false,
       "asserts": null
@@ -276,11 +272,7 @@
           "ctxt": 0
         },
         "value": "./items",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./items\""
       },
       "typeOnly": false,
       "asserts": null
@@ -342,11 +334,7 @@
           "ctxt": 0
         },
         "value": "./items",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./items\""
       },
       "typeOnly": false,
       "asserts": null
@@ -408,11 +396,7 @@
           "ctxt": 0
         },
         "value": "./items",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./items\""
       },
       "typeOnly": false,
       "asserts": null
@@ -463,11 +447,7 @@
           "ctxt": 0
         },
         "value": "./two",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./two\""
       },
       "typeOnly": false,
       "asserts": null
@@ -518,11 +498,7 @@
           "ctxt": 0
         },
         "value": "./two",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./two\""
       },
       "typeOnly": false,
       "asserts": null
@@ -564,11 +540,7 @@
           "ctxt": 0
         },
         "value": "./two",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./two\""
       },
       "typeOnly": false,
       "asserts": null
@@ -619,11 +591,7 @@
           "ctxt": 0
         },
         "value": "./items",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./items\""
       },
       "typeOnly": false,
       "asserts": null

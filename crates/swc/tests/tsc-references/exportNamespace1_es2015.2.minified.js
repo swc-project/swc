@@ -1,4 +1,4 @@
 export class A {
 }
-export * from "./b";
+export * from './b';
 new A();

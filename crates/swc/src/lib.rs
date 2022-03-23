@@ -582,6 +582,15 @@ impl Compiler {
                 // Invalid utf8 is valid in javascript world.
                 String::from_utf8(buf).expect("invalid utf8 character detected")
             };
+
+            if cfg!(debug_assertions)
+                && !src_map_buf.is_empty()
+                && src_map_buf.iter().all(|(bp, _)| *bp == BytePos(0))
+                && src.lines().count() >= 3
+            {
+                panic!("The module contains only dummy spans\n{}", src);
+            }
+
             let (code, map) = match source_map {
                 SourceMapsConfig::Bool(v) => {
                     if v {

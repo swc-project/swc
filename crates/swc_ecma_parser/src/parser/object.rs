@@ -51,13 +51,10 @@ impl<'a, I: Tokens> Parser<I> {
 
             let v = match *cur!(p, true)? {
                 Token::Str { .. } => match bump!(p) {
-                    Token::Str { value, has_escape } => PropName::Str(Str {
+                    Token::Str { value, raw } => PropName::Str(Str {
                         span: span!(p, start),
                         value,
-                        has_escape,
-                        kind: StrKind::Normal {
-                            contains_quote: true,
-                        },
+                        raw: Some(raw),
                     }),
                     _ => unreachable!(),
                 },

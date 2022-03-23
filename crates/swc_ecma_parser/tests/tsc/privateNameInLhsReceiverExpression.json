@@ -66,7 +66,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "ClassMethod",
@@ -322,7 +323,8 @@
                                       "accessibility": null,
                                       "isOptional": false,
                                       "isOverride": false,
-                                      "readonly": false
+                                      "readonly": false,
+                                      "definite": false
                                     },
                                     {
                                       "type": "ClassProperty",
@@ -349,11 +351,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "prop",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "\"prop\""
                                       },
                                       "typeAnnotation": null,
                                       "isStatic": false,
@@ -537,7 +535,8 @@
                                       "accessibility": null,
                                       "isOptional": false,
                                       "isOverride": false,
-                                      "readonly": false
+                                      "readonly": false,
+                                      "definite": false
                                     },
                                     {
                                       "type": "ClassProperty",
@@ -564,11 +563,7 @@
                                           "ctxt": 0
                                         },
                                         "value": "prop",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": true
-                                        }
+                                        "raw": "\"prop\""
                                       },
                                       "typeAnnotation": null,
                                       "isStatic": false,

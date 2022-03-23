@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var x = '';
+var x = "";
 var a = x;
 var b = x;
 var c = x;

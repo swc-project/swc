@@ -606,7 +606,7 @@
                         offset: pos
                     };
                 }, CompositionViewDesc.prototype.ignoreMutation = function(mut) {
-                    return "characterData" === mut.type && mut.target.nodeValue == mut.oldValue;
+                    return 'characterData' === mut.type && mut.target.nodeValue == mut.oldValue;
                 }, Object.defineProperties(CompositionViewDesc.prototype, prototypeAccessors$2), CompositionViewDesc;
             }(ViewDesc1), MarkViewDesc1 = function(ViewDesc) {
                 function MarkViewDesc(parent, mark, dom, contentDOM) {
@@ -1480,7 +1480,7 @@
             function restoreReplacedSpaces(dom) {
                 for(var nodes = dom.querySelectorAll(result1.chrome ? "span:not([class]):not([style])" : "span.Apple-converted-space"), i = 0; i < nodes.length; i++){
                     var node = nodes[i];
-                    1 == node.childNodes.length && "\xa0" == node.textContent && node.parentNode && node.parentNode.replaceChild(dom.ownerDocument.createTextNode(" "), node);
+                    1 == node.childNodes.length && "\u00a0" == node.textContent && node.parentNode && node.parentNode.replaceChild(dom.ownerDocument.createTextNode(" "), node);
                 }
             }
             function addContext(slice, context) {
@@ -1713,7 +1713,7 @@
                     var view1, event1, event2, result, code, mods;
                     view2.someProp("handleKeyDown", function(f) {
                         return f(view2, event);
-                    }) || (view1 = view2, code = (event1 = event).keyCode, result = "", (event2 = event1).ctrlKey && (result += "c"), event2.metaKey && (result += "m"), event2.altKey && (result += "a"), event2.shiftKey && (result += "s"), mods = result, 8 == code || result1.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view1, -1) || skipIgnoredNodesLeft(view1) : 46 == code || result1.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view1, 1) || skipIgnoredNodesRight(view1) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 39 == code ? selectHorizontally(view1, 1, mods) || skipIgnoredNodesRight(view1) : 38 == code ? selectVertically(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 40 == code ? function(view) {
+                    }) || (view1 = view2, code = (event1 = event).keyCode, mods = (result = "", (event2 = event1).ctrlKey && (result += "c"), event2.metaKey && (result += "m"), event2.altKey && (result += "a"), event2.shiftKey && (result += "s"), result), 8 == code || result1.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view1, -1) || skipIgnoredNodesLeft(view1) : 46 == code || result1.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view1, 1) || skipIgnoredNodesRight(view1) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 39 == code ? selectHorizontally(view1, 1, mods) || skipIgnoredNodesRight(view1) : 38 == code ? selectVertically(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 40 == code ? function(view) {
                         if (result1.safari && !(view.state.selection.$head.parentOffset > 0)) {
                             var ref = view.root.getSelection(), focusNode = ref.focusNode, focusOffset = ref.focusOffset;
                             if (focusNode && 1 == focusNode.nodeType && 0 == focusOffset && focusNode.firstChild && "false" == focusNode.firstChild.contentEditable) {
@@ -2389,7 +2389,7 @@
                                 }
                                 return;
                             }
-                            view8.domChangeCount++, view8.state.selection.from < view8.state.selection.to && change.start == change.endB && view8.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && (change.start > view8.state.selection.from && change.start <= view8.state.selection.from + 2 ? change.start = view8.state.selection.from : change.endA < view8.state.selection.to && change.endA >= view8.state.selection.to - 2 && (change.endB += view8.state.selection.to - change.endA, change.endA = view8.state.selection.to)), result1.ie && result1.ie_version <= 11 && change.endB == change.start + 1 && change.endA == change.start && change.start > parse.from && " \xa0" == parse.doc.textBetween(change.start - parse.from - 1, change.start - parse.from + 1) && (change.start--, change.endA--, change.endB--);
+                            view8.domChangeCount++, view8.state.selection.from < view8.state.selection.to && change.start == change.endB && view8.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && (change.start > view8.state.selection.from && change.start <= view8.state.selection.from + 2 ? change.start = view8.state.selection.from : change.endA < view8.state.selection.to && change.endA >= view8.state.selection.to - 2 && (change.endB += view8.state.selection.to - change.endA, change.endA = view8.state.selection.to)), result1.ie && result1.ie_version <= 11 && change.endB == change.start + 1 && change.endA == change.start && change.start > parse.from && " \u00a0" == parse.doc.textBetween(change.start - parse.from - 1, change.start - parse.from + 1) && (change.start--, change.endA--, change.endB--);
                             var $from2 = parse.doc.resolveNoCache(change.start - parse.from), $to = parse.doc.resolveNoCache(change.endB - parse.from), inlineChange = $from2.sameParent($to) && $from2.parent.inlineContent;
                             if ((result1.ios && view8.lastIOSEnter > Date.now() - 225 && (!inlineChange || addedNodes.some(function(n) {
                                 return "DIV" == n.nodeName || "P" == n.nodeName;
@@ -2642,7 +2642,7 @@
                         if (!(elt1 = elementFromPoint(view10.dom, coords3, box))) return null;
                     }
                     if (result1.safari) for(var p = elt1; node1 && p; p = parentNode(p))p.draggable && (node1 = offset1 = null);
-                    if (dom = elt1, coords1 = coords3, elt1 = (parent = dom.parentNode) && /^li$/i.test(parent.nodeName) && coords1.left < dom.getBoundingClientRect().left ? parent : dom, node1) {
+                    if (elt1 = (dom = elt1, coords1 = coords3, (parent = dom.parentNode) && /^li$/i.test(parent.nodeName) && coords1.left < dom.getBoundingClientRect().left ? parent : dom), node1) {
                         if (result1.gecko && 1 == node1.nodeType && (offset1 = Math.min(offset1, node1.childNodes.length)) < node1.childNodes.length) {
                             var dom, coords1, parent, box$1, next = node1.childNodes[offset1];
                             "IMG" == next.nodeName && (box$1 = next.getBoundingClientRect()).right <= coords3.left && box$1.bottom > coords3.top && offset1++;

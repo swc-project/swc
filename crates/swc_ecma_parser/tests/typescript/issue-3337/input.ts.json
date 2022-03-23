@@ -41,11 +41,7 @@
           "ctxt": 0
         },
         "value": "joiful",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'joiful'"
       },
       "typeOnly": false,
       "asserts": null

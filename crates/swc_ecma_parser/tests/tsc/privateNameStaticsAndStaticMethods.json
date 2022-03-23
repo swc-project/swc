@@ -365,7 +365,8 @@
           "accessibility": null,
           "isOptional": false,
           "isOverride": false,
-          "readonly": false
+          "readonly": false,
+          "definite": false
         },
         {
           "type": "PrivateMethod",
@@ -1257,11 +1258,7 @@
                           "ctxt": 0
                         },
                         "value": "str",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"str\""
                       }
                     }
                   ],

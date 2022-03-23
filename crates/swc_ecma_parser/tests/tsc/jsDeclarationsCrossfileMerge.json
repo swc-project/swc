@@ -62,11 +62,7 @@
                     "ctxt": 0
                   },
                   "value": "./exporter",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./exporter\""
                 }
               }
             ],
@@ -218,11 +214,7 @@
             "ctxt": 0
           },
           "value": "thing",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "\"thing\""
         }
       }
     },

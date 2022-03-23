@@ -1,0 +1,11 @@
+div {
+    backdrop-filter: blur(2px);
+}
+
+div {
+    background: filter(url('image.jpg'), blur(2px));
+}
+
+div {
+    background: url(image.jpg), filter(url('image.jpg'), blur(2px));
+}

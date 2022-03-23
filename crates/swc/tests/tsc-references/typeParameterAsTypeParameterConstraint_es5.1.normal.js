@@ -17,7 +17,7 @@ var r3 = foo({
 function foo2(x, y) {
     return y;
 }
-foo2(1, '');
+foo2(1, "");
 foo2({}, {
     length: 2
 });
@@ -27,5 +27,5 @@ foo2(1, {
 });
 foo2(1, []);
 foo2(1, [
-    ''
+    ""
 ]);

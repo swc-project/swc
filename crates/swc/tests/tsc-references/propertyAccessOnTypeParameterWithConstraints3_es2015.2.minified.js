@@ -1,12 +1,12 @@
 var i, a;
 class A {
     foo() {
-        return "";
+        return '';
     }
 }
 class B extends A {
     bar() {
-        return "";
+        return '';
     }
 }
 class C {

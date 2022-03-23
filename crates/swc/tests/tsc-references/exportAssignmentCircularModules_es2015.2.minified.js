@@ -1,5 +1,5 @@
 var Foo;
-const foo1 = require("./foo_1");
+const foo1 = require('./foo_1');
 (Foo || (Foo = {})).x = foo1.x, module.exports = Foo;
 const foo2 = require("./foo_2");
 (Foo || (Foo = {})).x = foo2.x, module.exports = Foo;

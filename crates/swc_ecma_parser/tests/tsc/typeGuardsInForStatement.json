@@ -211,11 +211,7 @@
                   "ctxt": 0
                 },
                 "value": "number",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"number\""
               }
             },
             "update": {
@@ -458,11 +454,7 @@
                   "ctxt": 0
                 },
                 "value": "number",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"number\""
               }
             },
             "update": {
@@ -733,11 +725,7 @@
                   "ctxt": 0
                 },
                 "value": "number",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"number\""
               }
             },
             "update": {

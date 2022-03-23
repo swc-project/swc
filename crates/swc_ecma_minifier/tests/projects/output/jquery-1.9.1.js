@@ -184,7 +184,7 @@
             else for(i in obj)if (!1 === callback.call(obj[i], i, obj[i])) break;
             return obj;
         },
-        trim: core_trim && !core_trim.call("﻿\xa0") ? function(text) {
+        trim: core_trim && !core_trim.call("\uFEFF\xA0") ? function(text) {
             return null == text ? "" : core_trim.call(text);
         } : function(text) {
             return null == text ? "" : (text + "").replace(rtrim1, "");
@@ -2116,8 +2116,8 @@
         return elem = el || elem, "none" === jQuery.css(elem, "display") || !jQuery.contains(elem.ownerDocument, elem);
     }
     function showHide(elements, show) {
-        for(var display, elem, hidden, values = [], index = 0, length = elements.length; index < length; index++)!!(elem = elements[index]).style && (values[index] = jQuery._data(elem, "olddisplay"), display = elem.style.display, show ? (values[index] || "none" !== display || (elem.style.display = ""), "" === elem.style.display && isHidden(elem) && (values[index] = jQuery._data(elem, "olddisplay", css_defaultDisplay(elem.nodeName)))) : values[index] || (hidden = isHidden(elem), (display && "none" !== display || !hidden) && jQuery._data(elem, "olddisplay", hidden ? display : jQuery.css(elem, "display"))));
-        for(index = 0; index < length; index++)!!(elem = elements[index]).style && (show && "none" !== elem.style.display && "" !== elem.style.display || (elem.style.display = show ? values[index] || "" : "none"));
+        for(var display, elem, hidden, values = [], index = 0, length = elements.length; index < length; index++)(elem = elements[index]).style && (values[index] = jQuery._data(elem, "olddisplay"), display = elem.style.display, show ? (values[index] || "none" !== display || (elem.style.display = ""), "" === elem.style.display && isHidden(elem) && (values[index] = jQuery._data(elem, "olddisplay", css_defaultDisplay(elem.nodeName)))) : values[index] || (hidden = isHidden(elem), (display && "none" !== display || !hidden) && jQuery._data(elem, "olddisplay", hidden ? display : jQuery.css(elem, "display"))));
+        for(index = 0; index < length; index++)(elem = elements[index]).style && (show && "none" !== elem.style.display && "" !== elem.style.display || (elem.style.display = show ? values[index] || "" : "none"));
         return elements;
     }
     function setPositiveNumber(elem, value, subtract) {

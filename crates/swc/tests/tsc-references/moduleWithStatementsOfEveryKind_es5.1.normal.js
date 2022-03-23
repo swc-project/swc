@@ -47,10 +47,10 @@ var A;
     var x = 12;
     var array = null;
     var fn = function(s) {
-        return 'hello ' + s;
+        return "hello " + s;
     };
     var ol = {
-        s: 'hello',
+        s: "hello",
         id: 2,
         isvalid: true
     };
@@ -108,10 +108,10 @@ var Y;
     Y1.F = F;
     var array = Y1.array = null;
     var fn = Y1.fn = function(s) {
-        return 'hello ' + s;
+        return "hello " + s;
     };
     var ol = Y1.ol = {
-        s: 'hello',
+        s: "hello",
         id: 2,
         isvalid: true
     };

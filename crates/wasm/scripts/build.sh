@@ -1,1 +1,1 @@
-wasm-pack build --debug --scope swc -t nodejs
+wasm-pack build --debug --scope swc -t nodejs $@

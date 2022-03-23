@@ -94,11 +94,7 @@
                 "ctxt": 0
               },
               "value": "baz",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"baz\""
             }
           }
         },
@@ -167,11 +163,7 @@
                   "ctxt": 0
                 },
                 "value": "baz",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"baz\""
               }
             }
           },
@@ -190,11 +182,7 @@
                 "ctxt": 0
               },
               "value": "blah",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"blah\""
             }
           }
         },

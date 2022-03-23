@@ -1,0 +1,42 @@
+input::-webkit-input-placeholder {
+  color: red;
+}
+input:-moz-placeholder {
+  color: red;
+}
+input::-moz-placeholder {
+  color: red;
+}
+input:-ms-input-placeholder {
+  color: red;
+}
+input::-ms-input-placeholder {
+  color: red;
+}
+input::placeholder {
+  color: red;
+}
+input::-webkit-input-placeholder, 
+#fs-toggle:-webkit-full-screen {
+  color: red;
+}
+input:-moz-placeholder, 
+#fs-toggle:-moz-full-screen {
+  color: red;
+}
+input::-moz-placeholder, 
+#fs-toggle:-moz-full-screen {
+  color: red;
+}
+input:-ms-input-placeholder, 
+#fs-toggle:-ms-fullscreen {
+  color: red;
+}
+input::-ms-input-placeholder, 
+#fs-toggle:-ms-fullscreen {
+  color: red;
+}
+input::placeholder, 
+#fs-toggle:fullscreen {
+  color: red;
+}

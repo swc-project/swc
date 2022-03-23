@@ -3,8 +3,8 @@
 
 Error: 
   > post: 9
-   ,-[$DIR/tests/comments/exprs/call/simple/input.js:2:1]
- 2 | test(123/*post: 9*/, 456/*post: 10*/);
+   ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
+ 1 | test(123/*post: 9*/, 456/*post: 10*/);
    :         ^
    `----
 
@@ -12,7 +12,7 @@ Error:
 
 Error: 
   > post: 10
-   ,-[$DIR/tests/comments/exprs/call/simple/input.js:2:1]
- 2 | test(123/*post: 9*/, 456/*post: 10*/);
+   ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
+ 1 | test(123/*post: 9*/, 456/*post: 10*/);
    :                         ^
    `----

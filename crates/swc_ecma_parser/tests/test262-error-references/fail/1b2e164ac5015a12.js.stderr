@@ -1,6 +1,6 @@
 
   x Expected ',', got '.'
-   ,-[$DIR/tests/test262-parser/fail/1b2e164ac5015a12.js:2:1]
- 2 | ({a({e: a.b}){}})
+   ,-[$DIR/tests/test262-parser/fail/1b2e164ac5015a12.js:1:1]
+ 1 | ({a({e: a.b}){}})
    :          ^
    `----

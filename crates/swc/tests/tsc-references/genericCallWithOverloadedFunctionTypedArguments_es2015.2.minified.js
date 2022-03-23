@@ -19,9 +19,9 @@ var NonGenericParameter, GenericParameter;
     }
     foo5((x)=>x
     ), foo5(a), foo6((x)=>x
-    ), foo6((x)=>""
-    ), foo6((x, y)=>""
+    ), foo6((x)=>''
+    ), foo6((x, y)=>''
     ), foo7(1, (x)=>x
-    ), foo7(1, (x)=>""
+    ), foo7(1, (x)=>''
     ), foo7(1, a);
 }(GenericParameter || (GenericParameter = {}));

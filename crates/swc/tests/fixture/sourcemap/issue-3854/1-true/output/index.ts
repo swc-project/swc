@@ -4,7 +4,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _exportNames = {
     node: true,
-    node: true
+    create: true,
+    trustBox: true,
+    opener: true,
+    stage: true,
+    header: true,
+    source: true,
+    sources: true,
+    seq: true
 };
 exports.seq = exports.sources = exports.source = exports.header = exports.stage = exports.opener = exports.trustBox = exports.create = exports.node = void 0;
 var swcHelpers = require("@swc/helpers");
@@ -12,7 +19,9 @@ var _abstractBuilders = require("./AbstractBuilders");
 var _builderUtils = require("./Builder.utils");
 var _elementBuilder = require("./ElementBuilder");
 var _node = swcHelpers.interopRequireWildcard(require("./BodyNodesBuilder"));
-Object.keys(_node).forEach(function(key) {
+/**
+ * @deprecated use {Builder.body.node.img()}
+ */ Object.keys(_node).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
     if (key in exports && exports[key] === _node[key]) return;

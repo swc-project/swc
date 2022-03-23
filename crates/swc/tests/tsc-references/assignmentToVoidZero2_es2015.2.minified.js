@@ -1,4 +1,4 @@
-import { j, k } from "./assignmentToVoidZero2";
+import { j, k } from './assignmentToVoidZero2';
 exports.j = 1, exports.k = void 0;
 var o = {};
 o.x = 1, o.y = void 0, o.x + o.y;

@@ -3,9 +3,9 @@
 // @emitDeclarationOnly: true
 // @module: commonjs
 // @Filename: thing.js
-'use strict';
+"use strict";
 // @Filename: reexport.js
-'use strict';
+"use strict";
 import * as swcHelpers from "@swc/helpers";
 var Thing = function Thing() {
     swcHelpers.classCallCheck(this, Thing);
@@ -13,7 +13,7 @@ var Thing = function Thing() {
 module.exports = {
     Thing: Thing
 };
-var Thing = require('./thing').Thing;
+var Thing = require("./thing").Thing;
 module.exports = {
     Thing: Thing
 };

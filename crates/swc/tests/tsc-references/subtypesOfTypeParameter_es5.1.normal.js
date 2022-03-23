@@ -58,8 +58,8 @@ function f2(x1, y) {
     var r0b = true ? x1 : u;
     var r1 = true ? 1 : x1;
     var r1 = true ? x1 : 1;
-    var r2 = true ? '' : x1;
-    var r2 = true ? x1 : '';
+    var r2 = true ? "" : x1;
+    var r2 = true ? x1 : "";
     var r3 = true ? true : x1;
     var r3 = true ? x1 : true;
     var r4 = true ? new Date() : x1;

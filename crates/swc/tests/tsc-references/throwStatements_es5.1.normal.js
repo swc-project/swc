@@ -24,7 +24,7 @@ var M;
 })(M || (M = {}));
 var aNumber = 9.9;
 throw aNumber;
-var aString = 'this is a string';
+var aString = "this is a string";
 throw aString;
 var aDate = new Date(12);
 throw aDate;
@@ -46,7 +46,7 @@ var anObjectLiteral = {
 throw anObjectLiteral;
 var aFunction = F;
 throw aFunction;
-throw aFunction('');
+throw aFunction("");
 var aLambda = function(x) {
     return 2;
 };
@@ -67,9 +67,9 @@ throw 0;
 throw false;
 throw null;
 throw undefined;
-throw 'a string';
+throw "a string";
 throw function() {
-    return 'a string';
+    return "a string";
 };
 throw function(x) {
     return 42;
@@ -80,9 +80,9 @@ throw {
 };
 throw [];
 throw [
-    'a',
+    "a",
     [
-        'b'
+        "b"
     ]
 ];
 throw /[a-z]/;

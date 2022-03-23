@@ -20,7 +20,7 @@ var c = new C({
 var r = c.foo({
     length: 3,
     charAt: function(x) {
-        '';
+        "";
     }
 });
-var r2 = r('');
+var r2 = r("");

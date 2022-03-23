@@ -577,8 +577,8 @@ import Foo from 'foo';
 Foo.bar = true;
 ",
     "
-'use strict';
-var _foo = _interopRequireDefault(require('foo'));
+\"use strict\";
+var _foo = _interopRequireDefault(require(\"foo\"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj

@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 // expect no errors here
 var A;
 (function(A1) {
-    var x1 = A1.x = 'hello world';
+    var x1 = A1.x = "hello world";
     var Point = function Point(x, y) {
         "use strict";
         swcHelpers.classCallCheck(this, Point);
@@ -62,6 +62,6 @@ var M;
     M1.D = D;
 })(M || (M = {}));
 var o;
-var o = new M.D('Hello');
+var o = new M.D("Hello");
 var p;
 var p;

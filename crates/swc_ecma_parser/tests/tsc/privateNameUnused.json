@@ -66,11 +66,7 @@
                 "ctxt": 0
               },
               "value": "used",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"used\""
             },
             "typeAnnotation": null,
             "isStatic": false,
@@ -78,7 +74,8 @@
             "accessibility": null,
             "isOptional": false,
             "isOverride": false,
-            "readonly": false
+            "readonly": false,
+            "definite": false
           },
           {
             "type": "PrivateProperty",
@@ -113,11 +110,7 @@
                 "ctxt": 0
               },
               "value": "unused",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"unused\""
             },
             "typeAnnotation": null,
             "isStatic": false,
@@ -125,7 +118,8 @@
             "accessibility": null,
             "isOptional": false,
             "isOverride": false,
-            "readonly": false
+            "readonly": false,
+            "definite": false
           },
           {
             "type": "Constructor",

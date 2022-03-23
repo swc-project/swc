@@ -1526,11 +1526,7 @@
                     "ctxt": 0
                   },
                   "value": "10",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'10'"
                 }
               }
             }

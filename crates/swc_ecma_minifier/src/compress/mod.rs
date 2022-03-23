@@ -109,11 +109,8 @@ where
         // Skip if `use asm` exists.
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
             Some(Stmt::Expr(stmt)) => match &*stmt.expr {
-                Expr::Lit(Lit::Str(Str {
-                    value,
-                    has_escape: false,
-                    ..
-                })) => &**value == "use asm",
+                // TODO improve check, directives can contain escaped characters
+                Expr::Lit(Lit::Str(Str { value, .. })) => &**value == "use asm",
                 _ => false,
             },
             _ => false,
@@ -325,6 +322,7 @@ where
 
             let mut visitor = pure_optimizer(
                 self.options,
+                None,
                 self.marks,
                 M::force_str_for_tpl(),
                 self.pass > 1,
@@ -348,11 +346,11 @@ where
         {
             let _timer = timer!("apply full optimizer");
 
+            let mut data = analyze(&*n, Some(self.marks));
+
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
-
-            let mut data = analyze(&*n, Some(self.marks));
 
             let mut visitor = optimizer(
                 self.marks,

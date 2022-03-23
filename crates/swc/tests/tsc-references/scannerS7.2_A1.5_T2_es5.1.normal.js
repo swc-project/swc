@@ -13,5 +13,5 @@ if (x !== 1) {
 //CHECK#2
 var x = 1;
 if (x !== 1) {
-    $ERROR('#2: \xa0var x\xa0= 1\xa0; x === 1. Actual: ' + x);
+    $ERROR("#2: \xa0var x\xa0= 1\xa0; x === 1. Actual: " + x);
 }

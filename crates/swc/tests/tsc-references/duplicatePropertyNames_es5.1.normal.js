@@ -13,5 +13,5 @@ var C = /*#__PURE__*/ function() {
 var a;
 var _obj;
 var b = (_obj = {
-    foo: ''
-}, swcHelpers.defineProperty(_obj, "foo", ''), swcHelpers.defineProperty(_obj, "bar", function() {}), swcHelpers.defineProperty(_obj, "bar", function() {}), _obj);
+    foo: ""
+}, swcHelpers.defineProperty(_obj, "foo", ""), swcHelpers.defineProperty(_obj, "bar", function() {}), swcHelpers.defineProperty(_obj, "bar", function() {}), _obj);

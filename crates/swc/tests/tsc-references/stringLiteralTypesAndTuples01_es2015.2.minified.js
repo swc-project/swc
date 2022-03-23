@@ -4,9 +4,9 @@ let [hello, brave, newish, world] = [
     "New",
     "World"
 ], [im, a, dinosaur] = [
-    "I'm",
-    "a",
-    "t-rex"
+    'I\'m',
+    'a',
+    't-rex'
 ];
 !function(dino) {
     if ("t-rex" === dino) return "ROAAAAR!";
