@@ -200,8 +200,6 @@ impl Pure<'_> {
                 && f.function.params.is_empty()
                 && f.function.body.is_empty()
             {
-                tracing::debug!("evaluate: Reducing function.toString() call");
-
                 if has_spread {
                     return;
                 }
