@@ -26,10 +26,50 @@ where
         self.eval_known_static_method_call(e);
     }
 
-    fn eval_fn_props(&mut self, e: &mut Expr) {
+    fn eval_fn_props(&mut self, e: &mut Expr) -> Option<()> {
         if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
-            return;
+            return None;
         }
+
+        if let Expr::Member(MemberExpr {
+            span,
+            obj,
+            prop: MemberProp::Ident(prop),
+            ..
+        }) = e
+        {
+            if let Expr::Ident(obj) = &**obj {
+                let metadata = *self.functions.get(&obj.to_id())?;
+
+                let usage = self.data.vars.get(&obj.to_id())?;
+
+                if !usage.reassigned() {
+                    return None;
+                }
+                match &*prop.sym {
+                    "len" => {
+                        *e = Expr::Lit(Lit::Num(Number {
+                            span: *span,
+                            value: metadata.len as _,
+                        }));
+                        self.changed = true;
+                    }
+
+                    "name" => {
+                        *e = Expr::Lit(Lit::Str(Str {
+                            span: *span,
+                            value: obj.sym.clone(),
+                            raw: None,
+                        }));
+                        self.changed = true;
+                    }
+
+                    _ => {}
+                }
+            }
+        }
+
+        None
     }
 
     fn eval_global_vars(&mut self, e: &mut Expr) {
