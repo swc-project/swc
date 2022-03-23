@@ -1,2 +1,2 @@
 //@target: es6
-`\t\n\\\r`;
+`\t\n\v\f\r`;
