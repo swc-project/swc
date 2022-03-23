@@ -205,9 +205,7 @@ impl Pure<'_> {
                 }
 
                 self.changed = true;
-                tracing::debug!(
-                    "evaluate: Reduced `function.toString()` into a function expression"
-                );
+                tracing::debug!("evaluate: Reduced `function.toString()` into a string");
 
                 *e = Str {
                     span: call.span,
