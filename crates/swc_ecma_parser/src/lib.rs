@@ -369,6 +369,8 @@ pub struct Context {
 
     in_function: bool,
 
+    in_arrow_function: bool,
+
     in_parameters: bool,
 
     has_super_class: bool,
