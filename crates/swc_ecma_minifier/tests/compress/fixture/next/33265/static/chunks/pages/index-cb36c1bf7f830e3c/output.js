@@ -438,10 +438,7 @@
                 2,
                 1
             ], getLength = function(byte) {
-                for(var len = 1, i = 0; i < LENGTH_TABLE.length; i++){
-                    if (byte & LENGTH_TABLE[i]) break;
-                    len++;
-                }
+                for(var len = 1, i = 0; i < LENGTH_TABLE.length && !(byte & LENGTH_TABLE[i]); i++)len++;
                 return len;
             }, getvint = function(bytes, offset, removeLength, signed) {
                 void 0 === removeLength && (removeLength = !0), void 0 === signed && (signed = !1);
@@ -5787,10 +5784,7 @@
                 return byteArray;
             }
             function utf16leToBytes(str, units) {
-                for(var c, hi, lo, byteArray = [], i = 0; i < str.length; ++i){
-                    if ((units -= 2) < 0) break;
-                    hi = (c = str.charCodeAt(i)) >> 8, lo = c % 256, byteArray.push(lo), byteArray.push(hi);
-                }
+                for(var c, hi, lo, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, lo = c % 256, byteArray.push(lo), byteArray.push(hi);
                 return byteArray;
             }
             function base64ToBytes(str1) {
@@ -5801,10 +5795,7 @@
                 }(str1));
             }
             function blitBuffer(src, dst, offset, length) {
-                for(var i = 0; i < length; ++i){
-                    if (i + offset >= dst.length || i >= src.length) break;
-                    dst[i + offset] = src[i];
-                }
+                for(var i = 0; i < length && !(i + offset >= dst.length) && !(i >= src.length); ++i)dst[i + offset] = src[i];
                 return i;
             }
             function isInstance(obj, type) {
