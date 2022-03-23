@@ -94,6 +94,38 @@ impl Pure<'_> {
                     tracing::debug!("loops: Optimizing a for loop with an if-then-break");
 
                     first.take();
+                    return None;
+                }
+            }
+
+            if let Stmt::If(IfStmt {
+                span,
+                test,
+                cons,
+                alt: Some(alt),
+                ..
+            }) = first
+            {
+                if let Stmt::Break(BreakStmt { label: None, .. }) = &**alt {
+                    match s.test.as_deref_mut() {
+                        Some(e) => {
+                            let orig_test = e.take();
+                            *e = Expr::Bin(BinExpr {
+                                span: *span,
+                                op: op!("&&"),
+                                left: Box::new(orig_test),
+                                right: test.take(),
+                            });
+                        }
+                        None => {
+                            s.test = Some(test.take());
+                        }
+                    }
+
+                    tracing::debug!("loops: Optimizing a for loop with an if-else-break");
+
+                    *first = *cons.take();
+                    return None;
                 }
             }
         }
