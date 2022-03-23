@@ -19,9 +19,17 @@ where
     pub(super) fn evaluate(&mut self, e: &mut Expr) {
         self.eval_global_vars(e);
 
+        self.eval_fn_props(e);
+
         self.eval_numbers(e);
 
         self.eval_known_static_method_call(e);
+    }
+
+    fn eval_fn_props(&mut self, e: &mut Expr) {
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+            return;
+        }
     }
 
     fn eval_global_vars(&mut self, e: &mut Expr) {
