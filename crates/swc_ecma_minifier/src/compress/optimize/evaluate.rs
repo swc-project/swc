@@ -50,6 +50,8 @@ where
                 if self.options.unsafe_passes {
                     match &*prop.sym {
                         "length" => {
+                            tracing::debug!("evaluate: function.length");
+
                             *e = Expr::Lit(Lit::Num(Number {
                                 span: *span,
                                 value: metadata.len as _,
@@ -58,6 +60,8 @@ where
                         }
 
                         "name" => {
+                            tracing::debug!("evaluate: function.name");
+
                             *e = Expr::Lit(Lit::Str(Str {
                                 span: *span,
                                 value: obj.sym.clone(),
