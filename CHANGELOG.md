@@ -17,6 +17,9 @@
 - **(css/minifier)** Compress more properties (#4130) ([93866d0](https://github.com/swc-project/swc/commit/93866d0be5cf08a1c0a78c3a8c6b907a31525926))
 
 
+- **(css/minifier)** Remove `@charset` at-rule if possible (#4135) ([6b6664a](https://github.com/swc-project/swc/commit/6b6664a92df62338c1152fbe9baa5227eb3075a4))
+
+
 - **(es/typescript)** Support optional variance annotations (#4008) ([bf1924d](https://github.com/swc-project/swc/commit/bf1924d1a8cc2039b624eecd9730d012c1e47321))
 
 
