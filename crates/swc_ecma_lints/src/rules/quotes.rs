@@ -1,12 +1,7 @@
-use std::{
-    fmt::{self, Debug},
-    sync::Arc,
-};
-
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::HANDLER, SourceMap, Span};
+use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
@@ -17,6 +12,7 @@ use crate::{
 const MUST_USE_SINGLE_QUOTES_MESSAGE: &str = "String must use singlequotes";
 const MUST_USE_DOUBLE_QUOTES_MESSAGE: &str = "String must use doublequotes";
 const MUST_USE_BACKTICK_QUOTES_MESSAGE: &str = "String must use backtick quotes";
+const DIRECTIVES: &[&str] = &["use strict", "use asm", "use strong"];
 
 #[derive(Debug, Clone, Default, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -27,38 +23,23 @@ pub struct QuotesConfig {
     allow_template_literals: Option<bool>,
 }
 
-pub fn quotes(
-    source_map: &Arc<SourceMap>,
-    config: &RuleConfig<QuotesConfig>,
-) -> Option<Box<dyn Rule>> {
+pub fn quotes(config: &RuleConfig<QuotesConfig>) -> Option<Box<dyn Rule>> {
     match config.get_rule_reaction() {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(Quotes::new(source_map.clone(), config))),
+        _ => Some(visitor_rule(Quotes::new(config))),
     }
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 struct Quotes {
     expected_reaction: LintRuleReaction,
     prefer: QuotesType,
     avoid_escape: bool,
     allow_template_literals: bool,
-    source_map: Arc<SourceMap>,
-}
-
-impl Debug for Quotes {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_struct("Quotes")
-            .field("expected_reaction", &self.expected_reaction)
-            .field("prefer", &self.prefer)
-            .field("avoid_escape", &self.avoid_escape)
-            .field("allow_template_literals", &self.allow_template_literals)
-            .finish()
-    }
 }
 
 impl Quotes {
-    fn new(source_map: Arc<SourceMap>, config: &RuleConfig<QuotesConfig>) -> Self {
+    fn new(config: &RuleConfig<QuotesConfig>) -> Self {
         let quotes_config = config.get_rule_config();
 
         Self {
@@ -66,7 +47,6 @@ impl Quotes {
             prefer: quotes_config.prefer,
             avoid_escape: quotes_config.avoid_escape.unwrap_or(true),
             allow_template_literals: quotes_config.allow_template_literals.unwrap_or(true),
-            source_map,
         }
     }
 
@@ -101,7 +81,7 @@ impl Quotes {
     }
 
     fn check_str(&self, is_method_key_check: bool, lit_str: &Str) {
-        let found_quote_type = resolve_string_quote_type(&self.source_map, lit_str).unwrap();
+        let found_quote_type = resolve_string_quote_type(lit_str).unwrap();
 
         let Str { span, value, .. } = lit_str;
 
@@ -167,11 +147,27 @@ impl Visit for Quotes {
             }
             _ => {}
         }
+
+        expr.visit_children_with(self);
+    }
+
+    fn visit_expr_stmt(&mut self, expr_stmt: &ExprStmt) {
+        if let Expr::Lit(Lit::Str(Str { value, .. })) = expr_stmt.expr.as_ref() {
+            let value: &str = &*value;
+
+            if DIRECTIVES.contains(&value) {
+                return;
+            }
+        }
+
+        expr_stmt.visit_children_with(self);
     }
 
     fn visit_class_method(&mut self, class_method: &ClassMethod) {
         if let Some(lit_str) = class_method.key.as_str() {
             self.check_str(true, lit_str);
         }
+
+        class_method.visit_children_with(self);
     }
 }
