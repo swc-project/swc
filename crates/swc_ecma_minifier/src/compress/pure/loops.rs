@@ -44,6 +44,10 @@ impl Pure<'_> {
         }
     }
 
+    pub(super) fn optimize_for_if_break(&mut self, _s: &ForStmt) {
+        if !self.options.loops {}
+    }
+
     /// # Input
     ///
     /// ```js
