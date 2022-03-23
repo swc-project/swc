@@ -649,12 +649,27 @@ impl<'a, I: Tokens> Parser<I> {
                                     if idx != len - 1 {
                                         self.emit_err(span, SyntaxError::NonLastRestParam)
                                     };
+
+                                    let element_pat_ty = pat_ty.element();
+                                    let pat = if let PatType::BindingElement = element_pat_ty {
+                                        if let Expr::Ident(i) = *expr {
+                                            i.into()
+                                        } else {
+                                            self.emit_err(span, SyntaxError::DotsWithoutIdentifier);
+                                            Pat::Invalid(Invalid { span })
+                                        }
+                                    } else {
+                                        self.reparse_expr_as_pat(element_pat_ty, expr)?
+                                    };
+
+                                    if let Pat::Assign(_) = pat {
+                                        self.emit_err(span, SyntaxError::TS1048)
+                                    };
+
                                     Ok(ObjectPatProp::Rest(RestPat {
                                         span,
                                         dot3_token,
-                                        arg: Box::new(
-                                            self.reparse_expr_as_pat(pat_ty.element(), expr)?,
-                                        ),
+                                        arg: Box::new(pat),
                                         type_ann: None,
                                     }))
                                 }
@@ -666,7 +681,6 @@ impl<'a, I: Tokens> Parser<I> {
                 }))
             }
             Expr::Ident(ident) => Ok(ident.into()),
-            Expr::Member(..) | Expr::SuperProp(..) => Ok(Pat::Expr(expr)),
             Expr::Array(ArrayLit {
                 elems: mut exprs, ..
             }) => {
@@ -714,6 +728,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 if count_of_trailing_comma == 0 {
                     let expr = exprs.into_iter().next().unwrap();
+                    let outer_expr_span = expr.span();
                     let last = match expr {
                         // Rest
                         Some(ExprOrSpread {
@@ -721,6 +736,9 @@ impl<'a, I: Tokens> Parser<I> {
                             expr,
                         }) => {
                             // TODO: is BindingPat correct?
+                            if let Expr::Assign(_) = *expr {
+                                self.emit_err(outer_expr_span, SyntaxError::TS1048)
+                            };
                             let expr_span = expr.span();
                             self.reparse_expr_as_pat(pat_ty.element(), expr)
                                 .map(|pat| {
@@ -802,12 +820,16 @@ impl<'a, I: Tokens> Parser<I> {
 
         debug_assert_eq!(exprs.len(), 1);
         let expr = exprs.into_iter().next().unwrap();
+        let outer_expr_span = expr.span();
         let last = match expr {
             // Rest
             PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                 spread: Some(dot3_token),
                 expr,
             }) => {
+                if let Expr::Assign(_) = *expr {
+                    self.emit_err(outer_expr_span, SyntaxError::TS1048)
+                };
                 let expr_span = expr.span();
                 self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
                     Pat::Rest(RestPat {
