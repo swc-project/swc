@@ -1,0 +1,6 @@
+
+  x Assignment to function parameter 'catchMe'
+   ,----
+ 3 | catchMe = 1;
+   : ^^^^^^^
+   `----
