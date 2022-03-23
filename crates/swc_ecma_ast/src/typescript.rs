@@ -46,6 +46,12 @@ pub struct TsTypeParam {
     pub span: Span,
     pub name: Ident,
 
+    #[serde(default, rename = "in")]
+    pub is_in: bool,
+
+    #[serde(default, rename = "out")]
+    pub is_out: bool,
+
     #[serde(default)]
     pub constraint: Option<Box<TsType>>,
 

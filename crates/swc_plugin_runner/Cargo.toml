@@ -10,7 +10,12 @@ version = "0.46.0"
 
 [features]
 default = ["filesystem_cache"]
+# Supports a cache allow to store compiled bytecode into filesystem location.
+# This feature implies in-memory cache enabled always.
 filesystem_cache = ["wasmer-cache"]
+# Supports a cache allow to store wasm module in-memory. This avoids recompilation
+# to the same module in a single procress lifecycle.
+memory_cache = []
 
 [dependencies]
 anyhow = "1.0.42"

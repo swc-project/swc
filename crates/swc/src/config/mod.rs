@@ -1,3 +1,4 @@
+#![cfg_attr(any(not(feature = "plugin"), target_arch = "wasm32"), allow(unused))]
 use std::{
     cell::RefCell,
     collections::{HashMap, HashSet},
@@ -438,26 +439,58 @@ impl Options {
                 comments,
             );
 
-        let plugin_resolver = CachingResolver::new(
-            40,
-            NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
-        );
+        let keep_import_assertions = experimental.keep_import_assertions;
 
-        let transform_filename = match base {
-            FileName::Real(path) => path.as_os_str().to_str().map(String::from),
-            FileName::Custom(filename) => Some(filename.to_owned()),
-            _ => None,
+        // Embedded runtime plugin target, based on assumption we have
+        // 1. filesystem access for the cache
+        // 2. embedded runtime can compiles & execute wasm
+        #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
+        let plugins = {
+            let plugin_resolver = CachingResolver::new(
+                40,
+                NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
+            );
+
+            let transform_filename = match base {
+                FileName::Real(path) => path.as_os_str().to_str().map(String::from),
+                FileName::Custom(filename) => Some(filename.to_owned()),
+                _ => None,
+            };
+
+            let plugin_context = PluginContext {
+                filename: transform_filename,
+                env_name: self.env_name.to_owned(),
+            };
+
+            if experimental.plugins.is_some() {
+                swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
+            }
+
+            crate::plugin::plugins(plugin_resolver, experimental, plugin_context)
         };
 
-        let plugin_context = PluginContext {
-            filename: transform_filename,
-            env_name: self.env_name.to_owned(),
+        // Native runtime plugin target, based on assumption we have
+        // 1. no filesystem access, loading binary / cache management should be
+        // performed externally
+        // 2. native runtime compiles & execute wasm (i.e v8 on node, chrome)
+        #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
+        let plugins = {
+            let transform_filename = match base {
+                FileName::Real(path) => path.as_os_str().to_str().map(String::from),
+                FileName::Custom(filename) => Some(filename.to_owned()),
+                _ => None,
+            };
+
+            let plugin_context = PluginContext {
+                filename: transform_filename,
+                env_name: self.env_name.to_owned(),
+            };
+
+            crate::plugin::plugins(experimental, plugin_context)
         };
 
-        #[cfg(feature = "plugin")]
-        if experimental.plugins.is_some() {
-            swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
-        }
+        #[cfg(not(feature = "plugin"))]
+        let plugins = crate::plugin::plugins();
 
         let pass = chain!(
             lint_to_fold(swc_ecma_lints::rules::all(LintParams {
@@ -477,7 +510,7 @@ impl Options {
             ),
             // The transform strips import assertions, so it's only enabled if
             // keep_import_assertions is false.
-            Optional::new(import_assertions(), !experimental.keep_import_assertions),
+            Optional::new(import_assertions(), !keep_import_assertions),
             Optional::new(
                 typescript::strip_with_jsx(
                     cm.clone(),
@@ -496,7 +529,7 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            crate::plugin::plugins(plugin_resolver, experimental, plugin_context),
+            plugins,
             custom_before_pass(&program),
             // handle jsx
             Optional::new(

@@ -64,6 +64,8 @@
                     "value": "K",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": {
                     "type": "TsLiteralType",
                     "span": {
@@ -314,6 +316,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -667,6 +671,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsLiteralType",
               "span": {

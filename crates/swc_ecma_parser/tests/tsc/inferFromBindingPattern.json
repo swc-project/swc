@@ -54,6 +54,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -143,6 +145,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -251,6 +255,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -631,6 +637,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": {
               "type": "TsKeywordType",
@@ -798,6 +806,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -818,6 +828,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -985,6 +997,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -1005,6 +1019,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1332,6 +1348,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": {
               "type": "TsTypeReference",
@@ -1781,6 +1799,8 @@
               "value": "T1",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1928,6 +1948,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": {
               "type": "TsKeywordType",

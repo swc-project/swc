@@ -49,6 +49,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -178,6 +180,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -325,6 +329,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -508,6 +514,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -1510,6 +1518,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -1546,6 +1556,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -1941,6 +1953,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -1977,6 +1991,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -2759,6 +2775,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -2804,6 +2822,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -4089,6 +4109,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -4497,6 +4519,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -4615,6 +4639,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -4759,6 +4785,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -4966,6 +4994,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -5137,6 +5167,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -5944,6 +5976,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -6439,6 +6473,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -6848,6 +6884,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -7275,6 +7313,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -7341,6 +7381,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -7371,6 +7413,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -7503,6 +7547,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -7729,6 +7775,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -7904,6 +7952,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -8238,6 +8288,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -8600,6 +8652,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -9133,6 +9187,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -9169,6 +9225,8 @@
               "value": "V",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -9346,6 +9404,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -9888,6 +9948,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -9924,6 +9986,8 @@
               "value": "V",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -10513,6 +10577,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -10549,6 +10615,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -11061,6 +11129,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -11571,6 +11641,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -12081,6 +12153,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -12117,6 +12191,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -12620,6 +12696,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -12665,6 +12743,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -13443,6 +13523,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -13479,6 +13561,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -13547,6 +13631,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -13828,6 +13914,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -13965,6 +14053,8 @@
                         "value": "U",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     }
@@ -14084,6 +14174,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -14222,6 +14314,8 @@
                       "value": "U",
                       "optional": false
                     },
+                    "in": false,
+                    "out": false,
                     "constraint": null,
                     "default": null
                   }
@@ -14485,6 +14579,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -14596,6 +14692,8 @@
                         "value": "U",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     }
@@ -21295,6 +21393,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -21331,6 +21431,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -21367,6 +21469,8 @@
               "value": "R",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -23324,6 +23428,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -23360,6 +23466,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -23396,6 +23504,8 @@
               "value": "R",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -23993,6 +24103,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -24744,6 +24856,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -24780,6 +24894,8 @@
               "value": "R",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -25207,6 +25323,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -25670,6 +25788,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -25833,6 +25953,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -26012,6 +26134,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -26467,6 +26591,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -26533,6 +26659,8 @@
               "value": "A",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -26569,6 +26697,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -27050,6 +27180,8 @@
                     "value": "T",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": {
                     "type": "TsArrayType",
                     "span": {
@@ -27086,6 +27218,8 @@
                     "value": "U",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": {
                     "type": "TsArrayType",
                     "span": {
@@ -27122,6 +27256,8 @@
                     "value": "R",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 }
@@ -28128,6 +28264,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -28172,6 +28310,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": {
               "type": "TsKeywordType",

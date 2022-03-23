@@ -602,6 +602,8 @@
             "value": "V",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeReference",
             "span": {

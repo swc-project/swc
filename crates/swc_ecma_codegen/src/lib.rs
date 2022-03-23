@@ -1567,6 +1567,7 @@ where
         srcmap!(node, true);
 
         punct!("`");
+
         let i = 0;
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
@@ -1585,6 +1586,20 @@ where
     }
 
     #[emitter]
+    fn emit_quasi(&mut self, node: &TplElement) -> Result {
+        srcmap!(node, true);
+
+        if self.cfg.minify {
+            self.wr
+                .write_str_lit(DUMMY_SP, &get_template_element_from_raw(&node.raw))?;
+        } else {
+            self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
+        }
+
+        srcmap!(node, false);
+    }
+
+    #[emitter]
     fn emit_tagged_tpl_lit(&mut self, node: &TaggedTpl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1597,21 +1612,47 @@ where
         }
 
         emit!(node.type_params);
-        emit!(node.tpl);
+        self.emit_template_for_tagged_template(&node.tpl)?;
 
         srcmap!(node, false);
     }
 
-    #[emitter]
-    fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        srcmap!(node, true);
+    fn emit_template_for_tagged_template(&mut self, node: &Tpl) -> Result {
+        debug_assert!(node.quasis.len() == node.exprs.len() + 1);
 
-        self.wr
-            .write_str_lit(DUMMY_SP, &unescape_tpl_lit(&node.raw, true))?;
+        self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, false);
+        srcmap!(self, node, true);
 
-        return Ok(());
+        punct!(self, "`");
+
+        let i = 0;
+
+        for i in 0..(node.quasis.len() + node.exprs.len()) {
+            if i % 2 == 0 {
+                self.emit_template_element_for_tagged_template(&node.quasis[i / 2])?;
+            } else {
+                punct!(self, "${");
+                emit!(self, node.exprs[i / 2]);
+                punct!(self, "}");
+            }
+        }
+
+        punct!(self, "`");
+
+        srcmap!(self, node, false);
+
+        Ok(())
+    }
+
+    fn emit_template_element_for_tagged_template(&mut self, node: &TplElement) -> Result {
+        srcmap!(self, node, true);
+
+        self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
+
+        srcmap!(self, node, false);
+
+        Ok(())
     }
 
     #[emitter]
@@ -3084,17 +3125,17 @@ where
     }
 }
 
-fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
+fn get_template_element_from_raw(s: &str) -> String {
     fn read_escaped(
         radix: u32,
         len: Option<usize>,
         buf: &mut String,
-        chars: impl Iterator<Item = char>,
+        iter: impl Iterator<Item = char>,
     ) {
         let mut v = 0;
         let mut pending = None;
 
-        for (i, c) in chars.enumerate() {
+        for (i, c) in iter.enumerate() {
             if let Some(len) = len {
                 if i == len {
                     pending = Some(c);
@@ -3114,15 +3155,29 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
         }
 
         match radix {
-            2 => write!(buf, "\\b{:b}", v).unwrap(),
-
-            8 => write!(buf, "\\o{:o}", v).unwrap(),
-
             16 => {
-                if v < 16 {
-                    write!(buf, "\\x0{:x}", v).unwrap()
-                } else {
-                    write!(buf, "\\x{:x}", v).unwrap()
+                match v {
+                    0 => match pending {
+                        Some('1'..='9') => write!(buf, "\\x00").unwrap(),
+                        _ => write!(buf, "\\0").unwrap(),
+                    },
+                    1..=15 => write!(buf, "\\x0{:x}", v).unwrap(),
+                    // '\x20'..='\x7e'
+                    32..=126 => {
+                        let c = char::from_u32(v);
+
+                        match c {
+                            Some(c) => write!(buf, "{}", c).unwrap(),
+                            _ => {
+                                unreachable!()
+                            }
+                        }
+                    }
+                    // '\x10'..='\x1f'
+                    // '\u{7f}'..='\u{ff}'
+                    _ => {
+                        write!(buf, "\\x{:x}", v).unwrap();
+                    }
                 }
             }
 
@@ -3134,71 +3189,101 @@ fn unescape_tpl_lit(s: &str, is_synthesized: bool) -> String {
         }
     }
 
-    let mut result = String::with_capacity(s.len() * 6 / 5);
-    let mut chars = s.chars().peekable();
+    let mut buf = String::with_capacity(s.len());
+    let mut iter = s.chars().peekable();
 
-    while let Some(c) = chars.next() {
-        if c != '\\' {
-            match c {
-                '\r' => {
-                    if chars.peek().copied() == Some('\n') {
-                        continue;
+    let mut is_dollar_prev = false;
+
+    while let Some(c) = iter.next() {
+        let unescape = match c {
+            '\\' => match iter.next() {
+                Some(c) => match c {
+                    'n' => Some('\n'),
+                    't' => Some('\t'),
+                    'x' => {
+                        read_escaped(16, Some(2), &mut buf, &mut iter);
+
+                        None
                     }
+                    // TODO handle `\u1111` and `\u{1111}` too
+                    // Source - https://github.com/eslint/eslint/blob/main/lib/rules/no-useless-escape.js
+                    '\u{2028}' | '\u{2029}' => None,
+                    // `\t` and `\h` are special cases, because they can be replaced on real
+                    // characters `\xXX` can be replaced on character
+                    '\\' | 'r' | 'v' | 'b' | 'f' | 'u' | '\r' | '\n' | '`' | '0'..='7' => {
+                        buf.push('\\');
+                        buf.push(c);
 
-                    result.push('\r');
-                }
-                '\n' => {
-                    result.push('\n');
-                }
+                        None
+                    }
+                    '$' if iter.peek() == Some(&'{') => {
+                        buf.push('\\');
+                        buf.push('$');
 
-                '`' if is_synthesized => {
-                    result.push_str("\\`");
-                }
+                        None
+                    }
+                    '{' if is_dollar_prev => {
+                        buf.push('\\');
+                        buf.push('{');
 
-                // TODO: Handle all escapes
-                _ => {
-                    result.push(c);
+                        is_dollar_prev = false;
+
+                        None
+                    }
+                    _ => Some(c),
+                },
+                None => Some('\\'),
+            },
+            _ => Some(c),
+        };
+
+        match unescape {
+            Some(c @ '$') => {
+                is_dollar_prev = true;
+
+                buf.push(c);
+            }
+            Some('\x00') => {
+                let next = iter.peek();
+
+                match next {
+                    Some('1'..='9') => buf.push_str("\\x00"),
+                    _ => buf.push_str("\\0"),
                 }
             }
-
-            continue;
-        }
-
-        match chars.next() {
-            None => {
-                // This is wrong, but it seems like a mistake made by user.
-                result.push('\\');
+            // Octal doesn't supported in template literals, except in tagged templates, but
+            // we don't use this for tagged templates, they are printing as is
+            Some('\u{0008}') => buf.push_str("\\b"),
+            Some('\u{000c}') => buf.push_str("\\f"),
+            Some('\n') => buf.push('\n'),
+            // `\r` is impossible here, because it was removed on parser stage
+            Some('\u{000b}') => buf.push_str("\\v"),
+            Some('\t') => buf.push('\t'),
+            // Print `"` and `'` without quotes
+            Some(c @ '\x20'..='\x7e') => {
+                buf.push(c);
             }
+            Some(c @ '\u{7f}'..='\u{ff}') => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+            Some('\u{2028}') => {
+                buf.push_str("\\u2028");
+            }
+            Some('\u{2029}') => {
+                buf.push_str("\\u2029");
+            }
+            Some('\u{FEFF}') => {
+                buf.push_str("\\uFEFF");
+            }
+            // TODO handle unicode characters and surrogate pairs
             Some(c) => {
-                match c {
-                    '\\' => result.push_str(r"\\"),
-                    'n' => result.push_str("\\n"),
-                    'r' => result.push_str("\\r"),
-                    't' => result.push_str("\\t"),
-                    'b' => result.push_str("\\\u{0008}"),
-                    'f' => result.push_str("\\\u{000C}"),
-                    'v' => result.push_str("\\\u{000B}"),
-                    '0' => match chars.next() {
-                        Some('b') => read_escaped(2, None, &mut result, &mut chars),
-                        Some('o') => read_escaped(8, None, &mut result, &mut chars),
-                        Some('x') => read_escaped(16, Some(2), &mut result, &mut chars),
-                        nc => {
-                            // This is wrong, but it seems like a mistake made by user.
-                            result.push_str("\\0");
-                            result.extend(nc);
-                        }
-                    },
-
-                    _ => {
-                        result.push('\\');
-                        result.push(c);
-                    }
-                }
+                buf.push(c);
             }
+            None => {}
         }
     }
 
-    result
+    buf
 }
 
 fn get_quoted_utf16(v: &str, target: EsVersion) -> String {

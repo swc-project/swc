@@ -82,6 +82,8 @@
               "value": "_T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -102,6 +104,8 @@
               "value": "_U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -157,6 +161,8 @@
               "value": "_T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -530,6 +536,8 @@
                     "value": "P",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": {
                     "type": "TsTypeReference",
                     "span": {

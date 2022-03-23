@@ -105,6 +105,8 @@
                 "value": "a",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             }
@@ -318,6 +320,8 @@
                 "value": "a",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             }
@@ -662,6 +666,8 @@
                 "value": "a",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             }
@@ -883,6 +889,8 @@
               "value": "a",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1339,6 +1347,8 @@
                 "value": "r",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             }

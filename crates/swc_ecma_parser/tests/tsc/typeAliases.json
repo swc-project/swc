@@ -2289,6 +2289,8 @@
               "value": "T1",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -2327,6 +2329,8 @@
               "value": "T2",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {

@@ -143,6 +143,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -585,6 +587,8 @@
                     "value": "K",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": {
                     "type": "TsTypeOperator",
                     "span": {
@@ -749,6 +753,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -769,6 +775,8 @@
               "value": "Key",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {

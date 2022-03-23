@@ -582,7 +582,7 @@ fn test_get_quoted_utf16() {
     es2020("\u{ff}", "\"\\xff\"");
     es2020("\u{10ffff}", "\"\\u{10FFFF}\"");
     es2020("😀", "\"\\u{1F600}\"");
-    es5("ퟻ", "\"\\uD7FB\"");
+    es2020("ퟻ", "\"\\uD7FB\"");
 
     es2020_nonascii("\u{FEFF}abc", "\"\\uFEFFabc\"");
     es2020_nonascii("\u{10ffff}", "\"\\u{10FFFF}\"");
