@@ -269,6 +269,14 @@ impl VisitMut for CompressDeclaration {
                         }
                     }
                 }
+                "scroll-margin-inline" if declaration.value.len() == 2 => {
+                    let first = declaration.value.get(0);
+                    let second = declaration.value.get(1);
+
+                    if self.is_same_dimension_length_nodes(first, second) {
+                        declaration.value.remove(1);
+                    }
+                }
                 "font-weight" => {
                     declaration.value = declaration
                         .value
