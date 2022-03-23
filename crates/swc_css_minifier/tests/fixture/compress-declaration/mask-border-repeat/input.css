@@ -1,0 +1,11 @@
+.class-1 {
+    mask-border-repeat: round stretch;
+}
+
+.class-2 {
+    mask-border-repeat: round round;
+}
+
+.class-3 {
+    mask-border-repeat: space space;
+}

@@ -3002,7 +3002,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.2.9"
+version = "0.2.10"
 dependencies = [
  "string_cache",
  "string_cache_codegen",
@@ -3195,7 +3195,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.65.0"
+version = "0.65.1"
 dependencies = [
  "swc_atoms",
  "swc_common",

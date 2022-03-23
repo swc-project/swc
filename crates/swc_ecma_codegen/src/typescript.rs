@@ -953,6 +953,16 @@ where
     fn emit_ts_type_param(&mut self, n: &TsTypeParam) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
+        if n.is_in {
+            keyword!("in");
+            space!();
+        }
+
+        if n.is_out {
+            keyword!("out");
+            space!();
+        }
+
         emit!(n.name);
 
         if let Some(constraints) = &n.constraint {

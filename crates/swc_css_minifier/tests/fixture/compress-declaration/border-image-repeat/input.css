@@ -1,0 +1,11 @@
+.class-1 {
+    border-image-repeat: round stretch;
+}
+
+.class-2 {
+    border-image-repeat: round round;
+}
+
+.class-3 {
+    border-image-repeat: space space;
+}
