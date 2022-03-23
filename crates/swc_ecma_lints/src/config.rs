@@ -6,7 +6,8 @@ use serde::{Deserialize, Serialize};
 use crate::rules::non_critical_lints::{
     dot_notation::DotNotationConfig, eqeqeq::EqeqeqConfig, no_bitwise::NoBitwiseConfig,
     no_console::NoConsoleConfig, no_empty_function::NoEmptyFunctionConfig,
-    no_restricted_syntax::NoRestrictedSyntaxConfig, no_use_before_define::NoUseBeforeDefineConfig,
+    no_param_reassign::NoParamReassignConfig, no_restricted_syntax::NoRestrictedSyntaxConfig,
+    no_use_before_define::NoUseBeforeDefineConfig,
     prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig, radix::RadixConfig,
     valid_typeof::ValidTypeofConfig, yoda::YodaConfig,
 };
@@ -146,4 +147,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "validTypeof")]
     pub valid_typeof: RuleConfig<ValidTypeofConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noParamReassign")]
+    pub no_param_reassign: RuleConfig<NoParamReassignConfig>,
 }
