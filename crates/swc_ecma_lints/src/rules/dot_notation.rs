@@ -1,12 +1,7 @@
-use std::{
-    fmt::{self, Debug},
-    sync::Arc,
-};
-
 use dashmap::DashMap;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::HANDLER, sync::Lazy, SourceMap, Span};
+use swc_common::{errors::HANDLER, sync::Lazy, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -27,51 +22,29 @@ pub struct DotNotationConfig {
 
 pub fn dot_notation(
     program: &Program,
-    source_map: &Arc<SourceMap>,
     config: &RuleConfig<DotNotationConfig>,
 ) -> Option<Box<dyn Rule>> {
     match config.get_rule_reaction() {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(DotNotation::new(
-            source_map.clone(),
-            program.is_module(),
-            config,
-        ))),
+        _ => Some(visitor_rule(DotNotation::new(program.is_module(), config))),
     }
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 struct DotNotation {
-    source_map: Arc<SourceMap>,
     expected_reaction: LintRuleReaction,
     allow_keywords: bool,
     pattern: Option<String>,
     is_module: bool,
 }
 
-impl Debug for DotNotation {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_struct("DotNotation")
-            .field("expected_reaction", &self.expected_reaction)
-            .field("allow_keywords", &self.allow_keywords)
-            .field("pattern", &self.pattern)
-            .field("is_module", &self.is_module)
-            .finish()
-    }
-}
-
 impl DotNotation {
-    fn new(
-        source_map: Arc<SourceMap>,
-        is_module: bool,
-        config: &RuleConfig<DotNotationConfig>,
-    ) -> Self {
+    fn new(is_module: bool, config: &RuleConfig<DotNotationConfig>) -> Self {
         let dot_notation_config = config.get_rule_config();
 
         Self {
             expected_reaction: config.get_rule_reaction(),
             allow_keywords: dot_notation_config.allow_keywords.unwrap_or(true),
-            source_map,
             is_module,
             pattern: dot_notation_config.allow_pattern.clone(),
         }
@@ -129,7 +102,7 @@ impl Visit for DotNotation {
         if let MemberProp::Computed(prop) = member {
             match &*prop.expr {
                 Expr::Lit(Lit::Str(lit_str)) => {
-                    let quote_type = resolve_string_quote_type(&self.source_map, lit_str).unwrap();
+                    let quote_type = resolve_string_quote_type(lit_str).unwrap();
 
                     self.check(prop.span, quote_type, &*lit_str.value);
                 }

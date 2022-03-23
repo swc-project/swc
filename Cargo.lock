@@ -3195,7 +3195,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.65.1"
+version = "0.65.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3259,7 +3259,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.99.1"
+version = "0.99.2"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3315,7 +3315,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.27.0"
+version = "0.27.1"
 dependencies = [
  "ahash",
  "auto_impl",
