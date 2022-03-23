@@ -1,5 +1,0 @@
-export var foo = function() {
-    return 2;
-};
-
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9rZHkxL3Byb2plY3RzL3N3Yy1idWdzL3Rlc3RzL2ZpeHR1cmUvaXNzdWUtMTU4MS9jYXNlMS9pbnB1dC9pbmRleC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgY29uc3QgZm9vID0gKCkgPT4ge1xuICAgIHJldHVybiAyO1xufTsiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IldBQWEsR0FBRztXQUNMLENBQUMifQ==

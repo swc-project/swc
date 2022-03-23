@@ -7,6 +7,7 @@ use std::{
 
 use anyhow::Context;
 use clap::Parser;
+use glob::glob;
 use path_absolutize::Absolutize;
 use rayon::prelude::*;
 use relative_path::RelativePath;
@@ -116,6 +117,7 @@ static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "t
 fn get_files_list(
     raw_files_input: &[PathBuf],
     extensions: &[String],
+    ignore_pattern: Option<&str>,
     _include_dotfiles: bool,
 ) -> anyhow::Result<Vec<PathBuf>> {
     let input_dir = raw_files_input.iter().find(|p| p.is_dir());
@@ -141,36 +143,16 @@ fn get_files_list(
         raw_files_input.to_owned()
     };
 
-    Ok(files)
-}
+    if let Some(ignore_pattern) = ignore_pattern {
+        let pattern: Vec<PathBuf> = glob(ignore_pattern)?.filter_map(|p| p.ok()).collect();
 
-fn build_transform_options(
-    config_file: &Option<PathBuf>,
-    file_path: &Option<&Path>,
-) -> anyhow::Result<Options> {
-    let base_options = Options::default();
-    let base_config = Config::default();
-
-    let config_file = if let Some(config_file_path) = config_file {
-        let config_file_contents = fs::read(config_file_path)?;
-        serde_json::from_slice(&config_file_contents)
-            .map_err(|e| anyhow::anyhow!("{}", e))
-            .context("Failed to parse config file")?
-    } else {
-        None
-    };
-
-    let mut ret = Options {
-        config: Config { ..base_config },
-        config_file,
-        ..base_options
-    };
-
-    if let Some(file_path) = file_path {
-        ret.filename = file_path.to_str().unwrap_or_default().to_owned();
+        return Ok(files
+            .into_iter()
+            .filter(|file_path| !pattern.iter().any(|p| p.eq(file_path)))
+            .collect());
     }
 
-    Ok(ret)
+    Ok(files)
 }
 
 /// Calculate full, absolute path to the file to emit.
@@ -271,6 +253,34 @@ struct InputContext {
 
 #[swc_trace]
 impl CompileOptions {
+    fn build_transform_options(&self, file_path: &Option<&Path>) -> anyhow::Result<Options> {
+        let base_options = Options::default();
+        let base_config = Config::default();
+
+        let config_file = if let Some(config_file_path) = &self.config_file {
+            let config_file_contents = fs::read(config_file_path)?;
+            serde_json::from_slice(&config_file_contents).context("Failed to parse config file")?
+        } else {
+            None
+        };
+
+        let mut ret = Options {
+            config: Config { ..base_config },
+            config_file,
+            ..base_options
+        };
+
+        if let Some(file_path) = *file_path {
+            ret.filename = file_path.to_str().unwrap_or_default().to_owned();
+        }
+
+        if let Some(env_name) = &self.env_name {
+            ret.env_name = env_name.to_string();
+        }
+
+        Ok(ret)
+    }
+
     /// Create canonical list of inputs to be processed across stdin / single
     /// file / multiple files.
     fn collect_inputs(&self) -> anyhow::Result<Vec<InputContext>> {
@@ -282,7 +292,7 @@ impl CompileOptions {
         }
 
         if let Some(stdin_input) = stdin_input {
-            let options = build_transform_options(&self.config_file, &self.filename.as_deref())?;
+            let options = self.build_transform_options(&self.filename.as_deref())?;
 
             let fm = compiler.cm.new_source_file(
                 if options.filename.is_empty() {
@@ -309,25 +319,29 @@ impl CompileOptions {
                 DEFAULT_EXTENSIONS.iter().map(|v| v.to_string()).collect()
             };
 
-            return get_files_list(&self.files, &included_extensions, false)?
-                .iter()
-                .map(|file_path| {
-                    build_transform_options(&self.config_file, &Some(file_path)).and_then(
-                        |options| {
-                            let fm = compiler
-                                .cm
-                                .load_file(file_path)
-                                .context("failed to load file");
-                            fm.map(|fm| InputContext {
-                                options,
-                                fm,
-                                compiler: compiler.clone(),
-                                file_path: file_path.to_path_buf(),
-                            })
-                        },
-                    )
-                })
-                .collect::<anyhow::Result<Vec<InputContext>>>();
+            return get_files_list(
+                &self.files,
+                &included_extensions,
+                self.ignore.as_deref(),
+                false,
+            )?
+            .iter()
+            .map(|file_path| {
+                self.build_transform_options(&Some(file_path))
+                    .and_then(|options| {
+                        let fm = compiler
+                            .cm
+                            .load_file(file_path)
+                            .context("failed to load file");
+                        fm.map(|fm| InputContext {
+                            options,
+                            fm,
+                            compiler: compiler.clone(),
+                            file_path: file_path.to_path_buf(),
+                        })
+                    })
+            })
+            .collect::<anyhow::Result<Vec<InputContext>>>();
         }
 
         anyhow::bail!("Input is empty");

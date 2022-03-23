@@ -5,6 +5,29 @@
 
 
 
+- **(es/codegen)** Fix codegen of template literals (#4124) ([f5a5217](https://github.com/swc-project/swc/commit/f5a5217506dd18b4ad49920d2e82026eb85dfd73))
+
+### Features
+
+
+
+- **(cli)** Implements some compile flags (#4125) ([a6f39d3](https://github.com/swc-project/swc/commit/a6f39d3bd6e7bc57203e1cf4f2cadc12e4396e9f))
+
+
+- **(wasm/plugin)** Implement initial plugin interface for wasm runtimes (#4123) ([50f7f46](https://github.com/swc-project/swc/commit/50f7f465f9181ef6bcb63ee5457aa42f5e6ee29c))
+
+### Testing
+
+
+
+- **(es)** Organize tests (#4129) ([ede6e02](https://github.com/swc-project/swc/commit/ede6e027c2965478459840967713e910344b2521))
+
+## [1.2.160] - 2022-03-22
+
+### Bug Fixes
+
+
+
 - **(common)** Fix the line number of errors (#4082) ([57802cf](https://github.com/swc-project/swc/commit/57802cfcce6293fb6c4591987c39c6141fdd9390))
 
 
