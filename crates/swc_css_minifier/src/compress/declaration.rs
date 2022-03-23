@@ -269,7 +269,12 @@ impl VisitMut for CompressDeclaration {
                         }
                     }
                 }
-                "scroll-margin-inline" | "scroll-margin-block" if declaration.value.len() == 2 => {
+                "scroll-padding-inline"
+                | "scroll-padding-block"
+                | "scroll-margin-inline"
+                | "scroll-margin-block"
+                    if declaration.value.len() == 2 =>
+                {
                     let first = declaration.value.get(0);
                     let second = declaration.value.get(1);
 
