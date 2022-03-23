@@ -6,7 +6,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_cli"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.33.0"
+version = "0.33.1"
 
 [[bin]]
 name = "swc"
@@ -14,7 +14,12 @@ path = "./src/main.rs"
 
 [features]
 default = []
-plugin = ["swc/plugin", "swc_plugin_runner/filesystem_cache", "wasmer/default", "wasmer-wasi/default"]
+plugin = [
+  "swc/plugin",
+  "swc_plugin_runner/filesystem_cache",
+  "wasmer/default",
+  "wasmer-wasi/default",
+]
 
 [dependencies]
 anyhow = "1.0.53"
