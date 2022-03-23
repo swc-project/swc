@@ -397,6 +397,18 @@ macro_rules! tok {
     ("set") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("set")))
     };
+    ("out") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("out")))
+    };
+    ("public") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("public")))
+    };
+    ("private") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("private")))
+    };
+    ("protected") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("protected")))
+    };
 }
 
 macro_rules! token_including_semi {

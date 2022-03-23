@@ -89,6 +89,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -394,6 +396,8 @@
               "value": "Props",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": {
               "type": "TsTypeLiteral",
@@ -422,6 +426,8 @@
               "value": "Values",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": {
               "type": "TsKeywordType",

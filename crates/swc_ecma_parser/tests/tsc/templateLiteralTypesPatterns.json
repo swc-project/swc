@@ -256,6 +256,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -284,6 +286,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -1086,6 +1090,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -5384,6 +5390,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -7163,6 +7171,8 @@
               "value": "A",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -7191,6 +7201,8 @@
               "value": "B",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -7848,6 +7860,8 @@
                 "value": "TA",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             },
@@ -7868,6 +7882,8 @@
                 "value": "TId",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": {
                 "type": "TsKeywordType",
                 "span": {

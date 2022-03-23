@@ -49,6 +49,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -107,6 +109,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -137,6 +141,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -729,6 +735,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1942,6 +1950,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -1962,6 +1972,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1992,6 +2004,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -2487,6 +2501,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -2517,6 +2533,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -3358,6 +3376,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -3388,6 +3408,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {

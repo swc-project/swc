@@ -460,6 +460,8 @@
               "value": "TBase",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsConstructorType",
               "span": {

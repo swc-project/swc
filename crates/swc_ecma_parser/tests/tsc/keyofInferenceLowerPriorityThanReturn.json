@@ -313,6 +313,8 @@
               "value": "s",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -333,6 +335,8 @@
               "value": "a",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -566,6 +570,8 @@
               "value": "Req",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -586,6 +592,8 @@
               "value": "Def",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -637,6 +645,8 @@
               "value": "T1",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -665,6 +675,8 @@
               "value": "T2",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -711,6 +723,8 @@
                 "value": "P",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": {
                 "type": "TsTypeOperator",
                 "span": {
@@ -863,6 +877,8 @@
                 "value": "P",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": {
                 "type": "TsTypeOperator",
                 "span": {
@@ -1138,6 +1154,8 @@
                     "value": "Cols",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 }
@@ -1364,6 +1382,8 @@
               "value": "Cols",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -2029,6 +2049,8 @@
               "value": "Req",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -2057,6 +2079,8 @@
               "value": "Def",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {

@@ -203,6 +203,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsUnionType",
             "span": {
@@ -308,6 +310,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsUnionType",
             "span": {
@@ -423,6 +427,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsUnionType",
             "span": {
@@ -566,6 +572,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -663,6 +671,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -788,6 +798,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -913,6 +925,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1038,6 +1052,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1163,6 +1179,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1307,6 +1325,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1460,6 +1480,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1537,6 +1559,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1614,6 +1638,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1691,6 +1717,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1768,6 +1796,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1845,6 +1875,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1922,6 +1954,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1999,6 +2033,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -2076,6 +2112,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -2153,6 +2191,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsKeywordType",
             "span": {
@@ -2221,6 +2261,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsUnionType",
             "span": {
@@ -2326,6 +2368,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsUnionType",
             "span": {
@@ -2467,6 +2511,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsUnionType",
             "span": {
@@ -2621,6 +2667,8 @@
               "value": "T1",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -2658,6 +2706,8 @@
               "value": "P",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -2750,6 +2800,8 @@
               "value": "T1",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -2795,6 +2847,8 @@
               "value": "P",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -2887,6 +2941,8 @@
               "value": "T1",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -2932,6 +2988,8 @@
               "value": "P",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -3024,6 +3082,8 @@
               "value": "T1",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -3079,6 +3139,8 @@
               "value": "P",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
