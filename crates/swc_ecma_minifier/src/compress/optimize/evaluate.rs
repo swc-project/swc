@@ -43,28 +43,31 @@ where
 
                 let usage = self.data.vars.get(&obj.to_id())?;
 
-                if !usage.reassigned() {
+                if usage.reassigned() {
                     return None;
                 }
-                match &*prop.sym {
-                    "len" => {
-                        *e = Expr::Lit(Lit::Num(Number {
-                            span: *span,
-                            value: metadata.len as _,
-                        }));
-                        self.changed = true;
-                    }
 
-                    "name" => {
-                        *e = Expr::Lit(Lit::Str(Str {
-                            span: *span,
-                            value: obj.sym.clone(),
-                            raw: None,
-                        }));
-                        self.changed = true;
-                    }
+                if self.options.unsafe_passes {
+                    match &*prop.sym {
+                        "length" => {
+                            *e = Expr::Lit(Lit::Num(Number {
+                                span: *span,
+                                value: metadata.len as _,
+                            }));
+                            self.changed = true;
+                        }
 
-                    _ => {}
+                        "name" => {
+                            *e = Expr::Lit(Lit::Str(Str {
+                                span: *span,
+                                value: obj.sym.clone(),
+                                raw: None,
+                            }));
+                            self.changed = true;
+                        }
+
+                        _ => {}
+                    }
                 }
             }
         }
