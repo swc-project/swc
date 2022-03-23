@@ -562,7 +562,6 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::O, "-o-animation-timing-function");
             }
 
-            // TODO improve me https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip
             "background-clip" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "text" {
@@ -1448,7 +1447,6 @@ impl VisitMut for Prefixer {
             }
 
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid) and https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559 and https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
-            // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
             // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {}
