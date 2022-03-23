@@ -1988,6 +1988,12 @@ where
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
+        if let Some(ident) = &e.ident {
+            self.functions
+                .entry(ident.to_id())
+                .or_insert_with(|| FnMetadata::from(&e.function));
+        }
+
         if !self.options.keep_fnames {
             self.remove_name_if_not_used(&mut e.ident);
         }
