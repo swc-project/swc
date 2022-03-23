@@ -1,0 +1,27 @@
+.class-1 {
+    inset-block: 10px;
+}
+
+.class-2 {
+    inset-block: 1em .5em ;
+}
+
+.class-3 {
+    inset-block: inherit;
+}
+
+.class-4 {
+    inset-block: 10px 10px;
+}
+
+.class-5 {
+    inset-block: 1rem 1rem;
+}
+
+.class-9 {
+    inset-block: auto auto;
+}
+
+.class-10 {
+    inset-block: auto AUTO;
+}

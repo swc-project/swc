@@ -293,6 +293,8 @@ impl VisitMut for CompressDeclaration {
                 | "margin-inline"
                 | "margin-block"
                 | "margin-inline"
+                | "inset-inline"
+                | "inset-block"
                 | "border-inline-width"
                 | "border-block-width"
                 | "scroll-padding-inline"
