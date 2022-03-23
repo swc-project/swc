@@ -269,7 +269,9 @@ impl VisitMut for CompressDeclaration {
                         }
                     }
                 }
-                "scroll-padding-inline"
+                "padding-block"
+                | "margin-block"
+                | "scroll-padding-inline"
                 | "scroll-padding-block"
                 | "scroll-margin-inline"
                 | "scroll-margin-block"

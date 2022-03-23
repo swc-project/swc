@@ -1,0 +1,19 @@
+.class-1 {
+    margin-block: 10px;
+}
+
+.class-2 {
+    margin-block: 1em .5em ;
+}
+
+.class-3 {
+    margin-block: inherit;
+}
+
+.class-4 {
+    margin-block: 10px 10px;
+}
+
+.class-5 {
+    margin-block: 1rem 1rem;
+}
