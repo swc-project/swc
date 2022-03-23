@@ -1,4 +1,4 @@
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, EqIgnoreSpan};
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
 pub fn compress_declaration() -> impl VisitMut {
@@ -338,6 +338,20 @@ impl VisitMut for CompressDeclaration {
                             }
                             _ => {}
                         }
+                    }
+                }
+                "overscroll-behavior" if declaration.value.len() == 2 => {
+                    let first = declaration.value.get(0);
+                    let second = declaration.value.get(1);
+
+                    match (first, second) {
+                        (
+                            Some(ComponentValue::Ident(first_ident)),
+                            Some(ComponentValue::Ident(second_ident)),
+                        ) if first_ident.eq_ignore_span(second_ident) => {
+                            declaration.value.remove(1);
+                        }
+                        _ => {}
                     }
                 }
                 _ => {}
