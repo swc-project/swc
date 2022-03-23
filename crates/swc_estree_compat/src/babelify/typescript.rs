@@ -126,6 +126,8 @@ impl Babelify for TsTypeParam {
         TSTypeParameter {
             base: ctx.base(self.span),
             name: self.name.sym,
+            is_in: self.is_in,
+            is_out: self.is_out,
             constraint: self.constraint.map(|c| Box::alloc().init(c.babelify(ctx))),
             default: self.default.map(|d| Box::alloc().init(d.babelify(ctx))),
         }
