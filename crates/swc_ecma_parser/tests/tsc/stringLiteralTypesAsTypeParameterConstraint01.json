@@ -184,6 +184,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsLiteralType",
               "span": {
@@ -199,11 +201,7 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"foo\""
               }
             },
             "default": null
@@ -390,6 +388,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -413,11 +413,7 @@
                       "ctxt": 0
                     },
                     "value": "foo",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"foo\""
                   }
                 },
                 {
@@ -435,11 +431,7 @@
                       "ctxt": 0
                     },
                     "value": "bar",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"bar\""
                   }
                 }
               ]
@@ -597,11 +589,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 }
               }
             ],
@@ -766,11 +754,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 }
               }
             ],
@@ -927,11 +911,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 }
               }
             ],
@@ -995,11 +975,7 @@
                   "ctxt": 0
                 },
                 "value": "bar",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"bar\""
               }
             }
           ],

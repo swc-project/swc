@@ -5,7 +5,7 @@ import * as swcHelpers from "@swc/helpers";
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 // @strictNullChecks: true
-var React = require('react');
+var React = require("react");
 function Comp(p) {
     return /*#__PURE__*/ React.createElement("div", null, p.b);
 }

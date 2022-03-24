@@ -108,11 +108,7 @@
               "ctxt": 0
             },
             "value": "9.671406556917009e+24",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"9.671406556917009e+24\""
           }
         }
       }

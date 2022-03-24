@@ -49,11 +49,8 @@ impl VisitMut for StickyRegex {
                 let str_lit = |s: JsWord| {
                     Box::new(Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
+                        raw: None,
                         value: s,
-                        has_escape: false,
-                        kind: StrKind::Normal {
-                            contains_quote: false,
-                        },
                     })))
                 };
 
@@ -81,8 +78,8 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| sticky_regex(),
         babel_basic,
-        "var re = /o+/y;",
-        "var re = new RegExp('o+', 'y');"
+        "var re = /o\"'+/y;",
+        "var re = new RegExp(\"o\\\"'+\", \"y\");"
     );
 
     test!(

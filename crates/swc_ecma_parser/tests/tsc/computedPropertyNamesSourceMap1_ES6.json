@@ -48,11 +48,7 @@
                 "ctxt": 0
               },
               "value": "hello",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"hello\""
             }
           },
           "function": {
@@ -115,11 +111,7 @@
                 "ctxt": 0
               },
               "value": "goodbye",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"goodbye\""
             }
           },
           "function": {

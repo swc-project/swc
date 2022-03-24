@@ -4,5 +4,5 @@ class clodule {
     }
 }
 (clodule || (clodule = {})).fn = function(x, y) {
-    return clodule.sfn("a");
+    return clodule.sfn('a');
 };

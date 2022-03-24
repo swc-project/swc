@@ -278,6 +278,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": {
               "type": "TsTypeReference",
@@ -488,6 +490,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -577,11 +581,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'a'"
                 }
               },
               {
@@ -594,11 +594,7 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'b'"
                 }
               }
             ],
@@ -692,11 +688,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'a'"
                 }
               },
               {
@@ -709,11 +701,7 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'b'"
                 }
               }
             ],
@@ -779,11 +767,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'a'"
                 }
               },
               {
@@ -796,11 +780,7 @@
                     "ctxt": 0
                   },
                   "value": "b",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'b'"
                 }
               }
             ],

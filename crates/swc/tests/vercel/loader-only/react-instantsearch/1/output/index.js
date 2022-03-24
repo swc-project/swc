@@ -1,12 +1,12 @@
 import * as swcHelpers from "@swc/helpers";
-import algoliasearchHelper from 'algoliasearch-helper';
-import createWidgetsManager from './createWidgetsManager';
-import { HIGHLIGHT_TAGS } from './highlight';
-import { hasMultipleIndices } from './indexUtils';
-import { version as ReactVersion } from 'react';
-import version from './version';
+import algoliasearchHelper from "algoliasearch-helper";
+import createWidgetsManager from "./createWidgetsManager";
+import { HIGHLIGHT_TAGS } from "./highlight";
+import { hasMultipleIndices } from "./indexUtils";
+import { version as ReactVersion } from "react";
+import version from "./version";
 function addAlgoliaAgents(searchClient) {
-    if (typeof searchClient.addAlgoliaAgent === 'function') {
+    if (typeof searchClient.addAlgoliaAgent === "function") {
         searchClient.addAlgoliaAgent("react (".concat(ReactVersion, ")"));
         searchClient.addAlgoliaAgent("react-instantsearch (".concat(version, ")"));
     }
@@ -44,7 +44,7 @@ var sortIndexWidgetsFirst = function(firstWidget, secondWidget) {
 // consider updating it also in `serializeQueryParameters` from `@algolia/transporter`.
 function serializeQueryParameters(parameters) {
     var isObjectOrArray = function(value) {
-        return Object.prototype.toString.call(value) === '[object Object]' || Object.prototype.toString.call(value) === '[object Array]';
+        return Object.prototype.toString.call(value) === "[object Object]" || Object.prototype.toString.call(value) === "[object Array]";
     };
     var encode = function(format) {
         for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
@@ -56,8 +56,8 @@ function serializeQueryParameters(parameters) {
         });
     };
     return Object.keys(parameters).map(function(key) {
-        return encode('%s=%s', key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key]);
-    }).join('&');
+        return encode("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key]);
+    }).join("&");
 }
 /**
  * Creates a new instance of the InstantSearchManager which controls the widgets and
@@ -183,9 +183,9 @@ function serializeQueryParameters(parameters) {
                 var derivedHelper = helper.derive(function() {
                     return parameters;
                 });
-                derivedHelper.on('result', handleSearchSuccess({
+                derivedHelper.on("result", handleSearchSuccess({
                     indexId: indexId
-                })).on('error', handleSearchError);
+                })).on("error", handleSearchError);
             });
             helper.setState(mainParameters);
             helper.search();
@@ -261,7 +261,7 @@ function serializeQueryParameters(parameters) {
         // Disable cache hydration on:
         // - Algoliasearch API Client < v4 with cache disabled
         // - Third party clients (detected by the `addAlgoliaAgent` function missing)
-        if ((!client.transporter || client._cacheHydrated) && (!client._useCache || typeof client.addAlgoliaAgent !== 'function')) {
+        if ((!client.transporter || client._cacheHydrated) && (!client._useCache || typeof client.addAlgoliaAgent !== "function")) {
             return;
         }
         // Algoliasearch API Client >= v4
@@ -284,7 +284,7 @@ function serializeQueryParameters(parameters) {
                     });
                 });
                 return client.transporter.responsesCache.get({
-                    method: 'search',
+                    method: "search",
                     args: [
                         requestsWithSerializedParams
                     ].concat(swcHelpers.toConsumableArray(methodArgs))
@@ -306,7 +306,7 @@ function serializeQueryParameters(parameters) {
         // Populate the cache with the data from the server
         if (client.transporter) {
             client.transporter.responsesCache.set({
-                method: 'search',
+                method: "search",
                 args: [
                     results.reduce(function(acc, result) {
                         return acc.concat(result.rawResults.map(function(request) {
@@ -351,7 +351,7 @@ function serializeQueryParameters(parameters) {
         // Populate the cache with the data from the server
         if (client.transporter) {
             client.transporter.responsesCache.set({
-                method: 'search',
+                method: "search",
                 args: [
                     results.rawResults.map(function(request) {
                         return {
@@ -458,14 +458,14 @@ function serializeQueryParameters(parameters) {
     };
     var getWidgetsIds = function getWidgetsIds() {
         return store.getState().metadata.reduce(function(res, meta) {
-            return typeof meta.id !== 'undefined' ? res.concat(meta.id) : res;
+            return typeof meta.id !== "undefined" ? res.concat(meta.id) : res;
         }, []);
     };
     var helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({}, HIGHLIGHT_TAGS));
     addAlgoliaAgents(searchClient);
-    helper.on('search', handleNewSearch).on('result', handleSearchSuccess({
+    helper.on("search", handleNewSearch).on("result", handleSearchSuccess({
         indexId: indexName
-    })).on('error', handleSearchError);
+    })).on("error", handleSearchError);
     var skip = false;
     var stalledSearchTimer = null;
     var initialSearchParameters = helper.state;

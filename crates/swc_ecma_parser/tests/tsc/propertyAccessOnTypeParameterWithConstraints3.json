@@ -74,11 +74,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "''"
                   }
                 }
               ]
@@ -186,11 +182,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "''"
                   }
                 }
               ]
@@ -418,11 +410,7 @@
                                 "ctxt": 0
                               },
                               "value": "foo",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'foo'"
                             }
                           }
                         },
@@ -659,11 +647,7 @@
                                 "ctxt": 0
                               },
                               "value": "foo",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'foo'"
                             }
                           }
                         },
@@ -781,6 +765,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -819,6 +805,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -1182,6 +1170,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -1220,6 +1210,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -1585,11 +1577,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'foo'"
                 }
               }
             },
@@ -1701,6 +1689,8 @@
                             "value": "U",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": {
                             "type": "TsTypeReference",
                             "span": {
@@ -1739,6 +1729,8 @@
                             "value": "T",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": {
                             "type": "TsTypeReference",
                             "span": {
@@ -1861,6 +1853,8 @@
                             "value": "U",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": {
                             "type": "TsTypeReference",
                             "span": {
@@ -1899,6 +1893,8 @@
                             "value": "T",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": {
                             "type": "TsTypeReference",
                             "span": {
@@ -2089,11 +2085,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'foo'"
                 }
               }
             },
@@ -2309,11 +2301,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'foo'"
                 }
               }
             },
@@ -2493,11 +2481,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "foo",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "'foo'"
                                   }
                                 }
                               },
@@ -2602,6 +2586,8 @@
                           "value": "U",
                           "optional": false
                         },
+                        "in": false,
+                        "out": false,
                         "constraint": {
                           "type": "TsTypeReference",
                           "span": {
@@ -2640,6 +2626,8 @@
                           "value": "T",
                           "optional": false
                         },
+                        "in": false,
+                        "out": false,
                         "constraint": {
                           "type": "TsTypeReference",
                           "span": {

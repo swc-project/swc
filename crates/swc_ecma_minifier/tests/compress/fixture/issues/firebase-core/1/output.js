@@ -24,30 +24,30 @@
                 return target;
             }
             function isValidKey(key) {
-                return "__proto__" !== key;
+                return '__proto__' !== key;
             }
             function getUA() {
-                return "undefined" != typeof navigator && "string" == typeof navigator.userAgent ? navigator.userAgent : "";
+                return 'undefined' != typeof navigator && 'string' == typeof navigator.userAgent ? navigator.userAgent : '';
             }
             function isMobileCordova() {
-                return "undefined" != typeof window && !!(window.cordova || window.phonegap || window.PhoneGap) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
+                return 'undefined' != typeof window && !!(window.cordova || window.phonegap || window.PhoneGap) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
             }
             function isBrowserExtension() {
-                const runtime = "object" == typeof chrome ? chrome.runtime : "object" == typeof browser ? browser.runtime : void 0;
-                return "object" == typeof runtime && void 0 !== runtime.id;
+                const runtime = 'object' == typeof chrome ? chrome.runtime : 'object' == typeof browser ? browser.runtime : void 0;
+                return 'object' == typeof runtime && void 0 !== runtime.id;
             }
             function isReactNative() {
-                return "object" == typeof navigator && "ReactNative" === navigator.product;
+                return 'object' == typeof navigator && 'ReactNative' === navigator.product;
             }
             function isElectron() {
-                return getUA().indexOf("Electron/") >= 0;
+                return getUA().indexOf('Electron/') >= 0;
             }
             function isIE() {
                 const ua = getUA();
-                return ua.indexOf("MSIE ") >= 0 || ua.indexOf("Trident/") >= 0;
+                return ua.indexOf('MSIE ') >= 0 || ua.indexOf('Trident/') >= 0;
             }
             function isUWP() {
-                return getUA().indexOf("MSAppHost/") >= 0;
+                return getUA().indexOf('MSAppHost/') >= 0;
             }
             __webpack_require__.d(__webpack_exports__, {
                 LL: function() {
@@ -77,7 +77,7 @@
             });
             class FirebaseError extends Error {
                 constructor(code, message, customData){
-                    super(message), this.code = code, this.customData = customData, this.name = "FirebaseError", Object.setPrototypeOf(this, FirebaseError.prototype), Error.captureStackTrace && Error.captureStackTrace(this, ErrorFactory.prototype.create);
+                    super(message), this.code = code, this.customData = customData, this.name = 'FirebaseError', Object.setPrototypeOf(this, FirebaseError.prototype), Error.captureStackTrace && Error.captureStackTrace(this, ErrorFactory.prototype.create);
                 }
             }
             class ErrorFactory {
@@ -85,7 +85,7 @@
                     this.service = service, this.serviceName = serviceName, this.errors = errors;
                 }
                 create(code, ...data) {
-                    const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? replaceTemplate(template, customData) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
+                    const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? replaceTemplate(template, customData) : 'Error', fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
                     return error;
                 }
             }
@@ -110,7 +110,7 @@
                 return !0;
             }
             function isObject(thing) {
-                return null !== thing && "object" == typeof thing;
+                return null !== thing && 'object' == typeof thing;
             }
             function getModularInstance(service) {
                 return service && service._delegate ? service._delegate : service;
@@ -147,7 +147,7 @@
                     return getStatEventTarget;
                 }
             });
-            var a2, x, Na, Ab, cc, k, commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, esm = {}, goog = goog || {}, l = commonjsGlobal || self;
+            var a2, x, Na, Ab, cc, k, commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, esm = {}, goog = goog || {}, l = commonjsGlobal || self;
             function aa() {}
             function ba(a) {
                 var b = typeof a;
@@ -1178,9 +1178,9 @@
                 return l.JSON.parse(a, void 0);
             }, t(pd, Yb), pd.prototype.g = function() {
                 return new qd(this.l, this.j);
-            }, a2 = {}, pd.prototype.i = function() {
+            }, pd.prototype.i = (a2 = {}, function() {
                 return a2;
-            }, t(qd, C);
+            }), t(qd, C);
             var rd = 0;
             function ud(a) {
                 a.j.read().then(a.Sa.bind(a)).catch(a.ha.bind(a));
@@ -1355,9 +1355,9 @@
                     d = !0;
                 }
                 let b6;
-                d || (b6 = "", xa(c8, function(c, d) {
+                d || (c8 = (b6 = "", xa(c8, function(c, d) {
                     b6 += d, b6 += ":", b6 += c, b6 += "\r\n";
-                }), c8 = b6, "string" == typeof a ? null != c8 && encodeURIComponent(String(c8)) : R(a, b, c8));
+                }), b6), "string" == typeof a ? null != c8 && encodeURIComponent(String(c8)) : R(a, b, c8));
             }
             function Hd(a, b, c) {
                 return c && c.internalChannelParams ? c.internalChannelParams[a] || b : b;
@@ -1763,12 +1763,12 @@
                 }();
             }
             exports.default = function(_param) {
-                var sizerSvg, src2 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, lazyBoundary = void 0 === _lazyBoundary ? "200px" : _lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete1 = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder1 = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = function(source, excluded) {
+                var sizerSvg, src2 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, lazyBoundary = void 0 === _lazyBoundary ? '200px' : _lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete1 = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder1 = void 0 === _placeholder ? 'empty' : _placeholder, blurDataURL = _param.blurDataURL, all = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = _objectWithoutPropertiesLoose(source, excluded);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], excluded.indexOf(key) >= 0 || Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                     }
                     return target;
                 }(_param, [
@@ -1788,17 +1788,17 @@
                     "loader",
                     "placeholder",
                     "blurDataURL"
-                ]), rest = all, layout = sizes ? "responsive" : "intrinsic";
-                "layout" in rest && (rest.layout && (layout = rest.layout), delete rest.layout);
-                var src1, staticSrc = "";
-                if ("object" == typeof (src1 = src2) && (isStaticRequire(src1) || void 0 !== src1.src)) {
+                ]), rest = all, layout = sizes ? 'responsive' : 'intrinsic';
+                'layout' in rest && (rest.layout && (layout = rest.layout), delete rest.layout);
+                var src1, staticSrc = '';
+                if ('object' == typeof (src1 = src2) && (isStaticRequire(src1) || void 0 !== src1.src)) {
                     var staticImageData = isStaticRequire(src2) ? src2.default : src2;
                     if (!staticImageData.src) throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
-                    if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
+                    if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || 'fill' !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
                 }
-                src2 = "string" == typeof src2 ? src2 : staticSrc;
-                var widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), isLazy = !priority && ("lazy" === loading || void 0 === loading);
-                (src2.startsWith("data:") || src2.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src2) && (isLazy = !1);
+                src2 = 'string' == typeof src2 ? src2 : staticSrc;
+                var widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), isLazy = !priority && ('lazy' === loading || void 0 === loading);
+                (src2.startsWith('data:') || src2.startsWith('blob:')) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src2) && (isLazy = !1);
                 var arr3, ref2 = function(arr) {
                     if (Array.isArray(arr)) return arr;
                 }(arr3 = _useIntersection.useIntersection({
@@ -1821,55 +1821,55 @@
                 }(arr3, 2) || function() {
                     throw new TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), setRef = ref2[0], isIntersected = ref2[1], wrapperStyle = {
-                    boxSizing: "border-box",
-                    display: "block",
-                    overflow: "hidden",
-                    width: "initial",
-                    height: "initial",
-                    background: "none",
+                    boxSizing: 'border-box',
+                    display: 'block',
+                    overflow: 'hidden',
+                    width: 'initial',
+                    height: 'initial',
+                    background: 'none',
                     opacity: 1,
                     border: 0,
                     margin: 0,
                     padding: 0
                 }, sizerStyle = {
-                    boxSizing: "border-box",
-                    display: "block",
-                    width: "initial",
-                    height: "initial",
-                    background: "none",
+                    boxSizing: 'border-box',
+                    display: 'block',
+                    width: 'initial',
+                    height: 'initial',
+                    background: 'none',
                     opacity: 1,
                     border: 0,
                     margin: 0,
                     padding: 0
                 }, hasSizer = !1, imgStyle = {
-                    position: "absolute",
+                    position: 'absolute',
                     top: 0,
                     left: 0,
                     bottom: 0,
                     right: 0,
-                    boxSizing: "border-box",
+                    boxSizing: 'border-box',
                     padding: 0,
-                    border: "none",
-                    margin: "auto",
-                    display: "block",
+                    border: 'none',
+                    margin: 'auto',
+                    display: 'block',
                     width: 0,
                     height: 0,
-                    minWidth: "100%",
-                    maxWidth: "100%",
-                    minHeight: "100%",
-                    maxHeight: "100%",
+                    minWidth: '100%',
+                    maxWidth: '100%',
+                    minHeight: '100%',
+                    maxHeight: '100%',
                     objectFit: objectFit,
                     objectPosition: objectPosition
-                }, blurStyle = "blur" === placeholder1 ? {
-                    filter: "blur(20px)",
-                    backgroundSize: objectFit || "cover",
-                    backgroundImage: 'url("'.concat(blurDataURL, '")'),
-                    backgroundPosition: objectPosition || "0% 0%"
+                }, blurStyle = 'blur' === placeholder1 ? {
+                    filter: 'blur(20px)',
+                    backgroundSize: objectFit || 'cover',
+                    backgroundImage: "url(\"".concat(blurDataURL, "\")"),
+                    backgroundPosition: objectPosition || '0% 0%'
                 } : {};
-                if ("fill" === layout) wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
+                if ('fill' === layout) wrapperStyle.display = 'block', wrapperStyle.position = 'absolute', wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
                 else if (void 0 !== widthInt && void 0 !== heightInt) {
-                    var quotient = heightInt / widthInt, paddingTop = isNaN(quotient) ? "100%" : "".concat(100 * quotient, "%");
-                    "responsive" === layout ? (wrapperStyle.display = "block", wrapperStyle.position = "relative", hasSizer = !0, sizerStyle.paddingTop = paddingTop) : "intrinsic" === layout ? (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.maxWidth = "100%", hasSizer = !0, sizerStyle.maxWidth = "100%", sizerSvg = '<svg width="'.concat(widthInt, '" height="').concat(heightInt, '" xmlns="http://www.w3.org/2000/svg" version="1.1"/>')) : "fixed" === layout && (wrapperStyle.display = "inline-block", wrapperStyle.position = "relative", wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
+                    var quotient = heightInt / widthInt, paddingTop = isNaN(quotient) ? '100%' : "".concat(100 * quotient, "%");
+                    'responsive' === layout ? (wrapperStyle.display = 'block', wrapperStyle.position = 'relative', hasSizer = !0, sizerStyle.paddingTop = paddingTop) : 'intrinsic' === layout ? (wrapperStyle.display = 'inline-block', wrapperStyle.position = 'relative', wrapperStyle.maxWidth = '100%', hasSizer = !0, sizerStyle.maxWidth = '100%', sizerSvg = "<svg width=\"".concat(widthInt, "\" height=\"").concat(heightInt, "\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\"/>")) : 'fixed' === layout && (wrapperStyle.display = 'inline-block', wrapperStyle.position = 'relative', wrapperStyle.width = widthInt, wrapperStyle.height = heightInt);
                 }
                 var imgAttributes = {
                     src: emptyDataURL,
@@ -1892,11 +1892,11 @@
                     style: sizerStyle
                 }, sizerSvg ? _react.default.createElement("img", {
                     style: {
-                        display: "block",
-                        maxWidth: "100%",
-                        width: "initial",
-                        height: "initial",
-                        background: "none",
+                        display: 'block',
+                        maxWidth: '100%',
+                        width: 'initial',
+                        height: 'initial',
+                        background: 'none',
                         opacity: 1,
                         border: 0,
                         margin: 0,
@@ -1913,8 +1913,8 @@
                         setRef(img1), function(img, src, layout, placeholder, onLoadingComplete) {
                             if (img) {
                                 var handleLoad = function() {
-                                    img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
-                                        if ("blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete) {
+                                    img.src !== emptyDataURL && ('decode' in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
+                                        if ('blur' === placeholder && (img.style.filter = 'none', img.style.backgroundSize = 'none', img.style.backgroundImage = 'none'), loadedImageURLs.add(src), onLoadingComplete) {
                                             var naturalWidth = img.naturalWidth, naturalHeight = img.naturalHeight;
                                             onLoadingComplete({
                                                 naturalWidth: naturalWidth,
@@ -1941,9 +1941,9 @@
                     "data-nimg": layout,
                     style: imgStyle,
                     className: className,
-                    loading: loading || "lazy"
+                    loading: loading || 'lazy'
                 }))), priority ? _react.default.createElement(_head.default, null, _react.default.createElement("link", {
-                    key: "__nimg-" + imgAttributes.src + imgAttributes.srcSet + imgAttributes.sizes,
+                    key: '__nimg-' + imgAttributes.src + imgAttributes.srcSet + imgAttributes.sizes,
                     rel: "preload",
                     as: "image",
                     href: imgAttributes.srcSet ? void 0 : imgAttributes.src,
@@ -1982,45 +1982,45 @@
             }
             var loadedImageURLs = new Set();
             new Map();
-            var emptyDataURL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", loaders = new Map([
+            var emptyDataURL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', loaders = new Map([
                 [
-                    "default",
+                    'default',
                     function(param) {
                         var root = param.root, src = param.src, width = param.width, quality = param.quality;
                         return "".concat(root, "?url=").concat(encodeURIComponent(src), "&w=").concat(width, "&q=").concat(quality || 75);
                     }
                 ],
                 [
-                    "imgix",
+                    'imgix',
                     function(param) {
                         var root = param.root, src = param.src, width = param.width, quality = param.quality, url = new URL("".concat(root).concat(normalizeSrc(src))), params = url.searchParams;
-                        return params.set("auto", params.get("auto") || "format"), params.set("fit", params.get("fit") || "max"), params.set("w", params.get("w") || width.toString()), quality && params.set("q", quality.toString()), url.href;
+                        return params.set('auto', params.get('auto') || 'format'), params.set('fit', params.get('fit') || 'max'), params.set('w', params.get('w') || width.toString()), quality && params.set('q', quality.toString()), url.href;
                     }
                 ],
                 [
-                    "cloudinary",
+                    'cloudinary',
                     function(param) {
                         var root = param.root, src = param.src, width = param.width, quality = param.quality, paramsString = [
-                            "f_auto",
-                            "c_limit",
-                            "w_" + width,
-                            "q_" + (quality || "auto")
-                        ].join(",") + "/";
+                            'f_auto',
+                            'c_limit',
+                            'w_' + width,
+                            'q_' + (quality || 'auto')
+                        ].join(',') + '/';
                         return "".concat(root).concat(paramsString).concat(normalizeSrc(src));
                     }
                 ],
                 [
-                    "akamai",
+                    'akamai',
                     function(param) {
                         var root = param.root, src = param.src, width = param.width;
                         return "".concat(root).concat(normalizeSrc(src), "?imwidth=").concat(width);
                     }
                 ],
                 [
-                    "custom",
+                    'custom',
                     function(param) {
                         var src = param.src;
-                        throw new Error('Image with src "'.concat(src, '" is missing "loader" prop.') + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
+                        throw new Error("Image with src \"".concat(src, "\" is missing \"loader\" prop.") + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
                     }
                 ], 
             ]);
@@ -2061,7 +2061,7 @@
                     sizes: void 0
                 };
                 var ref = function(width, layout, sizes) {
-                    if (sizes && ("fill" === layout || "responsive" === layout)) {
+                    if (sizes && ('fill' === layout || 'responsive' === layout)) {
                         for(var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
                             var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
@@ -2069,17 +2069,17 @@
                                 widths: allSizes.filter(function(s) {
                                     return s >= configDeviceSizes[0] * smallestRatio;
                                 }),
-                                kind: "w"
+                                kind: 'w'
                             };
                         }
                         return {
                             widths: allSizes,
-                            kind: "w"
+                            kind: 'w'
                         };
                     }
-                    return "number" != typeof width || "fill" === layout || "responsive" === layout ? {
+                    return 'number' != typeof width || 'fill' === layout || 'responsive' === layout ? {
                         widths: configDeviceSizes,
-                        kind: "w"
+                        kind: 'w'
                     } : {
                         widths: _toConsumableArray(new Set([
                             width,
@@ -2089,18 +2089,18 @@
                                 return p >= w;
                             }) || allSizes[allSizes.length - 1];
                         }))),
-                        kind: "x"
+                        kind: 'x'
                     };
                 }(width1, layout1, sizes1), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
                 return {
-                    sizes: sizes1 || "w" !== kind ? sizes1 : "100vw",
+                    sizes: sizes1 || 'w' !== kind ? sizes1 : '100vw',
                     srcSet: widths.map(function(w, i) {
                         return "".concat(loader({
                             src: src,
                             quality: quality,
                             width: w
-                        }), " ").concat("w" === kind ? w : i + 1).concat(kind);
-                    }).join(", "),
+                        }), " ").concat('w' === kind ? w : i + 1).concat(kind);
+                    }).join(', '),
                     src: loader({
                         src: src,
                         quality: quality,
@@ -2109,17 +2109,17 @@
                 };
             }
             function getInt(x) {
-                return "number" == typeof x ? x : "string" == typeof x ? parseInt(x, 10) : void 0;
+                return 'number' == typeof x ? x : 'string' == typeof x ? parseInt(x, 10) : void 0;
             }
             function defaultImageLoader(loaderProps) {
                 var load = loaders.get(configLoader);
                 if (load) return load(_objectSpread({
                     root: configPath
                 }, loaderProps));
-                throw new Error('Unknown "loader" found in "next.config.js". Expected: '.concat(_imageConfig.VALID_LOADERS.join(", "), ". Received: ").concat(configLoader));
+                throw new Error("Unknown \"loader\" found in \"next.config.js\". Expected: ".concat(_imageConfig.VALID_LOADERS.join(', '), ". Received: ").concat(configLoader));
             }
             function normalizeSrc(src) {
-                return "/" === src[0] ? src.slice(1) : src;
+                return '/' === src[0] ? src.slice(1) : src;
             }
             configDeviceSizes.sort(function(a, b) {
                 return a - b;
@@ -2177,7 +2177,7 @@
                     visible
                 ];
             };
-            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver;
+            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = 'undefined' != typeof IntersectionObserver;
             function observe(element, callback, options) {
                 var ref = createObserver(options), id = ref.id, observer = ref.observer, elements = ref.elements;
                 return elements.set(element, callback), observer.observe(element), function() {
@@ -2186,7 +2186,7 @@
             }
             var observers = new Map();
             function createObserver(options) {
-                var id = options.rootMargin || "", instance = observers.get(id);
+                var id = options.rootMargin || '', instance = observers.get(id);
                 if (instance) return instance;
                 var elements = new Map(), observer = new IntersectionObserver(function(entries) {
                     entries.forEach(function(entry) {
@@ -2214,11 +2214,11 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.imageConfigDefault = exports.VALID_LOADERS = void 0, exports.VALID_LOADERS = [
-                "default",
-                "imgix",
-                "cloudinary",
-                "akamai",
-                "custom", 
+                'default',
+                'imgix',
+                'cloudinary',
+                'akamai',
+                'custom', 
             ], exports.imageConfigDefault = {
                 deviceSizes: [
                     640,
@@ -2240,13 +2240,13 @@
                     256,
                     384
                 ],
-                path: "/_next/image",
-                loader: "default",
+                path: '/_next/image',
+                loader: 'default',
                 domains: [],
                 disableStaticImages: !1,
                 minimumCacheTTL: 60,
                 formats: [
-                    "image/webp"
+                    'image/webp'
                 ]
             };
         },
@@ -2283,40 +2283,40 @@
                             return `${service.library}/${service.version}`;
                         }
                     }).filter((logString)=>logString
-                    ).join(" ");
+                    ).join(' ');
                 }
             }
             function isVersionServiceProvider(provider) {
                 const component = provider.getComponent();
                 return (null == component ? void 0 : component.type) === "VERSION";
             }
-            const name$o = "@firebase/app", version$1 = "0.7.8", logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Yd("@firebase/app"), PLATFORM_LOG_STRING = {
-                [name$o]: "fire-core",
-                ["@firebase/app-compat"]: "fire-core-compat",
-                ["@firebase/analytics"]: "fire-analytics",
-                ["@firebase/analytics-compat"]: "fire-analytics-compat",
-                ["@firebase/app-check"]: "fire-app-check",
-                ["@firebase/app-check-compat"]: "fire-app-check-compat",
-                ["@firebase/auth"]: "fire-auth",
-                ["@firebase/auth-compat"]: "fire-auth-compat",
-                ["@firebase/database"]: "fire-rtdb",
-                ["@firebase/database-compat"]: "fire-rtdb-compat",
-                ["@firebase/functions"]: "fire-fn",
-                ["@firebase/functions-compat"]: "fire-fn-compat",
-                ["@firebase/installations"]: "fire-iid",
-                ["@firebase/installations-compat"]: "fire-iid-compat",
-                ["@firebase/messaging"]: "fire-fcm",
-                ["@firebase/messaging-compat"]: "fire-fcm-compat",
-                ["@firebase/performance"]: "fire-perf",
-                ["@firebase/performance-compat"]: "fire-perf-compat",
-                ["@firebase/remote-config"]: "fire-rc",
-                ["@firebase/remote-config-compat"]: "fire-rc-compat",
-                ["@firebase/storage"]: "fire-gcs",
-                ["@firebase/storage-compat"]: "fire-gcs-compat",
-                ["@firebase/firestore"]: "fire-fst",
-                ["@firebase/firestore-compat"]: "fire-fst-compat",
-                "fire-js": "fire-js",
-                ["firebase"]: "fire-js-all"
+            const name$o = "@firebase/app", version$1 = "0.7.8", logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Yd('@firebase/app'), PLATFORM_LOG_STRING = {
+                [name$o]: 'fire-core',
+                ["@firebase/app-compat"]: 'fire-core-compat',
+                ["@firebase/analytics"]: 'fire-analytics',
+                ["@firebase/analytics-compat"]: 'fire-analytics-compat',
+                ["@firebase/app-check"]: 'fire-app-check',
+                ["@firebase/app-check-compat"]: 'fire-app-check-compat',
+                ["@firebase/auth"]: 'fire-auth',
+                ["@firebase/auth-compat"]: 'fire-auth-compat',
+                ["@firebase/database"]: 'fire-rtdb',
+                ["@firebase/database-compat"]: 'fire-rtdb-compat',
+                ["@firebase/functions"]: 'fire-fn',
+                ["@firebase/functions-compat"]: 'fire-fn-compat',
+                ["@firebase/installations"]: 'fire-iid',
+                ["@firebase/installations-compat"]: 'fire-iid-compat',
+                ["@firebase/messaging"]: 'fire-fcm',
+                ["@firebase/messaging-compat"]: 'fire-fcm-compat',
+                ["@firebase/performance"]: 'fire-perf',
+                ["@firebase/performance-compat"]: 'fire-perf-compat',
+                ["@firebase/remote-config"]: 'fire-rc',
+                ["@firebase/remote-config-compat"]: 'fire-rc-compat',
+                ["@firebase/storage"]: 'fire-gcs',
+                ["@firebase/storage-compat"]: 'fire-gcs-compat',
+                ["@firebase/firestore"]: 'fire-fst',
+                ["@firebase/firestore-compat"]: 'fire-fst-compat',
+                'fire-js': 'fire-js',
+                ["firebase"]: 'fire-js-all'
             }, _apps = new Map(), _components = new Map();
             function _addComponent(app, component) {
                 try {
@@ -2331,13 +2331,13 @@
                 for (const app of (_components.set(componentName, component), _apps.values()))_addComponent(app, component);
                 return !0;
             }
-            new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.LL("app", "Firebase", {
+            new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.LL('app', 'Firebase', {
                 ["no-app"]: "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()",
                 ["bad-app-name"]: "Illegal App name: '{$appName}",
                 ["duplicate-app"]: "Firebase App named '{$appName}' already exists with different options or config",
                 ["app-deleted"]: "Firebase App named '{$appName}' already deleted",
                 ["invalid-app-argument"]: "firebase.{$appName}() takes either no argument or a Firebase App instance.",
-                ["invalid-log-argument"]: "First argument to `onLog` must be null or a function."
+                ["invalid-log-argument"]: 'First argument to `onLog` must be null or a function.'
             });
             const SDK_VERSION = "9.4.1";
             function registerVersion(libraryKeyOrName, version, variant) {
@@ -2349,7 +2349,7 @@
                     const warning = [
                         `Unable to register library "${library}" with version "${version}":`
                     ];
-                    libraryMismatch && warning.push(`library name "${library}" contains illegal characters (whitespace or "/")`), libraryMismatch && versionMismatch && warning.push("and"), versionMismatch && warning.push(`version name "${version}" contains illegal characters (whitespace or "/")`), logger.warn(warning.join(" "));
+                    libraryMismatch && warning.push(`library name "${library}" contains illegal characters (whitespace or "/")`), libraryMismatch && versionMismatch && warning.push('and'), versionMismatch && warning.push(`version name "${version}" contains illegal characters (whitespace or "/")`), logger.warn(warning.join(' '));
                     return;
                 }
                 _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.wA(`${library}-version`, ()=>({
@@ -2358,8 +2358,8 @@
                     })
                 , "VERSION"));
             }
-            _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.wA("platform-logger", (container)=>new PlatformLoggerServiceImpl(container)
-            , "PRIVATE")), registerVersion(name$o, version$1, ""), registerVersion(name$o, version$1, "esm2017"), registerVersion("fire-js", "");
+            _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.wA('platform-logger', (container)=>new PlatformLoggerServiceImpl(container)
+            , "PRIVATE")), registerVersion(name$o, version$1, ''), registerVersion(name$o, version$1, 'esm2017'), registerVersion('fire-js', '');
         },
         8463: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -2405,11 +2405,11 @@
                 error: LogLevel.ERROR,
                 silent: LogLevel.SILENT
             }, defaultLogLevel = LogLevel.INFO, ConsoleMethod = {
-                [LogLevel.DEBUG]: "log",
-                [LogLevel.VERBOSE]: "log",
-                [LogLevel.INFO]: "info",
-                [LogLevel.WARN]: "warn",
-                [LogLevel.ERROR]: "error"
+                [LogLevel.DEBUG]: 'log',
+                [LogLevel.VERBOSE]: 'log',
+                [LogLevel.INFO]: 'info',
+                [LogLevel.WARN]: 'warn',
+                [LogLevel.ERROR]: 'error'
             };
             class Logger {
                 constructor(name){
@@ -2428,13 +2428,13 @@
                     this._logLevel = val;
                 }
                 setLogLevel(val) {
-                    this._logLevel = "string" == typeof val ? levelStringToEnum[val] : val;
+                    this._logLevel = 'string' == typeof val ? levelStringToEnum[val] : val;
                 }
                 get logHandler() {
                     return this._logHandler;
                 }
                 set logHandler(val) {
-                    if ("function" != typeof val) throw new TypeError("Value assigned to `logHandler` must be a function");
+                    if ('function' != typeof val) throw new TypeError('Value assigned to `logHandler` must be a function');
                     this._logHandler = val;
                 }
                 get userLogHandler() {

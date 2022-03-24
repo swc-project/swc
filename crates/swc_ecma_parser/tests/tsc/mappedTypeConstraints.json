@@ -156,11 +156,7 @@
                                 "ctxt": 0
                               },
                               "value": "b",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'b'"
                             }
                           }
                         ]
@@ -252,6 +248,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeLiteral",
               "span": {
@@ -500,11 +498,7 @@
                                 "ctxt": 0
                               },
                               "value": "a",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'a'"
                             }
                           }
                         ]
@@ -596,6 +590,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeLiteral",
               "span": {
@@ -956,6 +952,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeLiteral",
               "span": {
@@ -1067,6 +1065,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeLiteral",
               "span": {
@@ -1499,6 +1499,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeLiteral",
               "span": {
@@ -1610,6 +1612,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeLiteral",
               "span": {
@@ -1847,11 +1851,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "b",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "'b'"
                                 }
                               }
                             ]
@@ -1872,11 +1872,7 @@
                               "ctxt": 0
                             },
                             "value": "c",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "'c'"
                           }
                         }
                       ]
@@ -2012,6 +2008,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeLiteral",
               "span": {
@@ -2456,6 +2454,8 @@
                     "value": "T",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": {
                     "type": "TsTypeReference",
                     "span": {

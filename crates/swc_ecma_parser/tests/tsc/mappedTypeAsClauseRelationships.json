@@ -49,6 +49,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -79,6 +81,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -304,6 +308,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -437,6 +443,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -467,6 +475,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -692,6 +702,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -722,6 +734,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -831,34 +845,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 383,
-                      "end": 387,
-                      "ctxt": 0
-                    },
-                    "value": "bool",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 383,
-                      "end": 387,
-                      "ctxt": 0
-                    },
-                    "value": "bool",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
+                  "cooked": "bool",
+                  "raw": "bool"
                 },
                 {
                   "type": "TemplateElement",
@@ -868,34 +856,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 391,
-                      "end": 391,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 391,
-                      "end": 391,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -1266,6 +1228,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1316,6 +1280,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1346,6 +1312,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1571,6 +1539,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1601,6 +1571,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1710,34 +1682,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 658,
-                      "end": 662,
-                      "ctxt": 0
-                    },
-                    "value": "bool",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 658,
-                      "end": 662,
-                      "ctxt": 0
-                    },
-                    "value": "bool",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
+                  "cooked": "bool",
+                  "raw": "bool"
                 },
                 {
                   "type": "TemplateElement",
@@ -1747,34 +1693,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 666,
-                      "end": 666,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 666,
-                      "end": 666,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -1882,6 +1802,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1912,6 +1834,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -2137,6 +2061,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -2167,6 +2093,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -2276,34 +2204,8 @@
                     "ctxt": 0
                   },
                   "tail": false,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 839,
-                      "end": 843,
-                      "ctxt": 0
-                    },
-                    "value": "bool",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 839,
-                      "end": 843,
-                      "ctxt": 0
-                    },
-                    "value": "bool",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
+                  "cooked": "bool",
+                  "raw": "bool"
                 },
                 {
                   "type": "TemplateElement",
@@ -2313,34 +2215,8 @@
                     "ctxt": 0
                   },
                   "tail": true,
-                  "cooked": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 847,
-                      "end": 847,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  },
-                  "raw": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 847,
-                      "end": 847,
-                      "ctxt": 0
-                    },
-                    "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": false
-                    }
-                  }
+                  "cooked": "",
+                  "raw": ""
                 }
               ]
             }
@@ -2893,6 +2769,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }

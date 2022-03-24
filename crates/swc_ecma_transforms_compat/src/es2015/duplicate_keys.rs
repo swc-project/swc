@@ -106,9 +106,8 @@ impl<'a> VisitMut for PropNameFolder<'a> {
                         span,
                         expr: Box::new(Expr::Lit(Lit::Str(Str {
                             span,
+                            raw: None,
                             value: ident.sym.clone(),
-                            has_escape: false,
-                            kind: Default::default(),
                         }))),
                     })
                 }

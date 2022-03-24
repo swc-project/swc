@@ -1,0 +1,19 @@
+.class-1 {
+    padding-block: 10px;
+}
+
+.class-2 {
+    padding-block: 1em .5em ;
+}
+
+.class-3 {
+    padding-block: inherit;
+}
+
+.class-4 {
+    padding-block: 10px 10px;
+}
+
+.class-5 {
+    padding-block: 1rem 1rem;
+}

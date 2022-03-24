@@ -42,7 +42,7 @@
                   14,
                   24
                 ],
-                "raw": "Hydrogen",
+                "raw": "'Hydrogen'",
                 "start": 14,
                 "type": "Literal",
                 "value": "Hydrogen"
@@ -63,7 +63,7 @@
                   30,
                   38
                 ],
-                "raw": "Helium",
+                "raw": "'Helium'",
                 "start": 30,
                 "type": "Literal",
                 "value": "Helium"
@@ -84,7 +84,7 @@
                   44,
                   53
                 ],
-                "raw": "Lithium",
+                "raw": "'Lithium'",
                 "start": 44,
                 "type": "Literal",
                 "value": "Lithium"
@@ -105,7 +105,7 @@
                   59,
                   70
                 ],
-                "raw": "Beryllium",
+                "raw": "'Beryllium'",
                 "start": 59,
                 "type": "Literal",
                 "value": "Beryllium"

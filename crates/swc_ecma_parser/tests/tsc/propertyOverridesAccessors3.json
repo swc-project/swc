@@ -51,11 +51,7 @@
               "ctxt": 0
             },
             "value": "rustling noise in the bushes",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'rustling noise in the bushes'"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -543,11 +539,7 @@
               "ctxt": 0
             },
             "value": "RAWR!",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'RAWR!'"
           },
           "typeAnnotation": null,
           "isStatic": false,

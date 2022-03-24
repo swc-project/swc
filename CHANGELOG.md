@@ -5,6 +5,59 @@
 
 
 
+- **(es/codegen)** Fix codegen of template literals (#4124) ([f5a5217](https://github.com/swc-project/swc/commit/f5a5217506dd18b4ad49920d2e82026eb85dfd73))
+
+
+- **(es/parser)** Allow arrows without parenthesized param in typescript (#4138) ([ab4ea9f](https://github.com/swc-project/swc/commit/ab4ea9f0cb202d79b3713b9418271b19a64dd23a))
+
+
+- **(es/parser)** Fix logic for consuming ts modifiers (#4137) ([f5ce79a](https://github.com/swc-project/swc/commit/f5ce79a72c947e255830281151c4f7fe14baa45b))
+
+### Features
+
+
+
+- **(cli)** Implements some compile flags (#4125) ([a6f39d3](https://github.com/swc-project/swc/commit/a6f39d3bd6e7bc57203e1cf4f2cadc12e4396e9f))
+
+
+- **(css/minifier)** Compress more properties (#4130) ([93866d0](https://github.com/swc-project/swc/commit/93866d0be5cf08a1c0a78c3a8c6b907a31525926))
+
+
+- **(css/minifier)** Remove `@charset` at-rule if possible (#4135) ([6b6664a](https://github.com/swc-project/swc/commit/6b6664a92df62338c1152fbe9baa5227eb3075a4))
+
+
+- **(es/codegen)** Compress `\t` in string literals more (#4131) ([48f3dc8](https://github.com/swc-project/swc/commit/48f3dc8cc439fa5970b68a28c7db26cb88dacca7))
+
+
+- **(es/lints)** Use `Str.raw` instead of source map (#4139) ([d8a988e](https://github.com/swc-project/swc/commit/d8a988ef3d5dfba839af0866ead73faf54f205dc))
+
+
+- **(es/lints)** Improve error messages (#4142) ([0f92eda](https://github.com/swc-project/swc/commit/0f92eda0c78277d3de83ae85cf8a5c04e9c437bf))
+
+
+- **(es/minifier)** Implement some unsafe evaluation rules (#4133) ([1d3763d](https://github.com/swc-project/swc/commit/1d3763d96c94638bb0828110cc90bd123f96e327))
+
+
+- **(es/minifier)** Implement more rules for optimizing for-if-break (#4140) ([ee5c48c](https://github.com/swc-project/swc/commit/ee5c48c935b3cd8fa237680dd02f6bcb4faf8a82))
+
+
+- **(es/typescript)** Support optional variance annotations (#4008) ([bf1924d](https://github.com/swc-project/swc/commit/bf1924d1a8cc2039b624eecd9730d012c1e47321))
+
+
+- **(wasm/plugin)** Implement initial plugin interface for wasm runtimes (#4123) ([50f7f46](https://github.com/swc-project/swc/commit/50f7f465f9181ef6bcb63ee5457aa42f5e6ee29c))
+
+### Testing
+
+
+
+- **(es)** Organize tests (#4129) ([ede6e02](https://github.com/swc-project/swc/commit/ede6e027c2965478459840967713e910344b2521))
+
+## [1.2.160] - 2022-03-22
+
+### Bug Fixes
+
+
+
 - **(common)** Fix the line number of errors (#4082) ([57802cf](https://github.com/swc-project/swc/commit/57802cfcce6293fb6c4591987c39c6141fdd9390))
 
 
@@ -20,13 +73,34 @@
 - **(es/compat)** Visit non-method properties in a nested object literal (#4094) ([f5b9600](https://github.com/swc-project/swc/commit/f5b9600b2befe0053bec2d3e6210bf35dd824dfb))
 
 
+- **(es/compat)** Fix regression of `es2015` (#4119) ([154d443](https://github.com/swc-project/swc/commit/154d443c88d7e08bd8a51da190a06a312976c6e2))
+
+
+- **(es/minifier)** Consider side effects while lifting sequences (#4116) ([4a9817f](https://github.com/swc-project/swc/commit/4a9817f003d5ce053c0eeaa5cd47c46bd30548a1))
+
+
 - **(es/parser)** Allow parentheses in assignment target (#4105) ([d38117d](https://github.com/swc-project/swc/commit/d38117d4cb6fb2819efc18dae843546018c39362))
+
+
+- **(es/parser)** Make `let` a reserved word in strict mode (#4113) ([9a8fc27](https://github.com/swc-project/swc/commit/9a8fc2776e8bbd349a0a86eb558e2e96f33c0242))
+
+
+- **(es/typescript)** Collect all bindings in `strip` (#4118) ([13b2f38](https://github.com/swc-project/swc/commit/13b2f38cdd9b11b5a4e021ef3340458071d4a926))
 
 ### Features
 
 
 
+- **(es/ast)** Add `raw` to `Str` (#4071) ([634d732](https://github.com/swc-project/swc/commit/634d7328030e44be0376019c156624e073d56fde))
+
+
 - **(es/lints)** Implement `valid-typeof` rule (#4095) ([9ceefa7](https://github.com/swc-project/swc/commit/9ceefa734f1193cb7379404132ffd89417b4ed8f))
+
+
+- **(es/lints)** Implement `use-isnan` rule (#4080) ([dd862ba](https://github.com/swc-project/swc/commit/dd862ba9f8c50242f0f508aecfe29aef3f6052f0))
+
+
+- **(es/minifier)** Implement more evaluation rules (#4030) ([c6f8742](https://github.com/swc-project/swc/commit/c6f8742669a4161efec07e8c6fce493139e04cc5))
 
 ### Miscellaneous Tasks
 
@@ -35,7 +109,16 @@
 - **(issues)** Add some links ([69f16da](https://github.com/swc-project/swc/commit/69f16da7369c3c001d01a9581d1e574f28e460f4))
 
 
-- **(issues)** Typo ([ea0bbc6](https://github.com/swc-project/swc/commit/ea0bbc6f5fb3cb728e0bfa93fabca0d49cebc95e))- **general**: Typo ([3f78053](https://github.com/swc-project/swc/commit/3f78053227f2d286940e9b118f27aa9474b0c838))- **general**: Fix CI ([565a720](https://github.com/swc-project/swc/commit/565a7202eda1435498f7d98a1f9ec1b34d9fdf33))- **general**: Fix CI ([b31ead5](https://github.com/swc-project/swc/commit/b31ead5cbed61b201991cf55e227a6de52365a24))
+- **(issues)** Typo ([ea0bbc6](https://github.com/swc-project/swc/commit/ea0bbc6f5fb3cb728e0bfa93fabca0d49cebc95e))
+
+
+- **(plugin/runner)** Update `wasmer-*` (#4111) ([f41a717](https://github.com/swc-project/swc/commit/f41a717c457d7ca3e9b5cd6a24ce0fa48040b6f4))- **general**: Typo ([3f78053](https://github.com/swc-project/swc/commit/3f78053227f2d286940e9b118f27aa9474b0c838))- **general**: Fix CI ([565a720](https://github.com/swc-project/swc/commit/565a7202eda1435498f7d98a1f9ec1b34d9fdf33))- **general**: Fix CI ([b31ead5](https://github.com/swc-project/swc/commit/b31ead5cbed61b201991cf55e227a6de52365a24))
+
+### Testing
+
+
+
+- **(es/codegen)** Add a test for fixed issue (#4121) ([95c572f](https://github.com/swc-project/swc/commit/95c572f20710e4770a58d99d8028be1651099bb2))
 
 ## [1.2.159] - 2022-03-19
 

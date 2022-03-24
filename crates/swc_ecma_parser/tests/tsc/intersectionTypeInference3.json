@@ -49,6 +49,8 @@
               "value": "Kind",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -77,6 +79,8 @@
               "value": "Type",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -250,11 +254,7 @@
                   "ctxt": 0
                 },
                 "value": "A",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "'A'"
               }
             },
             {
@@ -660,6 +660,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }

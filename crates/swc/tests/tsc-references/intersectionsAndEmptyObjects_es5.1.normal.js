@@ -21,7 +21,7 @@ testDictionary(d1);
 var d2 = intersectDictionaries(d1, d1);
 testDictionary(d2);
 var d3 = {
-    s: ''
+    s: ""
 };
 testDictionary(d3);
 var d4 = intersectDictionaries(d1, d3);
@@ -36,7 +36,7 @@ var myChoices;
 var myChoicesAndEmpty;
 var unknownChoices;
 var unknownChoicesAndEmpty;
-mock(import('./ex'));
+mock(import("./ex"));
 // @target: es2015
 // @module: commonjs
 // @esModuleInterop: true

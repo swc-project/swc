@@ -388,11 +388,7 @@
           "ctxt": 0
         },
         "value": "./index3",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./index3\""
       },
       "typeOnly": false,
       "asserts": null

@@ -45,11 +45,8 @@ impl Fold for MemberExprLit {
                         span: i.span,
                         expr: Box::new(Expr::Lit(Lit::Str(Str {
                             span: i.span,
+                            raw: None,
                             value: i.sym,
-                            has_escape: false,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
                         }))),
                     }),
                     ..e

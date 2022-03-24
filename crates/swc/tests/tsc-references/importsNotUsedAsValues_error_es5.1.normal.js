@@ -36,11 +36,11 @@ var H = function H() {
 };
 module.exports = H;
 // @Filename: /i.ts
-var H = require('./h'); // Error
+var H = require("./h"); // Error
 var h = {};
 console.log(h);
 // @Filename: /j.ts
-var H = require('./h'); // noUnusedLocals error only
+var H = require("./h"); // noUnusedLocals error only
 var // @Filename: /k.ts
 K;
 (function(K) {
@@ -49,6 +49,6 @@ K;
 })(K || (K = {}));
 module.exports = K;
 // @Filename: /l.ts
-var K = require('./k');
+var K = require("./k");
 0; // @Filename: /j.ts
  // Sad face https://github.com/microsoft/TypeScript/blob/6b04f5039429b9d412696fe2febe39ecc69ad365/src/testRunner/compilerRunner.ts#L207

@@ -3,7 +3,7 @@ import * as swcHelpers from "@swc/helpers";
 // @noEmit: true
 // @Filename: bug24024.js
 // #24024
-var wat = require('./bug24024');
+var wat = require("./bug24024");
 module.exports = function C() {
     "use strict";
     swcHelpers.classCallCheck(this, C);

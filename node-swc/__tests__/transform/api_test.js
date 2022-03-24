@@ -33,7 +33,7 @@ it("should handle exportNamespaceFrom", () => {
         }
     });
 
-    expect(out.code).toContain("import * as _Foo from 'bar';");
+    expect(out.code).toContain("import * as _Foo from \"bar\";");
     expect(out.code).toContain("export { _Foo as Foo }");
 });
 
@@ -98,7 +98,7 @@ it("(async) should handle dynamic import", async () => {
         }
     });
 
-    expect(out.code.replace(/;/g, "").trim()).toBe(`import('foo')`);
+    expect(out.code.replace(/;/g, "").trim()).toBe(`import("foo")`);
 });
 
 it("should handle nullish coalescing", async () => {
@@ -111,7 +111,7 @@ it("should handle nullish coalescing", async () => {
         }
     });
 
-    expect(out.code).toBe(`a !== null && a !== void 0 ? a : 'foo';
+    expect(out.code).toBe(`a !== null && a !== void 0 ? a : "foo";
 `);
 });
 

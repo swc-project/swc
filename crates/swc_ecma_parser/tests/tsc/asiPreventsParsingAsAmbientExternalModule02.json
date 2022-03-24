@@ -148,11 +148,7 @@
                 "ctxt": 0
               },
               "value": "my external module",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"my external module\""
             },
             "body": {
               "type": "TsModuleBlock",

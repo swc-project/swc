@@ -509,11 +509,7 @@
                     "ctxt": 0
                   },
                   "value": "g",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'g'"
                 }
               }
             },

@@ -3,5 +3,5 @@ function funky(declaration) {
 }
 module.exports = (ast)=>ast
 , module.exports.funky = funky;
-const { funky  } = require("./commonJSAliasedExport");
+const { funky  } = require('./commonJSAliasedExport');
 funky(1);

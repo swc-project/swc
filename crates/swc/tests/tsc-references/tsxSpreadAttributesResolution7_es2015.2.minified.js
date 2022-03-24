@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-const React = require("react");
+const React = require('react');
 class TextComponent extends React.Component {
     render() {
         return React.createElement("span", null, "Some Text..");

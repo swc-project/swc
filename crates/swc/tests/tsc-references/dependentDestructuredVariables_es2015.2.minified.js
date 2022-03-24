@@ -1,7 +1,7 @@
 const { value , done  } = it.next();
 f50((kind, data)=>{
-    "A" === kind && data.toFixed(), "B" === kind && data.toUpperCase();
-}), readFile("hello", (err, data)=>{
+    'A' === kind && data.toFixed(), 'B' === kind && data.toUpperCase();
+}), readFile('hello', (err, data)=>{
     null === err ? data.length : err.message;
 });
 const reducer = (op, args)=>{

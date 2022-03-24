@@ -372,11 +372,7 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'x'"
                 }
               },
               {
@@ -631,6 +627,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -812,6 +810,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeLiteral",
               "span": {
@@ -924,6 +924,8 @@
               "value": "P",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -1152,11 +1154,7 @@
                                 "ctxt": 0
                               },
                               "value": "???",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"???\""
                             }
                           }
                         ]

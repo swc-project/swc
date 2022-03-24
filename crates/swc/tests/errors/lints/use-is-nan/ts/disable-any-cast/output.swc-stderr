@@ -1,0 +1,8 @@
+
+  x Use the isNaN function to compare with NaN
+   ,----
+ 1 | if (a == NaN) {}
+   :     ^^^^|^^^
+   :         `-- this will always return false
+   `----
+  help: NaN is a special value and `NaN == NaN` is false

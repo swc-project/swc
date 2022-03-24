@@ -22,11 +22,7 @@
           "ctxt": 0
         },
         "value": "./foo.json",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./foo.json\""
       },
       "typeOnly": false,
       "asserts": {
@@ -57,11 +53,7 @@
                 "ctxt": 0
               },
               "value": "json",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"json\""
             }
           }
         ]

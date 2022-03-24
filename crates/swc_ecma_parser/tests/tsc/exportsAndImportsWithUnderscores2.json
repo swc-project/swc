@@ -99,11 +99,7 @@
                   "ctxt": 0
                 },
                 "value": "__esmodule",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"__esmodule\""
               },
               "value": {
                 "type": "BooleanLiteral",
@@ -125,11 +121,7 @@
                   "ctxt": 0
                 },
                 "value": "__proto__",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"__proto__\""
               },
               "value": {
                 "type": "ObjectExpression",
@@ -180,11 +172,7 @@
           "ctxt": 0
         },
         "value": "./m1",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./m1\""
       },
       "typeOnly": false,
       "asserts": null

@@ -389,11 +389,7 @@
                           "ctxt": 0
                         },
                         "value": "hi",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'hi'"
                       }
                     }
                   }
@@ -1392,11 +1388,7 @@
                           "ctxt": 0
                         },
                         "value": "hi",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'hi'"
                       }
                     }
                   }
@@ -1785,11 +1777,7 @@
                           "ctxt": 0
                         },
                         "value": "hi",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'hi'"
                       }
                     }
                   }
@@ -2530,11 +2518,7 @@
                           "ctxt": 0
                         },
                         "value": "hi",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'hi'"
                       }
                     }
                   }
@@ -3553,11 +3537,7 @@
                           "ctxt": 0
                         },
                         "value": "hi",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'hi'"
                       }
                     }
                   }
@@ -4221,6 +4201,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }

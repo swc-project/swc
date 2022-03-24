@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 // @target: es6
 function foo() {
-    return '';
+    return "";
 }
 var C = /*#__PURE__*/ function() {
     "use strict";

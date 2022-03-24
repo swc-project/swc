@@ -46,20 +46,12 @@ impl Fold for PropertyLiteral {
 
         match n {
             PropName::Str(Str {
-                value: sym,
-                span,
-                kind,
-                ..
+                raw, value, span, ..
             }) => {
-                if sym.is_reserved() || !is_valid_ident(&sym) {
-                    PropName::Str(Str {
-                        span,
-                        value: sym,
-                        has_escape: false,
-                        kind,
-                    })
+                if value.is_reserved() || !is_valid_ident(&value) {
+                    PropName::Str(Str { span, raw, value })
                 } else {
-                    PropName::Ident(Ident::new(sym, span))
+                    PropName::Ident(Ident::new(value, span))
                 }
             }
             PropName::Ident(i) => {
@@ -67,11 +59,8 @@ impl Fold for PropertyLiteral {
                 if sym.is_reserved() || sym.contains('-') || sym.contains('.') {
                     PropName::Str(Str {
                         span,
+                        raw: None,
                         value: sym,
-                        has_escape: false,
-                        kind: StrKind::Normal {
-                            contains_quote: false,
-                        },
                     })
                 } else {
                     PropName::Ident(Ident { span, sym, ..i })
@@ -104,7 +93,7 @@ mod tests {
 };"#,
         r#"var foo = {
   bar: function () {},
-  '1': function () {},
+  "1": function () {},
 
   "default": 1,
   [a]: 2,

@@ -9,5 +9,5 @@
  * @return {string | number}
  */ var x = 1;
 /** @type {NS.Nested.Inner} */ function f(space, peace) {
-    return '1';
+    return "1";
 }

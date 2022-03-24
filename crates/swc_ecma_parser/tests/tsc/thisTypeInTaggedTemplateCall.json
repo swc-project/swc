@@ -245,6 +245,8 @@
                     "value": "T",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 }
@@ -326,34 +328,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 150,
-                  "end": 154,
-                  "ctxt": 0
-                },
-                "value": "test",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 150,
-                  "end": 154,
-                  "ctxt": 0
-                },
-                "value": "test",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "test",
+              "raw": "test"
             }
           ]
         }
@@ -427,34 +403,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 165,
-                  "end": 169,
-                  "ctxt": 0
-                },
-                "value": "test",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 165,
-                  "end": 169,
-                  "ctxt": 0
-                },
-                "value": "test",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "test",
+              "raw": "test"
             }
           ]
         }

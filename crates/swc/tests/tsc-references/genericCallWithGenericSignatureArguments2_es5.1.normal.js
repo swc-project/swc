@@ -39,7 +39,7 @@ var onlyT;
     var r1 = foo(function(x) {
         return 1;
     }, function(x) {
-        return '';
+        return "";
     });
     var E;
     (function(E) {
@@ -93,7 +93,7 @@ var TU;
     var r1 = foo(function(x) {
         return 1;
     }, function(x) {
-        return '';
+        return "";
     });
     var E;
     (function(E) {

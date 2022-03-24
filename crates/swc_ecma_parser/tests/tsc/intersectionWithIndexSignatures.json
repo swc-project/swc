@@ -1318,6 +1318,8 @@
               "value": "Source",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -1338,6 +1340,8 @@
               "value": "Tgt",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1376,6 +1380,8 @@
                 "value": "K",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": {
                 "type": "TsTypeOperator",
                 "span": {
@@ -1836,11 +1842,7 @@
                     "ctxt": 0
                   },
                   "value": "asd",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"asd\""
                 }
               }
             },
@@ -1929,11 +1931,7 @@
                 "ctxt": 0
               },
               "value": "asd",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"asd\""
             }
           }
         },

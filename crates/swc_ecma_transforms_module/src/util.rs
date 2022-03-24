@@ -571,9 +571,10 @@ impl Scope {
                 let expr = match &*expr {
                     Expr::Lit(Lit::Str(s)) => {
                         let src = folder.resolver().resolve(s.value.clone());
+
                         Box::new(Expr::Lit(Lit::Str(Str {
+                            raw: None,
                             value: src,
-                            kind: Default::default(),
                             ..s.clone()
                         })))
                     }
@@ -763,14 +764,14 @@ impl Scope {
                                                     callee: Box::new(Expr::Ident(quote_ident!(
                                                         "Error"
                                                     ))),
-                                                    args: Some(vec![quote_str!("\"")
+                                                    args: Some(vec![quote_str!("'")
                                                         .make_bin(
                                                             op!(bin, "+"),
                                                             quote_str!(i.span, i.sym),
                                                         )
                                                         .make_bin(
                                                             op!(bin, "+"),
-                                                            quote_str!("\" is read-only."),
+                                                            quote_str!("' is read-only."),
                                                         )
                                                         .as_arg()]),
                                                     type_args: Default::default(),

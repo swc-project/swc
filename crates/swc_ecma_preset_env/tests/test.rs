@@ -311,8 +311,4 @@ fn fixture(input: PathBuf) {
 
 struct Normalizer;
 
-impl VisitMut for Normalizer {
-    fn visit_mut_str(&mut self, n: &mut Str) {
-        n.kind = Default::default();
-    }
-}
+impl VisitMut for Normalizer {}

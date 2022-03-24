@@ -1,3 +1,3 @@
 if (true) {
-    console.log('Pass');
+    console.log("Pass");
 }

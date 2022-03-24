@@ -246,11 +246,7 @@
               "ctxt": 0
             },
             "value": "B.x",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'B.x'"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -347,11 +343,7 @@
                       "ctxt": 0
                     },
                     "value": "C.x",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'C.x'"
                   }
                 }
               ]

@@ -103,14 +103,12 @@ impl Fold for Normalizer {
             PropName::Ident(Ident { span, sym, .. }) => PropName::Str(Str {
                 span,
                 value: sym,
-                has_escape: false,
-                kind: Default::default(),
+                raw: None,
             }),
             PropName::Num(num) => PropName::Str(Str {
                 span: num.span,
                 value: num.to_string().into(),
-                has_escape: false,
-                kind: Default::default(),
+                raw: None,
             }),
             _ => n,
         }
@@ -130,9 +128,8 @@ impl Fold for Normalizer {
         if self.is_test262 {
             Str {
                 span,
-                has_escape: false,
-                kind: Default::default(),
-                ..s
+                value: s.value,
+                raw: None,
             }
         } else {
             Str { span, ..s }

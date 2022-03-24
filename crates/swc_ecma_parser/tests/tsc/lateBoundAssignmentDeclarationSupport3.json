@@ -94,11 +94,7 @@
               "ctxt": 0
             },
             "value": "my-fake-sym",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"my-fake-sym\""
           },
           "definite": false
         }
@@ -221,11 +217,7 @@
                       "ctxt": 0
                     },
                     "value": "ok",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"ok\""
                   }
                 }
               ]
@@ -352,11 +344,7 @@
                       "ctxt": 0
                     },
                     "value": "ok",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"ok\""
                   }
                 }
               ]
@@ -495,11 +483,7 @@
                     "ctxt": 0
                   },
                   "value": "./lateBoundAssignmentDeclarationSupport3.js",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./lateBoundAssignmentDeclarationSupport3.js\""
                 }
               }
             ],
@@ -569,11 +553,7 @@
                   "ctxt": 0
                 },
                 "value": "my-fake-sym",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"my-fake-sym\""
               }
             }
           },

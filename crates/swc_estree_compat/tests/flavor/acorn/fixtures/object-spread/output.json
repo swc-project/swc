@@ -95,7 +95,7 @@
                     22,
                     25
                   ],
-                  "raw": "a",
+                  "raw": "\"a\"",
                   "start": 22,
                   "type": "Literal",
                   "value": "a"
@@ -280,7 +280,7 @@
                     62,
                     65
                   ],
-                  "raw": "b",
+                  "raw": "\"b\"",
                   "start": 62,
                   "type": "Literal",
                   "value": "b"

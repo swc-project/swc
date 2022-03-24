@@ -34,16 +34,16 @@ var GenericParameter;
         return x;
     }); // any => string (+1 overload) [inferences are made for T, but lambda not contextually typed]. T is any
     var r9 = foo6(function(x) {
-        return '';
+        return "";
     }); // any => string (+1 overload)
     var r11 = foo6(function(x, y) {
-        return '';
+        return "";
     }); // any => string (+1 overload)
     var r12 = foo7(1, function(x) {
         return x;
     }); // any => string (+1 overload) [inferences are made for T, but lambda not contextually typed]
     var r13 = foo7(1, function(x) {
-        return '';
+        return "";
     }); // any => string (+1 overload) [inferences are made for T, but lambda not contextually typed]
     var a;
     var r14 = foo7(1, a); // any => string (+1 overload) [inferences are made for T, but lambda not contextually typed]

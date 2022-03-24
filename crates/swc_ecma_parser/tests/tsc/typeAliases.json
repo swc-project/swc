@@ -2289,6 +2289,8 @@
               "value": "T1",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -2327,6 +2329,8 @@
               "value": "T2",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -2708,11 +2712,7 @@
                     "ctxt": 0
                   },
                   "value": "click",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"click\""
                 }
               }
             }
@@ -3525,11 +3525,7 @@
                     "ctxt": 0
                   },
                   "value": "1",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"1\""
                 }
               },
               {

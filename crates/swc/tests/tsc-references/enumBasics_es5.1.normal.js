@@ -24,16 +24,16 @@ E2;
 var // Enum with only computed members
 E3;
 (function(E3) {
-    E3[E3["X"] = 'foo'.length] = "X";
+    E3[E3["X"] = "foo".length] = "X";
     E3[E3["Y"] = 7] = "Y";
-    E3[E3["Z"] = +'foo'] = "Z";
+    E3[E3["Z"] = +"foo"] = "Z";
 })(E3 || (E3 = {}));
 var // Enum with constant members followed by computed members
 E4;
 (function(E4) {
     E4[E4["X"] = 0] = "X";
     E4[E4["Y"] = 1] = "Y";
-    E4[E4["Z"] = 'foo'.length] = "Z";
+    E4[E4["Z"] = "foo".length] = "Z";
 })(E4 || (E4 = {}));
 var // Enum with > 2 constant members with no initializer for first member, non zero initializer for second element
 E5;
@@ -53,12 +53,12 @@ var E6;
 var // Enum with computed member initializer of type 'any'
 E7;
 (function(E7) {
-    E7[E7["A"] = 'foo'['foo']] = "A";
+    E7[E7["A"] = "foo"["foo"]] = "A";
 })(E7 || (E7 = {}));
 var // Enum with computed member initializer of type number
 E8;
 (function(E8) {
-    E8[E8["B"] = 'foo'['foo']] = "B";
+    E8[E8["B"] = "foo"["foo"]] = "B";
 })(E8 || (E8 = {}));
 var //Enum with computed member intializer of same enum type
 E9;

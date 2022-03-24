@@ -133,11 +133,7 @@
                         "ctxt": 0
                       },
                       "value": "#1: var\\nx\\n=\\n1\\n; x === 1. Actual: ",
-                      "hasEscape": true,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'#1: var\\\\nx\\\\n=\\\\n1\\\\n; x === 1. Actual: '"
                     },
                     "right": {
                       "type": "ParenthesisExpression",

@@ -1023,6 +1023,7 @@ impl Swcify for swc_estree_ast::JSXText {
         swc_ecma_ast::JSXText {
             span: ctx.span(&self.base),
             value: self.value,
+            // TODO fix me
             raw: js_word!(""),
         }
     }

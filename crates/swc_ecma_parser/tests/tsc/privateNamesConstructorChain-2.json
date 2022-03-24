@@ -303,6 +303,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -364,11 +366,7 @@
               "ctxt": 0
             },
             "value": "foo",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"foo\""
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -412,11 +410,7 @@
               "ctxt": 0
             },
             "value": "bar",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"bar\""
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -464,6 +458,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }

@@ -7,7 +7,7 @@ var Lion = /*#__PURE__*/ function(Animal) {
         swcHelpers.classCallCheck(this, Lion);
         var _this;
         _this = _super.apply(this, arguments);
-        _this._sound = 'grrr';
+        _this._sound = "grrr";
         return _this;
     }
     swcHelpers.createClass(Lion, [

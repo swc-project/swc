@@ -2260,10 +2260,10 @@
                     const s = t.charAt(e35);
                     switch(s){
                         case "\0":
-                            n += "\x01\x10";
+                            n += "";
                             break;
-                        case "\x01":
-                            n += "\x01\x11";
+                        case "":
+                            n += "";
                             break;
                         default:
                             n += s;
@@ -2272,25 +2272,25 @@
                 return n;
             }
             function As(t) {
-                return t + "\x01\x01";
+                return t + "";
             }
             function Rs(t) {
                 const e = t.length;
-                if (B(e >= 2), 2 === e) return B("\x01" === t.charAt(0) && "\x01" === t.charAt(1)), ht.emptyPath();
+                if (B(e >= 2), 2 === e) return B("" === t.charAt(0) && "" === t.charAt(1)), ht.emptyPath();
                 const n = e - 2, s = [];
                 let i = "";
                 for(let r = 0; r < e;){
-                    const e = t.indexOf("\x01", r);
+                    const e = t.indexOf("", r);
                     switch((e < 0 || e > n) && L(), t.charAt(e + 1)){
-                        case "\x01":
+                        case "":
                             const n14 = t.substring(r, e);
                             let o;
                             0 === i.length ? o = n14 : (i += n14, o = i, i = ""), s.push(o);
                             break;
-                        case "\x10":
+                        case "":
                             i += t.substring(r, e), i += "\0";
                             break;
-                        case "\x11":
+                        case "":
                             i += t.substring(r, e + 1);
                             break;
                         default:

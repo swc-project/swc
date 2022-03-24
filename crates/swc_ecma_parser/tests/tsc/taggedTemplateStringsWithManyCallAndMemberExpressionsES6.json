@@ -510,34 +510,8 @@
                               "ctxt": 0
                             },
                             "tail": false,
-                            "cooked": {
-                              "type": "StringLiteral",
-                              "span": {
-                                "start": 258,
-                                "end": 261,
-                                "ctxt": 0
-                              },
-                              "value": "abc",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": false
-                              }
-                            },
-                            "raw": {
-                              "type": "StringLiteral",
-                              "span": {
-                                "start": 258,
-                                "end": 261,
-                                "ctxt": 0
-                              },
-                              "value": "abc",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": false
-                              }
-                            }
+                            "cooked": "abc",
+                            "raw": "abc"
                           },
                           {
                             "type": "TemplateElement",
@@ -547,34 +521,8 @@
                               "ctxt": 0
                             },
                             "tail": true,
-                            "cooked": {
-                              "type": "StringLiteral",
-                              "span": {
-                                "start": 267,
-                                "end": 270,
-                                "ctxt": 0
-                              },
-                              "value": "def",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": false
-                              }
-                            },
-                            "raw": {
-                              "type": "StringLiteral",
-                              "span": {
-                                "start": 267,
-                                "end": 270,
-                                "ctxt": 0
-                              },
-                              "value": "def",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": false
-                              }
-                            }
+                            "cooked": "def",
+                            "raw": "def"
                           }
                         ]
                       }
@@ -601,11 +549,7 @@
                           "ctxt": 0
                         },
                         "value": "hello",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"hello\""
                       }
                     }
                   ],

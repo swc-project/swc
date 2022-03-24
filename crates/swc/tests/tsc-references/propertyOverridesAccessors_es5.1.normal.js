@@ -10,7 +10,7 @@ var A = /*#__PURE__*/ function() {
         {
             key: "p",
             get: function get() {
-                return 'oh no';
+                return "oh no";
             }
         }
     ]);
@@ -24,7 +24,7 @@ var B = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, B);
         var _this;
         _this = _super.apply(this, arguments);
-        _this.p = 'yep' // error
+        _this.p = "yep" // error
         ;
         return _this;
     }

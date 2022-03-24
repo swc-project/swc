@@ -6,7 +6,7 @@
         3454: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var ref, ref1;
-            module.exports = (null === (ref = __webpack_require__.g.process) || void 0 === ref ? void 0 : ref.env) && "object" == typeof (null === (ref1 = __webpack_require__.g.process) || void 0 === ref1 ? void 0 : ref1.env) ? __webpack_require__.g.process : __webpack_require__(7663);
+            module.exports = (null === (ref = __webpack_require__.g.process) || void 0 === ref ? void 0 : ref.env) && 'object' == typeof (null === (ref1 = __webpack_require__.g.process) || void 0 === ref1 ? void 0 : ref1.env) ? __webpack_require__.g.process : __webpack_require__(7663);
         },
         1780: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
@@ -38,7 +38,7 @@
                 }) : obj[key] = value, obj;
             }
             __webpack_require__(6774);
-            var fn, _ref, initBranch = (fn = _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+            var fn, _ref, initBranch = (_ref = (fn = _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
                 return _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().wrap(function(_ctx) {
                     for(;;)switch(_ctx.prev = _ctx.next){
                         case 0:
@@ -67,7 +67,7 @@
                             return _ctx.stop();
                     }
                 }, _callee);
-            }), _ref = function() {
+            }), function() {
                 var self = this, args = arguments;
                 return new Promise(function(resolve, reject) {
                     var gen = fn.apply(self, args);
@@ -79,7 +79,7 @@
                     }
                     _next(void 0);
                 });
-            }, function() {
+            }), function() {
                 return _ref.apply(this, arguments);
             });
             __webpack_exports__.default = function(param) {
@@ -729,10 +729,7 @@
                             return r;
                         }
                         function utf16leToBytes(e, r) {
-                            for(var t, f, n, i = [], o = 0; o < e.length; ++o){
-                                if ((r -= 2) < 0) break;
-                                f = (t = e.charCodeAt(o)) >> 8, n = t % 256, i.push(n), i.push(f);
-                            }
+                            for(var t, f, n, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, n = t % 256, i.push(n), i.push(f);
                             return i;
                         }
                         function base64ToBytes(e6) {
@@ -743,10 +740,7 @@
                             }(e6));
                         }
                         function blitBuffer(e, r, t, f) {
-                            for(var n = 0; n < f; ++n){
-                                if (n + t >= r.length || n >= e.length) break;
-                                r[n + t] = e[n];
-                            }
+                            for(var n = 0; n < f && !(n + t >= r.length) && !(n >= e.length); ++n)r[n + t] = e[n];
                             return n;
                         }
                         function isInstance(e, r) {
@@ -1997,7 +1991,7 @@
                         }
                         function stylizeWithColor(r, t) {
                             var e = inspect.styles[t];
-                            return e ? "\x1b[" + inspect.colors[e][0] + "m" + r + "\x1b[" + inspect.colors[e][1] + "m" : r;
+                            return e ? "[" + inspect.colors[e][0] + "m" + r + "[" + inspect.colors[e][1] + "m" : r;
                         }
                         function stylizeNoColor(r, t) {
                             return r;

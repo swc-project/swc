@@ -8,4 +8,4 @@ exports.version = 1;
 function alias() {}
 module.exports = alias;
 // @Filename: importer.js
-import('./bug28014');
+import("./bug28014");

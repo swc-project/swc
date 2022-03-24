@@ -33,7 +33,7 @@ var TypeScript;
         var moduleDecl = ast, memberScope = null, aggScope = null;
         moduleDecl.name && moduleDecl.mod && (moduleDecl.name.sym = moduleDecl.mod.symbol);
         var mod = moduleDecl.mod;
-        !!mod && (memberScope = new SymbolTableScope(mod.members, mod.ambientMembers, mod.enclosedTypes, mod.ambientEnclosedTypes, mod.symbol), mod.memberScope = memberScope, context.modDeclChain.push(moduleDecl), context.typeFlow.checker.currentModDecl = moduleDecl, aggScope = new SymbolAggregateScope(mod.symbol), aggScope.addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), mod.containedScope = aggScope, mod.symbol && context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, moduleDecl.vars, mod.members.privateMembers, !0));
+        mod && (memberScope = new SymbolTableScope(mod.members, mod.ambientMembers, mod.enclosedTypes, mod.ambientEnclosedTypes, mod.symbol), mod.memberScope = memberScope, context.modDeclChain.push(moduleDecl), context.typeFlow.checker.currentModDecl = moduleDecl, aggScope = new SymbolAggregateScope(mod.symbol), aggScope.addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), mod.containedScope = aggScope, mod.symbol && context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, moduleDecl.vars, mod.members.privateMembers, !0));
     }
     function preAssignClassScopes(ast, context) {
         var classDecl = ast, memberScope = null, aggScope = null;

@@ -1,4 +1,4 @@
-var x = '';
+var x = "";
 var a;
 var b;
 a = x;

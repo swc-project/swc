@@ -2,7 +2,7 @@ var _B;
 import * as swcHelpers from "@swc/helpers";
 class A {
 }
-(_B = class {
+A.B = ((_B = class {
     static func2() {
         return new Promise((resolve)=>{
             resolve(null);
@@ -14,4 +14,4 @@ class A {
             yield _B.func2();
         })();
     }
-}, A.B = _B, A.B.C.func();
+}, _B), A.B.C.func();

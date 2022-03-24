@@ -178,11 +178,7 @@
                             "ctxt": 0
                           },
                           "value": "d",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"d\""
                         }
                       }
                     },
@@ -212,11 +208,7 @@
                           "ctxt": 0
                         },
                         "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"\""
                       },
                       "typeAnnotation": null
                     }
@@ -315,11 +307,7 @@
               "ctxt": 0
             },
             "value": "",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"\""
           },
           "definite": false
         }
@@ -407,11 +395,7 @@
                             "ctxt": 0
                           },
                           "value": "d",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"d\""
                         }
                       }
                     },
@@ -441,11 +425,7 @@
                           "ctxt": 0
                         },
                         "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"\""
                       },
                       "typeAnnotation": null
                     }

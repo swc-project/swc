@@ -9,5 +9,5 @@
     return k(x);
 };
 // @Filename: main.js
-var f = require('./first');
+var f = require("./first");
 f(1, function(n) {});

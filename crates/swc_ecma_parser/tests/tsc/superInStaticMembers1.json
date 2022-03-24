@@ -6733,11 +6733,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -6970,11 +6966,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -7207,11 +7199,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -7446,11 +7434,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -7692,11 +7676,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -7940,11 +7920,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -8186,11 +8162,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -8434,11 +8406,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -8680,11 +8648,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -8928,11 +8892,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -9165,11 +9125,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": true,
       "asserts": null
@@ -9404,11 +9360,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": true,
       "asserts": null
@@ -9639,11 +9591,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -9876,11 +9824,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": false,
       "asserts": null
@@ -10111,11 +10055,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": true,
       "asserts": null
@@ -10348,11 +10288,7 @@
           "ctxt": 0
         },
         "value": "./external",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./external\""
       },
       "typeOnly": true,
       "asserts": null

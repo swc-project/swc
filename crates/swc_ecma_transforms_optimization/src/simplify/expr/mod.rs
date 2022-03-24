@@ -132,11 +132,12 @@ impl SimplifyExpr {
                     if idx < 0 {
                         *expr = *undefined(*span)
                     } else {
+                        let value = nth_char(value, idx as _);
+
                         *expr = Expr::Lit(Lit::Str(Str {
-                            value: nth_char(value, idx as _).into(),
+                            raw: None,
+                            value: value.into(),
                             span: *span,
-                            has_escape: false,
-                            kind: Default::default(),
                         }))
                     };
                 }
@@ -352,14 +353,15 @@ impl SimplifyExpr {
                 if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
                     if let (Known(l), Known(r)) = (left.as_string(), right.as_string()) {
                         let mut l = l.into_owned();
+
                         l.push_str(&r);
+
                         self.changed = true;
+
                         *expr = Expr::Lit(Lit::Str(Str {
+                            raw: None,
                             value: l.into(),
                             span: *span,
-                            // TODO
-                            has_escape: false,
-                            kind: Default::default(),
                         }));
                         return;
                     }
@@ -376,12 +378,12 @@ impl SimplifyExpr {
                                 {
                                     self.changed = true;
 
+                                    let value = format!("{}{}", l, r);
+
                                     *expr = Expr::Lit(Lit::Str(Str {
-                                        value: format!("{}{}", l, r).into(),
+                                        raw: None,
+                                        value: value.into(),
                                         span: *span,
-                                        // TODO
-                                        has_escape: false,
-                                        kind: Default::default(),
                                     }));
                                 }
                             }
@@ -670,9 +672,8 @@ impl SimplifyExpr {
 
         *expr = Expr::Lit(Lit::Str(Str {
             span: *span,
+            raw: None,
             value: val.into(),
-            has_escape: false,
-            kind: Default::default(),
         }));
     }
 

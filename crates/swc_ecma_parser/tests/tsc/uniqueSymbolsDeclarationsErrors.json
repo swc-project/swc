@@ -392,11 +392,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "readonlyType",
-                                "hasEscape": false,
-                                "kind": {
-                                  "type": "normal",
-                                  "containsQuote": true
-                                }
+                                "raw": "\"readonlyType\""
                               }
                             }
                           }
@@ -490,11 +486,7 @@
                             "ctxt": 0
                           },
                           "value": "readonlyType",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"readonlyType\""
                         }
                       }
                     }
@@ -775,11 +767,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "readonlyType",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"readonlyType\""
                                 }
                               }
                             }
@@ -873,11 +861,7 @@
                               "ctxt": 0
                             },
                             "value": "readonlyType",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"readonlyType\""
                           }
                         }
                       }

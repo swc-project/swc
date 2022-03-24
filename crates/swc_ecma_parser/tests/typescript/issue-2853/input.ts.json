@@ -42,11 +42,7 @@
               "ctxt": 0
             },
             "value": "\u0000a",
-            "hasEscape": true,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"\\0a\""
           },
           "definite": false
         }

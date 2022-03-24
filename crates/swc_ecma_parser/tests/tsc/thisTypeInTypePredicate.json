@@ -201,6 +201,8 @@
               "value": "S",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -326,11 +328,7 @@
                         "ctxt": 0
                       },
                       "value": "number",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'number'"
                     },
                     "right": {
                       "type": "UnaryExpression",

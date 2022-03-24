@@ -32,18 +32,17 @@ impl QuotesType {
     }
 }
 
-pub fn resolve_string_quote_type(source_map: &Arc<SourceMap>, lit_str: &Str) -> Option<QuotesType> {
-    let quote = source_map.lookup_byte_offset(lit_str.span.lo);
-    let quote_index = quote.pos.0;
-    let src = &quote.sf.src;
-    let byte = src.as_bytes()[quote_index as usize];
+pub fn resolve_string_quote_type(lit_str: &Str) -> Option<QuotesType> {
+    lit_str.raw.as_ref().and_then(|raw| {
+        let byte = (&*raw).as_bytes()[0];
 
-    match byte {
-        b'\'' => Some(QuotesType::Single),
-        b'"' => Some(QuotesType::Double),
-        b'`' => Some(QuotesType::Backtick),
-        _ => None,
-    }
+        match byte {
+            b'\'' => Some(QuotesType::Single),
+            b'"' => Some(QuotesType::Double),
+            b'`' => Some(QuotesType::Backtick),
+            _ => None,
+        }
+    })
 }
 
 #[derive(Debug)]

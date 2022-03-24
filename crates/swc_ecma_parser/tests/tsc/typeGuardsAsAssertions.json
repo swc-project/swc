@@ -105,6 +105,8 @@
                 "value": "a",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             }
@@ -318,6 +320,8 @@
                 "value": "a",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             }
@@ -476,11 +480,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "''"
                   }
                 }
               ]
@@ -623,11 +623,7 @@
                     "ctxt": 0
                   },
                   "value": "some",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'some'"
                 },
                 "right": {
                   "type": "Identifier",
@@ -670,6 +666,8 @@
                 "value": "a",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             }
@@ -891,6 +889,8 @@
               "value": "a",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1347,6 +1347,8 @@
                 "value": "r",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             }
@@ -1613,11 +1615,7 @@
                             "ctxt": 0
                           },
                           "value": "string",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": true
-                          }
+                          "raw": "\"string\""
                         }
                       },
                       "consequent": {
@@ -1666,11 +1664,7 @@
                           "ctxt": 0
                         },
                         "value": "abc",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"abc\""
                       }
                     }
                   }
@@ -1937,11 +1931,7 @@
                         "ctxt": 0
                       },
                       "value": "string",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"string\""
                     }
                   },
                   "consequent": {
@@ -2062,11 +2052,7 @@
                               "ctxt": 0
                             },
                             "value": "abc",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"abc\""
                           }
                         }
                       }
@@ -2497,11 +2483,7 @@
                   "ctxt": 0
                 },
                 "value": "string",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"string\""
               }
             },
             "consequent": {
@@ -2937,11 +2919,7 @@
                   "ctxt": 0
                 },
                 "value": "boolean",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"boolean\""
               }
             },
             "consequent": {
@@ -3133,11 +3111,7 @@
                     "ctxt": 0
                   },
                   "value": "string",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"string\""
                 }
               },
               "right": {
@@ -3175,11 +3149,7 @@
                     "ctxt": 0
                   },
                   "value": "number",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"number\""
                 }
               }
             },
@@ -3458,11 +3428,7 @@
                   "ctxt": 0
                 },
                 "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"\""
               }
             }
           },
@@ -3871,11 +3837,7 @@
                     "ctxt": 0
                   },
                   "value": "",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"\""
                 },
                 "typeAnnotation": {
                   "type": "TsUnionType",
@@ -4003,11 +3965,7 @@
                     "ctxt": 0
                   },
                   "value": "",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"\""
                 },
                 "typeAnnotation": {
                   "type": "TsUnionType",

@@ -6,6 +6,6 @@
 // @filename: node_modules/untyped/index.js
 module.exports = {};
 // @filename: bug40140.js
-var u = require('untyped');
+var u = require("untyped");
 u.assignment.nested = true;
 u.noError();

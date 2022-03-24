@@ -1,8 +1,8 @@
 var M, x;
 switch((M || (M = {})).fn = function(x) {
-    return "";
+    return '';
 }, x){
-    case "":
+    case '':
     case 12:
     case !0:
     case null:
@@ -16,14 +16,14 @@ switch((M || (M = {})).fn = function(x) {
         id: 12
     }:
     case [
-        "a"
+        'a'
     ]:
     case typeof x:
     case typeof M:
     case M.fn(1):
-    case (x)=>""
+    case (x)=>''
     :
-    case "":
+    case '':
     default:
 }
 class C {
@@ -33,11 +33,11 @@ switch(new C()){
     }():
     case {
         id: 12,
-        name: ""
+        name: ''
     }:
     case new C():
 }
-switch(""){
+switch(''){
 }
 switch(12){
 }
@@ -62,11 +62,11 @@ switch({
 }){
 }
 switch([
-    "a"
+    'a'
 ]){
 }
-switch((x)=>""
+switch((x)=>''
 ){
 }
-switch(""){
+switch(''){
 }

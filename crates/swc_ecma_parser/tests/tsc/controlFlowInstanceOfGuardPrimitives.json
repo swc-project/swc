@@ -214,11 +214,7 @@
                               "ctxt": 0
                             },
                             "value": "Aha!! It's a Date in ",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"Aha!! It's a Date in \""
                           },
                           "right": {
                             "type": "CallExpression",
@@ -308,11 +304,7 @@
                     "ctxt": 0
                   },
                   "value": "string",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'string'"
                 }
               },
               "consequent": {
@@ -384,11 +376,7 @@
                                 "ctxt": 0
                               },
                               "value": "Aha!! It's a string of length ",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"Aha!! It's a string of length \""
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -495,11 +483,7 @@
                                 "ctxt": 0
                               },
                               "value": "Aha!! It's the number ",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"Aha!! It's the number \""
                             },
                             "right": {
                               "type": "CallExpression",
@@ -656,11 +640,7 @@
                 "ctxt": 0
               },
               "value": "beef",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"beef\""
             }
           }
         ],

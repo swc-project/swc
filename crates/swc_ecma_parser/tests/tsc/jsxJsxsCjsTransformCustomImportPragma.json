@@ -168,11 +168,7 @@
                           "ctxt": 0
                         },
                         "value": "foo",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"foo\""
                       }
                     }
                   ],
@@ -251,11 +247,7 @@
           "ctxt": 0
         },
         "value": "./preact",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./preact\""
       },
       "typeOnly": false,
       "asserts": null
@@ -422,11 +414,7 @@
                           "ctxt": 0
                         },
                         "value": "foo",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"foo\""
                       }
                     }
                   ],

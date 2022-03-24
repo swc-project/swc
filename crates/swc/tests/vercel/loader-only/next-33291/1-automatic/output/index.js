@@ -1,9 +1,9 @@
 import * as swcHelpers from "@swc/helpers";
 import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 import { createElement as _createElement } from "react";
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
 export default function Home() {
     var _this = this;
     var icon = [
@@ -85,7 +85,7 @@ export default function Home() {
                         className: styles.description,
                         children: [
                             "Get started by editing",
-                            ' ',
+                            " ",
                             /*#__PURE__*/ _jsxDEV("code", {
                                 className: styles.code,
                                 children: "pages/index.js"
@@ -219,7 +219,7 @@ export default function Home() {
                     rel: "noopener noreferrer",
                     children: [
                         "Powered by",
-                        ' ',
+                        " ",
                         /*#__PURE__*/ _jsxDEV("span", {
                             className: styles.logo,
                             children: /*#__PURE__*/ _jsxDEV(Image, {

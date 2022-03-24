@@ -5,7 +5,7 @@ var Animal = /*#__PURE__*/ function() {
     "use strict";
     function Animal() {
         swcHelpers.classCallCheck(this, Animal);
-        this._sound = 'rustling noise in the bushes';
+        this._sound = "rustling noise in the bushes";
     }
     var _proto = Animal.prototype;
     _proto.makeSound = function makeSound() {
@@ -35,7 +35,7 @@ var Lion = /*#__PURE__*/ function(Animal) {
         swcHelpers.classCallCheck(this, Lion);
         var _this;
         _this = _super.apply(this, arguments);
-        _this.sound = 'RAWR!' // error here
+        _this.sound = "RAWR!" // error here
         ;
         return _this;
     }

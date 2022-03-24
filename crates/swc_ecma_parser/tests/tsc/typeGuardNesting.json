@@ -139,11 +139,7 @@
                   "ctxt": 0
                 },
                 "value": "boolean",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "'boolean'"
               }
             },
             "right": {
@@ -202,11 +198,7 @@
               "ctxt": 0
             },
             "value": "string",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'string'"
           }
         }
       },
@@ -311,11 +303,7 @@
                           "ctxt": 0
                         },
                         "value": "string",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'string'"
                       }
                     }
                   },
@@ -337,11 +325,7 @@
                       "ctxt": 0
                     },
                     "value": "string",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"string\""
                   }
                 },
                 "definite": false
@@ -441,11 +425,7 @@
                           "ctxt": 0
                         },
                         "value": "boolean",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'boolean'"
                       }
                     }
                   },
@@ -566,11 +546,7 @@
                           "ctxt": 0
                         },
                         "value": "boolean",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'boolean'"
                       }
                     }
                   },
@@ -592,11 +568,7 @@
                       "ctxt": 0
                     },
                     "value": "string",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"string\""
                   }
                 },
                 "definite": false
@@ -696,11 +668,7 @@
                           "ctxt": 0
                         },
                         "value": "string",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'string'"
                       }
                     }
                   },
@@ -797,11 +765,7 @@
                   "ctxt": 0
                 },
                 "value": "string",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "'string'"
               }
             },
             "right": {
@@ -860,11 +824,7 @@
               "ctxt": 0
             },
             "value": "boolean",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'boolean'"
           }
         }
       },
@@ -969,11 +929,7 @@
                           "ctxt": 0
                         },
                         "value": "string",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'string'"
                       }
                     }
                   },
@@ -995,11 +951,7 @@
                       "ctxt": 0
                     },
                     "value": "string",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"string\""
                   }
                 },
                 "definite": false
@@ -1099,11 +1051,7 @@
                           "ctxt": 0
                         },
                         "value": "boolean",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'boolean'"
                       }
                     }
                   },
@@ -1224,11 +1172,7 @@
                           "ctxt": 0
                         },
                         "value": "boolean",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'boolean'"
                       }
                     }
                   },
@@ -1250,11 +1194,7 @@
                       "ctxt": 0
                     },
                     "value": "string",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"string\""
                   }
                 },
                 "definite": false
@@ -1354,11 +1294,7 @@
                           "ctxt": 0
                         },
                         "value": "string",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'string'"
                       }
                     }
                   },

@@ -185,11 +185,7 @@
                                 "ctxt": 0
                               },
                               "value": "notHere",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "'notHere'"
                             }
                           }
                         },
@@ -307,6 +303,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -492,6 +490,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -838,11 +838,7 @@
                     "ctxt": 0
                   },
                   "value": "notHere",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'notHere'"
                 }
               }
             },
@@ -954,6 +950,8 @@
                             "value": "T",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": {
                             "type": "TsTypeReference",
                             "span": {
@@ -1176,11 +1174,7 @@
                     "ctxt": 0
                   },
                   "value": "notHere",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'notHere'"
                 }
               }
             },
@@ -1360,11 +1354,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "notHere",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "'notHere'"
                                   }
                                 }
                               },
@@ -1469,6 +1459,8 @@
                           "value": "T",
                           "optional": false
                         },
+                        "in": false,
+                        "out": false,
                         "constraint": {
                           "type": "TsTypeReference",
                           "span": {

@@ -8,9 +8,9 @@ function foo() {
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = [
-        'a',
-        'b',
-        'c'
+        "a",
+        "b",
+        "c"
     ][Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
         foo().x = _step.value;
         var p = foo().x;

@@ -51,11 +51,7 @@
               "ctxt": 0
             },
             "value": "cat",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"cat\""
           }
         },
         {
@@ -83,11 +79,7 @@
               "ctxt": 0
             },
             "value": "dog",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"dog\""
           }
         }
       ]
@@ -145,11 +137,7 @@
               "ctxt": 0
             },
             "value": "cat",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"cat\""
           }
         }
       ]
@@ -614,6 +602,8 @@
             "value": "V",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeReference",
             "span": {
@@ -908,11 +898,7 @@
                                 "ctxt": 0
                               },
                               "value": "",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"\""
                             }
                           }
                         ]
@@ -989,11 +975,7 @@
                                 "ctxt": 0
                               },
                               "value": "",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"\""
                             }
                           }
                         ]

@@ -3,7 +3,7 @@
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
-var React = require('react');
+var React = require("react");
 function EmptySFC1() {
     return /*#__PURE__*/ React.createElement("div", null, "Hi");
 }

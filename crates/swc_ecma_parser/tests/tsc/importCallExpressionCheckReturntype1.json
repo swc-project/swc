@@ -109,11 +109,7 @@
           "ctxt": 0
         },
         "value": "./defaultPath",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./defaultPath\""
       },
       "typeOnly": false,
       "asserts": null
@@ -153,11 +149,7 @@
           "ctxt": 0
         },
         "value": "./anotherModule",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./anotherModule\""
       },
       "typeOnly": false,
       "asserts": null
@@ -270,11 +262,7 @@
                     "ctxt": 0
                   },
                   "value": "./defaultPath",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./defaultPath\""
                 }
               }
             ],
@@ -345,11 +333,7 @@
                       "ctxt": 0
                     },
                     "value": "./defaultPath",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"./defaultPath\""
                   }
                 }
               ],
@@ -505,11 +489,7 @@
                     "ctxt": 0
                   },
                   "value": "./defaultPath",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"./defaultPath\""
                 }
               }
             ],

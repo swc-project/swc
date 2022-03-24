@@ -262,11 +262,7 @@
                           "ctxt": 0
                         },
                         "value": "",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"\""
                       },
                       "typeAnnotation": null
                     }
@@ -365,11 +361,7 @@
               "ctxt": 0
             },
             "value": "",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"\""
           },
           "definite": false
         }

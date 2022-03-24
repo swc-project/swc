@@ -1,8 +1,8 @@
 module.exports = {
-    extends: "base",
+    extends: 'base',
     more: {
         others: [
-            "strs"
+            'strs'
         ]
     },
     x: 12

@@ -22,6 +22,6 @@ ns.Value; // Error
 var c;
 var t = "";
 var n = {
-    a: ''
+    a: ""
 };
 export { };

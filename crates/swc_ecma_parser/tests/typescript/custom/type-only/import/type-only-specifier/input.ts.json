@@ -43,11 +43,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": false,
       "asserts": null
@@ -89,11 +85,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": true,
       "asserts": null
@@ -135,11 +127,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": false,
       "asserts": null
@@ -181,11 +169,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": false,
       "asserts": null
@@ -236,11 +220,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": false,
       "asserts": null
@@ -291,11 +271,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": false,
       "asserts": null
@@ -346,11 +322,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": false,
       "asserts": null
@@ -401,11 +373,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": false,
       "asserts": null
@@ -456,11 +424,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": false,
       "asserts": null
@@ -511,11 +475,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": false,
       "asserts": null
@@ -566,11 +526,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": false,
       "asserts": null
@@ -621,11 +577,7 @@
           "ctxt": 0
         },
         "value": "mod",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mod'"
       },
       "typeOnly": false,
       "asserts": null

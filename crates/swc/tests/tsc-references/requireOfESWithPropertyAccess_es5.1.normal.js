@@ -4,7 +4,7 @@
 // @outDir: out
 // @declaration: true
 // @filename: main.js
-var x = require('./ch').x;
+var x = require("./ch").x;
 x;
 x.grey;
 x.x.grey;

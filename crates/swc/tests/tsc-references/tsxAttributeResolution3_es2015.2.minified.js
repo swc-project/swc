@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 swcHelpers.extends({}, {
-    x: "foo"
+    x: 'foo'
 }), swcHelpers.extends({}, {
     x: 32
 }), swcHelpers.extends({}, {
@@ -16,11 +16,11 @@ swcHelpers.extends({}, {
     x: 32,
     y: 32
 }), swcHelpers.extends({}, {
-    x: "ok",
+    x: 'ok',
     y: 32,
     extra: 100
 }), swcHelpers.extends({
     x: 32
 }, {
-    x: "foo"
+    x: 'foo'
 });

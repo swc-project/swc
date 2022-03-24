@@ -164,11 +164,7 @@
                         "ctxt": 0
                       },
                       "value": "canvas",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'canvas'"
                     }
                   }
                 }
@@ -255,11 +251,7 @@
                         "ctxt": 0
                       },
                       "value": "div",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'div'"
                     }
                   }
                 }
@@ -346,11 +338,7 @@
                         "ctxt": 0
                       },
                       "value": "span",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'span'"
                     }
                   }
                 }

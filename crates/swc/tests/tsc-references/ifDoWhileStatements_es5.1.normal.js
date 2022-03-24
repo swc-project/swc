@@ -60,12 +60,12 @@ do {}while (undefined);
 if (0) {}
 while(0){}
 do {}while (0);
-if ('a string') {}
-while('a string'){}
-do {}while ('a string');
-if ('') {}
-while(''){}
-do {}while ('');
+if ("a string") {}
+while("a string"){}
+do {}while ("a string");
+if ("") {}
+while(""){}
+do {}while ("");
 if (/[a-z]/) {}
 while(/[a-z]/){}
 do {}while (/[a-z]/);
@@ -89,15 +89,15 @@ while({}){}
 do {}while ({});
 if ({
     x: 1,
-    y: 'a'
+    y: "a"
 }) {}
 while({
     x: 1,
-    y: 'a'
+    y: "a"
 }){}
 do {}while ({
     x: 1,
-    y: 'a'
+    y: "a"
 });
 if (function() {
     return 43;
@@ -131,11 +131,11 @@ var d = 0;
 if (d) {}
 while(d){}
 do {}while (d);
-var e = 'a string';
+var e = "a string";
 if (e) {}
 while(e){}
 do {}while (e);
-var f = '';
+var f = "";
 if (f) {}
 while(f){}
 do {}while (f);
@@ -160,7 +160,7 @@ while(j){}
 do {}while (j);
 var k = {
     x: 1,
-    y: 'a'
+    y: "a"
 };
 if (k) {}
 while(k){}

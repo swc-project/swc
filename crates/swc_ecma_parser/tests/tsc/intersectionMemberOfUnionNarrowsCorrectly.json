@@ -92,11 +92,7 @@
                           "ctxt": 0
                         },
                         "value": "A",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "'A'"
                       }
                     }
                   },
@@ -205,11 +201,7 @@
                               "ctxt": 0
                             },
                             "value": "B",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "'B'"
                           }
                         }
                       },
@@ -317,6 +309,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -337,6 +331,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -546,11 +542,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "A",
-                                "hasEscape": false,
-                                "kind": {
-                                  "type": "normal",
-                                  "containsQuote": true
-                                }
+                                "raw": "'A'"
                               }
                             }
                           },

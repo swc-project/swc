@@ -152,11 +152,7 @@
                     "ctxt": 0
                   },
                   "value": "hello",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"hello\""
                 }
               },
               {
@@ -3602,6 +3598,8 @@
               "value": "D",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -3622,6 +3620,8 @@
               "value": "M",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -3968,6 +3968,8 @@
               "value": "D",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -3988,6 +3990,8 @@
               "value": "M",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -4462,6 +4466,8 @@
               "value": "D",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -4482,6 +4488,8 @@
               "value": "M",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -4828,6 +4836,8 @@
               "value": "D",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -4848,6 +4858,8 @@
               "value": "M",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -5322,6 +5334,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -5560,6 +5574,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -5590,6 +5606,8 @@
             "value": "K",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -5971,6 +5989,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -5991,6 +6011,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -6019,6 +6041,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -6354,6 +6378,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -6374,6 +6400,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -6505,11 +6533,7 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"foo\""
                 }
               },
               {
@@ -6714,11 +6738,7 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"bar\""
                 }
               },
               {
@@ -7604,6 +7624,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -7634,6 +7656,8 @@
             "value": "K",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -7869,6 +7893,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -7994,6 +8020,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -8181,6 +8209,8 @@
               "value": "D",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -8201,6 +8231,8 @@
               "value": "M",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -8221,6 +8253,8 @@
               "value": "P",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -8748,6 +8782,8 @@
                         "value": "D",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     },
@@ -8768,6 +8804,8 @@
                         "value": "M",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     },
@@ -8788,6 +8826,8 @@
                         "value": "P",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     }
@@ -9315,11 +9355,7 @@
                                             "ctxt": 0
                                           },
                                           "value": "hi",
-                                          "hasEscape": false,
-                                          "kind": {
-                                            "type": "normal",
-                                            "containsQuote": true
-                                          }
+                                          "raw": "\"hi\""
                                         }
                                       }
                                     ]
@@ -9522,11 +9558,7 @@
                 "ctxt": 0
               },
               "value": "abc",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"abc\""
             }
           }
         ],

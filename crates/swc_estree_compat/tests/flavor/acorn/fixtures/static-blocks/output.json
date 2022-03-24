@@ -142,7 +142,7 @@
                       58,
                       63
                     ],
-                    "raw": "foo",
+                    "raw": "\"foo\"",
                     "start": 58,
                     "type": "Literal",
                     "value": "foo"

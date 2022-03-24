@@ -2,16 +2,16 @@ function foo(arg1) {
     return arg1.cb(null);
 }
 var arg = {
-    cb: (x)=>""
+    cb: (x)=>''
 };
 foo(arg), foo({
-    cb: (x, y)=>""
+    cb: (x, y)=>''
 }), foo({
-    cb: (x, y)=>""
+    cb: (x, y)=>''
 }), foo(arg), foo({
-    cb: (x)=>""
+    cb: (x)=>''
 }), foo({
-    cb: (x)=>""
+    cb: (x)=>''
 }), foo({
-    cb: ()=>""
+    cb: ()=>''
 });

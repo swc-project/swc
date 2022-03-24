@@ -363,11 +363,7 @@
                           "ctxt": 0
                         },
                         "value": "Sprocket",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"Sprocket\""
                       }
                     }
                   ]
@@ -505,11 +501,7 @@
                           "ctxt": 0
                         },
                         "value": "Sprocket",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"Sprocket\""
                       }
                     },
                     {
@@ -532,11 +524,7 @@
                           "ctxt": 0
                         },
                         "value": "Bumpy wheel",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"Bumpy wheel\""
                       }
                     }
                   ]
@@ -674,11 +662,7 @@
                           "ctxt": 0
                         },
                         "value": "Sprocket",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"Sprocket\""
                       }
                     },
                     {
@@ -1036,6 +1020,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }

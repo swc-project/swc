@@ -8,7 +8,7 @@ export var C1 = function C1() {
 };
 C1.s1 = true;
 // @Filename: foo_1.ts
-var c1 = require('./foo_0'); // Makes this an external module
+var c1 = require("./foo_0"); // Makes this an external module
 var answer = 42; // No exports
 // @Filename: foo_2.ts
 var foo = require("./foo_1");

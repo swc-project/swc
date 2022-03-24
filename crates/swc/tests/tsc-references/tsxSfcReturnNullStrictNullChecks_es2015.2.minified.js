@@ -1,2 +1,2 @@
-require("react");
+require('react');
 export { };

@@ -6,7 +6,7 @@ var o = {
      * @type {"a"}
      */ a: "a",
     /** @type {() => 'b'} */ n: function() {
-        return 'b';
+        return "b";
     }
 };
 o.a;

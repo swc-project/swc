@@ -41,11 +41,7 @@
             "ctxt": 0
           },
           "value": "react",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'react'"
         }
       }
     },
@@ -270,11 +266,7 @@
                 "ctxt": 0
               },
               "value": "Hi",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"Hi\""
             }
           },
           {
@@ -369,11 +361,7 @@
                 "ctxt": 0
               },
               "value": "Hi",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"Hi\""
             }
           },
           {

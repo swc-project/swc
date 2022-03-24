@@ -77,11 +77,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'a'"
                 }
               }
             },
@@ -131,11 +127,7 @@
                     "ctxt": 0
                   },
                   "value": "a",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'a'"
                 }
               }
             },
@@ -187,6 +179,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -244,6 +238,8 @@
             "value": "key",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsIndexedAccessType",
             "span": {
@@ -357,6 +353,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -380,11 +378,7 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'a'"
                   }
                 },
                 {
@@ -402,11 +396,7 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'b'"
                   }
                 }
               ]
@@ -611,6 +601,8 @@
             "value": "key",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeReference",
             "span": {
@@ -696,6 +688,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -719,11 +713,7 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'a'"
                   }
                 },
                 {
@@ -741,11 +731,7 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'b'"
                   }
                 }
               ]
@@ -845,6 +831,8 @@
               "value": "S",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -868,11 +856,7 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'a'"
                   }
                 },
                 {
@@ -890,11 +874,7 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'b'"
                   }
                 },
                 {
@@ -912,11 +892,7 @@
                       "ctxt": 0
                     },
                     "value": "extra",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'extra'"
                   }
                 }
               ]
@@ -958,6 +934,8 @@
               "value": "key",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsIndexedAccessType",
               "span": {
@@ -1091,6 +1069,8 @@
               "value": "S",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -1114,11 +1094,7 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'a'"
                   }
                 },
                 {
@@ -1136,11 +1112,7 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'b'"
                   }
                 }
               ]
@@ -1164,6 +1136,8 @@
               "value": "L",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -1187,11 +1161,7 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'a'"
                   }
                 },
                 {
@@ -1209,11 +1179,7 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'b'"
                   }
                 }
               ]
@@ -1255,6 +1221,8 @@
               "value": "key",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsIndexedAccessType",
               "span": {
@@ -1388,6 +1356,8 @@
               "value": "S",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -1411,11 +1381,7 @@
                       "ctxt": 0
                     },
                     "value": "a",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'a'"
                   }
                 },
                 {
@@ -1433,11 +1399,7 @@
                       "ctxt": 0
                     },
                     "value": "b",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "'b'"
                   }
                 }
               ]
@@ -1461,6 +1423,8 @@
               "value": "L",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsLiteralType",
               "span": {
@@ -1476,11 +1440,7 @@
                   "ctxt": 0
                 },
                 "value": "a",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "'a'"
               }
             },
             "default": null
@@ -1520,6 +1480,8 @@
               "value": "key",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsIndexedAccessType",
               "span": {

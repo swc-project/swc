@@ -5201,6 +5201,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -5389,6 +5391,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -5425,6 +5429,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -5592,11 +5598,7 @@
                       "ctxt": 0
                     },
                     "value": "hello",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"hello\""
                   },
                   "async": false,
                   "generator": false,
@@ -6353,6 +6355,8 @@
               "value": "A",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -6389,6 +6393,8 @@
               "value": "B",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -6409,6 +6415,8 @@
               "value": "C",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -6703,11 +6711,7 @@
                       "ctxt": 0
                     },
                     "value": "hello",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"hello\""
                   },
                   "async": false,
                   "generator": false,
@@ -6910,11 +6914,7 @@
                         "ctxt": 0
                       },
                       "value": "",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"\""
                     },
                     "right": {
                       "type": "Identifier",
@@ -7104,11 +7104,7 @@
                         "ctxt": 0
                       },
                       "value": "",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"\""
                     },
                     "right": {
                       "type": "Identifier",
@@ -7602,11 +7598,7 @@
                   "ctxt": 0
                 },
                 "value": "",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "''"
               }
             }
           ],

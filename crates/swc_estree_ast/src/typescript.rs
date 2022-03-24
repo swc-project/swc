@@ -915,4 +915,9 @@ pub struct TSTypeParameter {
     pub default: Option<Box<TSType>>,
     #[serde(default)]
     pub name: JsWord,
+
+    #[serde(default, rename = "in")]
+    pub is_in: bool,
+    #[serde(default, rename = "out")]
+    pub is_out: bool,
 }

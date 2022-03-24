@@ -32,7 +32,7 @@ var Router = /*#__PURE__*/ function() {
                             break;
                         }
                         _this.locale = options.locale === false ? _this.defaultLocale : options.locale || _this.locale;
-                        if (typeof options.locale === 'undefined') {
+                        if (typeof options.locale === "undefined") {
                             options.locale = _this.locale;
                         }
                         parsedAs = parseRelativeUrl(hasBasePath(as) ? delBasePath(as) : as);
@@ -65,7 +65,7 @@ var Router = /*#__PURE__*/ function() {
                             // correct domain
                             if (!didNavigate && detectedDomain && _this.isLocaleDomain && self.location.hostname !== detectedDomain.domain) {
                                 asNoBasePath = delBasePath(as);
-                                window.location.href = "http".concat(detectedDomain.http ? '' : 's', "://").concat(detectedDomain.domain).concat(addBasePath("".concat(_this.locale === detectedDomain.defaultLocale ? '' : "/".concat(_this.locale)).concat(asNoBasePath === '/' ? '' : asNoBasePath) || '/'));
+                                window.location.href = "http".concat(detectedDomain.http ? "" : "s", "://").concat(detectedDomain.domain).concat(addBasePath("".concat(_this.locale === detectedDomain.defaultLocale ? "" : "/".concat(_this.locale)).concat(asNoBasePath === "/" ? "" : asNoBasePath) || "/"));
                                 // this was previously a return but was removed in favor
                                 // of better dead code elimination with regenerator runtime
                                 didNavigate = true;
@@ -82,7 +82,7 @@ var Router = /*#__PURE__*/ function() {
                         }
                         // marking route changes as a navigation start entry
                         if (ST) {
-                            performance.mark('routeChange');
+                            performance.mark("routeChange");
                         }
                         _shallow = options.shallow, shallow = _shallow === void 0 ? false : _shallow;
                         routeProps = {
@@ -100,12 +100,12 @@ var Router = /*#__PURE__*/ function() {
                             break;
                         }
                         _this.asPath = cleanedAs;
-                        Router.events.emit('hashChangeStart', as, routeProps);
+                        Router.events.emit("hashChangeStart", as, routeProps);
                         // TODO: do we need the resolved href when only a hash change?
                         _this.changeState(method, url, as, options);
                         _this.scrollToHash(cleanedAs);
                         _this.notify(_this.components[_this.route], null);
-                        Router.events.emit('hashChangeComplete', as, routeProps);
+                        Router.events.emit("hashChangeComplete", as, routeProps);
                         return _ctx.abrupt("return", true);
                     case 35:
                         parsed = parseRelativeUrl(url);
@@ -139,16 +139,16 @@ var Router = /*#__PURE__*/ function() {
                         // as this should not go into the history (That's how browsers work)
                         // We should compare the new asPath to the current asPath, not the url
                         if (!_this.urlIsNew(cleanedAs) && !localeChange) {
-                            method = 'replaceState';
+                            method = "replaceState";
                         }
                         resolvedAs = as;
                         // url and as should always be prefixed with basePath by this
                         // point by either next/link or router.push/replace so strip the
                         // basePath from the pathname to match the pages dir 1-to-1
                         pathname = pathname ? removePathTrailingSlash(delBasePath(pathname)) : pathname;
-                        if (shouldResolveHref && pathname !== '/_error') {
+                        if (shouldResolveHref && pathname !== "/_error") {
                             options._shouldResolveHref = true;
-                            if (process.env.__NEXT_HAS_REWRITES && as.startsWith('/')) {
+                            if (process.env.__NEXT_HAS_REWRITES && as.startsWith("/")) {
                                 rewritesResult = resolveRewrites(addBasePath(addLocale(cleanedAs, _this.locale)), pages, rewrites, query, function(p) {
                                     return resolveDynamicRoute(p, pages);
                                 }, _this.locales);
@@ -174,11 +174,11 @@ var Router = /*#__PURE__*/ function() {
                             _ctx.next = 64;
                             break;
                         }
-                        if (!(process.env.NODE_ENV !== 'production')) {
+                        if (!(process.env.NODE_ENV !== "production")) {
                             _ctx.next = 62;
                             break;
                         }
-                        throw new Error("Invalid href: \"".concat(url, "\" and as: \"").concat(as, "\", received relative href and external as") + "\nSee more info: https://nextjs.org/docs/messages/invalid-relative-url-external-as");
+                        throw new Error('Invalid href: "'.concat(url, '" and as: "').concat(as, '", received relative href and external as') + "\nSee more info: https://nextjs.org/docs/messages/invalid-relative-url-external-as");
                     case 62:
                         window.location.href = as;
                         return _ctx.abrupt("return", false);
@@ -205,10 +205,10 @@ var Router = /*#__PURE__*/ function() {
                             _ctx.next = 77;
                             break;
                         }
-                        if (process.env.NODE_ENV !== 'production') {
-                            console.warn("".concat(shouldInterpolate ? "Interpolating href" : "Mismatching `as` and `href`", " failed to manually provide ") + "the params: ".concat(missingParams.join(', '), " in the `href`'s `query`"));
+                        if (process.env.NODE_ENV !== "production") {
+                            console.warn("".concat(shouldInterpolate ? "Interpolating href" : "Mismatching `as` and `href`", " failed to manually provide ") + "the params: ".concat(missingParams.join(", "), " in the `href`'s `query`"));
                         }
-                        throw new Error((shouldInterpolate ? "The provided `href` (".concat(url, ") value is missing query values (").concat(missingParams.join(', '), ") to be interpolated properly. ") : "The provided `as` value (".concat(asPathname, ") is incompatible with the `href` value (").concat(route, "). ")) + "Read more: https://nextjs.org/docs/messages/".concat(shouldInterpolate ? 'href-interpolation-failed' : 'incompatible-href-as'));
+                        throw new Error((shouldInterpolate ? "The provided `href` (".concat(url, ") value is missing query values (").concat(missingParams.join(", "), ") to be interpolated properly. ") : "The provided `as` value (".concat(asPathname, ") is incompatible with the `href` value (").concat(route, "). ")) + "Read more: https://nextjs.org/docs/messages/".concat(shouldInterpolate ? "href-interpolation-failed" : "incompatible-href-as"));
                     case 77:
                         _ctx.next = 80;
                         break;
@@ -223,7 +223,7 @@ var Router = /*#__PURE__*/ function() {
                             Object.assign(query, routeMatch);
                         }
                     case 80:
-                        Router.events.emit('routeChangeStart', as, routeProps);
+                        Router.events.emit("routeChangeStart", as, routeProps);
                         _ctx.prev = 81;
                         ;
                         _ctx.next = 85;
@@ -240,7 +240,7 @@ var Router = /*#__PURE__*/ function() {
                             break;
                         }
                         destination = props.pageProps.__N_REDIRECT;
-                        if (!(destination.startsWith('/') && props.pageProps.__N_REDIRECT_BASE_PATH !== false)) {
+                        if (!(destination.startsWith("/") && props.pageProps.__N_REDIRECT_BASE_PATH !== false)) {
                             _ctx.next = 95;
                             break;
                         }
@@ -260,15 +260,15 @@ var Router = /*#__PURE__*/ function() {
                         ;
                         _ctx.prev = 100;
                         _ctx.next = 103;
-                        return _this.fetchComponent('/404');
+                        return _this.fetchComponent("/404");
                     case 103:
-                        notFoundRoute = '/404';
+                        notFoundRoute = "/404";
                         _ctx.next = 109;
                         break;
                     case 106:
                         _ctx.prev = 106;
                         _ctx.t1 = _ctx["catch"](100);
-                        notFoundRoute = '/_error';
+                        notFoundRoute = "/_error";
                     case 109:
                         _ctx.next = 111;
                         return _this.getRouteInfo(notFoundRoute, notFoundRoute, query, as, resolvedAs, {
@@ -277,9 +277,9 @@ var Router = /*#__PURE__*/ function() {
                     case 111:
                         routeInfo = _ctx.sent;
                     case 112:
-                        Router.events.emit('beforeHistoryChange', as, routeProps);
+                        Router.events.emit("beforeHistoryChange", as, routeProps);
                         _this.changeState(method, url, as, options);
-                        if (options._h && pathname === '/_error' && ((ref2 = self.__NEXT_DATA__.props) === null || ref2 === void 0 ? void 0 : (ref3 = ref2.pageProps) === null || ref3 === void 0 ? void 0 : ref3.statusCode) === 500 && (props === null || props === void 0 ? void 0 : props.pageProps)) {
+                        if (options._h && pathname === "/_error" && ((ref2 = self.__NEXT_DATA__.props) === null || ref2 === void 0 ? void 0 : (ref3 = ref2.pageProps) === null || ref3 === void 0 ? void 0 : ref3.statusCode) === 500 && (props === null || props === void 0 ? void 0 : props.pageProps)) {
                             // ensure statusCode is still correct for static 500 page
                             // when updating query information
                             props.pageProps.statusCode = 500;
@@ -301,7 +301,7 @@ var Router = /*#__PURE__*/ function() {
                             _ctx.next = 124;
                             break;
                         }
-                        Router.events.emit('routeChangeError', error, cleanedAs, routeProps);
+                        Router.events.emit("routeChangeError", error, cleanedAs, routeProps);
                         throw error;
                     case 124:
                         if (process.env.__NEXT_I18N_SUPPORT) {
@@ -309,7 +309,7 @@ var Router = /*#__PURE__*/ function() {
                                 document.documentElement.lang = _this.locale;
                             }
                         }
-                        Router.events.emit('routeChangeComplete', as, routeProps);
+                        Router.events.emit("routeChangeComplete", as, routeProps);
                         return _ctx.abrupt("return", true);
                     case 129:
                         _ctx.prev = 129;

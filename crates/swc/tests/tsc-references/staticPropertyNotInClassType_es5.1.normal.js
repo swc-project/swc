@@ -24,7 +24,7 @@ var NonGeneric;
         return C;
     }();
     (function(C) {
-        var bar = C.bar = '';
+        var bar = C.bar = "";
     })(C || (C = {}));
     var c = new C(1, 2);
     var r = c.fn();
@@ -57,9 +57,9 @@ var Generic;
         return C;
     }();
     (function(C) {
-        var bar = C.bar = '';
+        var bar = C.bar = "";
     })(C || (C = {}));
-    var c = new C(1, '');
+    var c = new C(1, "");
     var r = c.fn();
     var r4 = c.foo; // error
     var r5 = c.bar; // error

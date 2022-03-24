@@ -63,8 +63,8 @@ export default function({
     inp = inp || input(name);
     return {input: inp};
 }",
-    "'use strict';
-Object.defineProperty(exports, '__esModule', {
+    "\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
     value: true
 });
 exports.input = input;
@@ -90,8 +90,8 @@ import Foo from 'foo';
 Foo.bar = true;
 ",
     "
-'use strict';
-var _foo = _interopRequireDefault(require('foo'));
+\"use strict\";
+var _foo = _interopRequireDefault(require(\"foo\"));
 _foo.default.bar = true;
 "
 );
@@ -118,8 +118,8 @@ import Foo from 'foo';
 Foo.bar = true;
 ",
     "
-'use strict';
-var _foo = _interopRequireDefault(require('foo'));
+\"use strict\";
+var _foo = _interopRequireDefault(require(\"foo\"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -138,8 +138,8 @@ test!(
     "import bar from 'bar';
 
 obj[bar('bas')] = '123'",
-    "'use strict';
-var _bar = _interopRequireDefault(require('bar'));
+    "\"use strict\";
+var _bar = _interopRequireDefault(require(\"bar\"));
 obj[(0, _bar).default('bas')] = '123';"
 );
 
@@ -153,12 +153,12 @@ test!(
 
 export const bar = { foo }",
     "
-'use strict';
-Object.defineProperty(exports, '__esModule', {
+\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
     value: true
 });
 exports.bar = void 0;
-var _foo = _interopRequireDefault(require('foo'));
+var _foo = _interopRequireDefault(require(\"foo\"));
 const bar = {
     foo: _foo.default
 };
@@ -174,9 +174,9 @@ test!(
     "import foo from 'foo';
 import bar from '../foo';
 foo, bar",
-    "'use strict';
-var _foo = _interopRequireDefault(require('foo'));
-var _foo1 = _interopRequireDefault(require('../foo'));
+    "\"use strict\";
+var _foo = _interopRequireDefault(require(\"foo\"));
+var _foo1 = _interopRequireDefault(require(\"../foo\"));
 
 _foo.default, _foo1.default"
 );
@@ -190,12 +190,12 @@ test!(
     "import {Foo as Bar} from 'something';
 export const fn = ({a = new Bar()}) => a;",
     "
-'use strict';
-Object.defineProperty(exports, '__esModule', {
+\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
     value: true
 });
 exports.fn = void 0;
-var _something = require('something');
+var _something = require(\"something\");
 const fn = ({ a =new _something.Foo()  })=>a
 ;
 exports.fn = fn;
@@ -213,8 +213,8 @@ import React from 'react'
 window.React = React;
   "#,
     r#"
-'use strict';
-var _react = _interopRequireDefault(require('react'));
+"use strict";
+var _react = _interopRequireDefault(require("react"));
 window.React = _react.default;
 "#
 );
@@ -232,7 +232,7 @@ foo = 3;
 "#,
     r#"
 "use strict";
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
      value: true
 });
 
@@ -257,8 +257,8 @@ export const good = {
   }
 };"#,
     r#"
-'use strict';
-Object.defineProperty(exports, '__esModule', {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.good = void 0;
@@ -1597,37 +1597,37 @@ var Bar = _interopRequireWildcard(require("bar"));
 var _baz = require("baz");
 
 _foo.default = (42, function() {
-    throw new Error('"' + 'Foo' + '" is read-only.');
+    throw new Error("'" + "Foo" + "' is read-only.");
 }());
 Bar = (43, function() {
-    throw new Error('"' + 'Bar' + '" is read-only.');
+    throw new Error("'" + "Bar" + "' is read-only.");
 }());
 _baz.Baz = (44, function() {
-    throw new Error('"' + 'Baz' + '" is read-only.');
+    throw new Error("'" + "Baz" + "' is read-only.");
 }());
 ({ Foo  } = ( {
 }, function() {
-    throw new Error('"' + 'Foo' + '" is read-only.');
+    throw new Error("'" + "Foo" + "' is read-only.");
 }()));
 ({ Bar  } = ( {
 }, function() {
-    throw new Error('"' + 'Bar' + '" is read-only.');
+    throw new Error("'" + "Bar" + "' is read-only.");
 }()));
 ({ Baz  } = ( {
 }, function() {
-    throw new Error('"' + 'Baz' + '" is read-only.');
+    throw new Error("'" + "Baz" + "' is read-only.");
 }()));
 ({ prop: Foo  } = ( {
 }, function() {
-    throw new Error('"' + 'Foo' + '" is read-only.');
+    throw new Error("'" + "Foo" + "' is read-only.");
 }()));
 ({ prop: Bar  } = ( {
 }, function() {
-    throw new Error('"' + 'Bar' + '" is read-only.');
+    throw new Error("'" + "Bar" + "' is read-only.");
 }()));
 ({ prop: Baz  } = ( {
 }, function() {
-    throw new Error('"' + 'Baz' + '" is read-only.');
+    throw new Error("'" + "Baz" + "' is read-only.");
 }()));
 "#
 );
@@ -2379,7 +2379,7 @@ console.log(foo2);
 "use strict";
 
 var _white = _interopRequireDefault(require("white"));
-var _black = _interopRequireDefault(require('black'));
+var _black = _interopRequireDefault(require("black"));
 
 console.log(_white.default);
 console.log(_black.default);
@@ -4128,7 +4128,7 @@ function foo() {
 }
 ",
     "
-'use strict';
+\"use strict\";
 function foo() {
     bar;
     function bar() {
@@ -4157,7 +4157,7 @@ function foo() {
 }
 ",
     "
-'use strict';
+\"use strict\";
 function foo() {
   var bar = function bar() {
   };
@@ -4180,12 +4180,12 @@ export const foo = function () {
   function e(t) {}
   return A(e, {}), e
 }();",
-    "'use strict';
-Object.defineProperty(exports, '__esModule', {
+    "\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
     value: true
 });
 exports.foo = void 0;
-var _path = require('path');
+var _path = require(\"path\");
 const foo = function() {
     function e(t) {
     }
@@ -4209,12 +4209,12 @@ export const foo = function () {
   var e = 1;
   return A(e, {}), e
 }();",
-    "'use strict';
-Object.defineProperty(exports, '__esModule', {
+    "\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
     value: true
 });
 exports.foo = void 0;
-var _path = require('path');
+var _path = require(\"path\");
 const foo = function() {
     var e = 1;
     return A(e, {
@@ -4233,13 +4233,13 @@ test!(
     }),
     issue_605,
     "export * from 'c';",
-    "'use strict';
-Object.defineProperty(exports, '__esModule', {
+    "\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
     value: true
 });
-var _c = require('c');
+var _c = require(\"c\");
 Object.keys(_c).forEach(function(key) {
-    if (key === 'default' || key === '__esModule') return;
+    if (key === \"default\" || key === \"__esModule\") return;
     if (key in exports && exports[key] === _c[key]) return;
     Object.defineProperty(exports, key, {
         enumerable: true,
@@ -4262,8 +4262,8 @@ test!(
     issue_724,
     "import { MongoClient, Db } from 'mongodb'
     require('foo');",
-    "'use strict';
-  var _mongodb = require('mongodb');
+    "\"use strict\";
+  var _mongodb = require(\"mongodb\");
   require('foo');"
 );
 
@@ -4296,8 +4296,8 @@ const resources = [
         label: 'Instagram',
     },
 ]",
-    "'use strict';
-  var _consts = require('../../../../consts');
+    "\"use strict\";
+  var _consts = require(\"../../../../consts\");
   const resources = [
       {
           value: _consts.RESOURCE_WEBSITE,
@@ -4327,12 +4327,12 @@ export function setup(url: string, obj: any) {
   const _url = url + '?' + _queryString
   return _url
 }",
-    "'use strict';
-Object.defineProperty(exports, '__esModule', {
+    "\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
     value: true
 });
 exports.setup = setup;
-var _url = require('./url');
+var _url = require(\"./url\");
 function setup(url: string, obj: any) {
     const _queryString = (0, _url).queryString(obj);
     const _url1 = url + '?' + _queryString;
@@ -4349,8 +4349,8 @@ test!(
     "import root from './_root.js';
   import stubFalse from './stubFalse.js';
 
-  var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
-  var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && \
+  var freeExports = typeof exports == \"object\" && exports && !exports.nodeType && exports;
+  var freeModule = freeExports && typeof module == \"object\" && module && !module.nodeType && \
      module;
 
   var moduleExports = freeModule && freeModule.exports === freeExports;
@@ -4394,7 +4394,7 @@ test!(
   \"use strict\";
   async function foo() {
       await Promise.resolve().then(function() {
-          return _interopRequireWildcard(require('foo'));
+          return _interopRequireWildcard(require(\"foo\"));
       });
   }
   "
@@ -4583,16 +4583,16 @@ let instance = new SomeClass({
 });
 
 instance.call()",
-    "'use strict';
-var _depJs = require('./dep.js');
+    "\"use strict\";
+var _depJs = require(\"./dep.js\");
 let SomeClass = function() {
-    'use strict';
+    \"use strict\";
     function SomeClass(properties) {
         _classCallCheck(this, SomeClass);
         this.props = properties;
     }
     _createClass(SomeClass, [{
-            key: 'call',
+            key: \"call\",
             value: function call() {
                 var myFunction = this.props.myFunction;
                 if (myFunction) {
@@ -4711,7 +4711,7 @@ var _copyPaste = require("./copyPaste");
 var Thing =
 /*#__PURE__*/
 function () {
-'use strict';
+"use strict";
 function Thing() {
   _classCallCheck(this, Thing);
 }
@@ -4750,8 +4750,8 @@ a.preview(...c);
 
 "#,
     r#"
-'use strict';
-var _a = _interopRequireDefault(require('a'));
+"use strict";
+var _a = _interopRequireDefault(require("a"));
 var _a1;
 (_a1 = _a.default).preview.apply(_a1, _toConsumableArray(c));
 "#
@@ -4779,7 +4779,7 @@ return 5;
         value: true
     });
     exports.default = _callee;
-    var _regeneratorRuntime = _interopRequireDefault(require('regenerator-runtime'));
+    var _regeneratorRuntime = _interopRequireDefault(require("regenerator-runtime"));
     function _callee() {
         var x;
         return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
@@ -4814,12 +4814,12 @@ test!(
     "export function* myGenerator() {
       yield* [1,2,3];
   }",
-    "'use strict';
-Object.defineProperty(exports, '__esModule', {
+    "\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
   value: true
 });
 exports.myGenerator = myGenerator;
-var _regeneratorRuntime = _interopRequireDefault(require('regenerator-runtime'));
+var _regeneratorRuntime = _interopRequireDefault(require(\"regenerator-runtime\"));
 var _marked = _regeneratorRuntime.default.mark(myGenerator);
 function myGenerator() {
   return _regeneratorRuntime.default.wrap(function myGenerator$(_ctx) {
@@ -4831,7 +4831,7 @@ function myGenerator() {
                   3
               ], \"t0\", 1);
           case 1:
-          case 'end':
+          case \"end\":
               return _ctx.stop();
       }
   }, _marked);
@@ -4860,13 +4860,13 @@ test!(
     }
     ",
     "
-    'use strict';
-    Object.defineProperty(exports, '__esModule', {
+    \"use strict\";
+    Object.defineProperty(exports, \"__esModule\", {
       value: true
     });
     exports.default = void 0;
 
-    var _foo = _interopRequireDefault(require('foo'));
+    var _foo = _interopRequireDefault(require(\"foo\"));
 
     class NotOK {
         constructor() {
@@ -4902,7 +4902,7 @@ test!(
   ",
     "
   'use strict';
-  var _necessary = require('necessary');
+  var _necessary = require(\"necessary\");
   const { second  } = _necessary.arrayUtilities;
   const elements = [
       1,
@@ -4927,9 +4927,9 @@ test!(
     const { default: ora } = await import('ora')
   ",
     "
-    'use strict';
+    \"use strict\";
     const { default: ora  } = await Promise.resolve().then(function() {
-        return _interopRequireWildcard(require('ora'));
+        return _interopRequireWildcard(require(\"ora\"));
     });
     "
 );
@@ -4948,8 +4948,8 @@ test!(
   import * as ora from 'ora'
 ",
     "
-    'use strict';
-    var ora = _interopRequireWildcard(require('ora'));
+    \"use strict\";
+    var ora = _interopRequireWildcard(require(\"ora\"));
     "
 );
 
@@ -4963,8 +4963,8 @@ test!(
     }
     ",
     "
-    'use strict';
-    Object.defineProperty(exports, '__esModule', {
+    \"use strict\";
+    Object.defineProperty(exports, \"__esModule\", {
       value: true
     });
 
@@ -4988,8 +4988,8 @@ test!(
     export default a;
     ",
     "
-    'use strict';
-    Object.defineProperty(exports, '__esModule', {
+    \"use strict\";
+    Object.defineProperty(exports, \"__esModule\", {
       value: true
     });
     exports.get = get;
@@ -5017,8 +5017,8 @@ test!(
     React.render();
     ",
     "
-    'use strict';
-    var _react = _interopRequireWildcard(require('react'));
+    \"use strict\";
+    var _react = _interopRequireWildcard(require(\"react\"));
     class X extends _react.Component {
     }
     _react.default.render();
@@ -5036,10 +5036,10 @@ test!(
     })()
     ",
     "
-    'use strict';
+    \"use strict\";
     (async ()=>{
         const example = await Promise.resolve().then(function() {
-          return _interopRequireWildcard(require('./example'));
+          return _interopRequireWildcard(require(\"./example\"));
       });
       console.log(example.foo);
     })();
@@ -5056,17 +5056,17 @@ test!(
     export * from './File2';
     ",
     "
-    'use strict';
-    Object.defineProperty(exports, '__esModule', {
+    \"use strict\";
+    Object.defineProperty(exports, \"__esModule\", {
         value: true
     });
     var _exportNames = {
         BIZ: true
     };
     exports.BIZ = void 0;
-    var _file1 = require('./File1');
+    var _file1 = require(\"./File1\");
     Object.keys(_file1).forEach(function(key) {
-      if (key === 'default' || key === '__esModule') return;
+      if (key === \"default\" || key === \"__esModule\") return;
       if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
       if (key in exports && exports[key] === _file1[key]) return;
       Object.defineProperty(exports, key, {
@@ -5076,9 +5076,9 @@ test!(
           }
       });
     });
-    var _file2 = require('./File2');
+    var _file2 = require(\"./File2\");
     Object.keys(_file2).forEach(function(key) {
-        if (key === 'default' || key === '__esModule') return;
+        if (key === \"default\" || key === \"__esModule\") return;
         if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
         if (key in exports && exports[key] === _file2[key]) return;
         Object.defineProperty(exports, key, {
@@ -5104,17 +5104,17 @@ test!(
   export const BIZ = 'biz';
   ",
     "
-  'use strict';
-  Object.defineProperty(exports, '__esModule', {
+  \"use strict\";
+  Object.defineProperty(exports, \"__esModule\", {
       value: true
   });
   var _exportNames = {
       BIZ: true
   };
   exports.BIZ = void 0;
-  var _file1 = require('./File1');
+  var _file1 = require(\"./File1\");
   Object.keys(_file1).forEach(function(key) {
-    if (key === 'default' || key === '__esModule') return;
+    if (key === \"default\" || key === \"__esModule\") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
     if (key in exports && exports[key] === _file1[key]) return;
     Object.defineProperty(exports, key, {
@@ -5124,9 +5124,9 @@ test!(
         }
     });
   });
-  var _file2 = require('./File2');
+  var _file2 = require(\"./File2\");
   Object.keys(_file2).forEach(function(key) {
-      if (key === 'default' || key === '__esModule') return;
+      if (key === \"default\" || key === \"__esModule\") return;
       if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
       if (key in exports && exports[key] === _file2[key]) return;
       Object.defineProperty(exports, key, {
@@ -5152,8 +5152,8 @@ test!(
     console.log('aFunc: ', aFunc(1,2));
     ",
     "
-    'use strict';
-    var _testlibrary = require('testlibrary');
+    \"use strict\";
+    var _testlibrary = require(\"testlibrary\");
     console.log('aFunc: ', (0, _testlibrary).aFunc(1, 2));
     "
 );
@@ -5175,17 +5175,17 @@ test!(
     export {Foo} from 'foo';
     ",
     "
-    'use strict';
-    Object.defineProperty(exports, '__esModule', {
+    \"use strict\";
+    Object.defineProperty(exports, \"__esModule\", {
       value: true
     });
-    Object.defineProperty(exports, 'Foo', {
+    Object.defineProperty(exports, \"Foo\", {
       enumerable: true,
       get: function() {
           return _foo.Foo;
       }
     });
-    var _foo = _interopRequireWildcard(require('foo'));
+    var _foo = _interopRequireWildcard(require(\"foo\"));
     function _interopRequireWildcard(obj) {
         if (obj && obj.__esModule) {
             return obj;
@@ -5221,9 +5221,9 @@ test!(
     const a = [baz, bar];
     ",
     "
-    'use strict';
-    var _foo = _interopRequireDefault(require('./bar/foo'));
-    var _foo1 = _interopRequireDefault(require('./baz/foo'));
+    \"use strict\";
+    var _foo = _interopRequireDefault(require(\"./bar/foo\"));
+    var _foo1 = _interopRequireDefault(require(\"./baz/foo\"));
     const a = [_foo1.default, _foo.default];
     "
 );
@@ -5238,8 +5238,8 @@ test!(
     }
     ",
     "
-    'use strict';
-    Object.defineProperty(exports, '__esModule', {
+    \"use strict\";
+    Object.defineProperty(exports, \"__esModule\", {
         value: true
     });
     exports.default = Foo;
@@ -5259,8 +5259,8 @@ test!(
     }
     ",
     "
-    'use strict';
-    Object.defineProperty(exports, '__esModule', {
+    \"use strict\";
+    Object.defineProperty(exports, \"__esModule\", {
         value: true
     });
     exports.default = _default;
@@ -5292,8 +5292,8 @@ test!(
     await import('awaited')
     ",
     "
-    'use strict';
-    var _foo = _interopRequireDefault(require('foo'));
+    \"use strict\";
+    var _foo = _interopRequireDefault(require(\"foo\"));
     function foo() {
         await import('foo');
         callback(()=>import('foo')
@@ -5320,7 +5320,7 @@ test!(
     }
     ",
     "
-    'use strict';
+    \"use strict\";
     class LoggingButton extends React.Component {
         handleClick = () => {
             console.log('this is:', this);
@@ -5356,7 +5356,7 @@ test!(
   }
   ",
     "
-  'use strict';
+  \"use strict\";
   class A {
     [(() => void 0)()] = 123
   }
@@ -5386,7 +5386,7 @@ test!(
   }
   ",
     "
-  'use strict';
+  \"use strict\";
   class A {
     static { this.a = 123 }
   }

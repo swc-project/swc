@@ -63,11 +63,7 @@
                   "ctxt": 0
                 },
                 "value": "&&",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"&#x0026;&#38;\""
               }
             }
           ],

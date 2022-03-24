@@ -48,11 +48,7 @@
                 "ctxt": 0
               },
               "value": "Foo",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"Foo\""
             },
             "typeAnnotation": {
               "type": "TsTypeAnnotation",

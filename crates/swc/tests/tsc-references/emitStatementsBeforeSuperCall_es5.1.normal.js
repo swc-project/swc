@@ -12,7 +12,7 @@ var Sub = /*#__PURE__*/ function(Base) {
     function Sub(p) {
         swcHelpers.classCallCheck(this, Sub);
         var _this;
-        console.log('hi'); // should emit before super
+        console.log("hi"); // should emit before super
         _this = _super.call(this);
         _this.p = p;
         _this.field = 0;

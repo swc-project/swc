@@ -5,5 +5,5 @@ export var A = function A() {
     swcHelpers.classCallCheck(this, A);
 };
 // @Filename: c.ts
-export * from './b';
+export * from "./b";
 new A(); // Error

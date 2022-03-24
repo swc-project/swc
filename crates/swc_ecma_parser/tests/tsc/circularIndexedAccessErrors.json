@@ -104,11 +104,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"x\""
                   }
                 }
               }
@@ -161,6 +157,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -184,11 +182,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"x\""
                   }
                 },
                 {
@@ -206,11 +200,7 @@
                       "ctxt": 0
                     },
                     "value": "y",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"y\""
                   }
                 }
               ]
@@ -451,11 +441,7 @@
                           "ctxt": 0
                         },
                         "value": "x",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"x\""
                       }
                     }
                   ]
@@ -571,6 +557,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -702,11 +690,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"x\""
                   }
                 }
               }
@@ -759,6 +743,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {
@@ -918,11 +904,7 @@
                       "ctxt": 0
                     },
                     "value": "x",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"x\""
                   }
                 }
               }
@@ -1019,11 +1001,7 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"x\""
                 }
               }
             }
@@ -1121,11 +1099,7 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"y\""
                 }
               }
             }
@@ -1196,11 +1170,7 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"z\""
                 }
               }
             }
@@ -1271,11 +1241,7 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"x\""
                 }
               }
             }
@@ -1425,6 +1391,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -1494,11 +1462,7 @@
                         "ctxt": 0
                       },
                       "value": "hello",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"hello\""
                     }
                   }
                 }

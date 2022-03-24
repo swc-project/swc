@@ -404,34 +404,8 @@
                                         "ctxt": 0
                                       },
                                       "tail": true,
-                                      "cooked": {
-                                        "type": "StringLiteral",
-                                        "span": {
-                                          "start": 419,
-                                          "end": 474,
-                                          "ctxt": 0
-                                        },
-                                        "value": "Dot product only applicable for vectors of equal length",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": false
-                                        }
-                                      },
-                                      "raw": {
-                                        "type": "StringLiteral",
-                                        "span": {
-                                          "start": 419,
-                                          "end": 474,
-                                          "ctxt": 0
-                                        },
-                                        "value": "Dot product only applicable for vectors of equal length",
-                                        "hasEscape": false,
-                                        "kind": {
-                                          "type": "normal",
-                                          "containsQuote": false
-                                        }
-                                      }
+                                      "cooked": "Dot product only applicable for vectors of equal length",
+                                      "raw": "Dot product only applicable for vectors of equal length"
                                     }
                                   ]
                                 }
@@ -2093,11 +2067,7 @@
           "ctxt": 0
         },
         "value": "./source",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./source\""
       },
       "typeOnly": false,
       "asserts": null

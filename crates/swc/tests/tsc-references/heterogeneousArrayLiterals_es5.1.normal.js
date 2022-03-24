@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 // type of an array is the best common type of its elements (plus its contextual type if it exists)
 var a = [
     1,
-    ''
+    ""
 ]; // {}[]
 var b = [
     1,
@@ -10,7 +10,7 @@ var b = [
 ]; // number[]
 var c = [
     1,
-    '',
+    "",
     null
 ]; // {}[]
 var d = [
@@ -32,13 +32,13 @@ var g = [
         1
     ],
     [
-        ''
+        ""
     ]
 ]; // {}[]
 var h = [
     {
         foo: 1,
-        bar: ''
+        bar: ""
     },
     {
         foo: 2
@@ -47,10 +47,10 @@ var h = [
 var i = [
     {
         foo: 1,
-        bar: ''
+        bar: ""
     },
     {
-        foo: ''
+        foo: ""
     }
 ]; // {}[]
 var j = [
@@ -58,7 +58,7 @@ var j = [
         return 1;
     },
     function() {
-        return '';
+        return "";
     }
 ]; // {}[]
 var k = [
@@ -82,7 +82,7 @@ var m = [
         return 1;
     },
     function() {
-        return '';
+        return "";
     },
     function() {
         return null;
@@ -96,7 +96,7 @@ var n = [
     ],
     [
         function() {
-            return '';
+            return "";
         }
     ]
 ]; // {}[]

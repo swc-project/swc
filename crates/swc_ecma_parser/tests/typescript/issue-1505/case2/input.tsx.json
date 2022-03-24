@@ -200,34 +200,8 @@
                           "ctxt": 0
                         },
                         "tail": false,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 291,
-                            "end": 306,
-                            "ctxt": 0
-                          },
-                          "value": "withUsersTeams(",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 291,
-                            "end": 306,
-                            "ctxt": 0
-                          },
-                          "value": "withUsersTeams(",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        }
+                        "cooked": "withUsersTeams(",
+                        "raw": "withUsersTeams("
                       },
                       {
                         "type": "TemplateElement",
@@ -237,34 +211,8 @@
                           "ctxt": 0
                         },
                         "tail": true,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 341,
-                            "end": 342,
-                            "ctxt": 0
-                          },
-                          "value": ")",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 341,
-                            "end": 342,
-                            "ctxt": 0
-                          },
-                          "value": ")",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        }
+                        "cooked": ")",
+                        "raw": ")"
                       }
                     ]
                   },
@@ -674,11 +622,7 @@
                                                 "ctxt": 0
                                               },
                                               "value": "user-teams-fetch-start",
-                                              "hasEscape": false,
-                                              "kind": {
-                                                "type": "normal",
-                                                "containsQuote": true
-                                              }
+                                              "raw": "\"user-teams-fetch-start\""
                                             }
                                           }
                                         ]
@@ -1064,11 +1008,7 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "app.component.perf",
-                                                            "hasEscape": false,
-                                                            "kind": {
-                                                              "type": "normal",
-                                                              "containsQuote": true
-                                                            }
+                                                            "raw": "\"app.component.perf\""
                                                           }
                                                         },
                                                         {
@@ -1091,11 +1031,7 @@
                                                               "ctxt": 0
                                                             },
                                                             "value": "user-teams-fetch-start",
-                                                            "hasEscape": false,
-                                                            "kind": {
-                                                              "type": "normal",
-                                                              "containsQuote": true
-                                                            }
+                                                            "raw": "\"user-teams-fetch-start\""
                                                           }
                                                         },
                                                         {
@@ -1138,11 +1074,7 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "user-teams",
-                                                                  "hasEscape": false,
-                                                                  "kind": {
-                                                                    "type": "normal",
-                                                                    "containsQuote": true
-                                                                  }
+                                                                  "raw": "\"user-teams\""
                                                                 }
                                                               },
                                                               {
@@ -1165,11 +1097,7 @@
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "/organizations/:orgid/user-teams",
-                                                                  "hasEscape": false,
-                                                                  "kind": {
-                                                                    "type": "normal",
-                                                                    "containsQuote": true
-                                                                  }
+                                                                  "raw": "\"/organizations/:orgid/user-teams\""
                                                                 }
                                                               },
                                                               {
@@ -1678,11 +1606,7 @@
                                         "ctxt": 0
                                       },
                                       "value": "user",
-                                      "hasEscape": false,
-                                      "kind": {
-                                        "type": "normal",
-                                        "containsQuote": true
-                                      }
+                                      "raw": "\"user\""
                                     }
                                   }
                                 ],
@@ -2347,34 +2271,8 @@
                                   "ctxt": 0
                                 },
                                 "tail": false,
-                                "cooked": {
-                                  "type": "StringLiteral",
-                                  "span": {
-                                    "start": 1992,
-                                    "end": 2007,
-                                    "ctxt": 0
-                                  },
-                                  "value": "/organizations/",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": false
-                                  }
-                                },
-                                "raw": {
-                                  "type": "StringLiteral",
-                                  "span": {
-                                    "start": 1992,
-                                    "end": 2007,
-                                    "ctxt": 0
-                                  },
-                                  "value": "/organizations/",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": false
-                                  }
-                                }
+                                "cooked": "/organizations/",
+                                "raw": "/organizations/"
                               },
                               {
                                 "type": "TemplateElement",
@@ -2384,34 +2282,8 @@
                                   "ctxt": 0
                                 },
                                 "tail": true,
-                                "cooked": {
-                                  "type": "StringLiteral",
-                                  "span": {
-                                    "start": 2038,
-                                    "end": 2050,
-                                    "ctxt": 0
-                                  },
-                                  "value": "/user-teams/",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": false
-                                  }
-                                },
-                                "raw": {
-                                  "type": "StringLiteral",
-                                  "span": {
-                                    "start": 2038,
-                                    "end": 2050,
-                                    "ctxt": 0
-                                  },
-                                  "value": "/user-teams/",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": false
-                                  }
-                                }
+                                "cooked": "/user-teams/",
+                                "raw": "/user-teams/"
                               }
                             ]
                           }
@@ -2897,6 +2769,8 @@
                     "value": "P",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": {
                     "type": "TsTypeReference",
                     "span": {

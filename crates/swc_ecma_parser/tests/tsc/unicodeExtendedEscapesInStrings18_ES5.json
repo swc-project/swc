@@ -42,11 +42,7 @@
               "ctxt": 0
             },
             "value": "ee",
-            "hasEscape": true,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"\\u{65}\\u{65}\""
           },
           "definite": false
         }

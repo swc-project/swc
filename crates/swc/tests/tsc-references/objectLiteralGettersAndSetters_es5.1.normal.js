@@ -1,7 +1,7 @@
 // Get and set accessor with the same name
 var sameName1a = {
-    get 'a' () {
-        return '';
+    get "a" () {
+        return "";
     },
     set a (n){
         var p = n;
@@ -10,7 +10,7 @@ var sameName1a = {
 };
 var sameName2a = {
     get 0 () {
-        return '';
+        return "";
     },
     set 0 (n){
         var p1 = n;
@@ -19,7 +19,7 @@ var sameName2a = {
 };
 var sameName3a = {
     get 32 () {
-        return '';
+        return "";
     },
     set 32 (n){
         var p2 = n;
@@ -27,8 +27,8 @@ var sameName3a = {
     }
 };
 var sameName4a = {
-    get '' () {
-        return '';
+    get "" () {
+        return "";
     },
     set "" (n){
         var p3 = n;
@@ -36,17 +36,17 @@ var sameName4a = {
     }
 };
 var sameName5a = {
-    get '\t' () {
-        return '';
+    get "	" () {
+        return "";
     },
-    set '\t' (n){
+    set "	" (n){
         var p4 = n;
         var p4;
     }
 };
 var sameName6a = {
-    get 'a' () {
-        return '';
+    get "a" () {
+        return "";
     },
     set a (n){
         var p5 = n;
@@ -56,19 +56,19 @@ var sameName6a = {
 // PropertyName CallSignature{FunctionBody} is equivalent to PropertyName:function CallSignature{FunctionBody}
 var callSig1 = {
     num: function num(n) {
-        return '';
+        return "";
     }
 };
 var callSig1;
 var callSig2 = {
     num: function num(n) {
-        return '';
+        return "";
     }
 };
 var callSig2;
 var callSig3 = {
     num: function(n) {
-        return '';
+        return "";
     }
 };
 var callSig3;
@@ -82,7 +82,7 @@ var getter1;
 // Get accessor only, type of the property is the inferred return type of the get accessor
 var getter2 = {
     get x () {
-        return '';
+        return "";
     }
 };
 var getter2;
@@ -148,12 +148,12 @@ var getParamType1 = {
         var y;
     },
     get n () {
-        return '';
+        return "";
     }
 };
 var getParamType2 = {
     get n () {
-        return '';
+        return "";
     },
     set n (x){
         var y1 = x;
@@ -163,7 +163,7 @@ var getParamType2 = {
 // Type of unannotated accessors is the inferred return type of the get accessor
 var getParamType3 = {
     get n () {
-        return '';
+        return "";
     },
     set n (x){
         var y2 = x;

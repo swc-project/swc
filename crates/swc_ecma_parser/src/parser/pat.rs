@@ -1086,39 +1086,27 @@ mod tests {
                             prop(
                                 PropName::Str(Str {
                                     span,
-                                    has_escape: false,
                                     value: "".into(),
-                                    kind: StrKind::Normal {
-                                        contains_quote: true
-                                    }
+                                    raw: Some("''".into()),
                                 }),
                                 "sym",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
-                                    has_escape: false,
                                     value: "".into(),
-                                    kind: StrKind::Normal {
-                                        contains_quote: true
-                                    }
+                                    raw: Some("''".into()),
                                 }))
                             ),
                             prop(
                                 PropName::Str(Str {
                                     span,
-                                    has_escape: false,
                                     value: " ".into(),
-                                    kind: StrKind::Normal {
-                                        contains_quote: true
-                                    }
+                                    raw: Some("\" \"".into()),
                                 }),
                                 "quote",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
-                                    has_escape: false,
                                     value: " ".into(),
-                                    kind: StrKind::Normal {
-                                        contains_quote: true
-                                    }
+                                    raw: Some("\" \"".into()),
                                 }))
                             ),
                             prop(

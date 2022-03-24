@@ -9,7 +9,7 @@ function f1() {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:
                 return _ctx.abrupt("return", {
-                    x: 'x'
+                    x: "x"
                 });
             case 1:
             case "end":
@@ -26,7 +26,7 @@ function _f2() {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     return _ctx.abrupt("return", {
-                        x: 'x'
+                        x: "x"
                     });
                 case 1:
                 case "end":
@@ -45,7 +45,7 @@ function _f3() {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     return _ctx.abrupt("return", Promise.resolve({
-                        x: 'x'
+                        x: "x"
                     }));
                 case 1:
                 case "end":
@@ -65,7 +65,7 @@ function _f4() {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     ret = {
-                        x: 'x'
+                        x: "x"
                     };
                     return _ctx.abrupt("return", Promise.resolve(ret));
                 case 2:

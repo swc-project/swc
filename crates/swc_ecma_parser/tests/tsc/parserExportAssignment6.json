@@ -23,11 +23,7 @@
           "ctxt": 0
         },
         "value": "M",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"M\""
       },
       "body": {
         "type": "TsModuleBlock",

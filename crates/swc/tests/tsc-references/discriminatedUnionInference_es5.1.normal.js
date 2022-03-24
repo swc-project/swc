@@ -1,9 +1,9 @@
 var x1 = foo({
-    kind: 'a',
+    kind: "a",
     data: 42
 }); // number
 var x2 = foo({
-    kind: 'b',
+    kind: "b",
     data: [
         1,
         2

@@ -110,6 +110,8 @@
                         "value": "S",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": {
                         "type": "TsArrayType",
                         "span": {
@@ -310,6 +312,8 @@
                         "value": "T",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": {
                         "type": "TsTypeLiteral",
                         "span": {

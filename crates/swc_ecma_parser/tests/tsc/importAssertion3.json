@@ -60,11 +60,7 @@
           "ctxt": 0
         },
         "value": "./0",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./0'"
       },
       "typeOnly": true,
       "asserts": {
@@ -95,11 +91,7 @@
                 "ctxt": 0
               },
               "value": "json",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"json\""
             }
           }
         ]
@@ -142,11 +134,7 @@
           "ctxt": 0
         },
         "value": "./0",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./0'"
       },
       "typeOnly": true,
       "asserts": {
@@ -177,11 +165,7 @@
                 "ctxt": 0
               },
               "value": "json",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"json\""
             }
           }
         ]
@@ -224,11 +208,7 @@
           "ctxt": 0
         },
         "value": "./0",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./0'"
       },
       "typeOnly": true,
       "asserts": {
@@ -259,11 +239,7 @@
                 "ctxt": 0
               },
               "value": "json",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"json\""
             }
           }
         ]
@@ -304,11 +280,7 @@
           "ctxt": 0
         },
         "value": "./0",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./0'"
       },
       "typeOnly": true,
       "asserts": {
@@ -339,11 +311,7 @@
                 "ctxt": 0
               },
               "value": "json",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"json\""
             }
           }
         ]

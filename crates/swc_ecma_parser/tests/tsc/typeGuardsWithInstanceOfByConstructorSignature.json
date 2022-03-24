@@ -688,6 +688,8 @@
                     "value": "T",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 }
@@ -740,6 +742,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1112,11 +1116,7 @@
                   "ctxt": 0
                 },
                 "value": "str",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"str\""
               }
             }
           },
@@ -1171,11 +1171,7 @@
                   "ctxt": 0
                 },
                 "value": "str",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"str\""
               }
             }
           }
@@ -1327,11 +1323,7 @@
                   "ctxt": 0
                 },
                 "value": "str",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"str\""
               }
             }
           },
@@ -1440,11 +1432,7 @@
                   "ctxt": 0
                 },
                 "value": "str",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"str\""
               }
             }
           }

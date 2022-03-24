@@ -6,7 +6,7 @@ class Rectangle {
 module.exports = {
     Rectangle
 };
-const { Rectangle  } = require("./rectangle");
+const { Rectangle  } = require('./rectangle');
 class Render {
     addRectangle() {
         const obj = new Rectangle();

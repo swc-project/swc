@@ -1,3 +1,3 @@
-import * as types from "./a";
+import * as types from './a';
 types.A;
 const { A  } = types;

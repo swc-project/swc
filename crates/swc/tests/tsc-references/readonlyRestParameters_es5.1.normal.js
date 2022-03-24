@@ -11,9 +11,9 @@ function f1() {
         args[_key] = arguments[_key];
     }
     f0.apply(void 0, swcHelpers.toConsumableArray(args)); // Error
-    f1('abc', 'def');
+    f1("abc", "def");
     f1.apply(void 0, [
-        'abc'
+        "abc"
     ].concat(swcHelpers.toConsumableArray(args)));
     f1.apply(void 0, swcHelpers.toConsumableArray(args));
 }
@@ -22,14 +22,14 @@ function f2() {
         args[_key] = arguments[_key];
     }
     f0.apply(void 0, swcHelpers.toConsumableArray(args));
-    f1('abc', 'def');
+    f1("abc", "def");
     f1.apply(void 0, [
-        'abc'
+        "abc"
     ].concat(swcHelpers.toConsumableArray(args)));
     f1.apply(void 0, swcHelpers.toConsumableArray(args));
-    f2('abc', 'def');
+    f2("abc", "def");
     f2.apply(void 0, [
-        'abc'
+        "abc"
     ].concat(swcHelpers.toConsumableArray(args))); // Error
     f2.apply(void 0, swcHelpers.toConsumableArray(args));
 }
@@ -37,5 +37,5 @@ function f4() {
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
         args[_key] = arguments[_key];
     }
-    args[0] = 'abc'; // Error
+    args[0] = "abc"; // Error
 }

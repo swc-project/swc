@@ -151,6 +151,8 @@
                     "value": "T",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 }
@@ -382,6 +384,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -402,6 +406,8 @@
               "value": "V",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -594,6 +600,8 @@
               "value": "V",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -614,6 +622,8 @@
               "value": "W",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -634,6 +644,8 @@
               "value": "X",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -685,6 +697,8 @@
               "value": "X",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -705,6 +719,8 @@
               "value": "Y",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -725,6 +741,8 @@
               "value": "Z",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -745,6 +763,8 @@
               "value": "A",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -989,6 +1009,8 @@
                     "value": "Y",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 },
@@ -1009,6 +1031,8 @@
                     "value": "Z",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 },
@@ -1029,6 +1053,8 @@
                     "value": "A",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 },
@@ -1049,6 +1075,8 @@
                     "value": "B",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 }
@@ -1210,6 +1238,8 @@
                             "value": "Z",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": null,
                           "default": null
                         },
@@ -1230,6 +1260,8 @@
                             "value": "A",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": null,
                           "default": null
                         },
@@ -1250,6 +1282,8 @@
                             "value": "B",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": null,
                           "default": null
                         },
@@ -1270,6 +1304,8 @@
                             "value": "C",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": null,
                           "default": null
                         },
@@ -1290,6 +1326,8 @@
                             "value": "D",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": null,
                           "default": null
                         }
@@ -1462,6 +1500,8 @@
                         "value": "A",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     },
@@ -1482,6 +1522,8 @@
                         "value": "B",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     },
@@ -1502,6 +1544,8 @@
                         "value": "C",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     },
@@ -1522,6 +1566,8 @@
                         "value": "D",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     },
@@ -1542,6 +1588,8 @@
                         "value": "E",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     },
@@ -1562,6 +1610,8 @@
                         "value": "F",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     }

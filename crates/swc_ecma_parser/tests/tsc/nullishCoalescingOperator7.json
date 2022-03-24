@@ -339,11 +339,7 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "'foo'"
               }
             },
             "consequent": {
@@ -430,11 +426,7 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "'foo'"
               }
             },
             "consequent": {
@@ -470,11 +462,7 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'bar'"
                 }
               }
             },
@@ -511,11 +499,7 @@
                     "ctxt": 0
                   },
                   "value": "baz",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'baz'"
                 }
               }
             }
@@ -613,11 +597,7 @@
                         "ctxt": 0
                       },
                       "value": "foo",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'foo'"
                     }
                   },
                   "consequent": {
@@ -646,11 +626,7 @@
                         "ctxt": 0
                       },
                       "value": "bar",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'bar'"
                     }
                   },
                   "alternate": {
@@ -679,11 +655,7 @@
                         "ctxt": 0
                       },
                       "value": "baz",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'baz'"
                     }
                   }
                 },

@@ -94,11 +94,7 @@
                         "ctxt": 0
                       },
                       "value": "en-NZ",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'en-NZ'"
                     }
                   },
                   {
@@ -131,11 +127,7 @@
                               "ctxt": 0
                             },
                             "value": "currency",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "'currency'"
                           }
                         },
                         {
@@ -158,11 +150,7 @@
                               "ctxt": 0
                             },
                             "value": "NZD",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "'NZD'"
                           }
                         },
                         {
@@ -185,11 +173,7 @@
                               "ctxt": 0
                             },
                             "value": "accounting",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "'accounting'"
                           }
                         }
                       ]

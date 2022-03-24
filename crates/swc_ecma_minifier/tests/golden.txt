@@ -427,6 +427,8 @@ evaluate/array_slice_index/input.js
 evaluate/call_args/input.js
 evaluate/delete_binary_1/input.js
 evaluate/delete_binary_2/input.js
+evaluate/delete_expr_1/input.js
+evaluate/delete_expr_2/input.js
 evaluate/global_hasOwnProperty/input.js
 evaluate/in_boolean_context/input.js
 evaluate/issue_1649/input.js
@@ -439,10 +441,13 @@ evaluate/issue_2207_2/input.js
 evaluate/issue_2231_1/input.js
 evaluate/issue_2231_2/input.js
 evaluate/issue_2231_3/input.js
+evaluate/issue_2535_2/input.js
 evaluate/issue_2535_3/input.js
 evaluate/issue_2822/input.js
 evaluate/issue_2916_1/input.js
 evaluate/issue_2916_2/input.js
+evaluate/issue_2919/input.js
+evaluate/issue_2926_1/input.js
 evaluate/issue_2926_2/input.js
 evaluate/issue_2968/input.js
 evaluate/negative_zero/input.js
@@ -821,6 +826,11 @@ loops/dead_code_condition/input.js
 loops/do_switch/input.js
 loops/drop_if_break_1/input.js
 loops/drop_if_break_2/input.js
+loops/drop_if_break_3/input.js
+loops/drop_if_break_4/input.js
+loops/drop_if_else_break_2/input.js
+loops/drop_if_else_break_3/input.js
+loops/drop_if_else_break_4/input.js
 loops/evaluate/input.js
 loops/in_parenthesis_1/input.js
 loops/in_parenthesis_2/input.js

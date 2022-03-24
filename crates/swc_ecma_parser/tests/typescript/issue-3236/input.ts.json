@@ -88,11 +88,7 @@
                 "ctxt": 0
               },
               "value": "use strict",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"use strict\""
             }
           }
         ]

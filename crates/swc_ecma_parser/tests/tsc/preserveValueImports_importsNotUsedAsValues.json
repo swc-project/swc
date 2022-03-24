@@ -194,11 +194,7 @@
           "ctxt": 0
         },
         "value": "./mod.js",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./mod.js\""
       },
       "typeOnly": false,
       "asserts": null
@@ -280,11 +276,7 @@
           "ctxt": 0
         },
         "value": "./mod.js",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./mod.js\""
       },
       "typeOnly": false,
       "asserts": null

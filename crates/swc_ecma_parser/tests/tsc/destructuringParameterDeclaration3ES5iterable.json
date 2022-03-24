@@ -1302,11 +1302,7 @@
                     "ctxt": 0
                   },
                   "value": "hello",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"hello\""
                 }
               }
             ]
@@ -1509,11 +1505,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "string",
-                                "hasEscape": false,
-                                "kind": {
-                                  "type": "normal",
-                                  "containsQuote": true
-                                }
+                                "raw": "\"string\""
                               }
                             }
                           ]
@@ -1642,11 +1634,7 @@
                                   "ctxt": 0
                                 },
                                 "value": "string",
-                                "hasEscape": false,
-                                "kind": {
-                                  "type": "normal",
-                                  "containsQuote": true
-                                }
+                                "raw": "\"string\""
                               }
                             }
                           ]
@@ -2045,6 +2033,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -2087,11 +2077,7 @@
                 "ctxt": 0
               },
               "value": "hello",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"hello\""
             }
           },
           {
@@ -2194,11 +2180,7 @@
                 "ctxt": 0
               },
               "value": "hello",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"hello\""
             }
           },
           {
@@ -2211,11 +2193,7 @@
                 "ctxt": 0
               },
               "value": "world",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"world\""
             }
           }
         ],
@@ -2467,6 +2445,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeReference",
               "span": {

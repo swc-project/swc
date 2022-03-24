@@ -242,34 +242,8 @@
                 "ctxt": 0
               },
               "tail": true,
-              "cooked": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 87,
-                  "end": 99,
-                  "ctxt": 0
-                },
-                "value": "Hello world!",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              },
-              "raw": {
-                "type": "StringLiteral",
-                "span": {
-                  "start": 87,
-                  "end": 99,
-                  "ctxt": 0
-                },
-                "value": "Hello world!",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": false
-                }
-              }
+              "cooked": "Hello world!",
+              "raw": "Hello world!"
             }
           ]
         }

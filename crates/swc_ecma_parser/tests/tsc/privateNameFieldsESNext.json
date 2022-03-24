@@ -131,11 +131,7 @@
               "ctxt": 0
             },
             "value": "hello",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"hello\""
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -357,11 +353,7 @@
                         "ctxt": 0
                       },
                       "value": "hello",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"hello\""
                     }
                   }
                 },
@@ -496,11 +488,7 @@
               "ctxt": 0
             },
             "value": "test",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"test\""
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -758,11 +746,7 @@
                               "ctxt": 0
                             },
                             "value": "test",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "\"test\""
                           }
                         }
                       }

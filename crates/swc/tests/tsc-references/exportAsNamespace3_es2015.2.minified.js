@@ -1,5 +1,5 @@
-import * as _ns from "./0";
-import * as foo from "./1";
+import * as _ns from './0';
+import * as foo from './1';
 export const a = 1;
 export const b = 2;
 ns.a, ns.b;

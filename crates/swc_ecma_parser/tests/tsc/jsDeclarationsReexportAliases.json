@@ -85,11 +85,7 @@
           "ctxt": 0
         },
         "value": "./cls",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./cls\""
       },
       "typeOnly": false,
       "asserts": null
@@ -200,11 +196,7 @@
           "ctxt": 0
         },
         "value": "./cls",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./cls\""
       },
       "typeOnly": false,
       "asserts": null

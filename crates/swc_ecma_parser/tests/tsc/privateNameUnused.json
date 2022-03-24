@@ -66,11 +66,7 @@
                 "ctxt": 0
               },
               "value": "used",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"used\""
             },
             "typeAnnotation": null,
             "isStatic": false,
@@ -114,11 +110,7 @@
                 "ctxt": 0
               },
               "value": "unused",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"unused\""
             },
             "typeAnnotation": null,
             "isStatic": false,

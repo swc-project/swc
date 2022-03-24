@@ -184,7 +184,7 @@
             else for(i in obj)if (!1 === callback.call(obj[i], i, obj[i])) break;
             return obj;
         },
-        trim: core_trim && !core_trim.call("\uFEFF\xa0") ? function(text) {
+        trim: core_trim && !core_trim.call("\uFEFF\xA0") ? function(text) {
             return null == text ? "" : core_trim.call(text);
         } : function(text) {
             return null == text ? "" : (text + "").replace(rtrim1, "");
@@ -1649,12 +1649,9 @@
                     if (!(context = Expr.find.ID(token.matches[0].replace(runescape, funescape), context)[0])) return results;
                     selector = selector.slice(tokens.shift().value.length);
                 }
-                for(i = matchExpr.needsContext.test(selector) ? 0 : tokens.length; i--;){
-                    if (token = tokens[i], Expr.relative[type = token.type]) break;
-                    if ((find = Expr.find[type]) && (seed = find(token.matches[0].replace(runescape, funescape), rsibling.test(tokens[0].type) && context.parentNode || context))) {
-                        if (tokens.splice(i, 1), !(selector = seed.length && toSelector(tokens))) return push.apply(results, slice.call(seed, 0)), results;
-                        break;
-                    }
+                for(i = matchExpr.needsContext.test(selector) ? 0 : tokens.length; (i--) && (token = tokens[i], !Expr.relative[type = token.type]);)if ((find = Expr.find[type]) && (seed = find(token.matches[0].replace(runescape, funescape), rsibling.test(tokens[0].type) && context.parentNode || context))) {
+                    if (tokens.splice(i, 1), !(selector = seed.length && toSelector(tokens))) return push.apply(results, slice.call(seed, 0)), results;
+                    break;
                 }
             }
             return compile(selector, match)(seed, context, documentIsXML, results, rsibling.test(selector)), results;
@@ -2116,8 +2113,8 @@
         return elem = el || elem, "none" === jQuery.css(elem, "display") || !jQuery.contains(elem.ownerDocument, elem);
     }
     function showHide(elements, show) {
-        for(var display, elem, hidden, values = [], index = 0, length = elements.length; index < length; index++)!!(elem = elements[index]).style && (values[index] = jQuery._data(elem, "olddisplay"), display = elem.style.display, show ? (values[index] || "none" !== display || (elem.style.display = ""), "" === elem.style.display && isHidden(elem) && (values[index] = jQuery._data(elem, "olddisplay", css_defaultDisplay(elem.nodeName)))) : values[index] || (hidden = isHidden(elem), (display && "none" !== display || !hidden) && jQuery._data(elem, "olddisplay", hidden ? display : jQuery.css(elem, "display"))));
-        for(index = 0; index < length; index++)!!(elem = elements[index]).style && (show && "none" !== elem.style.display && "" !== elem.style.display || (elem.style.display = show ? values[index] || "" : "none"));
+        for(var display, elem, hidden, values = [], index = 0, length = elements.length; index < length; index++)(elem = elements[index]).style && (values[index] = jQuery._data(elem, "olddisplay"), display = elem.style.display, show ? (values[index] || "none" !== display || (elem.style.display = ""), "" === elem.style.display && isHidden(elem) && (values[index] = jQuery._data(elem, "olddisplay", css_defaultDisplay(elem.nodeName)))) : values[index] || (hidden = isHidden(elem), (display && "none" !== display || !hidden) && jQuery._data(elem, "olddisplay", hidden ? display : jQuery.css(elem, "display"))));
+        for(index = 0; index < length; index++)(elem = elements[index]).style && (show && "none" !== elem.style.display && "" !== elem.style.display || (elem.style.display = show ? values[index] || "" : "none"));
         return elements;
     }
     function setPositiveNumber(elem, value, subtract) {

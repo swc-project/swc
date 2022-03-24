@@ -20,7 +20,7 @@ var B = /*#__PURE__*/ function(A) {
         swcHelpers.classCallCheck(this, B);
         var _this;
         _this = _super.apply(this, arguments);
-        _this.x = 'B.x';
+        _this.x = "B.x";
         return _this;
     }
     return B;
@@ -37,7 +37,7 @@ var C = /*#__PURE__*/ function(A) {
         {
             key: "x",
             get: function get() {
-                return 'C.x';
+                return "C.x";
             }
         }
     ]);

@@ -41,9 +41,8 @@ impl Resolver {
             callee: quote_ident!(DUMMY_SP.apply_mark(mark), "require").as_callee(),
             args: vec![Lit::Str(Str {
                 span: src_span,
+                raw: None,
                 value: src,
-                has_escape: false,
-                kind: Default::default(),
             })
             .as_arg()],
 

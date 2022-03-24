@@ -109,11 +109,8 @@ where
         // Skip if `use asm` exists.
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
             Some(Stmt::Expr(stmt)) => match &*stmt.expr {
-                Expr::Lit(Lit::Str(Str {
-                    value,
-                    has_escape: false,
-                    ..
-                })) => &**value == "use asm",
+                // TODO improve check, directives can contain escaped characters
+                Expr::Lit(Lit::Str(Str { value, .. })) => &**value == "use asm",
                 _ => false,
             },
             _ => false,

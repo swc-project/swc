@@ -51,34 +51,8 @@
                   "ctxt": 0
                 },
                 "tail": true,
-                "cooked": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 122,
-                    "end": 132,
-                    "ctxt": 0
-                  },
-                  "value": "􏿿",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
-                },
-                "raw": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 122,
-                    "end": 132,
-                    "ctxt": 0
-                  },
-                  "value": "\\u{10FFFF}",
-                  "hasEscape": true,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": false
-                  }
-                }
+                "cooked": "􏿿",
+                "raw": "\\u{10FFFF}"
               }
             ]
           },

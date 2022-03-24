@@ -1108,11 +1108,7 @@
                     "ctxt": 0
                   },
                   "value": "That is a number",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"That is a number\""
                 }
               },
               {

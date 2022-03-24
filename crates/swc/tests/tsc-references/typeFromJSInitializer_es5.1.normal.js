@@ -14,15 +14,15 @@ var a = new A();
 a.unknown = 1;
 a.unknown = true;
 a.unknown = {};
-a.unknown = 'hi';
+a.unknown = "hi";
 a.unknowable = 1;
 a.unknowable = true;
 a.unknowable = {};
-a.unknowable = 'hi';
+a.unknowable = "hi";
 a.empty.push(1);
 a.empty.push(true);
 a.empty.push({});
-a.empty.push('hi');
+a.empty.push("hi");
 /** @type {number | undefined} */ var n;
 // should get any on parameter initialisers
 function f() {
@@ -33,14 +33,14 @@ function f() {
     a1 = 1;
     a1 = true;
     a1 = {};
-    a1 = 'ok';
+    a1 = "ok";
     // b should be number | undefined, not any
     b = 1;
     b = undefined;
-    b = 'error';
+    b = "error";
     // l should be any[]
     l1.push(1);
-    l1.push('ok');
+    l1.push("ok");
 }
 // should get any on variable initialisers
 var u = undefined;
@@ -49,8 +49,8 @@ u = undefined;
 u = 1;
 u = true;
 u = {};
-u = 'ok';
-l.push('ok');
+u = "ok";
+l.push("ok");
 /** @type {(v: unknown) => v is undefined} */ var isUndef = function(v) {
     return v === undefined;
 };

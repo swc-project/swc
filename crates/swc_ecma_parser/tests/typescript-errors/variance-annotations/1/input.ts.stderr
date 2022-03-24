@@ -1,0 +1,30 @@
+
+  x Unexpected token `a`. Expected * for generator, private key, identifier or async
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:104:5]
+ 104 | in a = 0;  // Error
+     :    ^
+     `----
+
+  x 'public' modifier cannot appear on a type parameter
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:95:1]
+ 95 | type T20<public T> = T;  // Error
+    :          ^^^^^^
+    `----
+
+  x 'in' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:96:1]
+ 96 | type T21<in out in T> = T;  // Error
+    :                 ^^
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:97:1]
+ 97 | type T22<in out out T> = T;  // Error
+    :                 ^^^
+    `----
+
+  x 'in' modifier must precede 'out' modifier.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:98:1]
+ 98 | type T23<out in T> = T;  // Error
+    :              ^^
+    `----

@@ -4,4 +4,4 @@ class C {
         return x;
     }
 }
-new C("a"), a = i = a, new C("hi"), new i("bye"), new a("hm");
+new C('a'), a = i = a, new C('hi'), new i('bye'), new a('hm');

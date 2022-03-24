@@ -420,11 +420,7 @@
                   "ctxt": 0
                 },
                 "value": "true",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "'true'"
               }
             }
           ],

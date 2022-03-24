@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
 export default function Home() {
     var _this = this;
     var icon = [
@@ -94,7 +94,7 @@ export default function Home() {
             columnNumber: 9
         },
         __self: this
-    }, "Get started by editing", ' ', /*#__PURE__*/ React.createElement("code", {
+    }, "Get started by editing", " ", /*#__PURE__*/ React.createElement("code", {
         className: styles.code,
         __source: {
             fileName: "$DIR/tests/vercel/loader-only/next-33291/2-classic/input/index.js",
@@ -220,7 +220,7 @@ export default function Home() {
             columnNumber: 9
         },
         __self: this
-    }, "Powered by", ' ', /*#__PURE__*/ React.createElement("span", {
+    }, "Powered by", " ", /*#__PURE__*/ React.createElement("span", {
         className: styles.logo,
         __source: {
             fileName: "$DIR/tests/vercel/loader-only/next-33291/2-classic/input/index.js",

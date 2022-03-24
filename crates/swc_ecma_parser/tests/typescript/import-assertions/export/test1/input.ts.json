@@ -43,11 +43,7 @@
           "ctxt": 0
         },
         "value": "./foo.js",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./foo.js'"
       },
       "typeOnly": false,
       "asserts": {
@@ -78,11 +74,7 @@
                 "ctxt": 0
               },
               "value": "javascript",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"javascript\""
             }
           }
         ]

@@ -76,7 +76,7 @@ class HomePage extends React.Component {}
 "#,
     r#"
 let HomePage = function(_Component) {
-    'use strict';
+    "use strict";
     _inherits(HomePage, _Component);
     var _super = _createSuper(HomePage);
     function HomePage() {
@@ -106,7 +106,7 @@ class Sub extends Foo {
     r#"
 let singleton;
 let Sub = function(Foo) {
-    'use strict';
+    "use strict";
     _inherits(Sub, Foo);
 
     var _super = _createSuper(Sub);
@@ -134,7 +134,7 @@ test!(
 "#,
     r#"
 let List = function(Array) {
-    'use strict';
+    "use strict";
     _inherits(List, Array);
     var _super = _createSuper(List);
     function List() {
@@ -189,7 +189,7 @@ class Foo {
 "#,
     r#"
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
 _classCallCheck(this, Foo);
 };
 
@@ -282,13 +282,13 @@ var BaseView = class {
 "#,
     r#"
 var BaseView = function BaseView() {
-  'use strict';
+  "use strict";
 _classCallCheck(this, BaseView);
   this.autoRender = true;
 };
 
 var BaseView = function BaseView() {
-  'use strict';
+  "use strict";
 _classCallCheck(this, BaseView);
   this.autoRender = true;
 };
@@ -296,7 +296,7 @@ _classCallCheck(this, BaseView);
 var BaseView =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 function BaseView() {
     _classCallCheck(this, BaseView);
   }
@@ -354,7 +354,7 @@ expect(obj.test).toBe(2);
 let Base =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -374,7 +374,7 @@ function () {
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -428,7 +428,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
 
@@ -475,7 +475,7 @@ expect(obj.get()).toBe(1);
 
 
 let Base = function Base() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Base);
 };
 
@@ -484,7 +484,7 @@ Base.prototype.test = 1;
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -547,7 +547,7 @@ this.HTMLElement = function() {
 };
 var constructor;
 let CustomElement = function(HTMLElement) {
-    'use strict';
+    "use strict";
     _inherits(CustomElement, HTMLElement);
     var _super = _createSuper(CustomElement);
     function CustomElement() {
@@ -581,7 +581,7 @@ class A extends B {
 "#,
     r#"
 let A = function(B) {
-    'use strict';
+    "use strict";
     _inherits(A, B);
     var _super = _createSuper(A);
     function A() {
@@ -639,7 +639,7 @@ expect(obj.test).toBe(3);
 
 
 let Base = function Base() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Base);
 };
 
@@ -648,7 +648,7 @@ let value = 2;
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -718,7 +718,7 @@ expect(obj.get()).toBeUndefined();
 let Base =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -736,7 +736,7 @@ function () {
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -784,7 +784,7 @@ class Foo extends Bar {
 "#,
     r#"
 var Foo = function(Bar) {
-    'use strict';
+    "use strict";
     _inherits(Foo, Bar);
 
     var _super = _createSuper(Foo);
@@ -877,7 +877,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Test() {
     _classCallCheck(this, Test);
@@ -942,7 +942,7 @@ var x = {
   Foo:
   /*#__PURE__*/
   function (Foo) {
-  'use strict';
+  "use strict";
 _inherits(_class, Foo);
   var _super = _createSuper(_class);
     function _class() {
@@ -969,7 +969,7 @@ var o = { foo: class foo {} };
     r#"
 var o = {
   foo: function foo() {
-    'use strict';
+    "use strict";
 
     _classCallCheck(this, foo);
   }
@@ -1036,7 +1036,7 @@ expect(Test.test()).toBe(Function);
 var Test =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Test() {
     _classCallCheck(this, Test);
@@ -1076,7 +1076,7 @@ class Test {
 "#,
     r#"
 var Test = function Test() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Test);
   return _get(_getPrototypeOf(Test.prototype), "constructor", this);
 }
@@ -1119,7 +1119,7 @@ expect(obj.get()).toBe(1);
 let Base =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -1138,7 +1138,7 @@ function () {
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -1187,13 +1187,13 @@ class Foo extends Bar {
 "#,
     r#"
 var Foo = function(Bar) {
-    'use strict';
+    "use strict";
     _inherits(Foo, Bar);
     var _super = _createSuper(Foo);
     function Foo() {
         _classCallCheck(this, Foo);
         var _this;
-        _this.foo = 'bar';
+        _this.foo = "bar";
         _this = _super.call(this);
         return _this;
     }
@@ -1245,7 +1245,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 let Base =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -1268,7 +1268,7 @@ function () {
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -1336,7 +1336,7 @@ export default class Foo {}
 "#,
     r#"
 var Foo = function Foo() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Foo);
 };
 
@@ -1383,7 +1383,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 let Base =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -1403,7 +1403,7 @@ function () {
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
 
   var _super = _createSuper(Obj);
@@ -1466,7 +1466,7 @@ class A {
 var A =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function A() {
     _classCallCheck(this, A);
@@ -1541,7 +1541,7 @@ expect(obj[1]).toBe(2);
 
 
 let Base = function Base() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Base);
 };
 
@@ -1566,7 +1566,7 @@ const proper = {
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -1642,7 +1642,7 @@ expect(new Outer().hello()).toBe('hello');
 var Hello =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
   function Hello() {
     _classCallCheck(this, Hello);
   }
@@ -1657,7 +1657,7 @@ function () {
 }();
 
 var Outer = function (Hello) {
-  'use strict';
+  "use strict";
   _inherits(Outer, Hello);
   var _super = _createSuper(Outer);
   function Outer() {
@@ -1817,7 +1817,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
 
@@ -1894,7 +1894,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 function Foo() {
     _classCallCheck(this, Foo);
   }
@@ -1957,7 +1957,7 @@ expect(obj.test).toBe(3);
 
 
 let Base = function Base() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Base);
 };
 
@@ -1970,7 +1970,7 @@ Object.defineProperty(Base.prototype, 'test', {
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -2032,14 +2032,14 @@ expect(obj.test).toBe(3);
 
 
 let Base = function Base() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Base);
 };
 
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -2176,7 +2176,7 @@ cp.m();
 let Point =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 function Point() {
     _classCallCheck(this, Point);
   }
@@ -2193,7 +2193,7 @@ function Point() {
 let ColorPoint =
 /*#__PURE__*/
 function (Point) {
-  'use strict';
+  "use strict";
 _inherits(ColorPoint, Point);
 var _super = _createSuper(ColorPoint);
   function ColorPoint() {
@@ -2243,7 +2243,7 @@ class Test {
 "#,
     r#"
 var Test = function Test() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Test);
   _get(_getPrototypeOf(Test.prototype), "hasOwnProperty", this).call(this, "test");
@@ -2358,7 +2358,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Test() {
     _classCallCheck(this, Test);
@@ -2412,7 +2412,7 @@ expect(new Outer().hello()).toBe('hello');
 
 
 var Hello = function Hello() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Hello);
   return {
     toString() {
@@ -2423,7 +2423,7 @@ var Hello = function Hello() {
 };
 
 var Outer = function (Hello) {
-  'use strict';
+  "use strict";
   _inherits(Outer, Hello);
   var _super = _createSuper(Outer);
   function Outer() {
@@ -2474,14 +2474,14 @@ expect(obj.test).toBe(3);
 
 
 let Base = function Base() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Base);
 };
 
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -2524,7 +2524,7 @@ class Child extends Base {
 "#,
     r#"
 var Child = function(Base) {
-    'use strict';
+    "use strict";
     _inherits(Child, Base);
     var _super = _createSuper(Child);
     function Child() {
@@ -2555,7 +2555,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -2606,7 +2606,7 @@ class ConstructorScoping {
 "#,
     r#"
 var Test = function Test() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Test);
   this.state = "test";
@@ -2615,7 +2615,7 @@ var Test = function Test() {
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -2631,7 +2631,7 @@ function (Bar) {
 }(Bar);
 
 var ConstructorScoping = function ConstructorScoping() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, ConstructorScoping);
   var bar;
@@ -2676,7 +2676,7 @@ class MyCtrl3 {
     r#"
 var MyCtrl = function MyCtrl(a) {
   "any directive prologue";
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, MyCtrl);
   foo;
@@ -2685,7 +2685,7 @@ var MyCtrl = function MyCtrl(a) {
 var MyCtrl2 = function MyCtrl2(a) {
   "a";
   "b";
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, MyCtrl2);
   foo;
@@ -2693,7 +2693,7 @@ var MyCtrl2 = function MyCtrl2(a) {
 
 var MyCtrl3 = function MyCtrl3(a) {
   "a";
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, MyCtrl3);
   foo;
@@ -2720,7 +2720,7 @@ class Child extends Base {
 "#,
     r#"
 var Child = function(Base) {
-    'use strict';
+    "use strict";
     _inherits(Child, Base);
     var _super = _createSuper(Child);
     function Child() {
@@ -2797,7 +2797,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Test() {
     _classCallCheck(this, Test);
@@ -2832,14 +2832,14 @@ class B extends A {
 "#,
     r#"
 let A = function A() {
-  'use strict';
+  "use strict";
 _classCallCheck(this, A);
 };
 
 let B =
 /*#__PURE__*/
 function (A) {
-  'use strict';
+  "use strict";
 _inherits(B, A);
 var _super = _createSuper(B);
   function B() {
@@ -2872,7 +2872,7 @@ var t = new Example();
 "#,
     r#"
 var Example = function Example() {
-  'use strict';
+  "use strict";
 _classCallCheck(this, Example);
 
   var Example1;
@@ -3053,7 +3053,7 @@ expect(new Outer().hello()).toBe('hello');
 
 
 var Hello = function Hello() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Hello);
   return {
     toString() {
@@ -3064,7 +3064,7 @@ var Hello = function Hello() {
 };
 
 var Outer = function (Hello) {
-  'use strict';
+  "use strict";
   _inherits(Outer, Hello);
   var _super = _createSuper(Outer);
 
@@ -3265,7 +3265,7 @@ class Test {
 var Test =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Test() {
     _classCallCheck(this, Test);
@@ -3300,7 +3300,7 @@ class Foo extends Bar {
 "#,
     r#"
 var Foo = function(Bar) {
-    'use strict';
+    "use strict";
     _inherits(Foo, Bar);
     var _super = _createSuper(Foo);
     function Foo() {
@@ -3358,7 +3358,7 @@ class Test extends Foo {
 var Test =
 /*#__PURE__*/
 function (Foo) {
-  'use strict';
+  "use strict";
   _inherits(Test, Foo);
 
   function Test() {
@@ -3474,7 +3474,7 @@ class A {
 let A =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 function A() {
     _classCallCheck(this, A);
   }
@@ -3532,7 +3532,7 @@ let value = 1;
 let Base =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -3550,7 +3550,7 @@ function () {
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -3617,14 +3617,14 @@ expect(() => {
 
 
 let Base = function Base() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Base);
 };
 
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -3713,7 +3713,7 @@ expect(new Outer().hello()).toBe('hello');
 var Hello =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
   function Hello() {
     _classCallCheck(this, Hello);
   }
@@ -3730,7 +3730,7 @@ function () {
 var Outer =
 /*#__PURE__*/
 function (Hello) {
-  'use strict';
+  "use strict";
   _inherits(Outer, Hello);
   var _super = _createSuper(Outer);
   function Outer() {
@@ -3915,7 +3915,7 @@ expect(() => {
 let Base =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
   function Base() {
     _classCallCheck(this, Base);
   }
@@ -3933,7 +3933,7 @@ function () {
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -3979,7 +3979,7 @@ class Test extends Foo { }
 var Test =
 /*#__PURE__*/
 function (Foo) {
-  'use strict';
+  "use strict";
 
   _inherits(Test, Foo);
   var _super = _createSuper(Test);
@@ -4048,7 +4048,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -4084,7 +4084,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -4158,14 +4158,14 @@ expect(obj.test).toBe(3);
 
 
 let Base = function Base() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Base);
 };
 
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -4251,7 +4251,7 @@ expect(obj[1]).toBe(2);
 
 
 let Base = function Base() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Base);
 };
 
@@ -4277,7 +4277,7 @@ const proper = {
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -4368,7 +4368,7 @@ class Foo {
 var Foo =
 /*#__PURE__*/
 function () {
-  'use strict';
+  "use strict";
 
   function Foo() {
     _classCallCheck(this, Foo);
@@ -4451,7 +4451,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -4490,7 +4490,7 @@ class BaseController2 extends Chaplin.Controller.Another {
 var BaseController =
 /*#__PURE__*/
 function (_Controller) {
-  'use strict';
+  "use strict";
 
   _inherits(BaseController, _Controller);
   var _super = _createSuper(BaseController);
@@ -4505,7 +4505,7 @@ function (_Controller) {
 var BaseController2 =
 /*#__PURE__*/
 function (_Another) {
-  'use strict';
+  "use strict";
 
   _inherits(BaseController2, _Another);
   var _super = _createSuper(BaseController2);
@@ -4539,7 +4539,7 @@ class Foo extends Bar {
 var Foo =
 /*#__PURE__*/
 function (Bar) {
-  'use strict';
+  "use strict";
 
   _inherits(Foo, Bar);
   var _super = _createSuper(Foo);
@@ -4644,14 +4644,14 @@ expect(obj.get()).toBeUndefined();
 
 
 let Base = function Base() {
-  'use strict';
+  "use strict";
   _classCallCheck(this, Base);
 };
 
 let Obj =
 /*#__PURE__*/
 function (Base) {
-  'use strict';
+  "use strict";
   _inherits(Obj, Base);
   var _super = _createSuper(Obj);
   function Obj() {
@@ -4695,7 +4695,7 @@ class Test { }
 "#,
     r#"
 var Test = function Test() {
-  'use strict';
+  "use strict";
 
   _classCallCheck(this, Test);
 };
@@ -4780,7 +4780,7 @@ export default class extends A {}
 var _default =
 /*#__PURE__*/
 function (A) {
-  'use strict';
+  "use strict";
   _inherits(_default, A);
   var _super = _createSuper(_default);
   function _default() {
@@ -4912,7 +4912,7 @@ test!(
 }",
     "if (true) {
     var Foo = function(Bar) {
-        'use strict';
+        \"use strict\";
         _inherits(Foo, Bar);
         var _super = _createSuper(Foo);
         function Foo() {
@@ -4937,7 +4937,7 @@ test!(
     "function broken(x, ...foo) {
     if (true) {
         var Foo = function(Bar) {
-            'use strict';
+            \"use strict\";
             _inherits(Foo, Bar);
             var _super = _createSuper(Foo);
             function Foo() {
@@ -6233,7 +6233,7 @@ test!(
     ",
     "
     let ColouredCanvasElement = function (CanvasElement) {
-        'use strict';
+        \"use strict\";
         _inherits(ColouredCanvasElement, CanvasElement);
         var _super = _createSuper(ColouredCanvasElement);
         function ColouredCanvasElement() {
@@ -6242,10 +6242,10 @@ test!(
         }
         _createClass(ColouredCanvasElement, [
             {
-                key: 'createFacets',
+                key: \"createFacets\",
                 value: function createFacets(hidden) {
                     hidden = _get(_getPrototypeOf(ColouredCanvasElement.prototype), \
-     'createFacets', this).call(this, hidden);
+     \"createFacets\", this).call(this, hidden);
                 }
             }
         ]);
@@ -6267,7 +6267,7 @@ test!(
   ",
     "
   let ColouredCanvasElement = function (CanvasElement) {
-      'use strict';
+      \"use strict\";
       _inherits(ColouredCanvasElement, CanvasElement);
       var _super = _createSuper(ColouredCanvasElement);
       function ColouredCanvasElement() {
@@ -6276,9 +6276,9 @@ test!(
       }
       _createClass(ColouredCanvasElement, [
           {
-              key: 'createFacets',
+              key: \"createFacets\",
               value: function createFacets(hidden) {
-                  _get(_getPrototypeOf(ColouredCanvasElement.prototype), 'createFacets', \
+                  _get(_getPrototypeOf(ColouredCanvasElement.prototype), \"createFacets\", \
      this).call(this, hidden);
               }
           }
@@ -6302,11 +6302,11 @@ test!(
   ",
     "
   let Foo = function Foo() {
-    'use strict';
+    \"use strict\";
     _classCallCheck(this, Foo);
   };
   let Test = function(Foo1) {
-    'use strict';
+    \"use strict\";
     _inherits(Test, Foo1);
     var _super = _createSuper(Test);
     function Test() {
@@ -6315,7 +6315,7 @@ test!(
     }
     _createClass(Test, [
         {
-            key: 'foo',
+            key: \"foo\",
             value: function foo() {
                 console.log(Foo);
             }
@@ -6419,7 +6419,7 @@ test!(
     ",
     "
     let A = function A() {
-      'use strict';
+      \"use strict\";
       _classCallCheck(this, A);
     };
   "
@@ -6502,13 +6502,13 @@ test!(
     ",
     "
     const foo = function() {
-        'use strict';
+        \"use strict\";
         function _class() {
             _classCallCheck(this, _class);
         }
         _createClass(_class, [
             {
-                key: 'run',
+                key: \"run\",
                 value: function run() {
                 }
             }
@@ -6527,13 +6527,13 @@ test!(
     ",
     "
     console.log(function() {
-        'use strict';
+        \"use strict\";
         function _class() {
             _classCallCheck(this, _class);
         }
         _createClass(_class, [
             {
-                key: 'run',
+                key: \"run\",
                 value: function run() {
                 }
             }
@@ -6568,13 +6568,13 @@ test!(
   ",
     "
     console.log(function() {
-        'use strict';
+        \"use strict\";
         function _class() {
             _classCallCheck(this, _class);
         }
         _createClass(_class, [
             {
-                key: 'run',
+                key: \"run\",
                 value: function run() {
                 }
             }
@@ -6606,13 +6606,13 @@ test!(
     ",
     "
     console.log(function() {
-      'use strict';
+      \"use strict\";
       function _class() {
           _classCallCheck(this, _class);
       }
       _createClass(_class, [
           {
-              key: 'run',
+              key: \"run\",
               value: function run() {
               }
           }
@@ -6693,7 +6693,7 @@ test!(
     ",
     "
 var Extended = function(Base) {
-    'use strict';
+    \"use strict\";
     _inherits(Extended, Base);
     var _super = _createSuper(Extended);
     function Extended() {
@@ -6702,9 +6702,9 @@ var Extended = function(Base) {
     }
     _createClass(Extended, [
         {
-            key: 'getNext',
+            key: \"getNext\",
             value: function getNext() {
-                return _get(_getPrototypeOf(Extended.prototype), 'getNext', this).call(this, \
+                return _get(_getPrototypeOf(Extended.prototype), \"getNext\", this).call(this, \
      114514) + 114514;
             }
         }
@@ -6740,7 +6740,7 @@ test!(
     ",
     "
 var Extended = function(Base) {
-    'use strict';
+    \"use strict\";
     _inherits(Extended, Base);
     var _super = _createSuper(Extended);
     function Extended() {
@@ -6749,9 +6749,9 @@ var Extended = function(Base) {
     }
     _createClass(Extended, [
         {
-            key: 'getNext',
+            key: \"getNext\",
             value: function getNext() {
-                return _get(_getPrototypeOf(Extended.prototype), 'getNext', this).call(this, \
+                return _get(_getPrototypeOf(Extended.prototype), \"getNext\", this).call(this, \
      114514);
             }
         }

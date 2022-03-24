@@ -5,6 +5,7 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 use crate::ComponentValue;
 
 #[ast_node("Ident")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Ident {
     pub span: Span,
     pub value: JsWord,
@@ -12,6 +13,7 @@ pub struct Ident {
 }
 
 #[ast_node("CustomIdent")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct CustomIdent {
     pub span: Span,
     pub value: JsWord,
@@ -19,6 +21,7 @@ pub struct CustomIdent {
 }
 
 #[ast_node("DashedIdent")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct DashedIdent {
     pub span: Span,
     pub value: JsWord,
@@ -27,6 +30,7 @@ pub struct DashedIdent {
 
 /// Quoted string.
 #[ast_node("String")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Str {
     pub span: Span,
     pub value: JsWord,
@@ -44,6 +48,7 @@ pub enum DelimiterValue {
 }
 
 #[ast_node("Delimiter")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Delimiter {
     pub span: Span,
     pub value: DelimiterValue,
@@ -81,6 +86,7 @@ pub enum AbsoluteColorBase {
 }
 
 #[ast_node("HexColor")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct HexColor {
     /// Includes `#`
     pub span: Span,

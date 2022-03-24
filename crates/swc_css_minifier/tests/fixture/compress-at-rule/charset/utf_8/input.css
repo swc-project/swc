@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+a {
+    --foo: "test";
+    color: red;
+}

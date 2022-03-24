@@ -402,7 +402,7 @@ test!(
     |_| tr(),
     array1,
     r#"var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
-    r#"var a = 'hello', ref = [', ', 'junk'], b = ref[0], c = 'world';"#
+    r#"var a = "hello", ref = [", ", "junk"], b = ref[0], c = "world";"#
 );
 
 test!(
@@ -469,7 +469,7 @@ test!(
     |_| tr(),
     empty,
     r#"var [, a, [b], [c], d] = ["foo", "hello", [", ", "junk"], ["world"]];"#,
-    r#"var ref = ['foo', 'hello', [', ', 'junk'], ['world']], a = ref[1], ref1 = ref[2],
+    r#"var ref = ["foo", "hello", [", ", "junk"], ["world"]], a = ref[1], ref1 = ref[2],
      b = ref1[0], ref2 = ref[3], c = ref2[0], d = ref[4];
 "#
 );
@@ -620,7 +620,7 @@ test!(
 }"#,
     r#"for(var ref in obj){
     let name = ref[0], value = ref[1];
-    print('Name: ' + name + ', Value: ' + value);
+    print("Name: " + name + ", Value: " + value);
 }
 "#
 );
@@ -758,7 +758,7 @@ test!(
 var { x, y } = coords,
     foo = "bar";"#,
     r#"var coords = [1, 2];
-var x = coords.x, y = coords.y, foo = 'bar';"#
+var x = coords.x, y = coords.y, foo = "bar";"#
 );
 
 test_exec!(
@@ -1468,7 +1468,7 @@ var x = z[x],
 
 var _o;
 var ref;
-_o = o, z = _objectWithoutProperties(_o, ['x', 'y']), ref = _o, x = ref.x, y = ref.y, ref, _o;
+_o = o, z = _objectWithoutProperties(_o, ["x", "y"]), ref = _o, x = ref.x, y = ref.y, ref, _o;
 
 
 "#
@@ -1734,7 +1734,7 @@ var key = prefix + 'state',
     country = input[`country`],
     state = input[key],
     consents = input[key1],
-    rest = _objectWithoutProperties(input, ['given_name', 'last_name', `country`, key, key1].map(_toPropertyKey));
+    rest = _objectWithoutProperties(input, ["given_name", 'last_name', `country`, key, key1].map(_toPropertyKey));
 
 
 "#

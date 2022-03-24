@@ -5,7 +5,7 @@ var _this = this;
 // @noLib: true
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
-var React = require('react');
+var React = require("react");
 var Poisoned = /*#__PURE__*/ function(_Component) {
     "use strict";
     swcHelpers.inherits(Poisoned, _Component);

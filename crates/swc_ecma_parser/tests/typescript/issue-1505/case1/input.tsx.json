@@ -82,6 +82,8 @@
               "value": "_T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -102,6 +104,8 @@
               "value": "_U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -157,6 +161,8 @@
               "value": "_T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -311,34 +317,8 @@
                           "ctxt": 0
                         },
                         "tail": true,
-                        "cooked": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 272,
-                            "end": 273,
-                            "ctxt": 0
-                          },
-                          "value": "x",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        },
-                        "raw": {
-                          "type": "StringLiteral",
-                          "span": {
-                            "start": 272,
-                            "end": 273,
-                            "ctxt": 0
-                          },
-                          "value": "x",
-                          "hasEscape": false,
-                          "kind": {
-                            "type": "normal",
-                            "containsQuote": false
-                          }
-                        }
+                        "cooked": "x",
+                        "raw": "x"
                       }
                     ]
                   },
@@ -556,6 +536,8 @@
                     "value": "P",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": {
                     "type": "TsTypeReference",
                     "span": {

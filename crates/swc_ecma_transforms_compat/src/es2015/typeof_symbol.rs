@@ -215,16 +215,16 @@ mod tests {
         }
 
         var isWeb =
-        !isUndef(typeof window === 'undefined' ? 'undefined' : _typeof(window)) &&
+        !isUndef(typeof window === \"undefined\" ? \"undefined\" : _typeof(window)) &&
         'onload' in window;
         exports.isWeb = isWeb;
         var isNode =
-        !isUndef(typeof process === 'undefined' ? 'undefined' : _typeof(process)) &&
+        !isUndef(typeof process === \"undefined\" ? \"undefined\" : _typeof(process)) &&
         !!(process.versions && process.versions.node);
         exports.isNode = isNode;
         var isWeex =
         !isUndef(
-            typeof WXEnvironment === 'undefined' ? 'undefined' : _typeof(WXEnvironment)
+            typeof WXEnvironment === \"undefined\" ? \"undefined\" : _typeof(WXEnvironment)
         ) && WXEnvironment.platform !== 'Web';
         exports.isWeex = isWeex;
         "

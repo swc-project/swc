@@ -44,7 +44,7 @@ var Formatting;
             if (this.logger.information()) {
                 for(var i = 0; i < result.count(); i++){
                     var edit = result.get(i);
-                    this.logger.log("edit: minChar=" + edit.position + ", limChar=" + (edit.position + edit.length) + ", text=\"" + TypeScript.stringToLiteral(edit.replaceWith, 30) + "\"");
+                    this.logger.log("edit: minChar=" + edit.position + ", limChar=" + (edit.position + edit.length) + ', text="' + TypeScript.stringToLiteral(edit.replaceWith, 30) + '"');
                 }
             }
             return result;
@@ -319,7 +319,7 @@ var Formatting;
                 if (StringUtils.IsNullOrEmpty(existingIndentation)) return "";
                 var totalIndent = 0;
                 StringUtils.foreach(existingIndentation, function(c) {
-                    if (c == '\t') totalIndent += tabSize;
+                    if (c == "	") totalIndent += tabSize;
                     else totalIndent++;
                 });
                 totalIndent += level * indentSize;
@@ -330,7 +330,7 @@ var Formatting;
             return this.GetIndentString(existingIndentation, totalIndentSize, tabSize, convertTabsToSpaces);
         };
         _proto.GetIndentString = function GetIndentString(prefix, totalIndentSize, tabSize, convertTabsToSpaces) {
-            var tabString = convertTabsToSpaces ? StringUtils.create(' ', tabSize) : "\t";
+            var tabString = convertTabsToSpaces ? StringUtils.create(" ", tabSize) : "	";
             var text = "";
             if (!StringUtils.IsNullOrEmpty(prefix)) text += prefix;
             var pos = 0;
@@ -341,7 +341,7 @@ var Formatting;
             }
             // fill the reminder with spaces
             while(pos < totalIndentSize){
-                text += ' ';
+                text += " ";
                 pos++;
             }
             return text;
@@ -501,7 +501,7 @@ var Formatting;
                 var line = this.snapshot.GetLineFromPosition(offset);
                 var lineText = line.getText();
                 var index = 0;
-                while(index < lineText.length && (lineText.charAt(index) == ' ' || lineText.charAt(index) == '\t')){
+                while(index < lineText.length && (lineText.charAt(index) == " " || lineText.charAt(index) == "	")){
                     ++index;
                 }
                 return lineText.substr(0, index);
@@ -550,8 +550,8 @@ var Formatting;
             var indentSize = 0;
             for(var i = 0; i < text.length; i++){
                 var c = text.charAt(i);
-                if (c == '\t') indentSize = indentSize + editorOptions.TabSize - indentSize % editorOptions.TabSize;
-                else if (c == ' ') indentSize += 1;
+                if (c == "	") indentSize = indentSize + editorOptions.TabSize - indentSize % editorOptions.TabSize;
+                else if (c == " ") indentSize += 1;
                 else {
                     if (includeNonIndentChars) indentSize += 1;
                     else break;

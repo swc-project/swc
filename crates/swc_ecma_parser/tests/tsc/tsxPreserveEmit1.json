@@ -23,11 +23,7 @@
           "ctxt": 0
         },
         "value": "react",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'react'"
       },
       "body": {
         "type": "TsModuleBlock",
@@ -233,11 +229,7 @@
           "ctxt": 0
         },
         "value": "react-router",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'react-router'"
       },
       "body": {
         "type": "TsModuleBlock",
@@ -303,11 +295,7 @@
             "ctxt": 0
           },
           "value": "react",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'react'"
         }
       }
     },
@@ -346,11 +334,7 @@
             "ctxt": 0
           },
           "value": "react-router",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'react-router'"
         }
       }
     },

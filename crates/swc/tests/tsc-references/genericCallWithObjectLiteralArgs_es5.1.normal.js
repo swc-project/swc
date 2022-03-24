@@ -3,7 +3,7 @@ function foo(x) {
 }
 var r = foo({
     bar: 1,
-    baz: ''
+    baz: ""
 }); // error
 var r2 = foo({
     bar: 1,
@@ -15,5 +15,5 @@ var r3 = foo({
 }); // T = typeof foo
 var r4 = foo({
     bar: 1,
-    baz: ''
+    baz: ""
 }); // T = Object

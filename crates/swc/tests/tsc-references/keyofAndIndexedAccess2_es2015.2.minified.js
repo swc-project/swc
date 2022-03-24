@@ -13,8 +13,8 @@ export class c {
     }
 }
 for (const action of [
-    "resizeTo",
-    "resizeBy"
+    'resizeTo',
+    'resizeBy'
 ])window[action] = (x, y)=>{
     window[action](x, y);
 };

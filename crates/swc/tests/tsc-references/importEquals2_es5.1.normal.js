@@ -7,6 +7,6 @@ var A = function A() {
 };
 module.exports = a;
 // @Filename: /c.ts
-var a = require('./b');
+var a = require("./b");
 new a.A(); // Error
 export { };

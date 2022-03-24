@@ -119,11 +119,7 @@
           "ctxt": 0
         },
         "value": "hello",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"hello\""
       }
     },
     {
@@ -204,11 +200,7 @@
               "ctxt": 0
             },
             "value": "x",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"x\""
           },
           "definite": false
         }
@@ -250,11 +242,7 @@
               "ctxt": 0
             },
             "value": "y",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"y\""
           },
           "definite": false
         }
@@ -296,11 +284,7 @@
               "ctxt": 0
             },
             "value": "z",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"z\""
           },
           "definite": false
         }
@@ -394,11 +378,7 @@
           "ctxt": 0
         },
         "value": "./t1",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./t1\""
       },
       "asserts": null
     },
@@ -417,11 +397,7 @@
           "ctxt": 0
         },
         "value": "./t2",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./t2\""
       },
       "asserts": null
     },
@@ -440,11 +416,7 @@
           "ctxt": 0
         },
         "value": "./t3",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./t3\""
       },
       "asserts": null
     },
@@ -563,11 +535,7 @@
           "ctxt": 0
         },
         "value": "./t4",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "\"./t4\""
       },
       "typeOnly": false,
       "asserts": null

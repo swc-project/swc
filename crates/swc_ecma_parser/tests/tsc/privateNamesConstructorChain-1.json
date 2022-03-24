@@ -317,11 +317,7 @@
               "ctxt": 0
             },
             "value": "foo",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"foo\""
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -365,11 +361,7 @@
               "ctxt": 0
             },
             "value": "bar",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"bar\""
           },
           "typeAnnotation": null,
           "isStatic": false,

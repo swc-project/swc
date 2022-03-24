@@ -3,8 +3,8 @@ function Multimap3() {
 }
 Multimap3.prototype = {
     get (key) {
-        return this._map[key + ""];
+        return this._map[key + ''];
     }
 };
 const map = new Multimap3();
-map.get("hi");
+map.get('hi');

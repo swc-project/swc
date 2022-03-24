@@ -5,7 +5,7 @@ NonGenericParameter || (NonGenericParameter = {}), function(cb) {}((x)=>{}), fun
         return cb;
     }
     (function(cb) {})((x)=>x
-    ), function(cb) {}((x, y)=>""
+    ), function(cb) {}((x, y)=>''
     ), foo7(1, (x)=>x
     ), foo7(1, a);
 }(GenericParameter || (GenericParameter = {}));

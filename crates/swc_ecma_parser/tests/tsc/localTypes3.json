@@ -239,6 +239,8 @@
                           "value": "X",
                           "optional": false
                         },
+                        "in": false,
+                        "out": false,
                         "constraint": null,
                         "default": null
                       },
@@ -259,6 +261,8 @@
                           "value": "Y",
                           "optional": false
                         },
+                        "in": false,
+                        "out": false,
                         "constraint": null,
                         "default": null
                       }
@@ -412,11 +416,7 @@
                           "ctxt": 0
                         },
                         "value": "hello",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"hello\""
                       }
                     }
                   ],
@@ -822,6 +822,8 @@
                           "value": "Y",
                           "optional": false
                         },
+                        "in": false,
+                        "out": false,
                         "constraint": null,
                         "default": null
                       }
@@ -877,6 +879,8 @@
                     "value": "X",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 }
@@ -1005,11 +1009,7 @@
                           "ctxt": 0
                         },
                         "value": "hello",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"hello\""
                       }
                     }
                   ],
@@ -1445,6 +1445,8 @@
                     "value": "X",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 },
@@ -1465,6 +1467,8 @@
                     "value": "Y",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 }
@@ -1540,11 +1544,7 @@
                           "ctxt": 0
                         },
                         "value": "hello",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"hello\""
                       }
                     }
                   ],

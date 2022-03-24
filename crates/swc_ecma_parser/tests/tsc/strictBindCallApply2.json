@@ -328,11 +328,7 @@
                           "ctxt": 0
                         },
                         "value": "blub",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"blub\""
                       }
                     }
                   ]

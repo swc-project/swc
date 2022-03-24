@@ -16,10 +16,10 @@ var t2;
 var a;
 var b;
 var a2 = {
-    1: ''
+    1: ""
 };
 var b2 = {
-    1: ''
+    1: ""
 };
 s = t;
 t = s;

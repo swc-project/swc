@@ -362,7 +362,7 @@ test!(
     "
 var Foo;
 (function (Foo) {
-    Foo[Foo['a'] = 0] = 'a';
+    Foo[Foo[\"a\"] = 0] = \"a\";
 })(Foo || (Foo = {}));",
     ok_if_code_eq
 );
@@ -401,9 +401,9 @@ test!(
     r#"
 var StateNum;
 (function (StateNum) {
-    StateNum["closed"] = "cl0";
-    StateNum["opened"] = "op1";
-    StateNum["mounted"] = "mo2";
+    StateNum["closed"] = 'cl0';
+    StateNum["opened"] = 'op1';
+    StateNum["mounted"] = 'mo2';
 })(StateNum || (StateNum = {}));
 "#,
     ok_if_code_eq
@@ -443,10 +443,10 @@ to!(
 var x;
 var Foo;
 (function (Foo) {
-    Foo[Foo['a'] = 0] = 'a';
-    Foo[Foo['b'] = 0] = 'b';
-    Foo[Foo['c'] = 1] = 'c';
-    Foo[Foo['d'] = 1] = 'd';
+    Foo[Foo[\"a\"] = 0] = \"a\";
+    Foo[Foo[\"b\"] = 0] = \"b\";
+    Foo[Foo[\"c\"] = 1] = \"c\";
+    Foo[Foo[\"d\"] = 1] = \"d\";
 })(Foo || (Foo = {}));"
 );
 
@@ -521,8 +521,8 @@ to!(
 }",
     "var FlexSize;
 (function (FlexSize) {
-    FlexSize['md'] = 'md';
-    FlexSize['lg'] = 'lg';
+    FlexSize[\"md\"] = \"md\";
+    FlexSize[\"lg\"] = \"lg\";
 })(FlexSize || (FlexSize = {}));
 "
 );
@@ -535,8 +535,8 @@ to!(
 }",
     "var FlexSize;
 (function (FlexSize) {
-    FlexSize[FlexSize['md'] = 0] = 'md';
-    FlexSize[FlexSize['lg'] = 1] = 'lg';
+    FlexSize[FlexSize[\"md\"] = 0] = \"md\";
+    FlexSize[FlexSize[\"lg\"] = 1] = \"lg\";
 })(FlexSize || (FlexSize = {}));
 "
 );
@@ -557,8 +557,8 @@ export default Foo;
 ",
     "var Foo;
     (function(Foo) {
-        Foo[Foo['A'] = 0] = 'A';
-        Foo[Foo['B'] = 1] = 'B';
+        Foo[Foo[\"A\"] = 0] = \"A\";
+        Foo[Foo[\"B\"] = 1] = \"B\";
     })(Foo || (Foo = {
     }));
     export default Foo;"
@@ -719,9 +719,9 @@ to!(
 }",
     "var Direction;
 (function (Direction) {
-    Direction[Direction['Up'] = 1] = 'Up';
-    Direction[Direction['Down'] = 2] = 'Down';
-    Direction[Direction['Left'] = 3] = 'Left';
+    Direction[Direction[\"Up\"] = 1] = \"Up\";
+    Direction[Direction[\"Down\"] = 2] = \"Down\";
+    Direction[Direction[\"Left\"] = 3] = \"Left\";
 })(Direction || (Direction = {}));"
 );
 
@@ -3411,16 +3411,16 @@ let A = _decorate([], function(_initialize) {
     return {
         F: A1,
         d: [{
-                kind: 'get',
+                kind: \"get\",
                 decorators: [bind],
-                key: 'foo',
+                key: \"foo\",
                 value: function foo() {
                     return 1;
                 }
             }, {
-                kind: 'method',
+                kind: \"method\",
                 decorators: [bind],
-                key: 'bar',
+                key: \"bar\",
                 value: function bar() {
                     return 1;
                 }
@@ -3674,8 +3674,8 @@ to!(
     (function(Test1) {
         let DummyValues;
         (function(DummyValues) {
-            DummyValues['A'] = 'A';
-            DummyValues['B'] = 'B';
+            DummyValues[\"A\"] = \"A\";
+            DummyValues[\"B\"] = \"B\";
         })(DummyValues = Test1.DummyValues || (Test1.DummyValues = {}));
     })(Test || (Test = {
     }));
@@ -4314,7 +4314,7 @@ class Foo {
 }
 ",
     "
-    const identifier = \"bar\";
+    const identifier = 'bar';
     class Foo {
         constructor(){
             this.identifier = 5;
@@ -4333,7 +4333,7 @@ class Foo {
 }
   ",
     "
-const identifier = \"bar\";
+const identifier = 'bar';
 class Foo {
 }
 Foo.identifier = 5;
@@ -4424,8 +4424,8 @@ to!(
 }",
     "var Color;
 (function (Color) {
-    Color['Aqua'] = '#00ffff';
-    Color['Cyan'] = '#00ffff';
+    Color[\"Aqua\"] = '#00ffff';
+    Color[\"Cyan\"] = '#00ffff';
 })(Color || (Color = {}));"
 );
 

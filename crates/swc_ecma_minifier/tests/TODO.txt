@@ -203,13 +203,8 @@ drop_unused/unused_null_conditional_chain/input.js
 drop_unused/var_catch_toplevel/input.js
 drop_unused/variable_refs_outside_unused_class/input.js
 evaluate/call_args_drop_param/input.js
-evaluate/delete_expr_1/input.js
-evaluate/delete_expr_2/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_2535_1/input.js
-evaluate/issue_2535_2/input.js
-evaluate/issue_2919/input.js
-evaluate/issue_2926_1/input.js
 evaluate/issue_399/input.js
 evaluate/prototype_function/input.js
 evaluate/self_comparison_1/input.js
@@ -531,12 +526,7 @@ labels/labels_7/input.js
 labels/labels_9/input.js
 logical_assignment/assign_in_conditional_part/input.js
 logical_assignment/assignment_in_left_part_2/input.js
-loops/drop_if_break_3/input.js
-loops/drop_if_break_4/input.js
 loops/drop_if_else_break_1/input.js
-loops/drop_if_else_break_2/input.js
-loops/drop_if_else_break_3/input.js
-loops/drop_if_else_break_4/input.js
 loops/issue_2740_3/input.js
 loops/issue_2740_4/input.js
 loops/issue_2740_5/input.js

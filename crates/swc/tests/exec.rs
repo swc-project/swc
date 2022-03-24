@@ -185,6 +185,8 @@ fn test_file_with_opts(entry: &Path, opts: &Options, expected_stdout: &str) -> R
                 .process_js_file(fm, handler, opts)
                 .context("failed to process file")?;
 
+            println!("Code:\n{}", res.code);
+
             let actual_stdout = stdout_of(&res.code)?;
 
             assert_eq!(expected_stdout, actual_stdout);

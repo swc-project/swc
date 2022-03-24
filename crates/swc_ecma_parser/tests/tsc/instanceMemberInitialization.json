@@ -448,6 +448,8 @@
                                 "value": "K",
                                 "optional": false
                               },
+                              "in": false,
+                              "out": false,
                               "constraint": null,
                               "default": null
                             },
@@ -468,6 +470,8 @@
                                 "value": "V",
                                 "optional": false
                               },
+                              "in": false,
+                              "out": false,
                               "constraint": null,
                               "default": null
                             }
@@ -631,6 +635,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -651,6 +657,8 @@
               "value": "V",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }

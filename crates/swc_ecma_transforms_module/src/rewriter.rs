@@ -39,8 +39,7 @@ where
                         .with_context(|| format!("failed to resolve import `{}`", s.value))
                         .unwrap();
 
-                    // This string literal is synthesized
-                    s.kind = Default::default();
+                    s.raw = None;
                     s.value = src;
                 }
             }
@@ -54,7 +53,7 @@ where
             .with_context(|| format!("failed to resolve import `{}`", i.src.value))
             .unwrap();
 
-        i.src.kind = Default::default();
+        i.src.raw = None;
         i.src.value = src;
     }
 
@@ -66,7 +65,7 @@ where
                 .with_context(|| format!("failed to resolve import `{}`", src.value))
                 .unwrap();
 
-            src.kind = Default::default();
+            src.raw = None;
             src.value = new;
         }
     }

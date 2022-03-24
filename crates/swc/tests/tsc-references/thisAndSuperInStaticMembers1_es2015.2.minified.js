@@ -15,6 +15,6 @@ C.x = void 0, C.y1 = C.x, C.y2 = C.x(), C.y3 = null == C ? void 0 : C.x(), C.y4 
     x: 0
 }, C.z12 = { x: swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C) = 0  } = {
     x: 0
-}, _tmp = {
+}, C.z13 = (_tmp = {
     x: 0
-}, swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C) = swcHelpers.extends({}, _tmp), C.z13 = _tmp, C.z14 = swcHelpers.set(swcHelpers.getPrototypeOf(C.prototype), "a", swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C) + 1, C, !0), C.z15 = swcHelpers.set(swcHelpers.getPrototypeOf(C.prototype), "a", swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C) - 1, C, !0), C.z16 = swcHelpers.set(swcHelpers.getPrototypeOf(C.prototype), _ref = "a", swcHelpers.get(swcHelpers.getPrototypeOf(C), _ref, C) + 1, C, !0), swcHelpers.set(swcHelpers.getPrototypeOf(C.prototype), "a", (_super_a = +swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C)) + 1, C, !0), C.z17 = _super_a, C.z18 = swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C)``;
+}, swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C) = swcHelpers.extends({}, _tmp), _tmp), C.z14 = swcHelpers.set(swcHelpers.getPrototypeOf(C.prototype), "a", swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C) + 1, C, !0), C.z15 = swcHelpers.set(swcHelpers.getPrototypeOf(C.prototype), "a", swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C) - 1, C, !0), C.z16 = swcHelpers.set(swcHelpers.getPrototypeOf(C.prototype), _ref = "a", swcHelpers.get(swcHelpers.getPrototypeOf(C), _ref, C) + 1, C, !0), C.z17 = (swcHelpers.set(swcHelpers.getPrototypeOf(C.prototype), "a", (_super_a = +swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C)) + 1, C, !0), _super_a), C.z18 = swcHelpers.get(swcHelpers.getPrototypeOf(C), "a", C)``;

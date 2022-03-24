@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== "production") {
-    var _assign = require("object-assign");
+    var _assign = require('object-assign');
     // TODO: this is special because it gets imported during build.
     var ReactVersion;
     // ATTENTION

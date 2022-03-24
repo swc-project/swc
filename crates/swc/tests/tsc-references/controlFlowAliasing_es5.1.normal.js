@@ -40,13 +40,13 @@ function f14(x) {
     return notUndefined ? x : 0;
 }
 function f15(obj1) {
-    var isString = typeof obj1.x === 'string';
+    var isString = typeof obj1.x === "string";
     if (isString) {
         var s = obj1.x;
     }
 }
 function f16(obj2) {
-    var isString = typeof obj2.x === 'string';
+    var isString = typeof obj2.x === "string";
     obj2 = {
         x: 42
     };
@@ -55,13 +55,13 @@ function f16(obj2) {
     }
 }
 function f17(obj3) {
-    var isString = typeof obj3[0] === 'string';
+    var isString = typeof obj3[0] === "string";
     if (isString) {
         var s = obj3[0];
     }
 }
 function f18(obj4) {
-    var isString = typeof obj4[0] === 'string';
+    var isString = typeof obj4[0] === "string";
     obj4 = [
         42
     ];
@@ -70,7 +70,7 @@ function f18(obj4) {
     }
 }
 function f20(obj5) {
-    var isFoo = obj5.kind === 'foo';
+    var isFoo = obj5.kind === "foo";
     if (isFoo) {
         obj5.foo;
     } else {
@@ -78,7 +78,7 @@ function f20(obj5) {
     }
 }
 function f21(obj6) {
-    var isFoo = obj6.kind === 'foo';
+    var isFoo = obj6.kind === "foo";
     if (isFoo) {
         obj6.foo; // Not narrowed because isFoo has type annotation
     } else {
@@ -86,7 +86,7 @@ function f21(obj6) {
     }
 }
 function f22(obj7) {
-    var isFoo = obj7.kind === 'foo';
+    var isFoo = obj7.kind === "foo";
     if (isFoo) {
         obj7.foo; // Not narrowed because isFoo is mutable
     } else {
@@ -94,7 +94,7 @@ function f22(obj7) {
     }
 }
 function f23(obj8) {
-    var isFoo = obj8.kind === 'foo';
+    var isFoo = obj8.kind === "foo";
     obj8 = obj8;
     if (isFoo) {
         obj8.foo; // Not narrowed because obj is assigned in function body
@@ -104,7 +104,7 @@ function f23(obj8) {
 }
 function f24(arg) {
     var obj9 = arg;
-    var isFoo = obj9.kind === 'foo';
+    var isFoo = obj9.kind === "foo";
     if (isFoo) {
         obj9.foo;
     } else {
@@ -113,7 +113,7 @@ function f24(arg) {
 }
 function f25(arg) {
     var obj10 = arg;
-    var isFoo = obj10.kind === 'foo';
+    var isFoo = obj10.kind === "foo";
     if (isFoo) {
         obj10.foo; // Not narrowed because obj is mutable
     } else {
@@ -121,7 +121,7 @@ function f25(arg) {
     }
 }
 function f26(outer) {
-    var isFoo = outer.obj.kind === 'foo';
+    var isFoo = outer.obj.kind === "foo";
     if (isFoo) {
         outer.obj.foo;
     } else {
@@ -129,7 +129,7 @@ function f26(outer) {
     }
 }
 function f27(outer) {
-    var isFoo = outer.obj.kind === 'foo';
+    var isFoo = outer.obj.kind === "foo";
     if (isFoo) {
         outer.obj.foo; // Not narrowed because obj is mutable
     } else {
@@ -137,8 +137,8 @@ function f27(outer) {
     }
 }
 function f28(obj11) {
-    var isFoo = obj11 && obj11.kind === 'foo';
-    var isBar = obj11 && obj11.kind === 'bar';
+    var isFoo = obj11 && obj11.kind === "foo";
+    var isBar = obj11 && obj11.kind === "bar";
     if (isFoo) {
         obj11.foo;
     }
@@ -149,7 +149,7 @@ function f28(obj11) {
 // Narrowing by aliased discriminant property access
 function f30(obj12) {
     var kind = obj12.kind;
-    if (kind === 'foo') {
+    if (kind === "foo") {
         obj12.foo;
     } else {
         obj12.bar;
@@ -157,7 +157,7 @@ function f30(obj12) {
 }
 function f31(obj13) {
     var kind = obj13.kind;
-    if (kind === 'foo') {
+    if (kind === "foo") {
         obj13.foo;
     } else {
         obj13.bar;
@@ -165,7 +165,7 @@ function f31(obj13) {
 }
 function f32(obj14) {
     var k = obj14.kind;
-    if (k === 'foo') {
+    if (k === "foo") {
         obj14.foo;
     } else {
         obj14.bar;
@@ -174,10 +174,10 @@ function f32(obj14) {
 function f33(obj15) {
     var kind = obj15.kind;
     switch(kind){
-        case 'foo':
+        case "foo":
             obj15.foo;
             break;
-        case 'bar':
+        case "bar":
             obj15.bar;
             break;
     }
@@ -186,8 +186,8 @@ var C10 = function C10(x) {
     "use strict";
     swcHelpers.classCallCheck(this, C10);
     this.x = x;
-    var thisX_isString = typeof this.x === 'string';
-    var xIsString = typeof x === 'string';
+    var thisX_isString = typeof this.x === "string";
+    var xIsString = typeof x === "string";
     if (thisX_isString && xIsString) {
         var s;
         s = this.x;
@@ -198,8 +198,8 @@ var C11 = function C11(x) {
     "use strict";
     swcHelpers.classCallCheck(this, C11);
     this.x = x;
-    var thisX_isString = typeof this.x === 'string';
-    var xIsString = typeof x === 'string';
+    var thisX_isString = typeof this.x === "string";
+    var xIsString = typeof x === "string";
     if (thisX_isString && xIsString) {
         // Some narrowings may be invalidated due to later assignments.
         var s;
@@ -213,13 +213,13 @@ var C11 = function C11(x) {
 // Mixing of aliased discriminants and conditionals
 function f40(obj16) {
     var kind = obj16.kind;
-    var isFoo = kind == 'foo';
+    var isFoo = kind == "foo";
     if (isFoo && obj16.foo) {
         var t = obj16.foo;
     }
 }
 function gg2(obj17) {
-    if (obj17.kind === 'str') {
+    if (obj17.kind === "str") {
         var t = obj17.payload;
     } else {
         var t4 = obj17.payload;
@@ -227,7 +227,7 @@ function gg2(obj17) {
 }
 function foo(param) {
     var kind = param.kind, payload = param.payload;
-    if (kind === 'str') {
+    if (kind === "str") {
         var t = payload;
     } else {
         var t5 = payload;

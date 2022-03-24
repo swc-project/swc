@@ -27,4 +27,4 @@ class Derived extends Base {
     }
 }
 var x, y, d2, d = new Derived(y);
-d.a, d.b(y), d.c, d.d, d.c = y, Derived.r, Derived.s(y), Derived.t, Derived.u, Derived.t = y, d2[""], d2[1];
+d.a, d.b(y), d.c, d.d, d.c = y, Derived.r, Derived.s(y), Derived.t, Derived.u, Derived.t = y, d2[''], d2[1];

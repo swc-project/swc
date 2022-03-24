@@ -41,11 +41,7 @@
           "ctxt": 0
         },
         "value": "mongoose",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'mongoose'"
       },
       "typeOnly": false,
       "asserts": null
@@ -127,11 +123,7 @@
           "ctxt": 0
         },
         "value": "@typegoose/typegoose",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'@typegoose/typegoose'"
       },
       "typeOnly": false,
       "asserts": null
@@ -173,11 +165,7 @@
           "ctxt": 0
         },
         "value": "@typegoose/typegoose/lib/defaultClasses",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'@typegoose/typegoose/lib/defaultClasses'"
       },
       "typeOnly": false,
       "asserts": null

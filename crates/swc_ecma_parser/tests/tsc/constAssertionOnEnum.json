@@ -111,11 +111,7 @@
           "ctxt": 0
         },
         "value": "./enum",
-        "hasEscape": false,
-        "kind": {
-          "type": "normal",
-          "containsQuote": true
-        }
+        "raw": "'./enum'"
       },
       "typeOnly": false,
       "asserts": null

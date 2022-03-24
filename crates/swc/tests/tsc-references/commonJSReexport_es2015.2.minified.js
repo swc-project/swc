@@ -4,6 +4,6 @@ const hardline = {
 module.exports = {
     hardline
 }, module.exports = {
-    nested: require("./first")
+    nested: require('./first')
 };
-const { hardline  } = require("./second").nested;
+const { hardline  } = require('./second').nested;

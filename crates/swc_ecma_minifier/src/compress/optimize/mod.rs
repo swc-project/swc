@@ -3,6 +3,7 @@
 use std::{fmt::Write, iter::once, mem::take};
 
 use retain_mut::RetainMut;
+use rustc_hash::FxHashMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned,
@@ -81,6 +82,7 @@ where
         label: Default::default(),
         mode,
         debug_infinite_loop,
+        functions: Default::default(),
     }
 }
 
@@ -215,6 +217,8 @@ struct Optimizer<'a, M> {
     mode: &'a M,
 
     debug_infinite_loop: bool,
+
+    functions: FxHashMap<Id, FnMetadata>,
 }
 
 impl<M> Repeated for Optimizer<'_, M> {
@@ -224,6 +228,23 @@ impl<M> Repeated for Optimizer<'_, M> {
 
     fn reset(&mut self) {
         self.changed = false;
+    }
+}
+
+#[derive(Debug, Clone, Copy)]
+struct FnMetadata {
+    len: usize,
+}
+
+impl From<&Function> for FnMetadata {
+    fn from(f: &Function) -> Self {
+        FnMetadata {
+            len: f
+                .params
+                .iter()
+                .filter(|p| matches!(&p.pat, Pat::Ident(..) | Pat::Array(..) | Pat::Object(..)))
+                .count(),
+        }
     }
 }
 
@@ -251,14 +272,16 @@ where
                     if let Expr::Lit(Lit::Str(v)) = &**expr {
                         directive_count += 1;
 
-                        if v.value == *"use strict" && !v.has_escape {
-                            child_ctx.in_strict = true;
-                        }
-
-                        if v.value == *"use asm" && !v.has_escape {
-                            child_ctx.in_asm = true;
-                            self.ctx.in_asm = true;
-                            use_asm = true;
+                        match &v.raw {
+                            Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
+                                child_ctx.in_strict = true;
+                            }
+                            Some(value) if value == "\"use asm\"" || value == "'use asm'" => {
+                                child_ctx.in_asm = true;
+                                self.ctx.in_asm = true;
+                                use_asm = true;
+                            }
+                            _ => {}
                         }
                     }
                 }
@@ -541,15 +564,13 @@ where
 
             let sep = Box::new(Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
+                raw: None,
                 value: separator,
-                has_escape: false,
-                kind: Default::default(),
             })));
             let mut res = Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
+                raw: None,
                 value: js_word!(""),
-                has_escape: false,
-                kind: Default::default(),
             }));
 
             fn add(to: &mut Expr, right: Box<Expr>) {
@@ -616,9 +637,8 @@ where
         self.changed = true;
         *e = Expr::Lit(Lit::Str(Str {
             span: call.span,
+            raw: None,
             value: res.into(),
-            has_escape: false,
-            kind: Default::default(),
         }))
     }
 
@@ -1955,6 +1975,10 @@ where
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        self.functions
+            .entry(f.ident.to_id())
+            .or_insert_with(|| FnMetadata::from(&f.function));
+
         if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
             self.drop_unused_params(&mut f.function.params);
         }
@@ -1964,6 +1988,12 @@ where
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
+        if let Some(ident) = &e.ident {
+            self.functions
+                .entry(ident.to_id())
+                .or_insert_with(|| FnMetadata::from(&e.function));
+        }
+
         if !self.options.keep_fnames {
             self.remove_name_if_not_used(&mut e.ident);
         }
@@ -2020,8 +2050,6 @@ where
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         self.with_ctx(ctx).optimize_init_of_for_stmt(s);
-
-        self.with_ctx(ctx).drop_if_break(s);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2536,11 +2564,9 @@ where
         // Skip if `use asm` exists.
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
             Some(Stmt::Expr(stmt)) => match &*stmt.expr {
-                Expr::Lit(Lit::Str(Str {
-                    value,
-                    has_escape: false,
-                    ..
-                })) => &**value == "use asm",
+                Expr::Lit(Lit::Str(Str { raw, .. })) => {
+                    matches!(raw, Some(value) if value == "\"use asm\"" || value == "'use asm'")
+                }
                 _ => false,
             },
             _ => false,
@@ -2578,8 +2604,6 @@ where
 
     fn visit_mut_str(&mut self, s: &mut Str) {
         s.visit_mut_children_with(self);
-
-        s.kind = Default::default()
     }
 
     fn visit_mut_super_prop_expr(&mut self, n: &mut SuperPropExpr) {

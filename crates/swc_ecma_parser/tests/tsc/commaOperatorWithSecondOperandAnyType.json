@@ -958,11 +958,7 @@
               "ctxt": 0
             },
             "value": "string",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"string\""
           },
           {
             "type": "ArrayExpression",
@@ -1037,11 +1033,7 @@
                   "ctxt": 0
                 },
                 "value": "string",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"string\""
               },
               "property": {
                 "type": "Identifier",
@@ -1158,11 +1150,7 @@
                     "ctxt": 0
                   },
                   "value": "any",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"any\""
                 }
               }
             ],
@@ -1446,11 +1434,7 @@
                     "ctxt": 0
                   },
                   "value": "string",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"string\""
                 },
                 {
                   "type": "NullLiteral",
@@ -1532,11 +1516,7 @@
                         "ctxt": 0
                       },
                       "value": "string",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"string\""
                     },
                     "property": {
                       "type": "Identifier",
@@ -1662,11 +1642,7 @@
                           "ctxt": 0
                         },
                         "value": "any",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"any\""
                       }
                     }
                   ],

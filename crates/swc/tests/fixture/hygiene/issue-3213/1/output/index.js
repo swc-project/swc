@@ -1,7 +1,7 @@
 function f() {
-    var value$22 = 'original string';
+    var value$22 = "original string";
     if (true) {
-        var value$21 = 'new string';
+        var value$21 = "new string";
         console.log(value$22);
     }
     [].map(function x(_) {

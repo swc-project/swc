@@ -13127,11 +13127,7 @@
                                     "ctxt": 0
                                   },
                                   "value": "__missing",
-                                  "hasEscape": false,
-                                  "kind": {
-                                    "type": "normal",
-                                    "containsQuote": true
-                                  }
+                                  "raw": "\"__missing\""
                                 }
                               }
                             },

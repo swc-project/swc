@@ -165,11 +165,7 @@
                 "ctxt": 0
               },
               "value": "__@iterator",
-              "hasEscape": false,
-              "kind": {
-                "type": "normal",
-                "containsQuote": true
-              }
+              "raw": "\"__@iterator\""
             },
             "computed": false,
             "optional": false,

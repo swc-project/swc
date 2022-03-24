@@ -42,11 +42,7 @@
               "ctxt": 0
             },
             "value": "test",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "\"test\""
           },
           "definite": false
         }
@@ -549,6 +545,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -609,11 +607,7 @@
             "ctxt": 0
           },
           "value": "./expString",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./expString'"
         }
       }
     },
@@ -710,11 +704,7 @@
             "ctxt": 0
           },
           "value": "./expNumber",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./expNumber'"
         }
       }
     },
@@ -811,11 +801,7 @@
             "ctxt": 0
           },
           "value": "./expBoolean",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./expBoolean'"
         }
       }
     },
@@ -912,11 +898,7 @@
             "ctxt": 0
           },
           "value": "./expArray",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./expArray'"
         }
       }
     },
@@ -1041,11 +1023,7 @@
             "ctxt": 0
           },
           "value": "./expObject",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./expObject'"
         }
       }
     },
@@ -1152,11 +1130,7 @@
             "ctxt": 0
           },
           "value": "./expAny",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./expAny'"
         }
       }
     },
@@ -1237,11 +1211,7 @@
             "ctxt": 0
           },
           "value": "./expGeneric",
-          "hasEscape": false,
-          "kind": {
-            "type": "normal",
-            "containsQuote": true
-          }
+          "raw": "'./expGeneric'"
         }
       }
     },
@@ -1384,6 +1354,8 @@
                             "value": "x",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": null,
                           "default": null
                         }

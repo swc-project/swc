@@ -49,6 +49,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -294,6 +296,8 @@
                       "value": "T",
                       "optional": false
                     },
+                    "in": false,
+                    "out": false,
                     "constraint": null,
                     "default": null
                   }
@@ -532,6 +536,8 @@
                         "value": "T",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     }
@@ -949,6 +955,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1045,11 +1053,7 @@
                       "ctxt": 0
                     },
                     "value": "./foo",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"./foo\""
                   },
                   "qualifier": null,
                   "typeArguments": {
@@ -1275,11 +1279,7 @@
                       "ctxt": 0
                     },
                     "value": "./foo2",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"./foo2\""
                   },
                   "qualifier": {
                     "type": "TsQualifiedName",
@@ -1396,11 +1396,7 @@
                       "ctxt": 0
                     },
                     "value": "",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"\""
                   }
                 },
                 {
@@ -1819,6 +1815,8 @@
                 "value": "T",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             }
@@ -1890,11 +1888,7 @@
                         "ctxt": 0
                       },
                       "value": "./foo2",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"./foo2\""
                     },
                     "qualifier": null,
                     "typeArguments": null

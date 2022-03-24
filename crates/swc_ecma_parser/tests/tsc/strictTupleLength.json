@@ -721,6 +721,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -784,11 +786,7 @@
               "ctxt": 0
             },
             "value": "length",
-            "hasEscape": false,
-            "kind": {
-              "type": "normal",
-              "containsQuote": true
-            }
+            "raw": "'length'"
           }
         }
       }

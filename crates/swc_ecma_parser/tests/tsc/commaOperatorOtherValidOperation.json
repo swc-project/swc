@@ -386,11 +386,7 @@
                     "ctxt": 0
                   },
                   "value": "123",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"123\""
                 }
               }
             ],
@@ -683,6 +679,8 @@
               "value": "T1",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -703,6 +701,8 @@
               "value": "T2",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }

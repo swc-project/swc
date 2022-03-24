@@ -1,2 +1,2 @@
 var x;
-x(), x("hello"), x(x), x(x);
+x(), x('hello'), x(x), x(x);

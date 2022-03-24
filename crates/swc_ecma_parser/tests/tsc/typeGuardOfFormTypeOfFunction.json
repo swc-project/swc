@@ -113,11 +113,7 @@
                   "ctxt": 0
                 },
                 "value": "function",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"function\""
               }
             },
             "consequent": {
@@ -264,11 +260,7 @@
                   "ctxt": 0
                 },
                 "value": "function",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"function\""
               }
             },
             "consequent": {
@@ -415,11 +407,7 @@
                   "ctxt": 0
                 },
                 "value": "function",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"function\""
               }
             },
             "consequent": {
@@ -576,11 +564,7 @@
                   "ctxt": 0
                 },
                 "value": "function",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"function\""
               }
             },
             "consequent": {
@@ -642,6 +626,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -798,11 +784,7 @@
                   "ctxt": 0
                 },
                 "value": "function",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"function\""
               }
             },
             "consequent": {
@@ -967,11 +949,7 @@
                   "ctxt": 0
                 },
                 "value": "function",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"function\""
               }
             },
             "consequent": {
@@ -1163,11 +1141,7 @@
                   "ctxt": 0
                 },
                 "value": "function",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"function\""
               }
             },
             "consequent": {
@@ -1428,11 +1402,7 @@
                   "ctxt": 0
                 },
                 "value": "function",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"function\""
               }
             },
             "consequent": {
@@ -1709,11 +1679,7 @@
                   "ctxt": 0
                 },
                 "value": "function",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"function\""
               }
             },
             "consequent": {
@@ -2078,11 +2044,7 @@
                         "ctxt": 0
                       },
                       "value": "function",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "'function'"
                     }
                   },
                   "consequent": {
@@ -2179,6 +2141,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           },
@@ -2199,6 +2163,8 @@
               "value": "K",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {

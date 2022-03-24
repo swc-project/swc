@@ -365,11 +365,7 @@
                     "ctxt": 0
                   },
                   "value": "./lib",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'./lib'"
                 }
               }
             ],

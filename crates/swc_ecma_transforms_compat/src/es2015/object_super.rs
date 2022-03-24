@@ -188,10 +188,9 @@ impl SuperReplacer {
             SuperProp::Ident(Ident {
                 sym: value, span, ..
             }) => Box::new(Expr::Lit(Lit::Str(Str {
-                span,
+                raw: None,
                 value,
-                has_escape: false,
-                kind: Default::default(),
+                span,
             }))),
 
             SuperProp::Computed(ComputedPropName { expr, .. }) => expr,

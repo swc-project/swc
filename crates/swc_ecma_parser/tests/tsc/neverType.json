@@ -313,11 +313,7 @@
                       "ctxt": 0
                     },
                     "value": "Something failed",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"Something failed\""
                   }
                 }
               ],
@@ -687,11 +683,7 @@
                         "ctxt": 0
                       },
                       "value": "up",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"up\""
                     }
                   },
                   {
@@ -709,11 +701,7 @@
                         "ctxt": 0
                       },
                       "value": "down",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"down\""
                     }
                   }
                 ]
@@ -769,11 +757,7 @@
                     "ctxt": 0
                   },
                   "value": "up",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"up\""
                 },
                 "consequent": [
                   {
@@ -810,11 +794,7 @@
                     "ctxt": 0
                   },
                   "value": "down",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"down\""
                 },
                 "consequent": [
                   {
@@ -882,11 +862,7 @@
                       "ctxt": 0
                     },
                     "value": "Should never get here",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"Should never get here\""
                   }
                 }
               ],
@@ -961,11 +937,7 @@
                         "ctxt": 0
                       },
                       "value": "up",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"up\""
                     }
                   },
                   {
@@ -983,11 +955,7 @@
                         "ctxt": 0
                       },
                       "value": "down",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"down\""
                     }
                   }
                 ]
@@ -1050,11 +1018,7 @@
                     "ctxt": 0
                   },
                   "value": "up",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "\"up\""
                 }
               },
               "consequent": {
@@ -1099,11 +1063,7 @@
                       "ctxt": 0
                     },
                     "value": "down",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"down\""
                   }
                 },
                 "consequent": {
@@ -1152,11 +1112,7 @@
                           "ctxt": 0
                         },
                         "value": "Should never get here",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"Should never get here\""
                       }
                     }
                   ],
@@ -1319,11 +1275,7 @@
                         "ctxt": 0
                       },
                       "value": "Undefined value",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"Undefined value\""
                     }
                   }
                 ],
@@ -1360,6 +1312,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1848,11 +1802,7 @@
                   "ctxt": 0
                 },
                 "value": "boolean",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"boolean\""
               }
             },
             "consequent": {
@@ -2042,11 +1992,7 @@
                         "ctxt": 0
                       },
                       "value": "boolean",
-                      "hasEscape": false,
-                      "kind": {
-                        "type": "normal",
-                        "containsQuote": true
-                      }
+                      "raw": "\"boolean\""
                     }
                   },
                   "consequent": {
@@ -2313,11 +2259,7 @@
                       "ctxt": 0
                     },
                     "value": "Error callback",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"Error callback\""
                   }
                 }
               ],
@@ -2375,11 +2317,7 @@
                   "ctxt": 0
                 },
                 "value": "hello",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"hello\""
               },
               "async": false,
               "generator": false,

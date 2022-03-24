@@ -357,27 +357,12 @@ impl<'a, I: Tokens> Parser<I> {
             || (self.input.syntax().typescript() && is_one_of!(self, IdentRef, "await"))
             || is!(self, IdentRef)
         {
-            // TODO: Handle [Yield, Await]
             let id = self.parse_ident_name()?;
-            match id.sym {
-                //                    js_word!("eval") | js_word!("arguments") => {
-                //                        self.emit_err(id.span,
-                // SyntaxError::EvalAndArgumentsInStrict)
-                // }
-                js_word!("yield")
-                | js_word!("static")
-                | js_word!("implements")
-                | js_word!("let")
-                | js_word!("package")
-                | js_word!("private")
-                | js_word!("protected")
-                | js_word!("public") => {
-                    self.emit_strict_mode_err(
-                        self.input.prev_span(),
-                        SyntaxError::InvalidIdentInStrict,
-                    );
-                }
-                _ => {}
+            if id.is_reserved_in_strict_mode(self.ctx().module && !self.ctx().in_declare) {
+                self.emit_strict_mode_err(
+                    self.input.prev_span(),
+                    SyntaxError::InvalidIdentInStrict,
+                );
             }
 
             if can_be_arrow && id.sym == js_word!("async") && is!(self, BindingIdent) {
@@ -398,7 +383,8 @@ impl<'a, I: Tokens> Parser<I> {
                 let arg = Pat::from(ident);
                 let params = vec![arg];
                 expect!(self, "=>");
-                let body = self.parse_fn_body(true, false, params.is_simple_parameter_list())?;
+                let body =
+                    self.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
 
                 return Ok(Box::new(Expr::Arrow(ArrowExpr {
                     span: span!(self, start),
@@ -411,7 +397,8 @@ impl<'a, I: Tokens> Parser<I> {
                 })));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 let params = vec![id.into()];
-                let body = self.parse_fn_body(false, false, params.is_simple_parameter_list())?;
+                let body =
+                    self.parse_fn_body(false, false, true, params.is_simple_parameter_list())?;
 
                 return Ok(Box::new(Expr::Arrow(ArrowExpr {
                     span: span!(self, start),
@@ -679,10 +666,12 @@ impl<'a, I: Tokens> Parser<I> {
             is_direct_child_of_cond: false,
             ..self.ctx()
         };
+
         let paren_items = self
             .with_ctx(ctx)
             .include_in_expr(true)
             .parse_args_or_pats()?;
+
         let has_pattern = paren_items
             .iter()
             .any(|item| matches!(item, PatOrExprOrSpread::Pat(..)));
@@ -690,7 +679,11 @@ impl<'a, I: Tokens> Parser<I> {
         let is_direct_child_of_cond = self.ctx().is_direct_child_of_cond;
 
         // This is slow path. We handle arrow in conditional expression.
-        if self.syntax().typescript() && self.ctx().in_cond_expr && is!(self, ':') {
+        if self.syntax().typescript()
+            && self.ctx().in_cond_expr
+            && !self.ctx().in_arrow_function
+            && is!(self, ':')
+        {
             // TODO: Remove clone
             let items_ref = &paren_items;
             if let Some(expr) = self.try_parse_ts(|p| {
@@ -706,6 +699,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let body: BlockStmtOrExpr = p.parse_fn_body(
                     async_span.is_some(),
                     false,
+                    true,
                     params.is_simple_parameter_list(),
                 )?;
 
@@ -760,6 +754,7 @@ impl<'a, I: Tokens> Parser<I> {
             let body: BlockStmtOrExpr = self.parse_fn_body(
                 async_span.is_some(),
                 false,
+                true,
                 params.is_simple_parameter_list(),
             )?;
             let arrow_expr = ArrowExpr {
@@ -950,42 +945,11 @@ impl<'a, I: Tokens> Parser<I> {
 
         let (raw, cooked) = match *cur!(self, true)? {
             Token::Template { .. } => match bump!(self) {
-                Token::Template {
-                    raw,
-                    cooked,
-                    has_escape,
-                } => match cooked {
-                    Ok(cooked) => (
-                        Str {
-                            span: span!(self, start),
-                            value: raw,
-                            has_escape,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
-                        },
-                        Some(Str {
-                            span: span!(self, start),
-                            value: cooked,
-                            has_escape,
-                            kind: StrKind::Normal {
-                                contains_quote: false,
-                            },
-                        }),
-                    ),
+                Token::Template { raw, cooked, .. } => match cooked {
+                    Ok(cooked) => (raw, Some(cooked)),
                     Err(err) => {
                         if is_tagged_tpl {
-                            (
-                                Str {
-                                    span: span!(self, start),
-                                    value: raw,
-                                    has_escape,
-                                    kind: StrKind::Normal {
-                                        contains_quote: false,
-                                    },
-                                },
-                                None,
-                            )
+                            (raw, None)
                         } else {
                             return Err(err);
                         }
@@ -995,7 +959,9 @@ impl<'a, I: Tokens> Parser<I> {
             },
             _ => unexpected!(self, "template token"),
         };
+
         let tail = is!(self, '`');
+
         Ok(TplElement {
             span: span!(self, start),
             raw,
@@ -1749,7 +1715,7 @@ impl<'a, I: Tokens> Parser<I> {
                     .collect();
 
                 let body: BlockStmtOrExpr =
-                    self.parse_fn_body(false, false, params.is_simple_parameter_list())?;
+                    self.parse_fn_body(false, false, true, params.is_simple_parameter_list())?;
                 let span = span!(self, start);
 
                 items.push(PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
@@ -1855,13 +1821,10 @@ impl<'a, I: Tokens> Parser<I> {
                 Lit::Bool(Bool { span, value })
             }
             Token::Str { .. } => match bump!(self) {
-                Token::Str { value, has_escape } => Lit::Str(Str {
+                Token::Str { value, raw } => Lit::Str(Str {
                     span: span!(self, start),
                     value,
-                    has_escape,
-                    kind: StrKind::Normal {
-                        contains_quote: true,
-                    },
+                    raw: Some(raw),
                 }),
                 _ => unreachable!(),
             },

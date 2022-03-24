@@ -756,11 +756,7 @@
                                 "ctxt": 0
                               },
                               "value": "hello",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"hello\""
                             }
                           }
                         }
@@ -873,11 +869,7 @@
                                 "ctxt": 0
                               },
                               "value": "hello",
-                              "hasEscape": false,
-                              "kind": {
-                                "type": "normal",
-                                "containsQuote": true
-                              }
+                              "raw": "\"hello\""
                             }
                           }
                         }

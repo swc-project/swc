@@ -1,3 +1,3 @@
 import * as swcHelpers from "@swc/helpers";
 import Main from "mod";
-Foo, swcHelpers.extends({}, Main);
+Foo, Foo, swcHelpers.extends({}, Main);

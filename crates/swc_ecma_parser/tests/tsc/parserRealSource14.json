@@ -2562,11 +2562,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "Invalid call to 'up'",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"Invalid call to 'up'\""
                                   }
                                 }
                               ],
@@ -2805,11 +2801,7 @@
                                       "ctxt": 0
                                     },
                                     "value": "Invalid call to 'down'",
-                                    "hasEscape": false,
-                                    "kind": {
-                                      "type": "normal",
-                                      "containsQuote": true
-                                    }
+                                    "raw": "\"Invalid call to 'down'\""
                                   }
                                 }
                               ],

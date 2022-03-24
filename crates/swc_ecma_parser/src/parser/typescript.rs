@@ -3,7 +3,7 @@ use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
 use super::*;
-use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList};
+use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList, token::Keyword};
 
 impl<I: Tokens> Parser<I> {
     /// `tsNextTokenCanFollowModifier`
@@ -17,12 +17,7 @@ impl<I: Tokens> Parser<I> {
         // hasLineBreakUpNext() method...
         bump!(self);
         Ok(!self.input.had_line_break_before_cur()
-            && !is!(self, '(')
-            && !is!(self, ')')
-            && !is!(self, ':')
-            && !is!(self, '=')
-            && !is!(self, '?')
-            && !is!(self, '!'))
+            && is_one_of!(self, '[', '{', '*', "...", '#', IdentName, Str, Num, BigInt))
     }
 
     /// Parses a modifier matching one the given modifier names.
@@ -39,7 +34,9 @@ impl<I: Tokens> Parser<I> {
 
         let pos = {
             let modifier = match *cur!(self, true)? {
-                Token::Word(Word::Ident(ref w)) => w,
+                Token::Word(ref w @ Word::Ident(..))
+                | Token::Word(ref w @ Word::Keyword(Keyword::In)) => w.cow(),
+
                 _ => return Ok(None),
             };
 
@@ -297,13 +294,10 @@ impl<I: Tokens> Parser<I> {
 
         let arg = match cur!(self, true)? {
             Token::Str { .. } => match bump!(self) {
-                Token::Str { value, has_escape } => Str {
+                Token::Str { value, raw } => Str {
                     span: arg_span,
                     value,
-                    has_escape,
-                    kind: StrKind::Normal {
-                        contains_quote: true,
-                    },
+                    raw: Some(raw),
                 },
                 _ => unreachable!(),
             },
@@ -313,8 +307,7 @@ impl<I: Tokens> Parser<I> {
                 Str {
                     span: arg_span,
                     value: "".into(),
-                    has_escape: false,
-                    kind: Default::default(),
+                    raw: Some("\"\"".into()),
                 }
             }
         };
@@ -374,7 +367,48 @@ impl<I: Tokens> Parser<I> {
     fn parse_ts_type_param(&mut self) -> PResult<TsTypeParam> {
         debug_assert!(self.input.syntax().typescript());
 
+        let mut is_in = false;
+        let mut is_out = false;
+
         let start = cur_pos!(self);
+
+        while let Some(modifer) = self.parse_ts_modifier(
+            &[
+                "public",
+                "private",
+                "protected",
+                "readonly",
+                "abstract",
+                "const",
+                "override",
+                "in",
+                "out",
+            ],
+            false,
+        )? {
+            match modifer {
+                "in" => {
+                    if is_in {
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("in")));
+                    } else if is_out {
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1029(js_word!("in"), js_word!("out")),
+                        );
+                    } else {
+                        is_in = true;
+                    }
+                }
+                "out" => {
+                    if is_out {
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("out")));
+                    } else {
+                        is_out = true;
+                    }
+                }
+                other => self.emit_err(self.input.prev_span(), SyntaxError::TS1273(other.into())),
+            };
+        }
 
         let name = self.in_type().parse_ident_name()?;
         let constraint = self.eat_then_parse_ts_type(&tok!("extends"))?;
@@ -383,6 +417,8 @@ impl<I: Tokens> Parser<I> {
         Ok(TsTypeParam {
             span: span!(self, start),
             name,
+            is_in,
+            is_out,
             constraint,
             default,
         })
@@ -660,6 +696,7 @@ impl<I: Tokens> Parser<I> {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
             })?,
+            // TODO we need `raw` for `Num` token too
             Token::Num(v) => {
                 bump!(self);
                 let span = span!(self, start);
@@ -667,13 +704,16 @@ impl<I: Tokens> Parser<I> {
                 // Recover from error
                 self.emit_err(span, SyntaxError::TS2452);
 
+                let mut raw = String::new();
+
+                raw.push('"');
+                raw.push_str(&v.to_string());
+                raw.push('"');
+
                 TsEnumMemberId::Str(Str {
                     span,
                     value: v.to_string().into(),
-                    has_escape: false,
-                    kind: StrKind::Normal {
-                        contains_quote: false,
-                    },
+                    raw: Some(raw.into()),
                 })
             }
             Token::LBracket => {
@@ -1523,6 +1563,8 @@ impl<I: Tokens> Parser<I> {
         Ok(TsTypeParam {
             span: span!(self, start),
             name,
+            is_in: false,
+            is_out: false,
             constraint,
             default: None,
         })
@@ -2118,6 +2160,8 @@ impl<I: Tokens> Parser<I> {
         let type_param = TsTypeParam {
             span: type_param_name.span(),
             name: type_param_name,
+            is_in: false,
+            is_out: false,
             constraint: None,
             default: None,
         };
@@ -2514,7 +2558,7 @@ impl<I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let is_generator = false;
             let is_async = true;
-            let body = p.parse_fn_body(true, false, params.is_simple_parameter_list())?;
+            let body = p.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
             Ok(Some(ArrowExpr {
                 span: span!(p, start),
                 body,

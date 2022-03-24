@@ -1,7 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
 import { jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 var Test = function Test(name) {
     "use strict";
     swcHelpers.classCallCheck(this, Test);
@@ -26,7 +26,7 @@ var Test = function Test(name) {
 };
 export default function Parent() {
     useEffect(function() {
-        new Test('name').print('test');
+        new Test("name").print("test");
     }, []);
     return /*#__PURE__*/ _jsx(_Fragment, {});
 };

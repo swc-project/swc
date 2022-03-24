@@ -50,6 +50,8 @@
             "value": "K",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -175,6 +177,8 @@
             "value": "K",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -300,6 +304,8 @@
             "value": "K",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -431,6 +437,8 @@
                 "value": "T",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             }
@@ -461,6 +469,8 @@
               "value": "P",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -842,6 +852,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -878,6 +890,8 @@
               "value": "R",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -908,6 +922,8 @@
             "value": "K",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -1489,6 +1505,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -1519,6 +1537,8 @@
             "value": "K",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -2065,6 +2085,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -2095,6 +2117,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeOperator",
             "span": {
@@ -2247,6 +2271,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -2312,6 +2338,8 @@
               "value": "P",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -2614,6 +2642,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -2652,6 +2682,8 @@
               "value": "P",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -2850,6 +2882,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -2880,6 +2914,8 @@
             "value": "P",
             "optional": false
           },
+          "in": false,
+          "out": false,
           "constraint": {
             "type": "TsTypeReference",
             "span": {
@@ -3031,11 +3067,7 @@
                   "ctxt": 0
                 },
                 "value": "type",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"type\""
               },
               "computed": false,
               "optional": false,
@@ -3063,11 +3095,7 @@
                       "ctxt": 0
                     },
                     "value": "list",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"list\""
                   }
                 }
               },
@@ -3089,11 +3117,7 @@
                   "ctxt": 0
                 },
                 "value": "minimum_count",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"minimum_count\""
               },
               "computed": false,
               "optional": false,
@@ -3134,11 +3158,7 @@
                   "ctxt": 0
                 },
                 "value": "maximum_count",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"maximum_count\""
               },
               "computed": false,
               "optional": false,
@@ -3179,11 +3199,7 @@
                   "ctxt": 0
                 },
                 "value": "collapsable",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"collapsable\""
               },
               "computed": false,
               "optional": true,
@@ -3224,11 +3240,7 @@
                   "ctxt": 0
                 },
                 "value": "each",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"each\""
               },
               "computed": false,
               "optional": false,
@@ -3507,6 +3519,8 @@
                 "value": "T",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             },
@@ -3527,6 +3541,8 @@
                 "value": "K",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": {
                 "type": "TsTypeOperator",
                 "span": {
@@ -3662,6 +3678,8 @@
                       "value": "E",
                       "optional": false
                     },
+                    "in": false,
+                    "out": false,
                     "constraint": null,
                     "default": null
                   }
@@ -3759,6 +3777,8 @@
                 "value": "T",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             },
@@ -3779,6 +3799,8 @@
                 "value": "K",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": {
                 "type": "TsTypeOperator",
                 "span": {
@@ -4076,6 +4098,8 @@
                 "value": "K",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": {
                 "type": "TsTypeOperator",
                 "span": {
@@ -4123,6 +4147,8 @@
                 "value": "ThemeType",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             },
@@ -4143,6 +4169,8 @@
                 "value": "TVal",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": {
                 "type": "TsKeywordType",
@@ -4349,6 +4377,8 @@
                         "value": "E",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     }
@@ -4497,6 +4527,8 @@
                           "value": "F",
                           "optional": false
                         },
+                        "in": false,
+                        "out": false,
                         "constraint": null,
                         "default": null
                       }
@@ -4587,6 +4619,8 @@
                 "value": "T",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": null,
               "default": null
             }
@@ -4643,6 +4677,8 @@
                 "value": "P",
                 "optional": false
               },
+              "in": false,
+              "out": false,
               "constraint": {
                 "type": "TsInferType",
                 "span": {
@@ -4667,6 +4703,8 @@
                     "value": "E",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 }

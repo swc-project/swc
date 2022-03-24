@@ -336,6 +336,8 @@
               "value": "P",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -400,6 +402,8 @@
               "value": "T",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -573,11 +577,7 @@
                           "ctxt": 0
                         },
                         "value": "example",
-                        "hasEscape": false,
-                        "kind": {
-                          "type": "normal",
-                          "containsQuote": true
-                        }
+                        "raw": "\"example\""
                       }
                     }
                   ]
@@ -668,11 +668,7 @@
                       "ctxt": 0
                     },
                     "value": "example",
-                    "hasEscape": false,
-                    "kind": {
-                      "type": "normal",
-                      "containsQuote": true
-                    }
+                    "raw": "\"example\""
                   }
                 }
               ],

@@ -56,7 +56,7 @@ var E = function E(foo2) {
     this.bar = function() {
         return _this.foo1 + _this.foo2;
     };
-    this.foo1 = '';
+    this.foo1 = "";
 };
 var F1 = function F1() {
     "use strict";

@@ -125,9 +125,8 @@ impl VisitMut for ComputedProps {
                                 } else {
                                     Expr::Lit(Lit::Str(Str {
                                         span: ident.span,
+                                        raw: None,
                                         value: ident.sym.clone(),
-                                        has_escape: false,
-                                        kind: Default::default(),
                                     }))
                                 },
                                 false,
@@ -388,10 +387,9 @@ fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
                 Expr::Ident(i)
             } else {
                 Expr::Lit(Lit::Str(Str {
+                    raw: None,
                     value: i.sym,
                     span: i.span,
-                    has_escape: false,
-                    kind: Default::default(),
                 }))
             },
             false,

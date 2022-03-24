@@ -56,11 +56,7 @@
                   "ctxt": 0
                 },
                 "value": "foo",
-                "hasEscape": false,
-                "kind": {
-                  "type": "normal",
-                  "containsQuote": true
-                }
+                "raw": "\"foo\""
               }
             }
           ]
@@ -135,11 +131,7 @@
                     "ctxt": 0
                   },
                   "value": ".",
-                  "hasEscape": false,
-                  "kind": {
-                    "type": "normal",
-                    "containsQuote": true
-                  }
+                  "raw": "'.'"
                 },
                 "definite": false
               }
@@ -224,11 +216,7 @@
                               "ctxt": 0
                             },
                             "value": "/package.json",
-                            "hasEscape": false,
-                            "kind": {
-                              "type": "normal",
-                              "containsQuote": true
-                            }
+                            "raw": "'/package.json'"
                           }
                         }
                       }

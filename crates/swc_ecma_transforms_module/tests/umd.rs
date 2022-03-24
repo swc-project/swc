@@ -38,10 +38,10 @@ test!(
 
 obj[bar('bas')] = '123'",
     "(function(global, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['bar'], factory);
-    } else if (typeof exports !== 'undefined') {
-        factory(require('bar'));
+    if (typeof define === \"function\" && define.amd) {
+        define([\"bar\"], factory);
+    } else if (typeof exports !== \"undefined\") {
+        factory(require(\"bar\"));
     } else {
         var mod = {
             exports: {
@@ -51,7 +51,7 @@ obj[bar('bas')] = '123'",
         global.input = mod.exports;
     }
 })(this, function(_bar) {
-    'use strict';
+    \"use strict\";
     _bar = _interopRequireDefault(_bar);
     obj[(0, _bar).default('bas')] = '123';
 });"
@@ -71,10 +71,10 @@ test!(
 export const bar = { foo }",
     "
   (function(global, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['exports', 'foo'], factory);
-    } else if (typeof exports !== 'undefined') {
-        factory(exports, require('foo'));
+    if (typeof define === \"function\" && define.amd) {
+        define([\"exports\", \"foo\"], factory);
+    } else if (typeof exports !== \"undefined\") {
+        factory(exports, require(\"foo\"));
     } else {
         var mod = {
             exports: {
@@ -84,9 +84,9 @@ export const bar = { foo }",
         global.input = mod.exports;
     }
 })(this, function(_exports, _foo) {
-    'use strict';
+    \"use strict\";
     _foo = _interopRequireDefault(_foo);
-    Object.defineProperty(_exports, '__esModule', {
+    Object.defineProperty(_exports, \"__esModule\", {
         value: true
     });
     _exports.bar = void 0;
@@ -114,9 +114,9 @@ test!(
     r#"export function foo(){}"#,
     r#"
 (function(global, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['exports'], factory);
-    } else if (typeof exports !== 'undefined') {
+    if (typeof define === "function" && define.amd) {
+        define(["exports"], factory);
+    } else if (typeof exports !== "undefined") {
         factory(exports);
     } else {
         var mod = {
@@ -127,7 +127,7 @@ test!(
         global.input = mod.exports;
     }
 })(this, function(_exports) {
-    'use strict';
+    "use strict";
     _exports.foo = foo;
     function foo() {
     }
@@ -152,9 +152,9 @@ test!(
     r#"export function foo(){}"#,
     r#"
 (function(global, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['exports'], factory);
-    } else if (typeof exports !== 'undefined') {
+    if (typeof define === "function" && define.amd) {
+        define(["exports"], factory);
+    } else if (typeof exports !== "undefined") {
         factory(exports);
     } else {
         var mod = {
@@ -165,7 +165,7 @@ test!(
         global.input = mod.exports;
     }
 })(this, function(_exports) {
-    Object.defineProperty(_exports, '__esModule', {
+    Object.defineProperty(_exports, "__esModule", {
         value: true
     });
     _exports.foo = foo;
@@ -193,10 +193,10 @@ test!(
     import bar from 'bar';"#,
     r#"
 (function(global, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['foo', 'bar'], factory);
-    } else if (typeof exports !== 'undefined') {
-        factory(require('foo'), require('bar'));
+    if (typeof define === "function" && define.amd) {
+        define(["foo", "bar"], factory);
+    } else if (typeof exports !== "undefined") {
+        factory(require("foo"), require("bar"));
     } else {
         var mod = {
             exports: {
@@ -206,7 +206,7 @@ test!(
         global.input = mod.exports;
     }
 })(this, function(foo, _bar) {
-    'use strict';
+    "use strict";
 });
 "#
 );
@@ -226,10 +226,10 @@ window.React = React;
   "#,
     r#"
 (function(global, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['react'], factory);
-    } else if (typeof exports !== 'undefined') {
-        factory(require('react'));
+    if (typeof define === "function" && define.amd) {
+        define(["react"], factory);
+    } else if (typeof exports !== "undefined") {
+        factory(require("react"));
     } else {
         var mod = {
             exports: {
@@ -239,7 +239,7 @@ window.React = React;
         global.input = mod.exports;
     }
 })(this, function(_react) {
-    'use strict';
+    "use strict";
     _react = _interopRequireDefault(_react);
     window.React = _react.default;
 });
@@ -1806,10 +1806,10 @@ export const foo = function () {
 }();",
     "\
 (function(global, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['exports', 'path'], factory);
-    } else if (typeof exports !== 'undefined') {
-        factory(exports, require('path'));
+    if (typeof define === \"function\" && define.amd) {
+        define([\"exports\", \"path\"], factory);
+    } else if (typeof exports !== \"undefined\") {
+        factory(exports, require(\"path\"));
     } else {
         var mod = {
             exports: {
@@ -1819,8 +1819,8 @@ export const foo = function () {
         global.input = mod.exports;
     }
 })(this, function(_exports, _path) {
-    'use strict';
-    Object.defineProperty(_exports, '__esModule', {
+    \"use strict\";
+    Object.defineProperty(_exports, \"__esModule\", {
         value: true
     });
     _exports.foo = void 0;
@@ -1849,10 +1849,10 @@ export const foo = function () {
   return A(e, {}), e
 }();",
     "(function(global, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(['exports', 'path'], factory);
-    } else if (typeof exports !== 'undefined') {
-        factory(exports, require('path'));
+    if (typeof define === \"function\" && define.amd) {
+        define([\"exports\", \"path\"], factory);
+    } else if (typeof exports !== \"undefined\") {
+        factory(exports, require(\"path\"));
     } else {
         var mod = {
             exports: {
@@ -1862,8 +1862,8 @@ export const foo = function () {
         global.input = mod.exports;
     }
 })(this, function(_exports, _path) {
-    'use strict';
-    Object.defineProperty(_exports, '__esModule', {
+    \"use strict\";
+    Object.defineProperty(_exports, \"__esModule\", {
         value: true
     });
     _exports.foo = void 0;

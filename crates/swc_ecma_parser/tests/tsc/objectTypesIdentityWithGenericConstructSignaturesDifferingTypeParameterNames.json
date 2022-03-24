@@ -148,6 +148,8 @@
               "value": "U",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -298,6 +300,8 @@
               "value": "V",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -349,6 +353,8 @@
               "value": "X",
               "optional": false
             },
+            "in": false,
+            "out": false,
             "constraint": null,
             "default": null
           }
@@ -623,6 +629,8 @@
                     "value": "Y",
                     "optional": false
                   },
+                  "in": false,
+                  "out": false,
                   "constraint": null,
                   "default": null
                 }
@@ -799,6 +807,8 @@
                             "value": "Z",
                             "optional": false
                           },
+                          "in": false,
+                          "out": false,
                           "constraint": null,
                           "default": null
                         }
@@ -1023,6 +1033,8 @@
                         "value": "A",
                         "optional": false
                       },
+                      "in": false,
+                      "out": false,
                       "constraint": null,
                       "default": null
                     }
