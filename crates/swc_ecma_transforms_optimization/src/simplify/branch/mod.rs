@@ -1142,6 +1142,10 @@ impl Remover {
                             new_stmts.extend(hoisted_fns);
 
                             *stmts = new_stmts;
+
+                            if cfg!(feature = "debug") {
+                                debug!("Dropping statements after a control keyword");
+                            }
                             return;
                         }
 
