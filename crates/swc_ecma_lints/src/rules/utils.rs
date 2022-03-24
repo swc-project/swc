@@ -1,8 +1,6 @@
-use std::{fmt::Debug, sync::Arc};
-
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, SourceMap, Span, SyntaxContext};
+use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::{
     Expr, Id, Lit, MemberExpr, MemberProp, Number, ParenExpr, Regex, SeqExpr, Str, TaggedTpl, Tpl,
 };
@@ -55,26 +53,16 @@ pub enum ArgValue {
 }
 
 pub fn extract_arg_val(
-    source_map: &Arc<SourceMap>,
     top_level_ctxt: &SyntaxContext,
     top_level_declared_vars: &AHashSet<Id>,
     expr: &Expr,
     check_parens: bool,
 ) -> ArgValue {
-    fn extract_value_from_tpl(source_map: &Arc<SourceMap>, span: &Span) -> JsWord {
-        let source = source_map.lookup_byte_offset(span.lo);
-        let lo = (span.lo.0 as usize) + 1;
-        let hi = (span.hi.0 as usize) - 1;
-
-        JsWord::from(&source.sf.src[lo..hi])
-    }
-
     match expr {
         Expr::Ident(_) => ArgValue::Ident,
         Expr::Paren(ParenExpr { expr, .. }) => {
             if check_parens {
                 extract_arg_val(
-                    source_map,
                     top_level_ctxt,
                     top_level_declared_vars,
                     expr.as_ref(),
@@ -90,16 +78,16 @@ pub fn extract_arg_val(
             exp: exp.clone(),
             flags: flags.clone(),
         },
-        Expr::Tpl(Tpl { span, exprs, .. }) => {
+        Expr::Tpl(Tpl { exprs, quasis, .. }) => {
             if exprs.is_empty() {
-                ArgValue::Str(extract_value_from_tpl(source_map, span))
+                ArgValue::Str(quasis.first().unwrap().raw.clone())
             } else {
                 ArgValue::Other
             }
         }
         Expr::TaggedTpl(TaggedTpl {
             tag,
-            tpl: Tpl { span, exprs, .. },
+            tpl: Tpl { exprs, quasis, .. },
             ..
         }) => {
             if exprs.is_empty() {
@@ -121,7 +109,7 @@ pub fn extract_arg_val(
                             return ArgValue::Other;
                         }
 
-                        return ArgValue::Str(extract_value_from_tpl(source_map, span));
+                        return ArgValue::Str(quasis.first().unwrap().raw.clone());
                     }
                 }
             }
