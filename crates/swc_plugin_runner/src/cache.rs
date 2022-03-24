@@ -92,16 +92,18 @@ fn create_filesystem_cache(filesystem_cache_root: &Option<String>) -> Option<Fil
 ///
 /// If cache failed to initialize filesystem cache for given location
 /// it'll be serve in-memory cache only.
+#[cfg(feature = "filesystem_cache")]
 pub fn init_plugin_module_cache_once(filesystem_cache_root: &Option<String>) {
-    #[cfg(feature = "filesystem_cache")]
     PLUGIN_MODULE_CACHE.inner.get_or_init(|| {
         Mutex::new(CacheInner {
             fs_cache: create_filesystem_cache(filesystem_cache_root),
             loaded_module_bytes: Default::default(),
         })
     });
+}
 
-    #[cfg(target_arch = "wasm32")]
+#[cfg(feature = "memory_cache")]
+pub fn init_plugin_module_cache_once() {
     PLUGIN_MODULE_CACHE.inner.get_or_init(|| {
         Mutex::new(CacheInner {
             loaded_module_bytes: Default::default(),
@@ -185,22 +187,27 @@ impl PluginModuleCache {
         Ok(module)
     }
 
-    #[cfg(target_arch = "wasm32")]
+    #[cfg(feature = "memory_cache")]
     pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
         let binary_path = binary_path.to_path_buf();
         let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
 
-        // if constructed Module is available in-memory, directly return it.
-        // Note we do not invalidate in-memory cache currently: if wasm binary is
-        // replaced in-process lifecycle (i.e devserver) it won't be reflected.
-        let in_memory_module_bytes = inner_cache.loaded_module_bytes.get(&binary_path);
-        if let Some(module) = in_memory_module_bytes {
-            //TODO: In native runtime we have to reconstruct module using raw bytes in
-            // memory cache. requires https://github.com/wasmerio/wasmer/pull/2821
-            unimplemented!("Not implemented yet");
-        }
+        // In case of memory_cache, we do not have way to resolve / load modules
+        // externally. Bail out if cache doesn't have corresponding binary.
+        let in_memory_module_bytes = inner_cache
+            .loaded_module_bytes
+            .get(&binary_path)
+            .ok_or_else(|| {
+                anyhow::anyhow!("Could not locate plugin binary {}", binary_path.display())
+            })?;
 
-        unimplemented!("Not implemented yet");
+        //TODO: In native runtime we have to reconstruct module using raw bytes in
+        // memory cache. requires https://github.com/wasmerio/wasmer/pull/2821
+
+        let wasmer_store = Store::default();
+        let module = Module::new(&wasmer_store, in_memory_module_bytes)?;
+
+        Ok(module)
     }
 
     /// An experimental interface to store externally loaded module bytes into
@@ -212,7 +219,7 @@ impl PluginModuleCache {
     ///
     /// This interface is not a public, but also will likely change anytime
     /// while stablizing plugin interface.
-    #[cfg(target_arch = "wasm32")]
+    #[cfg(feature = "memory_cache")]
     pub fn store_once(&self, module_name: &str, module_bytes: Vec<u8>) {
         // We use path as canonical id for the cache
         let binary_path = PathBuf::from(module_name);
