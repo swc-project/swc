@@ -302,7 +302,9 @@ impl VisitMut for CompressDeclaration {
                     }
                 }
                 "padding" | "margin" | "border-width" | "inset" | "scroll-margin"
-                | "scroll-padding"
+                | "scroll-padding" |
+                // TODO compress numbers too
+                "mask-border-outset"
                     if declaration.value.len() > 1 =>
                 {
                     let top = declaration.value.get(0);
