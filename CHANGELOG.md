@@ -10,6 +10,9 @@
 
 - **(es/parser)** Allow arrows without parenthesized param in typescript (#4138) ([ab4ea9f](https://github.com/swc-project/swc/commit/ab4ea9f0cb202d79b3713b9418271b19a64dd23a))
 
+
+- **(es/parser)** Fix logic for consuming ts modifiers (#4137) ([f5ce79a](https://github.com/swc-project/swc/commit/f5ce79a72c947e255830281151c4f7fe14baa45b))
+
 ### Features
 
 
