@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use swc_common::{comments::SingleThreadedComments, Mark};
 use swc_ecma_ast::Id;
 use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
-use swc_ecma_transforms::resolver_with_mark;
+use swc_ecma_transforms_base::resolver::resolver_with_mark;
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
 

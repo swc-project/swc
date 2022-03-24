@@ -15,9 +15,9 @@ use swc_common::{
     Globals,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms::{
-    optimization::simplify::{dead_branch_remover, expr_simplifier, ExprSimplifierConfig},
-    pass::JsPass,
+use swc_ecma_transforms_base::pass::JsPass;
+use swc_ecma_transforms_optimization::simplify::{
+    dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
 };
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
