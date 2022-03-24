@@ -731,7 +731,9 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        match &*name.to_lowercase() {
+        let property_name = &*name.to_lowercase();
+
+        match property_name {
             "appearance" => {
                 same_content!(Prefix::Webkit, "-webkit-appearance");
                 same_content!(Prefix::Moz, "-moz-appearance");
@@ -1379,40 +1381,52 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            "width" | "min-width" | "max-width" | "height" | "min-height" | "max-height"
-            | "inline-size" | "min-inline-size" | "max-inline-size" | "block-size"
-            | "min-block-size" | "max-block-size"
-                if n.value.len() == 1 =>
-            {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
-                        "fit-content" => {
-                            same_name!("-webkit-fit-content");
-                            same_name!("-moz-fit-content");
-                        }
+            "width"
+            | "min-width"
+            | "max-width"
+            | "height"
+            | "min-height"
+            | "max-height"
+            | "inline-size"
+            | "min-inline-size"
+            | "max-inline-size"
+            | "block-size"
+            | "min-block-size"
+            | "max-block-size"
+            | "grid"
+            | "grid-template"
+            | "grid-template-rows"
+            | "grid-template-columns"
+            | "grid-auto-columns"
+            | "grid-auto-rows" => {
+                let is_grid_property = matches!(
+                    property_name,
+                    "grid"
+                        | "grid-template"
+                        | "grid-template-rows"
+                        | "grid-template-columns"
+                        | "grid-auto-columns"
+                        | "grid-auto-rows"
+                );
 
-                        "max-content" => {
-                            same_name!("-webkit-max-content");
-                            same_name!("-moz-max-content");
-                        }
+                replace_ident(&mut webkit_new_value, "fit-content", "-webkit-fit-content");
+                replace_ident(&mut webkit_new_value, "max-content", "-webkit-max-content");
+                replace_ident(&mut webkit_new_value, "min-content", "-webkit-min-content");
+                replace_ident(
+                    &mut webkit_new_value,
+                    "fill-available",
+                    "-webkit-fill-available",
+                );
+                replace_ident(&mut webkit_new_value, "fill", "-webkit-fill-available");
+                replace_ident(&mut webkit_new_value, "stretch", "-webkit-fill-available");
 
-                        "min-content" => {
-                            same_name!("-webkit-min-content");
-                            same_name!("-moz-min-content");
-                        }
-
-                        "fill-available" | "fill" => {
-                            same_name!("-webkit-fill-available");
-                            same_name!("-moz-available");
-                        }
-
-                        "stretch" => {
-                            same_name!("-webkit-fill-available");
-                            same_name!("-moz-available");
-                        }
-
-                        _ => {}
-                    }
+                if !is_grid_property {
+                    replace_ident(&mut moz_new_value, "fit-content", "-moz-fit-content");
+                    replace_ident(&mut moz_new_value, "max-content", "-moz-max-content");
+                    replace_ident(&mut moz_new_value, "min-content", "-moz-min-content");
+                    replace_ident(&mut moz_new_value, "fill-available", "-moz-available");
+                    replace_ident(&mut moz_new_value, "fill", "-moz-available");
+                    replace_ident(&mut moz_new_value, "stretch", "-moz-available");
                 }
             }
 
@@ -1693,7 +1707,7 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Moz, "-moz-border-radius-bottomleft");
             }
 
-            // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid) and https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559 and https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
+            // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {}
         }
