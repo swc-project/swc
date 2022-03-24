@@ -35,6 +35,9 @@
 - **(es/lints)** Improve error messages (#4142) ([0f92eda](https://github.com/swc-project/swc/commit/0f92eda0c78277d3de83ae85cf8a5c04e9c437bf))
 
 
+- **(es/lints)** Implement `no-param-reassign` rule (#4134) ([47712de](https://github.com/swc-project/swc/commit/47712de0da0a923dfebe52ebd98070924303f4d0))
+
+
 - **(es/minifier)** Implement some unsafe evaluation rules (#4133) ([1d3763d](https://github.com/swc-project/swc/commit/1d3763d96c94638bb0828110cc90bd123f96e327))
 
 
