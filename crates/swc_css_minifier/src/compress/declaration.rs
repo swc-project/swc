@@ -8,7 +8,7 @@ pub fn compress_declaration() -> impl VisitMut {
 struct CompressDeclaration {}
 
 impl CompressDeclaration {
-    fn is_same_dimension_length_nodes(
+    fn is_same_length_nodes(
         &self,
         node_1: Option<&ComponentValue>,
         node_2: Option<&ComponentValue>,
@@ -30,6 +30,50 @@ impl CompressDeclaration {
             {
                 true
             }
+            (
+                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+            ) => true,
+            (
+                Some(ComponentValue::Number(Number {
+                    value: first_number,
+                    ..
+                })),
+                Some(ComponentValue::Number(Number {
+                    value: second_number,
+                    ..
+                })),
+            ) if first_number == second_number => true,
+            _ => false,
+        }
+    }
+
+    fn is_same_length_percentage_nodes(
+        &self,
+        node_1: Option<&ComponentValue>,
+        node_2: Option<&ComponentValue>,
+    ) -> bool {
+        match (node_1, node_2) {
+            (
+                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                    value: value_1,
+                    unit: unit_1,
+                    ..
+                }))),
+                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                    value: value_2,
+                    unit: unit_2,
+                    ..
+                }))),
+            ) if value_1.value == value_2.value
+                && unit_1.value.to_lowercase() == unit_2.value.to_lowercase() =>
+            {
+                true
+            }
+            (
+                Some(ComponentValue::Percentage(Percentage { value: value_1, .. })),
+                Some(ComponentValue::Percentage(Percentage { value: value_2, .. })),
+            ) if value_1.value == value_2.value => true,
             (
                 Some(ComponentValue::Integer(Integer { value: 0, .. })),
                 Some(ComponentValue::Integer(Integer { value: 0, .. })),
@@ -276,9 +320,9 @@ impl VisitMut for CompressDeclaration {
                         .or_else(|| declaration.value.get(1))
                         .or_else(|| declaration.value.get(0));
 
-                    if self.is_same_dimension_length_nodes(left, right) {
-                        if self.is_same_dimension_length_nodes(bottom, top) {
-                            if self.is_same_dimension_length_nodes(right, top) {
+                    if self.is_same_length_percentage_nodes(left, right) {
+                        if self.is_same_length_percentage_nodes(bottom, top) {
+                            if self.is_same_length_percentage_nodes(right, top) {
                                 declaration.value = vec![top.unwrap().clone()];
                             } else {
                                 declaration.value =
@@ -311,7 +355,7 @@ impl VisitMut for CompressDeclaration {
                     let first = declaration.value.get(0);
                     let second = declaration.value.get(1);
 
-                    if self.is_same_dimension_length_nodes(first, second)
+                    if self.is_same_length_percentage_nodes(first, second)
                         || self.is_same_ident(first, second)
                     {
                         declaration.value.remove(1);
@@ -321,7 +365,7 @@ impl VisitMut for CompressDeclaration {
                     let first = declaration.value.get(0);
                     let second = declaration.value.get(1);
 
-                    if self.is_same_dimension_length_nodes(first, second) {
+                    if self.is_same_length_nodes(first, second) {
                         declaration.value.remove(1);
                     }
                 }
