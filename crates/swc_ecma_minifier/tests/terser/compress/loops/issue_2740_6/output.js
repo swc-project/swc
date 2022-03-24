@@ -1,7 +1,3 @@
-const a = 9,
-    b = 0;
-{
-    const a = 1;
-    a < 3;
-}
+const a = 9, b = 0;
+const a1 = 1;
 console.log(a, b);
