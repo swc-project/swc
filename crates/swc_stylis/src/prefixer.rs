@@ -1586,7 +1586,6 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-hyphens");
             }
 
-            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/border-image.js
             "border-image" => {
                 same_content!(Prefix::Webkit, "-webkit-border-image");
                 same_content!(Prefix::Moz, "-moz-border-image");
