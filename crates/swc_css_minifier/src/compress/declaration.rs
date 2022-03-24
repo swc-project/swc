@@ -118,32 +118,32 @@ impl VisitMut for CompressDeclaration {
                     for value in declaration.value.iter() {
                         match value {
                             outside_node @ ComponentValue::Ident(Ident { value, .. })
-                                if matches!(
+                            if matches!(
                                     &*value.to_lowercase(),
                                     "block" | "inline" | "run-in"
                                 ) =>
-                            {
-                                outside = Some(outside_node);
-                            }
+                                {
+                                    outside = Some(outside_node);
+                                }
                             inside_node @ ComponentValue::Ident(Ident { value, .. })
-                                if matches!(
+                            if matches!(
                                     &*value.to_lowercase(),
                                     "flow" | "flow-root" | "table" | "flex" | "grid" | "ruby"
                                 ) =>
-                            {
-                                inside = Some(inside_node);
-                            }
-                            list_item_node @ ComponentValue::Ident(Ident { value, .. })
-                                if &*value.to_lowercase() == "list-item" =>
-                            {
-                                if let Some(ComponentValue::Ident(Ident { value, .. })) = inside {
-                                    if !matches!(&*value.to_lowercase(), "flow" | "flow-root") {
-                                        continue;
-                                    }
+                                {
+                                    inside = Some(inside_node);
                                 }
+                            list_item_node @ ComponentValue::Ident(Ident { value, .. })
+                            if &*value.to_lowercase() == "list-item" =>
+                                {
+                                    if let Some(ComponentValue::Ident(Ident { value, .. })) = inside {
+                                        if !matches!(&*value.to_lowercase(), "flow" | "flow-root") {
+                                            continue;
+                                        }
+                                    }
 
-                                list_item = Some(list_item_node)
-                            }
+                                    list_item = Some(list_item_node)
+                                }
                             _ => {}
                         }
                     }
@@ -155,9 +155,9 @@ impl VisitMut for CompressDeclaration {
                         (
                             Some(outside),
                             Some(ComponentValue::Ident(Ident {
-                                value: inside_value,
-                                ..
-                            })),
+                                                           value: inside_value,
+                                                           ..
+                                                       })),
                             None,
                         ) if &*inside_value.to_lowercase() == "flow" => {
                             declaration.value = vec![outside.clone()];
@@ -165,64 +165,64 @@ impl VisitMut for CompressDeclaration {
                         // `block flow-root` -> `flow-root`
                         (
                             Some(ComponentValue::Ident(Ident {
-                                value: outside_value,
-                                ..
-                            })),
+                                                           value: outside_value,
+                                                           ..
+                                                       })),
                             Some(
                                 inside @ ComponentValue::Ident(Ident {
-                                    value: inside_value,
-                                    ..
-                                }),
+                                                                   value: inside_value,
+                                                                   ..
+                                                               }),
                             ),
                             None,
                         ) if &*outside_value.to_lowercase() == "block"
                             && &*inside_value.to_lowercase() == "flow-root" =>
-                        {
-                            declaration.value = vec![inside.clone()];
-                        }
+                            {
+                                declaration.value = vec![inside.clone()];
+                            }
                         // `inline flow-root` -> `inline-block`
                         (
                             Some(ComponentValue::Ident(Ident {
-                                value: outside_value,
-                                span,
-                                ..
-                            })),
+                                                           value: outside_value,
+                                                           span,
+                                                           ..
+                                                       })),
                             Some(ComponentValue::Ident(Ident {
-                                value: inside_value,
-                                ..
-                            })),
+                                                           value: inside_value,
+                                                           ..
+                                                       })),
                             None,
                         ) if &*outside_value.to_lowercase() == "inline"
                             && &*inside_value.to_lowercase() == "flow-root" =>
-                        {
-                            declaration.value = vec![ComponentValue::Ident(Ident {
-                                span: *span,
-                                value: "inline-block".into(),
-                                raw: "inline-block".into(),
-                            })];
-                        }
+                            {
+                                declaration.value = vec![ComponentValue::Ident(Ident {
+                                    span: *span,
+                                    value: "inline-block".into(),
+                                    raw: "inline-block".into(),
+                                })];
+                            }
                         // `block flow list-item` -> `list-item`
                         (
                             Some(ComponentValue::Ident(Ident {
-                                value: outside_value,
-                                ..
-                            })),
+                                                           value: outside_value,
+                                                           ..
+                                                       })),
                             Some(ComponentValue::Ident(Ident {
-                                value: inside_value,
-                                ..
-                            })),
+                                                           value: inside_value,
+                                                           ..
+                                                       })),
                             Some(list_item),
                         ) if &*outside_value.to_lowercase() == "block"
                             && &*inside_value.to_lowercase() == "flow" =>
-                        {
-                            declaration.value = vec![list_item.clone()];
-                        }
+                            {
+                                declaration.value = vec![list_item.clone()];
+                            }
                         // `block list-item` -> `list-item`
                         (
                             Some(ComponentValue::Ident(Ident {
-                                value: outside_value,
-                                ..
-                            })),
+                                                           value: outside_value,
+                                                           ..
+                                                       })),
                             None,
                             Some(list_item),
                         ) if &*outside_value.to_lowercase() == "block" => {
@@ -232,9 +232,9 @@ impl VisitMut for CompressDeclaration {
                         (
                             None,
                             Some(ComponentValue::Ident(Ident {
-                                value: inside_value,
-                                ..
-                            })),
+                                                           value: inside_value,
+                                                           ..
+                                                       })),
                             Some(list_item),
                         ) if &*inside_value.to_lowercase() == "flow" => {
                             declaration.value = vec![list_item.clone()];
@@ -243,33 +243,33 @@ impl VisitMut for CompressDeclaration {
                         (
                             Some(
                                 outside @ ComponentValue::Ident(Ident {
-                                    value: outside_value,
-                                    ..
-                                }),
+                                                                    value: outside_value,
+                                                                    ..
+                                                                }),
                             ),
                             Some(ComponentValue::Ident(Ident {
-                                value: inside_value,
-                                ..
-                            })),
+                                                           value: inside_value,
+                                                           ..
+                                                       })),
                             Some(list_item),
                         ) if &*outside_value.to_lowercase() == "inline"
                             && &*inside_value.to_lowercase() == "flow" =>
-                        {
-                            declaration.value = vec![outside.clone(), list_item.clone()];
-                        }
+                            {
+                                declaration.value = vec![outside.clone(), list_item.clone()];
+                            }
                         // `block flex` -> `flex`
                         // `block grid` -> `grid`
                         // `block table` -> `table`
                         (
                             Some(ComponentValue::Ident(Ident {
-                                value: outside_value,
-                                ..
-                            })),
+                                                           value: outside_value,
+                                                           ..
+                                                       })),
                             Some(
                                 inside @ ComponentValue::Ident(Ident {
-                                    value: inside_value,
-                                    ..
-                                }),
+                                                                   value: inside_value,
+                                                                   ..
+                                                               }),
                             ),
                             None,
                         ) if &*outside_value.to_lowercase() == "block"
@@ -277,36 +277,103 @@ impl VisitMut for CompressDeclaration {
                                 &*inside_value.to_lowercase(),
                                 "flex" | "grid" | "table"
                             ) =>
-                        {
-                            declaration.value = vec![inside.clone()];
-                        }
+                            {
+                                declaration.value = vec![inside.clone()];
+                            }
                         // `inline ruby` -> `ruby`
                         (
                             Some(ComponentValue::Ident(Ident {
-                                value: outside_value,
-                                ..
-                            })),
+                                                           value: outside_value,
+                                                           ..
+                                                       })),
                             Some(
                                 inside @ ComponentValue::Ident(Ident {
-                                    value: inside_value,
-                                    ..
-                                }),
+                                                                   value: inside_value,
+                                                                   ..
+                                                               }),
                             ),
                             None,
                         ) if &*outside_value.to_lowercase() == "inline"
                             && inside_value.to_lowercase() == "ruby" =>
-                        {
-                            declaration.value = vec![inside.clone()];
-                        }
+                            {
+                                declaration.value = vec![inside.clone()];
+                            }
                         _ => {}
                     }
                 }
-                "padding" | "margin" | "border-width" | "inset" | "scroll-margin"
+                "padding" | "margin" |
+                // TODO only length
+                "border-width" | "inset" | "scroll-margin"
                 | "scroll-padding" |
                 // TODO compress numbers too
                 "mask-border-outset"
-                    if declaration.value.len() > 1 =>
-                {
+                // TODO handle `auto`
+                | "border-image-width"
+                if declaration.value.len() > 1 =>
+                    {
+                        let top = declaration.value.get(0);
+                        let right = declaration
+                            .value
+                            .get(1)
+                            .or_else(|| declaration.value.get(0));
+                        let bottom = declaration
+                            .value
+                            .get(2)
+                            .or_else(|| declaration.value.get(0));
+                        let left = declaration
+                            .value
+                            .get(3)
+                            .or_else(|| declaration.value.get(1))
+                            .or_else(|| declaration.value.get(0));
+
+                        if self.is_same_length_percentage_nodes(left, right) {
+                            if self.is_same_length_percentage_nodes(bottom, top) {
+                                if self.is_same_length_percentage_nodes(right, top) {
+                                    declaration.value = vec![top.unwrap().clone()];
+                                } else {
+                                    declaration.value =
+                                        vec![top.unwrap().clone(), right.unwrap().clone()];
+                                }
+                            } else {
+                                declaration.value = vec![
+                                    top.unwrap().clone(),
+                                    right.unwrap().clone(),
+                                    bottom.unwrap().clone(),
+                                ];
+                            }
+                        }
+                    }
+                "padding-inline"
+                | "padding-block"
+                | "margin-inline"
+                | "margin-block"
+                | "margin-inline"
+                | "inset-inline"
+                | "inset-block"
+                | "border-inline-width"
+                | "border-block-width"
+                | "scroll-padding-inline"
+                | "scroll-padding-block"
+                | "scroll-margin-inline"
+                | "scroll-margin-block"
+                | "border-top-left-radius"
+                | "border-top-right-radius"
+                | "border-bottom-right-radius"
+                | "border-bottom-left-radius"
+                | "border-start-start-radius"
+                | "border-start-end-radius"
+                if declaration.value.len() == 2 =>
+                    {
+                        let first = declaration.value.get(0);
+                        let second = declaration.value.get(1);
+
+                        if self.is_same_length_percentage_nodes(first, second)
+                            || self.is_same_ident(first, second)
+                        {
+                            declaration.value.remove(1);
+                        }
+                    }
+                "border-style" if declaration.value.len() > 1 => {
                     let top = declaration.value.get(0);
                     let right = declaration
                         .value
@@ -322,9 +389,9 @@ impl VisitMut for CompressDeclaration {
                         .or_else(|| declaration.value.get(1))
                         .or_else(|| declaration.value.get(0));
 
-                    if self.is_same_length_percentage_nodes(left, right) {
-                        if self.is_same_length_percentage_nodes(bottom, top) {
-                            if self.is_same_length_percentage_nodes(right, top) {
+                    if self.is_same_ident(left, right) {
+                        if self.is_same_ident(bottom, top) {
+                            if self.is_same_ident(right, top) {
                                 declaration.value = vec![top.unwrap().clone()];
                             } else {
                                 declaration.value =
@@ -337,30 +404,6 @@ impl VisitMut for CompressDeclaration {
                                 bottom.unwrap().clone(),
                             ];
                         }
-                    }
-                }
-                "padding-inline"
-                | "padding-block"
-                | "margin-inline"
-                | "margin-block"
-                | "margin-inline"
-                | "inset-inline"
-                | "inset-block"
-                | "border-inline-width"
-                | "border-block-width"
-                | "scroll-padding-inline"
-                | "scroll-padding-block"
-                | "scroll-margin-inline"
-                | "scroll-margin-block"
-                    if declaration.value.len() == 2 =>
-                {
-                    let first = declaration.value.get(0);
-                    let second = declaration.value.get(1);
-
-                    if self.is_same_length_percentage_nodes(first, second)
-                        || self.is_same_ident(first, second)
-                    {
-                        declaration.value.remove(1);
                     }
                 }
                 "border-spacing" if declaration.value.len() == 2 => {
@@ -378,70 +421,70 @@ impl VisitMut for CompressDeclaration {
                         .into_iter()
                         .map(|node| match node {
                             ComponentValue::Ident(Ident { value, span, .. })
-                                if value.to_lowercase() == "normal" =>
-                            {
-                                ComponentValue::Number(Number {
-                                    span,
-                                    value: 400.0,
-                                    raw: "400".into(),
-                                })
-                            }
+                            if value.to_lowercase() == "normal" =>
+                                {
+                                    ComponentValue::Number(Number {
+                                        span,
+                                        value: 400.0,
+                                        raw: "400".into(),
+                                    })
+                                }
                             ComponentValue::Ident(Ident { value, span, .. })
-                                if value.to_lowercase() == "bold" =>
-                            {
-                                ComponentValue::Number(Number {
-                                    span,
-                                    value: 700.0,
-                                    raw: "700".into(),
-                                })
-                            }
+                            if value.to_lowercase() == "bold" =>
+                                {
+                                    ComponentValue::Number(Number {
+                                        span,
+                                        value: 700.0,
+                                        raw: "700".into(),
+                                    })
+                                }
                             _ => node,
                         })
                         .collect();
                 }
                 "background-repeat" | "mask-repeat" | "-webkit-mask-repeat"
-                    if declaration.value.len() == 2 =>
-                {
-                    let first = declaration.value.get(0);
-                    let second = declaration.value.get(1);
-
-                    if let (
-                        Some(ComponentValue::Ident(Ident {
-                            span,
-                            value: first_value,
-                            ..
-                        })),
-                        Some(ComponentValue::Ident(Ident {
-                            value: second_value,
-                            ..
-                        })),
-                    ) = (first, second)
+                if declaration.value.len() == 2 =>
                     {
-                        match (&*first_value.to_lowercase(), &*second_value.to_lowercase()) {
-                            ("repeat", "no-repeat") => {
-                                declaration.value = vec![ComponentValue::Ident(Ident {
-                                    span: *span,
-                                    value: "repeat-x".into(),
-                                    raw: "repeat-x".into(),
-                                })];
+                        let first = declaration.value.get(0);
+                        let second = declaration.value.get(1);
+
+                        if let (
+                            Some(ComponentValue::Ident(Ident {
+                                                           span,
+                                                           value: first_value,
+                                                           ..
+                                                       })),
+                            Some(ComponentValue::Ident(Ident {
+                                                           value: second_value,
+                                                           ..
+                                                       })),
+                        ) = (first, second)
+                        {
+                            match (&*first_value.to_lowercase(), &*second_value.to_lowercase()) {
+                                ("repeat", "no-repeat") => {
+                                    declaration.value = vec![ComponentValue::Ident(Ident {
+                                        span: *span,
+                                        value: "repeat-x".into(),
+                                        raw: "repeat-x".into(),
+                                    })];
+                                }
+                                ("no-repeat", "repeat") => {
+                                    declaration.value = vec![ComponentValue::Ident(Ident {
+                                        span: *span,
+                                        value: "repeat-y".into(),
+                                        raw: "repeat-y".into(),
+                                    })];
+                                }
+                                ("repeat", "repeat")
+                                | ("space", "space")
+                                | ("round", "round")
+                                | ("no-repeat", "no-repeat") => {
+                                    declaration.value.remove(1);
+                                }
+                                _ => {}
                             }
-                            ("no-repeat", "repeat") => {
-                                declaration.value = vec![ComponentValue::Ident(Ident {
-                                    span: *span,
-                                    value: "repeat-y".into(),
-                                    raw: "repeat-y".into(),
-                                })];
-                            }
-                            ("repeat", "repeat")
-                            | ("space", "space")
-                            | ("round", "round")
-                            | ("no-repeat", "no-repeat") => {
-                                declaration.value.remove(1);
-                            }
-                            _ => {}
                         }
                     }
-                }
                 "border-image-repeat"
                 | "mask-border-repeat"
                 | "-webkit-mask-box-image-repeat"
@@ -451,15 +494,15 @@ impl VisitMut for CompressDeclaration {
                 | "place-self"
                 | "place-items"
                 | "place-content"
-                    if declaration.value.len() == 2 =>
-                {
-                    let first = declaration.value.get(0);
-                    let second = declaration.value.get(1);
+                if declaration.value.len() == 2 =>
+                    {
+                        let first = declaration.value.get(0);
+                        let second = declaration.value.get(1);
 
-                    if self.is_same_ident(first, second) {
-                        declaration.value.remove(1);
+                        if self.is_same_ident(first, second) {
+                            declaration.value.remove(1);
+                        }
                     }
-                }
                 _ => {}
             }
         }
