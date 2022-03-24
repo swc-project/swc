@@ -370,12 +370,92 @@ where
     node.visit_mut_with(&mut LinearGradientFunctionReplacerOnLegacyVariant { from, to });
 }
 
+pub struct MediaFeatureResolutionReplacerOnLegacyVariant<'a> {
+    from: &'a str,
+    to: &'a str,
+}
+
+impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
+    fn visit_mut_media_feature_plain(&mut self, n: &mut MediaFeaturePlain) {
+        n.visit_mut_children_with(self);
+
+        if let MediaFeatureValue::Dimension(Dimension::Resolution(Resolution {
+            span: resolution_span,
+            value: resolution_value,
+            unit: resolution_unit,
+        })) = &n.value
+        {
+            if let MediaFeatureName::Ident(Ident {
+                value: feature_name_value,
+                span: feature_name_span,
+                ..
+            }) = &n.name
+            {
+                if &*feature_name_value.to_lowercase() == self.from {
+                    n.name = MediaFeatureName::Ident(Ident {
+                        span: *feature_name_span,
+                        value: self.to.into(),
+                        raw: self.to.into(),
+                    });
+
+                    let left = match &*resolution_unit.value.to_lowercase() {
+                        "dpi" => {
+                            let mut new_resolution = resolution_value.clone();
+
+                            new_resolution.value = new_resolution.value / 96.0;
+
+                            new_resolution
+                        }
+                        "dpcm" => {
+                            let mut new_resolution = resolution_value.clone();
+
+                            new_resolution.value = (new_resolution.value * 2.54) / 96.0;
+
+                            new_resolution
+                        }
+                        _ => resolution_value.clone(),
+                    };
+
+                    let mut right = None;
+
+                    let is_o = matches!(
+                        self.to,
+                        "-o-min-device-pixel-ratio" | "-o-max-device-pixel-ratio"
+                    );
+
+                    if is_o {
+                        right = Some(Number {
+                            span: DUMMY_SP,
+                            value: 2.0,
+                            raw: "1".into(),
+                        });
+                    }
+
+                    n.value = MediaFeatureValue::Ratio(Ratio {
+                        span: *resolution_span,
+                        left,
+                        right,
+                    });
+                }
+            }
+        }
+    }
+}
+
+pub fn replace_media_feature_resolution_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+where
+    N: for<'aa> VisitMutWith<MediaFeatureResolutionReplacerOnLegacyVariant<'aa>>,
+{
+    node.visit_mut_with(&mut MediaFeatureResolutionReplacerOnLegacyVariant { from, to });
+}
+
 #[derive(Default)]
 struct Prefixer {
     in_stylesheet: bool,
+    in_media_query_list: bool,
     in_keyframe_block: bool,
-    added_rules: Vec<Rule>,
     in_simple_block: bool,
+    added_rules: Vec<Rule>,
     added_declarations: Vec<Declaration>,
 }
 
@@ -422,6 +502,79 @@ pub enum Prefix {
 }
 
 impl VisitMut for Prefixer {
+    // TODO handle declarations in `@media`/`@support`
+    // TODO handle `@viewport`
+    // TODO handle `@keyframes`
+
+    fn visit_mut_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
+        let old_in_media_query_list = self.in_media_query_list;
+
+        self.in_media_query_list = true;
+
+        let mut new = vec![];
+
+        for mut n in take(&mut media_query_list.queries) {
+            n.visit_mut_children_with(self);
+
+            let mut new_webkit_value = n.clone();
+
+            replace_media_feature_resolution_on_legacy_variant(
+                &mut new_webkit_value,
+                "min-resolution",
+                "-webkit-min-device-pixel-ratio",
+            );
+            replace_media_feature_resolution_on_legacy_variant(
+                &mut new_webkit_value,
+                "max-resolution",
+                "-webkit-max-device-pixel-ratio",
+            );
+
+            if n != new_webkit_value {
+                new.push(new_webkit_value);
+            }
+
+            let mut new_moz_value = n.clone();
+
+            replace_media_feature_resolution_on_legacy_variant(
+                &mut new_moz_value,
+                "min-resolution",
+                "min--moz-device-pixel-ratio",
+            );
+            replace_media_feature_resolution_on_legacy_variant(
+                &mut new_moz_value,
+                "max-resolution",
+                "max--moz-device-pixel-ratio",
+            );
+
+            if n != new_moz_value {
+                new.push(new_moz_value);
+            }
+
+            let mut new_o_value = n.clone();
+
+            replace_media_feature_resolution_on_legacy_variant(
+                &mut new_o_value,
+                "min-resolution",
+                "-o-min-device-pixel-ratio",
+            );
+            replace_media_feature_resolution_on_legacy_variant(
+                &mut new_o_value,
+                "max-resolution",
+                "-o-max-device-pixel-ratio",
+            );
+
+            if n != new_o_value {
+                new.push(new_o_value);
+            }
+
+            new.push(n);
+        }
+
+        media_query_list.queries = new;
+
+        self.in_media_query_list = old_in_media_query_list;
+    }
+
     fn visit_mut_keyframe_block(&mut self, n: &mut KeyframeBlock) {
         let old_in_keyframe_block = self.in_keyframe_block;
 
@@ -431,11 +584,6 @@ impl VisitMut for Prefixer {
 
         self.in_keyframe_block = old_in_keyframe_block;
     }
-
-    // TODO handle `resolution` in media/supports at-rules
-    // TODO handle declarations in `@media`/`@support`
-    // TODO handle `@viewport`
-    // TODO handle `@keyframes`
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         n.visit_mut_children_with(self);
