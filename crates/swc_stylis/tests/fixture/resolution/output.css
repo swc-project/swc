@@ -23,15 +23,15 @@
 }
 
 ::-webkit-input-placeholder {
-  color: gray;
+    color: gray;
 }
 
 :-moz-placeholder {
-  color: gray;
+    color: gray;
 }
 
 ::-moz-placeholder {
-  color: gray;
+    color: gray;
 }
 
 :-ms-input-placeholder {
@@ -41,17 +41,17 @@
   color: gray;
 }
 ::placeholder {
-  color: gray;
+    color: gray;
 }
 
 .image {
-  background-image: url(image@1x.png);
+    background-image: url(image@1x.png);
 }
 
 @media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 2dppx) {
-  .image {
-    background-image: url(image@2x.png);
-  }
+    .image {
+        background-image: url(image@2x.png);
+    }
 }
 
 @media (-webkit-min-device-pixel-ratio: 0.34), (min--moz-device-pixel-ratio: 0.34), (min-resolution: 33dpi) {
