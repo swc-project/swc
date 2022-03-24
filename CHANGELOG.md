@@ -32,6 +32,9 @@
 - **(es/minifier)** Implement some unsafe evaluation rules (#4133) ([1d3763d](https://github.com/swc-project/swc/commit/1d3763d96c94638bb0828110cc90bd123f96e327))
 
 
+- **(es/minifier)** Implement more rules for optimizing for-if-break (#4140) ([ee5c48c](https://github.com/swc-project/swc/commit/ee5c48c935b3cd8fa237680dd02f6bcb4faf8a82))
+
+
 - **(es/typescript)** Support optional variance annotations (#4008) ([bf1924d](https://github.com/swc-project/swc/commit/bf1924d1a8cc2039b624eecd9730d012c1e47321))
 
 
