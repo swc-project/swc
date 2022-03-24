@@ -38,6 +38,9 @@
 - **(es/lints)** Implement `no-param-reassign` rule (#4134) ([47712de](https://github.com/swc-project/swc/commit/47712de0da0a923dfebe52ebd98070924303f4d0))
 
 
+- **(es/lints)** Remove source map accesses (#4147) ([7a06c5b](https://github.com/swc-project/swc/commit/7a06c5b3d888418098dfe55d030645087e11b5e8))
+
+
 - **(es/minifier)** Implement some unsafe evaluation rules (#4133) ([1d3763d](https://github.com/swc-project/swc/commit/1d3763d96c94638bb0828110cc90bd123f96e327))
 
 
