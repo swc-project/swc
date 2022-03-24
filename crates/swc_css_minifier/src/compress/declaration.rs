@@ -34,6 +34,16 @@ impl CompressDeclaration {
                 Some(ComponentValue::Integer(Integer { value: 0, .. })),
                 Some(ComponentValue::Integer(Integer { value: 0, .. })),
             ) => true,
+            (
+                Some(ComponentValue::Number(Number {
+                    value: first_number,
+                    ..
+                })),
+                Some(ComponentValue::Number(Number {
+                    value: second_number,
+                    ..
+                })),
+            ) if first_number == second_number => true,
             _ => false,
         }
     }
@@ -304,6 +314,14 @@ impl VisitMut for CompressDeclaration {
                     if self.is_same_dimension_length_nodes(first, second)
                         || self.is_same_ident(first, second)
                     {
+                        declaration.value.remove(1);
+                    }
+                }
+                "border-spacing" if declaration.value.len() == 2 => {
+                    let first = declaration.value.get(0);
+                    let second = declaration.value.get(1);
+
+                    if self.is_same_dimension_length_nodes(first, second) {
                         declaration.value.remove(1);
                     }
                 }
