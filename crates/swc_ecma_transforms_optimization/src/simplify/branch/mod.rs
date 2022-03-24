@@ -15,6 +15,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use tracing::{debug, trace};
 
 #[cfg(test)]
 mod tests;
@@ -69,6 +70,10 @@ impl VisitMut for Remover {
         }
 
         if let Some(i) = preserved {
+            if cfg!(feature = "debug") {
+                debug!("Removing elements of an array pattern");
+            }
+
             p.elems.drain(i..);
         }
     }
@@ -90,6 +95,9 @@ impl VisitMut for Remover {
                 _ => false,
             } =>
             {
+                if cfg!(feature = "debug") {
+                    debug!("Dropping assignment to the same variable");
+                }
                 *e = Expr::Ident(r.take().ident().unwrap());
             }
 
@@ -103,6 +111,9 @@ impl VisitMut for Remover {
                 _ => false,
             } =>
             {
+                if cfg!(feature = "debug") {
+                    debug!("Dropping assignment to an empty array pattern");
+                }
                 *e = *right.take();
             }
 
@@ -116,6 +127,9 @@ impl VisitMut for Remover {
                 _ => false,
             } =>
             {
+                if cfg!(feature = "debug") {
+                    debug!("Dropping assignment to an empty object pattern");
+                }
                 *e = *right.take();
             }
 
@@ -134,6 +148,9 @@ impl VisitMut for Remover {
                                 ..
                             }) if !arg.may_have_side_effects())) =>
             {
+                if cfg!(feature = "debug") {
+                    debug!("Dropping side-effect-free expressions");
+                }
                 *e = *cond.cons.take();
             }
 
@@ -191,6 +208,11 @@ impl VisitMut for Remover {
                     _ => false,
                 } =>
             {
+                if cfg!(feature = "debug") {
+                    debug!(
+                        "Dropping key-value pattern property because it's an empty object pattern"
+                    );
+                }
                 false
             }
 
@@ -200,6 +222,11 @@ impl VisitMut for Remover {
                     _ => false,
                 } =>
             {
+                if cfg!(feature = "debug") {
+                    debug!(
+                        "Dropping key-value pattern property because it's an empty array pattern"
+                    );
+                }
                 false
             }
             _ => true,
@@ -333,6 +360,10 @@ impl VisitMut for Remover {
 
                     let mut stmts = vec![];
                     if let (p, Known(v)) = test.as_bool() {
+                        if cfg!(feature = "debug") {
+                            trace!("The condition for if statement is always {}", v);
+                        }
+
                         // Preserve effect of the test
                         if !p.is_pure() {
                             if let Some(expr) = ignore_result(*test).map(Box::new) {
@@ -358,6 +389,10 @@ impl VisitMut for Remover {
 
                         if stmts.is_empty() {
                             return Stmt::Empty(EmptyStmt { span });
+                        }
+
+                        if cfg!(feature = "debug") {
+                            debug!("Optimized an if statement with known condition");
                         }
 
                         self.changed = true;
