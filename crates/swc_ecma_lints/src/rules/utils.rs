@@ -1,8 +1,6 @@
-use std::{fmt::Debug, sync::Arc};
-
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, SourceMap, SyntaxContext};
+use swc_common::{collections::AHashSet, SyntaxContext};
 use swc_ecma_ast::{
     Expr, Id, Lit, MemberExpr, MemberProp, Number, ParenExpr, Regex, SeqExpr, Str, TaggedTpl, Tpl,
 };
