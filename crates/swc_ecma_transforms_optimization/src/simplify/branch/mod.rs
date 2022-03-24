@@ -473,6 +473,10 @@ impl VisitMut for Remover {
 
                 Stmt::Block(BlockStmt { span, stmts }) => {
                     if stmts.is_empty() {
+                        if cfg!(feature = "debug") {
+                            debug!("Drooping an empty block statement");
+                        }
+
                         Stmt::Empty(EmptyStmt { span })
                     } else if stmts.len() == 1
                         && !is_block_scoped_stuff(&stmts[0])
@@ -510,6 +514,10 @@ impl VisitMut for Remover {
                     // If catch block is not specified and finally block is empty, fold it to simple
                     // block.
                     if handler.is_none() && finalizer.is_empty() {
+                        if cfg!(feature = "debug") {
+                            debug!("Converting a try statement to a block statement");
+                        }
+
                         return Stmt::Block(block);
                     }
 
@@ -901,6 +909,10 @@ impl VisitMut for Remover {
                         _ => false,
                     } =>
                 {
+                    if cfg!(feature = "debug") {
+                        debug!("Optimizing a for statement with a false test");
+                    }
+
                     let decl = s.body.extract_var_ids_as_var();
                     let body = if let Some(var) = decl {
                         Stmt::Decl(Decl::Var(var))
@@ -994,14 +1006,30 @@ impl VisitMut for Remover {
 
                         //
                         match &v.name {
-                            Pat::Object(o) if o.props.is_empty() => None,
-                            Pat::Array(a) if a.elems.is_empty() => None,
+                            Pat::Object(o) if o.props.is_empty() => {
+                                if cfg!(feature = "debug") {
+                                    debug!("Dropping an object pattern in a var declaration");
+                                }
+
+                                None
+                            }
+                            Pat::Array(a) if a.elems.is_empty() => {
+                                if cfg!(feature = "debug") {
+                                    debug!("Dropping an array pattern in a var declaration");
+                                }
+
+                                None
+                            }
 
                             _ => Some(v),
                         }
                     });
 
                     if decls.is_empty() {
+                        if cfg!(feature = "debug") {
+                            debug!("Dropping a useless variable declaration");
+                        }
+
                         return Stmt::Empty(EmptyStmt { span: v.span });
                     }
 
