@@ -186,6 +186,9 @@ impl VisitMut for Remover {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        if cfg!(feature = "debug") {
+            debug!("Removing dead branches");
+        }
         self.fold_stmt_like(n)
     }
 
