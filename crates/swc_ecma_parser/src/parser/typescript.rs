@@ -17,7 +17,7 @@ impl<I: Tokens> Parser<I> {
         // hasLineBreakUpNext() method...
         bump!(self);
         Ok(!self.input.had_line_break_before_cur()
-            && !is_one_of!(self, '(', ')', ':', '=', '?', '!', ',', '>', "extends"))
+            && is_one_of!(self, '[', '{', '*', "...", '#', IdentName, Str, Num, BigInt))
     }
 
     /// Parses a modifier matching one the given modifier names.
