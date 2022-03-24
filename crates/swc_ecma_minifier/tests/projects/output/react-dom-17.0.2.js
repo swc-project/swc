@@ -3602,8 +3602,7 @@
         return inst || null;
     }
     function accumulateEnterLeaveListenersForEvent(dispatchQueue, event, target, common, inCapturePhase) {
-        for(var registrationName = event._reactName, listeners = [], instance = target; null !== instance;){
-            if (instance === common) break;
+        for(var registrationName = event._reactName, listeners = [], instance = target; null !== instance && instance !== common;){
             var _instance4 = instance, alternate = _instance4.alternate, stateNode = _instance4.stateNode, tag = _instance4.tag;
             if (null !== alternate && alternate === common) break;
             if (5 === tag && null !== stateNode) {
@@ -8443,10 +8442,7 @@
                     return function(outerNode, anchorNode, anchorOffset, focusNode, focusOffset) {
                         var length = 0, start = -1, end = -1, indexWithinAnchor = 0, indexWithinFocus = 0, node = outerNode, parentNode = null;
                         outer: for(;;){
-                            for(var next = null;;){
-                                if (node === anchorNode && (0 === anchorOffset || 3 === node.nodeType) && (start = length + anchorOffset), node === focusNode && (0 === focusOffset || 3 === node.nodeType) && (end = length + focusOffset), 3 === node.nodeType && (length += node.nodeValue.length), null === (next = node.firstChild)) break;
-                                parentNode = node, node = next;
-                            }
+                            for(var next = null; node === anchorNode && (0 === anchorOffset || 3 === node.nodeType) && (start = length + anchorOffset), node === focusNode && (0 === focusOffset || 3 === node.nodeType) && (end = length + focusOffset), 3 === node.nodeType && (length += node.nodeValue.length), null !== (next = node.firstChild);)parentNode = node, node = next;
                             for(;;){
                                 if (node === outerNode) break outer;
                                 if (parentNode === anchorNode && ++indexWithinAnchor === anchorOffset && (start = length), parentNode === focusNode && ++indexWithinFocus === focusOffset && (end = length), null !== (next = node.nextSibling)) break;

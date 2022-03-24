@@ -44,6 +44,95 @@ impl Pure<'_> {
         }
     }
 
+    /// ## Input
+    /// ```js
+    /// for(; bar();){
+    ///     if (x(), y(), foo()) break;
+    ///     z(), k();
+    /// }
+    /// ```
+    ///
+    /// ## Output
+    ///
+    /// ```js
+    /// for(; bar() && (x(), y(), !foo());)z(), k();
+    /// ```
+    pub(super) fn optimize_for_if_break(&mut self, s: &mut ForStmt) -> Option<()> {
+        if !self.options.loops {
+            return None;
+        }
+
+        if let Stmt::Block(body) = &mut *s.body {
+            let first = body.stmts.get_mut(0)?;
+
+            if let Stmt::If(IfStmt {
+                span,
+                test,
+                cons,
+                alt: None,
+                ..
+            }) = first
+            {
+                if let Stmt::Break(BreakStmt { label: None, .. }) = &**cons {
+                    self.negate(test, false, false);
+
+                    match s.test.as_deref_mut() {
+                        Some(e) => {
+                            let orig_test = e.take();
+                            *e = Expr::Bin(BinExpr {
+                                span: *span,
+                                op: op!("&&"),
+                                left: Box::new(orig_test),
+                                right: test.take(),
+                            });
+                        }
+                        None => {
+                            s.test = Some(test.take());
+                        }
+                    }
+
+                    tracing::debug!("loops: Optimizing a for loop with an if-then-break");
+
+                    first.take();
+                    return None;
+                }
+            }
+
+            if let Stmt::If(IfStmt {
+                span,
+                test,
+                cons,
+                alt: Some(alt),
+                ..
+            }) = first
+            {
+                if let Stmt::Break(BreakStmt { label: None, .. }) = &**alt {
+                    match s.test.as_deref_mut() {
+                        Some(e) => {
+                            let orig_test = e.take();
+                            *e = Expr::Bin(BinExpr {
+                                span: *span,
+                                op: op!("&&"),
+                                left: Box::new(orig_test),
+                                right: test.take(),
+                            });
+                        }
+                        None => {
+                            s.test = Some(test.take());
+                        }
+                    }
+
+                    tracing::debug!("loops: Optimizing a for loop with an if-else-break");
+
+                    *first = *cons.take();
+                    return None;
+                }
+            }
+        }
+
+        None
+    }
+
     /// # Input
     ///
     /// ```js

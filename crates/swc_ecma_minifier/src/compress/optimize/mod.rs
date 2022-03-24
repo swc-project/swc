@@ -2050,8 +2050,6 @@ where
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         self.with_ctx(ctx).optimize_init_of_for_stmt(s);
-
-        self.with_ctx(ctx).drop_if_break(s);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

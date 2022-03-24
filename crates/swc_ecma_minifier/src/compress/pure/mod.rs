@@ -367,6 +367,8 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
+        self.optimize_for_if_break(s);
+
         self.merge_for_if_break(s);
 
         if let Some(test) = &mut s.test {

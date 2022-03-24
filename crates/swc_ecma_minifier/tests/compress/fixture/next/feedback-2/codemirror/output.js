@@ -404,10 +404,7 @@
         return nstate;
     }
     function innerMode(mode, state) {
-        for(var info; mode.innerMode;){
-            if (!(info = mode.innerMode(state)) || info.mode == mode) break;
-            state = info.state, mode = info.mode;
-        }
+        for(var info; mode.innerMode && (info = mode.innerMode(state)) && info.mode != mode;)state = info.state, mode = info.mode;
         return info || {
             mode: mode,
             state: state
@@ -450,10 +447,7 @@
     }
     function lineNo1(line) {
         if (null == line.parent) return null;
-        for(var cur = line.parent, no = indexOf(cur.lines, line), chunk = cur.parent; chunk; cur = chunk, chunk = chunk.parent)for(var i = 0;; ++i){
-            if (chunk.children[i] == cur) break;
-            no += chunk.children[i].chunkSize();
-        }
+        for(var cur = line.parent, no = indexOf(cur.lines, line), chunk = cur.parent; chunk; cur = chunk, chunk = chunk.parent)for(var i = 0; chunk.children[i] != cur; ++i)no += chunk.children[i].chunkSize();
         return no + cur.first;
     }
     function lineAtHeight(chunk, h) {
@@ -4651,8 +4645,7 @@
         }
         if ("char" == unit || "codepoint" == unit) moveOnce();
         else if ("column" == unit) moveOnce(!0);
-        else if ("word" == unit || "group" == unit) for(var sawType = null, group = "group" == unit, helper = doc.cm && doc.cm.getHelper(pos2, "wordChars"), first = !0;; first = !1){
-            if (dir1 < 0 && !moveOnce(!first)) break;
+        else if ("word" == unit || "group" == unit) for(var sawType = null, group = "group" == unit, helper = doc.cm && doc.cm.getHelper(pos2, "wordChars"), first = !0; !(dir1 < 0) || moveOnce(!first); first = !1){
             var cur = lineObj.text.charAt(pos2.ch) || "\n", type = isWordChar(cur, helper) ? "w" : group && "\n" == cur ? "n" : !group || /\s/.test(cur) ? null : "p";
             if (!group || first || type || (type = "s"), sawType && sawType != type) {
                 dir1 < 0 && (dir1 = 1, moveOnce(), pos2.sticky = "after");
@@ -4669,8 +4662,7 @@
             var pageSize = Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight), moveAmount = Math.max(pageSize - 0.5 * textHeight(cm.display), 3);
             y = (dir > 0 ? pos.bottom : pos.top) + dir * moveAmount;
         } else "line" == unit && (y = dir > 0 ? pos.bottom + 3 : pos.top - 3);
-        for(;;){
-            if (!(target = coordsChar(cm, x, y)).outside) break;
+        for(; (target = coordsChar(cm, x, y)).outside;){
             if (dir < 0 ? y <= 0 : y >= doc.height) {
                 target.hitSide = !0;
                 break;
@@ -4726,10 +4718,7 @@
                 }
             } else 3 == node.nodeType && addText(node.nodeValue.replace(/\u200b/g, "").replace(/\u00a0/g, " "));
         }
-        for(;;){
-            if (walk(from), from == to) break;
-            from = from.nextSibling, extraLinebreak = !1;
-        }
+        for(; walk(from), from != to;)from = from.nextSibling, extraLinebreak = !1;
         return text;
     }
     function domToPos(cm, node, offset) {

@@ -7547,10 +7547,7 @@
                         string
                     ];
                     if (!isRegExp(separator)) return nativeSplit.call(string, separator, lim);
-                    for(var output = [], flags = (separator.ignoreCase ? 'i' : '') + (separator.multiline ? 'm' : '') + (separator.unicode ? 'u' : '') + (separator.sticky ? 'y' : ''), lastLastIndex = 0, separatorCopy = new RegExp(separator.source, flags + 'g'); match = regexpExec.call(separatorCopy, string);){
-                        if ((lastIndex = separatorCopy.lastIndex) > lastLastIndex && (output.push(string.slice(lastLastIndex, match.index)), match.length > 1 && match.index < string.length && arrayPush.apply(output, match.slice(1)), lastLength = match[0].length, lastLastIndex = lastIndex, output.length >= lim)) break;
-                        separatorCopy.lastIndex === match.index && separatorCopy.lastIndex++;
-                    }
+                    for(var output = [], flags = (separator.ignoreCase ? 'i' : '') + (separator.multiline ? 'm' : '') + (separator.unicode ? 'u' : '') + (separator.sticky ? 'y' : ''), lastLastIndex = 0, separatorCopy = new RegExp(separator.source, flags + 'g'); (match = regexpExec.call(separatorCopy, string)) && (!((lastIndex = separatorCopy.lastIndex) > lastLastIndex) || (output.push(string.slice(lastLastIndex, match.index)), match.length > 1 && match.index < string.length && arrayPush.apply(output, match.slice(1)), lastLength = match[0].length, lastLastIndex = lastIndex, !(output.length >= lim)));)separatorCopy.lastIndex === match.index && separatorCopy.lastIndex++;
                     return lastLastIndex === string.length ? (lastLength || !separatorCopy.test('')) && output.push('') : output.push(string.slice(lastLastIndex)), output.length > lim ? output.slice(0, lim) : output;
                 } : '0'.split(void 0, 0).length ? function(separator, limit) {
                     return void 0 === separator && 0 === limit ? [] : nativeSplit.call(this, separator, limit);
@@ -15076,10 +15073,7 @@
                             }
                             var u, n = 0, A = -1, p = -1, C = 0, x = 0, w = g, z = null;
                             b: for(;;){
-                                for(;;){
-                                    if (w !== h || 0 !== f && 3 !== w.nodeType || (A = n + f), w !== k || 0 !== l && 3 !== w.nodeType || (p = n + l), 3 === w.nodeType && (n += w.nodeValue.length), null === (u = w.firstChild)) break;
-                                    z = w, w = u;
-                                }
+                                for(; w !== h || 0 !== f && 3 !== w.nodeType || (A = n + f), w !== k || 0 !== l && 3 !== w.nodeType || (p = n + l), 3 === w.nodeType && (n += w.nodeValue.length), null !== (u = w.firstChild);)z = w, w = u;
                                 for(;;){
                                     if (w === g) break b;
                                     if (z === h && ++C === f && (A = n), z === k && ++x === l && (p = n), null !== (u = w.nextSibling)) break;
