@@ -484,13 +484,10 @@
                     if (!data.disabled) {
                         event = fixEvent(event);
                         var handlers = data.handlers[event.type];
-                        if (handlers) for(var handlersCopy = handlers.slice(0), m = 0, n = handlersCopy.length; m < n; m++){
-                            if (event.isImmediatePropagationStopped()) break;
-                            try {
-                                handlersCopy[m].call(elem, event, hash);
-                            } catch (e) {
-                                log$1.error(e);
-                            }
+                        if (handlers) for(var handlersCopy = handlers.slice(0), m = 0, n = handlersCopy.length; m < n && !event.isImmediatePropagationStopped(); m++)try {
+                            handlersCopy[m].call(elem, event, hash);
+                        } catch (e) {
+                            log$1.error(e);
                         }
                     }
                 }), 1 === data.handlers[type].length) if (elem.addEventListener) {
@@ -8813,8 +8810,7 @@
                         for(var i = 0, result = {
                             payloadType: -1,
                             payloadSize: 0
-                        }, payloadType = 0, payloadSize = 0; i < bytes.byteLength;){
-                            if (128 === bytes[i]) break;
+                        }, payloadType = 0, payloadSize = 0; i < bytes.byteLength && 128 !== bytes[i];){
                             for(; 255 === bytes[i];)payloadType += 255, i++;
                             for(payloadType += bytes[i++]; 255 === bytes[i];)payloadSize += 255, i++;
                             if (payloadSize += bytes[i++], !result.payload && 4 === payloadType) {
@@ -10093,10 +10089,7 @@
                             nalUnit.data
                         ]), nalUnits.push(nalUnit);
                     }, this.flush = function() {
-                        for(var alignedGops, frames, gopForFusion, gops, moof, mdat, boxes, firstGop, lastGop, prependedContentDuration = 0; nalUnits.length;){
-                            if ('access_unit_delimiter_rbsp' === nalUnits[0].nalUnitType) break;
-                            nalUnits.shift();
-                        }
+                        for(var alignedGops, frames, gopForFusion, gops, moof, mdat, boxes, firstGop, lastGop, prependedContentDuration = 0; nalUnits.length && 'access_unit_delimiter_rbsp' !== nalUnits[0].nalUnitType;)nalUnits.shift();
                         if (0 === nalUnits.length) {
                             this.resetStream_(), this.trigger('done', 'VideoSegmentStream');
                             return;
@@ -10141,8 +10134,7 @@
                         return nearestGopObj ? nearestGopObj.gop : null;
                     }, this.alignGopsAtStart_ = function(gops) {
                         var alignIndex, gopIndex, align, gop, byteLength, nalCount, duration, alignedGops;
-                        for(byteLength = gops.byteLength, nalCount = gops.nalCount, duration = gops.duration, alignIndex = gopIndex = 0; alignIndex < gopsToAlignWith.length && gopIndex < gops.length;){
-                            if (align = gopsToAlignWith[alignIndex], gop = gops[gopIndex], align.pts === gop.pts) break;
+                        for(byteLength = gops.byteLength, nalCount = gops.nalCount, duration = gops.duration, alignIndex = gopIndex = 0; alignIndex < gopsToAlignWith.length && gopIndex < gops.length && (align = gopsToAlignWith[alignIndex], gop = gops[gopIndex], align.pts !== gop.pts);){
                             if (gop.pts > align.pts) {
                                 alignIndex++;
                                 continue;

@@ -84,7 +84,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_debugger::no_debugger(&lint_config.no_debugger));
 
-        rules.extend(quotes::quotes(&source_map, &lint_config.quotes));
+        rules.extend(quotes::quotes(&lint_config.quotes));
 
         rules.extend(prefer_regex_literals::prefer_regex_literals(
             program,
@@ -96,7 +96,6 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(dot_notation::dot_notation(
             program,
-            &source_map,
             &lint_config.dot_notation,
         ));
 

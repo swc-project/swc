@@ -99,24 +99,21 @@
                 };
             }
             function scrollRectIntoView(view, rect, startDOM) {
-                for(var scrollThreshold = view.someProp("scrollThreshold") || 0, scrollMargin = view.someProp("scrollMargin") || 5, doc = view.dom.ownerDocument, parent = startDOM || view.dom;; parent = parentNode(parent)){
-                    if (!parent) break;
-                    if (1 == parent.nodeType) {
-                        var atTop = parent == doc.body || 1 != parent.nodeType, bounding = atTop ? windowRect(doc) : clientRect(parent), moveX = 0, moveY = 0;
-                        if (rect.top < bounding.top + getSide(scrollThreshold, "top") ? moveY = -(bounding.top - rect.top + getSide(scrollMargin, "top")) : rect.bottom > bounding.bottom - getSide(scrollThreshold, "bottom") && (moveY = rect.bottom - bounding.bottom + getSide(scrollMargin, "bottom")), rect.left < bounding.left + getSide(scrollThreshold, "left") ? moveX = -(bounding.left - rect.left + getSide(scrollMargin, "left")) : rect.right > bounding.right - getSide(scrollThreshold, "right") && (moveX = rect.right - bounding.right + getSide(scrollMargin, "right")), moveX || moveY) if (atTop) doc.defaultView.scrollBy(moveX, moveY);
-                        else {
-                            var startX = parent.scrollLeft, startY = parent.scrollTop;
-                            moveY && (parent.scrollTop += moveY), moveX && (parent.scrollLeft += moveX);
-                            var dX = parent.scrollLeft - startX, dY = parent.scrollTop - startY;
-                            rect = {
-                                left: rect.left - dX,
-                                top: rect.top - dY,
-                                right: rect.right - dX,
-                                bottom: rect.bottom - dY
-                            };
-                        }
-                        if (atTop) break;
+                for(var scrollThreshold = view.someProp("scrollThreshold") || 0, scrollMargin = view.someProp("scrollMargin") || 5, doc = view.dom.ownerDocument, parent = startDOM || view.dom; parent; parent = parentNode(parent))if (1 == parent.nodeType) {
+                    var atTop = parent == doc.body || 1 != parent.nodeType, bounding = atTop ? windowRect(doc) : clientRect(parent), moveX = 0, moveY = 0;
+                    if (rect.top < bounding.top + getSide(scrollThreshold, "top") ? moveY = -(bounding.top - rect.top + getSide(scrollMargin, "top")) : rect.bottom > bounding.bottom - getSide(scrollThreshold, "bottom") && (moveY = rect.bottom - bounding.bottom + getSide(scrollMargin, "bottom")), rect.left < bounding.left + getSide(scrollThreshold, "left") ? moveX = -(bounding.left - rect.left + getSide(scrollMargin, "left")) : rect.right > bounding.right - getSide(scrollThreshold, "right") && (moveX = rect.right - bounding.right + getSide(scrollMargin, "right")), moveX || moveY) if (atTop) doc.defaultView.scrollBy(moveX, moveY);
+                    else {
+                        var startX = parent.scrollLeft, startY = parent.scrollTop;
+                        moveY && (parent.scrollTop += moveY), moveX && (parent.scrollLeft += moveX);
+                        var dX = parent.scrollLeft - startX, dY = parent.scrollTop - startY;
+                        rect = {
+                            left: rect.left - dX,
+                            top: rect.top - dY,
+                            right: rect.right - dX,
+                            bottom: rect.bottom - dY
+                        };
                     }
+                    if (atTop) break;
                 }
             }
             function scrollStack(dom) {
@@ -705,8 +702,7 @@
                 }, NodeViewDesc.prototype.protectLocalComposition = function(view, ref) {
                     var node = ref.node, pos = ref.pos, text = ref.text;
                     if (!this.getDesc(node)) {
-                        for(var topNode = node;; topNode = topNode.parentNode){
-                            if (topNode.parentNode == this.contentDOM) break;
+                        for(var topNode = node; topNode.parentNode != this.contentDOM; topNode = topNode.parentNode){
                             for(; topNode.previousSibling;)topNode.parentNode.removeChild(topNode.previousSibling);
                             for(; topNode.nextSibling;)topNode.parentNode.removeChild(topNode.nextSibling);
                             topNode.pmViewDesc && (topNode.pmViewDesc = null);
@@ -2648,8 +2644,7 @@
                             "IMG" == next.nodeName && (box$1 = next.getBoundingClientRect()).right <= coords3.left && box$1.bottom > coords3.top && offset1++;
                         }
                         node1 == view10.dom && offset1 == node1.childNodes.length - 1 && 1 == node1.lastChild.nodeType && coords3.top > node1.lastChild.getBoundingClientRect().bottom ? pos = view10.state.doc.content.size : (0 == offset1 || 1 != node1.nodeType || "BR" != node1.childNodes[offset1 - 1].nodeName) && (pos = function(view, node, offset, coords) {
-                            for(var outside = -1, cur = node;;){
-                                if (cur == view.dom) break;
+                            for(var outside = -1, cur = node; cur != view.dom;){
                                 var desc = view.docView.nearestDesc(cur, !0);
                                 if (!desc) return null;
                                 if (desc.node.isBlock && desc.parent) {

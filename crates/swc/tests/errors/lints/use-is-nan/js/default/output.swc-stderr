@@ -2,71 +2,95 @@
   x Use the isNaN function to compare with NaN
    ,----
  1 | if (foo == NaN) {}
-   :     ^^^^^^^^^^
+   :     ^^^^^|^^^^
+   :          `-- this will always return false
    `----
+  help: NaN is a special value and `NaN == NaN` is false
 
   x Use the isNaN function to compare with NaN
    ,----
  3 | if (NaN == foo) {}
-   :     ^^^^^^^^^^
+   :     ^^^^^|^^^^
+   :          `-- this will always return false
    `----
+  help: NaN is a special value and `NaN == NaN` is false
 
   x Use the isNaN function to compare with NaN
    ,----
  5 | if (foo != NaN) {}
-   :     ^^^^^^^^^^
+   :     ^^^^^|^^^^
+   :          `-- this will always return true
    `----
+  help: NaN is a special value and `NaN == NaN` is false
 
   x Use the isNaN function to compare with NaN
    ,----
  7 | if (foo == Number.NaN) {}
-   :     ^^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^|^^^^^^^^
+   :             `-- this will always return false
    `----
+  help: NaN is a special value and `NaN == NaN` is false
 
   x Use the isNaN function to compare with NaN
    ,----
  9 | if (foo != Number.NaN) {}
-   :     ^^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^|^^^^^^^^
+   :             `-- this will always return true
    `----
+  help: NaN is a special value and `NaN == NaN` is false
 
   x Use the isNaN function to compare with NaN
     ,----
  11 | if (foo == Number['NaN']) {}
-    :     ^^^^^^^^^^^^^^^^^^^^
+    :     ^^^^^^^^^^|^^^^^^^^^
+    :               `-- this will always return false
     `----
+  help: NaN is a special value and `NaN == NaN` is false
 
   x Use the isNaN function to compare with NaN
     ,----
  20 | myArray.indexOf(NaN);
-    : ^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^|^^^^^^^^^
+    :           `-- this will always return -1
     `----
+  help: NaN is a special value and `NaN == NaN` is false
 
   x Use the isNaN function to compare with NaN
     ,----
  22 | myArray.lastIndexOf(NaN);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^|^^^^^^^^^^^
+    :             `-- this will always return -1
     `----
+  help: NaN is a special value and `NaN == NaN` is false
 
   x Use the isNaN function to compare with NaN
     ,----
  24 | myArray.lastIndexOf(Number.NaN);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^|^^^^^^^^^^^^^^^
+    :                `-- this will always return -1
     `----
+  help: NaN is a special value and `NaN == NaN` is false
 
   x Use the isNaN function to compare with NaN
     ,----
  26 | myArray.lastIndexOf(Number['NaN']);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^|^^^^^^^^^^^^^^^^
+    :                  `-- this will always return -1
     `----
+  help: NaN is a special value and `NaN == NaN` is false
 
   x Use the isNaN function to compare with NaN
     ,----
  33 | case NaN:
-    :      ^^^
+    :      ^|^
+    :       `-- this will never match the discriminant
     `----
+  help: NaN is a special value and `NaN == NaN` is false
 
   x Use the isNaN function to compare with NaN
     ,----
  41 | switch (NaN) {
-    :         ^^^
+    :         ^|^
+    :          `-- this will never match the test of any case
     `----
+  help: NaN is a special value and `NaN == NaN` is false

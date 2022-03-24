@@ -1,3 +1,5 @@
+"use strict";
+var v = "use strict";
 var s = "double quotes string";
 
 // valid cases
@@ -13,6 +15,11 @@ var foo = `bar 'foo' baz` + `bar`;
     "use strict";
     var foo = `backtick`;
 };
+
+function f() {
+    "use strict";
+    var foo = `backtick`;
+}
 
 () => {
     "use strict";

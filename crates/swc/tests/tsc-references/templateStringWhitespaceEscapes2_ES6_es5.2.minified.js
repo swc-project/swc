@@ -1,1 +1,1 @@
-"\t\v\f \xa0\uFEFF";
+"	\v\f \xa0\uFEFF";

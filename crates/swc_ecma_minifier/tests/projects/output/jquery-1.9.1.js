@@ -1649,12 +1649,9 @@
                     if (!(context = Expr.find.ID(token.matches[0].replace(runescape, funescape), context)[0])) return results;
                     selector = selector.slice(tokens.shift().value.length);
                 }
-                for(i = matchExpr.needsContext.test(selector) ? 0 : tokens.length; i--;){
-                    if (token = tokens[i], Expr.relative[type = token.type]) break;
-                    if ((find = Expr.find[type]) && (seed = find(token.matches[0].replace(runescape, funescape), rsibling.test(tokens[0].type) && context.parentNode || context))) {
-                        if (tokens.splice(i, 1), !(selector = seed.length && toSelector(tokens))) return push.apply(results, slice.call(seed, 0)), results;
-                        break;
-                    }
+                for(i = matchExpr.needsContext.test(selector) ? 0 : tokens.length; (i--) && (token = tokens[i], !Expr.relative[type = token.type]);)if ((find = Expr.find[type]) && (seed = find(token.matches[0].replace(runescape, funescape), rsibling.test(tokens[0].type) && context.parentNode || context))) {
+                    if (tokens.splice(i, 1), !(selector = seed.length && toSelector(tokens))) return push.apply(results, slice.call(seed, 0)), results;
+                    break;
                 }
             }
             return compile(selector, match)(seed, context, documentIsXML, results, rsibling.test(selector)), results;

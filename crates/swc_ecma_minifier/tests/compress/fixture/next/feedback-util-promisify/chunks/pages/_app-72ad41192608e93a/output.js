@@ -729,10 +729,7 @@
                             return r;
                         }
                         function utf16leToBytes(e, r) {
-                            for(var t, f, n, i = [], o = 0; o < e.length; ++o){
-                                if ((r -= 2) < 0) break;
-                                f = (t = e.charCodeAt(o)) >> 8, n = t % 256, i.push(n), i.push(f);
-                            }
+                            for(var t, f, n, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, n = t % 256, i.push(n), i.push(f);
                             return i;
                         }
                         function base64ToBytes(e6) {
@@ -743,10 +740,7 @@
                             }(e6));
                         }
                         function blitBuffer(e, r, t, f) {
-                            for(var n = 0; n < f; ++n){
-                                if (n + t >= r.length || n >= e.length) break;
-                                r[n + t] = e[n];
-                            }
+                            for(var n = 0; n < f && !(n + t >= r.length) && !(n >= e.length); ++n)r[n + t] = e[n];
                             return n;
                         }
                         function isInstance(e, r) {

@@ -755,8 +755,7 @@
     }
     function workLoop(hasTimeRemaining, initialTime) {
         var currentTime = initialTime;
-        for(advanceTimers(currentTime), currentTask = peek(taskQueue); null !== currentTask;){
-            if (currentTask.expirationTime > currentTime && (!hasTimeRemaining || shouldYieldToHost())) break;
+        for(advanceTimers(currentTime), currentTask = peek(taskQueue); null !== currentTask && !(currentTask.expirationTime > currentTime && (!hasTimeRemaining || shouldYieldToHost()));){
             var callback = currentTask.callback;
             if ('function' == typeof callback) {
                 currentTask.callback = null, currentPriorityLevel = currentTask.priorityLevel;

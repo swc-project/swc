@@ -720,7 +720,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 let body: Option<_> =
-                    self.parse_fn_body(false, false, params.is_simple_parameter_list())?;
+                    self.parse_fn_body(false, false, false, params.is_simple_parameter_list())?;
 
                 if body.is_none() {
                     for param in params.iter() {
@@ -1203,8 +1203,12 @@ impl<'a, I: Tokens> Parser<I> {
                 None
             };
 
-            let body: Option<_> =
-                p.parse_fn_body(is_async, is_generator, params.is_simple_parameter_list())?;
+            let body: Option<_> = p.parse_fn_body(
+                is_async,
+                is_generator,
+                false,
+                params.is_simple_parameter_list(),
+            )?;
 
             if p.syntax().typescript() && body.is_none() {
                 // Declare functions cannot have assignment pattern in parameters
@@ -1247,6 +1251,7 @@ impl<'a, I: Tokens> Parser<I> {
         &mut self,
         is_async: bool,
         is_generator: bool,
+        is_arrow_function: bool,
         is_simple_parameter_list: bool,
     ) -> PResult<T>
     where
@@ -1263,6 +1268,7 @@ impl<'a, I: Tokens> Parser<I> {
         let ctx = Context {
             in_async: is_async,
             in_generator: is_generator,
+            in_arrow_function: is_arrow_function,
             in_function: true,
             is_break_allowed: false,
             is_continue_allowed: false,

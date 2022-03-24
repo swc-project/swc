@@ -10,12 +10,12 @@ use crate::{
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
-enum EqeqeqMode {
+enum EqEqEqMode {
     Always,
     Never,
 }
 
-impl Default for EqeqeqMode {
+impl Default for EqEqEqMode {
     fn default() -> Self {
         Self::Always
     }
@@ -24,7 +24,7 @@ impl Default for EqeqeqMode {
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct EqeqeqConfig {
     #[serde(default)]
-    mode: EqeqeqMode,
+    mode: EqEqEqMode,
 }
 
 pub fn eqeqeq(config: &RuleConfig<EqeqeqConfig>) -> Option<Box<dyn Rule>> {
@@ -37,7 +37,7 @@ pub fn eqeqeq(config: &RuleConfig<EqeqeqConfig>) -> Option<Box<dyn Rule>> {
 #[derive(Debug, Default)]
 struct Eqeqeq {
     expected_reaction: LintRuleReaction,
-    mode: EqeqeqMode,
+    mode: EqEqEqMode,
 }
 
 impl Eqeqeq {
@@ -65,22 +65,22 @@ impl Eqeqeq {
     fn check(&self, span: Span, bin_op: &BinaryOp) {
         match bin_op {
             op!("==") => {
-                if let EqeqeqMode::Always = self.mode {
+                if let EqEqEqMode::Always = self.mode {
                     self.emit_report(span, "==", "===");
                 }
             }
             op!("!=") => {
-                if let EqeqeqMode::Always = self.mode {
+                if let EqEqEqMode::Always = self.mode {
                     self.emit_report(span, "!=", "!==");
                 }
             }
             op!("===") => {
-                if let EqeqeqMode::Never = self.mode {
+                if let EqEqEqMode::Never = self.mode {
                     self.emit_report(span, "===", "==");
                 }
             }
             op!("!==") => {
-                if let EqeqeqMode::Never = self.mode {
+                if let EqEqEqMode::Never = self.mode {
                     self.emit_report(span, "!==", "!=");
                 }
             }
