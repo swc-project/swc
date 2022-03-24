@@ -1007,14 +1007,23 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-flex-line-pack");
             }
 
-            // TODO fix me https://developer.mozilla.org/en-US/docs/Web/CSS/Image-Rendering
             "image-rendering" => {
+                // Fallback to nearest-neighbor algorithm
                 replace_ident(
                     &mut webkit_new_value,
                     "pixelated",
                     "-webkit-optimize-contrast",
                 );
+                replace_ident(
+                    &mut webkit_new_value,
+                    "crisp-edges",
+                    "-webkit-optimize-contrast",
+                );
+
+                // Fallback to nearest-neighbor algorithm
                 replace_ident(&mut moz_new_value, "pixelated", "-moz-crisp-edges");
+                replace_ident(&mut moz_new_value, "crisp-edges", "-moz-crisp-edges");
+
                 replace_ident(&mut o_new_value, "pixelated", "-o-pixelated");
 
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
