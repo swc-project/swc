@@ -446,6 +446,9 @@ impl VisitMut for CompressDeclaration {
                 | "overscroll-behavior"
                 | "scroll-snap-align"
                 | "overflow"
+                | "place-self"
+                | "place-items"
+                | "place-content"
                     if declaration.value.len() == 2 =>
                 {
                     let first = declaration.value.get(0);
