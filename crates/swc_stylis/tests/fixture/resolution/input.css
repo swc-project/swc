@@ -36,3 +36,9 @@
         background-image: url(image@2x.png);
     }
 }
+
+@media (min-resolution: 33dpi) {
+}
+
+@media (min-resolution: 0dpi) {
+}

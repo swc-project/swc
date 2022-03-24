@@ -1,25 +1,25 @@
-@media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (min-resolution: 2dppx), (-webkit-min-device-pixel-ratio: 192), (min--moz-device-pixel-ratio: 192), (-o-min-device-pixel-ratio: 192/1), (min-resolution: 192dpi) {
+@media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 2dppx), (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 192dpi) {
 }
 
-@media (-webkit-min-device-pixel-ratio: 2.5), (min--moz-device-pixel-ratio: 2.5), (-o-min-device-pixel-ratio: 2.5/1), (min-resolution: 2.5dppx) {
+@media (-webkit-min-device-pixel-ratio: 2.5), (min--moz-device-pixel-ratio: 2.5), (min-resolution: 2.5dppx) {
 }
 
-@media (-webkit-min-device-pixel-ratio: 144), (min--moz-device-pixel-ratio: 144), (-o-min-device-pixel-ratio: 144/1), (min-resolution: 144dpi) {
+@media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
 }
 
-@media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (min-resolution: 2x) {
+@media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 2x) {
 }
 
-@media (-webkit-min-device-pixel-ratio: 120), (min--moz-device-pixel-ratio: 120), (-o-min-device-pixel-ratio: 120/1), (min-resolution: 120dpi) {
+@media (-webkit-min-device-pixel-ratio: 1.25), (min--moz-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
 }
 
-@media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (min-resolution: 2dppx) {
+@media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 2dppx) {
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 124.8), only screen and (min--moz-device-pixel-ratio: 124.8), only screen and (-o-min-device-pixel-ratio: 124.8/1), only screen and (min-resolution: 124.8dpi) {
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (min-resolution: 124.8dpi) {
 }
 
-@media (-webkit-min-device-pixel-ratio: 113.38), (min--moz-device-pixel-ratio: 113.38), (-o-min-device-pixel-ratio: 113.38/1), (min-resolution: 113.38dpcm) {
+@media (-webkit-min-device-pixel-ratio: 3), (min--moz-device-pixel-ratio: 3), (min-resolution: 113.38dpcm) {
 }
 
 ::-webkit-input-placeholder {
@@ -37,11 +37,9 @@
 :-ms-input-placeholder {
   color: gray;
 }
-
 ::-ms-input-placeholder {
   color: gray;
 }
-
 ::placeholder {
   color: gray;
 }
@@ -50,8 +48,14 @@
   background-image: url(image@1x.png);
 }
 
-@media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (min-resolution: 2dppx) {
+@media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 2dppx) {
   .image {
     background-image: url(image@2x.png);
   }
+}
+
+@media (-webkit-min-device-pixel-ratio: 0.34), (min--moz-device-pixel-ratio: 0.34), (min-resolution: 33dpi) {
+}
+
+@media (-webkit-min-device-pixel-ratio: 0), (min--moz-device-pixel-ratio: 0), (min-resolution: 0dpi) {
 }

@@ -385,58 +385,34 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
             unit: resolution_unit,
         })) = &n.value
         {
-            if let MediaFeatureName::Ident(Ident {
+            let MediaFeatureName::Ident(Ident {
                 value: feature_name_value,
                 span: feature_name_span,
                 ..
-            }) = &n.name
-            {
-                if &*feature_name_value.to_lowercase() == self.from {
-                    n.name = MediaFeatureName::Ident(Ident {
-                        span: *feature_name_span,
-                        value: self.to.into(),
-                        raw: self.to.into(),
-                    });
+            }) = &n.name;
 
-                    let left = match &*resolution_unit.value.to_lowercase() {
-                        "dpi" => {
-                            let mut new_resolution = resolution_value.clone();
+            if &*feature_name_value.to_lowercase() == self.from {
+                n.name = MediaFeatureName::Ident(Ident {
+                    span: *feature_name_span,
+                    value: self.to.into(),
+                    raw: self.to.into(),
+                });
 
-                            new_resolution.value = new_resolution.value / 96.0;
+                let left = match &*resolution_unit.value.to_lowercase() {
+                    "dpi" => (resolution_value.value / 96.0 * 100.0).round() / 100.0,
+                    "dpcm" => (((resolution_value.value * 2.54) / 96.0) * 100.0).round() / 100.0,
+                    _ => resolution_value.value,
+                };
 
-                            new_resolution
-                        }
-                        "dpcm" => {
-                            let mut new_resolution = resolution_value.clone();
-
-                            new_resolution.value = (new_resolution.value * 2.54) / 96.0;
-
-                            new_resolution
-                        }
-                        _ => resolution_value.clone(),
-                    };
-
-                    let mut right = None;
-
-                    let is_o = matches!(
-                        self.to,
-                        "-o-min-device-pixel-ratio" | "-o-max-device-pixel-ratio"
-                    );
-
-                    if is_o {
-                        right = Some(Number {
-                            span: DUMMY_SP,
-                            value: 2.0,
-                            raw: "1".into(),
-                        });
-                    }
-
-                    n.value = MediaFeatureValue::Ratio(Ratio {
-                        span: *resolution_span,
-                        left,
-                        right,
-                    });
-                }
+                n.value = MediaFeatureValue::Ratio(Ratio {
+                    span: *resolution_span,
+                    left: Number {
+                        span: resolution_value.span,
+                        value: left,
+                        raw: left.to_string().into(),
+                    },
+                    right: None,
+                });
             }
         }
     }
@@ -550,22 +526,7 @@ impl VisitMut for Prefixer {
                 new.push(new_moz_value);
             }
 
-            let mut new_o_value = n.clone();
-
-            replace_media_feature_resolution_on_legacy_variant(
-                &mut new_o_value,
-                "min-resolution",
-                "-o-min-device-pixel-ratio",
-            );
-            replace_media_feature_resolution_on_legacy_variant(
-                &mut new_o_value,
-                "max-resolution",
-                "-o-max-device-pixel-ratio",
-            );
-
-            if n != new_o_value {
-                new.push(new_o_value);
-            }
+            // TODO opera support
 
             new.push(n);
         }
