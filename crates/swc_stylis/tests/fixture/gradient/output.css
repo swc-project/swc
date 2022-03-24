@@ -223,3 +223,9 @@ div {
   background: -o-linear-gradient(56.667deg, white, black), -o-linear-gradient(220deg, black, white), -o-linear-gradient(45deg, black, white);
   background: linear-gradient(33.333deg, white, black), linear-gradient(-130deg, black, white), linear-gradient(45deg, black, white);
 }
+.broken {
+  background-image: -webkit-linear-gradient(to, red 50%);
+  background-image: -moz-linear-gradient(to, red 50%);
+  background-image: -o-linear-gradient(to, red 50%);
+  background-image: linear-gradient(to, red 50%);
+}

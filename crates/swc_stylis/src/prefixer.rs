@@ -193,6 +193,8 @@ pub struct LinearGradientFunctionReplacerOnLegacyVariant<'a> {
     to: &'a str,
 }
 
+// TODO ` -webkit-mask-image` need duplicate with original property for better
+// compatibility
 impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
@@ -200,8 +202,6 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
         if &*n.name.value.to_lowercase() == self.from {
             n.name.value = self.to.into();
             n.name.raw = self.to.into();
-
-            let is_radial = matches!(self.from, "radial-gradient" | "repeating-radial-gradient");
 
             let first = n.value.get(0);
 
@@ -219,49 +219,49 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                         }
                     }
 
-                    let first_direction = match n.value.get(1) {
-                        Some(ComponentValue::Ident(Ident { value, span, .. })) => {
-                            (get_old_direction(value.as_ref()), Some(span))
-                        }
-                        _ => (None, None),
-                    };
-                    let second_direction = match n.value.get(2) {
-                        Some(ComponentValue::Ident(Ident { value, span, .. })) => {
-                            (get_old_direction(value.as_ref()), Some(span))
-                        }
-                        _ => (None, None),
-                    };
-
-                    match (first_direction, second_direction) {
+                    match (n.value.get(1), n.value.get(2)) {
                         (
-                            (Some(first_value), Some(first_span)),
-                            (Some(second_value), Some(second_span)),
+                            Some(ComponentValue::Ident(Ident {
+                                value: first_value,
+                                span: first_span,
+                                ..
+                            })),
+                            Some(ComponentValue::Ident(Ident {
+                                value: second_value,
+                                span: second_span,
+                                ..
+                            })),
                         ) => {
-                            let new_value = vec![
-                                ComponentValue::Ident(Ident {
-                                    span: *first_span,
-                                    value: first_value.into(),
-                                    raw: first_value.into(),
-                                }),
-                                ComponentValue::Ident(Ident {
-                                    span: *second_span,
-                                    value: second_value.into(),
-                                    raw: second_value.into(),
-                                }),
-                            ];
+                            if let (Some(new_first_direction), Some(new_second_direction)) = (
+                                get_old_direction(&*first_value),
+                                get_old_direction(&*second_value),
+                            ) {
+                                let new_value = vec![
+                                    ComponentValue::Ident(Ident {
+                                        span: *first_span,
+                                        value: new_first_direction.into(),
+                                        raw: new_first_direction.into(),
+                                    }),
+                                    ComponentValue::Ident(Ident {
+                                        span: *second_span,
+                                        value: new_second_direction.into(),
+                                        raw: new_second_direction.into(),
+                                    }),
+                                ];
 
-                            // TODO simplify
-                            n.value.splice(0..3, new_value.iter().cloned());
+                                n.value.splice(0..3, new_value);
+                            }
                         }
-                        ((Some(first_value), Some(first_span)), (None, None)) => {
-                            let new_value = vec![ComponentValue::Ident(Ident {
-                                span: *first_span,
-                                value: first_value.into(),
-                                raw: first_value.into(),
-                            })];
+                        (Some(ComponentValue::Ident(Ident { value, span, .. })), Some(_)) => {
+                            if let Some(new_direction) = get_old_direction(&*value) {
+                                let new_value = vec![ComponentValue::Ident(Ident {
+                                    span: *span,
+                                    value: new_direction.into(),
+                                    raw: new_direction.into(),
+                                })];
 
-                            // TODO simplify
-                            n.value.splice(0..2, new_value.iter().cloned());
+                                n.value.splice(0..2, new_value);
+                            }
                         }
                         _ => {}
                     }
@@ -327,8 +327,8 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                 Some(_) | None => {}
             }
 
-            if is_radial {
-                let before_at = n.value.iter().position(|n| match n {
+            if matches!(self.from, "radial-gradient" | "repeating-radial-gradient") {
+                let at_index = n.value.iter().position(|n| match n {
                     ComponentValue::Ident(Ident { value, .. })
                         if value.as_ref().eq_ignore_ascii_case("at") =>
                     {
@@ -336,29 +336,27 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                     }
                     _ => false,
                 });
-                let first_comma = n.value.iter().position(|n| match n {
-                    ComponentValue::Delimiter(Delimiter {
-                        value: DelimiterValue::Comma,
-                        ..
-                    }) => true,
-                    _ => false,
+                let first_comma_index = n.value.iter().position(|n| {
+                    matches!(
+                        n,
+                        ComponentValue::Delimiter(Delimiter {
+                            value: DelimiterValue::Comma,
+                            ..
+                        })
+                    )
                 });
 
-                match (before_at, first_comma) {
-                    (Some(before_at), Some(first_comma)) => {
-                        let mut new_value = vec![];
+                if let (Some(at_index), Some(first_comma_index)) = (at_index, first_comma_index) {
+                    let mut new_value = vec![];
 
-                        // TODO simplify
-                        new_value.append(&mut n.value[before_at + 1..first_comma].to_vec());
-                        new_value.append(&mut vec![ComponentValue::Delimiter(Delimiter {
-                            span: DUMMY_SP,
-                            value: DelimiterValue::Comma,
-                        })]);
-                        new_value.append(&mut n.value[0..before_at].to_vec());
+                    new_value.append(&mut n.value[at_index + 1..first_comma_index].to_vec());
+                    new_value.append(&mut vec![ComponentValue::Delimiter(Delimiter {
+                        span: DUMMY_SP,
+                        value: DelimiterValue::Comma,
+                    })]);
+                    new_value.append(&mut n.value[0..at_index].to_vec());
 
-                        n.value.splice(0..first_comma, new_value.iter().cloned());
-                    }
-                    _ => {}
+                    n.value.splice(0..first_comma_index, new_value);
                 }
             }
         }

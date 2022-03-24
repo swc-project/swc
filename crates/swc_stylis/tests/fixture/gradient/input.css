@@ -137,3 +137,7 @@ div {
     background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.8) 20px, #000 30px, #000) no-repeat;
     background: linear-gradient(33.333deg, white, black), linear-gradient(-130deg, black, white), linear-gradient(45deg, black, white);
 }
+
+.broken {
+    background-image: linear-gradient(to, red 50%);
+}
