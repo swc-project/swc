@@ -62,19 +62,22 @@ impl UseIsNan {
         }
     }
 
-    fn emit_report(&self, span: Span) {
-        HANDLER.with(|handler| match self.expected_reaction {
-            LintRuleReaction::Error => {
-                handler.struct_span_err(span, MESSAGE).emit();
+    fn emit_report(&self, span: Span, label_msg: &str) {
+        HANDLER.with(|handler| {
+            match self.expected_reaction {
+                LintRuleReaction::Error => handler.struct_span_err(span, MESSAGE),
+                LintRuleReaction::Warning => handler.struct_span_warn(span, MESSAGE),
+                _ => {
+                    return;
+                }
             }
-            LintRuleReaction::Warning => {
-                handler.struct_span_warn(span, MESSAGE).emit();
-            }
-            _ => {}
+            .span_label(span, label_msg)
+            .help("NaN is a special value and `NaN == NaN` is false")
+            .emit();
         });
     }
 
-    fn check(&self, expr_span: Option<Span>, expr: &Expr) {
+    fn check(&self, expr_span: Option<Span>, expr: &Expr, label_msg: &str) {
         match expr {
             Expr::TsAs(TsAsExpr {
                 expr,
@@ -88,13 +91,13 @@ impl UseIsNan {
                         ..
                     }) = type_ann.as_ref()
                     {
-                        self.check(expr_span.or(Some(*span)), expr.as_ref());
+                        self.check(expr_span.or(Some(*span)), expr.as_ref(), label_msg);
                     }
                 }
             }
             Expr::Ident(ident) => {
                 if &*ident.sym == "NaN" {
-                    self.emit_report(expr_span.unwrap_or(ident.span));
+                    self.emit_report(expr_span.unwrap_or(ident.span), label_msg);
                 }
             }
             Expr::Member(MemberExpr {
@@ -113,13 +116,13 @@ impl UseIsNan {
                         match prop {
                             MemberProp::Ident(ident) => {
                                 if &*ident.sym == "NaN" {
-                                    self.emit_report(expr_span.unwrap_or(*span));
+                                    self.emit_report(expr_span.unwrap_or(*span), label_msg);
                                 }
                             }
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 if let Expr::Lit(Lit::Str(Str { value, .. })) = expr.as_ref() {
                                     if &*value == "NaN" {
-                                        self.emit_report(expr_span.unwrap_or(*span));
+                                        self.emit_report(expr_span.unwrap_or(*span), label_msg);
                                     }
                                 }
                             }
@@ -136,8 +139,13 @@ impl UseIsNan {
 impl Visit for UseIsNan {
     fn visit_bin_expr(&mut self, bin_expr: &BinExpr) {
         if let op!("==") | op!("!=") = bin_expr.op {
-            self.check(Some(bin_expr.span), bin_expr.left.as_ref());
-            self.check(Some(bin_expr.span), bin_expr.right.as_ref());
+            let label_msg = if bin_expr.op == op!("==") {
+                "this will always return false"
+            } else {
+                "this will always return true"
+            };
+            self.check(Some(bin_expr.span), bin_expr.left.as_ref(), label_msg);
+            self.check(Some(bin_expr.span), bin_expr.right.as_ref(), label_msg);
         }
     }
 
@@ -153,7 +161,7 @@ impl Visit for UseIsNan {
 
                     if sym == "indexOf" || sym == "lastIndexOf" {
                         if let Some(ExprOrSpread { expr, .. }) = call_expr.args.first() {
-                            self.check(Some(call_expr.span), expr);
+                            self.check(Some(call_expr.span), expr, "this will always return -1");
                         }
                     }
                 }
@@ -166,7 +174,11 @@ impl Visit for UseIsNan {
     fn visit_switch_case(&mut self, switch_case: &SwitchCase) {
         if self.enforce_for_switch_case {
             if let Some(test) = &switch_case.test {
-                self.check(None, test.as_ref());
+                self.check(
+                    None,
+                    test.as_ref(),
+                    "this will never match the discriminant",
+                );
             }
         }
 
@@ -175,7 +187,11 @@ impl Visit for UseIsNan {
 
     fn visit_switch_stmt(&mut self, switch_stmt: &SwitchStmt) {
         if self.enforce_for_switch_case {
-            self.check(None, switch_stmt.discriminant.as_ref());
+            self.check(
+                None,
+                switch_stmt.discriminant.as_ref(),
+                "this will never match the test of any case",
+            );
         }
 
         switch_stmt.visit_children_with(self);
