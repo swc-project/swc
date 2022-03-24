@@ -2558,7 +2558,7 @@ impl<I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let is_generator = false;
             let is_async = true;
-            let body = p.parse_fn_body(true, false, params.is_simple_parameter_list())?;
+            let body = p.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
             Ok(Some(ArrowExpr {
                 span: span!(p, start),
                 body,

@@ -19,9 +19,64 @@ where
     pub(super) fn evaluate(&mut self, e: &mut Expr) {
         self.eval_global_vars(e);
 
+        self.eval_fn_props(e);
+
         self.eval_numbers(e);
 
         self.eval_known_static_method_call(e);
+    }
+
+    fn eval_fn_props(&mut self, e: &mut Expr) -> Option<()> {
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+            return None;
+        }
+
+        if let Expr::Member(MemberExpr {
+            span,
+            obj,
+            prop: MemberProp::Ident(prop),
+            ..
+        }) = e
+        {
+            if let Expr::Ident(obj) = &**obj {
+                let metadata = *self.functions.get(&obj.to_id())?;
+
+                let usage = self.data.vars.get(&obj.to_id())?;
+
+                if usage.reassigned() {
+                    return None;
+                }
+
+                if self.options.unsafe_passes {
+                    match &*prop.sym {
+                        "length" => {
+                            tracing::debug!("evaluate: function.length");
+
+                            *e = Expr::Lit(Lit::Num(Number {
+                                span: *span,
+                                value: metadata.len as _,
+                            }));
+                            self.changed = true;
+                        }
+
+                        "name" => {
+                            tracing::debug!("evaluate: function.name");
+
+                            *e = Expr::Lit(Lit::Str(Str {
+                                span: *span,
+                                value: obj.sym.clone(),
+                                raw: None,
+                            }));
+                            self.changed = true;
+                        }
+
+                        _ => {}
+                    }
+                }
+            }
+        }
+
+        None
     }
 
     fn eval_global_vars(&mut self, e: &mut Expr) {

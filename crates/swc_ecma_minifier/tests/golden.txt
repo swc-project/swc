@@ -446,6 +446,8 @@ evaluate/issue_2535_3/input.js
 evaluate/issue_2822/input.js
 evaluate/issue_2916_1/input.js
 evaluate/issue_2916_2/input.js
+evaluate/issue_2919/input.js
+evaluate/issue_2926_1/input.js
 evaluate/issue_2926_2/input.js
 evaluate/issue_2968/input.js
 evaluate/negative_zero/input.js
