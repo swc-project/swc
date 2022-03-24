@@ -485,6 +485,10 @@ impl VisitMut for Remover {
                         && !is_block_scoped_stuff(&stmts[0])
                         && stmt_depth(&stmts[0]) <= 1
                     {
+                        if cfg!(feature = "debug") {
+                            debug!("Optimizing a block statement with a single statement");
+                        }
+
                         let mut v = stmts.into_iter().next().unwrap();
                         v.visit_mut_with(self);
                         v
