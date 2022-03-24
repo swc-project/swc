@@ -8,7 +8,7 @@ use swc::{
 };
 use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
 use swc_ecmascript::ast::{EsVersion, Program};
-use wasm_bindgen::prelude::*;
+use wasm_bindgen::{prelude::*, JsCast};
 
 fn convert_err(err: Error) -> JsValue {
     format!("{:?}", err).into()
@@ -154,23 +154,46 @@ pub fn transform_sync(
 
     #[cfg(feature = "plugin")]
     {
-        // TODO: This is probably very inefficient, including each transform
-        // deserializes plugin bytes.
-        let plugin_bytes = if experimental_plugin_bytes_resolver.is_object() {
-            JsValue::into_serde::<std::collections::HashMap<String, Vec<u8>>>(
-                &experimental_plugin_bytes_resolver,
-            )
-            .expect("Object should be available")
-        } else {
-            Default::default()
-        };
+        if experimental_plugin_bytes_resolver.is_object() {
+            use js_sys::{Array, Object, Uint8Array};
 
-        // In here we 'inject' externally loaded bytes into the cache, so remaining
-        // plugin_runner execution path works as much as similar between embedded
-        // runtime.
-        plugin_bytes.into_iter().for_each(|(key, bytes)| {
-            swc_plugin_runner::cache::PLUGIN_MODULE_CACHE.store_once(&key, bytes.clone())
-        });
+            // TODO: This is probably very inefficient, including each transform
+            // deserializes plugin bytes.
+            let plugin_bytes_resolver_object: Object = experimental_plugin_bytes_resolver
+                .try_into()
+                .expect("Resolver should be a js object");
+
+            swc_plugin_runner::cache::init_plugin_module_cache_once();
+
+            let entries = Object::entries(&plugin_bytes_resolver_object);
+            for entry in entries.iter() {
+                let entry: Array = entry
+                    .try_into()
+                    .expect("Resolver object missing either key or value");
+                let name: String = entry
+                    .get(0)
+                    .as_string()
+                    .expect("Resolver key should be a string");
+                let buffer = entry.get(1);
+
+                //https://github.com/rustwasm/wasm-bindgen/issues/2017#issue-573013044
+                //We may use https://github.com/cloudflare/serde-wasm-bindgen instead later
+                let data = if JsCast::is_instance_of::<Uint8Array>(&buffer) {
+                    JsValue::from(Array::from(&buffer))
+                } else {
+                    buffer
+                };
+
+                let bytes: Vec<u8> = data
+                    .into_serde()
+                    .expect("Could not read byte from plugin resolver");
+
+                // In here we 'inject' externally loaded bytes into the cache, so
+                // remaining plugin_runner execution path works as much as
+                // similar between embedded runtime.
+                swc_plugin_runner::cache::PLUGIN_MODULE_CACHE.store_once(&name, bytes);
+            }
+        }
     }
 
     try_with_handler(
