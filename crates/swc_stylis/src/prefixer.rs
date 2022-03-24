@@ -1,3 +1,4 @@
+use core::f64::consts::PI;
 use std::mem::take;
 
 use swc_atoms::JsWord;
@@ -185,6 +186,190 @@ where
         to,
         in_function: false,
     });
+}
+
+pub struct LinearGradientFunctionReplacerOnLegacyVariant<'a> {
+    from: &'a str,
+    to: &'a str,
+}
+
+impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        if &*n.name.value.to_lowercase() == self.from {
+            n.name.value = self.to.into();
+            n.name.raw = self.to.into();
+
+            let is_radial = matches!(self.from, "radial-gradient" | "repeating-radial-gradient");
+
+            let first = n.value.get(0);
+
+            match first {
+                Some(ComponentValue::Ident(Ident { value, .. }))
+                    if value.as_ref().eq_ignore_ascii_case("to") =>
+                {
+                    fn get_old_direction(direction: &str) -> Option<&str> {
+                        match direction {
+                            "top" => Some("bottom"),
+                            "left" => Some("right"),
+                            "bottom" => Some("top"),
+                            "right" => Some("left"),
+                            _ => None,
+                        }
+                    }
+
+                    let first_direction = match n.value.get(1) {
+                        Some(ComponentValue::Ident(Ident { value, span, .. })) => {
+                            (get_old_direction(value.as_ref()), Some(span))
+                        }
+                        _ => (None, None),
+                    };
+                    let second_direction = match n.value.get(2) {
+                        Some(ComponentValue::Ident(Ident { value, span, .. })) => {
+                            (get_old_direction(value.as_ref()), Some(span))
+                        }
+                        _ => (None, None),
+                    };
+
+                    match (first_direction, second_direction) {
+                        (
+                            (Some(first_value), Some(first_span)),
+                            (Some(second_value), Some(second_span)),
+                        ) => {
+                            let new_value = vec![
+                                ComponentValue::Ident(Ident {
+                                    span: *first_span,
+                                    value: first_value.into(),
+                                    raw: first_value.into(),
+                                }),
+                                ComponentValue::Ident(Ident {
+                                    span: *second_span,
+                                    value: second_value.into(),
+                                    raw: second_value.into(),
+                                }),
+                            ];
+
+                            // TODO simplify
+                            n.value.splice(0..3, new_value.iter().cloned());
+                        }
+                        ((Some(first_value), Some(first_span)), (None, None)) => {
+                            let new_value = vec![ComponentValue::Ident(Ident {
+                                span: *first_span,
+                                value: first_value.into(),
+                                raw: first_value.into(),
+                            })];
+
+                            // TODO simplify
+                            n.value.splice(0..2, new_value.iter().cloned());
+                        }
+                        _ => {}
+                    }
+                }
+                Some(ComponentValue::Dimension(Dimension::Angle(Angle {
+                    value,
+                    unit,
+                    span,
+                    ..
+                }))) => {
+                    let angle = match &*unit.value {
+                        "deg" => (value.value % 360.0 + 360.0) % 360.0,
+                        "grad" => value.value * 180.0 / 200.0,
+                        "rad" => value.value * 180.0 / PI,
+                        "turn" => value.value * 360.0,
+                        _ => {
+                            return;
+                        }
+                    };
+
+                    if angle == 0.0 {
+                        n.value[0] = ComponentValue::Ident(Ident {
+                            span: *span,
+                            value: "bottom".into(),
+                            raw: "bottom".into(),
+                        });
+                    } else if angle == 90.0 {
+                        n.value[0] = ComponentValue::Ident(Ident {
+                            span: *span,
+                            value: "left".into(),
+                            raw: "left".into(),
+                        });
+                    } else if angle == 180.0 {
+                        n.value[0] = ComponentValue::Ident(Ident {
+                            span: *span,
+                            value: "top".into(),
+                            raw: "top".into(),
+                        });
+                    } else if angle == 270.0 {
+                        n.value[0] = ComponentValue::Ident(Ident {
+                            span: *span,
+                            value: "right".into(),
+                            raw: "right".into(),
+                        });
+                    } else {
+                        let new_value = ((450.0 - angle).abs() % 360.0 * 1000.0).round() / 1000.0;
+
+                        n.value[0] = ComponentValue::Dimension(Dimension::Angle(Angle {
+                            span: *span,
+                            value: Number {
+                                span: value.span,
+                                value: new_value,
+                                raw: new_value.to_string().into(),
+                            },
+                            unit: Ident {
+                                span: unit.span,
+                                value: "deg".into(),
+                                raw: "deg".into(),
+                            },
+                        }));
+                    }
+                }
+                Some(_) | None => {}
+            }
+
+            if is_radial {
+                let before_at = n.value.iter().position(|n| match n {
+                    ComponentValue::Ident(Ident { value, .. })
+                        if value.as_ref().eq_ignore_ascii_case("at") =>
+                    {
+                        true
+                    }
+                    _ => false,
+                });
+                let first_comma = n.value.iter().position(|n| match n {
+                    ComponentValue::Delimiter(Delimiter {
+                        value: DelimiterValue::Comma,
+                        ..
+                    }) => true,
+                    _ => false,
+                });
+
+                match (before_at, first_comma) {
+                    (Some(before_at), Some(first_comma)) => {
+                        let mut new_value = vec![];
+
+                        // TODO simplify
+                        new_value.append(&mut n.value[before_at + 1..first_comma].to_vec());
+                        new_value.append(&mut vec![ComponentValue::Delimiter(Delimiter {
+                            span: DUMMY_SP,
+                            value: DelimiterValue::Comma,
+                        })]);
+                        new_value.append(&mut n.value[0..before_at].to_vec());
+
+                        n.value.splice(0..first_comma, new_value.iter().cloned());
+                    }
+                    _ => {}
+                }
+            }
+        }
+    }
+}
+
+pub fn replace_gradient_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+where
+    N: for<'aa> VisitMutWith<LinearGradientFunctionReplacerOnLegacyVariant<'aa>>,
+{
+    node.visit_mut_with(&mut LinearGradientFunctionReplacerOnLegacyVariant { from, to });
 }
 
 #[derive(Default)]
@@ -440,13 +625,77 @@ impl VisitMut for Prefixer {
             "cross-fade",
             "-webkit-cross-fade",
         );
+        // TODO improve for very old browsers https://github.com/postcss/autoprefixer/blob/main/lib/hacks/gradient.js#L233
+        // TODO check with cross-fade compatibility
+        replace_gradient_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "linear-gradient",
+            "-webkit-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "repeating-linear-gradient",
+            "-webkit-repeating-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "radial-gradient",
+            "-webkit-radial-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "repeating-radial-gradient",
+            "-webkit-repeating-radial-gradient",
+        );
 
         let mut moz_new_value = n.value.clone();
 
         replace_function_name(&mut moz_new_value, "element", "-moz-element");
         replace_function_name(&mut moz_new_value, "calc", "-moz-calc");
+        replace_gradient_function_on_legacy_variant(
+            &mut moz_new_value,
+            "linear-gradient",
+            "-moz-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut moz_new_value,
+            "repeating-linear-gradient",
+            "-moz-repeating-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut moz_new_value,
+            "radial-gradient",
+            "-moz-radial-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut moz_new_value,
+            "repeating-radial-gradient",
+            "-moz-repeating-linear-gradient",
+        );
 
         let mut o_new_value = n.value.clone();
+
+        replace_gradient_function_on_legacy_variant(
+            &mut o_new_value,
+            "linear-gradient",
+            "-o-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut o_new_value,
+            "repeating-linear-gradient",
+            "-o-repeating-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut o_new_value,
+            "radial-gradient",
+            "-o-radial-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut o_new_value,
+            "repeating-radial-gradient",
+            "-o-repeating-radial-gradient",
+        );
+
         let ms_new_value = n.value.clone();
 
         macro_rules! same_content {
@@ -1447,7 +1696,6 @@ impl VisitMut for Prefixer {
             }
 
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid) and https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559 and https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
-            // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {}
         }
