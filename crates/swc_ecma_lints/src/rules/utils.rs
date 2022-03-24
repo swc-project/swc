@@ -133,7 +133,7 @@ pub fn extract_arg_val(
     }
 }
 
-pub fn unwrap_seqs_and_parens(expr: &'_ Expr) -> &'_ Expr {
+pub fn unwrap_seqs_and_parens(expr: &Expr) -> &Expr {
     match expr {
         Expr::Seq(SeqExpr { exprs, .. }) => unwrap_seqs_and_parens(exprs.last().unwrap()),
         Expr::Paren(ParenExpr { expr, .. }) => unwrap_seqs_and_parens(expr.as_ref()),
