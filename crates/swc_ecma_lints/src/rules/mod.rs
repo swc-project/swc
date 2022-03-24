@@ -27,6 +27,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_loop_func;
     pub mod no_new;
     pub mod no_new_symbol;
+    pub mod no_param_reassign;
     pub mod no_restricted_syntax;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
@@ -146,6 +147,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(valid_typeof::valid_typeof(&lint_config.valid_typeof));
+
+        rules.extend(no_param_reassign::no_param_reassign(
+            &lint_config.no_param_reassign,
+        ));
     }
 
     rules

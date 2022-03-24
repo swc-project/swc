@@ -1,0 +1,132 @@
+
+  x Assignment to function parameter 'a'
+   ,----
+ 2 | a = 1;
+   : ^
+   `----
+
+  x Assignment to function parameter 'a'
+   ,----
+ 7 | a = 1;
+   : ^
+   `----
+
+  x Assignment to function parameter 'a'
+    ,----
+ 22 | a++;
+    : ^
+    `----
+
+  x Assignment to function parameter 'a'
+    ,----
+ 23 | ++a;
+    :   ^
+    `----
+
+  x Assignment to function parameter 'a'
+    ,----
+ 29 | for (a of []) {}
+    :      ^
+    `----
+
+  x Assignment to function parameter 'a'
+    ,----
+ 32 | for (a in []) {}
+    :      ^
+    `----
+
+  x Assignment to function parameter 'a'
+    ,----
+ 41 | ({ a } = {});
+    :    ^
+    `----
+
+  x Assignment to function parameter 'a'
+    ,----
+ 42 | ({ a, b } = {});
+    :    ^
+    `----
+
+  x Assignment to function parameter 'b'
+    ,----
+ 42 | ({ a, b } = {});
+    :       ^
+    `----
+
+  x Assignment to function parameter 'a'
+    ,----
+ 43 | ({ a, b, k: { c } } = {});
+    :    ^
+    `----
+
+  x Assignment to function parameter 'b'
+    ,----
+ 43 | ({ a, b, k: { c } } = {});
+    :       ^
+    `----
+
+  x Assignment to function parameter 'c'
+    ,----
+ 43 | ({ a, b, k: { c } } = {});
+    :               ^
+    `----
+
+  x Assignment to function parameter 'a'
+    ,----
+ 44 | ([a] = []);
+    :   ^
+    `----
+
+  x Assignment to function parameter 'a'
+    ,----
+ 45 | ([{a}, [b]] = [])
+    :    ^
+    `----
+
+  x Assignment to function parameter 'b'
+    ,----
+ 45 | ([{a}, [b]] = [])
+    :         ^
+    `----
+
+  x Assignment to function parameter 'a'
+    ,----
+ 49 | a = 1;
+    : ^
+    `----
+
+  x Assignment to function parameter 'b'
+    ,----
+ 50 | b = 1;
+    : ^
+    `----
+
+  x Assignment to function parameter 'c'
+    ,----
+ 51 | c = 1;
+    : ^
+    `----
+
+  x Assignment to function parameter 'd'
+    ,----
+ 52 | d = 1;
+    : ^
+    `----
+
+  x Assignment to function parameter 'e'
+    ,----
+ 53 | e = 1;
+    : ^
+    `----
+
+  x Assignment to function parameter 'f'
+    ,----
+ 54 | f = 1;
+    : ^
+    `----
+
+  x Assignment to function parameter 'g'
+    ,----
+ 55 | g = 1;
+    : ^
+    `----

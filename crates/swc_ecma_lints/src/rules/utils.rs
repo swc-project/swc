@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, SourceMap, Span, SyntaxContext};
 use swc_ecma_ast::{
-    Expr, Id, Lit, MemberExpr, MemberProp, Number, ParenExpr, Regex, Str, TaggedTpl, Tpl,
+    Expr, Id, Lit, MemberExpr, MemberProp, Number, ParenExpr, Regex, SeqExpr, Str, TaggedTpl, Tpl,
 };
 use swc_ecma_utils::ident::IdentLike;
 
@@ -129,5 +129,13 @@ pub fn extract_arg_val(
             ArgValue::Other
         }
         _ => ArgValue::Other,
+    }
+}
+
+pub fn unwrap_seqs_and_parens(expr: &Expr) -> &Expr {
+    match expr {
+        Expr::Seq(SeqExpr { exprs, .. }) => unwrap_seqs_and_parens(exprs.last().unwrap()),
+        Expr::Paren(ParenExpr { expr, .. }) => unwrap_seqs_and_parens(expr.as_ref()),
+        _ => expr,
     }
 }
