@@ -430,10 +430,16 @@ impl VisitMut for Remover {
                 }
 
                 Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
+                    if cfg!(feature = "debug") {
+                        debug!("Dropping an empty var declaration");
+                    }
                     Stmt::Empty(EmptyStmt { span: v.span })
                 }
 
                 Stmt::Labeled(LabeledStmt { span, body, .. }) if body.is_empty() => {
+                    if cfg!(feature = "debug") {
+                        debug!("Dropping an empty label statement");
+                    }
                     Stmt::Empty(EmptyStmt { span })
                 }
 
@@ -447,6 +453,9 @@ impl VisitMut for Remover {
                     _ => false,
                 } =>
                 {
+                    if cfg!(feature = "debug") {
+                        debug!("Dropping a label statement with instant break");
+                    }
                     Stmt::Empty(EmptyStmt { span })
                 }
 
