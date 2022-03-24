@@ -29,6 +29,9 @@
 - **(es/lints)** Use `Str.raw` instead of source map (#4139) ([d8a988e](https://github.com/swc-project/swc/commit/d8a988ef3d5dfba839af0866ead73faf54f205dc))
 
 
+- **(es/lints)** Improve error messages (#4142) ([0f92eda](https://github.com/swc-project/swc/commit/0f92eda0c78277d3de83ae85cf8a5c04e9c437bf))
+
+
 - **(es/minifier)** Implement some unsafe evaluation rules (#4133) ([1d3763d](https://github.com/swc-project/swc/commit/1d3763d96c94638bb0828110cc90bd123f96e327))
 
 
