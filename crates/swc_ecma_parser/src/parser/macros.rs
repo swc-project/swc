@@ -53,6 +53,13 @@ macro_rules! is {
         }
     }};
 
+    ($p:expr,BigInt) => {{
+        match cur!($p, false) {
+            Ok(&Token::BigInt { .. }) => true,
+            _ => false,
+        }
+    }};
+
     ($p:expr,';') => {{
         match $p.input.cur() {
             Some(&Token::Semi) | None | Some(&tok!('}')) => true,

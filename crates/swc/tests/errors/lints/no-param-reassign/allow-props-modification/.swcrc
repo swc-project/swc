@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "lints": {
+            "no-param-reassign": [
+                "error",
+                {
+                    "props": false
+                }
+            ]
+        }
+    }
+}

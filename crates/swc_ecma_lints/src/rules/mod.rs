@@ -27,6 +27,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_loop_func;
     pub mod no_new;
     pub mod no_new_symbol;
+    pub mod no_param_reassign;
     pub mod no_restricted_syntax;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
@@ -84,7 +85,7 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_debugger::no_debugger(&lint_config.no_debugger));
 
-        rules.extend(quotes::quotes(&source_map, &lint_config.quotes));
+        rules.extend(quotes::quotes(&lint_config.quotes));
 
         rules.extend(prefer_regex_literals::prefer_regex_literals(
             program,
@@ -96,7 +97,6 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(dot_notation::dot_notation(
             program,
-            &source_map,
             &lint_config.dot_notation,
         ));
 
@@ -147,6 +147,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         ));
 
         rules.extend(valid_typeof::valid_typeof(&lint_config.valid_typeof));
+
+        rules.extend(no_param_reassign::no_param_reassign(
+            &lint_config.no_param_reassign,
+        ));
     }
 
     rules

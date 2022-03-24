@@ -1,0 +1,6 @@
+
+  x Assignment to function parameter 'a'
+   ,----
+ 2 | a = 1;
+   : ^
+   `----

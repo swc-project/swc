@@ -17,7 +17,7 @@ impl<I: Tokens> Parser<I> {
         // hasLineBreakUpNext() method...
         bump!(self);
         Ok(!self.input.had_line_break_before_cur()
-            && !is_one_of!(self, '(', ')', ':', '=', '?', '!', ',', '>', "extends"))
+            && is_one_of!(self, '[', '{', '*', "...", '#', IdentName, Str, Num, BigInt))
     }
 
     /// Parses a modifier matching one the given modifier names.
@@ -2558,7 +2558,7 @@ impl<I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let is_generator = false;
             let is_async = true;
-            let body = p.parse_fn_body(true, false, params.is_simple_parameter_list())?;
+            let body = p.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
             Ok(Some(ArrowExpr {
                 span: span!(p, start),
                 body,

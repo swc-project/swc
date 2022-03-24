@@ -2178,11 +2178,7 @@
             });
         },
         readIdent: function() {
-            for(var lastDot, peekIndex, methodName, ch, parser = this, ident = '', start = this.index; this.index < this.text.length;){
-                if ('.' === (ch = this.text.charAt(this.index)) || this.isIdent(ch) || this.isNumber(ch)) '.' === ch && (lastDot = this.index), ident += ch;
-                else break;
-                this.index++;
-            }
+            for(var lastDot, peekIndex, methodName, ch, parser = this, ident = '', start = this.index; this.index < this.text.length && ('.' === (ch = this.text.charAt(this.index)) || this.isIdent(ch) || this.isNumber(ch));)'.' === ch && (lastDot = this.index), ident += ch, this.index++;
             if (lastDot) for(peekIndex = this.index; peekIndex < this.text.length;){
                 if ('(' === (ch = this.text.charAt(peekIndex))) {
                     methodName = ident.substr(lastDot - start + 1), ident = ident.substr(0, lastDot - start), this.index = peekIndex;

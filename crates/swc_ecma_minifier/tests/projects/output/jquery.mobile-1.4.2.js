@@ -230,10 +230,7 @@
             $1.mobile.activeClickedLink && (!$1.mobile.activeClickedLink.closest("." + $1.mobile.activePageClass).length || forceRemoval) && $1.mobile.activeClickedLink.removeClass($1.mobile.activeBtnClass), $1.mobile.activeClickedLink = null;
         },
         getInheritedTheme: function(el, defaultTheme) {
-            for(var c, m, e = el[0], ltr = "", re = /ui-(bar|body|overlay)-([a-z])\b/; e;){
-                if ((c = e.className || "") && (m = re.exec(c)) && (ltr = m[2])) break;
-                e = e.parentNode;
-            }
+            for(var c, m, e = el[0], ltr = "", re = /ui-(bar|body|overlay)-([a-z])\b/; e && (!((c = e.className || "") && (m = re.exec(c))) || !(ltr = m[2]));)e = e.parentNode;
             return ltr || defaultTheme || "a";
         },
         enhanceable: function(elements) {
@@ -1621,10 +1618,7 @@
     }), $15.mobile.navreadyDeferred = $15.Deferred(), pageTransitionQueue = [], isPageTransitioning = !1, function($, undefined) {
         var domreadyDeferred = $.Deferred(), loadDeferred = $.Deferred(), documentUrl = $.mobile.path.documentUrl, $lastVClicked = null;
         function findClosestLink(ele) {
-            for(; ele;){
-                if ("string" == typeof ele.nodeName && "a" === ele.nodeName.toLowerCase()) break;
-                ele = ele.parentNode;
-            }
+            for(; ele && ("string" != typeof ele.nodeName || "a" !== ele.nodeName.toLowerCase());)ele = ele.parentNode;
             return ele;
         }
         $.mobile.loadPage = function(url, opts) {

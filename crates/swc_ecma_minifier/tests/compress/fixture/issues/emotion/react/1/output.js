@@ -397,10 +397,7 @@
                 return node1(value, root, parent, DECLARATION, Utility_substr(value, 0, length), Utility_substr(value, length + 1, -1), length);
             }
             var identifierWithPointTracking = function(begin, points, index) {
-                for(var previous = 0, character = 0;;){
-                    if (previous = character, character = peek(), 38 === previous && 12 === character && (points[index] = 1), token(character)) break;
-                    next1();
-                }
+                for(var previous = 0, character = 0; previous = character, character = peek(), 38 === previous && 12 === character && (points[index] = 1), !token(character);)next1();
                 return slice(begin, position);
             }, toRules = function(parsed, points) {
                 var index = -1, character = 44;

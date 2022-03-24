@@ -36,10 +36,10 @@ var sameName4a = {
     }
 };
 var sameName5a = {
-    get "\t" () {
+    get "	" () {
         return "";
     },
-    set "\t" (n){
+    set "	" (n){
         var p4 = n;
         var p4;
     }

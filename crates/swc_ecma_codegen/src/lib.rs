@@ -3308,7 +3308,7 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
             '\n' => buf.push_str("\\n"),
             '\r' => buf.push_str("\\r"),
             '\u{000b}' => buf.push_str("\\v"),
-            '\t' => buf.push_str("\\t"),
+            '\t' => buf.push('\t'),
             '\\' => {
                 let next = iter.peek();
 
