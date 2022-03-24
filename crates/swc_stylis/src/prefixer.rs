@@ -1009,12 +1009,17 @@ impl VisitMut for Prefixer {
 
             // TODO fix me https://developer.mozilla.org/en-US/docs/Web/CSS/Image-Rendering
             "image-rendering" => {
+                replace_ident(
+                    &mut webkit_new_value,
+                    "pixelated",
+                    "-webkit-optimize-contrast",
+                );
+                replace_ident(&mut moz_new_value, "pixelated", "-moz-crisp-edges");
+                replace_ident(&mut o_new_value, "pixelated", "-o-pixelated");
+
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "pixelated" {
                         simple!("-ms-interpolation-mode", "nearest-neighbor");
-                        same_name!("-webkit-optimize-contrast");
-                        same_name!("-moz-crisp-edges");
-                        same_name!("-o-pixelated");
                     }
                 }
             }
@@ -1154,11 +1159,7 @@ impl VisitMut for Prefixer {
             }
 
             "position" if n.value.len() == 1 => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    if &*value.to_lowercase() == "sticky" {
-                        same_name!("-webkit-sticky");
-                    }
-                }
+                replace_ident(&mut webkit_new_value, "sticky", "-webkit-sticky");
             }
 
             "user-select" => {
@@ -1460,23 +1461,21 @@ impl VisitMut for Prefixer {
             }
 
             "unicode-bidi" => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
-                        "isolate" => {
-                            same_name!("-moz-isolate");
-                            same_name!("-webkit-isolate");
-                        }
-                        "isolate-override" => {
-                            same_name!("-moz-isolate-override");
-                            same_name!("-webpack-isolate-override");
-                        }
-                        "plaintext" => {
-                            same_name!("-moz-plaintext");
-                            same_name!("-webpack-plaintext");
-                        }
-                        _ => {}
-                    }
-                }
+                replace_ident(&mut moz_new_value, "isolate", "-moz-isolate");
+                replace_ident(
+                    &mut moz_new_value,
+                    "isolate-override",
+                    "-moz-isolate-override",
+                );
+                replace_ident(&mut moz_new_value, "plaintext", "-moz-plaintext");
+
+                replace_ident(&mut webkit_new_value, "isolate", "-webkit-isolate");
+                replace_ident(
+                    &mut webkit_new_value,
+                    "isolate-override",
+                    "-webpack-isolate-override",
+                );
+                replace_ident(&mut webkit_new_value, "plaintext", "-webpack-plaintext");
             }
 
             "text-spacing" => {
