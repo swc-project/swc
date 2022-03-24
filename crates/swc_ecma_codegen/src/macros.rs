@@ -100,6 +100,7 @@ macro_rules! semi {
     };
 }
 
+///
 /// - `srcmap!(true)` for start (span.lo)
 /// - `srcmap!(false)` for end (span.hi)
 macro_rules! srcmap {
