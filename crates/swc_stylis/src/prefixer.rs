@@ -194,7 +194,7 @@ pub struct LinearGradientFunctionReplacerOnLegacyVariant<'a> {
 }
 
 // TODO ` -webkit-mask-image` need duplicate with original property for better
-// compatibility
+// TODO improve for very old browsers https://github.com/postcss/autoprefixer/blob/main/lib/hacks/gradient.js#L233
 impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
@@ -623,8 +623,7 @@ impl VisitMut for Prefixer {
             "cross-fade",
             "-webkit-cross-fade",
         );
-        // TODO improve for very old browsers https://github.com/postcss/autoprefixer/blob/main/lib/hacks/gradient.js#L233
-        // TODO check with cross-fade compatibility
+
         replace_gradient_function_on_legacy_variant(
             &mut webkit_new_value,
             "linear-gradient",
