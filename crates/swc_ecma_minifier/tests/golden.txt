@@ -816,6 +816,7 @@ keep_names/keep_var_fnames/input.js
 labels/labels_10/input.js
 labels/labels_3/input.js
 labels/labels_5/input.js
+labels/labels_6/input.js
 labels/labels_7/input.js
 labels/labels_8/input.js
 labels/labels_9/input.js
