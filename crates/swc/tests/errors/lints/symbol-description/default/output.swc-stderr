@@ -10,3 +10,9 @@
  2 | Symbol({})
    : ^^^^^^^^^^
    `----
+
+  x Expected Symbol to have a description
+   ,----
+ 3 | foo(() => Symbol())
+   :           ^^^^^^^^
+   `----

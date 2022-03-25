@@ -109,11 +109,9 @@ impl Visit for SymbolDescription {
     fn visit_call_expr(&mut self, call_expr: &CallExpr) {
         if let Callee::Expr(expr) = &call_expr.callee {
             if let Expr::Ident(ident) = expr.as_ref() {
-                if !self.is_symbol_call(ident) {
-                    return;
+                if self.is_symbol_call(ident) {
+                    self.check(call_expr.span, call_expr.args.first());
                 }
-
-                self.check(call_expr.span, call_expr.args.first());
             }
         }
 
