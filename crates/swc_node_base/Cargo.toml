@@ -1,0 +1,20 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Speedy web compiler"
+documentation = "https://rustdoc.swc.rs/swc_node_base/"
+edition = "2021"
+license = "Apache-2.0"
+name = "swc_node_base"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.5.1"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+fastmem = { version = "0.1.0", path = "../fastmem", features = ["enable"] }
+swc_common = { version = "0.17.14", path = "../swc_common", features = [
+  "perf",
+] }
+
+[target.'cfg(not(all(target_os = "linux", target_arch = "aarch64", target_env = "musl")))'.dependencies]
+mimalloc-rust = "=0.1.5"

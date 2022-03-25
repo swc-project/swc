@@ -1,0 +1,65 @@
+[workspace]
+members = [
+  "crates/jsdoc",
+  "crates/node",
+  "crates/swc_cli",
+  "crates/swc_css",
+  "crates/swc_css_lints",
+  "crates/swc_ecmascript",
+  "crates/swc_ecma_lints",
+  "crates/swc_ecma_quote",
+  "crates/swc_estree_compat",
+  "crates/swc_plugin",
+  "crates/swc_plugin_macro",
+  "crates/swc_plugin_runner",
+  "crates/swc_plugin_testing",
+  "crates/swc_stylis",
+  "crates/swc_timer",
+  "crates/swc_webpack_ast",
+  "crates/wasm",
+]
+
+default-members = [
+  "crates/jsdoc",
+  "crates/swc_cli",
+  "crates/swc_css",
+  "crates/swc_css_lints",
+  "crates/swc_ecmascript",
+  "crates/swc_ecma_lints",
+  "crates/swc_ecma_quote",
+  "crates/swc_estree_compat",
+  "crates/swc_plugin",
+  "crates/swc_plugin_macro",
+  "crates/swc_plugin_runner",
+  "crates/swc_plugin_testing",
+  "crates/swc_stylis",
+  "crates/swc_timer",
+  "crates/swc_webpack_ast",
+]
+
+[profile.release]
+codegen-units = 1
+
+# We use CARGO_PROFILE_RELEASE_LTO for production builds
+# lto = "fat"
+
+# debug = true
+# opt-level = 'z'
+
+[profile.bench]
+codegen-units = 1
+debug = true
+
+# Without this, printing diff consumes more than a minute.
+
+[profile.dev.package.pretty_assertions]
+opt-level = 3
+
+[profile.test.package.pretty_assertions]
+opt-level = 3
+
+[patch.crates-io]
+cranelift-codegen = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
+cranelift-entity = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
+# https://github.com/thoren-d/tracing-chrome/pull/6
+tracing-chrome = { git = "https://github.com/kwonoj/tracing-chrome", rev = "a345d8e" }
