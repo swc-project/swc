@@ -1,1 +1,1 @@
-for(var i in something)continue;
+for(var i in something);

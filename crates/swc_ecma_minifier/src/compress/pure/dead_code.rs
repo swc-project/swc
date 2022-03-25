@@ -1,6 +1,7 @@
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, StmtLike, Value};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
 use crate::{
@@ -10,6 +11,182 @@ use crate::{
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
+    ///  - Removes `L1: break L1`
+    pub(super) fn drop_instant_break(&mut self, s: &mut Stmt) {
+        if let Stmt::Labeled(ls) = s {
+            if let Stmt::Break(BreakStmt {
+                label: Some(label), ..
+            }) = &*ls.body
+            {
+                if label.sym == ls.label.sym {
+                    self.changed = true;
+                    tracing::debug!("Dropping instant break");
+                    s.take();
+                }
+            }
+        }
+    }
+
+    /// # Operations
+    ///
+    ///
+    ///  - Convert if break to conditionals
+    ///
+    /// ```js
+    /// out: {
+    ///     if (foo) break out;
+    ///     console.log("bar");
+    /// }
+    /// ```
+    ///
+    /// =>
+    ///
+    /// ```js
+    /// foo || console.log("bar");
+    /// ```
+    pub(super) fn optimize_labeled_stmt(&mut self, s: &mut Stmt) -> Option<()> {
+        if !self.options.dead_code {
+            return None;
+        }
+
+        if let Stmt::Labeled(ls) = s {
+            if let Stmt::Block(bs) = &mut *ls.body {
+                let first = bs.stmts.first_mut()?;
+
+                if let Stmt::If(IfStmt {
+                    test,
+                    cons,
+                    alt: None,
+                    ..
+                }) = first
+                {
+                    if let Stmt::Break(BreakStmt {
+                        label: Some(label), ..
+                    }) = &**cons
+                    {
+                        if ls.label.sym == label.sym {
+                            self.changed = true;
+                            tracing::debug!("Optimizing labeled stmt with a break to if statement");
+
+                            self.negate(test, true, false);
+                            let test = test.take();
+
+                            let mut cons = bs.take();
+                            cons.stmts.remove(0);
+
+                            *s = Stmt::If(IfStmt {
+                                span: ls.span,
+                                test,
+                                cons: Box::new(Stmt::Block(cons)),
+                                alt: None,
+                            });
+                            return None;
+                        }
+                    }
+                }
+
+                if let Stmt::If(IfStmt {
+                    test,
+                    cons,
+                    alt: Some(alt),
+                    ..
+                }) = first
+                {
+                    if let Stmt::Break(BreakStmt {
+                        label: Some(label), ..
+                    }) = &**alt
+                    {
+                        if ls.label.sym == label.sym {
+                            self.changed = true;
+                            tracing::debug!(
+                                "Optimizing labeled stmt with a break in alt to if statement"
+                            );
+
+                            let test = test.take();
+                            let cons = *cons.take();
+
+                            let mut new_cons = bs.take();
+                            new_cons.stmts[0] = cons;
+
+                            *s = Stmt::If(IfStmt {
+                                span: ls.span,
+                                test,
+                                cons: Box::new(Stmt::Block(new_cons)),
+                                alt: None,
+                            });
+                            return None;
+                        }
+                    }
+                }
+            }
+        }
+
+        None
+    }
+
+    /// Remove the last statement of a loop if it's continue
+    pub(super) fn drop_useless_continue(&mut self, s: &mut Stmt) {
+        match s {
+            Stmt::Labeled(ls) => {
+                let new = self.drop_useless_continue_inner(Some(ls.label.clone()), &mut ls.body);
+                if let Some(new) = new {
+                    *s = new;
+                }
+            }
+
+            _ => {
+                let new = self.drop_useless_continue_inner(None, s);
+                if let Some(new) = new {
+                    *s = new;
+                }
+            }
+        }
+    }
+
+    /// Returns [Some] if the whole statement sohuld be replaced
+    fn drop_useless_continue_inner(
+        &mut self,
+        label: Option<Ident>,
+        loop_stmt: &mut Stmt,
+    ) -> Option<Stmt> {
+        let body = match loop_stmt {
+            Stmt::While(ws) => &mut *ws.body,
+            Stmt::For(fs) => &mut *fs.body,
+            Stmt::ForIn(fs) => &mut *fs.body,
+            Stmt::ForOf(fs) => &mut *fs.body,
+            _ => return None,
+        };
+
+        if let Stmt::Block(b) = body {
+            let last = b.stmts.last_mut()?;
+
+            if let Stmt::Continue(last_cs) = last {
+                match last_cs.label {
+                    Some(_) => {
+                        if label.eq_ignore_span(&last_cs.label) {
+                        } else {
+                            return None;
+                        }
+                    }
+                    None => {}
+                }
+            } else {
+                return None;
+            }
+            self.changed = true;
+            tracing::debug!("Remove useless continue (last stmt of a loop)");
+            b.stmts.remove(b.stmts.len() - 1);
+
+            if let Some(label) = &label {
+                if !contains_label(b, label) {
+                    return Some(loop_stmt.take());
+                }
+            }
+        }
+
+        None
+    }
+
     pub(super) fn drop_unreachable_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemExt + Take,
@@ -157,5 +334,47 @@ impl Pure<'_> {
         }
 
         *stmts = new;
+    }
+}
+
+fn contains_label<N>(node: &N, label: &Ident) -> bool
+where
+    for<'aa> N: VisitWith<LabelFinder<'aa>>,
+{
+    let mut v = LabelFinder {
+        label,
+        found: false,
+    };
+    node.visit_with(&mut v);
+    v.found
+}
+
+struct LabelFinder<'a> {
+    label: &'a Ident,
+    found: bool,
+}
+impl Visit for LabelFinder<'_> {
+    noop_visit_type!();
+
+    fn visit_break_stmt(&mut self, s: &BreakStmt) {
+        match &s.label {
+            Some(label) => {
+                if label.sym == self.label.sym {
+                    self.found = true;
+                }
+            }
+            None => {}
+        }
+    }
+
+    fn visit_continue_stmt(&mut self, s: &ContinueStmt) {
+        match &s.label {
+            Some(label) => {
+                if label.sym == self.label.sym {
+                    self.found = true;
+                }
+            }
+            None => {}
+        }
     }
 }

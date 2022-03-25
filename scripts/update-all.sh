@@ -9,9 +9,6 @@ function up(){
 }
 
 up
-up
-up
-up
 
 
 git add -A
