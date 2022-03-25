@@ -1,1 +1,1 @@
-target: for(;;)continue target;
+for(;;);

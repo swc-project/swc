@@ -1,8 +1,10 @@
 use std::{
     fs::create_dir_all,
+    panic::{catch_unwind, resume_unwind, AssertUnwindSafe},
     path::{Path, PathBuf},
 };
 
+use rayon::prelude::*;
 use serde::de::DeserializeOwned;
 use swc::{
     config::{Config, IsModule, JscConfig, Options, SourceMapsConfig},
@@ -38,19 +40,33 @@ fn fixture(input: PathBuf) {
         return;
     }
 
-    for (name, opts) in matrix() {
-        let output_dir = Path::new("tests").join("tsc-references");
+    let panics = matrix()
+        .into_par_iter()
+        .filter_map(|(name, opts)| {
+            //
 
-        let _ = create_dir_all(&output_dir);
+            catch_unwind(AssertUnwindSafe(|| {
+                let output_dir = Path::new("tests").join("tsc-references");
 
-        let output_path = output_dir.join(format!(
-            "{}_{}.js",
-            input.file_stem().unwrap().to_str().unwrap(),
-            name
-        ));
+                let _ = create_dir_all(&output_dir);
 
-        compile(&input, &output_path, opts);
+                let output_path = output_dir.join(format!(
+                    "{}_{}.js",
+                    input.file_stem().unwrap().to_str().unwrap(),
+                    name
+                ));
+
+                compile(&input, &output_path, opts);
+            }))
+            .err()
+        })
+        .collect::<Vec<_>>();
+
+    if panics.is_empty() {
+        return;
     }
+
+    resume_unwind(panics.into_iter().next().unwrap());
 }
 
 fn from_json<T>(s: &str) -> T
