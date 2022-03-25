@@ -1,3 +1,5 @@
+#![allow(clippy::unused_unit)]
+
 use std::sync::Arc;
 
 use anyhow::{Context, Error};
