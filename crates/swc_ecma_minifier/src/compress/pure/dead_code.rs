@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend, ExprExt, StmtLike, Value};
+use swc_ecma_utils::{ExprExt, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
@@ -106,8 +106,7 @@ impl Pure<'_> {
                             let cons = *cons.take();
 
                             let mut new_cons = bs.take();
-                            new_cons.stmts.remove(0);
-                            prepend(&mut new_cons.stmts, cons);
+                            new_cons.stmts[0] = cons;
 
                             *s = Stmt::If(IfStmt {
                                 span: ls.span,
