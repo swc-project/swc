@@ -1,0 +1,11 @@
+.class-1 {
+    border-top-right-radius: 40px;
+}
+
+.class-2 {
+    border-top-right-radius: 40px 40px;
+}
+
+.class-3 {
+    border-top-right-radius: 50% 50%;
+}

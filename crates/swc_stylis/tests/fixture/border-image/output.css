@@ -1,6 +1,9 @@
 .class {
-  -webkit-border-image: fill;
-  -moz-border-image: fill;
-  -o-border-image: fill;
-  border-image: fill;
+  -webkit-border-image: -webkit-linear-gradient(black, white) 20% fill stretch stretch;
+  -moz-border-image: -moz-linear-gradient(black, white) 20% fill stretch stretch;
+  -o-border-image: -o-linear-gradient(black, white) 20% fill stretch stretch;
+  border-image: -webkit-linear-gradient(black, white) 20% fill stretch stretch;
+  border-image: -moz-linear-gradient(black, white) 20% fill stretch stretch;
+  border-image: -o-linear-gradient(black, white) 20% fill stretch stretch;
+  border-image: linear-gradient(black, white) 20% fill stretch stretch;
 }

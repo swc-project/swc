@@ -1,0 +1,11 @@
+.class-1 {
+    border-style: none solid dotted dashed;
+}
+
+.class-2 {
+    border-style: solid solid solid solid;
+}
+
+.class-3 {
+    border-style: double solid solid solid;
+}

@@ -5,6 +5,9 @@
 
 
 
+- **(cli)** Fix executable permission (#4154) ([e1d1d82](https://github.com/swc-project/swc/commit/e1d1d82fdb6504f3d6d53a0a8dbc3f3ec3eead70))
+
+
 - **(es)** Make `ErrorConfig.filename` default to true (#4150) ([7a1dcb1](https://github.com/swc-project/swc/commit/7a1dcb1b933308fe237f992ff38650c15875c4c5))
 
 
@@ -27,6 +30,12 @@
 
 
 - **(css/minifier)** Remove `@charset` at-rule if possible (#4135) ([6b6664a](https://github.com/swc-project/swc/commit/6b6664a92df62338c1152fbe9baa5227eb3075a4))
+
+
+- **(css/minifier)** Compress more properties (#4155) ([364ebd9](https://github.com/swc-project/swc/commit/364ebd951a49c5dcc2f8b04b1b9521422ad772fc))
+
+
+- **(css/prefixer)** Prefix more properties (#4153) ([46c35da](https://github.com/swc-project/swc/commit/46c35dab25f9e54c8c25e5176cd127ad2f91b380))
 
 
 - **(es/codegen)** Compress `\t` in string literals more (#4131) ([48f3dc8](https://github.com/swc-project/swc/commit/48f3dc8cc439fa5970b68a28c7db26cb88dacca7))

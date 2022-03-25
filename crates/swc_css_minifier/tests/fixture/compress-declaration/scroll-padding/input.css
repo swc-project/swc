@@ -75,3 +75,15 @@
 .class20 {
     scroll-padding: 20px 3em 20px 3em;
 }
+
+.class21 {
+    scroll-padding: 10%;
+}
+
+.class22 {
+    scroll-padding: 10% 20% 10% 20%;
+}
+
+.class23 {
+    scroll-padding: 10% 10% 10% 10%;
+}
