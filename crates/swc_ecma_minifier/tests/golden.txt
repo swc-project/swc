@@ -847,9 +847,6 @@ loops/issue_186_braces_ie8/input.js
 loops/issue_186_ie8/input.js
 loops/issue_2740_1/input.js
 loops/issue_2740_2/input.js
-loops/issue_2740_6/input.js
-loops/issue_2740_7/input.js
-loops/issue_2740_8/input.js
 loops/issue_2904/input.js
 loops/keep_collapse_const_in_own_block_scope/input.js
 loops/keep_collapse_const_in_own_block_scope_2/input.js
