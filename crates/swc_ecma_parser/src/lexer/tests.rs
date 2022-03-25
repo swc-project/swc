@@ -268,9 +268,11 @@ fn tpl_invalid_unicode_escape() {
                         Span {
                             lo: BytePos(1),
                             hi: BytePos(3),
-                            ctxt: SyntaxContext::empty()
+                            ctxt: SyntaxContext::empty(),
                         },
-                        SyntaxError::ExpectedHexChars { count: 4 }
+                        SyntaxError::BadCharacterEscapeSequence {
+                            expected: "4 hex characters"
+                        }
                     ))
                 }),
                 raw: "\\unicode".into(),
@@ -286,11 +288,13 @@ fn tpl_invalid_unicode_escape() {
                 cooked: Err(Error {
                     error: Box::new((
                         Span {
-                            lo: BytePos(4),
+                            lo: BytePos(1),
                             hi: BytePos(4),
-                            ctxt: SyntaxContext::empty()
+                            ctxt: SyntaxContext::empty(),
                         },
-                        SyntaxError::BadCharacterEscapeSequence { count: 6 }
+                        SyntaxError::BadCharacterEscapeSequence {
+                            expected: "1-6 hex characters"
+                        }
                     ))
                 }),
                 raw: "\\u{".into(),
@@ -308,9 +312,11 @@ fn tpl_invalid_unicode_escape() {
                         Span {
                             lo: BytePos(1),
                             hi: BytePos(3),
-                            ctxt: SyntaxContext::empty()
+                            ctxt: SyntaxContext::empty(),
                         },
-                        SyntaxError::ExpectedHexChars { count: 2 }
+                        SyntaxError::BadCharacterEscapeSequence {
+                            expected: "2 hex characters"
+                        }
                     ))
                 }),
                 raw: "\\xhex".into(),
