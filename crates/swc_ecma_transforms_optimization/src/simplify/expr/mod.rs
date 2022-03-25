@@ -1438,21 +1438,23 @@ where
 }
 
 fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
-    if !s.contains("\\\0") {
+    if !s.contains("\\ud") && !s.contains("\\uD") {
         return Cow::Owned(s.chars().nth(idx).unwrap().to_string());
     }
 
     let mut iter = s.chars().peekable();
 
     while let Some(c) = iter.next() {
-        if c == '\\' && iter.peek().copied() == Some('\0') {
+        println!("FUCK {:?}", c);
+
+        if c == '\\' && iter.peek().copied() == Some('u') {
             if idx == 0 {
                 let mut buf = String::new();
                 buf.push('\\');
-                buf.extend(iter.take(6));
+                buf.extend(iter.take(5));
                 return Cow::Owned(buf);
             } else {
-                for _ in 0..6 {
+                for _ in 0..5 {
                     iter.next();
                 }
             }
