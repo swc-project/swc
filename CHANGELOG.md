@@ -67,6 +67,12 @@
 
 - **(wasm/plugin)** Implement initial plugin interface for wasm runtimes (#4123) ([50f7f46](https://github.com/swc-project/swc/commit/50f7f465f9181ef6bcb63ee5457aa42f5e6ee29c))
 
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Add logging (#4156) ([97dfcb9](https://github.com/swc-project/swc/commit/97dfcb9ccb39620576d6e63c195ec588ff4c5790))
+
 ### Testing
 
 
