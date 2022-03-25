@@ -1,6 +1,6 @@
 
-  x Invalid unicode code point
+  x Bad character escape sequence, expected 1-6 hex characters
    ,-[$DIR/tests/test262-parser/fail/f8b20220d8c85d71.js:1:1]
  1 | "\u{110000}"
-   :     ^^^^^^
+   :  ^^^^^^^^^
    `----
