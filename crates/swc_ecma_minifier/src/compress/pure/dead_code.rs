@@ -12,59 +12,65 @@ use crate::{
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
     pub(super) fn drop_useless_continue(&mut self, s: &mut Stmt) {
-        /// Returns [Some] if it's modified.
-        fn opt(label: Option<Ident>, loop_stmt: &mut Stmt) -> Option<Stmt> {
-            let body = match loop_stmt {
-                Stmt::While(ws) => &mut *ws.body,
-                Stmt::For(fs) => &mut *fs.body,
-                Stmt::ForIn(fs) => &mut *fs.body,
-                Stmt::ForOf(fs) => &mut *fs.body,
-                _ => return None,
-            };
-
-            if let Stmt::Block(b) = body {
-                let last = b.stmts.last_mut()?;
-
-                if let Stmt::Continue(last_cs) = last {
-                    match last_cs.label {
-                        Some(_) => {
-                            if label.eq_ignore_span(&last_cs.label) {
-                            } else {
-                                return None;
-                            }
-                        }
-                        None => {}
-                    }
-                } else {
-                    return None;
-                }
-                b.stmts.remove(b.stmts.len() - 1);
-
-                if let Some(label) = &label {
-                    if !contains_label(b, label) {
-                        return Some(loop_stmt.take());
-                    }
-                }
-            }
-
-            None
-        }
-
         match s {
             Stmt::Labeled(ls) => {
-                let new = opt(Some(ls.label.clone()), &mut ls.body);
+                let new = self.drop_useless_continue_inner(Some(ls.label.clone()), &mut ls.body);
                 if let Some(new) = new {
                     *s = new;
                 }
             }
 
             _ => {
-                let new = opt(None, s);
+                let new = self.drop_useless_continue_inner(None, s);
                 if let Some(new) = new {
                     *s = new;
                 }
             }
         }
+    }
+
+    /// Returns [Some] if the whole statement sohuld be replaced
+    fn drop_useless_continue_inner(
+        &mut self,
+        label: Option<Ident>,
+        loop_stmt: &mut Stmt,
+    ) -> Option<Stmt> {
+        let body = match loop_stmt {
+            Stmt::While(ws) => &mut *ws.body,
+            Stmt::For(fs) => &mut *fs.body,
+            Stmt::ForIn(fs) => &mut *fs.body,
+            Stmt::ForOf(fs) => &mut *fs.body,
+            _ => return None,
+        };
+
+        if let Stmt::Block(b) = body {
+            let last = b.stmts.last_mut()?;
+
+            if let Stmt::Continue(last_cs) = last {
+                match last_cs.label {
+                    Some(_) => {
+                        if label.eq_ignore_span(&last_cs.label) {
+                        } else {
+                            return None;
+                        }
+                    }
+                    None => {}
+                }
+            } else {
+                return None;
+            }
+            self.changed = true;
+            tracing::debug!("Remove useless continue (last stmt of a loop)");
+            b.stmts.remove(b.stmts.len() - 1);
+
+            if let Some(label) = &label {
+                if !contains_label(b, label) {
+                    return Some(loop_stmt.take());
+                }
+            }
+        }
+
+        None
     }
 
     pub(super) fn drop_unreachable_stmts<T>(&mut self, stmts: &mut Vec<T>)
