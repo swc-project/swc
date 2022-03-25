@@ -41,9 +41,9 @@ pub struct PluginContext {
     pub env_name: String,
 }
 
-#[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
+#[cfg(feature = "plugin")]
 pub fn plugins(
-    resolver: CachingResolver<NodeModulesResolver>,
+    resolver: Option<CachingResolver<NodeModulesResolver>>,
     config: crate::config::JscExperimental,
     plugin_context: PluginContext,
 ) -> impl Fold {
@@ -56,18 +56,13 @@ pub fn plugins(
     }
 }
 
-#[cfg(all(feature = "plugin", target_arch = "wasm32"))]
-pub fn plugins(config: crate::config::JscExperimental, plugin_context: PluginContext) -> impl Fold {
-    swc_ecma_transforms::pass::noop()
-}
-
 #[cfg(not(feature = "plugin"))]
 pub fn plugins() -> impl Fold {
     noop()
 }
 
 struct RustPlugins {
-    resolver: CachingResolver<NodeModulesResolver>,
+    resolver: Option<CachingResolver<NodeModulesResolver>>,
     plugins: Option<Vec<PluginConfig>>,
     plugin_context: PluginContext,
 }
@@ -109,6 +104,8 @@ impl RustPlugins {
 
                 let resolved_path = self
                     .resolver
+                    .as_ref()
+                    .expect("filesystem_cache should provide resolver")
                     .resolve(&FileName::Real(PathBuf::from(&p.0)), &p.0)?;
 
                 let path = if let FileName::Real(value) = resolved_path {
@@ -143,8 +140,36 @@ impl RustPlugins {
 
     #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
-        //not implemented
-        Ok(n)
+        use std::{path::PathBuf, sync::Arc};
+
+        use anyhow::Context;
+        use swc_common::{plugin::Serialized, FileName};
+        use swc_ecma_loader::resolve::Resolve;
+
+        let mut serialized = Serialized::serialize(&n)?;
+
+        if let Some(plugins) = &self.plugins {
+            for p in plugins {
+                let config_json = serde_json::to_string(&p.1)
+                    .context("Failed to serialize plugin config as json")
+                    .and_then(|value| Serialized::serialize(&value))?;
+
+                let context_json = serde_json::to_string(&self.plugin_context)
+                    .context("Failed to serialize plugin context as json")
+                    .and_then(|value| Serialized::serialize(&value))?;
+
+                serialized = swc_plugin_runner::apply_transform_plugin(
+                    &p.0,
+                    &PathBuf::from(&p.0),
+                    &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
+                    serialized,
+                    config_json,
+                    context_json,
+                )?;
+            }
+        }
+
+        Serialized::deserialize(&serialized)
     }
 }
 
