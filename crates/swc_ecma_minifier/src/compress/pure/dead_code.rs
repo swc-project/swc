@@ -11,6 +11,23 @@ use crate::{
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
+    /// Removes `L1: break L1`
+    pub(super) fn drop_instant_break(&mut self, s: &mut Stmt) {
+        if let Stmt::Labeled(ls) = s {
+            if let Stmt::Break(BreakStmt {
+                label: Some(label), ..
+            }) = &*ls.body
+            {
+                if label.sym == ls.label.sym {
+                    self.changed = true;
+                    tracing::debug!("Dropping instant break");
+                    s.take();
+                }
+            }
+        }
+    }
+
+    /// Remove the last statement of a loop if it's continue
     pub(super) fn drop_useless_continue(&mut self, s: &mut Stmt) {
         match s {
             Stmt::Labeled(ls) => {
