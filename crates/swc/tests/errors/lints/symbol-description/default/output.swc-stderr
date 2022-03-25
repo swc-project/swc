@@ -1,0 +1,12 @@
+
+  x Expected Symbol to have a description
+   ,----
+ 1 | Symbol()
+   : ^^^^^^^^
+   `----
+
+  x Symbol description should be a string
+   ,----
+ 2 | Symbol({})
+   : ^^^^^^^^^^
+   `----

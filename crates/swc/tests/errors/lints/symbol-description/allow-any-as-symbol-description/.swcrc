@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "lints": {
+            "symbol-description": [
+                "error",
+                {
+                    "enforceStringDescription": false
+                }
+            ]
+        }
+    }
+}
