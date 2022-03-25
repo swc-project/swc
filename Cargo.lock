@@ -2953,7 +2953,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.160.0"
+version = "0.160.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3315,7 +3315,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.28.1"
+version = "0.28.2"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3392,7 +3392,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.97.1"
+version = "0.97.2"
 dependencies = [
  "either",
  "enum_kind",
@@ -3937,7 +3937,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.99.2"
+version = "0.99.3"
 dependencies = [
  "swc_atoms",
  "swc_common",

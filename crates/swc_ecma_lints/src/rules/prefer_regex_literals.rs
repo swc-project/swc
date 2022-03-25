@@ -1,10 +1,5 @@
-use std::{
-    fmt::{self, Debug},
-    sync::Arc,
-};
-
 use serde::{Deserialize, Serialize};
-use swc_common::{collections::AHashSet, errors::HANDLER, SourceMap, Span, SyntaxContext};
+use swc_common::{collections::AHashSet, errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls_with_ctxt, ident::IdentLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -34,7 +29,6 @@ pub struct PreferRegexLiteralsConfig {
 
 pub fn prefer_regex_literals(
     program: &Program,
-    source_map: &Arc<SourceMap>,
     config: &RuleConfig<PreferRegexLiteralsConfig>,
     top_level_ctxt: SyntaxContext,
     es_version: EsVersion,
@@ -49,7 +43,6 @@ pub fn prefer_regex_literals(
     match rule_reaction {
         LintRuleReaction::Off => None,
         _ => Some(visitor_rule(PreferRegexLiterals::new(
-            source_map.clone(),
             rule_reaction,
             disallow_redundant_wrapping,
             collect_decls_with_ctxt(program, top_level_ctxt),
@@ -59,10 +52,9 @@ pub fn prefer_regex_literals(
     }
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 struct PreferRegexLiterals {
     expected_reaction: LintRuleReaction,
-    source_map: Arc<SourceMap>,
     disallow_redundant_wrapping: bool,
     top_level_ctxt: SyntaxContext,
     top_level_declared_vars: AHashSet<Id>,
@@ -72,27 +64,8 @@ struct PreferRegexLiterals {
     second_arg: Option<ArgValue>,
 }
 
-impl Debug for PreferRegexLiterals {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_struct("PreferRegexLiterals")
-            .field("expected_reaction", &self.expected_reaction)
-            .field(
-                "disallow_redundant_wrapping",
-                &self.disallow_redundant_wrapping,
-            )
-            .field("top_level_ctxt", &self.top_level_ctxt)
-            .field("top_level_declared_vars", &self.top_level_declared_vars)
-            .field("allow_global_this", &self.allow_global_this)
-            .field("call_span", &self.call_span)
-            .field("first_arg", &self.first_arg)
-            .field("second_arg", &self.second_arg)
-            .finish()
-    }
-}
-
 impl PreferRegexLiterals {
     fn new(
-        source_map: Arc<SourceMap>,
         expected_reaction: LintRuleReaction,
         disallow_redundant_wrapping: bool,
         top_level_declared_vars: AHashSet<Id>,
@@ -101,7 +74,6 @@ impl PreferRegexLiterals {
     ) -> Self {
         Self {
             expected_reaction,
-            source_map,
             disallow_redundant_wrapping,
             top_level_ctxt,
             top_level_declared_vars,
@@ -123,7 +95,6 @@ impl PreferRegexLiterals {
 
         if let Some(ExprOrSpread { expr, .. }) = args.get(0) {
             self.first_arg = Some(extract_arg_val(
-                &self.source_map,
                 &self.top_level_ctxt,
                 &self.top_level_declared_vars,
                 expr.as_ref(),
@@ -133,7 +104,6 @@ impl PreferRegexLiterals {
 
         if let Some(ExprOrSpread { expr, .. }) = args.get(1) {
             self.second_arg = Some(extract_arg_val(
-                &self.source_map,
                 &self.top_level_ctxt,
                 &self.top_level_declared_vars,
                 expr.as_ref(),
