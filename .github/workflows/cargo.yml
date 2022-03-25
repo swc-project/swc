@@ -287,7 +287,7 @@ jobs:
             os: ubuntu-latest
           - crate: swc_plugin_testing
             os: windows-latest
-          - crate: swc_stylis
+          - crate: swc_css_prefixer
             os: ubuntu-latest
           - crate: swc_timer
             os: ubuntu-latest
