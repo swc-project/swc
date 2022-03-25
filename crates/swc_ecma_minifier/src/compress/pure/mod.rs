@@ -598,6 +598,8 @@ impl VisitMut for Pure<'_> {
 
         self.loop_to_for_stmt(s);
 
+        self.drop_useless_continue(s);
+
         if let Stmt::Expr(es) = s {
             if es.expr.is_invalid() {
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });

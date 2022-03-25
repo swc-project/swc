@@ -10,6 +10,29 @@ use crate::{
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
+    pub(super) fn drop_useless_continue(&mut self, s: &mut Stmt) {
+        /// Returns [Some] if it's modified.
+        fn opt(label: Option<Ident>, body: &mut Stmt) -> Option<Stmt> {
+            None
+        }
+
+        match s {
+            Stmt::Labeled(ls) => {
+                let new = opt(Some(ls.label.clone()), &mut ls.body);
+                if let Some(new) = new {
+                    *s = new;
+                }
+            }
+
+            _ => {
+                let new = opt(None, s);
+                if let Some(new) = new {
+                    *s = new;
+                }
+            }
+        }
+    }
+
     pub(super) fn drop_unreachable_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemExt + Take,
