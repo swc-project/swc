@@ -5,6 +5,12 @@
 
 
 
+- **(cli)** Fix executable permission (#4154) ([e1d1d82](https://github.com/swc-project/swc/commit/e1d1d82fdb6504f3d6d53a0a8dbc3f3ec3eead70))
+
+
+- **(es)** Make `ErrorConfig.filename` default to true (#4150) ([7a1dcb1](https://github.com/swc-project/swc/commit/7a1dcb1b933308fe237f992ff38650c15875c4c5))
+
+
 - **(es/codegen)** Fix codegen of template literals (#4124) ([f5a5217](https://github.com/swc-project/swc/commit/f5a5217506dd18b4ad49920d2e82026eb85dfd73))
 
 
@@ -38,10 +44,16 @@
 - **(es/lints)** Implement `no-param-reassign` rule (#4134) ([47712de](https://github.com/swc-project/swc/commit/47712de0da0a923dfebe52ebd98070924303f4d0))
 
 
+- **(es/lints)** Remove source map accesses (#4147) ([7a06c5b](https://github.com/swc-project/swc/commit/7a06c5b3d888418098dfe55d030645087e11b5e8))
+
+
 - **(es/minifier)** Implement some unsafe evaluation rules (#4133) ([1d3763d](https://github.com/swc-project/swc/commit/1d3763d96c94638bb0828110cc90bd123f96e327))
 
 
 - **(es/minifier)** Implement more rules for optimizing for-if-break (#4140) ([ee5c48c](https://github.com/swc-project/swc/commit/ee5c48c935b3cd8fa237680dd02f6bcb4faf8a82))
+
+
+- **(es/parser)** Report more errors for invalid patterns (#4145) ([cd7112b](https://github.com/swc-project/swc/commit/cd7112b18bcc98b704846adbd32c1d63557dcffe))
 
 
 - **(es/typescript)** Support optional variance annotations (#4008) ([bf1924d](https://github.com/swc-project/swc/commit/bf1924d1a8cc2039b624eecd9730d012c1e47321))
