@@ -1,6 +1,6 @@
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms::hygiene::rename;
+use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_utils::UsageFinder;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 

@@ -36,7 +36,7 @@ use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
     EsConfig, Parser, Syntax,
 };
-use swc_ecma_transforms::{fixer, hygiene::hygiene, resolver_with_mark};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{FoldWith, Visit, VisitMutWith, VisitWith};
 use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};

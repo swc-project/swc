@@ -8,7 +8,7 @@ use swc_ecma_minifier::{
     marks::Marks,
 };
 use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsConfig, Syntax};
-use swc_ecma_transforms::resolver;
+use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};

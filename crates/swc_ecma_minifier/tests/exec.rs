@@ -23,7 +23,7 @@ use swc_ecma_minifier::{
     },
 };
 use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
-use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver::resolver_with_mark};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::DebugUsingDisplay;
 

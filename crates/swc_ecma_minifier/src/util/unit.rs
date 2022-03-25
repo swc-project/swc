@@ -2,7 +2,7 @@ use std::fmt::Debug;
 
 use swc_common::Mark;
 use swc_ecma_ast::*;
-use swc_ecma_transforms::{fixer, hygiene};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{as_folder, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
