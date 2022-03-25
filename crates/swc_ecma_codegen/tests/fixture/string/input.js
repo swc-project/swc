@@ -118,3 +118,4 @@ const string110 = "\uFFFF";
 const string111 = "\u{FFFF}";
 const string112 = "\ud800";
 const string113 = "\uD800";
+React.createElement("div", null, "this should not parse as unicode: \\u00a0");

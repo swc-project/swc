@@ -3354,6 +3354,8 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
                                     iter.next();
                                 }
                             }
+                        } else {
+                            buf.push_str("\\\\");
                         }
                     }
                     _ => {
