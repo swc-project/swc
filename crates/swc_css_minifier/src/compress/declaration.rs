@@ -8,7 +8,7 @@ pub fn compress_declaration() -> impl VisitMut {
 struct CompressDeclaration {}
 
 impl CompressDeclaration {
-    fn is_same_dimension_length_nodes(
+    fn is_same_length_nodes(
         &self,
         node_1: Option<&ComponentValue>,
         node_2: Option<&ComponentValue>,
@@ -34,6 +34,60 @@ impl CompressDeclaration {
                 Some(ComponentValue::Integer(Integer { value: 0, .. })),
                 Some(ComponentValue::Integer(Integer { value: 0, .. })),
             ) => true,
+            (
+                Some(ComponentValue::Number(Number {
+                    value: first_number,
+                    ..
+                })),
+                Some(ComponentValue::Number(Number {
+                    value: second_number,
+                    ..
+                })),
+            ) if first_number == second_number => true,
+            _ => false,
+        }
+    }
+
+    fn is_same_length_percentage_nodes(
+        &self,
+        node_1: Option<&ComponentValue>,
+        node_2: Option<&ComponentValue>,
+    ) -> bool {
+        match (node_1, node_2) {
+            (
+                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                    value: value_1,
+                    unit: unit_1,
+                    ..
+                }))),
+                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                    value: value_2,
+                    unit: unit_2,
+                    ..
+                }))),
+            ) if value_1.value == value_2.value
+                && unit_1.value.to_lowercase() == unit_2.value.to_lowercase() =>
+            {
+                true
+            }
+            (
+                Some(ComponentValue::Percentage(Percentage { value: value_1, .. })),
+                Some(ComponentValue::Percentage(Percentage { value: value_2, .. })),
+            ) if value_1.value == value_2.value => true,
+            (
+                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+            ) => true,
+            (
+                Some(ComponentValue::Number(Number {
+                    value: first_number,
+                    ..
+                })),
+                Some(ComponentValue::Number(Number {
+                    value: second_number,
+                    ..
+                })),
+            ) if first_number == second_number => true,
             _ => false,
         }
     }
@@ -247,8 +301,18 @@ impl VisitMut for CompressDeclaration {
                         _ => {}
                     }
                 }
-                "padding" | "margin" | "border-width" | "inset" | "scroll-margin"
+                // TODO handle `auto`
+                // TODO compress numbers too
+                "padding"
+                | "margin"
+                | "border-width"
+                | "inset"
+                | "scroll-margin"
                 | "scroll-padding"
+                | "mask-border-outset"
+                | "border-image-width"
+                | "border-image-outset"
+                | "border-image-slice"
                     if declaration.value.len() > 1 =>
                 {
                     let top = declaration.value.get(0);
@@ -266,9 +330,9 @@ impl VisitMut for CompressDeclaration {
                         .or_else(|| declaration.value.get(1))
                         .or_else(|| declaration.value.get(0));
 
-                    if self.is_same_dimension_length_nodes(left, right) {
-                        if self.is_same_dimension_length_nodes(bottom, top) {
-                            if self.is_same_dimension_length_nodes(right, top) {
+                    if self.is_same_length_percentage_nodes(left, right) {
+                        if self.is_same_length_percentage_nodes(bottom, top) {
+                            if self.is_same_length_percentage_nodes(right, top) {
                                 declaration.value = vec![top.unwrap().clone()];
                             } else {
                                 declaration.value =
@@ -296,14 +360,63 @@ impl VisitMut for CompressDeclaration {
                 | "scroll-padding-block"
                 | "scroll-margin-inline"
                 | "scroll-margin-block"
+                | "border-top-left-radius"
+                | "border-top-right-radius"
+                | "border-bottom-right-radius"
+                | "border-bottom-left-radius"
+                | "border-start-start-radius"
+                | "border-start-end-radius"
+                | "border-end-start-radius"
+                | "border-end-end-radius"
                     if declaration.value.len() == 2 =>
                 {
                     let first = declaration.value.get(0);
                     let second = declaration.value.get(1);
 
-                    if self.is_same_dimension_length_nodes(first, second)
+                    if self.is_same_length_percentage_nodes(first, second)
                         || self.is_same_ident(first, second)
                     {
+                        declaration.value.remove(1);
+                    }
+                }
+                "border-style" if declaration.value.len() > 1 => {
+                    let top = declaration.value.get(0);
+                    let right = declaration
+                        .value
+                        .get(1)
+                        .or_else(|| declaration.value.get(0));
+                    let bottom = declaration
+                        .value
+                        .get(2)
+                        .or_else(|| declaration.value.get(0));
+                    let left = declaration
+                        .value
+                        .get(3)
+                        .or_else(|| declaration.value.get(1))
+                        .or_else(|| declaration.value.get(0));
+
+                    if self.is_same_ident(left, right) {
+                        if self.is_same_ident(bottom, top) {
+                            if self.is_same_ident(right, top) {
+                                declaration.value = vec![top.unwrap().clone()];
+                            } else {
+                                declaration.value =
+                                    vec![top.unwrap().clone(), right.unwrap().clone()];
+                            }
+                        } else {
+                            declaration.value = vec![
+                                top.unwrap().clone(),
+                                right.unwrap().clone(),
+                                bottom.unwrap().clone(),
+                            ];
+                        }
+                    }
+                }
+                "border-spacing" | "border-image-repeat" if declaration.value.len() == 2 => {
+                    let first = declaration.value.get(0);
+                    let second = declaration.value.get(1);
+
+                    if self.is_same_length_nodes(first, second) {
                         declaration.value.remove(1);
                     }
                 }
@@ -384,6 +497,9 @@ impl VisitMut for CompressDeclaration {
                 | "overscroll-behavior"
                 | "scroll-snap-align"
                 | "overflow"
+                | "place-self"
+                | "place-items"
+                | "place-content"
                     if declaration.value.len() == 2 =>
                 {
                     let first = declaration.value.get(0);
