@@ -7,5 +7,5 @@
 
 set -eux
 
-export RUST_LOG=swc_ecma_minifier=trace
-cargo test $@ --features debug --test compress
+export RUST_LOG=swc_ecma_minifier=trace,swc_ecma_transforms_optimization=trace
+cargo test $@ --features debug --features swc_ecma_transforms_optimization/debug --test compress

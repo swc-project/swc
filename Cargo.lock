@@ -2953,7 +2953,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.160.0"
+version = "0.160.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3379,8 +3379,8 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_parser",
- "swc_ecma_transforms",
  "swc_ecma_transforms_base",
+ "swc_ecma_transforms_optimization",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_node_base",
@@ -3937,7 +3937,7 @@ version = "0.24.1"
 
 [[package]]
 name = "swc_stylis"
-version = "0.99.2"
+version = "0.99.3"
 dependencies = [
  "swc_atoms",
  "swc_common",

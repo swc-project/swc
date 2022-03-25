@@ -1,3 +1,4 @@
+use core::f64::consts::PI;
 use std::mem::take;
 
 use swc_atoms::JsWord;
@@ -187,12 +188,250 @@ where
     });
 }
 
+pub struct LinearGradientFunctionReplacerOnLegacyVariant<'a> {
+    from: &'a str,
+    to: &'a str,
+}
+
+// TODO ` -webkit-mask-image` need duplicate with original property for better
+// TODO improve for very old browsers https://github.com/postcss/autoprefixer/blob/main/lib/hacks/gradient.js#L233
+impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        if &*n.name.value.to_lowercase() == self.from {
+            n.name.value = self.to.into();
+            n.name.raw = self.to.into();
+
+            let first = n.value.get(0);
+
+            match first {
+                Some(ComponentValue::Ident(Ident { value, .. }))
+                    if value.as_ref().eq_ignore_ascii_case("to") =>
+                {
+                    fn get_old_direction(direction: &str) -> Option<&str> {
+                        match direction {
+                            "top" => Some("bottom"),
+                            "left" => Some("right"),
+                            "bottom" => Some("top"),
+                            "right" => Some("left"),
+                            _ => None,
+                        }
+                    }
+
+                    match (n.value.get(1), n.value.get(2)) {
+                        (
+                            Some(ComponentValue::Ident(Ident {
+                                value: first_value,
+                                span: first_span,
+                                ..
+                            })),
+                            Some(ComponentValue::Ident(Ident {
+                                value: second_value,
+                                span: second_span,
+                                ..
+                            })),
+                        ) => {
+                            if let (Some(new_first_direction), Some(new_second_direction)) = (
+                                get_old_direction(&*first_value),
+                                get_old_direction(&*second_value),
+                            ) {
+                                let new_value = vec![
+                                    ComponentValue::Ident(Ident {
+                                        span: *first_span,
+                                        value: new_first_direction.into(),
+                                        raw: new_first_direction.into(),
+                                    }),
+                                    ComponentValue::Ident(Ident {
+                                        span: *second_span,
+                                        value: new_second_direction.into(),
+                                        raw: new_second_direction.into(),
+                                    }),
+                                ];
+
+                                n.value.splice(0..3, new_value);
+                            }
+                        }
+                        (Some(ComponentValue::Ident(Ident { value, span, .. })), Some(_)) => {
+                            if let Some(new_direction) = get_old_direction(&*value) {
+                                let new_value = vec![ComponentValue::Ident(Ident {
+                                    span: *span,
+                                    value: new_direction.into(),
+                                    raw: new_direction.into(),
+                                })];
+
+                                n.value.splice(0..2, new_value);
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+                Some(ComponentValue::Dimension(Dimension::Angle(Angle {
+                    value,
+                    unit,
+                    span,
+                    ..
+                }))) => {
+                    let angle = match &*unit.value {
+                        "deg" => (value.value % 360.0 + 360.0) % 360.0,
+                        "grad" => value.value * 180.0 / 200.0,
+                        "rad" => value.value * 180.0 / PI,
+                        "turn" => value.value * 360.0,
+                        _ => {
+                            return;
+                        }
+                    };
+
+                    if angle == 0.0 {
+                        n.value[0] = ComponentValue::Ident(Ident {
+                            span: *span,
+                            value: "bottom".into(),
+                            raw: "bottom".into(),
+                        });
+                    } else if angle == 90.0 {
+                        n.value[0] = ComponentValue::Ident(Ident {
+                            span: *span,
+                            value: "left".into(),
+                            raw: "left".into(),
+                        });
+                    } else if angle == 180.0 {
+                        n.value[0] = ComponentValue::Ident(Ident {
+                            span: *span,
+                            value: "top".into(),
+                            raw: "top".into(),
+                        });
+                    } else if angle == 270.0 {
+                        n.value[0] = ComponentValue::Ident(Ident {
+                            span: *span,
+                            value: "right".into(),
+                            raw: "right".into(),
+                        });
+                    } else {
+                        let new_value = ((450.0 - angle).abs() % 360.0 * 1000.0).round() / 1000.0;
+
+                        n.value[0] = ComponentValue::Dimension(Dimension::Angle(Angle {
+                            span: *span,
+                            value: Number {
+                                span: value.span,
+                                value: new_value,
+                                raw: new_value.to_string().into(),
+                            },
+                            unit: Ident {
+                                span: unit.span,
+                                value: "deg".into(),
+                                raw: "deg".into(),
+                            },
+                        }));
+                    }
+                }
+                Some(_) | None => {}
+            }
+
+            if matches!(self.from, "radial-gradient" | "repeating-radial-gradient") {
+                let at_index = n.value.iter().position(|n| match n {
+                    ComponentValue::Ident(Ident { value, .. })
+                        if value.as_ref().eq_ignore_ascii_case("at") =>
+                    {
+                        true
+                    }
+                    _ => false,
+                });
+                let first_comma_index = n.value.iter().position(|n| {
+                    matches!(
+                        n,
+                        ComponentValue::Delimiter(Delimiter {
+                            value: DelimiterValue::Comma,
+                            ..
+                        })
+                    )
+                });
+
+                if let (Some(at_index), Some(first_comma_index)) = (at_index, first_comma_index) {
+                    let mut new_value = vec![];
+
+                    new_value.append(&mut n.value[at_index + 1..first_comma_index].to_vec());
+                    new_value.append(&mut vec![ComponentValue::Delimiter(Delimiter {
+                        span: DUMMY_SP,
+                        value: DelimiterValue::Comma,
+                    })]);
+                    new_value.append(&mut n.value[0..at_index].to_vec());
+
+                    n.value.splice(0..first_comma_index, new_value);
+                }
+            }
+        }
+    }
+}
+
+pub fn replace_gradient_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+where
+    N: for<'aa> VisitMutWith<LinearGradientFunctionReplacerOnLegacyVariant<'aa>>,
+{
+    node.visit_mut_with(&mut LinearGradientFunctionReplacerOnLegacyVariant { from, to });
+}
+
+pub struct MediaFeatureResolutionReplacerOnLegacyVariant<'a> {
+    from: &'a str,
+    to: &'a str,
+}
+
+impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
+    fn visit_mut_media_feature_plain(&mut self, n: &mut MediaFeaturePlain) {
+        n.visit_mut_children_with(self);
+
+        if let MediaFeatureValue::Dimension(Dimension::Resolution(Resolution {
+            span: resolution_span,
+            value: resolution_value,
+            unit: resolution_unit,
+        })) = &n.value
+        {
+            let MediaFeatureName::Ident(Ident {
+                value: feature_name_value,
+                span: feature_name_span,
+                ..
+            }) = &n.name;
+
+            if &*feature_name_value.to_lowercase() == self.from {
+                n.name = MediaFeatureName::Ident(Ident {
+                    span: *feature_name_span,
+                    value: self.to.into(),
+                    raw: self.to.into(),
+                });
+
+                let left = match &*resolution_unit.value.to_lowercase() {
+                    "dpi" => (resolution_value.value / 96.0 * 100.0).round() / 100.0,
+                    "dpcm" => (((resolution_value.value * 2.54) / 96.0) * 100.0).round() / 100.0,
+                    _ => resolution_value.value,
+                };
+
+                n.value = MediaFeatureValue::Ratio(Ratio {
+                    span: *resolution_span,
+                    left: Number {
+                        span: resolution_value.span,
+                        value: left,
+                        raw: left.to_string().into(),
+                    },
+                    right: None,
+                });
+            }
+        }
+    }
+}
+
+pub fn replace_media_feature_resolution_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+where
+    N: for<'aa> VisitMutWith<MediaFeatureResolutionReplacerOnLegacyVariant<'aa>>,
+{
+    node.visit_mut_with(&mut MediaFeatureResolutionReplacerOnLegacyVariant { from, to });
+}
+
 #[derive(Default)]
 struct Prefixer {
     in_stylesheet: bool,
+    in_media_query_list: bool,
     in_keyframe_block: bool,
-    added_rules: Vec<Rule>,
     in_simple_block: bool,
+    added_rules: Vec<Rule>,
     added_declarations: Vec<Declaration>,
 }
 
@@ -239,6 +478,64 @@ pub enum Prefix {
 }
 
 impl VisitMut for Prefixer {
+    // TODO handle declarations in `@media`/`@support`
+    // TODO handle `@viewport`
+    // TODO handle `@keyframes`
+
+    fn visit_mut_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
+        let old_in_media_query_list = self.in_media_query_list;
+
+        self.in_media_query_list = true;
+
+        let mut new = vec![];
+
+        for mut n in take(&mut media_query_list.queries) {
+            n.visit_mut_children_with(self);
+
+            let mut new_webkit_value = n.clone();
+
+            replace_media_feature_resolution_on_legacy_variant(
+                &mut new_webkit_value,
+                "min-resolution",
+                "-webkit-min-device-pixel-ratio",
+            );
+            replace_media_feature_resolution_on_legacy_variant(
+                &mut new_webkit_value,
+                "max-resolution",
+                "-webkit-max-device-pixel-ratio",
+            );
+
+            if n != new_webkit_value {
+                new.push(new_webkit_value);
+            }
+
+            let mut new_moz_value = n.clone();
+
+            replace_media_feature_resolution_on_legacy_variant(
+                &mut new_moz_value,
+                "min-resolution",
+                "min--moz-device-pixel-ratio",
+            );
+            replace_media_feature_resolution_on_legacy_variant(
+                &mut new_moz_value,
+                "max-resolution",
+                "max--moz-device-pixel-ratio",
+            );
+
+            if n != new_moz_value {
+                new.push(new_moz_value);
+            }
+
+            // TODO opera support
+
+            new.push(n);
+        }
+
+        media_query_list.queries = new;
+
+        self.in_media_query_list = old_in_media_query_list;
+    }
+
     fn visit_mut_keyframe_block(&mut self, n: &mut KeyframeBlock) {
         let old_in_keyframe_block = self.in_keyframe_block;
 
@@ -248,11 +545,6 @@ impl VisitMut for Prefixer {
 
         self.in_keyframe_block = old_in_keyframe_block;
     }
-
-    // TODO handle `resolution` in media/supports at-rules
-    // TODO handle declarations in `@media`/`@support`
-    // TODO handle `@viewport`
-    // TODO handle `@keyframes`
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         n.visit_mut_children_with(self);
@@ -441,12 +733,75 @@ impl VisitMut for Prefixer {
             "-webkit-cross-fade",
         );
 
+        replace_gradient_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "linear-gradient",
+            "-webkit-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "repeating-linear-gradient",
+            "-webkit-repeating-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "radial-gradient",
+            "-webkit-radial-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut webkit_new_value,
+            "repeating-radial-gradient",
+            "-webkit-repeating-radial-gradient",
+        );
+
         let mut moz_new_value = n.value.clone();
 
         replace_function_name(&mut moz_new_value, "element", "-moz-element");
         replace_function_name(&mut moz_new_value, "calc", "-moz-calc");
+        replace_gradient_function_on_legacy_variant(
+            &mut moz_new_value,
+            "linear-gradient",
+            "-moz-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut moz_new_value,
+            "repeating-linear-gradient",
+            "-moz-repeating-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut moz_new_value,
+            "radial-gradient",
+            "-moz-radial-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut moz_new_value,
+            "repeating-radial-gradient",
+            "-moz-repeating-linear-gradient",
+        );
 
         let mut o_new_value = n.value.clone();
+
+        replace_gradient_function_on_legacy_variant(
+            &mut o_new_value,
+            "linear-gradient",
+            "-o-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut o_new_value,
+            "repeating-linear-gradient",
+            "-o-repeating-linear-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut o_new_value,
+            "radial-gradient",
+            "-o-radial-gradient",
+        );
+        replace_gradient_function_on_legacy_variant(
+            &mut o_new_value,
+            "repeating-radial-gradient",
+            "-o-repeating-radial-gradient",
+        );
+
         let ms_new_value = n.value.clone();
 
         macro_rules! same_content {
@@ -484,7 +839,9 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        match &*name.to_lowercase() {
+        let property_name = &*name.to_lowercase();
+
+        match property_name {
             "appearance" => {
                 same_content!(Prefix::Webkit, "-webkit-appearance");
                 same_content!(Prefix::Moz, "-moz-appearance");
@@ -562,7 +919,6 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::O, "-o-animation-timing-function");
             }
 
-            // TODO improve me https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip
             "background-clip" => {
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "text" {
@@ -759,14 +1115,28 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-flex-line-pack");
             }
 
-            // TODO fix me https://developer.mozilla.org/en-US/docs/Web/CSS/Image-Rendering
             "image-rendering" => {
+                // Fallback to nearest-neighbor algorithm
+                replace_ident(
+                    &mut webkit_new_value,
+                    "pixelated",
+                    "-webkit-optimize-contrast",
+                );
+                replace_ident(
+                    &mut webkit_new_value,
+                    "crisp-edges",
+                    "-webkit-optimize-contrast",
+                );
+
+                // Fallback to nearest-neighbor algorithm
+                replace_ident(&mut moz_new_value, "pixelated", "-moz-crisp-edges");
+                replace_ident(&mut moz_new_value, "crisp-edges", "-moz-crisp-edges");
+
+                replace_ident(&mut o_new_value, "pixelated", "-o-pixelated");
+
                 if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
                     if &*value.to_lowercase() == "pixelated" {
                         simple!("-ms-interpolation-mode", "nearest-neighbor");
-                        same_name!("-webkit-optimize-contrast");
-                        same_name!("-moz-crisp-edges");
-                        same_name!("-o-pixelated");
                     }
                 }
             }
@@ -906,11 +1276,7 @@ impl VisitMut for Prefixer {
             }
 
             "position" if n.value.len() == 1 => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    if &*value.to_lowercase() == "sticky" {
-                        same_name!("-webkit-sticky");
-                    }
-                }
+                replace_ident(&mut webkit_new_value, "sticky", "-webkit-sticky");
             }
 
             "user-select" => {
@@ -1133,40 +1499,52 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            "width" | "min-width" | "max-width" | "height" | "min-height" | "max-height"
-            | "inline-size" | "min-inline-size" | "max-inline-size" | "block-size"
-            | "min-block-size" | "max-block-size"
-                if n.value.len() == 1 =>
-            {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
-                        "fit-content" => {
-                            same_name!("-webkit-fit-content");
-                            same_name!("-moz-fit-content");
-                        }
+            "width"
+            | "min-width"
+            | "max-width"
+            | "height"
+            | "min-height"
+            | "max-height"
+            | "inline-size"
+            | "min-inline-size"
+            | "max-inline-size"
+            | "block-size"
+            | "min-block-size"
+            | "max-block-size"
+            | "grid"
+            | "grid-template"
+            | "grid-template-rows"
+            | "grid-template-columns"
+            | "grid-auto-columns"
+            | "grid-auto-rows" => {
+                let is_grid_property = matches!(
+                    property_name,
+                    "grid"
+                        | "grid-template"
+                        | "grid-template-rows"
+                        | "grid-template-columns"
+                        | "grid-auto-columns"
+                        | "grid-auto-rows"
+                );
 
-                        "max-content" => {
-                            same_name!("-webkit-max-content");
-                            same_name!("-moz-max-content");
-                        }
+                replace_ident(&mut webkit_new_value, "fit-content", "-webkit-fit-content");
+                replace_ident(&mut webkit_new_value, "max-content", "-webkit-max-content");
+                replace_ident(&mut webkit_new_value, "min-content", "-webkit-min-content");
+                replace_ident(
+                    &mut webkit_new_value,
+                    "fill-available",
+                    "-webkit-fill-available",
+                );
+                replace_ident(&mut webkit_new_value, "fill", "-webkit-fill-available");
+                replace_ident(&mut webkit_new_value, "stretch", "-webkit-fill-available");
 
-                        "min-content" => {
-                            same_name!("-webkit-min-content");
-                            same_name!("-moz-min-content");
-                        }
-
-                        "fill-available" | "fill" => {
-                            same_name!("-webkit-fill-available");
-                            same_name!("-moz-available");
-                        }
-
-                        "stretch" => {
-                            same_name!("-webkit-fill-available");
-                            same_name!("-moz-available");
-                        }
-
-                        _ => {}
-                    }
+                if !is_grid_property {
+                    replace_ident(&mut moz_new_value, "fit-content", "-moz-fit-content");
+                    replace_ident(&mut moz_new_value, "max-content", "-moz-max-content");
+                    replace_ident(&mut moz_new_value, "min-content", "-moz-min-content");
+                    replace_ident(&mut moz_new_value, "fill-available", "-moz-available");
+                    replace_ident(&mut moz_new_value, "fill", "-moz-available");
+                    replace_ident(&mut moz_new_value, "stretch", "-moz-available");
                 }
             }
 
@@ -1200,23 +1578,21 @@ impl VisitMut for Prefixer {
             }
 
             "unicode-bidi" => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
-                        "isolate" => {
-                            same_name!("-moz-isolate");
-                            same_name!("-webkit-isolate");
-                        }
-                        "isolate-override" => {
-                            same_name!("-moz-isolate-override");
-                            same_name!("-webpack-isolate-override");
-                        }
-                        "plaintext" => {
-                            same_name!("-moz-plaintext");
-                            same_name!("-webpack-plaintext");
-                        }
-                        _ => {}
-                    }
-                }
+                replace_ident(&mut moz_new_value, "isolate", "-moz-isolate");
+                replace_ident(
+                    &mut moz_new_value,
+                    "isolate-override",
+                    "-moz-isolate-override",
+                );
+                replace_ident(&mut moz_new_value, "plaintext", "-moz-plaintext");
+
+                replace_ident(&mut webkit_new_value, "isolate", "-webkit-isolate");
+                replace_ident(
+                    &mut webkit_new_value,
+                    "isolate-override",
+                    "-webpack-isolate-override",
+                );
+                replace_ident(&mut webkit_new_value, "plaintext", "-webpack-plaintext");
             }
 
             "text-spacing" => {
@@ -1318,7 +1694,6 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-hyphens");
             }
 
-            // TODO fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/border-image.js
             "border-image" => {
                 same_content!(Prefix::Webkit, "-webkit-border-image");
                 same_content!(Prefix::Moz, "-moz-border-image");
@@ -1447,9 +1822,7 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Moz, "-moz-border-radius-bottomleft");
             }
 
-            // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid) and https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L559 and https://github.com/postcss/autoprefixer/blob/main/lib/hacks/intrinsic.js
-            // TODO handle https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L938
-            // TODO handle `linear-gradient()`/`repeating-linear-gradient()`/`radial-gradient()`/`repeating-radial-gradient()` in all properties https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L168
+            // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {}
         }

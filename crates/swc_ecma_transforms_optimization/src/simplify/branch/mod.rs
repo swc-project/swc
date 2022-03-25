@@ -15,6 +15,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+use tracing::{debug, trace};
 
 #[cfg(test)]
 mod tests;
@@ -69,6 +70,10 @@ impl VisitMut for Remover {
         }
 
         if let Some(i) = preserved {
+            if cfg!(feature = "debug") {
+                debug!("Removing elements of an array pattern");
+            }
+
             p.elems.drain(i..);
         }
     }
@@ -90,6 +95,9 @@ impl VisitMut for Remover {
                 _ => false,
             } =>
             {
+                if cfg!(feature = "debug") {
+                    debug!("Dropping assignment to the same variable");
+                }
                 *e = Expr::Ident(r.take().ident().unwrap());
             }
 
@@ -103,6 +111,9 @@ impl VisitMut for Remover {
                 _ => false,
             } =>
             {
+                if cfg!(feature = "debug") {
+                    debug!("Dropping assignment to an empty array pattern");
+                }
                 *e = *right.take();
             }
 
@@ -116,6 +127,9 @@ impl VisitMut for Remover {
                 _ => false,
             } =>
             {
+                if cfg!(feature = "debug") {
+                    debug!("Dropping assignment to an empty object pattern");
+                }
                 *e = *right.take();
             }
 
@@ -134,6 +148,9 @@ impl VisitMut for Remover {
                                 ..
                             }) if !arg.may_have_side_effects())) =>
             {
+                if cfg!(feature = "debug") {
+                    debug!("Dropping side-effect-free expressions");
+                }
                 *e = *cond.cons.take();
             }
 
@@ -169,6 +186,9 @@ impl VisitMut for Remover {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        if cfg!(feature = "debug") {
+            debug!("Removing dead branches");
+        }
         self.fold_stmt_like(n)
     }
 
@@ -191,6 +211,11 @@ impl VisitMut for Remover {
                     _ => false,
                 } =>
             {
+                if cfg!(feature = "debug") {
+                    debug!(
+                        "Dropping key-value pattern property because it's an empty object pattern"
+                    );
+                }
                 false
             }
 
@@ -200,6 +225,11 @@ impl VisitMut for Remover {
                     _ => false,
                 } =>
             {
+                if cfg!(feature = "debug") {
+                    debug!(
+                        "Dropping key-value pattern property because it's an empty array pattern"
+                    );
+                }
                 false
             }
             _ => true,
@@ -333,6 +363,10 @@ impl VisitMut for Remover {
 
                     let mut stmts = vec![];
                     if let (p, Known(v)) = test.as_bool() {
+                        if cfg!(feature = "debug") {
+                            trace!("The condition for if statement is always {}", v);
+                        }
+
                         // Preserve effect of the test
                         if !p.is_pure() {
                             if let Some(expr) = ignore_result(*test).map(Box::new) {
@@ -358,6 +392,10 @@ impl VisitMut for Remover {
 
                         if stmts.is_empty() {
                             return Stmt::Empty(EmptyStmt { span });
+                        }
+
+                        if cfg!(feature = "debug") {
+                            debug!("Optimized an if statement with known condition");
                         }
 
                         self.changed = true;
@@ -395,10 +433,16 @@ impl VisitMut for Remover {
                 }
 
                 Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
+                    if cfg!(feature = "debug") {
+                        debug!("Dropping an empty var declaration");
+                    }
                     Stmt::Empty(EmptyStmt { span: v.span })
                 }
 
                 Stmt::Labeled(LabeledStmt { span, body, .. }) if body.is_empty() => {
+                    if cfg!(feature = "debug") {
+                        debug!("Dropping an empty label statement");
+                    }
                     Stmt::Empty(EmptyStmt { span })
                 }
 
@@ -412,6 +456,9 @@ impl VisitMut for Remover {
                     _ => false,
                 } =>
                 {
+                    if cfg!(feature = "debug") {
+                        debug!("Dropping a label statement with instant break");
+                    }
                     Stmt::Empty(EmptyStmt { span })
                 }
 
@@ -429,11 +476,19 @@ impl VisitMut for Remover {
 
                 Stmt::Block(BlockStmt { span, stmts }) => {
                     if stmts.is_empty() {
+                        if cfg!(feature = "debug") {
+                            debug!("Drooping an empty block statement");
+                        }
+
                         Stmt::Empty(EmptyStmt { span })
                     } else if stmts.len() == 1
                         && !is_block_scoped_stuff(&stmts[0])
                         && stmt_depth(&stmts[0]) <= 1
                     {
+                        if cfg!(feature = "debug") {
+                            debug!("Optimizing a block statement with a single statement");
+                        }
+
                         let mut v = stmts.into_iter().next().unwrap();
                         v.visit_mut_with(self);
                         v
@@ -466,6 +521,10 @@ impl VisitMut for Remover {
                     // If catch block is not specified and finally block is empty, fold it to simple
                     // block.
                     if handler.is_none() && finalizer.is_empty() {
+                        if cfg!(feature = "debug") {
+                            debug!("Converting a try statement to a block statement");
+                        }
+
                         return Stmt::Block(block);
                     }
 
@@ -857,6 +916,10 @@ impl VisitMut for Remover {
                         _ => false,
                     } =>
                 {
+                    if cfg!(feature = "debug") {
+                        debug!("Optimizing a for statement with a false test");
+                    }
+
                     let decl = s.body.extract_var_ids_as_var();
                     let body = if let Some(var) = decl {
                         Stmt::Decl(Decl::Var(var))
@@ -950,14 +1013,30 @@ impl VisitMut for Remover {
 
                         //
                         match &v.name {
-                            Pat::Object(o) if o.props.is_empty() => None,
-                            Pat::Array(a) if a.elems.is_empty() => None,
+                            Pat::Object(o) if o.props.is_empty() => {
+                                if cfg!(feature = "debug") {
+                                    debug!("Dropping an object pattern in a var declaration");
+                                }
+
+                                None
+                            }
+                            Pat::Array(a) if a.elems.is_empty() => {
+                                if cfg!(feature = "debug") {
+                                    debug!("Dropping an array pattern in a var declaration");
+                                }
+
+                                None
+                            }
 
                             _ => Some(v),
                         }
                     });
 
                     if decls.is_empty() {
+                        if cfg!(feature = "debug") {
+                            debug!("Dropping a useless variable declaration");
+                        }
+
                         return Stmt::Empty(EmptyStmt { span: v.span });
                     }
 
@@ -1063,6 +1142,10 @@ impl Remover {
                             new_stmts.extend(hoisted_fns);
 
                             *stmts = new_stmts;
+
+                            if cfg!(feature = "debug") {
+                                debug!("Dropping statements after a control keyword");
+                            }
                             return;
                         }
 

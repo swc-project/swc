@@ -14,7 +14,7 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
-debug = ["backtrace"]
+debug = ["backtrace", "swc_ecma_transforms_optimization/debug"]
 
 [dependencies]
 ahash = "0.7.6"
@@ -35,10 +35,8 @@ swc_common = { version = "0.17.0", path = "../swc_common" }
 swc_ecma_ast = { version = "0.73.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.100.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "0.97.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "0.138.0", path = "../swc_ecma_transforms/", features = [
-  "optimization",
-] }
 swc_ecma_transforms_base = { version = "0.72.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "0.108.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "0.76.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.59.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "0.5.0", path = "../swc_timer" }
