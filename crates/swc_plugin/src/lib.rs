@@ -1,3 +1,5 @@
+#![cfg_attr(docsrs, feature(doc_cfg))]
+
 // Reexports
 pub use swc_common::{
     chain,
@@ -6,6 +8,8 @@ pub use swc_common::{
 
 pub mod util {
     pub use swc_common::util::take;
+    #[cfg(feature = "swc_ecma_quote")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "quote")))]
     pub use swc_ecma_quote::*;
 }
 
