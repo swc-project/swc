@@ -3222,6 +3222,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_css_prefixer"
+version = "0.99.3"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_css_ast",
+ "swc_css_codegen",
+ "swc_css_parser",
+ "swc_css_utils",
+ "swc_css_visit",
+ "testing",
+]
+
+[[package]]
 name = "swc_css_utils"
 version = "0.88.2"
 dependencies = [
@@ -3934,20 +3948,6 @@ dependencies = [
 [[package]]
 name = "swc_plugin_testing"
 version = "0.24.1"
-
-[[package]]
-name = "swc_stylis"
-version = "0.99.3"
-dependencies = [
- "swc_atoms",
- "swc_common",
- "swc_css_ast",
- "swc_css_codegen",
- "swc_css_parser",
- "swc_css_utils",
- "swc_css_visit",
- "testing",
-]
 
 [[package]]
 name = "swc_timer"
