@@ -5,7 +5,7 @@ documentation = "https://rustdoc.swc.rs/swc_stylis/"
 edition = "2021"
 include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
-name = "swc_stylis"
+name = "swc_css_prefixer"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.99.3"
 
