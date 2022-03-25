@@ -3319,13 +3319,26 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
 
                         inner_iter.next();
 
-                        let next = inner_iter.peek();
+                        let mut is_curly = false;
+                        let mut next = inner_iter.peek();
+
+                        if next == Some(&'{') {
+                            is_curly = true;
+
+                            inner_iter.next();
+                            next = inner_iter.peek();
+                        }
 
                         if let Some(c @ 'D' | c @ 'd') = next {
                             let mut inner_buf = String::new();
 
                             inner_buf.push('\\');
                             inner_buf.push('u');
+
+                            if is_curly {
+                                inner_buf.push('{');
+                            }
+
                             inner_buf.push(*c);
 
                             inner_iter.next();
@@ -3347,10 +3360,16 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
                                 }
                             }
 
+                            if is_curly {
+                                inner_buf.push('}');
+                            }
+
                             if is_valid {
                                 buf.push_str(&inner_buf);
 
-                                for _ in 0..5 {
+                                let end = if is_curly { 7 } else { 5 };
+
+                                for _ in 0..end {
                                     iter.next();
                                 }
                             }
