@@ -1,7 +1,7 @@
-for(var x in {})continue;
-ONE: for(var x in {})continue ONE;
-TWO: THREE: for(var x in {})continue THREE;
+for(var x in {});
+for(var x in {});
+TWO: for(var x in {});
 FOUR: for(var x in {})FIVE: for(var x in {})continue FOUR;
 for(var x in {})SIX: for(var x in {})continue SIX;
 SEVEN: for(var x in {})for(var x in {})for(var x in {})continue SEVEN;
-EIGHT: for(var x in {})continue EIGHT;
+for(var x in {});
