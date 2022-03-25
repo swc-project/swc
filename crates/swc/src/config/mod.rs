@@ -1291,11 +1291,15 @@ fn default_jsonify_min_cost() -> usize {
     1024
 }
 
-#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct ErrorConfig {
-    #[serde(default = "true_by_default")]
     pub filename: bool,
+}
+impl Default for ErrorConfig {
+    fn default() -> Self {
+        ErrorConfig { filename: true }
+    }
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
