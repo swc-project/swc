@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, StmtLike, Value};
+use swc_ecma_utils::{prepend, ExprExt, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
@@ -80,6 +80,40 @@ impl Pure<'_> {
                                 cons: Box::new(Stmt::Block(cons)),
                                 alt: None,
                             });
+                            return None;
+                        }
+                    }
+                }
+
+                if let Stmt::If(IfStmt {
+                    test,
+                    cons,
+                    alt: Some(alt),
+                    ..
+                }) = first
+                {
+                    if let Stmt::Break(BreakStmt {
+                        label: Some(label), ..
+                    }) = &**alt
+                    {
+                        if ls.label.sym == label.sym {
+                            self.changed = true;
+                            tracing::debug!("Optimizing labeled stmt with a break to if statement");
+
+                            let test = test.take();
+                            let cons = *cons.take();
+
+                            let mut new_cons = bs.take();
+                            new_cons.stmts.remove(0);
+                            prepend(&mut new_cons.stmts, cons);
+
+                            *s = Stmt::If(IfStmt {
+                                span: ls.span,
+                                test,
+                                cons: Box::new(Stmt::Block(new_cons)),
+                                alt: None,
+                            });
+                            return None;
                         }
                     }
                 }
