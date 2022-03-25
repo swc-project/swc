@@ -1,6 +1,7 @@
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, StmtLike, Value};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
 use crate::{
@@ -12,7 +13,43 @@ use crate::{
 impl Pure<'_> {
     pub(super) fn drop_useless_continue(&mut self, s: &mut Stmt) {
         /// Returns [Some] if it's modified.
-        fn opt(label: Option<Ident>, body: &mut Stmt) -> Option<Stmt> {
+        fn opt(label: Option<Ident>, loop_stmt: &mut Stmt) -> Option<Stmt> {
+            let body = match loop_stmt {
+                Stmt::While(ws) => &mut *ws.body,
+                Stmt::DoWhile(ws) => &mut *ws.body,
+                Stmt::For(fs) => &mut *fs.body,
+                Stmt::ForIn(fs) => &mut *fs.body,
+                Stmt::ForOf(fs) => &mut *fs.body,
+                _ => return None,
+            };
+
+            if let Stmt::Block(b) = body {
+                let last = b.stmts.last_mut()?;
+
+                if let Stmt::Continue(last_cs) = last {
+                    match last_cs.label {
+                        Some(_) => {
+                            if label.eq_ignore_span(&last_cs.label) {
+                                last.take();
+                            } else {
+                                return None;
+                            }
+                        }
+                        None => {
+                            last.take();
+                        }
+                    }
+                } else {
+                    return None;
+                }
+
+                if let Some(label) = &label {
+                    if !contains_label(b, label) {
+                        return Some(loop_stmt.take());
+                    }
+                }
+            }
+
             None
         }
 
@@ -180,5 +217,47 @@ impl Pure<'_> {
         }
 
         *stmts = new;
+    }
+}
+
+fn contains_label<N>(node: &N, label: &Ident) -> bool
+where
+    for<'aa> N: VisitWith<LabelFinder<'aa>>,
+{
+    let mut v = LabelFinder {
+        label,
+        found: false,
+    };
+    node.visit_with(&mut v);
+    v.found
+}
+
+struct LabelFinder<'a> {
+    label: &'a Ident,
+    found: bool,
+}
+impl Visit for LabelFinder<'_> {
+    noop_visit_type!();
+
+    fn visit_break_stmt(&mut self, s: &BreakStmt) {
+        match &s.label {
+            Some(label) => {
+                if label.sym == self.label.sym {
+                    self.found = true;
+                }
+            }
+            None => {}
+        }
+    }
+
+    fn visit_continue_stmt(&mut self, s: &ContinueStmt) {
+        match &s.label {
+            Some(label) => {
+                if label.sym == self.label.sym {
+                    self.found = true;
+                }
+            }
+            None => {}
+        }
     }
 }
