@@ -3350,7 +3350,7 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
                             if is_valid {
                                 buf.push_str(&inner_buf);
 
-                                for _ in 0..6 {
+                                for _ in 0..5 {
                                     iter.next();
                                 }
                             }
