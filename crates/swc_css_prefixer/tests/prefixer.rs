@@ -13,7 +13,7 @@ use swc_css_codegen::{
     CodegenConfig, Emit,
 };
 use swc_css_parser::{parse_file, parser::ParserConfig};
-use swc_css_prefixer::prefixer::prefixer;
+use swc_css_prefixer::prefixer;
 use swc_css_visit::VisitMutWith;
 use testing::NormalizedOutput;
 

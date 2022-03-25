@@ -1,1 +1,3 @@
-pub mod prefixer;
+pub use self::prefixer::prefixer;
+
+mod prefixer;
