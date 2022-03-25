@@ -15,7 +15,6 @@ use crate::{
     },
 };
 
-#[cfg(feature = "filesystem_cache")]
 #[tracing::instrument(level = "info", skip_all)]
 pub fn load_plugin(
     plugin_path: &std::path::Path,
@@ -99,6 +98,8 @@ pub fn load_plugin(
 
             // Plugin binary can be either wasm32-wasi or wasm32-unknown-unknown.
             // Wasi specific env need to be initialized if given module targets wasm32-wasi.
+            // TODO: wasm host native runtime throws 'Memory should be set on `WasiEnv`
+            // first'
             let instance = if is_wasi_module(&module) {
                 // Create the `WasiEnv`.
                 let mut wasi_env = WasiState::new(
@@ -123,12 +124,4 @@ pub fn load_plugin(
         }
         Err(err) => Err(err),
     };
-}
-
-#[cfg(not(feature = "filesystem_cache"))]
-pub fn load_plugin(
-    plugin_path: &std::path::Path,
-    cache: &once_cell::sync::Lazy<crate::cache::PluginModuleCache>,
-) -> Result<(Instance, Arc<Mutex<Vec<u8>>>), Error> {
-    unimplemented!("not implemented");
 }

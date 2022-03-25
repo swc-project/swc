@@ -13,7 +13,6 @@ mod memory_interop;
 mod transform_executor;
 
 // entrypoint fn swc calls to perform its transform via plugin.
-#[cfg(not(target_arch = "wasm32"))]
 pub fn apply_transform_plugin(
     plugin_name: &str,
     path: &Path,
@@ -34,9 +33,4 @@ pub fn apply_transform_plugin(
             path.display()
         )
     })
-}
-
-#[cfg(target_arch = "wasm32")]
-pub fn apply_transform_plugin() -> Result<Serialized, Error> {
-    unimplemented!("Not implemented yet");
 }

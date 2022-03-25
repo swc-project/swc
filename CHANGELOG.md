@@ -62,7 +62,13 @@
 - **(es/parser)** Report more errors for invalid patterns (#4145) ([cd7112b](https://github.com/swc-project/swc/commit/cd7112b18bcc98b704846adbd32c1d63557dcffe))
 
 
+- **(es/plugin)** Make `quote` optional (#4160) ([5de3141](https://github.com/swc-project/swc/commit/5de31416be579a4257789d0ad927db15eec9a73c))
+
+
 - **(es/typescript)** Support optional variance annotations (#4008) ([bf1924d](https://github.com/swc-project/swc/commit/bf1924d1a8cc2039b624eecd9730d012c1e47321))
+
+
+- **(plugin/runner)** Implement initial loading for wasm32 (#4151) ([161353c](https://github.com/swc-project/swc/commit/161353cf25c32777cc8fff971b978b1424235cda))
 
 
 - **(wasm/plugin)** Implement initial plugin interface for wasm runtimes (#4123) ([50f7f46](https://github.com/swc-project/swc/commit/50f7f465f9181ef6bcb63ee5457aa42f5e6ee29c))
@@ -72,6 +78,12 @@
 
 
 - **(es/minifier)** Add logging (#4156) ([97dfcb9](https://github.com/swc-project/swc/commit/97dfcb9ccb39620576d6e63c195ec588ff4c5790))
+
+### Refactor
+
+
+
+- **(css/prefixer)** Rename crate (#4159) ([7817547](https://github.com/swc-project/swc/commit/78175473fa10cb5298b226c083da0efab38db997))
 
 ### Testing
 
