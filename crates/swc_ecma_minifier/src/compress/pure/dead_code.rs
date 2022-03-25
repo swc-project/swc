@@ -16,7 +16,6 @@ impl Pure<'_> {
         fn opt(label: Option<Ident>, loop_stmt: &mut Stmt) -> Option<Stmt> {
             let body = match loop_stmt {
                 Stmt::While(ws) => &mut *ws.body,
-                Stmt::DoWhile(ws) => &mut *ws.body,
                 Stmt::For(fs) => &mut *fs.body,
                 Stmt::ForIn(fs) => &mut *fs.body,
                 Stmt::ForOf(fs) => &mut *fs.body,
@@ -30,18 +29,16 @@ impl Pure<'_> {
                     match last_cs.label {
                         Some(_) => {
                             if label.eq_ignore_span(&last_cs.label) {
-                                last.take();
                             } else {
                                 return None;
                             }
                         }
-                        None => {
-                            last.take();
-                        }
+                        None => {}
                     }
                 } else {
                     return None;
                 }
+                b.stmts.remove(b.stmts.len() - 1);
 
                 if let Some(label) = &label {
                     if !contains_label(b, label) {
