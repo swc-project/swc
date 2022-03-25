@@ -32,6 +32,9 @@
 - **(css/minifier)** Remove `@charset` at-rule if possible (#4135) ([6b6664a](https://github.com/swc-project/swc/commit/6b6664a92df62338c1152fbe9baa5227eb3075a4))
 
 
+- **(css/minifier)** Compress more properties (#4155) ([364ebd9](https://github.com/swc-project/swc/commit/364ebd951a49c5dcc2f8b04b1b9521422ad772fc))
+
+
 - **(css/prefixer)** Prefix more properties (#4153) ([46c35da](https://github.com/swc-project/swc/commit/46c35dab25f9e54c8c25e5176cd127ad2f91b380))
 
 
