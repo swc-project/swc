@@ -480,16 +480,14 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read an escaped character for string literal.
     ///
     /// In template literal, we should preserve raw string.
-    fn read_escaped_char(&mut self, raw: &mut Raw, in_template: bool) -> LexResult<Option<Char>> {
+    fn read_escaped_char(
+        &mut self,
+        raw: &mut Raw,
+        in_template: bool,
+    ) -> LexResult<Option<Vec<Char>>> {
         debug_assert_eq!(self.cur(), Some('\\'));
 
         let start = self.cur_pos();
-    fn read_escaped_char(&mut self, raw: &mut Raw) -> LexResult<Option<Vec<Char>>> {
-        debug_assert_eq!(self.cur(), Some('\\'));
-
-        let start = self.cur_pos();
-
-        self.bump(); // '\'
 
         self.bump(); // '\'
 
@@ -544,39 +542,19 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 match self.read_int_u32::<16>(2, raw)? {
                     Some(val) => return Ok(Some(vec![Char::from(val)])),
-                    None => {
-                        self.error(start, SyntaxError::ExpectedHexChars { count: 2 })?;
-
-                        let mut chars = vec![];
-
-                        chars.push(Char::from('\\'));
-                        chars.push(Char::from('x'));
-
-                        if let Some(c) = self.input.cur() {
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                            raw.push(c);
-                        }
-
-                        if let Some(c) = self.input.cur() {
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                            raw.push(c);
-                        }
-
-                        return Ok(Some(chars));
-                    }
+                    None => self.error(
+                        start,
+                        SyntaxError::BadCharacterEscapeSequence {
+                            expected: "2 hex characters",
+                        },
+                    )?,
                 }
             }
 
             // read unicode escape sequences
             'u' => match self.read_unicode_escape(raw) {
                 Ok(chars) => return Ok(Some(chars)),
-                Err(_) => {
-                    unreachable!();
-                }
+                Err(err) => self.error(start, err.error.1)?,
             },
 
             // octal escape sequences
@@ -594,6 +572,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                 } else {
                     c
                 };
+
+                let start = self.cur_pos();
 
                 // TODO: Show template instead of strict mode
                 if in_template {
@@ -862,6 +842,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let mut is_curly = false;
 
         self.bump(); // 'u'
+
         raw.push_str("u");
 
         if self.eat(b'{') {
@@ -872,11 +853,42 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let state = self.input.cur_pos();
         let c = match self.read_int_u32::<16>(if is_curly { 0 } else { 4 }, raw) {
-            Ok(Some(val)) if 0x0010_ffff >= val => match char::from_u32(val) {
-                Some(c) => Some(c),
-                _ => None,
-            },
-            _ => None,
+            Ok(Some(val)) => {
+                if 0x0010_ffff >= val {
+                    match char::from_u32(val) {
+                        Some(c) => Some(c),
+                        // Surrogate pairs
+                        _ => None,
+                    }
+                } else {
+                    let start = self.cur_pos();
+
+                    self.error(
+                        start,
+                        SyntaxError::BadCharacterEscapeSequence {
+                            expected: if is_curly {
+                                "1-6 hex characters"
+                            } else {
+                                "4 hex characters"
+                            },
+                        },
+                    )?
+                }
+            }
+            _ => {
+                let start = self.cur_pos();
+
+                self.error(
+                    start,
+                    SyntaxError::BadCharacterEscapeSequence {
+                        expected: if is_curly {
+                            "1-6 hex characters"
+                        } else {
+                            "4 hex characters"
+                        },
+                    },
+                )?
+            }
         };
 
         match c {
@@ -884,14 +896,12 @@ impl<'a, I: Input> Lexer<'a, I> {
                 chars.push(c.into());
             }
             _ => {
-                // self.error(state, SyntaxError::InvalidCodePoint)?;
                 self.input.reset_to(state);
 
                 chars.push(Char::from('\\'));
                 chars.push(Char::from('u'));
 
                 if is_curly {
-                    raw.push('{');
                     chars.push(Char::from('{'));
 
                     for _ in 0..6 {
@@ -902,7 +912,6 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                             self.bump();
 
-                            raw.push(c);
                             chars.push(Char::from(c));
                         } else {
                             break;
@@ -915,7 +924,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                         if let Some(c) = self.input.cur() {
                             self.bump();
 
-                            raw.push(c);
                             chars.push(Char::from(c));
                         }
                     }
@@ -944,6 +952,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         raw.push(quote);
 
         self.bump(); // '"'
+
         self.with_buf(|l, out| {
             while let Some(c) = {
                 // Optimization
@@ -972,8 +981,10 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                         let mut wrapped = Raw(Some(String::new()));
 
-                        if let Some(s) = l.read_escaped_char(&mut wrapped, false)? {
-                            out.extend(s);
+                        if let Some(chars) = l.read_escaped_char(&mut wrapped, false)? {
+                            for c in chars {
+                                out.extend(c);
+                            }
                         }
 
                         raw.push_str(&wrapped.0.unwrap());
@@ -982,13 +993,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                         raw.push(c);
 
                         break;
-                        if let Some(chars) = l.read_escaped_char(&mut Raw(None))? {
-                            for c in chars {
-                                out.extend(c);
-                            }
-                        }
-
-                        has_escape = true
                     }
                     _ => {
                         out.push(c);
@@ -1108,8 +1112,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                 let mut wrapped = Raw(Some(raw));
 
                 match self.read_escaped_char(&mut wrapped, true) {
-                    Ok(Some(s)) => {
-                match self.read_escaped_char(&mut wrapped) {
                     Ok(Some(chars)) => {
                         if let Ok(ref mut cooked) = cooked {
                             for c in chars {

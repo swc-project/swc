@@ -77,12 +77,9 @@ pub enum SyntaxError {
         c: char,
     },
     InvalidStrEscape,
-    InvalidUnicodeCodePoint,
     InvalidUnicodeEscape,
-    InvalidCodePoint,
-    ExpectedHexChars {
-        /// Number of expected characters.
-        count: u8,
+    BadCharacterEscapeSequence {
+        expected: &'static str,
     },
     NumLitTerminatedWithExp,
     LegacyCommentInModule,
@@ -294,11 +291,9 @@ impl SyntaxError {
             SyntaxError::IdentAfterNum => "Identifier cannot follow number".into(),
             SyntaxError::UnexpectedChar { c } => format!("Unexpected character {:?}", c).into(),
             SyntaxError::InvalidStrEscape => "Invalid string escape".into(),
-            SyntaxError::InvalidUnicodeCodePoint => "Undefined Unicode code-point".into(),
             SyntaxError::InvalidUnicodeEscape => "Invalid unicode escape".into(),
-            SyntaxError::InvalidCodePoint => "Invalid unicode code point".into(),
-            SyntaxError::ExpectedHexChars { count } => {
-                format!("Expected {} hex characters", count).into()
+            SyntaxError::BadCharacterEscapeSequence { expected } => {
+                format!("Bad character escape sequence, expected {}", expected).into()
             }
             SyntaxError::LegacyCommentInModule => {
                 "Legacy comments cannot be used in module code".into()

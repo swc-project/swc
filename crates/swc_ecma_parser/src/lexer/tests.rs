@@ -290,7 +290,7 @@ fn tpl_invalid_unicode_escape() {
                             hi: BytePos(4),
                             ctxt: SyntaxContext::empty()
                         },
-                        SyntaxError::InvalidCodePoint
+                        SyntaxError::BadCharacterEscapeSequence { count: 6 }
                     ))
                 }),
                 raw: "\\u{".into(),
