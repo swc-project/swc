@@ -14,6 +14,21 @@ impl Pure<'_> {
     /// # Operations
     ///
     ///  - Removes `L1: break L1`
+    ///
+    ///  - Convert if break to conditionals
+    ///
+    /// ```js
+    /// out: {
+    ///     if (foo) break out;
+    ///     console.log("bar");
+    /// }
+    /// ```
+    ///
+    /// =>
+    ///
+    /// ```js
+    /// foo || console.log("bar");
+    /// ```
     pub(super) fn optimize_labeled_stmt(&mut self, s: &mut Stmt) {
         if let Stmt::Labeled(ls) = s {
             if let Stmt::Break(BreakStmt {
