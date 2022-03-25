@@ -62,6 +62,9 @@
 - **(es/parser)** Report more errors for invalid patterns (#4145) ([cd7112b](https://github.com/swc-project/swc/commit/cd7112b18bcc98b704846adbd32c1d63557dcffe))
 
 
+- **(es/plugin)** Make `quote` optional (#4160) ([5de3141](https://github.com/swc-project/swc/commit/5de31416be579a4257789d0ad927db15eec9a73c))
+
+
 - **(es/typescript)** Support optional variance annotations (#4008) ([bf1924d](https://github.com/swc-project/swc/commit/bf1924d1a8cc2039b624eecd9730d012c1e47321))
 
 
