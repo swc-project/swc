@@ -98,7 +98,9 @@ impl Pure<'_> {
                     {
                         if ls.label.sym == label.sym {
                             self.changed = true;
-                            tracing::debug!("Optimizing labeled stmt with a break to if statement");
+                            tracing::debug!(
+                                "Optimizing labeled stmt with a break in alt to if statement"
+                            );
 
                             let test = test.take();
                             let cons = *cons.take();
