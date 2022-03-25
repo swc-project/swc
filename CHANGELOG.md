@@ -65,6 +65,9 @@
 - **(es/typescript)** Support optional variance annotations (#4008) ([bf1924d](https://github.com/swc-project/swc/commit/bf1924d1a8cc2039b624eecd9730d012c1e47321))
 
 
+- **(plugin/runner)** Implement initial loading for wasm32 (#4151) ([161353c](https://github.com/swc-project/swc/commit/161353cf25c32777cc8fff971b978b1424235cda))
+
+
 - **(wasm/plugin)** Implement initial plugin interface for wasm runtimes (#4123) ([50f7f46](https://github.com/swc-project/swc/commit/50f7f465f9181ef6bcb63ee5457aa42f5e6ee29c))
 
 ### Miscellaneous Tasks

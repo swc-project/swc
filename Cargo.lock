@@ -3911,7 +3911,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.47.0"
+version = "0.47.1"
 dependencies = [
  "anyhow",
  "once_cell",
