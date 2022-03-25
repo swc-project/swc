@@ -11,9 +11,24 @@ use crate::{
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
+    ///  - Removes `L1: break L1`
+    pub(super) fn drop_instant_break(&mut self, s: &mut Stmt) {
+        if let Stmt::Labeled(ls) = s {
+            if let Stmt::Break(BreakStmt {
+                label: Some(label), ..
+            }) = &*ls.body
+            {
+                if label.sym == ls.label.sym {
+                    self.changed = true;
+                    tracing::debug!("Dropping instant break");
+                    s.take();
+                }
+            }
+        }
+    }
+
     /// # Operations
     ///
-    ///  - Removes `L1: break L1`
     ///
     ///  - Convert if break to conditionals
     ///
@@ -29,19 +44,14 @@ impl Pure<'_> {
     /// ```js
     /// foo || console.log("bar");
     /// ```
-    pub(super) fn optimize_labeled_stmt(&mut self, s: &mut Stmt) {
+    pub(super) fn optimize_labeled_stmt(&mut self, s: &mut Stmt) -> Option<()> {
         if let Stmt::Labeled(ls) = s {
-            if let Stmt::Break(BreakStmt {
-                label: Some(label), ..
-            }) = &*ls.body
-            {
-                if label.sym == ls.label.sym {
-                    self.changed = true;
-                    tracing::debug!("Dropping instant break");
-                    s.take();
-                }
+            if let Stmt::Block(bs) = &*ls.body {
+                let first = bs.stmts.first()?;
             }
         }
+
+        None
     }
 
     /// Remove the last statement of a loop if it's continue

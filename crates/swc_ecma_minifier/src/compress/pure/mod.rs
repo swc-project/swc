@@ -598,6 +598,8 @@ impl VisitMut for Pure<'_> {
 
         self.loop_to_for_stmt(s);
 
+        self.drop_instant_break(s);
+
         self.optimize_labeled_stmt(s);
 
         self.drop_useless_continue(s);
