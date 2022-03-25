@@ -45,9 +45,44 @@ impl Pure<'_> {
     /// foo || console.log("bar");
     /// ```
     pub(super) fn optimize_labeled_stmt(&mut self, s: &mut Stmt) -> Option<()> {
+        if !self.options.dead_code {
+            return None;
+        }
+
         if let Stmt::Labeled(ls) = s {
-            if let Stmt::Block(bs) = &*ls.body {
-                let first = bs.stmts.first()?;
+            if let Stmt::Block(bs) = &mut *ls.body {
+                let first = bs.stmts.first_mut()?;
+
+                if let Stmt::If(IfStmt {
+                    test,
+                    cons,
+                    alt: None,
+                    ..
+                }) = first
+                {
+                    if let Stmt::Break(BreakStmt {
+                        label: Some(label), ..
+                    }) = &**cons
+                    {
+                        if ls.label.sym == label.sym {
+                            self.changed = true;
+                            tracing::debug!("Optimizing labeled stmt with a break to if statement");
+
+                            self.negate(test, true, false);
+                            let test = test.take();
+
+                            let mut cons = bs.take();
+                            cons.stmts.remove(0);
+
+                            *s = Stmt::If(IfStmt {
+                                span: ls.span,
+                                test,
+                                cons: Box::new(Stmt::Block(cons)),
+                                alt: None,
+                            });
+                        }
+                    }
+                }
             }
         }
 
