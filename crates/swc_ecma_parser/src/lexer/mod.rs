@@ -855,11 +855,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let c = match self.read_int_u32::<16>(if is_curly { 0 } else { 4 }, raw) {
             Ok(Some(val)) => {
                 if 0x0010_ffff >= val {
-                    match char::from_u32(val) {
-                        Some(c) => Some(c),
-                        // Surrogate pairs
-                        _ => None,
-                    }
+                    char::from_u32(val)
                 } else {
                     let start = self.cur_pos();
 
