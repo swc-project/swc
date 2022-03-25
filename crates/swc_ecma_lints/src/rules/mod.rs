@@ -33,6 +33,7 @@ pub(crate) mod non_critical_lints {
     pub mod prefer_regex_literals;
     pub mod quotes;
     pub mod radix;
+    pub mod symbol_description;
     pub mod use_is_nan;
     pub mod valid_typeof;
     pub mod yoda;
@@ -144,6 +145,12 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_param_reassign::no_param_reassign(
             &lint_config.no_param_reassign,
+        ));
+
+        rules.extend(symbol_description::symbol_description(
+            program,
+            top_level_ctxt,
+            &lint_config.symbol_description,
         ));
     }
 
