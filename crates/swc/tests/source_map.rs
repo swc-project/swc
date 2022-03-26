@@ -11,7 +11,7 @@ use std::{
 
 use anyhow::{Context, Error};
 use swc::{
-    config::{Config, IsModule, Options, SourceMapsConfig},
+    config::{Config, IsModule, ModuleConfig, Options, SourceMapsConfig},
     Compiler,
 };
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
@@ -226,4 +226,74 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     // println!("{:?}", stacks);
 
     stacks.into()
+}
+
+#[test]
+fn issue_4112() {
+    Tester::new()
+        .print_errors(|cm, handler| {
+            let c = Compiler::new(cm.clone());
+            let fm = cm.new_source_file(
+                swc_common::FileName::Real("./browser.js".into()),
+                r#""use strict";
+
+            export { default as Selection } from "./selection";
+            
+            export { default as RichTextarea } from "./richTextarea";
+            "#
+                .to_string(),
+            );
+
+            let output1 = c
+                .process_js_file(
+                    fm,
+                    &handler,
+                    &Options {
+                        config: Config {
+                            module: Some(swc::config::ModuleConfig::CommonJs(Default::default())),
+                            ..Default::default()
+                        },
+                        source_maps: Some(SourceMapsConfig::Bool(true)),
+                        ..Default::default()
+                    },
+                )
+                .expect("failed to process js file");
+            let fm2 = cm.new_source_file(
+                swc_common::FileName::Real("./preamble.js".into()),
+                r#""use strict";
+
+            import { React, window } from "easy";
+            
+            window.assign({
+              React
+            });
+            "#
+                .to_string(),
+            );
+            let output2 = c
+                .process_js_file(
+                    fm2,
+                    &handler,
+                    &Options {
+                        config: Config {
+                            module: Some(swc::config::ModuleConfig::CommonJs(Default::default())),
+                            ..Default::default()
+                        },
+                        source_maps: Some(SourceMapsConfig::Bool(true)),
+                        ..Default::default()
+                    },
+                )
+                .expect("failed to process js file");
+            let source_count = sourcemap::SourceMap::from_slice(output2.map.unwrap().as_bytes())
+                .expect("failed to deserialize sourcemap")
+                .get_source_count();
+            if source_count == 1 {
+                return Ok(());
+            }
+            panic!(
+                "Validation failed, should has 1 source, but {}",
+                source_count
+            );
+        })
+        .unwrap()
 }
