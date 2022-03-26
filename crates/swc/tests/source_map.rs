@@ -250,7 +250,7 @@ fn issue_4112() {
                     &handler,
                     &Options {
                         config: Config {
-                            module: Some(swc::config::ModuleConfig::CommonJs(Default::default())),
+                            module: Some(ModuleConfig::CommonJs(Default::default())),
                             ..Default::default()
                         },
                         source_maps: Some(SourceMapsConfig::Bool(true)),
@@ -276,7 +276,7 @@ fn issue_4112() {
                     &handler,
                     &Options {
                         config: Config {
-                            module: Some(swc::config::ModuleConfig::CommonJs(Default::default())),
+                            module: Some(ModuleConfig::CommonJs(Default::default())),
                             ..Default::default()
                         },
                         source_maps: Some(SourceMapsConfig::Bool(true)),
