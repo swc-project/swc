@@ -14,6 +14,9 @@
 - **(es/codegen)** Fix codegen of template literals (#4124) ([f5a5217](https://github.com/swc-project/swc/commit/f5a5217506dd18b4ad49920d2e82026eb85dfd73))
 
 
+- **(es/lints)** Ignore type-only imports while checking duplicates (#4163) ([fce554c](https://github.com/swc-project/swc/commit/fce554cfb02d034942ab64114ea212020c51e570))
+
+
 - **(es/parser)** Allow arrows without parenthesized param in typescript (#4138) ([ab4ea9f](https://github.com/swc-project/swc/commit/ab4ea9f0cb202d79b3713b9418271b19a64dd23a))
 
 
