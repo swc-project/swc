@@ -1,0 +1,3 @@
+Symbol()
+Symbol({})
+Symbol('name')
