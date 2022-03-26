@@ -132,6 +132,14 @@ impl Visit for DuplicateBindings {
         d.visit_children_with(self);
     }
 
+    fn visit_import_decl(&mut self, s: &ImportDecl) {
+        if s.type_only {
+            return;
+        }
+
+        s.visit_children_with(self);
+    }
+
     fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier) {
         s.visit_children_with(self);
 
