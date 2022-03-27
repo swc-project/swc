@@ -56,22 +56,9 @@ pub fn extract_arg_val(
     top_level_ctxt: &SyntaxContext,
     top_level_declared_vars: &AHashSet<Id>,
     expr: &Expr,
-    check_parens: bool,
 ) -> ArgValue {
     match expr {
         Expr::Ident(_) => ArgValue::Ident,
-        Expr::Paren(ParenExpr { expr, .. }) => {
-            if check_parens {
-                extract_arg_val(
-                    top_level_ctxt,
-                    top_level_declared_vars,
-                    expr.as_ref(),
-                    check_parens,
-                )
-            } else {
-                ArgValue::Other
-            }
-        }
         Expr::Lit(Lit::Str(Str { value, .. })) => ArgValue::Str(value.clone()),
         Expr::Lit(Lit::Num(Number { value, .. })) => ArgValue::Number(*value),
         Expr::Lit(Lit::Regex(Regex { exp, flags, .. })) => ArgValue::RegExp {
