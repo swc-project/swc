@@ -14,6 +14,9 @@
 - **(es/codegen)** Fix codegen of template literals (#4124) ([f5a5217](https://github.com/swc-project/swc/commit/f5a5217506dd18b4ad49920d2e82026eb85dfd73))
 
 
+- **(es/codegen)** Emit sourcemap of key-value properties correctly (#4166) ([ea0de90](https://github.com/swc-project/swc/commit/ea0de9013768bac03d60beb984aa177e0d943694))
+
+
 - **(es/lints)** Ignore type-only imports while checking duplicates (#4163) ([fce554c](https://github.com/swc-project/swc/commit/fce554cfb02d034942ab64114ea212020c51e570))
 
 
