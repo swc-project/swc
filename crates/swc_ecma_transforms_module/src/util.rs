@@ -517,7 +517,11 @@ impl Scope {
                     // import * as foo from 'foo';
                     Ok(obj)
                 } else {
-                    Ok(obj.make_member(Ident::new(prop, DUMMY_SP)))
+                    Ok(Expr::Member(MemberExpr {
+                        obj: Box::new(obj),
+                        span: orig_span,
+                        prop: Ident::new(prop, DUMMY_SP).into(),
+                    }))
                 }
             }
         }
