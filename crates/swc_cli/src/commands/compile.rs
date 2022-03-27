@@ -93,12 +93,12 @@ pub struct CompileOptions {
     /// `trace-{unix epoch time}.json` will be used by default.
     #[clap(group = "experimental_trace", long)]
     trace_out_file: Option<String>,
-    //Flags legacy @swc/cli supports, might need some thoughts if we need support same.
-    //log_watch_compilation: bool,
-    //copy_files: bool,
-    //include_dotfiles: bool,
-    //only: Option<String>,
-    //no_swcrc: bool,
+    /*Flags legacy @swc/cli supports, might need some thoughts if we need support same.
+     *log_watch_compilation: bool,
+     *copy_files: bool,
+     *include_dotfiles: bool,
+     *only: Option<String>,
+     *no_swcrc: bool, */
 }
 
 static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {

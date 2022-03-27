@@ -14,6 +14,12 @@
 - **(es/codegen)** Fix codegen of template literals (#4124) ([f5a5217](https://github.com/swc-project/swc/commit/f5a5217506dd18b4ad49920d2e82026eb85dfd73))
 
 
+- **(es/codegen)** Emit sourcemap of key-value properties correctly (#4166) ([ea0de90](https://github.com/swc-project/swc/commit/ea0de9013768bac03d60beb984aa177e0d943694))
+
+
+- **(es/lints)** Ignore type-only imports while checking duplicates (#4163) ([fce554c](https://github.com/swc-project/swc/commit/fce554cfb02d034942ab64114ea212020c51e570))
+
+
 - **(es/parser)** Allow arrows without parenthesized param in typescript (#4138) ([ab4ea9f](https://github.com/swc-project/swc/commit/ab4ea9f0cb202d79b3713b9418271b19a64dd23a))
 
 
@@ -53,10 +59,16 @@
 - **(es/lints)** Remove source map accesses (#4147) ([7a06c5b](https://github.com/swc-project/swc/commit/7a06c5b3d888418098dfe55d030645087e11b5e8))
 
 
+- **(es/lints)** Implement `symbol-description` rule (#4161) ([10851ec](https://github.com/swc-project/swc/commit/10851ece981b7d71bf33b5f9a5391b59d4841b57))
+
+
 - **(es/minifier)** Implement some unsafe evaluation rules (#4133) ([1d3763d](https://github.com/swc-project/swc/commit/1d3763d96c94638bb0828110cc90bd123f96e327))
 
 
 - **(es/minifier)** Implement more rules for optimizing for-if-break (#4140) ([ee5c48c](https://github.com/swc-project/swc/commit/ee5c48c935b3cd8fa237680dd02f6bcb4faf8a82))
+
+
+- **(es/minifier)** Implement rules for optimizing loops (#4157) ([b37dafb](https://github.com/swc-project/swc/commit/b37dafbd2789ee8e5194ef2593c460f056c2b70f))
 
 
 - **(es/parser)** Report more errors for invalid patterns (#4145) ([cd7112b](https://github.com/swc-project/swc/commit/cd7112b18bcc98b704846adbd32c1d63557dcffe))

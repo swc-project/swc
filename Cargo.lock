@@ -3273,7 +3273,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.100.0"
+version = "0.100.1"
 dependencies = [
  "bitflags",
  "memchr",
@@ -3329,7 +3329,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.28.2"
+version = "0.28.4"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3370,7 +3370,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.96.0"
+version = "0.96.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3609,7 +3609,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.108.0"
+version = "0.108.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3756,7 +3756,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.139.0"
+version = "0.139.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
