@@ -1,0 +1,48 @@
+
+  x 'Math' is not a function
+   ,----
+ 1 | var math = Math();
+   :            ^^^^^^
+   `----
+
+  x 'Math' is not a function
+   ,----
+ 3 | var newMath = new Math();
+   :               ^^^^^^^^^^
+   `----
+
+  x 'JSON' is not a function
+   ,----
+ 5 | var json = JSON();
+   :            ^^^^^^
+   `----
+
+  x 'JSON' is not a function
+   ,----
+ 7 | var newJSON = new JSON();
+   :               ^^^^^^^^^^
+   `----
+
+  x 'Reflect' is not a function
+   ,----
+ 9 | var reflect = Reflect();
+   :               ^^^^^^^^^
+   `----
+
+  x 'Reflect' is not a function
+    ,----
+ 11 | var newReflect = new Reflect();
+    :                  ^^^^^^^^^^^^^
+    `----
+
+  x 'Atomics' is not a function
+    ,----
+ 13 | var atomics = Atomics();
+    :               ^^^^^^^^^
+    `----
+
+  x 'Atomics' is not a function
+    ,----
+ 15 | var newAtomics = new Atomics();
+    :                  ^^^^^^^^^^^^^
+    `----

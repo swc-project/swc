@@ -160,4 +160,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "symbolDescription")]
     pub symbol_description: RuleConfig<SymbolDescriptionConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noObjCalls")]
+    pub no_obj_calls: RuleConfig<()>,
 }
