@@ -518,7 +518,7 @@ impl Scope {
                     Ok(obj)
                 } else {
                     Ok(Expr::Member(MemberExpr {
-                        obj: Box::new(obj.into()),
+                        obj: Box::new(obj),
                         span: orig_span,
                         prop: Ident::new(prop, DUMMY_SP).into(),
                     }))
