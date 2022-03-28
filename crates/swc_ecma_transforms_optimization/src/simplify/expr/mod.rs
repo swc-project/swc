@@ -1445,8 +1445,6 @@ fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
     let mut iter = s.chars().peekable();
 
     while let Some(c) = iter.next() {
-        println!("FUCK {:?}", c);
-
         if c == '\\' && iter.peek().copied() == Some('u') {
             if idx == 0 {
                 let mut buf = String::new();
