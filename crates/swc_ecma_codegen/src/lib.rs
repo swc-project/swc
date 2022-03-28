@@ -1826,15 +1826,25 @@ where
     #[emitter]
     fn emit_kv_prop(&mut self, node: &KeyValueProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
+        let key_span = node.key.span();
+        let value_span = node.value.span();
+        if !key_span.is_dummy() {
+            self.wr.add_srcmap(key_span.lo)?;
+        }
         emit!(node.key);
+        if !key_span.is_dummy() && value_span.is_dummy() {
+            self.wr.add_srcmap(key_span.hi)?;
+        }
         punct!(":");
         formatting_space!();
+        if key_span.is_dummy() && !value_span.is_dummy() {
+            self.wr.add_srcmap(value_span.lo)?;
+        }
         emit!(node.value);
 
-        srcmap!(node, false);
+        if !value_span.is_dummy() {
+            self.wr.add_srcmap(value_span.hi)?;
+        }
     }
 
     #[emitter]

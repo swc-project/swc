@@ -508,16 +508,39 @@ where
         }
     }
 
+    /// This should be only called from ignore_return_value
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
-        let assign = match e {
-            Expr::Assign(e) => e,
+    pub(super) fn drop_unused_update(&mut self, e: &mut Expr) {
+        if !self.options.unused {
+            return;
+        }
+
+        let update = match e {
+            Expr::Update(u) => u,
             _ => return,
         };
 
-        let has_mark = assign.span.has_mark(self.marks.non_top_level);
+        if let Expr::Ident(arg) = &*update.arg {
+            if let Some(var) = self.data.vars.get(&arg.to_id()) {
+                // Update is counted as usage
+                if var.declared && var.is_fn_local && var.usage_count == 1 {
+                    self.changed = true;
+                    tracing::debug!(
+                        "unused: Dropping an update '{}{:?}' because it is not used",
+                        arg.sym,
+                        arg.span.ctxt
+                    );
+                    // This will remove the update.
+                    e.take();
+                }
+            }
+        }
+    }
 
-        if !has_mark && !self.options.unused {
+    /// This should be only called from ignore_return_value
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    pub(super) fn drop_unused_op_assign(&mut self, e: &mut Expr) {
+        if !self.options.unused {
             return;
         }
 
@@ -526,6 +549,58 @@ where
         }
 
         if self.data.top.has_eval_call || self.data.top.has_with_stmt {
+            return;
+        }
+
+        let assign = match e {
+            Expr::Assign(AssignExpr { op: op!("="), .. }) => return,
+            // RHS may not be evaluated
+            Expr::Assign(AssignExpr {
+                op: op!("&&=") | op!("||=") | op!("&&="),
+                ..
+            }) => return,
+            Expr::Assign(e) => e,
+            _ => return,
+        };
+        assign.left.map_with_mut(|left| left.normalize_ident());
+
+        if let PatOrExpr::Pat(p) = &assign.left {
+            if let Pat::Ident(left) = &**p {
+                if let Some(var) = self.data.vars.get(&left.to_id()) {
+                    // TODO: We don't need fn_local check
+                    if var.declared && var.is_fn_local && var.usage_count == 1 {
+                        self.changed = true;
+                        tracing::debug!(
+                            "unused: Dropping an op-assign '{}{:?}' because it is not used",
+                            left.id.sym,
+                            left.id.span.ctxt
+                        );
+                        // This will remove the op-assign.
+                        *e = *assign.right.take();
+                    }
+                }
+            }
+        }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
+        if self.ctx.is_delete_arg {
+            return;
+        }
+
+        if self.data.top.has_eval_call || self.data.top.has_with_stmt {
+            return;
+        }
+
+        let assign = match e {
+            Expr::Assign(e) => e,
+            _ => return,
+        };
+
+        let has_mark = assign.span.has_mark(self.marks.non_top_level);
+
+        if !has_mark && !self.options.unused {
             return;
         }
 

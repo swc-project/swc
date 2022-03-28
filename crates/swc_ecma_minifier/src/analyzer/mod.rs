@@ -76,6 +76,9 @@ pub(crate) struct VarUsageInfo {
 
     pub assign_count: usize,
     pub mutation_by_call_count: usize,
+    /// ## Things to note
+    ///
+    /// - Update is counted as usage
     pub usage_count: usize,
 
     /// The variable itself is modified.

@@ -1,17 +1,14 @@
 import * as a from "@swc/helpers";
 Promise.all(assignAll).then(function() {
-    var b = a.asyncToGenerator(function*(e) {
-        let b = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ';
-        for(let c in obj){
-            let a = obj[c];
-            b += `'${a.id}', `;
-            let d = yield listOfUser(a.id);
-            d.forEach((b)=>{
+    var b = a.asyncToGenerator(function*(c) {
+        for(let b in obj){
+            let a = obj[b];
+            `'${a.id}', `, (yield listOfUser(a.id)).forEach((b)=>{
                 insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${a.id}', now());`;
             });
         }
     });
-    return function(e) {
+    return function(c) {
         return b.apply(this, arguments);
     };
 }());

@@ -1,7 +1,8 @@
 use std::{collections::HashMap, mem::swap};
 
+use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
-use swc_common::{collections::AHashMap, pass::Either, util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_arguments, ident::IdentLike, undefined, ExprFactory, Id};
 use swc_ecma_visit::VisitMutWith;
@@ -246,8 +247,8 @@ where
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n, vars)))]
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: AHashMap<Id, Box<Expr>>)
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
     where
         N: VisitMutWith<MultiReplacer>,
     {

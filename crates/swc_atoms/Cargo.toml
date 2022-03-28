@@ -7,10 +7,10 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_atoms"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.2.10"
+version = "0.2.11"
 
 [dependencies]
-string_cache = "0.8.3"
+string_cache = "0.8.4"
 
 [build-dependencies]
-string_cache_codegen = "0.5.1"
+string_cache_codegen = "0.5.2"

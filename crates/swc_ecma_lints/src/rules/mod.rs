@@ -27,12 +27,14 @@ pub(crate) mod non_critical_lints {
     pub mod no_loop_func;
     pub mod no_new;
     pub mod no_new_symbol;
+    pub mod no_obj_calls;
     pub mod no_param_reassign;
     pub mod no_restricted_syntax;
     pub mod no_use_before_define;
     pub mod prefer_regex_literals;
     pub mod quotes;
     pub mod radix;
+    pub mod symbol_description;
     pub mod use_is_nan;
     pub mod valid_typeof;
     pub mod yoda;
@@ -144,6 +146,18 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_param_reassign::no_param_reassign(
             &lint_config.no_param_reassign,
+        ));
+
+        rules.extend(symbol_description::symbol_description(
+            program,
+            top_level_ctxt,
+            &lint_config.symbol_description,
+        ));
+
+        rules.extend(no_obj_calls::no_obj_calls(
+            program,
+            top_level_ctxt,
+            &lint_config.no_obj_calls,
         ));
     }
 

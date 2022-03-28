@@ -9,7 +9,8 @@ use crate::rules::non_critical_lints::{
     no_param_reassign::NoParamReassignConfig, no_restricted_syntax::NoRestrictedSyntaxConfig,
     no_use_before_define::NoUseBeforeDefineConfig,
     prefer_regex_literals::PreferRegexLiteralsConfig, quotes::QuotesConfig, radix::RadixConfig,
-    use_is_nan::UseIsNanConfig, valid_typeof::ValidTypeofConfig, yoda::YodaConfig,
+    symbol_description::SymbolDescriptionConfig, use_is_nan::UseIsNanConfig,
+    valid_typeof::ValidTypeofConfig, yoda::YodaConfig,
 };
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -155,4 +156,12 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noParamReassign")]
     pub no_param_reassign: RuleConfig<NoParamReassignConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "symbolDescription")]
+    pub symbol_description: RuleConfig<SymbolDescriptionConfig>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noObjCalls")]
+    pub no_obj_calls: RuleConfig<()>,
 }

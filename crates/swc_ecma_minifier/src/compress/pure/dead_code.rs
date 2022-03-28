@@ -11,6 +11,7 @@ use crate::{
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
+    ///
     ///  - Removes `L1: break L1`
     pub(super) fn drop_instant_break(&mut self, s: &mut Stmt) {
         if let Stmt::Labeled(ls) = s {

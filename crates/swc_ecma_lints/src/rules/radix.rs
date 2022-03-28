@@ -12,7 +12,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
-    rules::utils::{extract_arg_val, ArgValue},
+    rules::utils::{extract_arg_val, unwrap_seqs_and_parens, ArgValue},
 };
 
 const OBJ_NAMES: &[&str] = &["Number", "globalThis"];
@@ -41,7 +41,7 @@ impl Default for RadixMode {
 #[serde(rename_all = "camelCase")]
 pub struct RadixConfig {
     mode: Option<RadixMode>,
-    check_parens: Option<bool>,
+    unwrap_parens_and_seqs: Option<bool>,
 }
 
 pub fn radix(
@@ -66,7 +66,7 @@ struct Radix {
     top_level_declared_vars: AHashSet<Id>,
 
     radix_mode: RadixMode,
-    check_parens: bool,
+    unwrap_parens_and_seqs: bool,
 
     classes_depth: usize,
     objects_depth: usize,
@@ -87,7 +87,7 @@ impl Radix {
             top_level_declared_vars,
 
             radix_mode: rule_config.mode.unwrap_or_default(),
-            check_parens: rule_config.check_parens.unwrap_or(true),
+            unwrap_parens_and_seqs: rule_config.unwrap_parens_and_seqs.unwrap_or(true),
 
             classes_depth: 0,
             objects_depth: 0,
@@ -152,12 +152,13 @@ impl Radix {
 
         match call_expr.args.get(1) {
             Some(ExprOrSpread { expr, .. }) => {
-                match &extract_arg_val(
-                    &self.top_level_ctxt,
-                    &self.top_level_declared_vars,
-                    expr.as_ref(),
-                    self.check_parens,
-                ) {
+                let expr = if self.unwrap_parens_and_seqs {
+                    unwrap_seqs_and_parens(expr.as_ref())
+                } else {
+                    expr.as_ref()
+                };
+
+                match &extract_arg_val(&self.top_level_ctxt, &self.top_level_declared_vars, expr) {
                     ArgValue::Ident => {}
                     ArgValue::Number(radix) => {
                         if radix.fract() != 0.0 || !(2f64..=36f64).contains(radix) {
