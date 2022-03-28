@@ -509,6 +509,14 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    pub(super) fn drop_unused_update(&mut self, e: &mut Expr) {
+        let update = match e {
+            Expr::Update(u) => u,
+            _ => return,
+        };
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
         let assign = match e {
             Expr::Assign(e) => e,

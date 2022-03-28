@@ -1842,6 +1842,8 @@ where
 
         self.drop_unused_assignments(e);
 
+        self.drop_unused_update(e);
+
         self.compress_regexp(e);
 
         self.compress_lits(e);
