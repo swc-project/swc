@@ -567,7 +567,6 @@ where
         if let PatOrExpr::Pat(p) = &assign.left {
             if let Pat::Ident(left) = &**p {
                 if let Some(var) = self.data.vars.get(&left.to_id()) {
-                    dbg!(&var);
                     if var.usage_count == 1 {
                         self.changed = true;
                         tracing::debug!(
