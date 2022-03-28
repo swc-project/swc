@@ -195,7 +195,7 @@ struct Optimizer<'a, M> {
     /// Used for inlining.
     lits: AHashMap<Id, Box<Expr>>,
 
-    vars_for_inlining: AHashMap<Id, Box<Expr>>,
+    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
 
     vars_for_prop_hoisting: AHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
