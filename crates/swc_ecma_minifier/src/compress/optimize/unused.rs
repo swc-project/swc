@@ -523,7 +523,7 @@ where
         if let Expr::Ident(arg) = &*update.arg {
             if let Some(var) = self.data.vars.get(&arg.to_id()) {
                 // Update is counted as usage
-                if var.is_fn_local && var.usage_count == 1 {
+                if var.declared && var.is_fn_local && var.usage_count == 1 {
                     self.changed = true;
                     tracing::debug!(
                         "unused: Dropping an update '{}{:?}' because it is not used",
@@ -567,7 +567,7 @@ where
         if let PatOrExpr::Pat(p) = &assign.left {
             if let Pat::Ident(left) = &**p {
                 if let Some(var) = self.data.vars.get(&left.to_id()) {
-                    if var.usage_count == 1 {
+                    if var.declared && var.usage_count == 1 {
                         self.changed = true;
                         tracing::debug!(
                             "unused: Dropping an op-assign '{}{:?}' because it is not used",
