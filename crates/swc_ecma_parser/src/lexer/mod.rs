@@ -573,8 +573,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                     c
                 };
 
-                let start = self.cur_pos();
-
                 // TODO: Show template instead of strict mode
                 if in_template {
                     self.error(start, SyntaxError::LegacyOctal)?
@@ -863,7 +861,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                         start,
                         SyntaxError::BadCharacterEscapeSequence {
                             expected: if is_curly {
-                                "1-6 hex characters"
+                                "1-6 hex characters in the range 0 to 10FFFF."
                             } else {
                                 "4 hex characters"
                             },
