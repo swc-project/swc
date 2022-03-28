@@ -174,6 +174,8 @@ drop_unused/issue_2105_2/input.js
 drop_unused/issue_2136_2/input.js
 drop_unused/issue_2136_3/input.js
 drop_unused/issue_2163/input.js
+drop_unused/issue_2226_2/input.js
+drop_unused/issue_2226_3/input.js
 drop_unused/issue_2288/input.js
 drop_unused/issue_2418_1/input.js
 drop_unused/issue_2418_2/input.js
