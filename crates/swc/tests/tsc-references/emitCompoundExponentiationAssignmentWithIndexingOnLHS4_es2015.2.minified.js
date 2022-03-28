@@ -1,5 +1,6 @@
+var globalCounter = 0;
 function incrementIdx(max) {
-    return Math.floor(Math.random() * max);
+    return globalCounter += 1, Math.floor(Math.random() * max);
 }
 var array1 = [
     1,

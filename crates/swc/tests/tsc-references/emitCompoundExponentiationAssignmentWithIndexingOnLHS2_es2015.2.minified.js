@@ -1,5 +1,6 @@
+var globalCounter = 0;
 function foo() {
-    return {
+    return globalCounter += 1, {
         0: 2
     };
 }
