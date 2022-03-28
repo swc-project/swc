@@ -537,6 +537,24 @@ where
         }
     }
 
+    /// This should be only called from ignore_return_value
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    pub(super) fn drop_unused_op_assign(&mut self, e: &mut Expr) {
+        if self.ctx.is_delete_arg {
+            return;
+        }
+
+        if self.data.top.has_eval_call || self.data.top.has_with_stmt {
+            return;
+        }
+
+        let assign = match e {
+            Expr::Assign(AssignExpr { op: op!("="), .. }) => return,
+            Expr::Assign(e) => e,
+            _ => return,
+        };
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
         if self.ctx.is_delete_arg {

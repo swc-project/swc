@@ -705,6 +705,8 @@ where
 
         self.drop_unused_update(e);
 
+        self.drop_unused_op_assign(e);
+
         match e {
             Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
                 if cfg!(feature = "debug") {
