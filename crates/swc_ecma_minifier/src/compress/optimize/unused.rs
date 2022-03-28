@@ -508,6 +508,7 @@ where
         }
     }
 
+    /// This should be only called from ignore_return_value
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_update(&mut self, e: &mut Expr) {
         if !self.options.unused {
@@ -518,6 +519,22 @@ where
             Expr::Update(u) => u,
             _ => return,
         };
+
+        if let Expr::Ident(arg) = &*update.arg {
+            if let Some(var) = self.data.vars.get(&arg.to_id()) {
+                // Update is counted as usage
+                if var.is_fn_local && var.usage_count == 1 {
+                    self.changed = true;
+                    tracing::debug!(
+                        "unused: Dropping an update '{}{:?}' because it is not used",
+                        arg.sym,
+                        arg.span.ctxt
+                    );
+                    // This will remove the update.
+                    e.take();
+                }
+            }
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

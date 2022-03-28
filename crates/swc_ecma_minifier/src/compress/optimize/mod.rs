@@ -703,6 +703,8 @@ where
 
         self.compress_cond_to_logical_ignoring_return_value(e);
 
+        self.drop_unused_update(e);
+
         match e {
             Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
                 if cfg!(feature = "debug") {
@@ -1841,8 +1843,6 @@ where
         self.replace_props(e);
 
         self.drop_unused_assignments(e);
-
-        self.drop_unused_update(e);
 
         self.compress_regexp(e);
 
