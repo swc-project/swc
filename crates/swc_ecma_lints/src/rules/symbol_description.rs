@@ -7,7 +7,7 @@ use swc_ecma_visit::{Visit, VisitWith};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
-    rules::utils::{extract_arg_val, ArgValue},
+    rules::utils::{extract_arg_val, unwrap_seqs_and_parens, ArgValue},
 };
 
 const SYMBOL_EXPECTED_MESSAGE: &str = "Expected Symbol to have a description";
@@ -76,8 +76,7 @@ impl SymbolDescription {
                 match extract_arg_val(
                     &self.top_level_ctxt,
                     &self.top_level_declared_vars,
-                    expr,
-                    true,
+                    unwrap_seqs_and_parens(expr),
                 ) {
                     ArgValue::Str(_) => {}
                     _ => {

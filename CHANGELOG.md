@@ -89,6 +89,9 @@
 
 
 
+- **(deps)** Update `string-cache` (#4169) ([b473414](https://github.com/swc-project/swc/commit/b473414b3cbc5b66ae362f0ad670430be5a7d451))
+
+
 - **(es/minifier)** Add logging (#4156) ([97dfcb9](https://github.com/swc-project/swc/commit/97dfcb9ccb39620576d6e63c195ec588ff4c5790))
 
 ### Refactor
@@ -96,6 +99,9 @@
 
 
 - **(css/prefixer)** Rename crate (#4159) ([7817547](https://github.com/swc-project/swc/commit/78175473fa10cb5298b226c083da0efab38db997))
+
+
+- **(es/lints)** Use util for parens (#4167) ([2a9cb2d](https://github.com/swc-project/swc/commit/2a9cb2d12ac0957c0d1ae0f64d2b2f8dc72de12a))
 
 ### Testing
 
