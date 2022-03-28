@@ -540,6 +540,10 @@ where
     /// This should be only called from ignore_return_value
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_op_assign(&mut self, e: &mut Expr) {
+        if !self.options.unused {
+            return;
+        }
+
         if self.ctx.is_delete_arg {
             return;
         }
@@ -550,9 +554,33 @@ where
 
         let assign = match e {
             Expr::Assign(AssignExpr { op: op!("="), .. }) => return,
+            // RHS may not be evaluated
+            Expr::Assign(AssignExpr {
+                op: op!("&&=") | op!("||=") | op!("&&="),
+                ..
+            }) => return,
             Expr::Assign(e) => e,
             _ => return,
         };
+        assign.left.map_with_mut(|left| left.normalize_ident());
+
+        if let PatOrExpr::Pat(p) = &assign.left {
+            if let Pat::Ident(left) = &**p {
+                if let Some(var) = self.data.vars.get(&left.to_id()) {
+                    dbg!(&var);
+                    if var.usage_count == 1 {
+                        self.changed = true;
+                        tracing::debug!(
+                            "unused: Dropping an op-assign '{}{:?}' because it is not used",
+                            left.id.sym,
+                            left.id.span.ctxt
+                        );
+                        // This will remove the op-assign.
+                        *e = *assign.right.take();
+                    }
+                }
+            }
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
