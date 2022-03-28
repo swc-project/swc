@@ -62,6 +62,9 @@
 - **(es/lints)** Implement `symbol-description` rule (#4161) ([10851ec](https://github.com/swc-project/swc/commit/10851ece981b7d71bf33b5f9a5391b59d4841b57))
 
 
+- **(es/lints)** Implement `no-obj-calls` rule (#4168) ([a88d56e](https://github.com/swc-project/swc/commit/a88d56ee08c29b1f9f4cf5028fe2113d15b2efcf))
+
+
 - **(es/minifier)** Implement some unsafe evaluation rules (#4133) ([1d3763d](https://github.com/swc-project/swc/commit/1d3763d96c94638bb0828110cc90bd123f96e327))
 
 
