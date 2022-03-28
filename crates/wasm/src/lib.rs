@@ -1,3 +1,5 @@
+#![allow(clippy::unused_unit)]
+
 use std::sync::Arc;
 
 use anyhow::{Context, Error};
@@ -8,7 +10,7 @@ use swc::{
 };
 use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
 use swc_ecmascript::ast::{EsVersion, Program};
-use wasm_bindgen::{prelude::*, JsCast};
+use wasm_bindgen::prelude::*;
 
 fn convert_err(err: Error) -> JsValue {
     format!("{:?}", err).into()
@@ -156,6 +158,7 @@ pub fn transform_sync(
     {
         if experimental_plugin_bytes_resolver.is_object() {
             use js_sys::{Array, Object, Uint8Array};
+            use wasm_bindgen::JsCast;
 
             // TODO: This is probably very inefficient, including each transform
             // deserializes plugin bytes.
