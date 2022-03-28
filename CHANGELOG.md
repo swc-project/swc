@@ -11,6 +11,9 @@
 - **(es)** Make `ErrorConfig.filename` default to true (#4150) ([7a1dcb1](https://github.com/swc-project/swc/commit/7a1dcb1b933308fe237f992ff38650c15875c4c5))
 
 
+- **(es)** Consume surrogate pairs (#4115) ([fcf67c4](https://github.com/swc-project/swc/commit/fcf67c45706419127bd5cb3f5a4e65ef08bd9ba6))
+
+
 - **(es/codegen)** Fix codegen of template literals (#4124) ([f5a5217](https://github.com/swc-project/swc/commit/f5a5217506dd18b4ad49920d2e82026eb85dfd73))
 
 
