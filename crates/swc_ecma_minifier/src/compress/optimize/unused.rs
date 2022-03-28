@@ -510,6 +510,10 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_update(&mut self, e: &mut Expr) {
+        if !self.options.unused {
+            return;
+        }
+
         let update = match e {
             Expr::Update(u) => u,
             _ => return,
@@ -518,6 +522,14 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
+        if self.ctx.is_delete_arg {
+            return;
+        }
+
+        if self.data.top.has_eval_call || self.data.top.has_with_stmt {
+            return;
+        }
+
         let assign = match e {
             Expr::Assign(e) => e,
             _ => return,
@@ -526,14 +538,6 @@ where
         let has_mark = assign.span.has_mark(self.marks.non_top_level);
 
         if !has_mark && !self.options.unused {
-            return;
-        }
-
-        if self.ctx.is_delete_arg {
-            return;
-        }
-
-        if self.data.top.has_eval_call || self.data.top.has_with_stmt {
             return;
         }
 
