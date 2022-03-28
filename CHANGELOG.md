@@ -100,6 +100,9 @@
 
 - **(css/prefixer)** Rename crate (#4159) ([7817547](https://github.com/swc-project/swc/commit/78175473fa10cb5298b226c083da0efab38db997))
 
+
+- **(es/lints)** Use util for parens (#4167) ([2a9cb2d](https://github.com/swc-project/swc/commit/2a9cb2d12ac0957c0d1ae0f64d2b2f8dc72de12a))
+
 ### Testing
 
 
