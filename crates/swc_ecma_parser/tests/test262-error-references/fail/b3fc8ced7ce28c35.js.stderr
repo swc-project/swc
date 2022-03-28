@@ -1,5 +1,5 @@
 
-  x Expected 2 hex characters
+  x Bad character escape sequence, expected 2 hex characters
    ,-[$DIR/tests/test262-parser/fail/b3fc8ced7ce28c35.js:1:1]
  1 | ('\x')
    :   ^^
