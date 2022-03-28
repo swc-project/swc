@@ -567,6 +567,7 @@ where
         if let PatOrExpr::Pat(p) = &assign.left {
             if let Pat::Ident(left) = &**p {
                 if let Some(var) = self.data.vars.get(&left.to_id()) {
+                    // TODO: We don't need fn_local check
                     if var.declared && var.is_fn_local && var.usage_count == 1 {
                         self.changed = true;
                         tracing::debug!(
