@@ -1,6 +1,5 @@
-var globalCounter = 0;
 function foo() {
-    return globalCounter += 1, {
+    return {
         prop: 2
     };
 }
