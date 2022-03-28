@@ -74,6 +74,9 @@
 - **(es/minifier)** Implement rules for optimizing loops (#4157) ([b37dafb](https://github.com/swc-project/swc/commit/b37dafbd2789ee8e5194ef2593c460f056c2b70f))
 
 
+- **(es/minifier)** Implement more rules for dropping unused assignemnts (#4171) ([6f25e57](https://github.com/swc-project/swc/commit/6f25e5774b3ac228b64da47cb370053ed1511b86))
+
+
 - **(es/parser)** Report more errors for invalid patterns (#4145) ([cd7112b](https://github.com/swc-project/swc/commit/cd7112b18bcc98b704846adbd32c1d63557dcffe))
 
 
