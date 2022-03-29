@@ -321,6 +321,10 @@ harmony/issue_1898/input.js
 harmony/issue_2349/input.js
 harmony/issue_2349b/input.js
 harmony/issue_2762/input.js
+harmony/issue_2794_1/input.js
+harmony/issue_2794_2/input.js
+harmony/issue_2794_4/input.js
+harmony/issue_2794_6/input.js
 harmony/issue_2874_1/input.js
 harmony/issue_2874_2/input.js
 harmony/module_enabled/input.js
