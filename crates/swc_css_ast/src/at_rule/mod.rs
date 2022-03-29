@@ -1,13 +1,12 @@
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
-pub use self::{import::*, layer::*, media::*, namespace::*, page::*, support::*};
+pub use self::{layer::*, media::*, namespace::*, page::*, support::*};
 use crate::{
-    ComponentValue, CustomIdent, DashedIdent, Function, Ident, Percentage, SelectorList,
-    SimpleBlock, Str, Url,
+    ComponentValue, CustomIdent, DashedIdent, Declaration, Function, Ident, Percentage,
+    SelectorList, SimpleBlock, Str, Url,
 };
 
-mod import;
 mod layer;
 mod media;
 mod namespace;
@@ -17,9 +16,6 @@ mod support;
 #[ast_node]
 #[derive(Is)]
 pub enum AtRule {
-    #[tag("ImportRule")]
-    Import(ImportRule),
-
     #[tag("LayerRule")]
     Layer(LayerRule),
 
@@ -77,6 +73,8 @@ pub enum AtRulePrelude {
     NestPrelude(SelectorList),
     #[tag("KeyframesPrelude")]
     KeyframesPrelude(KeyframesPrelude),
+    #[tag("ImportPrelude")]
+    ImportPrelude(ImportPrelude),
 }
 
 #[ast_node("ListOfComponentValues")]
@@ -158,4 +156,37 @@ pub enum KeyframeSelector {
     Ident(Ident),
     #[tag("Percentage")]
     Percentage(Percentage),
+}
+
+#[ast_node("ImportPrelude")]
+pub struct ImportPrelude {
+    pub span: Span,
+    pub href: ImportPreludeHref,
+    pub layer_name: Option<ImportPreludeLayerName>,
+    pub supports: Option<ImportPreludeSupportsType>,
+    pub media: Option<MediaQueryList>,
+}
+
+#[ast_node]
+pub enum ImportPreludeHref {
+    #[tag("Url")]
+    Url(Url),
+    #[tag("Str")]
+    Str(Str),
+}
+
+#[ast_node]
+pub enum ImportPreludeLayerName {
+    #[tag("Ident")]
+    Ident(Ident),
+    #[tag("Function")]
+    Function(Function),
+}
+
+#[ast_node]
+pub enum ImportPreludeSupportsType {
+    #[tag("SupportsCondition")]
+    SupportsCondition(SupportsCondition),
+    #[tag("Declaration")]
+    Declaration(Declaration),
 }

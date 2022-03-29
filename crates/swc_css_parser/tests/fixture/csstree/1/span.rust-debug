@@ -3167,16 +3167,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/csstree/1/input.css:44:1]
  44 | @import 'foo' screen;
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportHref
+  x AtRuleName
     ,-[$DIR/tests/fixture/csstree/1/input.css:44:1]
  44 | @import 'foo' screen;
-    :         ^^^^^
+    :  ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/csstree/1/input.css:44:1]
+ 44 | @import 'foo' screen;
+    :  ^^^^^^
     `----
 
   x Str

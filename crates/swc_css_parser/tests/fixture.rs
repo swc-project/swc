@@ -420,14 +420,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(CalcValue, visit_calc_value);
 
-    mtd!(ImportRule, visit_import_rule);
-
-    mtd!(ImportHref, visit_import_href);
-
-    mtd!(ImportLayerName, visit_import_layer_name);
-
-    mtd!(ImportSupportsType, visit_import_supports_type);
-
     mtd!(LayerName, visit_layer_name);
 
     mtd!(LayerNameList, visit_layer_name_list);

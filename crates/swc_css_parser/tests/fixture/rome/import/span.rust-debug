@@ -17,16 +17,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
  1 | @import "something.css";
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportHref
+  x AtRuleName
    ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
  1 | @import "something.css";
-   :         ^^^^^^^^^^^^^^^
+   :  ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
+ 1 | @import "something.css";
+   :  ^^^^^^
    `----
 
   x Str
@@ -47,16 +53,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
  2 | @import url("something.css");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportHref
+  x AtRuleName
    ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
  2 | @import url("something.css");
-   :         ^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+ 2 | @import url("something.css");
+   :  ^^^^^^
    `----
 
   x Url

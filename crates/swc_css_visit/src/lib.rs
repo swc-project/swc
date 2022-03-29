@@ -489,7 +489,6 @@ define!({
     }
 
     pub enum AtRule {
-        Import(ImportRule),
         Layer(LayerRule),
         Media(MediaRule),
         Supports(SupportsRule),
@@ -499,27 +498,27 @@ define!({
         Unknown(UnknownAtRule),
     }
 
-    pub enum ImportHref {
+    pub struct ImportPrelude {
+        pub span: Span,
+        pub href: ImportPreludeHref,
+        pub layer_name: Option<ImportPreludeLayerName>,
+        pub supports: Option<ImportPreludeSupportsType>,
+        pub media: Option<MediaQueryList>,
+    }
+
+    pub enum ImportPreludeHref {
         Url(Url),
         Str(Str),
     }
 
-    pub enum ImportLayerName {
+    pub enum ImportPreludeLayerName {
         Ident(Ident),
         Function(Function),
     }
 
-    pub enum ImportSupportsType {
+    pub enum ImportPreludeSupportsType {
         SupportsCondition(SupportsCondition),
         Declaration(Declaration),
-    }
-
-    pub struct ImportRule {
-        pub span: Span,
-        pub href: ImportHref,
-        pub layer_name: Option<ImportLayerName>,
-        pub supports: Option<ImportSupportsType>,
-        pub media: Option<MediaQueryList>,
     }
 
     pub enum NamespaceUri {
@@ -554,6 +553,7 @@ define!({
         DocumentPrelude(DocumentPrelude),
         NestPrelude(SelectorList),
         KeyframesPrelude(KeyframesPrelude),
+        ImportPrelude(ImportPrelude),
     }
 
     pub struct ListOfComponentValues {

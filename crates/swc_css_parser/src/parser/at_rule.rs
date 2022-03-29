@@ -25,23 +25,6 @@ where
         let state = self.input.state();
 
         match &*name.0.to_ascii_lowercase() {
-            "import" => {
-                self.input.skip_ws()?;
-
-                let at_rule_import: PResult<ImportRule> = self.parse();
-
-                match at_rule_import {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Import(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             "supports" => {
                 self.input.skip_ws()?;
 
@@ -379,7 +362,90 @@ where
 
                     Ok(Some(prelude))
                 }
+                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "import" => {
+                    parser.input.skip_ws()?;
 
+                    let span = parser.input.cur_span()?;
+                    let href = match cur!(parser) {
+                        tok!("string") => ImportPreludeHref::Str(parser.parse()?),
+                        tok!("url") => ImportPreludeHref::Url(parser.parse()?),
+                        tok!("function") => ImportPreludeHref::Url(parser.parse()?),
+                        _ => {
+                            return Err(Error::new(
+                                span,
+                                ErrorKind::Expected("string, url or function token"),
+                            ))
+                        }
+                    };
+
+                    parser.input.skip_ws()?;
+
+                    let layer_name = match cur!(parser) {
+                        Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
+                            let name = ImportPreludeLayerName::Ident(parser.parse()?);
+
+                            parser.input.skip_ws()?;
+
+                            Some(name)
+                        }
+                        Token::Function { value, .. }
+                            if *value.to_ascii_lowercase() == *"layer" =>
+                        {
+                            let name = ImportPreludeLayerName::Function(parser.parse()?);
+
+                            parser.input.skip_ws()?;
+
+                            Some(name)
+                        }
+                        _ => None,
+                    };
+
+                    let supports = match cur!(parser) {
+                        Token::Function { value, .. }
+                            if *value.to_ascii_lowercase() == *"supports" =>
+                        {
+                            bump!(parser);
+
+                            parser.input.skip_ws()?;
+
+                            let supports =
+                                if is_case_insensitive_ident!(parser, "not") || is!(parser, "(") {
+                                    ImportPreludeSupportsType::SupportsCondition(parser.parse()?)
+                                } else {
+                                    ImportPreludeSupportsType::Declaration(parser.parse()?)
+                                };
+
+                            expect!(parser, ")");
+
+                            Some(supports)
+                        }
+                        _ => None,
+                    };
+
+                    let media = if !is!(parser, ";") {
+                        Some(parser.parse()?)
+                    } else {
+                        None
+                    };
+
+                    parser.input.skip_ws()?;
+
+                    let prelude = AtRulePrelude::ImportPrelude(ImportPrelude {
+                        span: span!(parser, span.lo),
+                        href,
+                        layer_name,
+                        supports,
+                        media,
+                    });
+
+                    if !is!(parser, ";") {
+                        let span = parser.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("';' token")));
+                    }
+
+                    Ok(Some(prelude))
+                }
                 AtRuleName::Ident(ident)
                     if matches!(
                         &*ident.value.to_lowercase(),
@@ -598,81 +664,6 @@ where
                 }
             }
         }
-    }
-}
-
-impl<I> Parse<ImportRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<ImportRule> {
-        let span = self.input.cur_span()?;
-        let href = match cur!(self) {
-            tok!("string") => ImportHref::Str(self.parse()?),
-            tok!("url") => ImportHref::Url(self.parse()?),
-            tok!("function") => ImportHref::Url(self.parse()?),
-            _ => {
-                return Err(Error::new(
-                    span,
-                    ErrorKind::Expected("string, url or function token"),
-                ))
-            }
-        };
-
-        self.input.skip_ws()?;
-
-        let layer_name = match cur!(self) {
-            Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
-                let name = ImportLayerName::Ident(self.parse()?);
-
-                self.input.skip_ws()?;
-
-                Some(name)
-            }
-            Token::Function { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
-                let name = ImportLayerName::Function(self.parse()?);
-
-                self.input.skip_ws()?;
-
-                Some(name)
-            }
-            _ => None,
-        };
-
-        let supports = match cur!(self) {
-            Token::Function { value, .. } if *value.to_ascii_lowercase() == *"supports" => {
-                bump!(self);
-
-                self.input.skip_ws()?;
-
-                let supports = if is_case_insensitive_ident!(self, "not") || is!(self, "(") {
-                    ImportSupportsType::SupportsCondition(self.parse()?)
-                } else {
-                    ImportSupportsType::Declaration(self.parse()?)
-                };
-
-                expect!(self, ")");
-
-                Some(supports)
-            }
-            _ => None,
-        };
-
-        let media = if !is!(self, ";") {
-            Some(self.parse()?)
-        } else {
-            None
-        };
-
-        eat!(self, ";");
-
-        Ok(ImportRule {
-            span: span!(self, span.lo),
-            href,
-            layer_name,
-            supports,
-            media,
-        })
     }
 }
 

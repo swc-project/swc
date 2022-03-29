@@ -3025,55 +3025,74 @@
       }
     },
     {
-      "type": "ImportRule",
+      "type": "AtRule",
       "span": {
         "start": 1117,
         "end": 1138,
         "ctxt": 0
       },
-      "href": {
-        "type": "String",
+      "name": {
+        "type": "Ident",
         "span": {
-          "start": 1125,
-          "end": 1130,
+          "start": 1118,
+          "end": 1124,
           "ctxt": 0
         },
-        "value": "foo",
-        "raw": "'foo'"
+        "value": "import",
+        "raw": "import"
       },
-      "layerName": null,
-      "supports": null,
-      "media": {
-        "type": "MediaQueryList",
+      "prelude": {
+        "type": "ImportPrelude",
         "span": {
-          "start": 1131,
+          "start": 1125,
           "end": 1137,
           "ctxt": 0
         },
-        "queries": [
-          {
-            "type": "MediaQuery",
-            "span": {
-              "start": 1131,
-              "end": 1137,
-              "ctxt": 0
-            },
-            "modifier": null,
-            "mediaType": {
-              "type": "Ident",
+        "href": {
+          "type": "String",
+          "span": {
+            "start": 1125,
+            "end": 1130,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "raw": "'foo'"
+        },
+        "layerName": null,
+        "supports": null,
+        "media": {
+          "type": "MediaQueryList",
+          "span": {
+            "start": 1131,
+            "end": 1137,
+            "ctxt": 0
+          },
+          "queries": [
+            {
+              "type": "MediaQuery",
               "span": {
                 "start": 1131,
                 "end": 1137,
                 "ctxt": 0
               },
-              "value": "screen",
-              "raw": "screen"
-            },
-            "keyword": null,
-            "condition": null
-          }
-        ]
-      }
+              "modifier": null,
+              "mediaType": {
+                "type": "Ident",
+                "span": {
+                  "start": 1131,
+                  "end": 1137,
+                  "ctxt": 0
+                },
+                "value": "screen",
+                "raw": "screen"
+              },
+              "keyword": null,
+              "condition": null
+            }
+          ]
+        }
+      },
+      "block": null
     },
     {
       "type": "AtRule",
