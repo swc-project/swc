@@ -23,7 +23,15 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": [],
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 0,
+          "ctxt": 0
+        },
+        "children": []
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -90,7 +98,15 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": [],
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 0,
+          "ctxt": 0
+        },
+        "children": []
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -153,7 +169,15 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": [],
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 0,
+          "ctxt": 0
+        },
+        "children": []
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -221,7 +245,15 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": [],
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 0,
+          "ctxt": 0
+        },
+        "children": []
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -285,35 +317,43 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": [
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 117,
-            "end": 120,
-            "ctxt": 0
-          },
-          "token": {
-            "Ident": {
-              "value": "foo",
-              "raw": "foo"
-            }
-          }
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 120,
+          "ctxt": 0
         },
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 120,
-            "end": 121,
-            "ctxt": 0
+        "children": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 116,
+              "end": 117,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           },
-          "token": {
-            "WhiteSpace": {
-              "value": " "
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 117,
+              "end": 120,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "foo",
+                "raw": "foo"
+              }
             }
           }
-        }
-      ],
+        ]
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -342,22 +382,43 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": [
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 136,
-            "end": 139,
-            "ctxt": 0
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 139,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 135,
+              "end": 136,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           },
-          "token": {
-            "Ident": {
-              "value": "foo",
-              "raw": "foo"
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 136,
+              "end": 139,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "foo",
+                "raw": "foo"
+              }
             }
           }
-        }
-      ],
+        ]
+      },
       "block": null
     },
     {
@@ -377,7 +438,29 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": [],
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 153,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 152,
+              "end": 153,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          }
+        ]
+      },
       "block": null
     }
   ]

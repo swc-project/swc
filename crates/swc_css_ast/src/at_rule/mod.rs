@@ -2,12 +2,11 @@ use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 pub use self::{
-    charset::*, color_profile::*, counter_style::*, document::*, import::*, keyframe::*, layer::*,
-    media::*, namespace::*, nest::*, page::*, property::*, support::*,
+    color_profile::*, counter_style::*, document::*, import::*, keyframe::*, layer::*, media::*,
+    namespace::*, nest::*, page::*, property::*, support::*,
 };
-use crate::{ComponentValue, DashedIdent, Ident, SimpleBlock};
+use crate::{ComponentValue, DashedIdent, Ident, SimpleBlock, Str};
 
-mod charset;
 mod color_profile;
 mod counter_style;
 mod document;
@@ -24,9 +23,6 @@ mod support;
 #[ast_node]
 #[derive(Is)]
 pub enum AtRule {
-    #[tag("CharsetRule")]
-    Charset(CharsetRule),
-
     #[tag("ImportRule")]
     Import(ImportRule),
 
@@ -83,6 +79,26 @@ pub enum AtRuleName {
 pub struct UnknownAtRule {
     pub span: Span,
     pub name: AtRuleName,
-    pub prelude: Vec<ComponentValue>,
+    pub prelude: AtRulePrelude,
     pub block: Option<SimpleBlock>,
+}
+
+#[ast_node]
+pub enum AtRulePrelude {
+    #[tag("CharsetPrelude")]
+    CharsetPrelude(CharsetPrelude),
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(ListOfComponentValues),
+}
+
+#[ast_node("ListOfComponentValues")]
+pub struct ListOfComponentValues {
+    pub span: Span,
+    pub children: Vec<ComponentValue>,
+}
+
+#[ast_node("CharsetPrelude")]
+pub struct CharsetPrelude {
+    pub span: Span,
+    pub charset: Str,
 }

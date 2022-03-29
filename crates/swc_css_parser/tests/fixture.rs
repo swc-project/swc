@@ -420,8 +420,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(CalcValue, visit_calc_value);
 
-    mtd!(CharsetRule, visit_charset_rule);
-
     mtd!(DocumentRule, visit_document_rule);
 
     mtd!(

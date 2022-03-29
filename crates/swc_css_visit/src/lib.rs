@@ -9,8 +9,6 @@ use swc_visit::define;
 /// Visitable nodes.
 pub trait Node {}
 
-impl<T: ?Sized> Node for T {}
-
 define!({
     pub struct Tokens {
         pub span: Span,
@@ -491,7 +489,6 @@ define!({
     }
 
     pub enum AtRule {
-        Charset(CharsetRule),
         Import(ImportRule),
         Keyframes(KeyframesRule),
         Layer(LayerRule),
@@ -506,11 +503,6 @@ define!({
         CounterStyle(CounterStyleRule),
         Property(PropertyRule),
         Unknown(UnknownAtRule),
-    }
-
-    pub struct CharsetRule {
-        pub span: Span,
-        pub charset: Str,
     }
 
     pub enum ImportHref {
@@ -553,16 +545,31 @@ define!({
         pub block: SimpleBlock,
     }
 
+    pub struct UnknownAtRule {
+        pub span: Span,
+        pub name: AtRuleName,
+        pub prelude: AtRulePrelude,
+        pub block: Option<SimpleBlock>,
+    }
+
     pub enum AtRuleName {
         DashedIdent(DashedIdent),
         Ident(Ident),
     }
 
-    pub struct UnknownAtRule {
+    pub enum AtRulePrelude {
+        ListOfComponentValues(ListOfComponentValues),
+        CharsetPrelude(CharsetPrelude),
+    }
+
+    pub struct ListOfComponentValues {
         pub span: Span,
-        pub name: AtRuleName,
-        pub prelude: Vec<ComponentValue>,
-        pub block: Option<SimpleBlock>,
+        pub children: Vec<ComponentValue>,
+    }
+
+    pub struct CharsetPrelude {
+        pub span: Span,
+        pub charset: Str,
     }
 
     pub struct DocumentRule {
@@ -842,3 +849,5 @@ define!({
         pub block: SimpleBlock,
     }
 });
+
+impl<T: ?Sized> Node for T {}

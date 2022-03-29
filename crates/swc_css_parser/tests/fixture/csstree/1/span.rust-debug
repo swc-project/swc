@@ -70,10 +70,22 @@
    : ^^^^^^^^^^^^^^^^^
    `----
 
-  x CharsetRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/csstree/1/input.css:2:1]
  2 | @charset 'utf-8';
    : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/csstree/1/input.css:2:1]
+ 2 | @charset 'utf-8';
+   :  ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/csstree/1/input.css:2:1]
+ 2 | @charset 'utf-8';
+   :  ^^^^^^^
    `----
 
   x Str

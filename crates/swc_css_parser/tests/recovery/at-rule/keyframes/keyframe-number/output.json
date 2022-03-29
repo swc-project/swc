@@ -23,48 +23,56 @@
         "value": "keyframes",
         "raw": "keyframes"
       },
-      "prelude": [
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 10,
-            "end": 11,
-            "ctxt": 0
-          },
-          "token": {
-            "WhiteSpace": {
-              "value": " "
-            }
-          }
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 15,
+          "ctxt": 0
         },
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 11,
-            "end": 14,
-            "ctxt": 0
+        "children": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 10,
+              "end": 11,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           },
-          "token": {
-            "Ident": {
-              "value": "foo",
-              "raw": "foo"
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 11,
+              "end": 14,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "foo",
+                "raw": "foo"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 14,
+              "end": 15,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
             }
           }
-        },
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 14,
-            "end": 15,
-            "ctxt": 0
-          },
-          "token": {
-            "WhiteSpace": {
-              "value": " "
-            }
-          }
-        }
-      ],
+        ]
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {

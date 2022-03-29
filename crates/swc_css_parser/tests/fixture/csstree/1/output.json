@@ -7,22 +7,41 @@
   },
   "rules": [
     {
-      "type": "CharsetRule",
+      "type": "AtRule",
       "span": {
         "start": 17,
         "end": 34,
         "ctxt": 0
       },
-      "charset": {
-        "type": "String",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 18,
+          "end": 25,
+          "ctxt": 0
+        },
+        "value": "charset",
+        "raw": "charset"
+      },
+      "prelude": {
+        "type": "CharsetPrelude",
         "span": {
           "start": 26,
           "end": 33,
           "ctxt": 0
         },
-        "value": "utf-8",
-        "raw": "'utf-8'"
-      }
+        "charset": {
+          "type": "String",
+          "span": {
+            "start": 26,
+            "end": 33,
+            "ctxt": 0
+          },
+          "value": "utf-8",
+          "raw": "'utf-8'"
+        }
+      },
+      "block": null
     },
     {
       "type": "PageRule",

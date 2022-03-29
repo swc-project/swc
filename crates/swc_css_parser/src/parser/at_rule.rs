@@ -25,23 +25,6 @@ where
         let state = self.input.state();
 
         match &*name.0.to_ascii_lowercase() {
-            "charset" => {
-                self.input.skip_ws()?;
-
-                let at_rule_charset: PResult<CharsetRule> = self.parse();
-
-                match at_rule_charset {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Charset(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             "import" => {
                 self.input.skip_ws()?;
 
@@ -295,11 +278,7 @@ where
 
         self.input.reset(&state);
 
-        let has_prelude = match &*name.0.to_lowercase() {
-            "viewport" | "-ms-viewport" | "-o-viewport" | "font-face" => false,
-            _ => true,
-        };
-        let name = if name.0.starts_with("--") {
+        let at_rule_name = if name.0.starts_with("--") {
             AtRuleName::DashedIdent(DashedIdent {
                 span: Span::new(
                     at_rule_span.lo + BytePos(1),
@@ -326,15 +305,65 @@ where
         // and its value initially set to nothing.
         let mut at_rule = UnknownAtRule {
             span: span!(self, at_rule_span.lo),
-            name,
-            prelude: vec![],
+            name: at_rule_name,
+            prelude: AtRulePrelude::ListOfComponentValues(ListOfComponentValues {
+                // TODO fix me span
+                span: Default::default(),
+                children: vec![],
+            }),
             block: None,
         };
+        let parse_prelude = |parser: &mut Parser<I>| -> PResult<Option<AtRulePrelude>> {
+            match &at_rule.name {
+                AtRuleName::Ident(ident)
+                    if matches!(
+                        &*ident.value.to_lowercase(),
+                        "viewport" | "-ms-viewport" | "-o-viewport" | "font-face"
+                    ) =>
+                {
+                    parser.input.skip_ws()?;
 
-        // TODO postpone grammar after parsing
-        if !has_prelude {
-            self.input.skip_ws()?;
-        }
+                    if !is!(parser, "{") {
+                        let span = parser.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
+                    Ok(None)
+                }
+                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "charset" => {
+                    parser.input.skip_ws()?;
+
+                    let span = parser.input.cur_span()?;
+                    let charset = match cur!(parser) {
+                        tok!("string") => parser.parse()?,
+                        _ => {
+                            return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
+                        }
+                    };
+
+                    let prelude = AtRulePrelude::CharsetPrelude(CharsetPrelude {
+                        span: span!(parser, span.lo),
+                        charset,
+                    });
+
+                    parser.input.skip_ws()?;
+
+                    if !is!(parser, ";") {
+                        let span = parser.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
+                    Ok(Some(prelude))
+                }
+                _ => {
+                    let span = parser.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Ignore));
+                }
+            }
+        };
 
         loop {
             // <EOF-token>
@@ -386,37 +415,45 @@ where
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the at-rule’s prelude.
                 _ => {
-                    if !has_prelude {
-                        let span = self.input.cur_span()?;
+                    let state = self.input.state();
 
-                        self.errors
-                            .push(Error::new(span, ErrorKind::Expected("'{' token")));
+                    match parse_prelude(self) {
+                        Ok(prelude) => match prelude {
+                            Some(prelude) => {
+                                at_rule.prelude = prelude;
+                            }
+                            None => {}
+                        },
+                        Err(err) => {
+                            if *err.kind() != ErrorKind::Ignore {
+                                self.errors.push(err);
+                            }
+
+                            self.input.reset(&state);
+
+                            match at_rule.prelude {
+                                AtRulePrelude::ListOfComponentValues(
+                                    ref mut list_of_component_value,
+                                ) => {
+                                    let span = self.input.cur_span()?;
+                                    let component_value = self.parse()?;
+
+                                    list_of_component_value.children.push(component_value);
+                                    list_of_component_value.span = Span::new(
+                                        list_of_component_value.span.lo,
+                                        span.hi,
+                                        Default::default(),
+                                    );
+                                }
+                                _ => {
+                                    unreachable!();
+                                }
+                            }
+                        }
                     }
-
-                    at_rule.prelude.push(self.parse()?);
                 }
             }
         }
-    }
-}
-
-impl<I> Parse<CharsetRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<CharsetRule> {
-        let span = self.input.cur_span()?;
-        let charset = match cur!(self) {
-            tok!("string") => self.parse()?,
-            _ => return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule)),
-        };
-
-        eat!(self, ";");
-
-        Ok(CharsetRule {
-            span: span!(self, span.lo),
-            charset,
-        })
     }
 }
 

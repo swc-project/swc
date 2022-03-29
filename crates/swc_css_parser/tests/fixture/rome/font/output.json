@@ -23,7 +23,15 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": [],
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 0,
+          "ctxt": 0
+        },
+        "children": []
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {

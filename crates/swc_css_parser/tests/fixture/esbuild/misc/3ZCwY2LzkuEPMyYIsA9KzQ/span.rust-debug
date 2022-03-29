@@ -17,10 +17,22 @@
    : ^^^^^^^^^^^^^^^^^
    `----
 
-  x CharsetRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/esbuild/misc/3ZCwY2LzkuEPMyYIsA9KzQ/input.css:1:1]
  1 | @charset 'UTF-8';
    : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/esbuild/misc/3ZCwY2LzkuEPMyYIsA9KzQ/input.css:1:1]
+ 1 | @charset 'UTF-8';
+   :  ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/3ZCwY2LzkuEPMyYIsA9KzQ/input.css:1:1]
+ 1 | @charset 'UTF-8';
+   :  ^^^^^^^
    `----
 
   x Str
