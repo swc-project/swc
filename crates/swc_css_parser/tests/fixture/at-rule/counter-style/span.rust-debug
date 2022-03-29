@@ -30,13 +30,25 @@
  5 | `-> }
    `----
 
-  x CounterStyleRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
  1 | ,-> @counter-style thumbs {
  2 | |       system: cyclic;
  3 | |       symbols: "\1F44D";
  4 | |       suffix: " ";
  5 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
+ 1 | @counter-style thumbs {
+   :  ^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
+ 1 | @counter-style thumbs {
+   :  ^^^^^^^^^^^^^
    `----
 
   x CustomIdent

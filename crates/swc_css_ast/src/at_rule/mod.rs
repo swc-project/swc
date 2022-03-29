@@ -2,13 +2,12 @@ use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 pub use self::{
-    color_profile::*, counter_style::*, document::*, import::*, keyframe::*, layer::*, media::*,
-    namespace::*, nest::*, page::*, support::*,
+    color_profile::*, document::*, import::*, keyframe::*, layer::*, media::*, namespace::*,
+    nest::*, page::*, support::*,
 };
-use crate::{ComponentValue, DashedIdent, Ident, SimpleBlock, Str};
+use crate::{ComponentValue, CustomIdent, DashedIdent, Ident, SimpleBlock, Str};
 
 mod color_profile;
-mod counter_style;
 mod document;
 mod import;
 mod keyframe;
@@ -55,9 +54,6 @@ pub enum AtRule {
     #[tag("ColorProfileRule")]
     ColorProfile(ColorProfileRule),
 
-    #[tag("CounterStyleRule")]
-    CounterStyle(CounterStyleRule),
-
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
 }
@@ -85,6 +81,8 @@ pub enum AtRulePrelude {
     CharsetPrelude(CharsetPrelude),
     #[tag("PropertyPrelude")]
     PropertyPrelude(PropertyPrelude),
+    #[tag("CounterStylePrelude")]
+    CounterStylePrelude(CounterStylePrelude),
     #[tag("ListOfComponentValues")]
     ListOfComponentValues(ListOfComponentValues),
 }
@@ -105,4 +103,10 @@ pub struct CharsetPrelude {
 pub struct PropertyPrelude {
     pub span: Span,
     pub name: DashedIdent,
+}
+
+#[ast_node("CounterStylePrelude")]
+pub struct CounterStylePrelude {
+    pub span: Span,
+    pub name: CustomIdent,
 }

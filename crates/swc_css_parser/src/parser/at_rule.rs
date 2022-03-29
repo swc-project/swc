@@ -239,23 +239,6 @@ where
                 }
             }
 
-            "counter-style" => {
-                self.input.skip_ws()?;
-
-                let at_rule_counter_style: PResult<CounterStyleRule> = self.parse();
-
-                match at_rule_counter_style {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::CounterStyle(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             _ => {}
         }
 
@@ -340,6 +323,27 @@ where
 
                     Ok(Some(prelude))
                 }
+                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "counter-style" => {
+                    parser.input.skip_ws()?;
+
+                    let span = parser.input.cur_span()?;
+                    let name = parser.parse()?;
+
+                    let prelude = AtRulePrelude::CounterStylePrelude(CounterStylePrelude {
+                        span: span!(parser, span.lo),
+                        name,
+                    });
+
+                    parser.input.skip_ws()?;
+
+                    if !is!(parser, "{") {
+                        let span = parser.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
+                    Ok(Some(prelude))
+                }
                 AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "property" => {
                     parser.input.skip_ws()?;
 
@@ -400,6 +404,7 @@ where
                                     | "-o-viewport"
                                     | "font-face"
                                     | "property"
+                                    | "counter-style"
                             ) =>
                         {
                             Ctx {
@@ -2017,30 +2022,6 @@ where
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(ColorProfileRule {
-            span: span!(self, span.lo),
-            name,
-            block,
-        })
-    }
-}
-
-impl<I> Parse<CounterStyleRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<CounterStyleRule> {
-        let span = self.input.cur_span()?;
-        let name = self.parse()?;
-
-        self.input.skip_ws()?;
-
-        let ctx = Ctx {
-            block_contents_grammar: BlockContentsGrammar::DeclarationList,
-            ..self.ctx
-        };
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(CounterStyleRule {
             span: span!(self, span.lo),
             name,
             block,

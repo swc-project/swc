@@ -500,7 +500,6 @@ define!({
         Nest(NestRule),
         Document(DocumentRule),
         ColorProfile(ColorProfileRule),
-        CounterStyle(CounterStyleRule),
         Unknown(UnknownAtRule),
     }
 
@@ -559,6 +558,7 @@ define!({
     pub enum AtRulePrelude {
         ListOfComponentValues(ListOfComponentValues),
         PropertyPrelude(PropertyPrelude),
+        CounterStylePrelude(CounterStylePrelude),
         CharsetPrelude(CharsetPrelude),
     }
 
@@ -570,6 +570,11 @@ define!({
     pub struct CharsetPrelude {
         pub span: Span,
         pub charset: Str,
+    }
+
+    pub struct CounterStylePrelude {
+        pub span: Span,
+        pub name: CustomIdent,
     }
 
     pub struct PropertyPrelude {
@@ -839,12 +844,6 @@ define!({
     pub struct ColorProfileRule {
         pub span: Span,
         pub name: ColorProfileName,
-        pub block: SimpleBlock,
-    }
-
-    pub struct CounterStyleRule {
-        pub span: Span,
-        pub name: CustomIdent,
         pub block: SimpleBlock,
     }
 });
