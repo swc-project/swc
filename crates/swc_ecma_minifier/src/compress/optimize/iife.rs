@@ -4,7 +4,9 @@ use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_arguments, ident::IdentLike, undefined, ExprFactory, Id};
+use swc_ecma_utils::{
+    contains_arguments, contains_this_expr, ident::IdentLike, undefined, ExprFactory, Id,
+};
 use swc_ecma_visit::VisitMutWith;
 
 use super::{util::MultiReplacer, Optimizer};
@@ -586,7 +588,7 @@ where
             return false;
         }
 
-        if contains_arguments(body) {
+        if contains_this_expr(body) || contains_arguments(body) {
             return false;
         }
 

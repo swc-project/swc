@@ -1167,7 +1167,9 @@
         },
         function(module, exports) {
             var g;
-            g = this;
+            g = function() {
+                return this;
+            }();
             try {
                 g = g || new Function("return this")();
             } catch (e) {

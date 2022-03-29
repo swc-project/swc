@@ -1,2 +1,4 @@
 var M;
-M || (M = {}), this.bar;
+!function(M) {
+    this.bar;
+}(M || (M = {}));
