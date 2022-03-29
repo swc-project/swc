@@ -261,6 +261,8 @@ impl VisitMut for Pure<'_> {
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
+        self.eval_trivial_values_in_expr(e);
+
         self.remove_invalid(e);
 
         self.drop_console(e);

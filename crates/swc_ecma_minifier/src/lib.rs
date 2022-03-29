@@ -18,6 +18,7 @@
 #![allow(clippy::collapsible_if)]
 #![allow(clippy::ptr_arg)]
 #![allow(clippy::vec_box)]
+#![allow(clippy::logic_bug)]
 #![allow(unstable_name_collisions)]
 
 use compress::pure_optimizer;

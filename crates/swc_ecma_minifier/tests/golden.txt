@@ -596,7 +596,10 @@ harmony/import_statement/input.js
 harmony/issue_2028/input.js
 harmony/issue_2345/input.js
 harmony/issue_2676/input.js
+harmony/issue_2794_3/input.js
+harmony/issue_2794_4/input.js
 harmony/issue_2794_5/input.js
+harmony/issue_2794_6/input.js
 harmony/issue_2874_3/input.js
 harmony/issue_3028/input.js
 harmony/issue_3061/input.js
@@ -645,6 +648,7 @@ html_comments/html_comment_in_string_literal/input.js
 html_comments/html_comment_in_zero_fill_right_shift/input.js
 identity/inline_identity/input.js
 identity/inline_identity_async/input.js
+identity/inline_identity_higher_order/input.js
 identity/inline_identity_inner_ref/input.js
 identity/inline_identity_regression/input.js
 identity/inline_identity_undefined/input.js

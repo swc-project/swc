@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
+use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, IsEmpty, Value};
 use swc_ecma_visit::VisitMutWith;
 
 use super::Pure;
@@ -405,6 +405,92 @@ impl Pure<'_> {
 
                 *e = *bin_expr.right.take();
             }
+        }
+    }
+
+    pub(super) fn eval_trivial_values_in_expr(&mut self, e: &mut Expr) {
+        let exprs = to_trivial_exprs(e);
+
+        self.eval_trivial_exprs(exprs);
+    }
+
+    /// `exprs` - Must follow evaluation order
+    fn eval_trivial_exprs(&mut self, mut exprs: Vec<&mut Expr>) {
+        if exprs.len() < 2 {
+            return;
+        }
+
+        'outer: for idx in 0..exprs.len() {
+            let (a, b) = exprs.split_at_mut(idx);
+
+            for a in a.iter().rev() {
+                if let Some(b) = b.first_mut() {
+                    self.eval_trivial_two(a, b);
+
+                    match b {
+                        Expr::Ident(..) | Expr::Lit(..) => {}
+                        _ => break 'outer,
+                    }
+                }
+            }
+        }
+    }
+
+    fn eval_trivial_two(&mut self, a: &Expr, b: &mut Expr) {
+        if let Expr::Assign(AssignExpr {
+            left: a_left,
+            op: op!("="),
+            right: a_right,
+            ..
+        }) = a
+        {
+            match &**a_right {
+                Expr::Lit(..) => {}
+                _ => return,
+            }
+
+            if let PatOrExpr::Pat(a_left) = a_left {
+                if let Pat::Ident(a_left) = &**a_left {
+                    if let Expr::Ident(b_id) = b {
+                        if b_id.to_id() == a_left.id.to_id() {
+                            tracing::debug!("evaluate: Trivial: `{}`", a_left.id);
+                            *b = *a_right.clone();
+                            self.changed = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
+    match e {
+        Expr::Array(e) => e
+            .elems
+            .iter_mut()
+            .flatten()
+            .flat_map(|v| to_trivial_exprs(&mut v.expr))
+            .collect(),
+
+        Expr::Seq(e) => e
+            .exprs
+            .iter_mut()
+            .flat_map(|e| to_trivial_exprs(e))
+            .collect(),
+
+        Expr::Bin(BinExpr {
+            left,
+            right,
+            op: op!(bin, "+") | op!(bin, "-") | op!("*") | op!("/") | op!("%"),
+            ..
+        }) => to_trivial_exprs(left)
+            .into_iter()
+            .chain(to_trivial_exprs(right))
+            .collect(),
+
+        _ => {
+            vec![e]
         }
     }
 }
