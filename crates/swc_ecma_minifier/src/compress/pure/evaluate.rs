@@ -1,14 +1,11 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
+use swc_ecma_utils::{ident::IdentLike, undefined, ExprExt, IsEmpty, Value};
 use swc_ecma_visit::VisitMutWith;
 
 use super::Pure;
-use crate::{
-    compress::util::{eval_as_number, is_pure_undefined_or_null},
-    DISABLE_BUGGY_PASSES,
-};
+use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
 
 impl Pure<'_> {
     pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
@@ -426,15 +423,41 @@ impl Pure<'_> {
                 if let Some(b) = b.first_mut() {
                     self.eval_trivial_two(a, b);
 
-                    if DISABLE_BUGGY_PASSES {
-                        break;
+                    match b {
+                        Expr::Lit(..) => {}
+                        _ => break,
                     }
                 }
             }
         }
     }
 
-    fn eval_trivial_two(&mut self, a: &Expr, b: &mut Expr) {}
+    fn eval_trivial_two(&mut self, a: &Expr, b: &mut Expr) {
+        if let Expr::Assign(AssignExpr {
+            left: a_left,
+            op: op!("="),
+            right: a_right,
+            ..
+        }) = a
+        {
+            match &**a_right {
+                Expr::Lit(..) => {}
+                _ => return,
+            }
+
+            if let PatOrExpr::Pat(a_left) = a_left {
+                if let Pat::Ident(a_left) = &**a_left {
+                    if let Expr::Ident(b_id) = b {
+                        if b_id.to_id() == a_left.id.to_id() {
+                            tracing::debug!("evaluate: Trivial: `{}`", a_left.id);
+                            *b = *a_right.clone();
+                            self.changed = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
