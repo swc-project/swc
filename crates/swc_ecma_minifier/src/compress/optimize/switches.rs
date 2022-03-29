@@ -243,7 +243,7 @@ where
     /// If a case ends with break but content is same with the consequtive case
     /// except the break statement, we merge them.
     fn merge_cases_with_same_cons(&mut self, cases: &mut Vec<SwitchCase>) {
-        let stop_pos = cases
+        let mut stop_pos_opt = cases
             .iter()
             .position(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))));
 
@@ -253,8 +253,14 @@ where
                 continue;
             }
 
-            if let Some(stop_pos) = stop_pos {
-                if li >= stop_pos {
+            if let Some(stop_pos) = stop_pos_opt {
+                if li == stop_pos {
+                    // Look for next stop position
+                    stop_pos_opt = cases
+                        .iter()
+                        .skip(li)
+                        .position(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))))
+                        .map(|v| v + li);
                     continue;
                 }
             }
