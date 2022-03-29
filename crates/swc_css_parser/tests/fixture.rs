@@ -420,13 +420,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(CalcValue, visit_calc_value);
 
-    mtd!(DocumentRule, visit_document_rule);
-
-    mtd!(
-        DocumentRuleMatchingFunction,
-        visit_document_rule_matching_function
-    );
-
     mtd!(ImportRule, visit_import_rule);
 
     mtd!(ImportHref, visit_import_href);

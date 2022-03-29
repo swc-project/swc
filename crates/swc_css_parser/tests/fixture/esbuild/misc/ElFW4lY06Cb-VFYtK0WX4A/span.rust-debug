@@ -17,16 +17,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x DocumentRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x DocumentRuleMatchingFunction
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
-   :                ^^^^^^^^^^^^
+   :  ^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
+ 1 | @-moz-document url-prefix() { h1 { color: green } }
+   :  ^^^^^^^^^^^^^
    `----
 
   x Function

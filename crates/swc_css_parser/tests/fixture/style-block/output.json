@@ -2422,43 +2422,61 @@
             "important": null
           },
           {
-            "type": "DocumentRule",
+            "type": "AtRule",
             "span": {
               "start": 997,
               "end": 1068,
               "ctxt": 0
             },
-            "matchingFunctions": [
-              {
-                "type": "Url",
-                "span": {
-                  "start": 1007,
-                  "end": 1038,
-                  "ctxt": 0
-                },
-                "name": {
-                  "type": "Ident",
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 998,
+                "end": 1006,
+                "ctxt": 0
+              },
+              "value": "document",
+              "raw": "document"
+            },
+            "prelude": {
+              "type": "DocumentPrelude",
+              "span": {
+                "start": 1007,
+                "end": 1039,
+                "ctxt": 0
+              },
+              "matchingFunctions": [
+                {
+                  "type": "Url",
                   "span": {
                     "start": 1007,
-                    "end": 1010,
+                    "end": 1038,
                     "ctxt": 0
                   },
-                  "value": "url",
-                  "raw": "url"
-                },
-                "value": {
-                  "type": "String",
-                  "span": {
-                    "start": 1011,
-                    "end": 1037,
-                    "ctxt": 0
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 1007,
+                      "end": 1010,
+                      "ctxt": 0
+                    },
+                    "value": "url",
+                    "raw": "url"
                   },
-                  "value": "https://www.example.com/",
-                  "raw": "\"https://www.example.com/\""
-                },
-                "modifiers": []
-              }
-            ],
+                  "value": {
+                    "type": "String",
+                    "span": {
+                      "start": 1011,
+                      "end": 1037,
+                      "ctxt": 0
+                    },
+                    "value": "https://www.example.com/",
+                    "raw": "\"https://www.example.com/\""
+                  },
+                  "modifiers": []
+                }
+              ]
+            },
             "block": {
               "type": "SimpleBlock",
               "span": {

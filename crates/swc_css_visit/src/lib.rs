@@ -498,7 +498,6 @@ define!({
         PageMargin(PageMarginRule),
         Namespace(NamespaceRule),
         Nest(NestRule),
-        Document(DocumentRule),
         Unknown(UnknownAtRule),
     }
 
@@ -560,6 +559,7 @@ define!({
         CounterStylePrelude(CounterStylePrelude),
         ColorProfilePrelude(ColorProfilePrelude),
         CharsetPrelude(CharsetPrelude),
+        DocumentPrelude(DocumentPrelude),
     }
 
     pub struct ListOfComponentValues {
@@ -587,20 +587,19 @@ define!({
         Ident(Ident),
     }
 
+    pub struct DocumentPrelude {
+        pub span: Span,
+        pub matching_functions: Vec<DocumentPreludeMatchingFunction>,
+    }
+
+    pub enum DocumentPreludeMatchingFunction {
+        Url(Url),
+        Function(Function),
+    }
+
     pub struct PropertyPrelude {
         pub span: Span,
         pub name: DashedIdent,
-    }
-
-    pub struct DocumentRule {
-        pub span: Span,
-        pub matching_functions: Vec<DocumentRuleMatchingFunction>,
-        pub block: SimpleBlock,
-    }
-
-    pub enum DocumentRuleMatchingFunction {
-        Url(Url),
-        Function(Function),
     }
 
     pub enum KeyframesName {

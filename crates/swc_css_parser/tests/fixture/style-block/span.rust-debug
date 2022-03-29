@@ -2917,17 +2917,23 @@
  75 | `->     }
     `----
 
-  x DocumentRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/style-block/input.css:73:5]
  73 | ,-> @document url("https://www.example.com/") {
  74 | |           color: green;
  75 | `->     }
     `----
 
-  x DocumentRuleMatchingFunction
+  x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:73:5]
  73 | @document url("https://www.example.com/") {
-    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:73:5]
+ 73 | @document url("https://www.example.com/") {
+    :  ^^^^^^^^
     `----
 
   x Url

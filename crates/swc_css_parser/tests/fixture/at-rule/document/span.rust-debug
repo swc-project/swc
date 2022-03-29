@@ -45,7 +45,7 @@
  5 | `-> }
    `----
 
-  x DocumentRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
  1 | ,-> @document url("https://www.example.com/") {
  2 | |       h1 {
@@ -54,10 +54,16 @@
  5 | `-> }
    `----
 
-  x DocumentRuleMatchingFunction
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
  1 | @document url("https://www.example.com/") {
-   :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+ 1 | @document url("https://www.example.com/") {
+   :  ^^^^^^^^
    `----
 
   x Url
@@ -225,7 +231,7 @@
  12 | `-> }
     `----
 
-  x DocumentRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
   7 | ,-> @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
   8 | |       body {
@@ -235,10 +241,16 @@
  12 | `-> }
     `----
 
-  x DocumentRuleMatchingFunction
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
  7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-   :           ^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+   :  ^^^^^^^^
    `----
 
   x Url
@@ -265,12 +277,6 @@
    :               ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x DocumentRuleMatchingFunction
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
- 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-   :                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x Function
    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
  7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
@@ -293,12 +299,6 @@
    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
  7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DocumentRuleMatchingFunction
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
- 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-   :                                                                              ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
@@ -325,12 +325,6 @@
    :                                                                                     ^^^^^^^^^^^^^
    `----
 
-  x DocumentRuleMatchingFunction
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
- 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-   :                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x Function
    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
  7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
@@ -353,12 +347,6 @@
    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
  7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                                    ^^^^^^^
-   `----
-
-  x DocumentRuleMatchingFunction
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
- 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-   :                                                                                                                              ^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
@@ -565,16 +553,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x DocumentRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
  14 | @document url(https://www.example.com/) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x DocumentRuleMatchingFunction
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
  14 | @document url(https://www.example.com/) {}
-    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
+ 14 | @document url(https://www.example.com/) {}
+    :  ^^^^^^^^
     `----
 
   x Url
@@ -619,16 +613,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x DocumentRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
  15 | @-moz-document url("https://www.example.com/") {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x DocumentRuleMatchingFunction
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
  15 | @-moz-document url("https://www.example.com/") {}
-    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
+ 15 | @-moz-document url("https://www.example.com/") {}
+    :  ^^^^^^^^^^^^^
     `----
 
   x Url
@@ -673,16 +673,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x DocumentRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
  16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x DocumentRuleMatchingFunction
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
  16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
-    :                                       ^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
+ 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+    :  ^^^^^^^^^^^^^
     `----
 
   x Url
@@ -737,7 +743,7 @@
  24 | `-> }
     `----
 
-  x DocumentRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
  18 | ,-> @document url("https://www.example.com/") {
  19 | |       @media screen and (min-width: 900px) {
@@ -748,10 +754,16 @@
  24 | `-> }
     `----
 
-  x DocumentRuleMatchingFunction
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
  18 | @document url("https://www.example.com/") {
-    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
+ 18 | @document url("https://www.example.com/") {
+    :  ^^^^^^^^
     `----
 
   x Url

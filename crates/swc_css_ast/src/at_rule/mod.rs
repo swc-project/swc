@@ -2,12 +2,10 @@ use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 pub use self::{
-    document::*, import::*, keyframe::*, layer::*, media::*, namespace::*, nest::*, page::*,
-    support::*,
+    import::*, keyframe::*, layer::*, media::*, namespace::*, nest::*, page::*, support::*,
 };
-use crate::{ComponentValue, CustomIdent, DashedIdent, Ident, SimpleBlock, Str};
+use crate::{ComponentValue, CustomIdent, DashedIdent, Function, Ident, SimpleBlock, Str, Url};
 
-mod document;
 mod import;
 mod keyframe;
 mod layer;
@@ -47,9 +45,6 @@ pub enum AtRule {
     #[tag("NestRule")]
     Nest(NestRule),
 
-    #[tag("DocumentRule")]
-    Document(DocumentRule),
-
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
 }
@@ -73,6 +68,8 @@ pub struct UnknownAtRule {
 
 #[ast_node]
 pub enum AtRulePrelude {
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(ListOfComponentValues),
     #[tag("CharsetPrelude")]
     CharsetPrelude(CharsetPrelude),
     #[tag("PropertyPrelude")]
@@ -81,8 +78,8 @@ pub enum AtRulePrelude {
     CounterStylePrelude(CounterStylePrelude),
     #[tag("ColorProfilePrelude")]
     ColorProfilePrelude(ColorProfilePrelude),
-    #[tag("ListOfComponentValues")]
-    ListOfComponentValues(ListOfComponentValues),
+    #[tag("DocumentPrelude")]
+    DocumentPrelude(DocumentPrelude),
 }
 
 #[ast_node("ListOfComponentValues")]
@@ -121,4 +118,18 @@ pub enum ColorProfilePreludeName {
     DashedIdent(DashedIdent),
     #[tag("Ident")]
     Ident(Ident),
+}
+
+#[ast_node("DocumentPrelude")]
+pub struct DocumentPrelude {
+    pub span: Span,
+    pub matching_functions: Vec<DocumentPreludeMatchingFunction>,
+}
+
+#[ast_node]
+pub enum DocumentPreludeMatchingFunction {
+    #[tag("Url")]
+    Url(Url),
+    #[tag("Function")]
+    Function(Function),
 }

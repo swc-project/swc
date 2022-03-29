@@ -154,23 +154,6 @@ where
                 }
             }
 
-            "document" | "-moz-document" => {
-                self.input.skip_ws()?;
-
-                let at_rule_document: PResult<DocumentRule> = self.parse();
-
-                match at_rule_document {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Document(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             "namespace" => {
                 self.input.skip_ws()?;
 
@@ -327,6 +310,42 @@ where
 
                     Ok(Some(prelude))
                 }
+                AtRuleName::Ident(ident)
+                    if matches!(&*ident.value.to_lowercase(), "document" | "-moz-document") =>
+                {
+                    parser.input.skip_ws()?;
+
+                    let span = parser.input.cur_span()?;
+                    let url_match_fn = parser.parse()?;
+                    let mut matching_functions = vec![url_match_fn];
+
+                    loop {
+                        parser.input.skip_ws()?;
+
+                        if !eat!(parser, ",") {
+                            break;
+                        }
+
+                        parser.input.skip_ws()?;
+
+                        matching_functions.push(parser.parse()?);
+                    }
+
+                    let prelude = AtRulePrelude::DocumentPrelude(DocumentPrelude {
+                        span: span!(parser, span.lo),
+                        matching_functions,
+                    });
+
+                    parser.input.skip_ws()?;
+
+                    if !is!(parser, "{") {
+                        let span = parser.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
+                    Ok(Some(prelude))
+                }
                 AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "property" => {
                     parser.input.skip_ws()?;
 
@@ -426,6 +445,23 @@ where
                             Ctx {
                                 block_contents_grammar: BlockContentsGrammar::DeclarationList,
                                 ..self.ctx
+                            }
+                        }
+                        AtRuleName::Ident(ident)
+                            if matches!(
+                                &*ident.value.to_lowercase(),
+                                "document" | "-moz-document"
+                            ) =>
+                        {
+                            match self.ctx.block_contents_grammar {
+                                BlockContentsGrammar::StyleBlock => Ctx {
+                                    block_contents_grammar: BlockContentsGrammar::StyleBlock,
+                                    ..self.ctx
+                                },
+                                _ => Ctx {
+                                    block_contents_grammar: BlockContentsGrammar::Stylesheet,
+                                    ..self.ctx
+                                },
                             }
                         }
                         _ => Ctx {
@@ -1064,53 +1100,13 @@ where
     }
 }
 
-impl<I> Parse<DocumentRule> for Parser<I>
+impl<I> Parse<DocumentPreludeMatchingFunction> for Parser<I>
 where
     I: ParserInput,
 {
-    fn parse(&mut self) -> PResult<DocumentRule> {
-        let span = self.input.cur_span()?;
-        let url_match_fn = self.parse()?;
-        let mut matching_functions = vec![url_match_fn];
-
-        loop {
-            self.input.skip_ws()?;
-
-            if !eat!(self, ",") {
-                break;
-            }
-
-            self.input.skip_ws()?;
-
-            matching_functions.push(self.parse()?);
-        }
-        let ctx = match self.ctx.block_contents_grammar {
-            BlockContentsGrammar::StyleBlock => Ctx {
-                block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                ..self.ctx
-            },
-            _ => Ctx {
-                block_contents_grammar: BlockContentsGrammar::Stylesheet,
-                ..self.ctx
-            },
-        };
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(DocumentRule {
-            span: span!(self, span.lo),
-            matching_functions,
-            block,
-        })
-    }
-}
-
-impl<I> Parse<DocumentRuleMatchingFunction> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<DocumentRuleMatchingFunction> {
+    fn parse(&mut self) -> PResult<DocumentPreludeMatchingFunction> {
         match cur!(self) {
-            tok!("url") => Ok(DocumentRuleMatchingFunction::Url(self.parse()?)),
+            tok!("url") => Ok(DocumentPreludeMatchingFunction::Url(self.parse()?)),
             Token::Function {
                 value: function_name,
                 ..
@@ -1118,9 +1114,9 @@ where
                 if &*function_name.to_ascii_lowercase() == "url"
                     || &*function_name.to_ascii_lowercase() == "src"
                 {
-                    Ok(DocumentRuleMatchingFunction::Url(self.parse()?))
+                    Ok(DocumentPreludeMatchingFunction::Url(self.parse()?))
                 } else {
-                    Ok(DocumentRuleMatchingFunction::Function(self.parse()?))
+                    Ok(DocumentPreludeMatchingFunction::Function(self.parse()?))
                 }
             }
             _ => {
