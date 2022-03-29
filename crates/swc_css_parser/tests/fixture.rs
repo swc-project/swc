@@ -468,8 +468,6 @@ impl Visit for SpanVisualizer<'_> {
         visit_media_feature_range_interval
     );
 
-    mtd!(SupportsRule, visit_supports_rule);
-
     mtd!(SupportsCondition, visit_supports_condition);
 
     mtd!(SupportsConditionType, visit_supports_condition_type);

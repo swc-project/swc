@@ -27,10 +27,22 @@
  2 | `-> }
    `----
 
-  x SupportsRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | ,-> @supports not (display: flex) {
  2 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
+ 1 | @supports not (display: flex) {
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
+ 1 | @supports not (display: flex) {
+   :  ^^^^^^^^
    `----
 
   x SupportsCondition
@@ -121,12 +133,24 @@
  7 | `->           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
-  x SupportsRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | ,-> @supports ( box-shadow: 0 0 2px black inset ) or
  5 | |             ( -moz-box-shadow: 0 0 2px black inset ) or
  6 | |             ( -webkit-box-shadow: 0 0 2px black inset ) or
  7 | `->           ( -o-box-shadow: 0 0 2px black inset ) {}
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+   :  ^^^^^^^^
    `----
 
   x SupportsCondition
@@ -649,11 +673,23 @@
  12 | `->           (transform: rotate(10deg)) {}
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | ,-> @supports ((transition-property: color) or
  11 | |              (animation-name: foo)) and
  12 | `->           (transform: rotate(10deg)) {}
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 | @supports ((transition-property: color) or
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 | @supports ((transition-property: color) or
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition

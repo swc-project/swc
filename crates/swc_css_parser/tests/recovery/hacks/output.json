@@ -424,13 +424,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 119,
         "end": 157,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 120,
+          "end": 128,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 129,
@@ -3111,13 +3121,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1019,
         "end": 1058,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1020,
+          "end": 1028,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1029,
@@ -3371,13 +3391,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1111,
         "end": 1169,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1112,
+          "end": 1120,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1121,
@@ -3479,13 +3509,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1171,
         "end": 1231,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1172,
+          "end": 1180,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1181,
@@ -3587,13 +3627,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1233,
         "end": 1306,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1234,
+          "end": 1242,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1243,
@@ -3695,13 +3745,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1308,
         "end": 1377,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1309,
+          "end": 1317,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1318,
@@ -3821,13 +3881,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1379,
         "end": 1436,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1380,
+          "end": 1388,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1389,
@@ -3929,13 +3999,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1438,
         "end": 1515,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1439,
+          "end": 1447,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1448,
@@ -4206,13 +4286,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1598,
         "end": 1683,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1599,
+          "end": 1607,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1608,
@@ -4717,13 +4807,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1797,
         "end": 1835,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1798,
+          "end": 1806,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1807,
@@ -12144,13 +12244,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 3819,
         "end": 3857,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 3820,
+          "end": 3828,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 3829,
@@ -13836,13 +13946,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 4350,
         "end": 4388,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 4351,
+          "end": 4359,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 4360,

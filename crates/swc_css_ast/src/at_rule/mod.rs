@@ -2,7 +2,7 @@ use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-pub use self::{layer::*, page::*, support::*};
+pub use self::{layer::*, page::*};
 use crate::{
     ComponentValue, CustomIdent, DashedIdent, Declaration, Dimension, Function, Ident, Number,
     Percentage, Ratio, SelectorList, SimpleBlock, Str, Url,
@@ -10,16 +10,12 @@ use crate::{
 
 mod layer;
 mod page;
-mod support;
 
 #[ast_node]
 #[derive(Is)]
 pub enum AtRule {
     #[tag("LayerRule")]
     Layer(LayerRule),
-
-    #[tag("SupportsRule")]
-    Supports(SupportsRule),
 
     #[tag("PageRule")]
     Page(PageRule),
@@ -72,6 +68,8 @@ pub enum AtRulePrelude {
     NamespacePrelude(NamespacePrelude),
     #[tag("MediaQueryList")]
     MediaPrelude(MediaQueryList),
+    #[tag("SupportsCondition")]
+    SupportsPrelude(SupportsCondition),
 }
 
 #[ast_node("ListOfComponentValues")]
@@ -382,4 +380,74 @@ pub struct MediaFeatureRangeInterval {
     #[serde(rename = "rightComparison")]
     pub right_comparison: MediaFeatureRangeComparison,
     pub right: MediaFeatureValue,
+}
+
+#[ast_node("SupportsCondition")]
+pub struct SupportsCondition {
+    pub span: Span,
+    pub conditions: Vec<SupportsConditionType>,
+}
+
+#[ast_node]
+pub enum SupportsConditionType {
+    #[tag("SupportsNot")]
+    Not(SupportsNot),
+
+    #[tag("SupportsAnd")]
+    And(SupportsAnd),
+
+    #[tag("SupportsOr")]
+    Or(SupportsOr),
+
+    #[tag("SupportsInParens")]
+    SupportsInParens(SupportsInParens),
+}
+
+#[ast_node("SupportsNot")]
+pub struct SupportsNot {
+    pub span: Span,
+    pub keyword: Ident,
+    pub condition: SupportsInParens,
+}
+
+#[ast_node("SupportsAnd")]
+pub struct SupportsAnd {
+    pub span: Span,
+    pub keyword: Ident,
+    pub condition: SupportsInParens,
+}
+
+#[ast_node("SupportsOr")]
+pub struct SupportsOr {
+    pub span: Span,
+    pub keyword: Ident,
+    pub condition: SupportsInParens,
+}
+
+#[ast_node]
+pub enum SupportsInParens {
+    #[tag("SupportsCondition")]
+    SupportsCondition(SupportsCondition),
+
+    #[tag("SupportsFeature")]
+    Feature(SupportsFeature),
+
+    #[tag("GeneralEnclosed")]
+    GeneralEnclosed(GeneralEnclosed),
+}
+
+#[ast_node]
+pub enum SupportsFeature {
+    #[tag("Declaration")]
+    Declaration(Declaration),
+    #[tag("Function")]
+    Function(Function),
+}
+
+#[ast_node]
+pub enum GeneralEnclosed {
+    #[tag("Function")]
+    Function(Function),
+    #[tag("SimpleBlock")]
+    SimpleBlock(SimpleBlock),
 }

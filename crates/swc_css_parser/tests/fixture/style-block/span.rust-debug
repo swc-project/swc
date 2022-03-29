@@ -1695,13 +1695,25 @@
  42 | `->     }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/style-block/input.css:38:5]
  38 | ,-> @supports not (display: grid) {
  39 | |           float: right;
  40 | |       
  41 | |           & .class { color: red }
  42 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
+ 38 | @supports not (display: grid) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
+ 38 | @supports not (display: grid) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -2085,13 +2097,25 @@
  52 | `->     }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | ,-> @supports not (display: grid) {
  49 | |           float: right;
  50 | |       
  51 | |           & .class { color: red }
  52 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/style-block/input.css:48:5]
+ 48 | @supports not (display: grid) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:48:5]
+ 48 | @supports not (display: grid) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -2599,13 +2623,25 @@
  66 | `->     }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | ,-> @supports not (display: grid) {
  63 | |           float: right;
  64 | |       
  65 | |           & .class { color: red }
  66 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/style-block/input.css:62:5]
+ 62 | @supports not (display: grid) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:62:5]
+ 62 | @supports not (display: grid) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition

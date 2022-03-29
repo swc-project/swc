@@ -2662,13 +2662,25 @@
  37 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/csstree/1/input.css:33:1]
  33 | ,-> @supports (box-shadow: 1px 2px black !important) {
  34 | |       .rule {
  35 | |           box-shadow: var(--something, fallback);
  36 | |       }
  37 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/csstree/1/input.css:33:1]
+ 33 | @supports (box-shadow: 1px 2px black !important) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/csstree/1/input.css:33:1]
+ 33 | @supports (box-shadow: 1px 2px black !important) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition

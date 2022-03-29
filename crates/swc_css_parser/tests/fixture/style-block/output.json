@@ -1357,13 +1357,23 @@
         "name": "{",
         "value": [
           {
-            "type": "SupportsRule",
+            "type": "AtRule",
             "span": {
               "start": 526,
               "end": 622,
               "ctxt": 0
             },
-            "condition": {
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 527,
+                "end": 535,
+                "ctxt": 0
+              },
+              "value": "supports",
+              "raw": "supports"
+            },
+            "prelude": {
               "type": "SupportsCondition",
               "span": {
                 "start": 536,
@@ -1693,13 +1703,23 @@
             "important": null
           },
           {
-            "type": "SupportsRule",
+            "type": "AtRule",
             "span": {
               "start": 657,
               "end": 753,
               "ctxt": 0
             },
-            "condition": {
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 658,
+                "end": 666,
+                "ctxt": 0
+              },
+              "value": "supports",
+              "raw": "supports"
+            },
+            "prelude": {
               "type": "SupportsCondition",
               "span": {
                 "start": 667,
@@ -2136,13 +2156,23 @@
             }
           },
           {
-            "type": "SupportsRule",
+            "type": "AtRule",
             "span": {
               "start": 827,
               "end": 923,
               "ctxt": 0
             },
-            "condition": {
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 828,
+                "end": 836,
+                "ctxt": 0
+              },
+              "value": "supports",
+              "raw": "supports"
+            },
+            "prelude": {
               "type": "SupportsCondition",
               "span": {
                 "start": 837,

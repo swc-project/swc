@@ -158,13 +158,25 @@
  5 | `-> }
    `----
 
-  x SupportsRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/at-rule/supports/input.css:1:1]
  1 | ,-> @supports (display: grid) {
  2 | |       div {
  3 | |           display: grid;
  4 | |       }
  5 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/supports/input.css:1:1]
+ 1 | @supports (display: grid) {
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/supports/input.css:1:1]
+ 1 | @supports (display: grid) {
+   :  ^^^^^^^^
    `----
 
   x SupportsCondition
@@ -372,7 +384,7 @@
  17 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:7:1]
   7 | ,-> @supports (display: flex) {
   8 | |       body {
@@ -386,6 +398,18 @@
  16 | |       }
  17 | `-> }
     `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/supports/input.css:7:1]
+ 7 | @supports (display: flex) {
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/supports/input.css:7:1]
+ 7 | @supports (display: flex) {
+   :  ^^^^^^^^
+   `----
 
   x SupportsCondition
    ,-[$DIR/tests/fixture/at-rule/supports/input.css:7:1]
@@ -845,10 +869,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:18:1]
  18 | @supports   (   display   :   flex   )   {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:18:1]
+ 18 | @supports   (   display   :   flex   )   {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:18:1]
+ 18 | @supports   (   display   :   flex   )   {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -923,10 +959,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:19:1]
  19 | @supports not (display: flex) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:19:1]
+ 19 | @supports not (display: flex) {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:19:1]
+ 19 | @supports not (display: flex) {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -1013,10 +1061,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:20:1]
  20 | @SUPPORTS not (display: flex) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:20:1]
+ 20 | @SUPPORTS not (display: flex) {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:20:1]
+ 20 | @SUPPORTS not (display: flex) {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -1103,10 +1163,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
+ 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
+ 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -1633,7 +1705,7 @@
  27 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:22:1]
  22 | ,-> @supports ( box-shadow: 0 0 2px black inset ) or
  23 | |     ( -moz-box-shadow: 0 0 2px black inset ) or
@@ -1641,6 +1713,18 @@
  25 | |     ( -o-box-shadow: 0 0 2px black inset ) {
  26 | |       
  27 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:22:1]
+ 22 | @supports ( box-shadow: 0 0 2px black inset ) or
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:22:1]
+ 22 | @supports ( box-shadow: 0 0 2px black inset ) or
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -2162,10 +2246,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:28:1]
  28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:28:1]
+ 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:28:1]
+ 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -2414,10 +2510,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:29:1]
  29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:29:1]
+ 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:29:1]
+ 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -2666,10 +2774,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
+ 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
+ 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -2918,10 +3038,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:31:1]
  31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:31:1]
+ 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:31:1]
+ 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -3170,10 +3302,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:32:1]
  32 | @supports ((display: flex)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:32:1]
+ 32 | @supports ((display: flex)) {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:32:1]
+ 32 | @supports ((display: flex)) {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -3266,10 +3410,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:33:1]
  33 | @supports (display: flex !important) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:33:1]
+ 33 | @supports (display: flex !important) {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:33:1]
+ 33 | @supports (display: flex !important) {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -3356,10 +3512,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:34:1]
  34 | @supports NOT (display: flex) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:34:1]
+ 34 | @supports NOT (display: flex) {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:34:1]
+ 34 | @supports NOT (display: flex) {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -3446,10 +3614,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:35:1]
  35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:35:1]
+ 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:35:1]
+ 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -3698,10 +3878,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:36:1]
  36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:36:1]
+ 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:36:1]
+ 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -3950,10 +4142,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:37:1]
  37 | @supports (NOT (display: flex)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:37:1]
+ 37 | @supports (NOT (display: flex)) {}
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:37:1]
+ 37 | @supports (NOT (display: flex)) {}
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -4058,13 +4262,25 @@
  43 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:39:1]
  39 | ,-> @supports selector(col || td) {
  40 | |       col.selected || td {
  41 | |           background: tan;
  42 | |       }
  43 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:39:1]
+ 39 | @supports selector(col || td) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:39:1]
+ 39 | @supports selector(col || td) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -4374,13 +4590,25 @@
  49 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:45:1]
  45 | ,-> @supports selector(:focus-visible) {
  46 | |       a:focus-visible {
  47 | |           background: yellow;
  48 | |       }
  49 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:45:1]
+ 45 | @supports selector(:focus-visible) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:45:1]
+ 45 | @supports selector(:focus-visible) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -4612,13 +4840,25 @@
  55 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:51:1]
  51 | ,-> @supports (--element(".minwidth")) {
  52 | |       [--self] {
  53 | |           background: greenyellow;
  54 | |       }
  55 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:51:1]
+ 51 | @supports (--element(".minwidth")) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:51:1]
+ 51 | @supports (--element(".minwidth")) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -4804,11 +5044,23 @@
  59 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:57:1]
  57 | ,-> @supports (ident: 1) {
  58 | |       * { background: red; }
  59 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:57:1]
+ 57 | @supports (ident: 1) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:57:1]
+ 57 | @supports (ident: 1) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -4982,11 +5234,23 @@
  63 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:61:1]
  61 | ,-> @supports ((ident: 1)) {
  62 | |       * { background: red; }
  63 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:61:1]
+ 61 | @supports ((ident: 1)) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:61:1]
+ 61 | @supports ((ident: 1)) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -5178,11 +5442,23 @@
  67 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
  65 | ,-> @supports (ident "str") {
  66 | |       * { background: red; }
  67 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
+ 65 | @supports (ident "str") {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
+ 65 | @supports (ident "str") {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -5362,11 +5638,23 @@
  71 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
  69 | ,-> @supports ((ident "str")) {
  70 | |       * { background: red; }
  71 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
+ 69 | @supports ((ident "str")) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
+ 69 | @supports ((ident "str")) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -5552,11 +5840,23 @@
  75 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | ,-> @supports func(10, 20, 40) {
  74 | |       * { background: red; }
  75 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
+ 73 | @supports func(10, 20, 40) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
+ 73 | @supports func(10, 20, 40) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -5766,11 +6066,23 @@
  79 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | ,-> @supports (func(10, 20, 40)) {
  78 | |       * { background: red; }
  79 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
+ 77 | @supports (func(10, 20, 40)) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
+ 77 | @supports (func(10, 20, 40)) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -5986,11 +6298,23 @@
  83 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | ,-> @supports (   func(   10   ,   20   ,   40   )  ) {
  82 | |       * { background: red; }
  83 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -6220,7 +6544,7 @@
  94 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:85:1]
  85 | ,-> @supports (animation-name: test) {
  86 | |       @-custom-keyframe anim {
@@ -6232,6 +6556,18 @@
  92 | |           }
  93 | |       }
  94 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:85:1]
+ 85 | @supports (animation-name: test) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:85:1]
+ 85 | @supports (animation-name: test) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -6699,11 +7035,23 @@
  98 | `-> }
     `----
 
-  x SupportsRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
  96 | ,-> @supports (--var) {
  97 | |       * { background: red; }
  98 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
+ 96 | @supports (--var) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
+ 96 | @supports (--var) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -6863,13 +7211,25 @@
  104 | `-> }
      `----
 
-  x SupportsRule
+  x UnknownAtRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:100:1]
  100 | ,-> @supports (--foo: green) {
  101 | |       body {
  102 | |           color: var(--varName);
  103 | |       }
  104 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:100:1]
+ 100 | @supports (--foo: green) {
+     :  ^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:100:1]
+ 100 | @supports (--foo: green) {
+     :  ^^^^^^^^
      `----
 
   x SupportsCondition
@@ -7085,7 +7445,7 @@
  111 | `-> }
      `----
 
-  x SupportsRule
+  x UnknownAtRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:106:1]
  106 | ,-> @supports not selector(:is(a, b)) {
  107 | |       ul > li,
@@ -7093,6 +7453,18 @@
  109 | |           color: red;
  110 | |       }
  111 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:106:1]
+ 106 | @supports not selector(:is(a, b)) {
+     :  ^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:106:1]
+ 106 | @supports not selector(:is(a, b)) {
+     :  ^^^^^^^^
      `----
 
   x SupportsCondition
@@ -7520,7 +7892,7 @@
  120 | `-> }
      `----
 
-  x SupportsRule
+  x UnknownAtRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:113:1]
  113 | ,-> @supports selector(:nth-child(1n of a, b)) {
  114 | |       :is(
@@ -7530,6 +7902,18 @@
  118 | |         color: red
  119 | |       }
  120 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:113:1]
+ 113 | @supports selector(:nth-child(1n of a, b)) {
+     :  ^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:113:1]
+ 113 | @supports selector(:nth-child(1n of a, b)) {
+     :  ^^^^^^^^
      `----
 
   x SupportsCondition
@@ -8147,7 +8531,7 @@
  131 | `-> }
      `----
 
-  x SupportsRule
+  x UnknownAtRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:122:1]
  122 | ,-> @supports (animation-name: test) {
  123 | |       @-custom-keyframe anim {
@@ -8159,6 +8543,18 @@
  129 | |           }
  130 | |       }
  131 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:122:1]
+ 122 | @supports (animation-name: test) {
+     :  ^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:122:1]
+ 122 | @supports (animation-name: test) {
+     :  ^^^^^^^^
      `----
 
   x SupportsCondition
@@ -8630,13 +9026,25 @@
  137 | `-> }
      `----
 
-  x SupportsRule
+  x UnknownAtRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:133:1]
  133 | ,-> @supports selector(:focus-visible) {
  134 | |       a:focus-visible {
  135 | |           background: yellow;
  136 | |       }
  137 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:133:1]
+ 133 | @supports selector(:focus-visible) {
+     :  ^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:133:1]
+ 133 | @supports selector(:focus-visible) {
+     :  ^^^^^^^^
      `----
 
   x SupportsCondition

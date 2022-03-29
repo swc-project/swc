@@ -25,23 +25,6 @@ where
         let state = self.input.state();
 
         match &*name.0.to_ascii_lowercase() {
-            "supports" => {
-                self.input.skip_ws()?;
-
-                let at_rule_supports: PResult<SupportsRule> = self.parse();
-
-                match at_rule_supports {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Supports(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             "page" => {
                 self.input.skip_ws()?;
 
@@ -388,6 +371,15 @@ where
 
                     Ok(media)
                 }
+                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "supports" => {
+                    parser.input.skip_ws()?;
+
+                    let prelude = AtRulePrelude::SupportsPrelude(parser.parse()?);
+
+                    parser.input.skip_ws()?;
+
+                    Ok(Some(prelude))
+                }
                 AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "import" => {
                     parser.input.skip_ws()?;
 
@@ -476,9 +468,9 @@ where
                     if matches!(
                         &*ident.value.to_lowercase(),
                         "keyframes"
+                            | "-webkit-keyframes"
                             | "-moz-keyframes"
                             | "-o-keyframes"
-                            | "-webkit-keyframes"
                             | "-ms-keyframes"
                     ) =>
                 {
@@ -514,8 +506,8 @@ where
                     if matches!(
                         &*ident.value.to_lowercase(),
                         "viewport"
-                            | "-ms-viewport"
                             | "-o-viewport"
+                            | "-ms-viewport"
                             | "font-face"
                             | "property"
                             | "color-profile"
@@ -530,7 +522,7 @@ where
                 AtRuleName::Ident(ident)
                     if matches!(
                         &*ident.value.to_lowercase(),
-                        "document" | "-moz-document" | "media"
+                        "media" | "supports" | "document" | "-moz-document"
                     ) =>
                 {
                     match parser.ctx.block_contents_grammar {
@@ -806,40 +798,6 @@ where
                 ));
             }
         }
-    }
-}
-
-impl<I> Parse<SupportsRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<SupportsRule> {
-        let span = self.input.cur_span()?;
-        let condition = self.parse()?;
-
-        self.input.skip_ws()?;
-
-        if !is!(self, "{") {
-            return Err(Error::new(span, ErrorKind::Expected("'{' delim token")));
-        }
-
-        let ctx = match self.ctx.block_contents_grammar {
-            BlockContentsGrammar::StyleBlock => Ctx {
-                block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                ..self.ctx
-            },
-            _ => Ctx {
-                block_contents_grammar: BlockContentsGrammar::Stylesheet,
-                ..self.ctx
-            },
-        };
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(SupportsRule {
-            span: span!(self, span.lo),
-            condition,
-            block,
-        })
     }
 }
 

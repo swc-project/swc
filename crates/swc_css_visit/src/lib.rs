@@ -490,7 +490,6 @@ define!({
 
     pub enum AtRule {
         Layer(LayerRule),
-        Supports(SupportsRule),
         Page(PageRule),
         PageMargin(PageMarginRule),
         Unknown(UnknownAtRule),
@@ -554,6 +553,7 @@ define!({
         ImportPrelude(ImportPrelude),
         NamespacePrelude(NamespacePrelude),
         MediaPrelude(MediaQueryList),
+        SupportsPrelude(SupportsCondition),
     }
 
     pub struct ListOfComponentValues {
@@ -777,12 +777,6 @@ define!({
     pub struct PageMarginRule {
         pub span: Span,
         pub name: Ident,
-        pub block: SimpleBlock,
-    }
-
-    pub struct SupportsRule {
-        pub span: Span,
-        pub condition: SupportsCondition,
         pub block: SimpleBlock,
     }
 
