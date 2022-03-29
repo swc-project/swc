@@ -173,8 +173,10 @@ swc_plugin = "*""#,
         fs::write(
             &cargo_config_path.join("config"),
             format!(
-                r#"[build]
-target = "{}""#,
+                r#"# These command aliases are not final, may change
+[alias]
+# Alias to build actual plugin binary for the specified target.
+prepublish = "build --target {}""#,
                 build_target
             )
             .as_bytes(),
