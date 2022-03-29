@@ -7,13 +7,23 @@
   },
   "rules": [
     {
-      "type": "MediaRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 73,
         "ctxt": 0
       },
-      "media": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 6,
+          "ctxt": 0
+        },
+        "value": "media",
+        "raw": "media"
+      },
+      "prelude": {
         "type": "MediaQueryList",
         "span": {
           "start": 7,

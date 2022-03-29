@@ -42,23 +42,6 @@ where
                 }
             }
 
-            "media" => {
-                self.input.skip_ws()?;
-
-                let at_rule_media: PResult<MediaRule> = self.parse();
-
-                match at_rule_media {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Media(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             "page" => {
                 self.input.skip_ws()?;
 
@@ -390,6 +373,21 @@ where
 
                     Ok(Some(prelude))
                 }
+                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "media" => {
+                    parser.input.skip_ws()?;
+
+                    let media = if !is!(parser, "{") {
+                        let media_query_list = parser.parse()?;
+
+                        Some(AtRulePrelude::MediaPrelude(media_query_list))
+                    } else {
+                        None
+                    };
+
+                    parser.input.skip_ws()?;
+
+                    Ok(media)
+                }
                 AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "import" => {
                     parser.input.skip_ws()?;
 
@@ -530,7 +528,10 @@ where
                     }
                 }
                 AtRuleName::Ident(ident)
-                    if matches!(&*ident.value.to_lowercase(), "document" | "-moz-document") =>
+                    if matches!(
+                        &*ident.value.to_lowercase(),
+                        "document" | "-moz-document" | "media"
+                    ) =>
                 {
                     match parser.ctx.block_contents_grammar {
                         BlockContentsGrammar::StyleBlock => Ctx {
@@ -669,24 +670,39 @@ where
 
                             self.input.reset(&state);
 
-                            match at_rule.prelude {
+                            let list_of_component_value = match at_rule.prelude {
                                 AtRulePrelude::ListOfComponentValues(
                                     ref mut list_of_component_value,
-                                ) => {
-                                    let span = self.input.cur_span()?;
-                                    let component_value = self.parse()?;
-
-                                    list_of_component_value.children.push(component_value);
-                                    list_of_component_value.span = Span::new(
-                                        list_of_component_value.span.lo,
-                                        span.hi,
-                                        Default::default(),
-                                    );
-                                }
+                                ) => list_of_component_value,
                                 _ => {
-                                    unreachable!();
+                                    at_rule.prelude = AtRulePrelude::ListOfComponentValues(
+                                        ListOfComponentValues {
+                                            // TODO fix me span
+                                            span: Default::default(),
+                                            children: vec![],
+                                        },
+                                    );
+
+                                    match at_rule.prelude {
+                                        AtRulePrelude::ListOfComponentValues(
+                                            ref mut list_of_component_value,
+                                        ) => list_of_component_value,
+                                        _ => {
+                                            unreachable!();
+                                        }
+                                    }
                                 }
-                            }
+                            };
+
+                            let span = self.input.cur_span()?;
+                            let component_value = self.parse()?;
+
+                            list_of_component_value.children.push(component_value);
+                            list_of_component_value.span = Span::new(
+                                list_of_component_value.span.lo,
+                                span.hi,
+                                Default::default(),
+                            );
                         }
                     }
                 }
@@ -1107,47 +1123,6 @@ where
                 Err(Error::new(span, ErrorKind::Expected("url or function")))
             }
         }
-    }
-}
-
-impl<I> Parse<MediaRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<MediaRule> {
-        let span = self.input.cur_span()?;
-
-        let media = if !is!(self, "{") {
-            let media_query_list = self.parse()?;
-
-            Some(media_query_list)
-        } else {
-            None
-        };
-
-        self.input.skip_ws()?;
-
-        if !is!(self, "{") {
-            return Err(Error::new(span, ErrorKind::Expected("'{' delim token")));
-        }
-
-        let ctx = match self.ctx.block_contents_grammar {
-            BlockContentsGrammar::StyleBlock => Ctx {
-                block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                ..self.ctx
-            },
-            _ => Ctx {
-                block_contents_grammar: BlockContentsGrammar::Stylesheet,
-                ..self.ctx
-            },
-        };
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(MediaRule {
-            span: span!(self, span.lo),
-            media,
-            block,
-        })
     }
 }
 

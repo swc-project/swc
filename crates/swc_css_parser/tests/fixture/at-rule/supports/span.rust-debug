@@ -595,13 +595,25 @@
  16 | `->     }
     `----
 
-  x MediaRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:12:5]
  12 | ,-> @media screen and (min-width: 900px) {
  13 | |           article {
  14 | |               display: flex;
  15 | |           }
  16 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:12:5]
+ 12 | @media screen and (min-width: 900px) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:12:5]
+ 12 | @media screen and (min-width: 900px) {
+    :  ^^^^^
     `----
 
   x MediaQueryList

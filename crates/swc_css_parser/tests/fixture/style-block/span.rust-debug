@@ -346,11 +346,23 @@
  8 | `->     }
    `----
 
-  x MediaRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | ,-> @media (orientation: landscape) {
  7 | |           grid-auto-flow: column;
  8 | `->     }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/style-block/input.css:6:5]
+ 6 | @media (orientation: landscape) {
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/style-block/input.css:6:5]
+ 6 | @media (orientation: landscape) {
+   :  ^^^^^
    `----
 
   x MediaQueryList
@@ -624,7 +636,7 @@
  20 | `->     }
     `----
 
-  x MediaRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | ,-> @media (orientation: landscape) {
  15 | |           grid-auto-flow: column;
@@ -633,6 +645,18 @@
  18 | |               max-inline-size: 1024px;
  19 | |           }
  20 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/style-block/input.css:14:5]
+ 14 | @media (orientation: landscape) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:14:5]
+ 14 | @media (orientation: landscape) {
+    :  ^^^^^
     `----
 
   x MediaQueryList
@@ -775,11 +799,23 @@
  19 | `->         }
     `----
 
-  x MediaRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | ,-> @media (min-inline-size > 1024px) {
  18 | |               max-inline-size: 1024px;
  19 | `->         }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+    :  ^^^^^
     `----
 
   x MediaQueryList
@@ -951,13 +987,25 @@
  27 | `-> }
     `----
 
-  x MediaRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | ,-> @media (orientation: landscape) {
  24 | |       & {
  25 | |           grid-auto-flow: column;
  26 | |       }
  27 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 | @media (orientation: landscape) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 | @media (orientation: landscape) {
+    :  ^^^^^
     `----
 
   x MediaQueryList
@@ -1261,11 +1309,23 @@
  34 | `->     }
     `----
 
-  x MediaRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | ,-> @media (min-width: 480px) {
  33 | |           & h1, & h2 { color: blue; }
  34 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+    :  ^^^^^
     `----
 
   x MediaQueryList

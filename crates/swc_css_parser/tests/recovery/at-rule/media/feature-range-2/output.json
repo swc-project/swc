@@ -27,7 +27,7 @@
         "type": "ListOfComponentValues",
         "span": {
           "start": 0,
-          "end": 33,
+          "end": 8,
           "ctxt": 0
         },
         "children": [
@@ -180,19 +180,6 @@
                 }
               }
             ]
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 32,
-              "end": 33,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
           }
         ]
       },

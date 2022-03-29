@@ -218,7 +218,7 @@
  10 | `-> }
     `----
 
-  x MediaRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/csstree/1/input.css:6:1]
   6 | ,-> @media screen and (foo: 1) {
   7 | |       .class {
@@ -226,6 +226,18 @@
   9 | |       }
  10 | `-> }
     `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/csstree/1/input.css:6:1]
+ 6 | @media screen and (foo: 1) {
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/csstree/1/input.css:6:1]
+ 6 | @media screen and (foo: 1) {
+   :  ^^^^^
+   `----
 
   x MediaQueryList
    ,-[$DIR/tests/fixture/csstree/1/input.css:6:1]
@@ -2118,7 +2130,7 @@
  31 | `-> }
     `----
 
-  x MediaRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/csstree/1/input.css:25:1]
  25 | ,-> @media (device-aspect-ratio: 16/9) {
  26 | |       *|span:before {
@@ -2127,6 +2139,18 @@
  29 | |           background: element(#id);
  30 | |       }
  31 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/csstree/1/input.css:25:1]
+ 25 | @media (device-aspect-ratio: 16/9) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/csstree/1/input.css:25:1]
+ 25 | @media (device-aspect-ratio: 16/9) {
+    :  ^^^^^
     `----
 
   x MediaQueryList

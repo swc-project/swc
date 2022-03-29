@@ -28,10 +28,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/value/resolution/input.css:1:1]
  1 | @media print and (min-resolution: 300dpi) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/value/resolution/input.css:1:1]
+ 1 | @media print and (min-resolution: 300dpi) {}
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:1:1]
+ 1 | @media print and (min-resolution: 300dpi) {}
+   :  ^^^^^
    `----
 
   x MediaQueryList
@@ -148,10 +160,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
  2 | @media print and (min-resolution: 300dpcm) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpcm) {}
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:2:1]
+ 2 | @media print and (min-resolution: 300dpcm) {}
+   :  ^^^^^
    `----
 
   x MediaQueryList
@@ -268,10 +292,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
  3 | @media print and (min-resolution: 300dppx) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dppx) {}
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:3:1]
+ 3 | @media print and (min-resolution: 300dppx) {}
+   :  ^^^^^
    `----
 
   x MediaQueryList
@@ -388,10 +424,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
  4 | @media print and (min-resolution: 300x) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300x) {}
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/resolution/input.css:4:1]
+ 4 | @media print and (min-resolution: 300x) {}
+   :  ^^^^^
    `----
 
   x MediaQueryList

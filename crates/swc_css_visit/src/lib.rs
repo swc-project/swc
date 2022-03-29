@@ -490,7 +490,6 @@ define!({
 
     pub enum AtRule {
         Layer(LayerRule),
-        Media(MediaRule),
         Supports(SupportsRule),
         Page(PageRule),
         PageMargin(PageMarginRule),
@@ -554,6 +553,7 @@ define!({
         KeyframesPrelude(KeyframesPrelude),
         ImportPrelude(ImportPrelude),
         NamespacePrelude(NamespacePrelude),
+        MediaPrelude(MediaQueryList),
     }
 
     pub struct ListOfComponentValues {
@@ -636,12 +636,6 @@ define!({
         pub span: Span,
         pub prelude: Option<LayerPrelude>,
         pub block: Option<SimpleBlock>,
-    }
-
-    pub struct MediaRule {
-        pub span: Span,
-        pub media: Option<MediaQueryList>,
-        pub block: SimpleBlock,
     }
 
     pub struct MediaQueryList {

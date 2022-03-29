@@ -828,13 +828,25 @@
  23 | `->     }
     `----
 
-  x MediaRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
  19 | ,-> @media screen and (min-width: 900px) {
  20 | |           article {
  21 | |               padding: 1rem 3rem;
  22 | |           }
  23 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
+ 19 | @media screen and (min-width: 900px) {
+    :  ^^^^^
     `----
 
   x MediaQueryList

@@ -428,8 +428,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(LayerRule, visit_layer_rule);
 
-    mtd!(MediaRule, visit_media_rule);
-
     mtd!(MediaQueryList, visit_media_query_list);
 
     mtd!(MediaQuery, visit_media_query);

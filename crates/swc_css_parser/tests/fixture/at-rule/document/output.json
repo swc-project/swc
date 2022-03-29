@@ -776,13 +776,23 @@
         "name": "{",
         "value": [
           {
-            "type": "MediaRule",
+            "type": "AtRule",
             "span": {
               "start": 513,
               "end": 617,
               "ctxt": 0
             },
-            "media": {
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 514,
+                "end": 519,
+                "ctxt": 0
+              },
+              "value": "media",
+              "raw": "media"
+            },
+            "prelude": {
               "type": "MediaQueryList",
               "span": {
                 "start": 520,
