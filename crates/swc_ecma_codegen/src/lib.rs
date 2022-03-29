@@ -3324,23 +3324,38 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
 
                 match next {
                     // TODO fix me - workaround for surrogate pairs
-                    Some('\x00') => {
+                    Some('u') => {
                         let mut inner_iter = iter.clone();
 
                         inner_iter.next();
 
-                        let next = inner_iter.peek();
+                        let mut is_curly = false;
+                        let mut next = inner_iter.peek();
 
-                        if let Some('u') = next {
+                        if next == Some(&'{') {
+                            is_curly = true;
+
                             inner_iter.next();
+                            next = inner_iter.peek();
+                        }
 
-                            let mut is_valid = true;
+                        if let Some(c @ 'D' | c @ 'd') = next {
                             let mut inner_buf = String::new();
 
                             inner_buf.push('\\');
                             inner_buf.push('u');
 
-                            for _ in 0..4 {
+                            if is_curly {
+                                inner_buf.push('{');
+                            }
+
+                            inner_buf.push(*c);
+
+                            inner_iter.next();
+
+                            let mut is_valid = true;
+
+                            for _ in 0..3 {
                                 let c = inner_iter.next();
 
                                 match c {
@@ -3355,13 +3370,21 @@ fn get_quoted_utf16(v: &str, target: EsVersion) -> String {
                                 }
                             }
 
+                            if is_curly {
+                                inner_buf.push('}');
+                            }
+
                             if is_valid {
                                 buf.push_str(&inner_buf);
 
-                                for _ in 0..6 {
+                                let end = if is_curly { 7 } else { 5 };
+
+                                for _ in 0..end {
                                     iter.next();
                                 }
                             }
+                        } else {
+                            buf.push_str("\\\\");
                         }
                     }
                     _ => {
