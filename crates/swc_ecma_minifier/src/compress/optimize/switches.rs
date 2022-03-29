@@ -254,7 +254,7 @@ where
             }
 
             if let Some(stop_pos) = stop_pos {
-                if li > stop_pos {
+                if li >= stop_pos {
                     continue;
                 }
             }
