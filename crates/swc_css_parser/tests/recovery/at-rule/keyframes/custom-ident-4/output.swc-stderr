@@ -4,3 +4,9 @@
  1 | @keyframes default {}
    :            ^^^^^^^
    `----
+
+  x Expected ident or string
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-4/input.css:1:1]
+ 1 | @keyframes default {}
+   :                    ^
+   `----

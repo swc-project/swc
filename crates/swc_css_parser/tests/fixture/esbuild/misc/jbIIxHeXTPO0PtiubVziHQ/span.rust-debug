@@ -17,10 +17,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframesRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
+ 1 | @keyframes name { from { color: red } to { color: blue } }
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
+ 1 | @keyframes name { from { color: red } to { color: blue } }
+   :  ^^^^^^^^^
    `----
 
   x CustomIdent
@@ -39,18 +51,6 @@
    ,-[$DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                   ^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
- 1 | @keyframes name { from { color: red } to { color: blue } }
-   :                   ^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
- 1 | @keyframes name { from { color: red } to { color: blue } }
-   :                   ^^^^
    `----
 
   x Ident
@@ -105,18 +105,6 @@
    ,-[$DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                       ^^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
- 1 | @keyframes name { from { color: red } to { color: blue } }
-   :                                       ^^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
- 1 | @keyframes name { from { color: red } to { color: blue } }
-   :                                       ^^
    `----
 
   x Ident

@@ -1,13 +1,13 @@
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
-pub use self::{import::*, keyframe::*, layer::*, media::*, namespace::*, page::*, support::*};
+pub use self::{import::*, layer::*, media::*, namespace::*, page::*, support::*};
 use crate::{
-    ComponentValue, CustomIdent, DashedIdent, Function, Ident, SelectorList, SimpleBlock, Str, Url,
+    ComponentValue, CustomIdent, DashedIdent, Function, Ident, Percentage, SelectorList,
+    SimpleBlock, Str, Url,
 };
 
 mod import;
-mod keyframe;
 mod layer;
 mod media;
 mod namespace;
@@ -19,9 +19,6 @@ mod support;
 pub enum AtRule {
     #[tag("ImportRule")]
     Import(ImportRule),
-
-    #[tag("KeyframesRule")]
-    Keyframes(KeyframesRule),
 
     #[tag("LayerRule")]
     Layer(LayerRule),
@@ -78,6 +75,8 @@ pub enum AtRulePrelude {
     DocumentPrelude(DocumentPrelude),
     #[tag("SelectorList")]
     NestPrelude(SelectorList),
+    #[tag("KeyframesPrelude")]
+    KeyframesPrelude(KeyframesPrelude),
 }
 
 #[ast_node("ListOfComponentValues")]
@@ -130,4 +129,33 @@ pub enum DocumentPreludeMatchingFunction {
     Url(Url),
     #[tag("Function")]
     Function(Function),
+}
+
+#[ast_node("DocumentPrelude")]
+pub struct KeyframesPrelude {
+    pub span: Span,
+    pub name: KeyframesName,
+}
+
+#[ast_node]
+pub enum KeyframesName {
+    #[tag("CustomIdent")]
+    CustomIdent(CustomIdent),
+    #[tag("Str")]
+    Str(Str),
+}
+
+#[ast_node("KeyframeBlock")]
+pub struct KeyframeBlock {
+    pub span: Span,
+    pub prelude: Vec<KeyframeSelector>,
+    pub block: SimpleBlock,
+}
+
+#[ast_node]
+pub enum KeyframeSelector {
+    #[tag("Ident")]
+    Ident(Ident),
+    #[tag("Percentage")]
+    Percentage(Percentage),
 }

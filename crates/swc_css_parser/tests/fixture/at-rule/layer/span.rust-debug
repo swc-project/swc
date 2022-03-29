@@ -220,12 +220,24 @@
  7 | `->     }
    `----
 
-  x KeyframesRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:5]
  4 | ,-> @keyframes slide-left {
  5 | |           from { translate: 0; }
  6 | |           to { translate: -100% 0; }
  7 | `->     }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:5]
+ 4 | @keyframes slide-left {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:5]
+ 4 | @keyframes slide-left {
+   :  ^^^^^^^^^
    `----
 
   x CustomIdent
@@ -246,18 +258,6 @@
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
  5 | from { translate: 0; }
    : ^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   : ^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   : ^^^^
    `----
 
   x Ident
@@ -312,18 +312,6 @@
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
  6 | to { translate: -100% 0; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   : ^^
    `----
 
   x Ident
@@ -474,12 +462,24 @@
  14 | `->     }
     `----
 
-  x KeyframesRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:5]
  11 | ,-> @keyframes slide-left {
  12 | |           from { margin-left: 0; }
  13 | |           to { margin-left: -100%; }
  14 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:5]
+ 11 | @keyframes slide-left {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:5]
+ 11 | @keyframes slide-left {
+    :  ^^^^^^^^^
     `----
 
   x CustomIdent
@@ -500,18 +500,6 @@
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
  12 | from { margin-left: 0; }
     : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    : ^^^^
     `----
 
   x Ident
@@ -566,18 +554,6 @@
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
  13 | to { margin-left: -100%; }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    : ^^
     `----
 
   x Ident

@@ -17,10 +17,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframesRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+ 1 | @keyframes test { from {} to {} }
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+ 1 | @keyframes test { from {} to {} }
+   :  ^^^^^^^^^
    `----
 
   x CustomIdent
@@ -41,18 +53,6 @@
    :                   ^^^^^^^
    `----
 
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
- 1 | @keyframes test { from {} to {} }
-   :                   ^^^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
- 1 | @keyframes test { from {} to {} }
-   :                   ^^^^
-   `----
-
   x Ident
    ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
@@ -69,18 +69,6 @@
    ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :                           ^^^^^
-   `----
-
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
- 1 | @keyframes test { from {} to {} }
-   :                           ^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
- 1 | @keyframes test { from {} to {} }
-   :                           ^^
    `----
 
   x Ident

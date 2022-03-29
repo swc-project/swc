@@ -7,21 +7,39 @@
   },
   "rules": [
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 23,
         "ctxt": 0
       },
       "name": {
-        "type": "CustomIdent",
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 15,
+          "ctxt": 0
+        },
+        "value": "-moz-keyframes",
+        "raw": "-moz-keyframes"
+      },
+      "prelude": {
+        "type": "DocumentPrelude",
         "span": {
           "start": 16,
           "end": 20,
           "ctxt": 0
         },
-        "value": "name",
-        "raw": "name"
+        "name": {
+          "type": "CustomIdent",
+          "span": {
+            "start": 16,
+            "end": 20,
+            "ctxt": 0
+          },
+          "value": "name",
+          "raw": "name"
+        }
       },
       "block": {
         "type": "SimpleBlock",

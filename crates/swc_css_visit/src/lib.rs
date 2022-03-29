@@ -490,7 +490,6 @@ define!({
 
     pub enum AtRule {
         Import(ImportRule),
-        Keyframes(KeyframesRule),
         Layer(LayerRule),
         Media(MediaRule),
         Supports(SupportsRule),
@@ -554,6 +553,7 @@ define!({
         CharsetPrelude(CharsetPrelude),
         DocumentPrelude(DocumentPrelude),
         NestPrelude(SelectorList),
+        KeyframesPrelude(KeyframesPrelude),
     }
 
     pub struct ListOfComponentValues {
@@ -596,15 +596,14 @@ define!({
         pub name: DashedIdent,
     }
 
+    pub struct KeyframesPrelude {
+        pub span: Span,
+        pub name: KeyframesName,
+    }
+
     pub enum KeyframesName {
         CustomIdent(CustomIdent),
         Str(Str),
-    }
-
-    pub struct KeyframesRule {
-        pub span: Span,
-        pub name: KeyframesName,
-        pub block: SimpleBlock,
     }
 
     pub struct KeyframeBlock {

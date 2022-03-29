@@ -42,24 +42,6 @@ where
                 }
             }
 
-            "keyframes" | "-moz-keyframes" | "-o-keyframes" | "-webkit-keyframes"
-            | "-ms-keyframes" => {
-                self.input.skip_ws()?;
-
-                let at_rule_keyframe: PResult<KeyframesRule> = self.parse();
-
-                match at_rule_keyframe {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Keyframes(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             "supports" => {
                 self.input.skip_ws()?;
 
@@ -397,12 +379,133 @@ where
 
                     Ok(Some(prelude))
                 }
+
+                AtRuleName::Ident(ident)
+                    if matches!(
+                        &*ident.value.to_lowercase(),
+                        "keyframes"
+                            | "-moz-keyframes"
+                            | "-o-keyframes"
+                            | "-webkit-keyframes"
+                            | "-ms-keyframes"
+                    ) =>
+                {
+                    parser.input.skip_ws()?;
+
+                    let span = parser.input.cur_span()?;
+                    let name = parser.parse()?;
+                    let prelude = AtRulePrelude::KeyframesPrelude(KeyframesPrelude {
+                        span: span!(parser, span.lo),
+                        name,
+                    });
+
+                    parser.input.skip_ws()?;
+
+                    if !is!(parser, "{") {
+                        let span = parser.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
+                    Ok(Some(prelude))
+                }
                 _ => {
                     let span = parser.input.cur_span()?;
 
                     return Err(Error::new(span, ErrorKind::Ignore));
                 }
             }
+        };
+        let parse_simple_block = |parser: &mut Parser<I>| -> PResult<SimpleBlock> {
+            let ctx = match &at_rule.name {
+                AtRuleName::Ident(ident)
+                    if matches!(
+                        &*ident.value.to_lowercase(),
+                        "viewport"
+                            | "-ms-viewport"
+                            | "-o-viewport"
+                            | "font-face"
+                            | "property"
+                            | "color-profile"
+                            | "counter-style"
+                    ) =>
+                {
+                    Ctx {
+                        block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                        ..parser.ctx
+                    }
+                }
+                AtRuleName::Ident(ident)
+                    if matches!(&*ident.value.to_lowercase(), "document" | "-moz-document") =>
+                {
+                    match parser.ctx.block_contents_grammar {
+                        BlockContentsGrammar::StyleBlock => Ctx {
+                            block_contents_grammar: BlockContentsGrammar::StyleBlock,
+                            ..parser.ctx
+                        },
+                        _ => Ctx {
+                            block_contents_grammar: BlockContentsGrammar::Stylesheet,
+                            ..parser.ctx
+                        },
+                    }
+                }
+                AtRuleName::Ident(ident) if matches!(&*ident.value.to_lowercase(), "nest") => Ctx {
+                    block_contents_grammar: BlockContentsGrammar::StyleBlock,
+                    ..parser.ctx
+                },
+                _ => Ctx {
+                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                    ..parser.ctx
+                },
+            };
+            let block = match &at_rule.name {
+                AtRuleName::Ident(ident)
+                    if matches!(
+                        &*ident.value.to_lowercase(),
+                        "keyframes"
+                            | "-moz-keyframes"
+                            | "-o-keyframes"
+                            | "-webkit-keyframes"
+                            | "-ms-keyframes"
+                    ) =>
+                {
+                    let span_block = parser.input.cur_span()?;
+                    let mut block = SimpleBlock {
+                        span: Default::default(),
+                        name: '{',
+                        value: vec![],
+                    };
+
+                    expect!(parser, "{");
+
+                    parser.input.skip_ws()?;
+
+                    loop {
+                        if is!(parser, "}") {
+                            break;
+                        }
+
+                        parser.input.skip_ws()?;
+
+                        let keyframe_block: KeyframeBlock = parser.parse()?;
+
+                        block
+                            .value
+                            .push(ComponentValue::KeyframeBlock(keyframe_block));
+
+                        parser.input.skip_ws()?;
+                    }
+
+                    expect!(parser, "}");
+
+                    block.span = span!(parser, span_block.lo);
+
+                    block
+                }
+                _ => parser.with_ctx(ctx).parse_as::<SimpleBlock>()?,
+            };
+
+            Ok(block)
         };
 
         loop {
@@ -427,55 +530,25 @@ where
                 // <{-token>
                 // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
                 tok!("{") => {
-                    let ctx = match &at_rule.name {
-                        AtRuleName::Ident(ident)
-                            if matches!(
-                                &*ident.value.to_lowercase(),
-                                "viewport"
-                                    | "-ms-viewport"
-                                    | "-o-viewport"
-                                    | "font-face"
-                                    | "property"
-                                    | "color-profile"
-                                    | "counter-style"
-                            ) =>
-                        {
-                            Ctx {
-                                block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                    let state = self.input.state();
+                    let block = match parse_simple_block(self) {
+                        Ok(simple_block) => simple_block,
+                        Err(err) => {
+                            if *err.kind() != ErrorKind::Ignore {
+                                self.errors.push(err);
+                            }
+
+                            self.input.reset(&state);
+
+                            let ctx = Ctx {
+                                block_contents_grammar: BlockContentsGrammar::NoGrammar,
                                 ..self.ctx
-                            }
+                            };
+                            let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+
+                            block
                         }
-                        AtRuleName::Ident(ident)
-                            if matches!(
-                                &*ident.value.to_lowercase(),
-                                "document" | "-moz-document"
-                            ) =>
-                        {
-                            match self.ctx.block_contents_grammar {
-                                BlockContentsGrammar::StyleBlock => Ctx {
-                                    block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                                    ..self.ctx
-                                },
-                                _ => Ctx {
-                                    block_contents_grammar: BlockContentsGrammar::Stylesheet,
-                                    ..self.ctx
-                                },
-                            }
-                        }
-                        AtRuleName::Ident(ident)
-                            if matches!(&*ident.value.to_lowercase(), "nest") =>
-                        {
-                            Ctx {
-                                block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                                ..self.ctx
-                            }
-                        }
-                        _ => Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        },
                     };
-                    let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
                     at_rule.block = Some(block);
                     at_rule.span = span!(self, at_rule_span.lo);
@@ -599,55 +672,6 @@ where
             layer_name,
             supports,
             media,
-        })
-    }
-}
-
-impl<I> Parse<KeyframesRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<KeyframesRule> {
-        let span = self.input.cur_span()?;
-        let name = self.parse()?;
-
-        self.input.skip_ws()?;
-
-        let span_block = self.input.cur_span()?;
-        let mut block = SimpleBlock {
-            span: Default::default(),
-            name: '{',
-            value: vec![],
-        };
-
-        expect!(self, "{");
-
-        self.input.skip_ws()?;
-
-        loop {
-            if is!(self, "}") {
-                break;
-            }
-
-            self.input.skip_ws()?;
-
-            let keyframe_block: KeyframeBlock = self.parse()?;
-
-            block
-                .value
-                .push(ComponentValue::KeyframeBlock(keyframe_block));
-
-            self.input.skip_ws()?;
-        }
-
-        expect!(self, "}");
-
-        block.span = span!(self, span_block.lo);
-
-        Ok(KeyframesRule {
-            span: span!(self, span.lo),
-            name,
-            block,
         })
     }
 }

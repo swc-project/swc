@@ -3221,13 +3221,25 @@
  49 | `-> }
     `----
 
-  x KeyframesRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/csstree/1/input.css:45:1]
  45 | ,-> @keyframes 'anim' {
  46 | |       from  { color: red }
  47 | |       50.1% { color: green; background: green }
  48 | |       100%  { ;color: blue;; }
  49 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/csstree/1/input.css:45:1]
+ 45 | @keyframes 'anim' {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/csstree/1/input.css:45:1]
+ 45 | @keyframes 'anim' {
+    :  ^^^^^^^^^
     `----
 
   x Str
@@ -3249,18 +3261,6 @@
     ,-[$DIR/tests/fixture/csstree/1/input.css:46:5]
  46 | from  { color: red }
     : ^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/csstree/1/input.css:46:5]
- 46 | from  { color: red }
-    : ^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/csstree/1/input.css:46:5]
- 46 | from  { color: red }
-    : ^^^^
     `----
 
   x Ident
@@ -3315,18 +3315,6 @@
     ,-[$DIR/tests/fixture/csstree/1/input.css:47:5]
  47 | 50.1% { color: green; background: green }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/csstree/1/input.css:47:5]
- 47 | 50.1% { color: green; background: green }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/csstree/1/input.css:47:5]
- 47 | 50.1% { color: green; background: green }
-    : ^^^^^
     `----
 
   x Percentage
@@ -3423,18 +3411,6 @@
     ,-[$DIR/tests/fixture/csstree/1/input.css:48:5]
  48 | 100%  { ;color: blue;; }
     : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/csstree/1/input.css:48:5]
- 48 | 100%  { ;color: blue;; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/csstree/1/input.css:48:5]
- 48 | 100%  { ;color: blue;; }
-    : ^^^^
     `----
 
   x Percentage

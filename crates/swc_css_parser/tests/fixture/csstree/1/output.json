@@ -3076,21 +3076,39 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 1139,
         "end": 1260,
         "ctxt": 0
       },
       "name": {
-        "type": "String",
+        "type": "Ident",
+        "span": {
+          "start": 1140,
+          "end": 1149,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
+        "type": "DocumentPrelude",
         "span": {
           "start": 1150,
           "end": 1156,
           "ctxt": 0
         },
-        "value": "anim",
-        "raw": "'anim'"
+        "name": {
+          "type": "String",
+          "span": {
+            "start": 1150,
+            "end": 1156,
+            "ctxt": 0
+          },
+          "value": "anim",
+          "raw": "'anim'"
+        }
       },
       "block": {
         "type": "SimpleBlock",
@@ -3102,6 +3120,7 @@
         "name": "{",
         "value": [
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 1163,
               "end": 1183,
@@ -3163,6 +3182,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 1188,
               "end": 1229,
@@ -3263,6 +3283,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 1234,
               "end": 1258,

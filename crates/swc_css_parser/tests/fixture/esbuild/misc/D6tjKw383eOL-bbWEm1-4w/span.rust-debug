@@ -17,10 +17,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframesRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/esbuild/misc/D6tjKw383eOL-bbWEm1-4w/input.css:1:1]
  1 | @-moz-keyframes name {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/esbuild/misc/D6tjKw383eOL-bbWEm1-4w/input.css:1:1]
+ 1 | @-moz-keyframes name {}
+   :  ^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/D6tjKw383eOL-bbWEm1-4w/input.css:1:1]
+ 1 | @-moz-keyframes name {}
+   :  ^^^^^^^^^^^^^^
    `----
 
   x CustomIdent

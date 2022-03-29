@@ -24,54 +24,22 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "ListOfComponentValues",
+        "type": "DocumentPrelude",
         "span": {
-          "start": 0,
-          "end": 15,
+          "start": 11,
+          "end": 14,
           "ctxt": 0
         },
-        "children": [
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 10,
-              "end": 11,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
+        "name": {
+          "type": "CustomIdent",
+          "span": {
+            "start": 11,
+            "end": 14,
+            "ctxt": 0
           },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 11,
-              "end": 14,
-              "ctxt": 0
-            },
-            "token": {
-              "Ident": {
-                "value": "foo",
-                "raw": "foo"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 14,
-              "end": 15,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
-          }
-        ]
+          "value": "foo",
+          "raw": "foo"
+        }
       },
       "block": {
         "type": "SimpleBlock",

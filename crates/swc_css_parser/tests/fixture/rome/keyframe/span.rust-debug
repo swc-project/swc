@@ -51,7 +51,7 @@
  8 | `-> }
    `----
 
-  x KeyframesRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/rome/keyframe/input.css:1:1]
  1 | ,-> @keyframes important1 {
  2 | |       from {
@@ -61,6 +61,18 @@
  6 | |           margin-top: 100px !important;
  7 | |       }
  8 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:1:1]
+ 1 | @keyframes important1 {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/keyframe/input.css:1:1]
+ 1 | @keyframes important1 {
+   :  ^^^^^^^^^
    `----
 
   x CustomIdent
@@ -86,19 +98,6 @@
  2 | ,-> from {
  3 | |           margin-top: 50px !important;
  4 | `->     }
-   `----
-
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/rome/keyframe/input.css:2:5]
- 2 | ,-> from {
- 3 | |           margin-top: 50px !important;
- 4 | `->     }
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/rome/keyframe/input.css:2:5]
- 2 | from {
-   : ^^^^
    `----
 
   x Ident
@@ -185,19 +184,6 @@
  5 | ,-> to {
  6 | |           margin-top: 100px !important;
  7 | `->     }
-   `----
-
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/rome/keyframe/input.css:5:5]
- 5 | ,-> to {
- 6 | |           margin-top: 100px !important;
- 7 | `->     }
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/rome/keyframe/input.css:5:5]
- 5 | to {
-   : ^^
    `----
 
   x Ident
@@ -311,7 +297,7 @@
  21 | `-> }
     `----
 
-  x KeyframesRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/rome/keyframe/input.css:10:1]
  10 | ,-> @keyframes foo {
  11 | |       from {
@@ -325,6 +311,18 @@
  19 | |       100% {
  20 | |       }
  21 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:10:1]
+ 10 | @keyframes foo {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:10:1]
+ 10 | @keyframes foo {
+    :  ^^^^^^^^^
     `----
 
   x CustomIdent
@@ -355,18 +353,6 @@
  12 | `->     }
     `----
 
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:11:5]
- 11 | ,-> from {
- 12 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:11:5]
- 11 | from {
-    : ^^^^
-    `----
-
   x Ident
     ,-[$DIR/tests/fixture/rome/keyframe/input.css:11:5]
  11 | from {
@@ -385,18 +371,6 @@
  14 | `->     }
     `----
 
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:13:5]
- 13 | ,-> to {
- 14 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:13:5]
- 13 | to {
-    : ^^
-    `----
-
   x Ident
     ,-[$DIR/tests/fixture/rome/keyframe/input.css:13:5]
  13 | to {
@@ -413,18 +387,6 @@
     ,-[$DIR/tests/fixture/rome/keyframe/input.css:15:5]
  15 | ,-> 15% {
  16 | `->     }
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:15:5]
- 15 | ,-> 15% {
- 16 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:15:5]
- 15 | 15% {
-    : ^^^
     `----
 
   x Percentage
@@ -449,18 +411,6 @@
     ,-[$DIR/tests/fixture/rome/keyframe/input.css:17:5]
  17 | ,-> 0% {
  18 | `->     }
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:17:5]
- 17 | ,-> 0% {
- 18 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:17:5]
- 17 | 0% {
-    : ^^
     `----
 
   x Percentage
@@ -485,18 +435,6 @@
     ,-[$DIR/tests/fixture/rome/keyframe/input.css:19:5]
  19 | ,-> 100% {
  20 | `->     }
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:19:5]
- 19 | ,-> 100% {
- 20 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:19:5]
- 19 | 100% {
-    : ^^^^
     `----
 
   x Percentage
@@ -529,10 +467,22 @@
  24 | `-> }
     `----
 
-  x KeyframesRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/rome/keyframe/input.css:23:1]
  23 | ,-> @keyframes FOO {
  24 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:23:1]
+ 23 | @keyframes FOO {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/keyframe/input.css:23:1]
+ 23 | @keyframes FOO {
+    :  ^^^^^^^^^
     `----
 
   x CustomIdent
