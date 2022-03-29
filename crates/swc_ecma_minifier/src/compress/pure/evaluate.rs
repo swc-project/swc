@@ -5,7 +5,10 @@ use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
 use swc_ecma_visit::VisitMutWith;
 
 use super::Pure;
-use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
+use crate::{
+    compress::util::{eval_as_number, is_pure_undefined_or_null},
+    DISABLE_BUGGY_PASSES,
+};
 
 impl Pure<'_> {
     pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
@@ -415,7 +418,23 @@ impl Pure<'_> {
     }
 
     /// `exprs` - Must follow evaluation order
-    fn eval_trivial_exprs(&mut self, exprs: Vec<&mut Expr>) {}
+    fn eval_trivial_exprs(&mut self, mut exprs: Vec<&mut Expr>) {
+        for idx in 0..exprs.len() {
+            let (a, b) = exprs.split_at_mut(idx);
+
+            if let Some(a) = a.last() {
+                if let Some(b) = b.first_mut() {
+                    self.eval_trivial_two(a, b);
+
+                    if DISABLE_BUGGY_PASSES {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    fn eval_trivial_two(&mut self, a: &Expr, b: &mut Expr) {}
 }
 
 fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
@@ -425,6 +444,12 @@ fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
             .iter_mut()
             .flatten()
             .flat_map(|v| to_trivial_exprs(&mut v.expr))
+            .collect(),
+
+        Expr::Seq(e) => e
+            .exprs
+            .iter_mut()
+            .flat_map(|e| to_trivial_exprs(e))
             .collect(),
 
         _ => {
