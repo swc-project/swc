@@ -416,6 +416,10 @@ impl Pure<'_> {
 
     /// `exprs` - Must follow evaluation order
     fn eval_trivial_exprs(&mut self, mut exprs: Vec<&mut Expr>) {
+        if exprs.len() < 2 {
+            return;
+        }
+
         for idx in 0..exprs.len() {
             let (a, b) = exprs.split_at_mut(idx);
 
@@ -473,6 +477,16 @@ fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
             .exprs
             .iter_mut()
             .flat_map(|e| to_trivial_exprs(e))
+            .collect(),
+
+        Expr::Bin(BinExpr {
+            left,
+            right,
+            op: op!(bin, "+") | op!(bin, "-") | op!("*") | op!("/") | op!("%"),
+            ..
+        }) => to_trivial_exprs(left)
+            .into_iter()
+            .chain(to_trivial_exprs(right))
             .collect(),
 
         _ => {
