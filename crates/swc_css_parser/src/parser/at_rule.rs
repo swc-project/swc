@@ -171,23 +171,6 @@ where
                 }
             }
 
-            "nest" => {
-                self.input.skip_ws()?;
-
-                let at_rule_nest: PResult<NestRule> = self.parse();
-
-                match at_rule_nest {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Nest(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             "layer" => {
                 self.input.skip_ws()?;
 
@@ -399,6 +382,21 @@ where
 
                     Ok(Some(prelude))
                 }
+                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "nest" => {
+                    parser.input.skip_ws()?;
+
+                    let prelude = AtRulePrelude::NestPrelude(parser.parse()?);
+
+                    parser.input.skip_ws()?;
+
+                    if !is!(parser, "{") {
+                        let span = parser.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
+                    Ok(Some(prelude))
+                }
                 _ => {
                     let span = parser.input.cur_span()?;
 
@@ -462,6 +460,14 @@ where
                                     block_contents_grammar: BlockContentsGrammar::Stylesheet,
                                     ..self.ctx
                                 },
+                            }
+                        }
+                        AtRuleName::Ident(ident)
+                            if matches!(&*ident.value.to_lowercase(), "nest") =>
+                        {
+                            Ctx {
+                                block_contents_grammar: BlockContentsGrammar::StyleBlock,
+                                ..self.ctx
                             }
                         }
                         _ => Ctx {
@@ -783,30 +789,6 @@ where
             span: span!(self, span.lo),
             prefix,
             uri,
-        })
-    }
-}
-
-impl<I> Parse<NestRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<NestRule> {
-        let span = self.input.cur_span()?;
-        let prelude = self.parse()?;
-        let ctx = Ctx {
-            block_contents_grammar: BlockContentsGrammar::StyleBlock,
-            ..self.ctx
-        };
-
-        self.input.skip_ws()?;
-
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(NestRule {
-            span: span!(self, span.lo),
-            prelude,
-            block,
         })
     }
 }

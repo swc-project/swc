@@ -497,7 +497,6 @@ define!({
         Page(PageRule),
         PageMargin(PageMarginRule),
         Namespace(NamespaceRule),
-        Nest(NestRule),
         Unknown(UnknownAtRule),
     }
 
@@ -535,12 +534,6 @@ define!({
         pub uri: NamespaceUri,
     }
 
-    pub struct NestRule {
-        pub span: Span,
-        pub prelude: SelectorList,
-        pub block: SimpleBlock,
-    }
-
     pub struct UnknownAtRule {
         pub span: Span,
         pub name: AtRuleName,
@@ -560,6 +553,7 @@ define!({
         ColorProfilePrelude(ColorProfilePrelude),
         CharsetPrelude(CharsetPrelude),
         DocumentPrelude(DocumentPrelude),
+        NestPrelude(SelectorList),
     }
 
     pub struct ListOfComponentValues {

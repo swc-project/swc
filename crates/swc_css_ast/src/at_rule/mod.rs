@@ -1,17 +1,16 @@
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
-pub use self::{
-    import::*, keyframe::*, layer::*, media::*, namespace::*, nest::*, page::*, support::*,
+pub use self::{import::*, keyframe::*, layer::*, media::*, namespace::*, page::*, support::*};
+use crate::{
+    ComponentValue, CustomIdent, DashedIdent, Function, Ident, SelectorList, SimpleBlock, Str, Url,
 };
-use crate::{ComponentValue, CustomIdent, DashedIdent, Function, Ident, SimpleBlock, Str, Url};
 
 mod import;
 mod keyframe;
 mod layer;
 mod media;
 mod namespace;
-mod nest;
 mod page;
 mod support;
 
@@ -41,9 +40,6 @@ pub enum AtRule {
 
     #[tag("NamespaceRule")]
     Namespace(NamespaceRule),
-
-    #[tag("NestRule")]
-    Nest(NestRule),
 
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
@@ -80,6 +76,8 @@ pub enum AtRulePrelude {
     ColorProfilePrelude(ColorProfilePrelude),
     #[tag("DocumentPrelude")]
     DocumentPrelude(DocumentPrelude),
+    #[tag("SelectorList")]
+    NestPrelude(SelectorList),
 }
 
 #[ast_node("ListOfComponentValues")]

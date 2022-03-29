@@ -163,6 +163,25 @@
  5 | `->     }
    `----
 
+  x UnknownAtRule
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:5]
+ 3 | ,-> @nest & > .bar {
+ 4 | |           color: blue;
+ 5 | `->     }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:5]
+ 3 | @nest & > .bar {
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:5]
+ 3 | @nest & > .bar {
+   :  ^^^^
+   `----
+
   x SelectorList
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:5]
  3 | @nest & > .bar {
@@ -395,6 +414,25 @@
  12 | `->     }
     `----
 
+  x UnknownAtRule
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:5]
+ 10 | ,-> @nest .parent & {
+ 11 | |           color: blue;
+ 12 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:5]
+ 10 | @nest .parent & {
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:5]
+ 10 | @nest .parent & {
+    :  ^^^^
+    `----
+
   x SelectorList
     ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:5]
  10 | @nest .parent & {
@@ -625,6 +663,25 @@
  17 | ,-> @nest :not(&) {
  18 | |           color: blue;
  19 | `->     }
+    `----
+
+  x UnknownAtRule
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:5]
+ 17 | ,-> @nest :not(&) {
+ 18 | |           color: blue;
+ 19 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:5]
+ 17 | @nest :not(&) {
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:5]
+ 17 | @nest :not(&) {
+    :  ^^^^
     `----
 
   x SelectorList
@@ -890,6 +947,28 @@
  28 | |               color: green;
  29 | |           }
  30 | `->     }
+    `----
+
+  x UnknownAtRule
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:5]
+ 25 | ,-> @nest .bar & {
+ 26 | |           color: red;
+ 27 | |           &.baz {
+ 28 | |               color: green;
+ 29 | |           }
+ 30 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:5]
+ 25 | @nest .bar & {
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:5]
+ 25 | @nest .bar & {
+    :  ^^^^
     `----
 
   x SelectorList
