@@ -499,7 +499,6 @@ define!({
         Namespace(NamespaceRule),
         Nest(NestRule),
         Document(DocumentRule),
-        ColorProfile(ColorProfileRule),
         Unknown(UnknownAtRule),
     }
 
@@ -559,6 +558,7 @@ define!({
         ListOfComponentValues(ListOfComponentValues),
         PropertyPrelude(PropertyPrelude),
         CounterStylePrelude(CounterStylePrelude),
+        ColorProfilePrelude(ColorProfilePrelude),
         CharsetPrelude(CharsetPrelude),
     }
 
@@ -575,6 +575,16 @@ define!({
     pub struct CounterStylePrelude {
         pub span: Span,
         pub name: CustomIdent,
+    }
+
+    pub struct ColorProfilePrelude {
+        pub span: Span,
+        pub name: ColorProfilePreludeName,
+    }
+
+    pub enum ColorProfilePreludeName {
+        DashedIdent(DashedIdent),
+        Ident(Ident),
     }
 
     pub struct PropertyPrelude {
@@ -834,17 +844,6 @@ define!({
     pub enum GeneralEnclosed {
         Function(Function),
         SimpleBlock(SimpleBlock),
-    }
-
-    pub enum ColorProfileName {
-        DashedIdent(DashedIdent),
-        Ident(Ident),
-    }
-
-    pub struct ColorProfileRule {
-        pub span: Span,
-        pub name: ColorProfileName,
-        pub block: SimpleBlock,
     }
 });
 

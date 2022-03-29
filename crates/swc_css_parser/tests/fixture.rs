@@ -527,10 +527,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(UnknownAtRule, visit_unknown_at_rule);
 
-    mtd!(ColorProfileName, visit_color_profile_name);
-
-    mtd!(ColorProfileRule, visit_color_profile_rule);
-
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler
             .struct_span_err(n.span, &format!("{:?}", n.token))

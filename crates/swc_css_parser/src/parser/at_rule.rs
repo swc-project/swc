@@ -222,23 +222,6 @@ where
                 }
             }
 
-            "color-profile" => {
-                self.input.skip_ws()?;
-
-                let at_rule_color_profile: PResult<ColorProfileRule> = self.parse();
-
-                match at_rule_color_profile {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::ColorProfile(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             _ => {}
         }
 
@@ -365,6 +348,38 @@ where
 
                     Ok(Some(prelude))
                 }
+                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "color-profile" => {
+                    parser.input.skip_ws()?;
+
+                    let span = parser.input.cur_span()?;
+                    let name = match cur!(parser) {
+                        Token::Ident { value, .. } => {
+                            if value.starts_with("--") {
+                                ColorProfilePreludeName::DashedIdent(parser.parse()?)
+                            } else {
+                                ColorProfilePreludeName::Ident(parser.parse()?)
+                            }
+                        }
+                        _ => {
+                            return Err(Error::new(span, ErrorKind::Expected("ident")));
+                        }
+                    };
+
+                    let prelude = AtRulePrelude::ColorProfilePrelude(ColorProfilePrelude {
+                        span: span!(parser, span.lo),
+                        name,
+                    });
+
+                    parser.input.skip_ws()?;
+
+                    if !is!(parser, "{") {
+                        let span = parser.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
+                    Ok(Some(prelude))
+                }
                 _ => {
                     let span = parser.input.cur_span()?;
 
@@ -404,6 +419,7 @@ where
                                     | "-o-viewport"
                                     | "font-face"
                                     | "property"
+                                    | "color-profile"
                                     | "counter-style"
                             ) =>
                         {
@@ -1988,42 +2004,6 @@ where
         Ok(LayerRule {
             span: span!(self, span.lo),
             prelude,
-            block,
-        })
-    }
-}
-
-impl<I> Parse<ColorProfileRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<ColorProfileRule> {
-        let span = self.input.cur_span()?;
-
-        let name = match cur!(self) {
-            Token::Ident { value, .. } => {
-                if value.starts_with("--") {
-                    ColorProfileName::DashedIdent(self.parse()?)
-                } else {
-                    ColorProfileName::Ident(self.parse()?)
-                }
-            }
-            _ => {
-                return Err(Error::new(span, ErrorKind::Expected("ident")));
-            }
-        };
-
-        self.input.skip_ws()?;
-
-        let ctx = Ctx {
-            block_contents_grammar: BlockContentsGrammar::DeclarationList,
-            ..self.ctx
-        };
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(ColorProfileRule {
-            span: span!(self, span.lo),
-            name,
             block,
         })
     }
