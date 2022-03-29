@@ -490,8 +490,6 @@ define!({
 
     pub enum AtRule {
         Layer(LayerRule),
-        Page(PageRule),
-        PageMargin(PageMarginRule),
         Unknown(UnknownAtRule),
     }
 
@@ -554,6 +552,7 @@ define!({
         NamespacePrelude(NamespacePrelude),
         MediaPrelude(MediaQueryList),
         SupportsPrelude(SupportsCondition),
+        PageSelectorList(PageSelectorList),
     }
 
     pub struct ListOfComponentValues {
@@ -747,12 +746,6 @@ define!({
         pub right: MediaFeatureValue,
     }
 
-    pub struct PageRule {
-        pub span: Span,
-        pub prelude: Option<PageSelectorList>,
-        pub block: SimpleBlock,
-    }
-
     pub struct PageSelectorList {
         pub span: Span,
         pub selectors: Vec<PageSelector>,
@@ -772,12 +765,6 @@ define!({
     pub struct PageSelectorPseudo {
         pub span: Span,
         pub value: Ident,
-    }
-
-    pub struct PageMarginRule {
-        pub span: Span,
-        pub name: Ident,
-        pub block: SimpleBlock,
     }
 
     pub struct SupportsCondition {

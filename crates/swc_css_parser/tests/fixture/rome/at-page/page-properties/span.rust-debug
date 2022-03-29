@@ -20,11 +20,23 @@
  3 | `-> }
    `----
 
-  x PageRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
  1 | ,-> @page {
  2 | |   	display: none;
  3 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
+ 1 | @page {
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
+ 1 | @page {
+   :  ^^^^
    `----
 
   x SimpleBlock

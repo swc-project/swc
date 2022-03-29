@@ -7,13 +7,31 @@
   },
   "rules": [
     {
-      "type": "PageRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 44,
         "ctxt": 0
       },
-      "prelude": null,
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 5,
+          "ctxt": 0
+        },
+        "value": "page",
+        "raw": "page"
+      },
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 0,
+          "ctxt": 0
+        },
+        "children": []
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -24,7 +42,7 @@
         "name": "{",
         "value": [
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 9,
               "end": 42,
@@ -39,6 +57,15 @@
               },
               "value": "top-center",
               "raw": "top-center"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",

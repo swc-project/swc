@@ -17,10 +17,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
  1 | @page { @top-left {} }
    : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
+   :  ^^^^
    `----
 
   x SimpleBlock
@@ -41,10 +53,16 @@
    :         ^^^^^^^^^^^^
    `----
 
-  x PageMarginRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
  1 | @page { @top-left {} }
    :         ^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/esbuild/misc/kdJ9F7n35563o0T6W1TEXw/input.css:1:1]
+ 1 | @page { @top-left {} }
+   :          ^^^^^^^^
    `----
 
   x Ident

@@ -482,8 +482,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(SupportsFeature, visit_supports_feature);
 
-    mtd!(PageRule, visit_page_rule);
-
     mtd!(PageSelectorList, visit_page_selector_list);
 
     mtd!(PageSelector, visit_page_selector);
@@ -493,8 +491,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(PageSelectorPseudo, visit_page_selector_pseudo);
 
     mtd!(AtRuleName, visit_at_rule_name);
-
-    mtd!(PageMarginRule, visit_page_margin_rule);
 
     mtd!(UnknownAtRule, visit_unknown_at_rule);
 

@@ -7,11 +7,21 @@
   },
   "rules": [
     {
-      "type": "PageRule",
+      "type": "AtRule",
       "span": {
         "start": 3,
         "end": 29,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 4,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "page",
+        "raw": "page"
       },
       "prelude": {
         "type": "PageSelectorList",
@@ -96,13 +106,31 @@
       }
     },
     {
-      "type": "PageRule",
+      "type": "AtRule",
       "span": {
         "start": 32,
         "end": 609,
         "ctxt": 0
       },
-      "prelude": null,
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 33,
+          "end": 37,
+          "ctxt": 0
+        },
+        "value": "page",
+        "raw": "page"
+      },
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 0,
+          "ctxt": 0
+        },
+        "children": []
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -113,7 +141,7 @@
         "name": "{",
         "value": [
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 43,
               "end": 78,
@@ -128,6 +156,15 @@
               },
               "value": "top-left-corner",
               "raw": "top-left-corner"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -173,7 +210,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 82,
               "end": 109,
@@ -188,6 +225,15 @@
               },
               "value": "top-left",
               "raw": "top-left"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -233,7 +279,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 113,
               "end": 142,
@@ -248,6 +294,15 @@
               },
               "value": "top-center",
               "raw": "top-center"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -293,7 +348,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 146,
               "end": 174,
@@ -308,6 +363,15 @@
               },
               "value": "top-right",
               "raw": "top-right"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -353,7 +417,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 178,
               "end": 214,
@@ -368,6 +432,15 @@
               },
               "value": "top-right-corner",
               "raw": "top-right-corner"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -413,7 +486,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 218,
               "end": 256,
@@ -428,6 +501,15 @@
               },
               "value": "bottom-left-corner",
               "raw": "bottom-left-corner"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -473,7 +555,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 260,
               "end": 290,
@@ -488,6 +570,15 @@
               },
               "value": "bottom-left",
               "raw": "bottom-left"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -533,7 +624,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 294,
               "end": 326,
@@ -548,6 +639,15 @@
               },
               "value": "bottom-center",
               "raw": "bottom-center"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -593,7 +693,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 330,
               "end": 361,
@@ -608,6 +708,15 @@
               },
               "value": "bottom-right",
               "raw": "bottom-right"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -653,7 +762,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 365,
               "end": 404,
@@ -668,6 +777,15 @@
               },
               "value": "bottom-right-corner",
               "raw": "bottom-right-corner"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -713,7 +831,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 408,
               "end": 435,
@@ -728,6 +846,15 @@
               },
               "value": "left-top",
               "raw": "left-top"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -773,7 +900,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 439,
               "end": 469,
@@ -788,6 +915,15 @@
               },
               "value": "left-middle",
               "raw": "left-middle"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -833,7 +969,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 473,
               "end": 503,
@@ -848,6 +984,15 @@
               },
               "value": "left-bottom",
               "raw": "left-bottom"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -893,7 +1038,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 507,
               "end": 535,
@@ -908,6 +1053,15 @@
               },
               "value": "right-top",
               "raw": "right-top"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -953,7 +1107,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 539,
               "end": 570,
@@ -968,6 +1122,15 @@
               },
               "value": "right-middle",
               "raw": "right-middle"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",
@@ -1013,7 +1176,7 @@
             }
           },
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 574,
               "end": 605,
@@ -1028,6 +1191,15 @@
               },
               "value": "right-bottom",
               "raw": "right-bottom"
+            },
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "children": []
             },
             "block": {
               "type": "SimpleBlock",

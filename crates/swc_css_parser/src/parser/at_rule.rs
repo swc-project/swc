@@ -25,66 +25,6 @@ where
         let state = self.input.state();
 
         match &*name.0.to_ascii_lowercase() {
-            "page" => {
-                self.input.skip_ws()?;
-
-                let at_rule_page: PResult<PageRule> = self.parse();
-
-                match at_rule_page {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Page(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
-            "top-left-corner"
-            | "top-left"
-            | "top-center"
-            | "top-right"
-            | "top-right-corner"
-            | "bottom-left-corner"
-            | "bottom-left"
-            | "bottom-center"
-            | "bottom-right"
-            | "bottom-right-corner"
-            | "left-top"
-            | "left-middle"
-            | "left-bottom"
-            | "right-top"
-            | "right-middle"
-            | "right-bottom"
-                if self.ctx.in_page_at_rule =>
-            {
-                let margin_rule_name = Ident {
-                    span: Span::new(
-                        at_rule_span.lo + BytePos(1),
-                        at_rule_span.hi,
-                        Default::default(),
-                    ),
-                    value: name.0.clone(),
-                    raw: name.1.clone(),
-                };
-
-                self.input.skip_ws()?;
-
-                let margin_rule = self.parse();
-
-                if margin_rule.is_ok() {
-                    return margin_rule
-                        .map(|mut r: PageMarginRule| {
-                            r.name = margin_rule_name;
-                            r.span.lo = at_rule_span.lo;
-                            r
-                        })
-                        .map(AtRule::PageMargin);
-                }
-            }
-
             "layer" => {
                 self.input.skip_ws()?;
 
@@ -242,6 +182,45 @@ where
                     }
 
                     Ok(Some(prelude))
+                }
+                AtRuleName::Ident(ident) if matches!(&*ident.value.to_lowercase(), "page") => {
+                    parser.input.skip_ws()?;
+
+                    let prelude = if !is!(parser, "{") {
+                        Some(AtRulePrelude::PageSelectorList(parser.parse()?))
+                    } else {
+                        None
+                    };
+
+                    parser.input.skip_ws()?;
+
+                    Ok(prelude)
+                }
+                AtRuleName::Ident(ident)
+                    if parser.ctx.in_page_at_rule
+                        && matches!(
+                            &*ident.value.to_lowercase(),
+                            "top-left-corner"
+                                | "top-left"
+                                | "top-center"
+                                | "top-right"
+                                | "top-right-corner"
+                                | "bottom-left-corner"
+                                | "bottom-left"
+                                | "bottom-center"
+                                | "bottom-right"
+                                | "bottom-right-corner"
+                                | "left-top"
+                                | "left-middle"
+                                | "left-bottom"
+                                | "right-top"
+                                | "right-middle"
+                                | "right-bottom"
+                        ) =>
+                {
+                    parser.input.skip_ws()?;
+
+                    Ok(None)
                 }
                 AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "property" => {
                     parser.input.skip_ws()?;
@@ -512,6 +491,22 @@ where
                             | "property"
                             | "color-profile"
                             | "counter-style"
+                            | "top-left-corner"
+                            | "top-left"
+                            | "top-center"
+                            | "top-right"
+                            | "top-right-corner"
+                            | "bottom-left-corner"
+                            | "bottom-left"
+                            | "bottom-center"
+                            | "bottom-right"
+                            | "bottom-right-corner"
+                            | "left-top"
+                            | "left-middle"
+                            | "left-bottom"
+                            | "right-top"
+                            | "right-middle"
+                            | "right-bottom"
                     ) =>
                 {
                     Ctx {
@@ -519,6 +514,11 @@ where
                         ..parser.ctx
                     }
                 }
+                AtRuleName::Ident(ident) if matches!(&*ident.value.to_lowercase(), "page") => Ctx {
+                    in_page_at_rule: true,
+                    block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                    ..parser.ctx
+                },
                 AtRuleName::Ident(ident)
                     if matches!(
                         &*ident.value.to_lowercase(),
@@ -1626,36 +1626,6 @@ where
     }
 }
 
-impl<I> Parse<PageRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<PageRule> {
-        let start = self.input.cur_span()?.lo;
-
-        let prelude = if !is!(self, "{") {
-            Some(self.parse()?)
-        } else {
-            None
-        };
-
-        self.input.skip_ws()?;
-
-        let ctx = Ctx {
-            in_page_at_rule: true,
-            block_contents_grammar: BlockContentsGrammar::DeclarationList,
-            ..self.ctx
-        };
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(PageRule {
-            span: span!(self, start),
-            prelude,
-            block,
-        })
-    }
-}
-
 impl<I> Parse<PageSelectorList> for Parser<I>
 where
     I: ParserInput,
@@ -1785,30 +1755,6 @@ where
         Ok(PageSelectorPseudo {
             span: span!(self, span.lo),
             value,
-        })
-    }
-}
-
-impl<I> Parse<PageMarginRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<PageMarginRule> {
-        let span = self.input.cur_span()?;
-        let ctx = Ctx {
-            block_contents_grammar: BlockContentsGrammar::DeclarationList,
-            ..self.ctx
-        };
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(PageMarginRule {
-            name: Ident {
-                span: Default::default(),
-                value: Default::default(),
-                raw: Default::default(),
-            },
-            span: span!(self, span.lo),
-            block,
         })
     }
 }

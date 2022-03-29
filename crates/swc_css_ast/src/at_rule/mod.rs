@@ -2,14 +2,13 @@ use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-pub use self::{layer::*, page::*};
+pub use self::layer::*;
 use crate::{
     ComponentValue, CustomIdent, DashedIdent, Declaration, Dimension, Function, Ident, Number,
     Percentage, Ratio, SelectorList, SimpleBlock, Str, Url,
 };
 
 mod layer;
-mod page;
 
 #[ast_node]
 #[derive(Is)]
@@ -17,14 +16,16 @@ pub enum AtRule {
     #[tag("LayerRule")]
     Layer(LayerRule),
 
-    #[tag("PageRule")]
-    Page(PageRule),
-
-    #[tag("PageMarginRule")]
-    PageMargin(PageMarginRule),
-
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
+}
+
+#[ast_node("AtRule")]
+pub struct UnknownAtRule {
+    pub span: Span,
+    pub name: AtRuleName,
+    pub prelude: AtRulePrelude,
+    pub block: Option<SimpleBlock>,
 }
 
 #[ast_node]
@@ -34,14 +35,6 @@ pub enum AtRuleName {
 
     #[tag("Ident")]
     Ident(Ident),
-}
-
-#[ast_node("AtRule")]
-pub struct UnknownAtRule {
-    pub span: Span,
-    pub name: AtRuleName,
-    pub prelude: AtRulePrelude,
-    pub block: Option<SimpleBlock>,
 }
 
 #[ast_node]
@@ -70,6 +63,8 @@ pub enum AtRulePrelude {
     MediaPrelude(MediaQueryList),
     #[tag("SupportsCondition")]
     SupportsPrelude(SupportsCondition),
+    #[tag("PageSelectorList")]
+    PageSelectorList(PageSelectorList),
 }
 
 #[ast_node("ListOfComponentValues")]
@@ -450,4 +445,29 @@ pub enum GeneralEnclosed {
     Function(Function),
     #[tag("SimpleBlock")]
     SimpleBlock(SimpleBlock),
+}
+
+#[ast_node("PageSelectorList")]
+pub struct PageSelectorList {
+    pub span: Span,
+    pub selectors: Vec<PageSelector>,
+}
+
+#[ast_node("PageSelector")]
+pub struct PageSelector {
+    pub span: Span,
+    pub page_type: Option<PageSelectorType>,
+    pub pseudos: Option<Vec<PageSelectorPseudo>>,
+}
+
+#[ast_node("PageSelectorType")]
+pub struct PageSelectorType {
+    pub span: Span,
+    pub value: Ident,
+}
+
+#[ast_node("PageSelectorPseudo")]
+pub struct PageSelectorPseudo {
+    pub span: Span,
+    pub value: Ident,
 }

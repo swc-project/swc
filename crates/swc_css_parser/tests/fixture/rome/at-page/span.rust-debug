@@ -38,12 +38,24 @@
  4 | `-> }
    `----
 
-  x PageRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/rome/at-page/input.css:1:1]
  1 | ,-> @page MyPage:blank {
  2 | |   	@top-center { content: none }
  3 | |   	margin-left: 4cm;
  4 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:1:1]
+ 1 | @page MyPage:blank {
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:1:1]
+ 1 | @page MyPage:blank {
+   :  ^^^^
    `----
 
   x PageSelectorList
@@ -102,10 +114,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageMarginRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
  2 | @top-center { content: none }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
+ 2 | @top-center { content: none }
+   :  ^^^^^^^^^^
    `----
 
   x Ident
@@ -226,12 +244,24 @@
  9 | `-> }
    `----
 
-  x PageRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
  6 | ,-> @page :blank {
  7 | |   	@top-center { content: none }
  8 | |   	margin-left: 4cm;
  9 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+ 6 | @page :blank {
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+ 6 | @page :blank {
+   :  ^^^^
    `----
 
   x PageSelectorList
@@ -278,10 +308,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageMarginRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
  7 | @top-center { content: none }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
+ 7 | @top-center { content: none }
+   :  ^^^^^^^^^^
    `----
 
   x Ident
@@ -402,12 +438,24 @@
  14 | `-> }
     `----
 
-  x PageRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/rome/at-page/input.css:11:1]
  11 | ,-> @page {
  12 | |   	@top-center { content: none }
  13 | |   	margin-left: 4cm;
  14 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:11:1]
+ 11 | @page {
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:11:1]
+ 11 | @page {
+    :  ^^^^
     `----
 
   x SimpleBlock
@@ -430,10 +478,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
  12 | @top-center { content: none }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
+ 12 | @top-center { content: none }
+    :  ^^^^^^^^^^
     `----
 
   x Ident
@@ -554,12 +608,24 @@
  19 | `-> }
     `----
 
-  x PageRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/rome/at-page/input.css:16:1]
  16 | ,-> @page {
  17 | |   	@top-center { CONTENT: none }
  18 | |   	MARGIN-LEFT: 4cm;
  19 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:16:1]
+ 16 | @page {
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:16:1]
+ 16 | @page {
+    :  ^^^^
     `----
 
   x SimpleBlock
@@ -582,10 +648,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
  17 | @top-center { CONTENT: none }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
+ 17 | @top-center { CONTENT: none }
+    :  ^^^^^^^^^^
     `----
 
   x Ident

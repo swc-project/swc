@@ -44,11 +44,21 @@
       "block": null
     },
     {
-      "type": "PageRule",
+      "type": "AtRule",
       "span": {
         "start": 35,
         "end": 67,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 36,
+          "end": 40,
+          "ctxt": 0
+        },
+        "value": "page",
+        "raw": "page"
       },
       "prelude": {
         "type": "PageSelectorList",

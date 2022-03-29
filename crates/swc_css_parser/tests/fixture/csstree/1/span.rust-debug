@@ -108,11 +108,23 @@
  5 | `-> }
    `----
 
-  x PageRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/csstree/1/input.css:3:1]
  3 | ,-> @page :left {
  4 | |       margin: 2em;
  5 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/csstree/1/input.css:3:1]
+ 3 | @page :left {
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/csstree/1/input.css:3:1]
+ 3 | @page :left {
+   :  ^^^^
    `----
 
   x PageSelectorList
