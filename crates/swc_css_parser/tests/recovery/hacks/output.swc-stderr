@@ -89,6 +89,12 @@
      :          ^
      `----
 
+  x Expected '--' at the start of dashed-ident
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :            ^^^^^
+     `----
+
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
      ,-[$DIR/tests/recovery/hacks/input.css:140:5]
  140 | ,property: value;

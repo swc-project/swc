@@ -501,7 +501,6 @@ define!({
         Document(DocumentRule),
         ColorProfile(ColorProfileRule),
         CounterStyle(CounterStyleRule),
-        Property(PropertyRule),
         Unknown(UnknownAtRule),
     }
 
@@ -559,6 +558,7 @@ define!({
 
     pub enum AtRulePrelude {
         ListOfComponentValues(ListOfComponentValues),
+        PropertyPrelude(PropertyPrelude),
         CharsetPrelude(CharsetPrelude),
     }
 
@@ -570,6 +570,11 @@ define!({
     pub struct CharsetPrelude {
         pub span: Span,
         pub charset: Str,
+    }
+
+    pub struct PropertyPrelude {
+        pub span: Span,
+        pub name: DashedIdent,
     }
 
     pub struct DocumentRule {
@@ -840,12 +845,6 @@ define!({
     pub struct CounterStyleRule {
         pub span: Span,
         pub name: CustomIdent,
-        pub block: SimpleBlock,
-    }
-
-    pub struct PropertyRule {
-        pub span: Span,
-        pub name: DashedIdent,
         pub block: SimpleBlock,
     }
 });

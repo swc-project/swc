@@ -256,23 +256,6 @@ where
                 }
             }
 
-            "property" => {
-                self.input.skip_ws()?;
-
-                let at_rule_color_profile: PResult<PropertyRule> = self.parse();
-
-                match at_rule_color_profile {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Property(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             _ => {}
         }
 
@@ -352,6 +335,27 @@ where
                     if !is!(parser, ";") {
                         let span = parser.input.cur_span()?;
 
+                        return Err(Error::new(span, ErrorKind::Expected("';' token")));
+                    }
+
+                    Ok(Some(prelude))
+                }
+                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "property" => {
+                    parser.input.skip_ws()?;
+
+                    let span = parser.input.cur_span()?;
+                    let name = parser.parse()?;
+
+                    let prelude = AtRulePrelude::PropertyPrelude(PropertyPrelude {
+                        span: span!(parser, span.lo),
+                        name,
+                    });
+
+                    parser.input.skip_ws()?;
+
+                    if !is!(parser, "{") {
+                        let span = parser.input.cur_span()?;
+
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
                     }
 
@@ -391,7 +395,11 @@ where
                         AtRuleName::Ident(ident)
                             if matches!(
                                 &*ident.value.to_lowercase(),
-                                "viewport" | "-ms-viewport" | "-o-viewport" | "font-face"
+                                "viewport"
+                                    | "-ms-viewport"
+                                    | "-o-viewport"
+                                    | "font-face"
+                                    | "property"
                             ) =>
                         {
                             Ctx {
@@ -2033,30 +2041,6 @@ where
         let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
         Ok(CounterStyleRule {
-            span: span!(self, span.lo),
-            name,
-            block,
-        })
-    }
-}
-
-impl<I> Parse<PropertyRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<PropertyRule> {
-        let span = self.input.cur_span()?;
-        let name = self.parse()?;
-
-        self.input.skip_ws()?;
-
-        let ctx = Ctx {
-            block_contents_grammar: BlockContentsGrammar::DeclarationList,
-            ..self.ctx
-        };
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(PropertyRule {
             span: span!(self, span.lo),
             name,
             block,

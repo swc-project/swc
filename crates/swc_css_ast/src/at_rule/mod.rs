@@ -3,7 +3,7 @@ use swc_common::{ast_node, Span};
 
 pub use self::{
     color_profile::*, counter_style::*, document::*, import::*, keyframe::*, layer::*, media::*,
-    namespace::*, nest::*, page::*, property::*, support::*,
+    namespace::*, nest::*, page::*, support::*,
 };
 use crate::{ComponentValue, DashedIdent, Ident, SimpleBlock, Str};
 
@@ -17,7 +17,6 @@ mod media;
 mod namespace;
 mod nest;
 mod page;
-mod property;
 mod support;
 
 #[ast_node]
@@ -59,9 +58,6 @@ pub enum AtRule {
     #[tag("CounterStyleRule")]
     CounterStyle(CounterStyleRule),
 
-    #[tag("PropertyRule")]
-    Property(PropertyRule),
-
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
 }
@@ -87,6 +83,8 @@ pub struct UnknownAtRule {
 pub enum AtRulePrelude {
     #[tag("CharsetPrelude")]
     CharsetPrelude(CharsetPrelude),
+    #[tag("PropertyPrelude")]
+    PropertyPrelude(PropertyPrelude),
     #[tag("ListOfComponentValues")]
     ListOfComponentValues(ListOfComponentValues),
 }
@@ -101,4 +99,10 @@ pub struct ListOfComponentValues {
 pub struct CharsetPrelude {
     pub span: Span,
     pub charset: Str,
+}
+
+#[ast_node("PropertyPrelude")]
+pub struct PropertyPrelude {
+    pub span: Span,
+    pub name: DashedIdent,
 }

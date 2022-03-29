@@ -533,8 +533,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(CounterStyleRule, visit_counter_style_rule);
 
-    mtd!(PropertyRule, visit_property_rule);
-
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler
             .struct_span_err(n.span, &format!("{:?}", n.token))
