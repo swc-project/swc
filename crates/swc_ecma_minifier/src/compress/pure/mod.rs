@@ -197,6 +197,12 @@ impl Pure<'_> {
 impl VisitMut for Pure<'_> {
     noop_visit_mut_type!();
 
+    fn visit_mut_array_lit(&mut self, e: &mut ArrayLit) {
+        e.visit_mut_children_with(self);
+
+        self.eval_trivial_in_array(e);
+    }
+
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
             let ctx = Ctx {

@@ -407,6 +407,11 @@ impl Pure<'_> {
             }
         }
     }
+
+    pub(super) fn eval_trivial_in_array(&mut self, e: &mut ArrayLit) {}
+
+    /// `exprs` - Must follow evaluation order
+    fn eval_trivial_exprs(&mut self, exprs: &mut Vec<&mut Expr>) {}
 }
 
 /// Evaluation of strings.
