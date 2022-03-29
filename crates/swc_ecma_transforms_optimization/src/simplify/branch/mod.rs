@@ -1079,6 +1079,8 @@ impl Remover {
     where
         T: StmtLike + VisitWith<Hoister> + VisitMutWith<Self>,
     {
+        let orig_len = stmts.len();
+
         let is_block_stmt = self.normal_block;
         self.normal_block = false;
 
@@ -1142,10 +1144,14 @@ impl Remover {
                             new_stmts.extend(hoisted_fns);
 
                             *stmts = new_stmts;
+                            if stmts.len() != orig_len {
+                                self.changed = true;
 
-                            if cfg!(feature = "debug") {
-                                debug!("Dropping statements after a control keyword");
+                                if cfg!(feature = "debug") {
+                                    debug!("Dropping statements after a control keyword");
+                                }
                             }
+
                             return;
                         }
 
