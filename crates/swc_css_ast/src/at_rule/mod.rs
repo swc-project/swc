@@ -3,7 +3,7 @@ use swc_common::{ast_node, Span};
 
 pub use self::{
     charset::*, color_profile::*, counter_style::*, document::*, import::*, keyframe::*, layer::*,
-    media::*, namespace::*, nest::*, page::*, property::*, support::*, viewport::*,
+    media::*, namespace::*, nest::*, page::*, property::*, support::*,
 };
 use crate::{ComponentValue, DashedIdent, Ident, SimpleBlock};
 
@@ -20,7 +20,6 @@ mod nest;
 mod page;
 mod property;
 mod support;
-mod viewport;
 
 #[ast_node]
 #[derive(Is)]
@@ -54,9 +53,6 @@ pub enum AtRule {
 
     #[tag("NestRule")]
     Nest(NestRule),
-
-    #[tag("ViewportRule")]
-    Viewport(ViewportRule),
 
     #[tag("DocumentRule")]
     Document(DocumentRule),

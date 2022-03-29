@@ -529,8 +529,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(UnknownAtRule, visit_unknown_at_rule);
 
-    mtd!(ViewportRule, visit_viewport_rule);
-
     mtd!(ColorProfileName, visit_color_profile_name);
 
     mtd!(ColorProfileRule, visit_color_profile_rule);

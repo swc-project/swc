@@ -17,10 +17,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ViewportRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/esbuild/misc/ugX8SLCLRvWN-wDCK7ouyA/input.css:1:1]
  1 | @-ms-viewport { width: 100vw }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/esbuild/misc/ugX8SLCLRvWN-wDCK7ouyA/input.css:1:1]
+ 1 | @-ms-viewport { width: 100vw }
+   :  ^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/ugX8SLCLRvWN-wDCK7ouyA/input.css:1:1]
+ 1 | @-ms-viewport { width: 100vw }
+   :  ^^^^^^^^^^^^
    `----
 
   x SimpleBlock

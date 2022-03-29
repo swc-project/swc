@@ -501,7 +501,6 @@ define!({
         PageMargin(PageMarginRule),
         Namespace(NamespaceRule),
         Nest(NestRule),
-        Viewport(ViewportRule),
         Document(DocumentRule),
         ColorProfile(ColorProfileRule),
         CounterStyle(CounterStyleRule),
@@ -551,11 +550,6 @@ define!({
     pub struct NestRule {
         pub span: Span,
         pub prelude: SelectorList,
-        pub block: SimpleBlock,
-    }
-
-    pub struct ViewportRule {
-        pub span: Span,
         pub block: SimpleBlock,
     }
 

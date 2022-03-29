@@ -222,23 +222,6 @@ where
                 }
             }
 
-            "viewport" | "-ms-viewport" => {
-                self.input.skip_ws()?;
-
-                let at_rule_viewport: PResult<ViewportRule> = self.parse();
-
-                match at_rule_viewport {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Viewport(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             "layer" => {
                 self.input.skip_ws()?;
 
@@ -313,7 +296,7 @@ where
         self.input.reset(&state);
 
         let has_prelude = match &*name.0.to_lowercase() {
-            "font-face" => false,
+            "viewport" | "-ms-viewport" | "-o-viewport" | "font-face" => false,
             _ => true,
         };
         let name = if name.0.starts_with("--") {
@@ -377,7 +360,10 @@ where
                 tok!("{") => {
                     let ctx = match &at_rule.name {
                         AtRuleName::Ident(ident)
-                            if ident.value.as_ref().eq_ignore_ascii_case("font-face") =>
+                            if matches!(
+                                &*ident.value.to_lowercase(),
+                                "viewport" | "-ms-viewport" | "-o-viewport" | "font-face"
+                            ) =>
                         {
                             Ctx {
                                 block_contents_grammar: BlockContentsGrammar::DeclarationList,
@@ -653,25 +639,6 @@ where
                 ));
             }
         }
-    }
-}
-
-impl<I> Parse<ViewportRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<ViewportRule> {
-        let span = self.input.cur_span()?;
-        let ctx = Ctx {
-            block_contents_grammar: BlockContentsGrammar::DeclarationList,
-            ..self.ctx
-        };
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(ViewportRule {
-            span: span!(self, span.lo),
-            block,
-        })
     }
 }
 
