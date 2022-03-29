@@ -1,7 +1,7 @@
 use is_macro::Is;
 use swc_common::{ast_node, Span};
 
-pub use self::{layer::*, media::*, namespace::*, page::*, support::*};
+pub use self::{layer::*, media::*, page::*, support::*};
 use crate::{
     ComponentValue, CustomIdent, DashedIdent, Declaration, Function, Ident, Percentage,
     SelectorList, SimpleBlock, Str, Url,
@@ -9,7 +9,6 @@ use crate::{
 
 mod layer;
 mod media;
-mod namespace;
 mod page;
 mod support;
 
@@ -30,9 +29,6 @@ pub enum AtRule {
 
     #[tag("PageMarginRule")]
     PageMargin(PageMarginRule),
-
-    #[tag("NamespaceRule")]
-    Namespace(NamespaceRule),
 
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
@@ -75,6 +71,8 @@ pub enum AtRulePrelude {
     KeyframesPrelude(KeyframesPrelude),
     #[tag("ImportPrelude")]
     ImportPrelude(ImportPrelude),
+    #[tag("NamespacePrelude")]
+    NamespacePrelude(NamespacePrelude),
 }
 
 #[ast_node("ListOfComponentValues")]
@@ -189,4 +187,19 @@ pub enum ImportPreludeSupportsType {
     SupportsCondition(SupportsCondition),
     #[tag("Declaration")]
     Declaration(Declaration),
+}
+
+#[ast_node("NamespacePrelude")]
+pub struct NamespacePrelude {
+    pub span: Span,
+    pub prefix: Option<Ident>,
+    pub uri: NamespacePreludeUri,
+}
+
+#[ast_node]
+pub enum NamespacePreludeUri {
+    #[tag("Url")]
+    Url(Url),
+    #[tag("Str")]
+    Str(Str),
 }

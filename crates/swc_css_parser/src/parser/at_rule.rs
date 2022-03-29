@@ -119,23 +119,6 @@ where
                 }
             }
 
-            "namespace" => {
-                self.input.skip_ws()?;
-
-                let at_rule_namespace: PResult<NamespaceRule> = self.parse();
-
-                match at_rule_namespace {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Namespace(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             "layer" => {
                 self.input.skip_ws()?;
 
@@ -311,6 +294,51 @@ where
                         let span = parser.input.cur_span()?;
 
                         return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
+                    Ok(Some(prelude))
+                }
+                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "namespace" => {
+                    parser.input.skip_ws()?;
+
+                    let span = parser.input.cur_span()?;
+                    let mut prefix = None;
+
+                    if is!(parser, Ident) {
+                        prefix = match cur!(parser) {
+                            tok!("ident") => Some(parser.parse()?),
+                            _ => {
+                                unreachable!()
+                            }
+                        };
+
+                        parser.input.skip_ws()?;
+                    }
+
+                    let uri = match cur!(parser) {
+                        tok!("string") => NamespacePreludeUri::Str(parser.parse()?),
+                        tok!("url") => NamespacePreludeUri::Url(parser.parse()?),
+                        tok!("function") => NamespacePreludeUri::Url(parser.parse()?),
+                        _ => {
+                            let span = parser.input.cur_span()?;
+
+                            return Err(Error::new(
+                                span,
+                                ErrorKind::Expected("string, url or function tokens"),
+                            ));
+                        }
+                    };
+
+                    let prelude = AtRulePrelude::NamespacePrelude(NamespacePrelude {
+                        span: span!(parser, span.lo),
+                        prefix,
+                        uri,
+                    });
+
+                    if !is!(parser, ";") {
+                        let span = parser.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("';' token")));
                     }
 
                     Ok(Some(prelude))
@@ -762,49 +790,6 @@ where
                 ));
             }
         }
-    }
-}
-
-impl<I> Parse<NamespaceRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<NamespaceRule> {
-        let span = self.input.cur_span()?;
-        let mut prefix = None;
-
-        if is!(self, Ident) {
-            prefix = match cur!(self) {
-                tok!("ident") => Some(self.parse()?),
-                _ => {
-                    unreachable!()
-                }
-            };
-
-            self.input.skip_ws()?;
-        }
-
-        let uri = match cur!(self) {
-            tok!("string") => NamespaceUri::Str(self.parse()?),
-            tok!("url") => NamespaceUri::Url(self.parse()?),
-            tok!("function") => NamespaceUri::Url(self.parse()?),
-            _ => {
-                let span = self.input.cur_span()?;
-
-                return Err(Error::new(
-                    span,
-                    ErrorKind::Expected("string, url or function tokens"),
-                ));
-            }
-        };
-
-        eat!(self, ";");
-
-        Ok(NamespaceRule {
-            span: span!(self, span.lo),
-            prefix,
-            uri,
-        })
     }
 }
 

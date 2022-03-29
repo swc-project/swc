@@ -494,7 +494,6 @@ define!({
         Supports(SupportsRule),
         Page(PageRule),
         PageMargin(PageMarginRule),
-        Namespace(NamespaceRule),
         Unknown(UnknownAtRule),
     }
 
@@ -521,15 +520,15 @@ define!({
         Declaration(Declaration),
     }
 
-    pub enum NamespaceUri {
-        Url(Url),
-        Str(Str),
-    }
-
-    pub struct NamespaceRule {
+    pub struct NamespacePrelude {
         pub span: Span,
         pub prefix: Option<Ident>,
-        pub uri: NamespaceUri,
+        pub uri: NamespacePreludeUri,
+    }
+
+    pub enum NamespacePreludeUri {
+        Url(Url),
+        Str(Str),
     }
 
     pub struct UnknownAtRule {
@@ -554,6 +553,7 @@ define!({
         NestPrelude(SelectorList),
         KeyframesPrelude(KeyframesPrelude),
         ImportPrelude(ImportPrelude),
+        NamespacePrelude(NamespacePrelude),
     }
 
     pub struct ListOfComponentValues {

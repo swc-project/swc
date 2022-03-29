@@ -7,272 +7,424 @@
   },
   "rules": [
     {
-      "type": "NamespaceRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 20,
         "ctxt": 0
       },
-      "prefix": {
+      "name": {
         "type": "Ident",
         "span": {
-          "start": 11,
-          "end": 16,
+          "start": 1,
+          "end": 10,
           "ctxt": 0
         },
-        "value": "empty",
-        "raw": "empty"
+        "value": "namespace",
+        "raw": "namespace"
       },
-      "uri": {
-        "type": "String",
+      "prelude": {
+        "type": "NamespacePrelude",
         "span": {
-          "start": 17,
+          "start": 11,
           "end": 19,
           "ctxt": 0
         },
-        "value": "",
-        "raw": "\"\""
-      }
+        "prefix": {
+          "type": "Ident",
+          "span": {
+            "start": 11,
+            "end": 16,
+            "ctxt": 0
+          },
+          "value": "empty",
+          "raw": "empty"
+        },
+        "uri": {
+          "type": "String",
+          "span": {
+            "start": 17,
+            "end": 19,
+            "ctxt": 0
+          },
+          "value": "",
+          "raw": "\"\""
+        }
+      },
+      "block": null
     },
     {
-      "type": "NamespaceRule",
+      "type": "AtRule",
       "span": {
         "start": 21,
         "end": 35,
         "ctxt": 0
       },
-      "prefix": null,
-      "uri": {
-        "type": "String",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 22,
+          "end": 31,
+          "ctxt": 0
+        },
+        "value": "namespace",
+        "raw": "namespace"
+      },
+      "prelude": {
+        "type": "NamespacePrelude",
         "span": {
           "start": 32,
           "end": 34,
           "ctxt": 0
         },
-        "value": "",
-        "raw": "\"\""
-      }
+        "prefix": null,
+        "uri": {
+          "type": "String",
+          "span": {
+            "start": 32,
+            "end": 34,
+            "ctxt": 0
+          },
+          "value": "",
+          "raw": "\"\""
+        }
+      },
+      "block": null
     },
     {
-      "type": "NamespaceRule",
+      "type": "AtRule",
       "span": {
         "start": 36,
         "end": 81,
         "ctxt": 0
       },
-      "prefix": null,
-      "uri": {
-        "type": "Url",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 37,
+          "end": 46,
+          "ctxt": 0
+        },
+        "value": "namespace",
+        "raw": "namespace"
+      },
+      "prelude": {
+        "type": "NamespacePrelude",
         "span": {
           "start": 47,
           "end": 80,
           "ctxt": 0
         },
-        "name": {
-          "type": "Ident",
+        "prefix": null,
+        "uri": {
+          "type": "Url",
           "span": {
             "start": 47,
-            "end": 50,
+            "end": 80,
             "ctxt": 0
           },
-          "value": "url",
-          "raw": "url"
-        },
-        "value": {
-          "type": "UrlValueRaw",
-          "span": {
-            "start": 51,
-            "end": 79,
-            "ctxt": 0
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 47,
+              "end": 50,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
           },
-          "before": "",
-          "after": "",
-          "value": "http://www.w3.org/1999/xhtml",
-          "raw": "http://www.w3.org/1999/xhtml"
-        },
-        "modifiers": null
-      }
+          "value": {
+            "type": "UrlValueRaw",
+            "span": {
+              "start": 51,
+              "end": 79,
+              "ctxt": 0
+            },
+            "before": "",
+            "after": "",
+            "value": "http://www.w3.org/1999/xhtml",
+            "raw": "http://www.w3.org/1999/xhtml"
+          },
+          "modifiers": null
+        }
+      },
+      "block": null
     },
     {
-      "type": "NamespaceRule",
+      "type": "AtRule",
       "span": {
         "start": 82,
         "end": 129,
         "ctxt": 0
       },
-      "prefix": null,
-      "uri": {
-        "type": "Url",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 83,
+          "end": 92,
+          "ctxt": 0
+        },
+        "value": "namespace",
+        "raw": "namespace"
+      },
+      "prelude": {
+        "type": "NamespacePrelude",
         "span": {
           "start": 93,
           "end": 128,
           "ctxt": 0
         },
-        "name": {
-          "type": "Ident",
+        "prefix": null,
+        "uri": {
+          "type": "Url",
           "span": {
             "start": 93,
-            "end": 96,
+            "end": 128,
             "ctxt": 0
           },
-          "value": "url",
-          "raw": "url"
-        },
-        "value": {
-          "type": "String",
-          "span": {
-            "start": 97,
-            "end": 127,
-            "ctxt": 0
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 93,
+              "end": 96,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
           },
-          "value": "http://www.w3.org/1999/xhtml",
-          "raw": "\"http://www.w3.org/1999/xhtml\""
-        },
-        "modifiers": []
-      }
+          "value": {
+            "type": "String",
+            "span": {
+              "start": 97,
+              "end": 127,
+              "ctxt": 0
+            },
+            "value": "http://www.w3.org/1999/xhtml",
+            "raw": "\"http://www.w3.org/1999/xhtml\""
+          },
+          "modifiers": []
+        }
+      },
+      "block": null
     },
     {
-      "type": "NamespaceRule",
+      "type": "AtRule",
       "span": {
         "start": 130,
         "end": 177,
         "ctxt": 0
       },
-      "prefix": {
+      "name": {
         "type": "Ident",
         "span": {
-          "start": 141,
-          "end": 144,
+          "start": 131,
+          "end": 140,
           "ctxt": 0
         },
-        "value": "svg",
-        "raw": "svg"
+        "value": "namespace",
+        "raw": "namespace"
       },
-      "uri": {
-        "type": "Url",
+      "prelude": {
+        "type": "NamespacePrelude",
         "span": {
-          "start": 145,
+          "start": 141,
           "end": 176,
           "ctxt": 0
         },
-        "name": {
+        "prefix": {
           "type": "Ident",
           "span": {
-            "start": 145,
-            "end": 148,
+            "start": 141,
+            "end": 144,
             "ctxt": 0
           },
-          "value": "url",
-          "raw": "url"
+          "value": "svg",
+          "raw": "svg"
         },
-        "value": {
-          "type": "UrlValueRaw",
+        "uri": {
+          "type": "Url",
           "span": {
-            "start": 149,
-            "end": 175,
+            "start": 145,
+            "end": 176,
             "ctxt": 0
           },
-          "before": "",
-          "after": "",
-          "value": "http://www.w3.org/2000/svg",
-          "raw": "http://www.w3.org/2000/svg"
-        },
-        "modifiers": null
-      }
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 145,
+              "end": 148,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "UrlValueRaw",
+            "span": {
+              "start": 149,
+              "end": 175,
+              "ctxt": 0
+            },
+            "before": "",
+            "after": "",
+            "value": "http://www.w3.org/2000/svg",
+            "raw": "http://www.w3.org/2000/svg"
+          },
+          "modifiers": null
+        }
+      },
+      "block": null
     },
     {
-      "type": "NamespaceRule",
+      "type": "AtRule",
       "span": {
         "start": 178,
         "end": 227,
         "ctxt": 0
       },
-      "prefix": {
+      "name": {
         "type": "Ident",
         "span": {
-          "start": 189,
-          "end": 192,
+          "start": 179,
+          "end": 188,
           "ctxt": 0
         },
-        "value": "svg",
-        "raw": "svg"
+        "value": "namespace",
+        "raw": "namespace"
       },
-      "uri": {
-        "type": "Url",
+      "prelude": {
+        "type": "NamespacePrelude",
         "span": {
-          "start": 193,
+          "start": 189,
           "end": 226,
           "ctxt": 0
         },
-        "name": {
+        "prefix": {
           "type": "Ident",
           "span": {
-            "start": 193,
-            "end": 196,
+            "start": 189,
+            "end": 192,
             "ctxt": 0
           },
-          "value": "url",
-          "raw": "url"
+          "value": "svg",
+          "raw": "svg"
         },
-        "value": {
-          "type": "String",
+        "uri": {
+          "type": "Url",
           "span": {
-            "start": 197,
-            "end": 225,
+            "start": 193,
+            "end": 226,
             "ctxt": 0
           },
-          "value": "http://www.w3.org/2000/svg",
-          "raw": "\"http://www.w3.org/2000/svg\""
-        },
-        "modifiers": []
-      }
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 193,
+              "end": 196,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "String",
+            "span": {
+              "start": 197,
+              "end": 225,
+              "ctxt": 0
+            },
+            "value": "http://www.w3.org/2000/svg",
+            "raw": "\"http://www.w3.org/2000/svg\""
+          },
+          "modifiers": []
+        }
+      },
+      "block": null
     },
     {
-      "type": "NamespaceRule",
+      "type": "AtRule",
       "span": {
         "start": 228,
         "end": 270,
         "ctxt": 0
       },
-      "prefix": null,
-      "uri": {
-        "type": "String",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 229,
+          "end": 238,
+          "ctxt": 0
+        },
+        "value": "namespace",
+        "raw": "namespace"
+      },
+      "prelude": {
+        "type": "NamespacePrelude",
         "span": {
           "start": 239,
           "end": 269,
           "ctxt": 0
         },
-        "value": "http://www.w3.org/1999/xhtml",
-        "raw": "\"http://www.w3.org/1999/xhtml\""
-      }
+        "prefix": null,
+        "uri": {
+          "type": "String",
+          "span": {
+            "start": 239,
+            "end": 269,
+            "ctxt": 0
+          },
+          "value": "http://www.w3.org/1999/xhtml",
+          "raw": "\"http://www.w3.org/1999/xhtml\""
+        }
+      },
+      "block": null
     },
     {
-      "type": "NamespaceRule",
+      "type": "AtRule",
       "span": {
         "start": 271,
         "end": 315,
         "ctxt": 0
       },
-      "prefix": {
+      "name": {
         "type": "Ident",
         "span": {
-          "start": 282,
-          "end": 285,
+          "start": 272,
+          "end": 281,
           "ctxt": 0
         },
-        "value": "svg",
-        "raw": "svg"
+        "value": "namespace",
+        "raw": "namespace"
       },
-      "uri": {
-        "type": "String",
+      "prelude": {
+        "type": "NamespacePrelude",
         "span": {
-          "start": 286,
+          "start": 282,
           "end": 314,
           "ctxt": 0
         },
-        "value": "http://www.w3.org/2000/svg",
-        "raw": "\"http://www.w3.org/2000/svg\""
-      }
+        "prefix": {
+          "type": "Ident",
+          "span": {
+            "start": 282,
+            "end": 285,
+            "ctxt": 0
+          },
+          "value": "svg",
+          "raw": "svg"
+        },
+        "uri": {
+          "type": "String",
+          "span": {
+            "start": 286,
+            "end": 314,
+            "ctxt": 0
+          },
+          "value": "http://www.w3.org/2000/svg",
+          "raw": "\"http://www.w3.org/2000/svg\""
+        }
+      },
+      "block": null
     }
   ]
 }

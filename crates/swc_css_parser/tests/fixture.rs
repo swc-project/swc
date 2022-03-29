@@ -486,10 +486,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(SupportsFeature, visit_supports_feature);
 
-    mtd!(NamespaceUri, visit_namespace_uri);
-
-    mtd!(NamespaceRule, visit_namespace_rule);
-
     mtd!(PageRule, visit_page_rule);
 
     mtd!(PageSelectorList, visit_page_selector_list);
