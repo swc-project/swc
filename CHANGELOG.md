@@ -10,6 +10,12 @@
 
 - **(es/minifier)** Optimize switches more correctly (#4180) ([6d3ea17](https://github.com/swc-project/swc/commit/6d3ea17aa6b708c7819a6769dccd920bd3fe2efe))
 
+### Refactor
+
+
+
+- **(cli)** Alias plugin build with wasm target (#4181) ([8ca4e67](https://github.com/swc-project/swc/commit/8ca4e674515b77341f77f180235fcfb396dac26d))
+
 ## [1.2.161] - 2022-03-28
 
 ### Bug Fixes
