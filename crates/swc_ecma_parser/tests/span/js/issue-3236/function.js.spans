@@ -1,0 +1,133 @@
+
+  x Module
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
+   `----
+
+  x Decl
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
+   `----
+
+  x FnDecl
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :          ^
+   `----
+
+  x Function
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
+   `----
+
+  x Param
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :            ^^^^^
+   `----
+
+  x Pat
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :            ^^^^^
+   `----
+
+  x AssignPat
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :            ^^^^^
+   `----
+
+  x Pat
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :            ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :            ^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :                ^
+   `----
+
+  x Lit
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :                ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | function f(a = 0) {
+   :                ^
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/issue-3236/function.js:2:5]
+ 2 | "use strict";
+   : ^^^^^^^^^^^^^
+   `----
+
+  x ExprStmt
+   ,-[$DIR/tests/span/js/issue-3236/function.js:2:5]
+ 2 | "use strict";
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/issue-3236/function.js:2:5]
+ 2 | "use strict";
+   : ^^^^^^^^^^^^
+   `----
+
+  x Lit
+   ,-[$DIR/tests/span/js/issue-3236/function.js:2:5]
+ 2 | "use strict";
+   : ^^^^^^^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/span/js/issue-3236/function.js:2:5]
+ 2 | "use strict";
+   : ^^^^^^^^^^^^
+   `----

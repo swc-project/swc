@@ -1,0 +1,102 @@
+
+  x Module
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | ,-> if (true) {
+ 2 | |       foo()
+ 3 | `-> }
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | ,-> if (true) {
+ 2 | |       foo()
+ 3 | `-> }
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | ,-> if (true) {
+ 2 | |       foo()
+ 3 | `-> }
+   `----
+
+  x IfStmt
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | ,-> if (true) {
+ 2 | |       foo()
+ 3 | `-> }
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | if (true) {
+   :     ^^^^
+   `----
+
+  x Lit
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | if (true) {
+   :     ^^^^
+   `----
+
+  x Bool
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | if (true) {
+   :     ^^^^
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | ,-> if (true) {
+ 2 | |       foo()
+ 3 | `-> }
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | ,-> if (true) {
+ 2 | |       foo()
+ 3 | `-> }
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
+ 2 | foo()
+   : ^^^^^
+   `----
+
+  x ExprStmt
+   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
+ 2 | foo()
+   : ^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
+ 2 | foo()
+   : ^^^^^
+   `----
+
+  x CallExpr
+   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
+ 2 | foo()
+   : ^^^^^
+   `----
+
+  x Callee
+   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
+ 2 | foo()
+   : ^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
+ 2 | foo()
+   : ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
+ 2 | foo()
+   : ^^^
+   `----
