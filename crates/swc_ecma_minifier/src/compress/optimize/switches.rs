@@ -34,6 +34,14 @@ where
             return;
         }
 
+        if stmt
+            .cases
+            .iter()
+            .any(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))))
+        {
+            return;
+        }
+
         let matching_case = stmt.cases.iter_mut().position(|case| {
             case.test
                 .as_ref()
