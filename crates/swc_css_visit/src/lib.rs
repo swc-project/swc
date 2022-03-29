@@ -489,7 +489,6 @@ define!({
     }
 
     pub enum AtRule {
-        Layer(LayerRule),
         Unknown(UnknownAtRule),
     }
 
@@ -553,6 +552,7 @@ define!({
         MediaPrelude(MediaQueryList),
         SupportsPrelude(SupportsCondition),
         PageSelectorList(PageSelectorList),
+        LayerPrelude(LayerPrelude),
     }
 
     pub struct ListOfComponentValues {
@@ -629,12 +629,6 @@ define!({
     pub enum LayerPrelude {
         Name(LayerName),
         NameList(LayerNameList),
-    }
-
-    pub struct LayerRule {
-        pub span: Span,
-        pub prelude: Option<LayerPrelude>,
-        pub block: Option<SimpleBlock>,
     }
 
     pub struct MediaQueryList {

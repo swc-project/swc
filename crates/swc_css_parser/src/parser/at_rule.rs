@@ -13,49 +13,25 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AtRule> {
+        // Consume the next input token. Create a new at-rule with its name set to the
+        // value of the current input token, its prelude initially set to an empty list,
+        // and its value initially set to nothing.
         let at_rule_span = self.input.cur_span()?;
-
-        let name = match bump!(self) {
+        let at_keyword_name = match bump!(self) {
             Token::AtKeyword { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
-
-        let state = self.input.state();
-
-        match &*name.0.to_ascii_lowercase() {
-            "layer" => {
-                self.input.skip_ws()?;
-
-                let at_rule_layer: PResult<LayerRule> = self.parse();
-
-                match at_rule_layer {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::Layer(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
-            _ => {}
-        }
-
-        self.input.reset(&state);
-
-        let at_rule_name = if name.0.starts_with("--") {
+        let at_rule_name = if at_keyword_name.0.starts_with("--") {
             AtRuleName::DashedIdent(DashedIdent {
                 span: Span::new(
                     at_rule_span.lo + BytePos(1),
                     at_rule_span.hi,
                     Default::default(),
                 ),
-                value: name.0,
-                raw: name.1,
+                value: at_keyword_name.0,
+                raw: at_keyword_name.1,
             })
         } else {
             AtRuleName::Ident(Ident {
@@ -64,14 +40,10 @@ where
                     at_rule_span.hi,
                     Default::default(),
                 ),
-                value: name.0,
-                raw: name.1,
+                value: at_keyword_name.0,
+                raw: at_keyword_name.1,
             })
         };
-
-        // Consume the next input token. Create a new at-rule with its name set to the
-        // value of the current input token, its prelude initially set to an empty list,
-        // and its value initially set to nothing.
         let mut at_rule = UnknownAtRule {
             span: span!(self, at_rule_span.lo),
             name: at_rule_name,
@@ -146,6 +118,70 @@ where
                     }
 
                     Ok(Some(prelude))
+                }
+                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "layer" => {
+                    parser.input.skip_ws()?;
+
+                    let prelude = if is!(parser, Ident) {
+                        let mut name_list = vec![];
+
+                        while is!(parser, Ident) {
+                            name_list.push(parser.parse()?);
+
+                            parser.input.skip_ws()?;
+
+                            if is!(parser, ",") {
+                                eat!(parser, ",");
+
+                                parser.input.skip_ws()?;
+                            }
+                        }
+
+                        match name_list.len() == 1 {
+                            // Block
+                            true => Some(AtRulePrelude::LayerPrelude(LayerPrelude::Name(
+                                name_list.remove(0),
+                            ))),
+                            // Statement
+                            false => {
+                                let first = name_list[0].span;
+                                let last = name_list[name_list.len() - 1].span;
+
+                                Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(
+                                    LayerNameList {
+                                        name_list,
+                                        span: Span::new(first.lo, last.hi, Default::default()),
+                                    },
+                                )))
+                            }
+                        }
+                    } else {
+                        None
+                    };
+
+                    parser.input.skip_ws()?;
+
+                    match prelude {
+                        Some(AtRulePrelude::LayerPrelude(LayerPrelude::Name(_))) | None => {
+                            if !is!(parser, "{") {
+                                let span = parser.input.cur_span()?;
+
+                                return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                            }
+                        }
+                        Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(_))) => {
+                            if !is!(parser, ";") {
+                                let span = parser.input.cur_span()?;
+
+                                return Err(Error::new(span, ErrorKind::Expected("';' token")));
+                            }
+                        }
+                        _ => {
+                            unreachable!();
+                        }
+                    }
+
+                    Ok(prelude)
                 }
                 AtRuleName::Ident(ident)
                     if matches!(&*ident.value.to_lowercase(), "document" | "-moz-document") =>
@@ -519,6 +555,12 @@ where
                     block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..parser.ctx
                 },
+                AtRuleName::Ident(ident) if matches!(&*ident.value.to_lowercase(), "layer") => {
+                    Ctx {
+                        block_contents_grammar: BlockContentsGrammar::Stylesheet,
+                        ..parser.ctx
+                    }
+                }
                 AtRuleName::Ident(ident)
                     if matches!(
                         &*ident.value.to_lowercase(),
@@ -1787,81 +1829,6 @@ where
         Ok(LayerName {
             name,
             span: span!(self, start),
-        })
-    }
-}
-
-impl<I> Parse<LayerRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<LayerRule> {
-        let span = self.input.cur_span()?;
-        let prelude = if is!(self, Ident) {
-            let mut name_list = vec![];
-
-            while is!(self, Ident) {
-                name_list.push(self.parse()?);
-
-                self.input.skip_ws()?;
-
-                if is!(self, ",") {
-                    eat!(self, ",");
-
-                    self.input.skip_ws()?;
-                }
-            }
-
-            match name_list.len() == 1 {
-                // Block
-                true => Some(LayerPrelude::Name(name_list.remove(0))),
-                // Statement
-                false => {
-                    let first = name_list[0].span;
-                    let last = name_list[name_list.len() - 1].span;
-
-                    Some(LayerPrelude::NameList(LayerNameList {
-                        name_list,
-                        span: Span::new(first.lo, last.hi, Default::default()),
-                    }))
-                }
-            }
-        } else {
-            None
-        };
-
-        self.input.skip_ws()?;
-
-        let block = match prelude {
-            // Block
-            None | Some(LayerPrelude::Name(LayerName { .. })) if is!(self, "{") => {
-                let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::Stylesheet,
-                    ..self.ctx
-                };
-
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                Some(block)
-            }
-            // Statement
-            Some(LayerPrelude::NameList(LayerNameList { .. })) => {
-                expect!(self, ";");
-
-                None
-            }
-            _ => {
-                return Err(Error::new(
-                    span,
-                    ErrorKind::Expected("'{' delim token or ';'"),
-                ));
-            }
-        };
-
-        Ok(LayerRule {
-            span: span!(self, span.lo),
-            prelude,
-            block,
         })
     }
 }

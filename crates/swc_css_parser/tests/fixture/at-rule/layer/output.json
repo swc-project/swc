@@ -7,11 +7,21 @@
   },
   "rules": [
     {
-      "type": "LayerRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 52,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 6,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
       },
       "prelude": {
         "type": "LayerNameList",
@@ -116,11 +126,21 @@
       "block": null
     },
     {
-      "type": "LayerRule",
+      "type": "AtRule",
       "span": {
         "start": 54,
         "end": 173,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 55,
+          "end": 60,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
       },
       "prelude": {
         "type": "LayerName",
@@ -344,11 +364,21 @@
       }
     },
     {
-      "type": "LayerRule",
+      "type": "AtRule",
       "span": {
         "start": 175,
         "end": 297,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 176,
+          "end": 181,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
       },
       "prelude": {
         "type": "LayerName",
@@ -690,13 +720,31 @@
       }
     },
     {
-      "type": "LayerRule",
+      "type": "AtRule",
       "span": {
         "start": 342,
         "end": 366,
         "ctxt": 0
       },
-      "prelude": null,
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 343,
+          "end": 348,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
+      },
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 0,
+          "ctxt": 0
+        },
+        "children": []
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -709,13 +757,31 @@
       }
     },
     {
-      "type": "LayerRule",
+      "type": "AtRule",
       "span": {
         "start": 367,
         "end": 391,
         "ctxt": 0
       },
-      "prelude": null,
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 368,
+          "end": 373,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
+      },
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 0,
+          "end": 0,
+          "ctxt": 0
+        },
+        "children": []
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -728,11 +794,21 @@
       }
     },
     {
-      "type": "LayerRule",
+      "type": "AtRule",
       "span": {
         "start": 393,
         "end": 448,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 394,
+          "end": 399,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
       },
       "prelude": {
         "type": "LayerName",
@@ -884,11 +960,21 @@
       }
     },
     {
-      "type": "LayerRule",
+      "type": "AtRule",
       "span": {
         "start": 450,
         "end": 563,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 451,
+          "end": 456,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
       },
       "prelude": {
         "type": "LayerName",
@@ -1020,11 +1106,21 @@
             }
           },
           {
-            "type": "LayerRule",
+            "type": "AtRule",
             "span": {
               "start": 507,
               "end": 561,
               "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 508,
+                "end": 513,
+                "ctxt": 0
+              },
+              "value": "layer",
+              "raw": "layer"
             },
             "prelude": {
               "type": "LayerName",
@@ -1216,11 +1312,21 @@
       }
     },
     {
-      "type": "LayerRule",
+      "type": "AtRule",
       "span": {
         "start": 565,
         "end": 613,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 566,
+          "end": 571,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
       },
       "prelude": {
         "type": "LayerName",
@@ -1367,11 +1473,21 @@
       }
     },
     {
-      "type": "LayerRule",
+      "type": "AtRule",
       "span": {
         "start": 615,
         "end": 751,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 616,
+          "end": 621,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
       },
       "prelude": {
         "type": "LayerName",
@@ -1403,11 +1519,21 @@
         "name": "{",
         "value": [
           {
-            "type": "LayerRule",
+            "type": "AtRule",
             "span": {
               "start": 638,
               "end": 696,
               "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 639,
+                "end": 644,
+                "ctxt": 0
+              },
+              "value": "layer",
+              "raw": "layer"
             },
             "prelude": {
               "type": "LayerName",
@@ -1567,11 +1693,21 @@
             }
           },
           {
-            "type": "LayerRule",
+            "type": "AtRule",
             "span": {
               "start": 702,
               "end": 749,
               "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 703,
+                "end": 708,
+                "ctxt": 0
+              },
+              "value": "layer",
+              "raw": "layer"
             },
             "prelude": {
               "type": "LayerName",
@@ -1716,11 +1852,21 @@
       }
     },
     {
-      "type": "LayerRule",
+      "type": "AtRule",
       "span": {
         "start": 753,
         "end": 903,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 754,
+          "end": 759,
+          "ctxt": 0
+        },
+        "value": "layer",
+        "raw": "layer"
       },
       "prelude": {
         "type": "LayerName",

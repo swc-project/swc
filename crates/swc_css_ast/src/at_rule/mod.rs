@@ -2,20 +2,14 @@ use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-pub use self::layer::*;
 use crate::{
     ComponentValue, CustomIdent, DashedIdent, Declaration, Dimension, Function, Ident, Number,
     Percentage, Ratio, SelectorList, SimpleBlock, Str, Url,
 };
 
-mod layer;
-
 #[ast_node]
 #[derive(Is)]
 pub enum AtRule {
-    #[tag("LayerRule")]
-    Layer(LayerRule),
-
     #[tag("UnknownAtRule")]
     Unknown(UnknownAtRule),
 }
@@ -65,6 +59,8 @@ pub enum AtRulePrelude {
     SupportsPrelude(SupportsCondition),
     #[tag("PageSelectorList")]
     PageSelectorList(PageSelectorList),
+    #[tag("LayerPrelude")]
+    LayerPrelude(LayerPrelude),
 }
 
 #[ast_node("ListOfComponentValues")]
@@ -470,4 +466,24 @@ pub struct PageSelectorType {
 pub struct PageSelectorPseudo {
     pub span: Span,
     pub value: Ident,
+}
+
+#[ast_node]
+pub enum LayerPrelude {
+    #[tag("LayerName")]
+    Name(LayerName),
+    #[tag("LayerNameList")]
+    NameList(LayerNameList),
+}
+
+#[ast_node("LayerName")]
+pub struct LayerName {
+    pub span: Span,
+    pub name: Vec<Ident>,
+}
+
+#[ast_node("LayerNameList")]
+pub struct LayerNameList {
+    pub span: Span,
+    pub name_list: Vec<LayerName>,
 }

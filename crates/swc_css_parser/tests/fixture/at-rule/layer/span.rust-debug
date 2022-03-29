@@ -66,10 +66,22 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x LayerRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:1:1]
  1 | @layer framework, override   ,    foo   , bar.baz  ;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   , bar.baz  ;
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   , bar.baz  ;
+   :  ^^^^^
    `----
 
   x LayerPrelude
@@ -158,7 +170,7 @@
  8 | `-> }
    `----
 
-  x LayerRule
+  x UnknownAtRule
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
  3 | ,-> @layer override {
  4 | |       @keyframes slide-left {
@@ -166,6 +178,18 @@
  6 | |           to { translate: -100% 0; }
  7 | |       }
  8 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 3 | @layer override {
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 3 | @layer override {
+   :  ^^^^^
    `----
 
   x LayerPrelude
@@ -400,7 +424,7 @@
  15 | `-> }
     `----
 
-  x LayerRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
  10 | ,-> @layer framework {
  11 | |       @keyframes slide-left {
@@ -408,6 +432,18 @@
  13 | |           to { margin-left: -100%; }
  14 | |       }
  15 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+ 10 | @layer framework {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+ 10 | @layer framework {
+    :  ^^^^^
     `----
 
   x LayerPrelude
@@ -748,10 +784,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x LayerRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:19:1]
  19 | @layer { /* layer 1 */ }
     : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:19:1]
+ 19 | @layer { /* layer 1 */ }
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:19:1]
+ 19 | @layer { /* layer 1 */ }
+    :  ^^^^^
     `----
 
   x SimpleBlock
@@ -772,10 +820,22 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x LayerRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
  20 | @layer { /* layer 2 */ }
     : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
+ 20 | @layer { /* layer 2 */ }
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
+ 20 | @layer { /* layer 2 */ }
+    :  ^^^^^
     `----
 
   x SimpleBlock
@@ -798,11 +858,23 @@
  24 | `-> }
     `----
 
-  x LayerRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
  22 | ,-> @layer reset.type {
  23 | |       strong { font-weight: bold; }
  24 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+    :  ^^^^^
     `----
 
   x LayerPrelude
@@ -966,7 +1038,7 @@
  32 | `-> }
     `----
 
-  x LayerRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
  26 | ,-> @layer framework {
  27 | |       .title { font-weight: 100; }
@@ -975,6 +1047,18 @@
  30 | |           h1, h2 { color: maroon; }
  31 | |       }
  32 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+    :  ^^^^^
     `----
 
   x LayerPrelude
@@ -1129,11 +1213,23 @@
  31 | `->     }
     `----
 
-  x LayerRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
  29 | ,-> @layer theme {
  30 | |           h1, h2 { color: maroon; }
  31 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
+ 29 | @layer theme {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
+ 29 | @layer theme {
+    :  ^^^^^
     `----
 
   x LayerPrelude
@@ -1319,11 +1415,23 @@
  36 | `-> }
     `----
 
-  x LayerRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
  34 | ,-> @layer reset {
  35 | |       [hidden] { display: none; }
  36 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+    :  ^^^^^
     `----
 
   x LayerPrelude
@@ -1485,7 +1593,7 @@
  46 | `-> }
     `----
 
-  x LayerRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
  38 | ,-> @layer framework {
  39 | |       @layer default {
@@ -1496,6 +1604,18 @@
  44 | |           p { color: #222; }
  45 | |       }
  46 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 | @layer framework {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 | @layer framework {
+    :  ^^^^^
     `----
 
   x LayerPrelude
@@ -1550,11 +1670,23 @@
  41 | `->     }
     `----
 
-  x LayerRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
  39 | ,-> @layer default {
  40 | |           p { margin-block: 0.75em; }
  41 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
+ 39 | @layer default {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
+ 39 | @layer default {
+    :  ^^^^^
     `----
 
   x LayerPrelude
@@ -1729,11 +1861,23 @@
  45 | `->     }
     `----
 
-  x LayerRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
  43 | ,-> @layer theme {
  44 | |           p { color: #222; }
  45 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
+ 43 | @layer theme {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
+ 43 | @layer theme {
+    :  ^^^^^
     `----
 
   x LayerPrelude
@@ -1891,12 +2035,24 @@
  51 | `-> }
     `----
 
-  x LayerRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
  48 | ,-> @layer framework.theme {
  49 | |       /* These styles will be added to the theme layer inside the framework layer */
  50 | |       blockquote { color: rebeccapurple; }
  51 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
+ 48 | @layer framework.theme {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
+ 48 | @layer framework.theme {
+    :  ^^^^^
     `----
 
   x LayerPrelude
