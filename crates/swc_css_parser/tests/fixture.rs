@@ -429,8 +429,6 @@ impl Visit for SpanVisualizer<'_> {
         visit_document_rule_matching_function
     );
 
-    mtd!(FontFaceRule, visit_font_face_rule);
-
     mtd!(ImportRule, visit_import_rule);
 
     mtd!(ImportHref, visit_import_href);

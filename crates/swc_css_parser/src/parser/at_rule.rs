@@ -77,23 +77,6 @@ where
                 }
             }
 
-            "font-face" => {
-                self.input.skip_ws()?;
-
-                let at_rule_font_face: PResult<FontFaceRule> = self.parse();
-
-                match at_rule_font_face {
-                    Ok(mut r) => {
-                        r.span.lo = at_rule_span.lo;
-
-                        return Ok(AtRule::FontFace(r));
-                    }
-                    Err(err) => {
-                        self.errors.push(err);
-                    }
-                }
-            }
-
             "supports" => {
                 self.input.skip_ws()?;
 
@@ -329,6 +312,10 @@ where
 
         self.input.reset(&state);
 
+        let has_prelude = match &*name.0.to_lowercase() {
+            "font-face" => false,
+            _ => true,
+        };
         let name = if name.0.starts_with("--") {
             AtRuleName::DashedIdent(DashedIdent {
                 span: Span::new(
@@ -361,6 +348,11 @@ where
             block: None,
         };
 
+        // TODO postpone grammar after parsing
+        if !has_prelude {
+            self.input.skip_ws()?;
+        }
+
         loop {
             // <EOF-token>
             // This is a parse error. Return the at-rule.
@@ -383,9 +375,19 @@ where
                 // <{-token>
                 // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
                 tok!("{") => {
-                    let ctx = Ctx {
-                        block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                        ..self.ctx
+                    let ctx = match &at_rule.name {
+                        AtRuleName::Ident(ident)
+                            if ident.value.as_ref().eq_ignore_ascii_case("font-face") =>
+                        {
+                            Ctx {
+                                block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                                ..self.ctx
+                            }
+                        }
+                        _ => Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        },
                     };
                     let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
@@ -398,6 +400,13 @@ where
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the at-rule’s prelude.
                 _ => {
+                    if !has_prelude {
+                        let span = self.input.cur_span()?;
+
+                        self.errors
+                            .push(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
                     at_rule.prelude.push(self.parse()?);
                 }
             }
@@ -728,25 +737,6 @@ where
         Ok(NestRule {
             span: span!(self, span.lo),
             prelude,
-            block,
-        })
-    }
-}
-
-impl<I> Parse<FontFaceRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<FontFaceRule> {
-        let span = self.input.cur_span()?;
-        let ctx = Ctx {
-            block_contents_grammar: BlockContentsGrammar::DeclarationList,
-            ..self.ctx
-        };
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(FontFaceRule {
-            span: span!(self, span.lo),
             block,
         })
     }

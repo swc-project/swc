@@ -2,9 +2,8 @@ use is_macro::Is;
 use swc_common::{ast_node, Span};
 
 pub use self::{
-    charset::*, color_profile::*, counter_style::*, document::*, font_face::*, import::*,
-    keyframe::*, layer::*, media::*, namespace::*, nest::*, page::*, property::*, support::*,
-    viewport::*,
+    charset::*, color_profile::*, counter_style::*, document::*, import::*, keyframe::*, layer::*,
+    media::*, namespace::*, nest::*, page::*, property::*, support::*, viewport::*,
 };
 use crate::{ComponentValue, DashedIdent, Ident, SimpleBlock};
 
@@ -12,7 +11,6 @@ mod charset;
 mod color_profile;
 mod counter_style;
 mod document;
-mod font_face;
 mod import;
 mod keyframe;
 mod layer;
@@ -32,9 +30,6 @@ pub enum AtRule {
 
     #[tag("ImportRule")]
     Import(ImportRule),
-
-    #[tag("FontFaceRule")]
-    FontFace(FontFaceRule),
 
     #[tag("KeyframesRule")]
     Keyframes(KeyframesRule),

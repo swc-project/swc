@@ -493,7 +493,6 @@ define!({
     pub enum AtRule {
         Charset(CharsetRule),
         Import(ImportRule),
-        FontFace(FontFaceRule),
         Keyframes(KeyframesRule),
         Layer(LayerRule),
         Media(MediaRule),
@@ -536,11 +535,6 @@ define!({
         pub layer_name: Option<ImportLayerName>,
         pub supports: Option<ImportSupportsType>,
         pub media: Option<MediaQueryList>,
-    }
-
-    pub struct FontFaceRule {
-        pub span: Span,
-        pub block: SimpleBlock,
     }
 
     pub enum NamespaceUri {

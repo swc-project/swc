@@ -7,12 +7,23 @@
   },
   "rules": [
     {
-      "type": "FontFaceRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 50,
         "ctxt": 0
       },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "font-face",
+        "raw": "font-face"
+      },
+      "prelude": [],
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -88,12 +99,23 @@
       }
     },
     {
-      "type": "FontFaceRule",
+      "type": "AtRule",
       "span": {
         "start": 52,
         "end": 112,
         "ctxt": 0
       },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 53,
+          "end": 62,
+          "ctxt": 0
+        },
+        "value": "font-face",
+        "raw": "font-face"
+      },
+      "prelude": [],
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -169,12 +191,23 @@
       }
     },
     {
-      "type": "FontFaceRule",
+      "type": "AtRule",
       "span": {
         "start": 115,
         "end": 150,
         "ctxt": 0
       },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 116,
+          "end": 125,
+          "ctxt": 0
+        },
+        "value": "font-face",
+        "raw": "font-face"
+      },
+      "prelude": [],
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -219,12 +252,23 @@
       }
     },
     {
-      "type": "FontFaceRule",
+      "type": "AtRule",
       "span": {
         "start": 152,
         "end": 183,
         "ctxt": 0
       },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 153,
+          "end": 162,
+          "ctxt": 0
+        },
+        "value": "font-face",
+        "raw": "font-face"
+      },
+      "prelude": [],
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -269,12 +313,23 @@
       }
     },
     {
-      "type": "FontFaceRule",
+      "type": "AtRule",
       "span": {
         "start": 185,
         "end": 231,
         "ctxt": 0
       },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 186,
+          "end": 195,
+          "ctxt": 0
+        },
+        "value": "font-face",
+        "raw": "font-face"
+      },
+      "prelude": [],
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -350,12 +405,23 @@
       }
     },
     {
-      "type": "FontFaceRule",
+      "type": "AtRule",
       "span": {
         "start": 233,
         "end": 280,
         "ctxt": 0
       },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 234,
+          "end": 243,
+          "ctxt": 0
+        },
+        "value": "font-face",
+        "raw": "font-face"
+      },
+      "prelude": [],
       "block": {
         "type": "SimpleBlock",
         "span": {

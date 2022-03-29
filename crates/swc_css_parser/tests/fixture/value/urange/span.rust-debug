@@ -68,7 +68,7 @@
  19 | `-> }
     `----
 
-  x FontFaceRule
+  x UnknownAtRule
     ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
   1 | ,-> @font-face {
   2 | |       font-family: 'Ampersand';
@@ -90,6 +90,18 @@
  18 | |       unicode-range: U+12-13;
  19 | `-> }
     `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
+ 1 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
+ 1 | @font-face {
+   :  ^^^^^^^^^
+   `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
