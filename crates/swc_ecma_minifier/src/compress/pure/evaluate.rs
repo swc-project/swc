@@ -408,10 +408,29 @@ impl Pure<'_> {
         }
     }
 
-    pub(super) fn eval_trivial_in_array(&mut self, e: &mut ArrayLit) {}
+    pub(super) fn eval_trivial_values_in_expr(&mut self, e: &mut Expr) {
+        let exprs = to_trivial_exprs(e);
+
+        self.eval_trivial_exprs(exprs);
+    }
 
     /// `exprs` - Must follow evaluation order
-    fn eval_trivial_exprs(&mut self, exprs: &mut Vec<&mut Expr>) {}
+    fn eval_trivial_exprs(&mut self, exprs: Vec<&mut Expr>) {}
+}
+
+fn to_trivial_exprs(e: &mut Expr) -> Vec<&mut Expr> {
+    match e {
+        Expr::Array(e) => e
+            .elems
+            .iter_mut()
+            .flatten()
+            .flat_map(|v| to_trivial_exprs(&mut v.expr))
+            .collect(),
+
+        _ => {
+            vec![e]
+        }
+    }
 }
 
 /// Evaluation of strings.
