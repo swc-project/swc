@@ -54,7 +54,7 @@
         "name": "{",
         "value": [
           {
-            "type": "UnknownAtRule",
+            "type": "AtRule",
             "span": {
               "start": 15,
               "end": 43,

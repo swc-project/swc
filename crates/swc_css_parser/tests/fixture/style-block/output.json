@@ -2949,7 +2949,7 @@
             "important": null
           },
           {
-            "type": "UnknownAtRule",
+            "type": "AtRule",
             "span": {
               "start": 1165,
               "end": 1209,
@@ -3301,7 +3301,7 @@
         "name": "{",
         "value": [
           {
-            "type": "UnknownAtRule",
+            "type": "AtRule",
             "span": {
               "start": 1245,
               "end": 1262,
@@ -3425,7 +3425,7 @@
         "name": "{",
         "value": [
           {
-            "type": "UnknownAtRule",
+            "type": "AtRule",
             "span": {
               "start": 1270,
               "end": 1285,

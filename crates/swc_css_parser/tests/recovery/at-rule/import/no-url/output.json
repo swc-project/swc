@@ -7,7 +7,7 @@
   },
   "rules": [
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 20,
@@ -71,7 +71,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 21,
         "end": 33,

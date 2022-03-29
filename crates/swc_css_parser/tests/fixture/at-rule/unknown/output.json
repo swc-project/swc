@@ -7,7 +7,7 @@
   },
   "rules": [
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 9,
@@ -27,7 +27,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 10,
         "end": 23,
@@ -102,7 +102,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 24,
         "end": 40,
@@ -150,7 +150,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 41,
         "end": 59,
@@ -198,7 +198,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 115,
         "end": 126,
@@ -232,7 +232,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 127,
         "end": 142,
@@ -307,7 +307,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 144,
         "end": 155,
@@ -350,7 +350,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 156,
         "end": 168,
@@ -393,7 +393,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 169,
         "end": 184,
@@ -490,7 +490,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 185,
         "end": 199,
@@ -571,7 +571,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 200,
         "end": 218,
@@ -706,7 +706,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 219,
         "end": 243,
@@ -893,7 +893,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 244,
         "end": 270,
@@ -1090,7 +1090,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 271,
         "end": 324,
@@ -1157,7 +1157,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 534,
         "end": 557,
@@ -1290,7 +1290,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 558,
         "end": 587,
@@ -1477,7 +1477,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 642,
         "end": 659,
@@ -1583,7 +1583,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 660,
         "end": 681,
@@ -1743,7 +1743,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 682,
         "end": 709,
@@ -1955,7 +1955,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 710,
         "end": 739,
@@ -2177,7 +2177,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 740,
         "end": 777,
@@ -2523,7 +2523,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 778,
         "end": 858,
@@ -2615,7 +2615,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1122,
         "end": 1154,
@@ -2812,7 +2812,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1155,
         "end": 1193,
@@ -3063,7 +3063,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1194,
         "end": 1245,
@@ -3379,7 +3379,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1246,
         "end": 1302,
@@ -3705,7 +3705,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1304,
         "end": 1339,
@@ -3852,7 +3852,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1341,
         "end": 1375,
@@ -4022,7 +4022,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1377,
         "end": 1432,
@@ -4361,7 +4361,7 @@
             "important": null
           },
           {
-            "type": "UnknownAtRule",
+            "type": "AtRule",
             "span": {
               "start": 1445,
               "end": 1462,
@@ -4470,7 +4470,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1483,
         "end": 1505,
@@ -4644,7 +4644,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1506,
         "end": 1539,
@@ -4904,7 +4904,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1540,
         "end": 1571,
@@ -5086,7 +5086,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1572,
         "end": 1594,
@@ -5264,7 +5264,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1595,
         "end": 1617,
@@ -5442,7 +5442,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1618,
         "end": 1640,
@@ -5620,7 +5620,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1641,
         "end": 1663,
@@ -5798,7 +5798,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 1664,
         "end": 1674,

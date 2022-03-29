@@ -88,7 +88,7 @@ pub enum AtRuleName {
     Ident(Ident),
 }
 
-#[ast_node("UnknownAtRule")]
+#[ast_node("AtRule")]
 pub struct UnknownAtRule {
     pub span: Span,
     pub name: AtRuleName,

@@ -419,7 +419,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 136,
         "end": 148,
@@ -462,7 +462,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 149,
         "end": 170,

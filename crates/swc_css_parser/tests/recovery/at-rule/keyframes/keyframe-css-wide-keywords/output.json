@@ -7,7 +7,7 @@
   },
   "rules": [
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 21,
@@ -77,7 +77,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 22,
         "end": 43,
@@ -147,7 +147,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 44,
         "end": 63,
@@ -217,7 +217,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 64,
         "end": 82,
@@ -287,7 +287,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 83,
         "end": 104,

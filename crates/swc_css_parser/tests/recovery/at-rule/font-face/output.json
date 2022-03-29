@@ -225,7 +225,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 106,
         "end": 123,
@@ -295,7 +295,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 125,
         "end": 140,
@@ -343,7 +343,7 @@
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 142,
         "end": 154,
