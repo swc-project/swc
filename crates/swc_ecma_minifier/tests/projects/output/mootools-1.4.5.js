@@ -1844,22 +1844,26 @@ Elements.prototype = {
             return document.id(Slick.find(this, expression));
         }
     });
-    var set, translations, types, search, find, match, pseudos, addSlickPseudos, contains = {
+    var set, translations, contains = {
         contains: function(element) {
             return Slick.contains(this, element);
         }
     };
     document.contains || Document.implement(contains), document.createElement('div').contains || Element.implement(contains), Element.implement('hasChild', function(element) {
         return this !== element && this.contains(element);
-    }), search = Slick.search, find = Slick.find, match = Slick.match, this.Selectors = {}, pseudos = this.Selectors.Pseudo = new Hash(), addSlickPseudos = function() {
-        for(var name in pseudos)pseudos.hasOwnProperty(name) && (Slick.definePseudo(name, pseudos[name]), delete pseudos[name]);
-    }, Slick.search = function(context, expression, append) {
-        return addSlickPseudos(), search.call(this, context, expression, append);
-    }, Slick.find = function(context, expression) {
-        return addSlickPseudos(), find.call(this, context, expression);
-    }, Slick.match = function(node, selector) {
-        return addSlickPseudos(), match.call(this, node, selector);
-    };
+    }), function(search, find, match) {
+        this.Selectors = {};
+        var pseudos = this.Selectors.Pseudo = new Hash(), addSlickPseudos = function() {
+            for(var name in pseudos)pseudos.hasOwnProperty(name) && (Slick.definePseudo(name, pseudos[name]), delete pseudos[name]);
+        };
+        Slick.search = function(context, expression, append) {
+            return addSlickPseudos(), search.call(this, context, expression, append);
+        }, Slick.find = function(context, expression) {
+            return addSlickPseudos(), find.call(this, context, expression);
+        }, Slick.match = function(node, selector) {
+            return addSlickPseudos(), match.call(this, node, selector);
+        };
+    }(Slick.search, Slick.find, Slick.match);
     var injectCombinator = function(expression, combinator) {
         if (!expression) return combinator;
         for(var expressions = (expression = Object.clone(Slick.parse(expression))).expressions, i = expressions.length; i--;)expressions[i][0].combinator = combinator;
@@ -2019,7 +2023,7 @@ Elements.prototype = {
     'button' != el1.type && (propertySetters.type = function(node, value) {
         node.setAttribute('type', value);
     }), el1 = null;
-    var div, input = document.createElement('input');
+    var types, div, input = document.createElement('input');
     input.value = 't', input.type = 'submit', 't' != input.value && (propertySetters.type = function(node, type) {
         var value = node.value;
         node.type = type, node.value = value;

@@ -3819,7 +3819,9 @@
             var check = function(it) {
                 return it && it.Math == Math && it;
             };
-            module.exports = check('object' == typeof globalThis && globalThis) || check('object' == typeof window && window) || check('object' == typeof self && self) || check('object' == typeof __webpack_require__.g && __webpack_require__.g) || this || Function('return this')();
+            module.exports = check('object' == typeof globalThis && globalThis) || check('object' == typeof window && window) || check('object' == typeof self && self) || check('object' == typeof __webpack_require__.g && __webpack_require__.g) || function() {
+                return this;
+            }() || Function('return this')();
         },
         1521: function(module, __unused_webpack_exports, __webpack_require__) {
             var toObject = __webpack_require__(89343), hasOwnProperty = {}.hasOwnProperty;
