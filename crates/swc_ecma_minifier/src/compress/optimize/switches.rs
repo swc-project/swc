@@ -125,7 +125,16 @@ where
                     _ => !found_break,
                 });
 
-                stmts.append(&mut case.cons);
+                for case_stmt in case.cons.take() {
+                    match case_stmt {
+                        Stmt::Decl(Decl::Var(v)) if v.decls.iter().all(|v| v.init.is_none()) => {
+                            var_ids.extend(v.decls)
+                        }
+                        _ => {
+                            stmts.push(case_stmt);
+                        }
+                    }
+                }
                 if found_break {
                     break;
                 }
