@@ -420,16 +420,16 @@ impl Pure<'_> {
             return;
         }
 
-        for idx in 0..exprs.len() {
+        'outer: for idx in 0..exprs.len() {
             let (a, b) = exprs.split_at_mut(idx);
 
-            if let Some(a) = a.last() {
+            for a in a.iter().rev() {
                 if let Some(b) = b.first_mut() {
                     self.eval_trivial_two(a, b);
 
                     match b {
-                        Expr::Lit(..) => {}
-                        _ => break,
+                        Expr::Ident(..) | Expr::Lit(..) => {}
+                        _ => break 'outer,
                     }
                 }
             }
