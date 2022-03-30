@@ -1,4 +1,6 @@
-use swc_plugin::{ast::*, errors::HANDLER, plugin_transform, syntax_pos::DUMMY_SP};
+use swc_plugin::{
+    ast::*, comments::PluginCommentsProxy, errors::HANDLER, plugin_transform, syntax_pos::DUMMY_SP,
+};
 
 struct ConsoleOutputReplacer;
 
@@ -42,7 +44,12 @@ impl VisitMut for ConsoleOutputReplacer {
 /// important steps manually need to be performed like sending transformed
 /// results back to host. Refer swc_plugin_macro how does it work internally.
 #[plugin_transform]
-pub fn process(program: Program, _plugin_config: String, _context: String) -> Program {
+pub fn process(
+    program: Program,
+    comments: Option<PluginCommentsProxy>,
+    _plugin_config: String,
+    _context: String,
+) -> Program {
     HANDLER.with(|handler| {
         handler
             .struct_span_err(DUMMY_SP, "Test diagnostics from plugin")
