@@ -17,12 +17,6 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:1]
- 1 | @page { color: red; @top-left {} }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:1]
  1 | @page { color: red; @top-left {} }
@@ -84,12 +78,6 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:1]
- 1 | @page { color: red; @top-left {} }
-   :                     ^^^^^^^^^^^^
-   `----
-
-  x UnknownAtRule
    ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:1]
  1 | @page { color: red; @top-left {} }
    :                     ^^^^^^^^^^^^

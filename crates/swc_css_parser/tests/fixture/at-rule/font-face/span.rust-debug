@@ -26,15 +26,6 @@
  5 | `-> }
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/at-rule/font-face/input.css:1:1]
- 1 | ,-> @font-face {
- 2 | |       font-family: "Open Sans";
- 3 | |       src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
- 4 | |       url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
- 5 | `-> }
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/font-face/input.css:1:1]
  1 | @font-face {

@@ -45,15 +45,6 @@
  5 | `-> }
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
- 1 | ,-> @document url("https://www.example.com/") {
- 2 | |       h1 {
- 3 | |           color: green;
- 4 | |       }
- 5 | `-> }
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
  1 | @document url("https://www.example.com/") {
@@ -222,16 +213,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
-  7 | ,-> @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-  8 | |       body {
-  9 | |           color: purple;
- 10 | |           background: yellow;
- 11 | |       }
- 12 | `-> }
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
   7 | ,-> @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
   8 | |       body {
@@ -553,12 +534,6 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
- 14 | @document url(https://www.example.com/) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
  14 | @document url(https://www.example.com/) {}
@@ -608,12 +583,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
- 15 | @-moz-document url("https://www.example.com/") {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:15:1]
  15 | @-moz-document url("https://www.example.com/") {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -673,12 +642,6 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
- 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
  16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
@@ -733,17 +696,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
- 18 | ,-> @document url("https://www.example.com/") {
- 19 | |       @media screen and (min-width: 900px) {
- 20 | |           article {
- 21 | |               padding: 1rem 3rem;
- 22 | |           }
- 23 | |       }
- 24 | `-> }
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:18:1]
  18 | ,-> @document url("https://www.example.com/") {
  19 | |       @media screen and (min-width: 900px) {
@@ -820,15 +772,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
- 19 | ,-> @media screen and (min-width: 900px) {
- 20 | |           article {
- 21 | |               padding: 1rem 3rem;
- 22 | |           }
- 23 | `->     }
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:19:5]
  19 | ,-> @media screen and (min-width: 900px) {
  20 | |           article {

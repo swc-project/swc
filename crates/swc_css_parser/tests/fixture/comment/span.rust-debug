@@ -425,12 +425,6 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/comment/input.css:23:1]
- 23 | @media/* comment */screen/* comment */{}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/comment/input.css:23:1]
  23 | @media/* comment */screen/* comment */{}
@@ -474,12 +468,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/comment/input.css:24:1]
- 24 | @media /* comment */ screen /* comment */ {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/comment/input.css:24:1]
  24 | @media /* comment */ screen /* comment */ {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

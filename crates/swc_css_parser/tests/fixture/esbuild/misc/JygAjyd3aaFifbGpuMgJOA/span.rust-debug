@@ -17,12 +17,6 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/JygAjyd3aaFifbGpuMgJOA/input.css:1:1]
- 1 | @namespace \,s 'p\61th';
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/JygAjyd3aaFifbGpuMgJOA/input.css:1:1]
  1 | @namespace \,s 'p\61th';

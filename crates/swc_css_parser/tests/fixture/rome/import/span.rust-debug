@@ -17,12 +17,6 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
- 1 | @import "something.css";
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
  1 | @import "something.css";
@@ -48,12 +42,6 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
- 2 | @import url("something.css");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x UnknownAtRule
    ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
  2 | @import url("something.css");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

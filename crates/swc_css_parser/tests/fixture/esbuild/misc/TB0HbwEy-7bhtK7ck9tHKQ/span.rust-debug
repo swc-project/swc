@@ -17,12 +17,6 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/TB0HbwEy-7bhtK7ck9tHKQ/input.css:1:1]
- 1 | @keyframes name{from{color:red}to{color:blue}}
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/TB0HbwEy-7bhtK7ck9tHKQ/input.css:1:1]
  1 | @keyframes name{from{color:red}to{color:blue}}

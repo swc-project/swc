@@ -17,12 +17,6 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/lJZ-deFRPQReFbr84abctQ/input.css:1:1]
- 1 | @import url("foo.css") ;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/lJZ-deFRPQReFbr84abctQ/input.css:1:1]
  1 | @import url("foo.css") ;

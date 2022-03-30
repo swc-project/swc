@@ -17,12 +17,6 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:1]
- 1 | @n\61mespace ns 'path';
-   : ^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:1]
  1 | @n\61mespace ns 'path';

@@ -17,12 +17,6 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/rome/media/ratio/input.css:1:1]
- 1 | @media (aspect-ratio: 12/9) {}
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/rome/media/ratio/input.css:1:1]
  1 | @media (aspect-ratio: 12/9) {}

@@ -272,7 +272,15 @@ macro_rules! mtd {
 }
 
 impl Visit for SpanVisualizer<'_> {
+    mtd!(Stylesheet, visit_stylesheet);
+
     mtd!(AtRule, visit_at_rule);
+
+    mtd!(AtRuleName, visit_at_rule_name);
+
+    mtd!(QualifiedRule, visit_qualified_rule);
+
+    mtd!(StyleBlock, visit_style_block);
 
     mtd!(SelectorList, visit_selector_list);
 
@@ -367,12 +375,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Rule, visit_rule);
 
     mtd!(Str, visit_str);
-
-    mtd!(QualifiedRule, visit_qualified_rule);
-
-    mtd!(StyleBlock, visit_style_block);
-
-    mtd!(Stylesheet, visit_stylesheet);
 
     mtd!(Ident, visit_ident);
 
@@ -487,10 +489,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(PageSelectorType, visit_page_selector_type);
 
     mtd!(PageSelectorPseudo, visit_page_selector_pseudo);
-
-    mtd!(AtRuleName, visit_at_rule_name);
-
-    mtd!(UnknownAtRule, visit_unknown_at_rule);
 
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler

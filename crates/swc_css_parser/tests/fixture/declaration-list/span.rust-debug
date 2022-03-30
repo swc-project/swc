@@ -46,14 +46,6 @@
  4 | `-> }
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/declaration-list/input.css:1:1]
- 1 | ,-> @font-face {
- 2 | |       prop1: value;
- 3 | |       prop2: value;
- 4 | `-> }
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/declaration-list/input.css:1:1]
  1 | @font-face {
@@ -156,15 +148,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/declaration-list/input.css:6:1]
-  6 | ,-> @font-face {
-  7 | |       prop1: value;
-  8 | |       ;;;;;
-  9 | |       prop2: value;
- 10 | `-> }
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/declaration-list/input.css:6:1]
   6 | ,-> @font-face {
   7 | |       prop1: value;
@@ -280,13 +263,6 @@
  15 | `-> }
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/declaration-list/input.css:13:1]
- 13 | ,-> @font-face {;;
- 14 | |       prop1: value;;
- 15 | `-> }
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/declaration-list/input.css:13:1]
  13 | @font-face {;;
@@ -356,13 +332,6 @@
  19 | `-> }
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/declaration-list/input.css:17:1]
- 17 | ,-> @font-face {
- 18 | |       prop1: value
- 19 | `-> }
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/declaration-list/input.css:17:1]
  17 | @font-face {
@@ -426,13 +395,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/declaration-list/input.css:21:1]
- 21 | ,-> @font-face {
- 22 | |       prop1: value;;;prop2: value
- 23 | `-> }
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/declaration-list/input.css:21:1]
  21 | ,-> @font-face {
  22 | |       prop1: value;;;prop2: value
@@ -538,13 +500,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/declaration-list/input.css:25:1]
- 25 | ,-> @font-face {
- 26 | |       prop1: value;;;prop2: value;
- 27 | `-> }
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/declaration-list/input.css:25:1]
  25 | ,-> @font-face {
  26 | |       prop1: value;;;prop2: value;

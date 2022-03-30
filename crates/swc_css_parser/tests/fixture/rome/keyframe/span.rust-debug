@@ -51,18 +51,6 @@
  8 | `-> }
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/rome/keyframe/input.css:1:1]
- 1 | ,-> @keyframes important1 {
- 2 | |       from {
- 3 | |           margin-top: 50px !important;
- 4 | |       }
- 5 | |       to {
- 6 | |           margin-top: 100px !important;
- 7 | |       }
- 8 | `-> }
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/rome/keyframe/input.css:1:1]
  1 | @keyframes important1 {
@@ -297,22 +285,6 @@
  21 | `-> }
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:10:1]
- 10 | ,-> @keyframes foo {
- 11 | |       from {
- 12 | |       }
- 13 | |       to {
- 14 | |       }
- 15 | |       15% {
- 16 | |       }
- 17 | |       0% {
- 18 | |       }
- 19 | |       100% {
- 20 | |       }
- 21 | `-> }
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/rome/keyframe/input.css:10:1]
  10 | @keyframes foo {
@@ -462,12 +434,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/rome/keyframe/input.css:23:1]
- 23 | ,-> @keyframes FOO {
- 24 | `-> }
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/rome/keyframe/input.css:23:1]
  23 | ,-> @keyframes FOO {
  24 | `-> }

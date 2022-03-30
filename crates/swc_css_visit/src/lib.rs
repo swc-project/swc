@@ -488,10 +488,6 @@ define!({
         Invalid(Tokens),
     }
 
-    pub enum AtRule {
-        Unknown(UnknownAtRule),
-    }
-
     pub struct ImportPrelude {
         pub span: Span,
         pub href: ImportPreludeHref,
@@ -526,7 +522,7 @@ define!({
         Str(Str),
     }
 
-    pub struct UnknownAtRule {
+    pub struct AtRule {
         pub span: Span,
         pub name: AtRuleName,
         pub prelude: AtRulePrelude,

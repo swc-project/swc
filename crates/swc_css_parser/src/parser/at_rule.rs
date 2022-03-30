@@ -45,7 +45,7 @@ where
                 raw: at_keyword_name.1,
             })
         };
-        let mut at_rule = UnknownAtRule {
+        let mut at_rule = AtRule {
             span: span!(self, at_rule_span.lo),
             name: at_rule_name,
             prelude: AtRulePrelude::ListOfComponentValues(ListOfComponentValues {
@@ -603,7 +603,7 @@ where
             if is!(self, EOF) {
                 at_rule.span = span!(self, at_rule_span.lo);
 
-                return Ok(AtRule::Unknown(at_rule));
+                return Ok(at_rule);
             }
 
             match cur!(self) {
@@ -614,7 +614,7 @@ where
 
                     at_rule.span = span!(self, at_rule_span.lo);
 
-                    return Ok(AtRule::Unknown(at_rule));
+                    return Ok(at_rule);
                 }
                 // <{-token>
                 // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
@@ -642,7 +642,7 @@ where
                     at_rule.block = Some(block);
                     at_rule.span = span!(self, at_rule_span.lo);
 
-                    return Ok(AtRule::Unknown(at_rule));
+                    return Ok(at_rule);
                 }
                 // anything else
                 // Reconsume the current input token. Consume a component value. Append the returned

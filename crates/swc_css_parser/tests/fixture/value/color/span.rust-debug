@@ -9985,13 +9985,6 @@
  114 | `-> }
      `----
 
-  x UnknownAtRule
-     ,-[$DIR/tests/fixture/value/color/input.css:112:1]
- 112 | ,-> @color-profile --fogra55beta {
- 113 | |       src: url('https://example.org/2020_13.003_FOGRA55beta_CL_Profile.icc');
- 114 | `-> }
-     `----
-
   x AtRuleName
      ,-[$DIR/tests/fixture/value/color/input.css:112:1]
  112 | @color-profile --fogra55beta {

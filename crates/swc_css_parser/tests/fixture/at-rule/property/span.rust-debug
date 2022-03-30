@@ -26,15 +26,6 @@
  5 | `-> }
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
- 1 | ,-> @property --my-color {
- 2 | |       syntax: '<color>';
- 3 | |       inherits: false;
- 4 | |       initial-value: #c0ffee;
- 5 | `-> }
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
  1 | @property --my-color {

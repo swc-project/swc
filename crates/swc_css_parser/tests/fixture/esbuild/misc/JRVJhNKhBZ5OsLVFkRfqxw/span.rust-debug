@@ -17,12 +17,6 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1]
- 1 | @keyframes a\2c c { \66rom {} }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1]
  1 | @keyframes a\2c c { \66rom {} }

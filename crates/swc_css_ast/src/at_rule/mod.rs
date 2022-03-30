@@ -1,4 +1,3 @@
-use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
@@ -7,15 +6,8 @@ use crate::{
     Percentage, Ratio, SelectorList, SimpleBlock, Str, Url,
 };
 
-#[ast_node]
-#[derive(Is)]
-pub enum AtRule {
-    #[tag("UnknownAtRule")]
-    Unknown(UnknownAtRule),
-}
-
 #[ast_node("AtRule")]
-pub struct UnknownAtRule {
+pub struct AtRule {
     pub span: Span,
     pub name: AtRuleName,
     pub prelude: AtRulePrelude,
