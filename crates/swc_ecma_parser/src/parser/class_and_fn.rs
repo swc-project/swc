@@ -157,7 +157,16 @@ impl<'a, I: Tokens> Parser<I> {
                     ..p.ctx()
                 })
                 .parse_class_body()?;
-            expect!(p, '}');
+
+            if p.input.cur().is_none() {
+                let eof_text = p.input.dump_cur();
+                p.emit_err(
+                    p.input.cur_span(),
+                    SyntaxError::Expected(&Token::RBrace, eof_text),
+                );
+            } else {
+                expect!(p, '}');
+            }
             let end = last_pos!(p);
 
             Ok((
