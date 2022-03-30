@@ -138,7 +138,7 @@ impl VisitMut for Spread {
 
                 let args_array = if args.iter().all(|e| {
                     matches!(e, ExprOrSpread { spread: None, .. })
-                        | matches!(e, ExprOrSpread { expr, .. } if expr.is_array())
+                        || matches!(e, ExprOrSpread { expr, .. } if expr.is_array())
                 }) {
                     Expr::Array(ArrayLit {
                         span: *span,
