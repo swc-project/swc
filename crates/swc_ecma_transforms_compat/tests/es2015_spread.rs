@@ -926,3 +926,31 @@ f.apply(void 0, [
 ], Array.from('456')));
 "#
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    spread_literial,
+    r#"
+    f(1, ...[2, 3], ...[...[4, 5]], ...[6, ...[7]]);
+    f(1, ..."123", ...[..."456", ..."789"]);
+    "#,
+    r#"
+f.apply(void 0, [
+    1
+].concat(_toConsumableArray([
+    2,
+    3
+]), _toConsumableArray(_toConsumableArray([
+    4,
+    5
+])), _toConsumableArray([
+    6
+].concat(_toConsumableArray([
+    7
+])))));
+f.apply(void 0, [
+    1
+].concat(Array.from("123"), _toConsumableArray(Array.from("456").concat(Array.from("789")))));
+"#
+);
