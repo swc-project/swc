@@ -954,3 +954,33 @@ f.apply(void 0, [
 ].concat(Array.from("123"), _toConsumableArray(Array.from("456").concat(Array.from("789")))));
 "#
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    spread_literial_init_hole,
+    r#"
+    f(1, ...[2, , 3], ...[...[4, ,]]);
+    f(...[2, , 3], ...[...[4, ,]]);
+    "#,
+    "
+    f.apply(void 0, [
+        1
+    ].concat(_toConsumableArray([
+        2,
+        ,
+        3
+    ]), _toConsumableArray(_toConsumableArray([
+        4,
+        ,
+    ]))));
+    f.apply(void 0, _toConsumableArray([
+        2,
+        ,
+        3
+    ]).concat(_toConsumableArray(_toConsumableArray([
+        4,
+        ,
+    ]))));
+    "
+);
