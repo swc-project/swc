@@ -94,13 +94,7 @@ where
                 "counter-style" => {
                     parser.input.skip_ws()?;
 
-                    let span = parser.input.cur_span()?;
-                    let name = parser.parse()?;
-
-                    let prelude = AtRulePrelude::CounterStylePrelude(CounterStylePrelude {
-                        span: span!(parser, span.lo),
-                        name,
-                    });
+                    let prelude = AtRulePrelude::CounterStylePrelude(parser.parse()?);
 
                     parser.input.skip_ws()?;
 

@@ -537,7 +537,7 @@ define!({
     pub enum AtRulePrelude {
         ListOfComponentValues(ListOfComponentValues),
         PropertyPrelude(DashedIdent),
-        CounterStylePrelude(CounterStylePrelude),
+        CounterStylePrelude(CustomIdent),
         ColorProfilePrelude(ColorProfilePrelude),
         CharsetPrelude(Str),
         DocumentPrelude(DocumentPrelude),
@@ -554,11 +554,6 @@ define!({
     pub struct ListOfComponentValues {
         pub span: Span,
         pub children: Vec<ComponentValue>,
-    }
-
-    pub struct CounterStylePrelude {
-        pub span: Span,
-        pub name: CustomIdent,
     }
 
     pub struct ColorProfilePrelude {

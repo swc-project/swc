@@ -24,22 +24,14 @@
         "raw": "counter-style"
       },
       "prelude": {
-        "type": "CounterStylePrelude",
+        "type": "CustomIdent",
         "span": {
           "start": 15,
           "end": 21,
           "ctxt": 0
         },
-        "name": {
-          "type": "CustomIdent",
-          "span": {
-            "start": 15,
-            "end": 21,
-            "ctxt": 0
-          },
-          "value": "thumbs",
-          "raw": "thumbs"
-        }
+        "value": "thumbs",
+        "raw": "thumbs"
       },
       "block": {
         "type": "SimpleBlock",

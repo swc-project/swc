@@ -32,8 +32,8 @@ pub enum AtRulePrelude {
     // TODO improve me https://drafts.csswg.org/css-variables-1/#typedef-custom-property-name
     #[tag("DashedIdent")]
     PropertyPrelude(DashedIdent),
-    #[tag("CounterStylePrelude")]
-    CounterStylePrelude(CounterStylePrelude),
+    #[tag("CustomIdent")]
+    CounterStylePrelude(CustomIdent),
     #[tag("ColorProfilePrelude")]
     ColorProfilePrelude(ColorProfilePrelude),
     #[tag("DocumentPrelude")]
@@ -60,12 +60,6 @@ pub enum AtRulePrelude {
 pub struct ListOfComponentValues {
     pub span: Span,
     pub children: Vec<ComponentValue>,
-}
-
-#[ast_node("CounterStylePrelude")]
-pub struct CounterStylePrelude {
-    pub span: Span,
-    pub name: CustomIdent,
 }
 
 #[ast_node("ColorProfilePrelude")]
