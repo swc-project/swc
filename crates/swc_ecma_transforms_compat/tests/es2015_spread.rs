@@ -886,3 +886,43 @@ foo("foo", "bar");
 
 "#
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    spread_string_literial,
+    "
+    String.raw({ raw: 'abcd' }, ...'___');
+    ",
+    r#"
+var _String;
+(_String = String).raw.apply(_String, [
+    {
+        raw: 'abcd'
+    }
+].concat(Array.from('___')));
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    spread_string_literial_2,
+    "
+    f({ x: 0 }, ...[1, 2], [3], ...'456');
+    ",
+    r#"
+f.apply(void 0, [
+    {
+        x: 0
+    }
+].concat(_toConsumableArray([
+    1,
+    2
+]), [
+    [
+        3
+    ]
+], Array.from('456')));
+"#
+);

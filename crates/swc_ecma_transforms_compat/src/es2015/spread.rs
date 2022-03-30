@@ -7,8 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_ident_for, is_literal, member_expr, prepend, quote_ident, undefined, ExprFactory,
-    StmtLike,
+    alias_ident_for, member_expr, prepend, quote_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -137,7 +136,10 @@ impl VisitMut for Spread {
                     ),
                 };
 
-                let args_array = if is_literal(args) {
+                let args_array = if args.iter().all(|e| {
+                    matches!(e, ExprOrSpread { spread: None, .. })
+                        | matches!(e, ExprOrSpread { expr, .. } if expr.is_array())
+                }) {
                     Expr::Array(ArrayLit {
                         span: *span,
                         elems: expand_literal_args(args.take().into_iter().map(Some)),
@@ -250,6 +252,26 @@ impl Spread {
             if let Some(arg) = arg {
                 let ExprOrSpread { expr, spread } = arg;
 
+                fn to_consumable_array(expr: Box<Expr>, span: Span) -> CallExpr {
+                    if matches!(*expr, Expr::Lit(Lit::Str(..))) {
+                        CallExpr {
+                            span,
+                            callee: quote_ident!("Array")
+                                .make_member(quote_ident!("from"))
+                                .as_callee(),
+                            args: vec![expr.as_arg()],
+                            type_args: Default::default(),
+                        }
+                    } else {
+                        CallExpr {
+                            span,
+                            callee: helper!(to_consumable_array, "toConsumableArray"),
+                            args: vec![expr.as_arg()],
+                            type_args: Default::default(),
+                        }
+                    }
+                }
+
                 match spread {
                     // ...b -> toConsumableArray(b)
                     Some(span) => {
@@ -292,15 +314,7 @@ impl Spread {
                                     return if self.c.loose {
                                         *expr
                                     } else {
-                                        Expr::Call(CallExpr {
-                                            span,
-                                            callee: helper!(
-                                                to_consumable_array,
-                                                "toConsumableArray"
-                                            ),
-                                            args: vec![expr.as_arg()],
-                                            type_args: Default::default(),
-                                        })
+                                        Expr::Call(to_consumable_array(expr, span))
                                     };
                                 }
                                 // [].concat(arr) is shorter than _toConsumableArray(arr)
@@ -318,25 +332,11 @@ impl Spread {
                                             type_args: Default::default(),
                                         })
                                     } else {
-                                        Expr::Call(CallExpr {
-                                            span,
-                                            callee: helper!(
-                                                to_consumable_array,
-                                                "toConsumableArray"
-                                            ),
-                                            args: vec![expr.as_arg()],
-                                            type_args: Default::default(),
-                                        })
+                                        Expr::Call(to_consumable_array(expr, span))
                                     };
                                 }
 
-                                CallExpr {
-                                    span,
-                                    callee: helper!(to_consumable_array, "toConsumableArray"),
-                                    args: vec![expr.as_arg()],
-                                    type_args: Default::default(),
-                                }
-                                .as_arg()
+                                to_consumable_array(expr, span).as_arg()
                             }
                         });
                     }
@@ -410,7 +410,7 @@ fn expand_literal_args(
                 match *expr {
                     Expr::Array(arr) => {
                         expand(buf, arr.elems.into_iter());
-                        return;
+                        continue;
                     }
                     _ => {
                         arg = Some(ExprOrSpread {
