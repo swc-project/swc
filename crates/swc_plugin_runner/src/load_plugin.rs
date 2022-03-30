@@ -8,10 +8,14 @@ use wasmer_wasi::{is_wasi_module, WasiState};
 use crate::{
     context::HostEnvironment,
     imported_fn::{
-        emit_diagnostics, mark_fresh_proxy, mark_is_builtin_proxy, mark_is_descendant_of_proxy,
-        mark_least_ancestor_proxy, mark_parent_proxy, mark_set_builtin_proxy, set_transform_result,
-        syntax_context_apply_mark_proxy, syntax_context_outer_proxy,
-        syntax_context_remove_mark_proxy,
+        handler::emit_diagnostics,
+        hygiene::{
+            mark_fresh_proxy, mark_is_builtin_proxy, mark_is_descendant_of_proxy,
+            mark_least_ancestor_proxy, mark_parent_proxy, mark_set_builtin_proxy,
+            syntax_context_apply_mark_proxy, syntax_context_outer_proxy,
+            syntax_context_remove_mark_proxy,
+        },
+        set_transform_result::set_transform_result,
     },
 };
 
