@@ -110,3 +110,27 @@ test!(
         const a = () => _newtarget
     }"#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| new_target(),
+    issue_4193,
+    r#"const v0 = Symbol("Context#bar");
+    module.exports = {
+        get bar() {
+            if (new.target === "foo") {
+                return;
+            }
+            return new Proxy(this, v0);
+        }
+    };"#,
+    r#"const v0 = Symbol("Context#bar");
+    module.exports = {
+        get bar() {
+            if (void 0 === "foo") {
+                return;
+            }
+            return new Proxy(this, v0);
+        }
+    };"#
+);

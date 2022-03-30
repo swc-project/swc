@@ -5,6 +5,12 @@
 
 
 
+- **(es/compat)** Handle spreads of string literials (#4191) ([4f5c5cf](https://github.com/swc-project/swc/commit/4f5c5cf8429bb6c10b48aefdc3440b563f21d836))
+
+
+- **(es/compat)** Handle `new.target` in getter/setter properties (#4194) ([3426dda](https://github.com/swc-project/swc/commit/3426dda4f7d662c758d7cb9a15527029f369779f))
+
+
 - **(es/minifier)** Fix `react-ace` (#4183) ([9a9a4f3](https://github.com/swc-project/swc/commit/9a9a4f37d82336f53bf6efbdf4ee38a63d45e278))
 
 ### Features
@@ -15,6 +21,12 @@
 
 
 - **(es/minifier)** Optimize switches more correctly (#4180) ([6d3ea17](https://github.com/swc-project/swc/commit/6d3ea17aa6b708c7819a6769dccd920bd3fe2efe))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/parser)** Add span tests back (#4186) ([1759567](https://github.com/swc-project/swc/commit/1759567fc46c93f963b2fbe54997197f00bc884a))
 
 ### Refactor
 

@@ -1,0 +1,333 @@
+
+  x Module
+    ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+  1 | ,-> class Foo {
+  2 | |       get a() {
+  3 | |   
+  4 | |       }
+  5 | |       set a(v) {
+  6 | |   
+  7 | |       }
+  8 | |   }
+  9 | |   
+ 10 | |   let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | |       set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | |       set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
+
+  x Decl
+   ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | |       set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
+
+  x ClassDecl
+   ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | |       set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+ 1 | class Foo {
+   :       ^^^
+   `----
+
+  x Class
+   ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | |       set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
+
+  x ClassMember
+   ,-[$DIR/tests/span/js/decl/accessor.js:2:5]
+ 2 | ,-> get a() {
+ 3 | |   
+ 4 | `->     }
+   `----
+
+  x ClassMethod
+   ,-[$DIR/tests/span/js/decl/accessor.js:2:5]
+ 2 | ,-> get a() {
+ 3 | |   
+ 4 | `->     }
+   `----
+
+  x PropName
+   ,-[$DIR/tests/span/js/decl/accessor.js:2:5]
+ 2 | get a() {
+   :     ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/decl/accessor.js:2:5]
+ 2 | get a() {
+   :     ^
+   `----
+
+  x Function
+   ,-[$DIR/tests/span/js/decl/accessor.js:2:5]
+ 2 | ,-> get a() {
+ 3 | |   
+ 4 | `->     }
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/js/decl/accessor.js:2:5]
+ 2 | ,-> get a() {
+ 3 | |   
+ 4 | `->     }
+   `----
+
+  x ClassMember
+   ,-[$DIR/tests/span/js/decl/accessor.js:5:5]
+ 5 | ,-> set a(v) {
+ 6 | |   
+ 7 | `->     }
+   `----
+
+  x ClassMethod
+   ,-[$DIR/tests/span/js/decl/accessor.js:5:5]
+ 5 | ,-> set a(v) {
+ 6 | |   
+ 7 | `->     }
+   `----
+
+  x PropName
+   ,-[$DIR/tests/span/js/decl/accessor.js:5:5]
+ 5 | set a(v) {
+   :     ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/decl/accessor.js:5:5]
+ 5 | set a(v) {
+   :     ^
+   `----
+
+  x Function
+   ,-[$DIR/tests/span/js/decl/accessor.js:5:5]
+ 5 | ,-> set a(v) {
+ 6 | |   
+ 7 | `->     }
+   `----
+
+  x Param
+   ,-[$DIR/tests/span/js/decl/accessor.js:5:5]
+ 5 | set a(v) {
+   :       ^
+   `----
+
+  x Pat
+   ,-[$DIR/tests/span/js/decl/accessor.js:5:5]
+ 5 | set a(v) {
+   :       ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/decl/accessor.js:5:5]
+ 5 | set a(v) {
+   :       ^
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/js/decl/accessor.js:5:5]
+ 5 | ,-> set a(v) {
+ 6 | |   
+ 7 | `->     }
+   `----
+
+  x ModuleItem
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+
+  x Stmt
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+
+  x Decl
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+
+  x VarDecl
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+
+  x VarDeclarator
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+
+  x Pat
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+ 10 | let obj = {
+    :     ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+ 10 | let obj = {
+    :     ^^^
+    `----
+
+  x Expr
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+
+  x ObjectLit
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
+
+  x PropOrSpread
+    ,-[$DIR/tests/span/js/decl/accessor.js:11:5]
+ 11 | get a() { },
+    : ^^^^^^^^^^^
+    `----
+
+  x Prop
+    ,-[$DIR/tests/span/js/decl/accessor.js:11:5]
+ 11 | get a() { },
+    : ^^^^^^^^^^^
+    `----
+
+  x GetterProp
+    ,-[$DIR/tests/span/js/decl/accessor.js:11:5]
+ 11 | get a() { },
+    : ^^^^^^^^^^^
+    `----
+
+  x PropName
+    ,-[$DIR/tests/span/js/decl/accessor.js:11:5]
+ 11 | get a() { },
+    :     ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/js/decl/accessor.js:11:5]
+ 11 | get a() { },
+    :     ^
+    `----
+
+  x BlockStmt
+    ,-[$DIR/tests/span/js/decl/accessor.js:11:5]
+ 11 | get a() { },
+    :         ^^^
+    `----
+
+  x PropOrSpread
+    ,-[$DIR/tests/span/js/decl/accessor.js:12:5]
+ 12 | set a(v) { },
+    : ^^^^^^^^^^^^
+    `----
+
+  x Prop
+    ,-[$DIR/tests/span/js/decl/accessor.js:12:5]
+ 12 | set a(v) { },
+    : ^^^^^^^^^^^^
+    `----
+
+  x SetterProp
+    ,-[$DIR/tests/span/js/decl/accessor.js:12:5]
+ 12 | set a(v) { },
+    : ^^^^^^^^^^^^
+    `----
+
+  x PropName
+    ,-[$DIR/tests/span/js/decl/accessor.js:12:5]
+ 12 | set a(v) { },
+    :     ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/js/decl/accessor.js:12:5]
+ 12 | set a(v) { },
+    :     ^
+    `----
+
+  x Pat
+    ,-[$DIR/tests/span/js/decl/accessor.js:12:5]
+ 12 | set a(v) { },
+    :       ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/span/js/decl/accessor.js:12:5]
+ 12 | set a(v) { },
+    :       ^
+    `----
+
+  x BlockStmt
+    ,-[$DIR/tests/span/js/decl/accessor.js:12:5]
+ 12 | set a(v) { },
+    :          ^^^
+    `----

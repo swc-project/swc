@@ -1,0 +1,90 @@
+
+  x Module
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Decl
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x VarDecl
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x VarDeclarator
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :     ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Pat
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :     ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :     ^
+   `----
+
+  x TsTypeAnn
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :      ^^^^^^^^^^
+   `----
+
+  x TsType
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :        ^^^^^^^^
+   `----
+
+  x TsArrayType
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :        ^^^^^^^^
+   `----
+
+  x TsType
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :        ^^^^^^
+   `----
+
+  x TsKeywordType
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :        ^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :                   ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :                   ^^^
+   `----
