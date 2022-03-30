@@ -176,7 +176,6 @@ impl BlockScoping {
 
             let mut flow_helper = FlowHelper {
                 all: &args,
-                has_continue: false,
                 has_break: false,
                 has_return: false,
                 mutated,
@@ -264,7 +263,7 @@ impl BlockScoping {
                 type_args: None,
             };
 
-            if flow_helper.has_return || flow_helper.has_continue || flow_helper.has_break {
+            if flow_helper.has_return || flow_helper.has_break {
                 let ret = private_ident!("_ret");
 
                 let mut stmts = vec![
@@ -282,11 +281,9 @@ impl BlockScoping {
                     })),
                 ];
 
-                let use_switch = flow_helper.has_break && flow_helper.has_continue;
-
-                let check_ret = if flow_helper.has_return {
+                if flow_helper.has_return {
                     // if (_typeof(_ret) === "object") return _ret.v;
-                    Some(
+                    stmts.push(
                         IfStmt {
                             span: DUMMY_SP,
                             test: Box::new(Expr::Bin(BinExpr {
@@ -315,88 +312,23 @@ impl BlockScoping {
                         }
                         .into(),
                     )
-                } else {
-                    None
-                };
+                }
 
-                if use_switch {
-                    let mut cases = vec![];
-
-                    if flow_helper.has_break {
-                        cases.push(SwitchCase {
-                            span: DUMMY_SP,
-                            test: Some(Box::new(quote_str!("break").into())),
-                            // TODO: Handle labelled statements
-                            cons: vec![Stmt::Break(BreakStmt {
-                                span: DUMMY_SP,
-                                label: None,
-                            })],
-                        });
-                    }
-
-                    if flow_helper.has_continue {
-                        cases.push(SwitchCase {
-                            span: DUMMY_SP,
-                            test: Some(Box::new(quote_str!("continue").into())),
-                            // TODO: Handle labelled statements
-                            cons: vec![Stmt::Continue(ContinueStmt {
-                                span: DUMMY_SP,
-                                label: None,
-                            })],
-                        });
-                    }
-
-                    cases.extend(check_ret.map(|stmt| SwitchCase {
-                        span: DUMMY_SP,
-                        test: None,
-                        cons: vec![stmt],
-                    }));
-
+                if flow_helper.has_break {
                     stmts.push(
-                        SwitchStmt {
+                        IfStmt {
                             span: DUMMY_SP,
-                            discriminant: Box::new(ret.into()),
-                            cases,
+                            test: ret.make_eq(quote_str!("break")).into(),
+                            // TODO: Handle labelled statements
+                            cons: Stmt::Break(BreakStmt {
+                                span: DUMMY_SP,
+                                label: None,
+                            })
+                            .into(),
+                            alt: None,
                         }
                         .into(),
                     );
-                } else {
-                    //
-                    if flow_helper.has_break {
-                        stmts.push(
-                            IfStmt {
-                                span: DUMMY_SP,
-                                test: ret.clone().make_eq(quote_str!("break")).into(),
-                                // TODO: Handle labelled statements
-                                cons: Stmt::Break(BreakStmt {
-                                    span: DUMMY_SP,
-                                    label: None,
-                                })
-                                .into(),
-                                alt: None,
-                            }
-                            .into(),
-                        );
-                    }
-
-                    if flow_helper.has_continue {
-                        stmts.push(
-                            IfStmt {
-                                span: DUMMY_SP,
-                                test: ret.make_eq(quote_str!("continue")).into(),
-                                // TODO: Handle labelled statements
-                                cons: Stmt::Continue(ContinueStmt {
-                                    span: DUMMY_SP,
-                                    label: None,
-                                })
-                                .into(),
-                                alt: None,
-                            }
-                            .into(),
-                        );
-                    }
-
-                    stmts.extend(check_ret);
                 }
 
                 *body = Box::new(
@@ -717,7 +649,6 @@ impl Visit for InfectionFinder<'_> {
 
 #[derive(Debug)]
 struct FlowHelper<'a> {
-    has_continue: bool,
     has_break: bool,
     has_return: bool,
     all: &'a Vec<Id>,
@@ -808,7 +739,6 @@ impl VisitMut for FlowHelper<'_> {
                     return;
                 }
 
-                self.has_continue = true;
                 *node = Stmt::Return(ReturnStmt {
                     span,
                     arg: Some(
