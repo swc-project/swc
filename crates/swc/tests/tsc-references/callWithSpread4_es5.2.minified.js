@@ -6,8 +6,8 @@ pli.apply(void 0, [
     fun
 ], swcHelpers.toConsumableArray(gz), [
     writes
-])), test.apply(void 0, swcHelpers.toConsumableArray(anys)), pli.apply(void 0, swcHelpers.toConsumableArray([
+])), test.apply(void 0, swcHelpers.toConsumableArray(anys)), pli.apply(void 0, [
     reads,
     writes,
     writes
-]));
+]);

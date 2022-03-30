@@ -391,11 +391,10 @@ function f1(thing) {
     var x2 = path(thing, "a", "y"); // string
     var x3 = path(thing, "b"); // boolean
     var x4 = path.apply(void 0, [
-        thing
-    ].concat(swcHelpers.toConsumableArray([
+        thing,
         "a",
         "x"
-    ]))); // any
+    ]); // any
 }
 // Repro from comment in #12114
 var assignTo2 = function(object, key1, key2) {

@@ -8,8 +8,8 @@ pli.apply(void 0, [
     writes
 ]));
 test.apply(void 0, swcHelpers.toConsumableArray(anys));
-pli.apply(void 0, swcHelpers.toConsumableArray([
+pli.apply(void 0, [
     reads,
     writes,
     writes
-]));
+]);

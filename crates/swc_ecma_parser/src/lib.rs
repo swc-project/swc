@@ -370,6 +370,7 @@ pub struct Context {
     in_function: bool,
 
     in_arrow_function: bool,
+    is_direct_child_of_braceless_arrow_function: bool,
 
     in_parameters: bool,
 
