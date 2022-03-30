@@ -16,7 +16,7 @@ impl<'a, I: Tokens> Parser<I> {
         &mut self,
         mut allow_directives: bool,
         top_level: bool,
-        end: Option<&Token>,
+        end: Option<&'static Token>,
     ) -> PResult<Vec<Type>>
     where
         Self: StmtLikeParser<'a, Type>,
@@ -28,8 +28,17 @@ impl<'a, I: Tokens> Parser<I> {
 
         let stmts = Arena::new();
         while {
-            let c = cur!(self, false).ok();
-            c != end
+            if self.input.cur().is_none() && end.is_some() {
+                let eof_text = self.input.dump_cur();
+                self.emit_err(
+                    self.input.cur_span(),
+                    SyntaxError::Expected(end.unwrap(), eof_text),
+                );
+                false
+            } else {
+                let c = cur!(self, false).ok();
+                c != end
+            }
         } {
             let stmt = self.parse_stmt_like(true, top_level)?;
             if allow_directives {
@@ -54,7 +63,7 @@ impl<'a, I: Tokens> Parser<I> {
             stmts.alloc(stmt);
         }
 
-        if end.is_some() {
+        if self.input.cur().is_some() && end.is_some() {
             bump!(self);
         }
 

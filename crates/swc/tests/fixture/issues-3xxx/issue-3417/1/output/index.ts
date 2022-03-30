@@ -79,10 +79,7 @@ export function selectRooms(building) {
                         FLOOR_MAPPING[levelId], 
                     ];
                 };
-                for(var _iterator2 = sortedRooms[Symbol.iterator](), _step2; !(_iteratorNormalCompletion1 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion1 = true){
-                    var _ret = _loop(_iterator2, _step2);
-                    if (_ret === "continue") continue;
-                }
+                for(var _iterator2 = sortedRooms[Symbol.iterator](), _step2; !(_iteratorNormalCompletion1 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion1 = true)_loop(_iterator2, _step2);
             } catch (err) {
                 _didIteratorError1 = true;
                 _iteratorError1 = err;

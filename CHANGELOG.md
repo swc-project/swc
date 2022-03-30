@@ -11,6 +11,9 @@
 - **(es/compat)** Handle `new.target` in getter/setter properties (#4194) ([3426dda](https://github.com/swc-project/swc/commit/3426dda4f7d662c758d7cb9a15527029f369779f))
 
 
+- **(es/compat)** Fix label handling of `block_scoping` (#4198) ([c946236](https://github.com/swc-project/swc/commit/c946236fcc911da8bdc213dc8674b48c5d0a41e7))
+
+
 - **(es/minifier)** Fix `react-ace` (#4183) ([9a9a4f3](https://github.com/swc-project/swc/commit/9a9a4f37d82336f53bf6efbdf4ee38a63d45e278))
 
 ### Features
@@ -21,6 +24,9 @@
 
 
 - **(es/minifier)** Optimize switches more correctly (#4180) ([6d3ea17](https://github.com/swc-project/swc/commit/6d3ea17aa6b708c7819a6769dccd920bd3fe2efe))
+
+
+- **(es/parser)** Allow parsing files with missing close braces (#4187) ([cffe5ca](https://github.com/swc-project/swc/commit/cffe5ca58e933253f69eb9befd77243c9b81775f))
 
 ### Miscellaneous Tasks
 
