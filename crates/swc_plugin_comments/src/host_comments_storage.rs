@@ -17,12 +17,12 @@
 // TODO: This storage does not support mutable yet:
 // https://docs.rs/scoped-tls-hkt/latest/scoped_tls_hkt/#mutable-higher-kinded-types
 #[derive(Copy, Clone)]
-#[cfg(feature = "host")]
+#[cfg(feature = "plugin-rt")]
 pub struct HostCommentsStorage<'a> {
     pub inner: Option<&'a swc_common::comments::SingleThreadedComments>,
 }
 
-#[cfg(feature = "host")]
+#[cfg(feature = "plugin-rt")]
 scoped_tls_hkt::scoped_thread_local!(
   /// Thread local holds actual HostCommentsStorage with its lifetime support.
   /// Host side runner owns responsibility to update inner data references

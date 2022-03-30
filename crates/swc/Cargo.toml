@@ -27,7 +27,7 @@ concurrent = [
 ]
 debug = ["swc_ecma_visit/debug"]
 node = ["napi", "napi-derive"]
-plugin = ["swc_plugin_runner", "swc_plugin_comments/host"]
+plugin = ["swc_plugin_runner", "swc_plugin_comments/plugin-rt"]
 
 [dependencies]
 ahash = "0.7.4"

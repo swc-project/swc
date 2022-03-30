@@ -10,9 +10,9 @@ repository = "https://github.com/swc-project/swc.git"
 
 [features]
 # swc/core, which runs plugin
-host = []
+plugin-rt = []
 # actual wasm plugin binary
-guest = []
+plugin-mode = []
 
 
 [dependencies]
