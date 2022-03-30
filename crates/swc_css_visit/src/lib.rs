@@ -68,6 +68,12 @@ define!({
         pub raw: JsWord,
     }
 
+    pub struct CustomPropertyName {
+        pub span: Span,
+        pub value: JsWord,
+        pub raw: JsWord,
+    }
+
     pub struct DashedIdent {
         pub span: Span,
         pub value: JsWord,
