@@ -809,6 +809,7 @@ issue_782/remove_redundant_sequence_items/input.js
 issue_926/template_strings/input.js
 issue_973/this_binding_sequences/input.js
 issue_973/this_binding_side_effects/input.js
+issue_t120/issue_t120_2/input.js
 issue_t50/issue_t50/input.js
 issue_t50/issue_t50_const/input.js
 issue_t50/issue_t50_let/input.js
