@@ -1004,7 +1004,6 @@ test!(
         [1].forEach((_) => {
           console.log(i)
         })
-      
     }
     ",
     r#"
@@ -1020,6 +1019,44 @@ test!(
     for(var i = 0; i < 2; i++){
         var _ret = _loop(i);
         if (_ret === "break") break;
+    }
+    "#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| block_scoping(),
+    labeled_break,
+    "
+    a:
+    b:
+    for (let i = 0; i < 2; i++) {
+        if (i === 0) continue a
+        if (i === 1) break b
+
+        [1].forEach((_) => {
+          console.log(i)
+        })
+    }
+    ",
+    r#"
+    var _loop = function(i) {
+        if (i === 0) return "continue|a";
+        if (i === 1) return "break|b";
+        [
+            1
+        ].forEach((_)=>{
+            console.log(i);
+        });
+    };
+    a: b: for(var i = 0; i < 2; i++){
+        var _ret = _loop(i);
+        switch(_ret){
+            case "continue|a":
+                continue a;
+            case "break|b":
+                break b;
+        }
     }
     "#
 );

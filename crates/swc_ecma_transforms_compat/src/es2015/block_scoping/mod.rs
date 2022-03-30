@@ -1,7 +1,8 @@
 use std::mem::take;
 
+use indexmap::IndexMap;
 use smallvec::SmallVec;
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     chain, collections::AHashMap, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -178,6 +179,7 @@ impl BlockScoping {
                 all: &args,
                 has_break: false,
                 has_return: false,
+                label: IndexMap::new(),
                 mutated,
                 in_switch_case: false,
                 in_nested_loop: false,
@@ -263,7 +265,7 @@ impl BlockScoping {
                 type_args: None,
             };
 
-            if flow_helper.has_return || flow_helper.has_break {
+            if flow_helper.has_return || flow_helper.has_break || !flow_helper.label.is_empty() {
                 let ret = private_ident!("_ret");
 
                 let mut stmts = vec![
@@ -318,14 +320,42 @@ impl BlockScoping {
                     stmts.push(
                         IfStmt {
                             span: DUMMY_SP,
-                            test: ret.make_eq(quote_str!("break")).into(),
-                            // TODO: Handle labelled statements
+                            test: ret.clone().make_eq(quote_str!("break")).into(),
                             cons: Stmt::Break(BreakStmt {
                                 span: DUMMY_SP,
                                 label: None,
                             })
                             .into(),
                             alt: None,
+                        }
+                        .into(),
+                    );
+                }
+
+                if !flow_helper.label.is_empty() {
+                    stmts.push(
+                        SwitchStmt {
+                            span: DUMMY_SP,
+                            discriminant: Box::new(ret.into()),
+                            cases: flow_helper
+                                .label
+                                .into_iter()
+                                .map(|(key, label)| SwitchCase {
+                                    span: DUMMY_SP,
+                                    test: Some(Box::new(key.into())),
+                                    cons: vec![match label {
+                                        Label::Break(id) => Stmt::Break(BreakStmt {
+                                            span: DUMMY_SP,
+                                            label: Some(id),
+                                        }),
+
+                                        Label::Continue(id) => Stmt::Continue(ContinueStmt {
+                                            span: DUMMY_SP,
+                                            label: Some(id),
+                                        }),
+                                    }],
+                                })
+                                .collect(),
                         }
                         .into(),
                     );
@@ -647,15 +677,21 @@ impl Visit for InfectionFinder<'_> {
     }
 }
 
-#[derive(Debug)]
 struct FlowHelper<'a> {
     has_break: bool,
     has_return: bool,
+    // label cannot be shadowed, so it's pretty safe to use JsWord
+    label: IndexMap<JsWord, Label>,
     all: &'a Vec<Id>,
     mutated: AHashMap<Id, SyntaxContext>,
     in_switch_case: bool,
 
     in_nested_loop: bool,
+}
+
+enum Label {
+    Break(Ident),
+    Continue(Ident),
 }
 
 impl<'a> FlowHelper<'a> {
@@ -734,33 +770,50 @@ impl VisitMut for FlowHelper<'_> {
         let span = node.span();
 
         match node {
-            Stmt::Continue(..) => {
+            Stmt::Continue(ContinueStmt { label, .. }) => {
                 if self.in_nested_loop {
                     return;
                 }
+
+                let value = if let Some(label) = label {
+                    let value: JsWord = format!("continue|{}", label.sym).into();
+                    self.label
+                        .insert(value.clone(), Label::Continue(label.clone()));
+                    value
+                } else {
+                    "continue".into()
+                };
 
                 *node = Stmt::Return(ReturnStmt {
                     span,
                     arg: Some(
                         Expr::Lit(Lit::Str(Str {
                             span,
-                            value: "continue".into(),
+                            value,
                             raw: None,
                         }))
                         .into(),
                     ),
                 });
             }
-            Stmt::Break(..) => {
+            Stmt::Break(BreakStmt { label, .. }) => {
                 if self.in_switch_case || self.in_nested_loop {
                     return;
                 }
-                self.has_break = true;
+                let value = if let Some(label) = label {
+                    let value: JsWord = format!("break|{}", label.sym).into();
+                    self.label
+                        .insert(value.clone(), Label::Break(label.clone()));
+                    value
+                } else {
+                    self.has_break = true;
+                    "break".into()
+                };
                 *node = Stmt::Return(ReturnStmt {
                     span,
                     arg: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span,
-                        value: "break".into(),
+                        value,
                         raw: None,
                     })))),
                 });
