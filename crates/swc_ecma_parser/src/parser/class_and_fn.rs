@@ -1511,7 +1511,14 @@ impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
                 BlockStmtOrExpr::BlockStmt(block_stmt)
             })
         } else {
-            self.parse_assignment_expr().map(BlockStmtOrExpr::Expr)
+            let cur_ctx = self.ctx();
+            let ctx = Context {
+                is_direct_child_of_braceless_arrow_function: cur_ctx.in_arrow_function,
+                ..cur_ctx
+            };
+            self.with_ctx(ctx)
+                .parse_assignment_expr()
+                .map(BlockStmtOrExpr::Expr)
         }
     }
 }
