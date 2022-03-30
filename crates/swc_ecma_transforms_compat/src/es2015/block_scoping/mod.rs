@@ -3,7 +3,10 @@ use std::mem::take;
 use smallvec::SmallVec;
 use swc_atoms::js_word;
 use swc_common::{
-    chain, collections::AHashMap, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
+    chain,
+    collections::{AHashMap, AHashSet},
+    util::take::Take,
+    Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -686,8 +689,8 @@ impl Visit for InfectionFinder<'_> {
 
 #[derive(Debug)]
 struct FlowHelper<'a> {
-    continue_stmts: Vec<Option<Ident>>,
-    break_stmts: Vec<Option<Ident>>,
+    continue_stmts: AHashSet<Option<Ident>>,
+    break_stmts: AHashSet<Option<Ident>>,
     has_return: bool,
     all: &'a Vec<Id>,
     mutated: AHashMap<Id, SyntaxContext>,
@@ -777,7 +780,7 @@ impl VisitMut for FlowHelper<'_> {
                     return;
                 }
 
-                self.continue_stmts.push(label.clone());
+                self.continue_stmts.insert(label.clone());
 
                 *node = Stmt::Return(ReturnStmt {
                     span,
@@ -799,7 +802,7 @@ impl VisitMut for FlowHelper<'_> {
                     return;
                 }
 
-                self.break_stmts.push(label.clone());
+                self.break_stmts.insert(label.clone());
 
                 *node = Stmt::Return(ReturnStmt {
                     span,
