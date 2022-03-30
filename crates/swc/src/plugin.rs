@@ -80,6 +80,9 @@ impl<'cmt> RustPlugins<'cmt> {
         use swc_common::{plugin::Serialized, FileName};
         use swc_ecma_loader::resolve::Resolve;
 
+        // swc_plugin_macro will not inject proxy to the comments if comments is empty
+        let should_enable_comments_proxy = self.comments.is_some();
+
         // Set comments once per whole plugin transform execution.
         swc_plugin_comments::COMMENTS.set(
             swc_plugin_comments::HostCommentsStorage {
@@ -137,6 +140,7 @@ impl<'cmt> RustPlugins<'cmt> {
                             serialized,
                             config_json,
                             context_json,
+                            should_enable_comments_proxy,
                         )?;
                         drop(transform_span_guard);
                     }
@@ -156,6 +160,8 @@ impl<'cmt> RustPlugins<'cmt> {
         use anyhow::Context;
         use swc_common::{plugin::Serialized, FileName};
         use swc_ecma_loader::resolve::Resolve;
+
+        let should_enable_comments_proxy = self.comments.is_some();
 
         swc_plugin_comments::COMMENTS.set(
             swc_plugin_comments::HostCommentsStorage {
@@ -181,6 +187,7 @@ impl<'cmt> RustPlugins<'cmt> {
                             serialized,
                             config_json,
                             context_json,
+                            should_enable_comments_proxy,
                         )?;
                     }
                 }

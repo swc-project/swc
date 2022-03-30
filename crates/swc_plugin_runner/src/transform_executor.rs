@@ -10,7 +10,7 @@ use crate::memory_interop::write_into_memory_view;
 /// A struct encapsule executing a plugin's transform interop to its teardown
 pub struct TransformExecutor {
     // Main transform interface plugin exports
-    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, i32, i32, i32, i32), i32>,
+    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, i32, i32, i32, i32, i32), i32>,
     // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
     // memory space
     exported_plugin_free: wasmer::NativeFunc<(i32, i32), i32>,
@@ -34,7 +34,7 @@ impl TransformExecutor {
         let tracker = TransformExecutor {
             exported_plugin_transform: instance
                 .exports
-                .get_native_function::<(i32, i32, i32, i32, i32, i32), i32>(
+                .get_native_function::<(i32, i32, i32, i32, i32, i32, i32), i32>(
                     "__plugin_process_impl",
                 )?,
             exported_plugin_free: instance
@@ -101,6 +101,7 @@ impl TransformExecutor {
         program: &Serialized,
         config: &Serialized,
         context: &Serialized,
+        should_enable_comments_proxy: i32,
     ) -> Result<Serialized, Error> {
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
         let config_str_ptr = self.write_bytes_into_guest(config)?;
@@ -113,6 +114,7 @@ impl TransformExecutor {
             config_str_ptr.1,
             context_str_ptr.0,
             context_str_ptr.1,
+            should_enable_comments_proxy,
         )?;
 
         self.read_bytes_from_guest(result)
