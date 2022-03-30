@@ -241,10 +241,7 @@ test!(
             };
             var vars = [];
             var elem = null, name, val;
-            for(var i = 0; i < this.elements.length; i++){
-                var _ret = _loop(i);
-                if (_ret === \"continue\") continue;
-            }
+            for(var i = 0; i < this.elements.length; i++)_loop(i);
             return vars;
         };
         "
@@ -361,10 +358,7 @@ test!(
             if (i1 % 2 === 0) return i = i1, "continue";
             i = i1, void 0;
         };
-        for(var i = 0; i < 5; i++){
-            var _ret = _loop(i);
-            if (_ret === "continue") continue;
-        }
+        for(var i = 0; i < 5; i++)_loop(i);
         "#
 );
 
@@ -996,6 +990,75 @@ test!(
     for (var a; ;) { }
     for (var a = ['a', 'b']; ;) { }
     "
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| block_scoping(),
+    issue_4196,
+    "
+    for (let i = 0; i < 2; i++) {
+        if (i === 0) continue
+        if (i === 1) break
+
+        [1].forEach((_) => {
+          console.log(i)
+        })
+    }
+    ",
+    r#"
+    var _loop = function(i) {
+        if (i === 0) return "continue";
+        if (i === 1) return "break";
+        [
+            1
+        ].forEach((_)=>{
+            console.log(i);
+        });
+    };
+    for(var i = 0; i < 2; i++){
+        var _ret = _loop(i);
+        if (_ret === "break") break;
+    }
+    "#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| block_scoping(),
+    labeled_break,
+    "
+    a:
+    b:
+    for (let i = 0; i < 2; i++) {
+        if (i === 0) continue a
+        if (i === 1) break b
+
+        [1].forEach((_) => {
+          console.log(i)
+        })
+    }
+    ",
+    r#"
+    var _loop = function(i) {
+        if (i === 0) return "continue|a";
+        if (i === 1) return "break|b";
+        [
+            1
+        ].forEach((_)=>{
+            console.log(i);
+        });
+    };
+    a: b: for(var i = 0; i < 2; i++){
+        var _ret = _loop(i);
+        switch(_ret){
+            case "continue|a":
+                continue a;
+            case "break|b":
+                break b;
+        }
+    }
+    "#
 );
 
 test_exec!(
