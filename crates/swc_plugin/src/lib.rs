@@ -6,6 +6,11 @@ pub use swc_common::{
     plugin::{PluginError, Serialized},
 };
 
+pub mod comments {
+    pub use swc_common::comments::Comments;
+    pub use swc_plugin_comments::PluginCommentsProxy;
+}
+
 pub mod util {
     pub use swc_common::util::take;
     #[cfg(feature = "swc_ecma_quote")]
