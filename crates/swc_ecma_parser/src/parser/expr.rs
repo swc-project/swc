@@ -677,11 +677,10 @@ impl<'a, I: Tokens> Parser<I> {
             .any(|item| matches!(item, PatOrExprOrSpread::Pat(..)));
 
         let is_direct_child_of_cond = self.ctx().is_direct_child_of_cond;
-
         // This is slow path. We handle arrow in conditional expression.
         if self.syntax().typescript()
             && self.ctx().in_cond_expr
-            && !self.ctx().in_arrow_function
+            && !self.ctx().is_direct_child_of_braceless_arrow_function
             && is!(self, ':')
         {
             // TODO: Remove clone
