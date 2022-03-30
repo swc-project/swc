@@ -23,6 +23,7 @@ pub struct CommentsVecPtr(pub i32, pub i32);
 /// Serialized::de/serialize interface. Instead, swc_plugin_macro injects an
 /// instance in plugin's runtime directly.
 #[cfg(feature = "plugin-mode")]
+#[derive(Debug)]
 pub struct PluginCommentsProxy;
 
 #[cfg(feature = "plugin-mode")]

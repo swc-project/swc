@@ -139,11 +139,16 @@ fn handle_func(func: ItemFn) -> TokenStream {
                 return construct_error_ptr(err);
             }
 
-            // Construct proxy to the comments directly in guest's runtime
-            let mut plugin_comments_proxy = if should_enable_comments_proxy == 1 { Some(swc_plugin::comments::PluginCommentsProxy) } else { None };
+            // Construct metadata to the `Program` for the transform plugin.
+            let plugin_comments_proxy = if should_enable_comments_proxy == 1 { Some(swc_plugin::comments::PluginCommentsProxy) } else { None };
+            let mut metadata = swc_plugin::TransformPluginProgramMetadata {
+                comments: plugin_comments_proxy,
+                plugin_config: config,
+                transform_context: context
+            };
 
             // Take original plugin fn ident, then call it with interop'ed args
-            let transformed_program = #ident(program, plugin_comments_proxy, config, context);
+            let transformed_program = #ident(program, metadata);
 
             // Serialize transformed result, return back to the host.
             let serialized_result = swc_plugin::Serialized::serialize(&transformed_program);
