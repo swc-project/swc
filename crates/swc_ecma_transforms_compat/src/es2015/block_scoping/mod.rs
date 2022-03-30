@@ -176,8 +176,8 @@ impl BlockScoping {
 
             let mut flow_helper = FlowHelper {
                 all: &args,
-                has_continue: false,
-                has_break: false,
+                continue_stmt: None,
+                break_stmt: None,
                 has_return: false,
                 mutated,
                 in_switch_case: false,
@@ -264,7 +264,10 @@ impl BlockScoping {
                 type_args: None,
             };
 
-            if flow_helper.has_return || flow_helper.has_continue || flow_helper.has_break {
+            if flow_helper.has_return
+                || flow_helper.continue_stmt.is_some()
+                || flow_helper.break_stmt.is_some()
+            {
                 let ret = private_ident!("_ret");
 
                 let mut stmts = vec![
@@ -317,15 +320,21 @@ impl BlockScoping {
                     None
                 };
 
-                if flow_helper.has_break {
+                if let Some(label) = flow_helper.break_stmt {
                     stmts.push(
                         IfStmt {
                             span: DUMMY_SP,
-                            test: ret.clone().make_eq(quote_str!("break")).into(),
-                            // TODO: Handle labelled statements
+                            test: ret
+                                .clone()
+                                .make_eq(label.as_ref().map_or_else(
+                                    || quote_str!("break"),
+                                    |l| quote_str!(format!("break|{}", l.sym)),
+                                ))
+                                .into(),
+
                             cons: Stmt::Break(BreakStmt {
                                 span: DUMMY_SP,
-                                label: None,
+                                label,
                             })
                             .into(),
                             alt: None,
@@ -334,15 +343,20 @@ impl BlockScoping {
                     );
                 }
 
-                if flow_helper.has_continue {
+                if let Some(label) = flow_helper.continue_stmt {
                     stmts.push(
                         IfStmt {
                             span: DUMMY_SP,
-                            test: ret.make_eq(quote_str!("continue")).into(),
-                            // TODO: Handle labelled statements
+                            test: ret
+                                .make_eq(label.as_ref().map_or_else(
+                                    || quote_str!("continue"),
+                                    |l| quote_str!(format!("continue|{}", l.sym)),
+                                ))
+                                .into(),
+
                             cons: Stmt::Continue(ContinueStmt {
                                 span: DUMMY_SP,
-                                label: None,
+                                label,
                             })
                             .into(),
                             alt: None,
@@ -671,8 +685,8 @@ impl Visit for InfectionFinder<'_> {
 
 #[derive(Debug)]
 struct FlowHelper<'a> {
-    has_continue: bool,
-    has_break: bool,
+    continue_stmt: Option<Option<Ident>>,
+    break_stmt: Option<Option<Ident>>,
     has_return: bool,
     all: &'a Vec<Id>,
     mutated: AHashMap<Id, SyntaxContext>,
@@ -757,34 +771,43 @@ impl VisitMut for FlowHelper<'_> {
         let span = node.span();
 
         match node {
-            Stmt::Continue(..) => {
+            Stmt::Continue(ContinueStmt { ref label, .. }) => {
                 if self.in_nested_loop {
                     return;
                 }
 
-                self.has_continue = true;
+                self.continue_stmt = Some(label.clone());
+
                 *node = Stmt::Return(ReturnStmt {
                     span,
                     arg: Some(
                         Expr::Lit(Lit::Str(Str {
                             span,
-                            value: "continue".into(),
+                            value: label.as_ref().map_or_else(
+                                || js_word!("continue"),
+                                |l| format!("continue|{}", l.sym).into(),
+                            ),
                             raw: None,
                         }))
                         .into(),
                     ),
                 });
             }
-            Stmt::Break(..) => {
+            Stmt::Break(BreakStmt { ref label, .. }) => {
                 if self.in_switch_case || self.in_nested_loop {
                     return;
                 }
-                self.has_break = true;
+
+                self.break_stmt = Some(label.clone());
+
                 *node = Stmt::Return(ReturnStmt {
                     span,
                     arg: Some(Box::new(Expr::Lit(Lit::Str(Str {
                         span,
-                        value: "break".into(),
+                        value: label.as_ref().map_or_else(
+                            || js_word!("break"),
+                            |l| format!("break|{}", l.sym).into(),
+                        ),
                         raw: None,
                     })))),
                 });
