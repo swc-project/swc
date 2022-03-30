@@ -1,6 +1,3 @@
-use scoped_tls_hkt::scoped_thread_local;
-use swc_common::comments::SingleThreadedComments;
-
 /// A struct to internally store reference to current file's comments for the
 /// transform plugins.
 ///
@@ -20,11 +17,13 @@ use swc_common::comments::SingleThreadedComments;
 // TODO: This storage does not support mutable yet:
 // https://docs.rs/scoped-tls-hkt/latest/scoped_tls_hkt/#mutable-higher-kinded-types
 #[derive(Copy, Clone)]
+#[cfg(feature = "host")]
 pub struct HostCommentsStorage<'a> {
-    pub inner: Option<&'a SingleThreadedComments>,
+    pub inner: Option<&'a swc_common::comments::SingleThreadedComments>,
 }
 
-scoped_thread_local!(
+#[cfg(feature = "host")]
+scoped_tls_hkt::scoped_thread_local!(
   /// Thread local holds actual HostCommentsStorage with its lifetime support.
   /// Host side runner owns responsibility to update inner data references
   /// accordingly before executing relavant transform.
