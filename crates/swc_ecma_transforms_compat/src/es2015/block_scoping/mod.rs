@@ -176,8 +176,8 @@ impl BlockScoping {
 
             let mut flow_helper = FlowHelper {
                 all: &args,
-                continue_stmt: None,
-                break_stmt: None,
+                continue_stmts: Default::default(),
+                break_stmts: Default::default(),
                 has_return: false,
                 mutated,
                 in_switch_case: false,
@@ -265,8 +265,8 @@ impl BlockScoping {
             };
 
             if flow_helper.has_return
-                || flow_helper.continue_stmt.is_some()
-                || flow_helper.break_stmt.is_some()
+                || !flow_helper.continue_stmts.is_empty()
+                || !flow_helper.break_stmts.is_empty()
             {
                 let ret = private_ident!("_ret");
 
@@ -320,7 +320,7 @@ impl BlockScoping {
                     None
                 };
 
-                if let Some(label) = flow_helper.break_stmt {
+                flow_helper.break_stmts.into_iter().for_each(|label| {
                     stmts.push(
                         IfStmt {
                             span: DUMMY_SP,
@@ -341,13 +341,14 @@ impl BlockScoping {
                         }
                         .into(),
                     );
-                }
+                });
 
-                if let Some(label) = flow_helper.continue_stmt {
+                flow_helper.continue_stmts.into_iter().for_each(|label| {
                     stmts.push(
                         IfStmt {
                             span: DUMMY_SP,
                             test: ret
+                                .clone()
                                 .make_eq(label.as_ref().map_or_else(
                                     || quote_str!("continue"),
                                     |l| quote_str!(format!("continue|{}", l.sym)),
@@ -363,7 +364,7 @@ impl BlockScoping {
                         }
                         .into(),
                     );
-                }
+                });
 
                 stmts.extend(check_ret);
 
@@ -685,8 +686,8 @@ impl Visit for InfectionFinder<'_> {
 
 #[derive(Debug)]
 struct FlowHelper<'a> {
-    continue_stmt: Option<Option<Ident>>,
-    break_stmt: Option<Option<Ident>>,
+    continue_stmts: Vec<Option<Ident>>,
+    break_stmts: Vec<Option<Ident>>,
     has_return: bool,
     all: &'a Vec<Id>,
     mutated: AHashMap<Id, SyntaxContext>,
@@ -776,7 +777,7 @@ impl VisitMut for FlowHelper<'_> {
                     return;
                 }
 
-                self.continue_stmt = Some(label.clone());
+                self.continue_stmts.push(label.clone());
 
                 *node = Stmt::Return(ReturnStmt {
                     span,
@@ -798,7 +799,7 @@ impl VisitMut for FlowHelper<'_> {
                     return;
                 }
 
-                self.break_stmt = Some(label.clone());
+                self.break_stmts.push(label.clone());
 
                 *node = Stmt::Return(ReturnStmt {
                     span,
