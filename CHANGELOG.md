@@ -16,6 +16,12 @@
 
 - **(es/minifier)** Optimize switches more correctly (#4180) ([6d3ea17](https://github.com/swc-project/swc/commit/6d3ea17aa6b708c7819a6769dccd920bd3fe2efe))
 
+### Miscellaneous Tasks
+
+
+
+- **(es/parser)** Add span tests back (#4186) ([1759567](https://github.com/swc-project/swc/commit/1759567fc46c93f963b2fbe54997197f00bc884a))
+
 ### Refactor
 
 
