@@ -128,7 +128,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             let handler = swc_plugin::errors::Handler::with_emitter(
                 true,
                 false,
-                Box::new(swc_plugin::environment::PluginDiagnosticsEmitter {})
+                Box::new(swc_plugin::environment::PluginDiagnosticsEmitter)
             );
             let handler_set_result = swc_plugin::errors::HANDLER.inner.set(handler);
 

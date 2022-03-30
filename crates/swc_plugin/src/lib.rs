@@ -35,9 +35,8 @@ pub mod errors {
     pub use crate::handler::HANDLER;
 }
 
-mod context;
 pub mod environment {
-    pub use crate::context::*;
+    pub use crate::handler::*;
 }
 // We don't set target cfg as it'll block macro expansions
 // in ide (i.e rust-analyzer) or non-wasm target `cargo check`
@@ -48,3 +47,4 @@ mod allocation;
 pub mod memory {
     pub use crate::allocation::*;
 }
+mod pseudo_scoped_key;
