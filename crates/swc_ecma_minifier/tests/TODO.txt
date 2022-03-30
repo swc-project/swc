@@ -499,11 +499,6 @@ issue_976/eval_mangle/input.js
 issue_976/eval_unused/input.js
 issue_979/issue979_reported/input.js
 issue_979/issue979_test_negated_is_best/input.js
-issue_t120/issue_t120_1/input.js
-issue_t120/issue_t120_2/input.js
-issue_t120/issue_t120_3/input.js
-issue_t120/issue_t120_4/input.js
-issue_t120/issue_t120_5/input.js
 issue_t120/pr_152_regression/input.js
 issue_t292/no_flatten_with_arg_colliding_with_arg_value_inner_scope/input.js
 issue_t292/no_flatten_with_var_colliding_with_arg_value_inner_scope/input.js
