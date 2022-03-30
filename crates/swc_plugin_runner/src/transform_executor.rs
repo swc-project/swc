@@ -85,7 +85,7 @@ impl TransformExecutor {
                     "Failed to convert pointer size to calculate: {}",
                     msg
                 )),
-                PluginError::Deserialize((msg, ..)) | PluginError::Serialize(msg) => {
+                PluginError::Deserialize(msg) | PluginError::Serialize(msg) => {
                     Err(anyhow!("{}", msg))
                 }
                 _ => Err(anyhow!(

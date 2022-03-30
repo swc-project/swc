@@ -91,9 +91,6 @@ extern "C" {
     fn __mark_is_descendant_of_proxy(self_mark: u32, ancestor: u32, allocated_ptr: i32);
     fn __mark_least_ancestor(a: u32, b: u32, allocated_ptr: i32);
     fn __syntax_context_remove_mark_proxy(self_mark: u32, allocated_ptr: i32);
-
-    fn __alloc(size: usize) -> *mut u8;
-    fn __free(ptr: *mut u8, size: usize) -> i32;
 }
 
 impl Mark {
@@ -176,8 +173,9 @@ impl Mark {
         // In here, preallocate memory for the context.
         let serialized = crate::plugin::Serialized::serialize(&MutableMarkContext(0, 0, 0))
             .expect("Should be serializable");
-        let len = serialized.as_ref().len();
-        let ptr = unsafe { __alloc(len) };
+        let serialized_ref = serialized.as_ref();
+        let ptr = serialized_ref.as_ptr();
+        let len = serialized_ref.len();
 
         // Calling host proxy fn. Inside of host proxy, host will
         // write the result into allocated context in the guest memory space.
@@ -186,17 +184,14 @@ impl Mark {
         }
 
         // Deserialize result, assign / return values as needed.
-        let raw_result_bytes = unsafe { std::slice::from_raw_parts(ptr, len) };
-        let result =
-            crate::plugin::Serialized::new_for_plugin(raw_result_bytes, len.try_into().expect(""));
-        let context: MutableMarkContext =
-            crate::plugin::Serialized::deserialize(&result).expect("Should be deserializable");
-
+        let context: MutableMarkContext = unsafe {
+            crate::plugin::Serialized::deserialize_from_ptr(
+                ptr,
+                len.try_into().expect("Should able to convert ptr length"),
+            )
+            .expect("Should able to deserialize")
+        };
         self = Mark::from_u32(context.0);
-
-        unsafe {
-            __free(ptr, len);
-        }
 
         return context.2 != 0;
     }
@@ -219,25 +214,23 @@ impl Mark {
     pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
         let serialized = crate::plugin::Serialized::serialize(&MutableMarkContext(0, 0, 0))
             .expect("Should be serializable");
-        let len = serialized.as_ref().len();
-        let ptr = unsafe { __alloc(len) };
+        let serialized_ref = serialized.as_ref();
+        let ptr = serialized_ref.as_ptr();
+        let len = serialized_ref.len();
 
         unsafe {
             __mark_least_ancestor(a.0, b.0, ptr as _);
         }
 
-        let raw_result_bytes = unsafe { std::slice::from_raw_parts(ptr, len) };
-        let result =
-            crate::plugin::Serialized::new_for_plugin(raw_result_bytes, len.try_into().expect(""));
-        let context: MutableMarkContext =
-            crate::plugin::Serialized::deserialize(&result).expect("Should be deserializable");
-
+        let context: MutableMarkContext = unsafe {
+            crate::plugin::Serialized::deserialize_from_ptr(
+                ptr,
+                len.try_into().expect("Should able to convert ptr length"),
+            )
+            .expect("Should able to deserialize")
+        };
         a = Mark::from_u32(context.0);
         b = Mark::from_u32(context.1);
-
-        unsafe {
-            __free(ptr, len);
-        }
 
         return Mark(context.2);
     }
@@ -387,24 +380,23 @@ impl SyntaxContext {
         let context = MutableMarkContext(0, 0, 0);
         let serialized =
             crate::plugin::Serialized::serialize(&context).expect("Should be serializable");
-        let len = serialized.as_ref().len();
-        let ptr = unsafe { __alloc(len) };
+        let serialized_ref = serialized.as_ref();
+        let ptr = serialized_ref.as_ptr();
+        let len = serialized_ref.len();
 
         unsafe {
             __syntax_context_remove_mark_proxy(self.0, ptr as _);
         }
 
-        let raw_result_bytes = unsafe { std::slice::from_raw_parts(ptr, len) };
-        let result =
-            crate::plugin::Serialized::new_for_plugin(raw_result_bytes, len.try_into().expect(""));
-        let context: MutableMarkContext =
-            crate::plugin::Serialized::deserialize(&result).expect("Should be deserializable");
+        let context: MutableMarkContext = unsafe {
+            crate::plugin::Serialized::deserialize_from_ptr(
+                ptr,
+                len.try_into().expect("Should able to convert ptr length"),
+            )
+            .expect("Should able to deserialize")
+        };
 
         *self = SyntaxContext(context.0);
-
-        unsafe {
-            __free(ptr, len);
-        }
 
         return Mark::from_u32(context.2);
     }

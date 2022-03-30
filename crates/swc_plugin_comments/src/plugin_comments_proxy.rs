@@ -67,35 +67,21 @@ impl Comments for PluginCommentsProxy {
 
         // First, reconstruct CommentsVecPtr to reveal ptr to the allocated
         // Vec<Comments>
-        let raw_comments_vec_ptr_bytes = unsafe {
-            std::slice::from_raw_parts(
+        let comments_vec_ptr: CommentsVecPtr = unsafe {
+            Serialized::deserialize_from_ptr(
                 serialized_comments_vec_ptr_raw_ptr,
-                serialized_comments_vec_ptr_raw_len,
-            )
-        };
-        let comments_vec_ptr_serialized = Serialized::new_for_plugin(
-            raw_comments_vec_ptr_bytes,
-            serialized_comments_vec_ptr_raw_len
-                .try_into()
-                .expect("Should able to convert ptr length"),
-        );
-        let comments_vec_ptr: CommentsVecPtr =
-            Serialized::deserialize(&comments_vec_ptr_serialized)
-                .expect("Should able to deserialize");
-
-        // Reconstruct actual Vec<Comments>
-        let result_ptr_bytes = unsafe {
-            std::slice::from_raw_parts(
-                comments_vec_ptr.0 as _,
-                comments_vec_ptr
-                    .1
+                serialized_comments_vec_ptr_raw_len
                     .try_into()
                     .expect("Should able to convert ptr length"),
             )
+            .expect("Should able to deserialize CommentsVecPtr")
         };
 
-        let result_serialized = Serialized::new_for_plugin(result_ptr_bytes, comments_vec_ptr.1);
-        Some(Serialized::deserialize(&result_serialized).expect("Should able to deserialize"))
+        // Using CommentsVecPtr's value, reconstruct actual Vec<Comments>
+        Some(unsafe {
+            Serialized::deserialize_from_ptr(comments_vec_ptr.0 as _, comments_vec_ptr.1)
+                .expect("Returned comments should be serializable")
+        })
     }
 
     fn add_trailing(&self, pos: BytePos, cmt: Comment) {
