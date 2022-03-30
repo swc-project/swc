@@ -26,6 +26,18 @@ struct NewTarget {
     var: Option<VarDeclarator>,
 }
 
+impl NewTarget {
+    fn visit_mut_method<T: VisitMutWith<Self>>(&mut self, c: &mut T) {
+        let old = self.in_method;
+
+        self.in_method = true;
+
+        c.visit_mut_with(self);
+
+        self.in_method = old;
+    }
+}
+
 #[swc_trace]
 impl VisitMut for NewTarget {
     noop_visit_mut_type!();
@@ -75,13 +87,9 @@ impl VisitMut for NewTarget {
     }
 
     fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
-        let old = self.in_method;
+        c.key.visit_mut_with(self);
 
-        self.in_method = true;
-
-        c.visit_mut_children_with(self);
-
-        self.in_method = old;
+        self.visit_mut_method(&mut c.function)
     }
 
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
@@ -168,13 +176,18 @@ impl VisitMut for NewTarget {
     }
 
     fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
-        let old = self.in_method;
+        m.key.visit_mut_with(self);
+        self.visit_mut_method(&mut m.function)
+    }
 
-        self.in_method = true;
+    fn visit_mut_getter_prop(&mut self, m: &mut GetterProp) {
+        m.key.visit_mut_with(self);
+        self.visit_mut_method(&mut m.body)
+    }
 
-        m.visit_mut_children_with(self);
-
-        self.in_method = old;
+    fn visit_mut_setter_prop(&mut self, m: &mut SetterProp) {
+        m.key.visit_mut_with(self);
+        self.visit_mut_method(&mut m.body)
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
