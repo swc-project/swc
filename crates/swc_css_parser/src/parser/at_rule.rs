@@ -248,13 +248,7 @@ where
                 "property" => {
                     parser.input.skip_ws()?;
 
-                    let span = parser.input.cur_span()?;
-                    let name = parser.parse()?;
-
-                    let prelude = AtRulePrelude::PropertyPrelude(PropertyPrelude {
-                        span: span!(parser, span.lo),
-                        name,
-                    });
+                    let prelude = AtRulePrelude::PropertyPrelude(parser.parse()?);
 
                     parser.input.skip_ws()?;
 

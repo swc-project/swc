@@ -536,7 +536,7 @@ define!({
 
     pub enum AtRulePrelude {
         ListOfComponentValues(ListOfComponentValues),
-        PropertyPrelude(PropertyPrelude),
+        PropertyPrelude(DashedIdent),
         CounterStylePrelude(CounterStylePrelude),
         ColorProfilePrelude(ColorProfilePrelude),
         CharsetPrelude(Str),
@@ -579,11 +579,6 @@ define!({
     pub enum DocumentPreludeMatchingFunction {
         Url(Url),
         Function(Function),
-    }
-
-    pub struct PropertyPrelude {
-        pub span: Span,
-        pub name: DashedIdent,
     }
 
     pub struct KeyframesPrelude {

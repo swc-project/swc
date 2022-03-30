@@ -24,22 +24,14 @@
         "raw": "property"
       },
       "prelude": {
-        "type": "PropertyPrelude",
+        "type": "DashedIdent",
         "span": {
           "start": 10,
           "end": 20,
           "ctxt": 0
         },
-        "name": {
-          "type": "DashedIdent",
-          "span": {
-            "start": 10,
-            "end": 20,
-            "ctxt": 0
-          },
-          "value": "--my-color",
-          "raw": "--my-color"
-        }
+        "value": "--my-color",
+        "raw": "--my-color"
       },
       "block": {
         "type": "SimpleBlock",
