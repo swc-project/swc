@@ -23,6 +23,7 @@ where
                 unreachable!()
             }
         };
+        let lowercased_name = &*at_keyword_name.0.to_lowercase();
         let at_rule_name = if at_keyword_name.0.starts_with("--") {
             AtRuleName::DashedIdent(DashedIdent {
                 span: Span::new(
@@ -55,13 +56,8 @@ where
             block: None,
         };
         let parse_prelude = |parser: &mut Parser<I>| -> PResult<Option<AtRulePrelude>> {
-            match &at_rule.name {
-                AtRuleName::Ident(ident)
-                    if matches!(
-                        &*ident.value.to_lowercase(),
-                        "viewport" | "-ms-viewport" | "-o-viewport" | "font-face"
-                    ) =>
-                {
+            match lowercased_name {
+                "viewport" | "-ms-viewport" | "-o-viewport" | "font-face" => {
                     parser.input.skip_ws()?;
 
                     if !is!(parser, "{") {
@@ -72,7 +68,7 @@ where
 
                     Ok(None)
                 }
-                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "charset" => {
+                "charset" => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -98,7 +94,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "counter-style" => {
+                "counter-style" => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -119,7 +115,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "layer" => {
+                "layer" => {
                     parser.input.skip_ws()?;
 
                     let prelude = if is!(parser, Ident) {
@@ -183,9 +179,7 @@ where
 
                     Ok(prelude)
                 }
-                AtRuleName::Ident(ident)
-                    if matches!(&*ident.value.to_lowercase(), "document" | "-moz-document") =>
-                {
+                "document" | "-moz-document" => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -219,7 +213,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                AtRuleName::Ident(ident) if matches!(&*ident.value.to_lowercase(), "page") => {
+                "page" => {
                     parser.input.skip_ws()?;
 
                     let prelude = if !is!(parser, "{") {
@@ -232,33 +226,29 @@ where
 
                     Ok(prelude)
                 }
-                AtRuleName::Ident(ident)
-                    if parser.ctx.in_page_at_rule
-                        && matches!(
-                            &*ident.value.to_lowercase(),
-                            "top-left-corner"
-                                | "top-left"
-                                | "top-center"
-                                | "top-right"
-                                | "top-right-corner"
-                                | "bottom-left-corner"
-                                | "bottom-left"
-                                | "bottom-center"
-                                | "bottom-right"
-                                | "bottom-right-corner"
-                                | "left-top"
-                                | "left-middle"
-                                | "left-bottom"
-                                | "right-top"
-                                | "right-middle"
-                                | "right-bottom"
-                        ) =>
+                "top-left-corner"
+                | "top-left"
+                | "top-center"
+                | "top-right"
+                | "top-right-corner"
+                | "bottom-left-corner"
+                | "bottom-left"
+                | "bottom-center"
+                | "bottom-right"
+                | "bottom-right-corner"
+                | "left-top"
+                | "left-middle"
+                | "left-bottom"
+                | "right-top"
+                | "right-middle"
+                | "right-bottom"
+                    if parser.ctx.in_page_at_rule =>
                 {
                     parser.input.skip_ws()?;
 
                     Ok(None)
                 }
-                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "property" => {
+                "property" => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -279,7 +269,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "namespace" => {
+                "namespace" => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -324,7 +314,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "color-profile" => {
+                "color-profile" => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -356,7 +346,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "nest" => {
+                "nest" => {
                     parser.input.skip_ws()?;
 
                     let prelude = AtRulePrelude::NestPrelude(parser.parse()?);
@@ -371,7 +361,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "media" => {
+                "media" => {
                     parser.input.skip_ws()?;
 
                     let media = if !is!(parser, "{") {
@@ -386,7 +376,7 @@ where
 
                     Ok(media)
                 }
-                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "supports" => {
+                "supports" => {
                     parser.input.skip_ws()?;
 
                     let prelude = AtRulePrelude::SupportsPrelude(parser.parse()?);
@@ -395,7 +385,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                AtRuleName::Ident(ident) if &*ident.value.to_lowercase() == "import" => {
+                "import" => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -479,16 +469,8 @@ where
 
                     Ok(Some(prelude))
                 }
-                AtRuleName::Ident(ident)
-                    if matches!(
-                        &*ident.value.to_lowercase(),
-                        "keyframes"
-                            | "-webkit-keyframes"
-                            | "-moz-keyframes"
-                            | "-o-keyframes"
-                            | "-ms-keyframes"
-                    ) =>
-                {
+                "keyframes" | "-webkit-keyframes" | "-moz-keyframes" | "-o-keyframes"
+                | "-ms-keyframes" => {
                     parser.input.skip_ws()?;
 
                     let span = parser.input.cur_span()?;
@@ -516,57 +498,43 @@ where
             }
         };
         let parse_simple_block = |parser: &mut Parser<I>| -> PResult<SimpleBlock> {
-            let ctx = match &at_rule.name {
-                AtRuleName::Ident(ident)
-                    if matches!(
-                        &*ident.value.to_lowercase(),
-                        "viewport"
-                            | "-o-viewport"
-                            | "-ms-viewport"
-                            | "font-face"
-                            | "property"
-                            | "color-profile"
-                            | "counter-style"
-                            | "top-left-corner"
-                            | "top-left"
-                            | "top-center"
-                            | "top-right"
-                            | "top-right-corner"
-                            | "bottom-left-corner"
-                            | "bottom-left"
-                            | "bottom-center"
-                            | "bottom-right"
-                            | "bottom-right-corner"
-                            | "left-top"
-                            | "left-middle"
-                            | "left-bottom"
-                            | "right-top"
-                            | "right-middle"
-                            | "right-bottom"
-                    ) =>
-                {
-                    Ctx {
-                        block_contents_grammar: BlockContentsGrammar::DeclarationList,
-                        ..parser.ctx
-                    }
-                }
-                AtRuleName::Ident(ident) if matches!(&*ident.value.to_lowercase(), "page") => Ctx {
+            let ctx = match lowercased_name {
+                "viewport"
+                | "-o-viewport"
+                | "-ms-viewport"
+                | "font-face"
+                | "property"
+                | "color-profile"
+                | "counter-style"
+                | "top-left-corner"
+                | "top-left"
+                | "top-center"
+                | "top-right"
+                | "top-right-corner"
+                | "bottom-left-corner"
+                | "bottom-left"
+                | "bottom-center"
+                | "bottom-right"
+                | "bottom-right-corner"
+                | "left-top"
+                | "left-middle"
+                | "left-bottom"
+                | "right-top"
+                | "right-middle"
+                | "right-bottom" => Ctx {
+                    block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                    ..parser.ctx
+                },
+                "page" => Ctx {
                     in_page_at_rule: true,
                     block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..parser.ctx
                 },
-                AtRuleName::Ident(ident) if matches!(&*ident.value.to_lowercase(), "layer") => {
-                    Ctx {
-                        block_contents_grammar: BlockContentsGrammar::Stylesheet,
-                        ..parser.ctx
-                    }
-                }
-                AtRuleName::Ident(ident)
-                    if matches!(
-                        &*ident.value.to_lowercase(),
-                        "media" | "supports" | "document" | "-moz-document"
-                    ) =>
-                {
+                "layer" => Ctx {
+                    block_contents_grammar: BlockContentsGrammar::Stylesheet,
+                    ..parser.ctx
+                },
+                "media" | "supports" | "document" | "-moz-document" => {
                     match parser.ctx.block_contents_grammar {
                         BlockContentsGrammar::StyleBlock => Ctx {
                             block_contents_grammar: BlockContentsGrammar::StyleBlock,
@@ -578,7 +546,7 @@ where
                         },
                     }
                 }
-                AtRuleName::Ident(ident) if matches!(&*ident.value.to_lowercase(), "nest") => Ctx {
+                "nest" => Ctx {
                     block_contents_grammar: BlockContentsGrammar::StyleBlock,
                     ..parser.ctx
                 },
@@ -587,17 +555,9 @@ where
                     ..parser.ctx
                 },
             };
-            let block = match &at_rule.name {
-                AtRuleName::Ident(ident)
-                    if matches!(
-                        &*ident.value.to_lowercase(),
-                        "keyframes"
-                            | "-moz-keyframes"
-                            | "-o-keyframes"
-                            | "-webkit-keyframes"
-                            | "-ms-keyframes"
-                    ) =>
-                {
+            let block = match lowercased_name {
+                "keyframes" | "-moz-keyframes" | "-o-keyframes" | "-webkit-keyframes"
+                | "-ms-keyframes" => {
                     let span_block = parser.input.cur_span()?;
                     let mut block = SimpleBlock {
                         span: Default::default(),
