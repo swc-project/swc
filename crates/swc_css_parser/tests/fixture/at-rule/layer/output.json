@@ -189,22 +189,14 @@
               "raw": "keyframes"
             },
             "prelude": {
-              "type": "DocumentPrelude",
+              "type": "CustomIdent",
               "span": {
                 "start": 87,
                 "end": 97,
                 "ctxt": 0
               },
-              "name": {
-                "type": "CustomIdent",
-                "span": {
-                  "start": 87,
-                  "end": 97,
-                  "ctxt": 0
-                },
-                "value": "slide-left",
-                "raw": "slide-left"
-              }
+              "value": "slide-left",
+              "raw": "slide-left"
             },
             "block": {
               "type": "SimpleBlock",
@@ -427,22 +419,14 @@
               "raw": "keyframes"
             },
             "prelude": {
-              "type": "DocumentPrelude",
+              "type": "CustomIdent",
               "span": {
                 "start": 209,
                 "end": 219,
                 "ctxt": 0
               },
-              "name": {
-                "type": "CustomIdent",
-                "span": {
-                  "start": 209,
-                  "end": 219,
-                  "ctxt": 0
-                },
-                "value": "slide-left",
-                "raw": "slide-left"
-              }
+              "value": "slide-left",
+              "raw": "slide-left"
             },
             "block": {
               "type": "SimpleBlock",

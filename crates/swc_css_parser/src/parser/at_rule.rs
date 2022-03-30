@@ -456,12 +456,7 @@ where
                 | "-ms-keyframes" => {
                     parser.input.skip_ws()?;
 
-                    let span = parser.input.cur_span()?;
-                    let name = parser.parse()?;
-                    let prelude = AtRulePrelude::KeyframesPrelude(KeyframesPrelude {
-                        span: span!(parser, span.lo),
-                        name,
-                    });
+                    let prelude = AtRulePrelude::KeyframesPrelude(parser.parse()?);
 
                     parser.input.skip_ws()?;
 

@@ -24,22 +24,14 @@
         "raw": "-ms-keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "CustomIdent",
         "span": {
           "start": 15,
           "end": 19,
           "ctxt": 0
         },
-        "name": {
-          "type": "CustomIdent",
-          "span": {
-            "start": 15,
-            "end": 19,
-            "ctxt": 0
-          },
-          "value": "name",
-          "raw": "name"
-        }
+        "value": "name",
+        "raw": "name"
       },
       "block": {
         "type": "SimpleBlock",

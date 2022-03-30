@@ -40,8 +40,8 @@ pub enum AtRulePrelude {
     DocumentPrelude(DocumentPrelude),
     #[tag("SelectorList")]
     NestPrelude(SelectorList),
-    #[tag("KeyframesPrelude")]
-    KeyframesPrelude(KeyframesPrelude),
+    #[tag("KeyframesName")]
+    KeyframesPrelude(KeyframesName),
     #[tag("ImportPrelude")]
     ImportPrelude(ImportPrelude),
     #[tag("NamespacePrelude")]
@@ -82,12 +82,6 @@ pub enum DocumentPreludeMatchingFunction {
     Url(Url),
     #[tag("Function")]
     Function(Function),
-}
-
-#[ast_node("DocumentPrelude")]
-pub struct KeyframesPrelude {
-    pub span: Span,
-    pub name: KeyframesName,
 }
 
 #[ast_node]

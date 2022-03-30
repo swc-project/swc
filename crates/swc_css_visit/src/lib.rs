@@ -542,7 +542,7 @@ define!({
         CharsetPrelude(Str),
         DocumentPrelude(DocumentPrelude),
         NestPrelude(SelectorList),
-        KeyframesPrelude(KeyframesPrelude),
+        KeyframesPrelude(KeyframesName),
         ImportPrelude(ImportPrelude),
         NamespacePrelude(NamespacePrelude),
         MediaPrelude(MediaQueryList),
@@ -569,11 +569,6 @@ define!({
     pub enum DocumentPreludeMatchingFunction {
         Url(Url),
         Function(Function),
-    }
-
-    pub struct KeyframesPrelude {
-        pub span: Span,
-        pub name: KeyframesName,
     }
 
     pub enum KeyframesName {

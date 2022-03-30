@@ -3144,22 +3144,14 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "String",
         "span": {
           "start": 1150,
           "end": 1156,
           "ctxt": 0
         },
-        "name": {
-          "type": "String",
-          "span": {
-            "start": 1150,
-            "end": 1156,
-            "ctxt": 0
-          },
-          "value": "anim",
-          "raw": "'anim'"
-        }
+        "value": "anim",
+        "raw": "'anim'"
       },
       "block": {
         "type": "SimpleBlock",

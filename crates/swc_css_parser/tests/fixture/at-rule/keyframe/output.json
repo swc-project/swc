@@ -24,22 +24,14 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "CustomIdent",
         "span": {
           "start": 11,
           "end": 14,
           "ctxt": 0
         },
-        "name": {
-          "type": "CustomIdent",
-          "span": {
-            "start": 11,
-            "end": 14,
-            "ctxt": 0
-          },
-          "value": "foo",
-          "raw": "foo"
-        }
+        "value": "foo",
+        "raw": "foo"
       },
       "block": {
         "type": "SimpleBlock",
@@ -70,22 +62,14 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "String",
         "span": {
           "start": 40,
           "end": 45,
           "ctxt": 0
         },
-        "name": {
-          "type": "String",
-          "span": {
-            "start": 40,
-            "end": 45,
-            "ctxt": 0
-          },
-          "value": "foo",
-          "raw": "\"foo\""
-        }
+        "value": "foo",
+        "raw": "\"foo\""
       },
       "block": {
         "type": "SimpleBlock",
@@ -116,22 +100,14 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "CustomIdent",
         "span": {
           "start": 74,
           "end": 77,
           "ctxt": 0
         },
-        "name": {
-          "type": "CustomIdent",
-          "span": {
-            "start": 74,
-            "end": 77,
-            "ctxt": 0
-          },
-          "value": "foo",
-          "raw": "foo"
-        }
+        "value": "foo",
+        "raw": "foo"
       },
       "block": {
         "type": "SimpleBlock",
@@ -162,22 +138,14 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "CustomIdent",
         "span": {
           "start": 107,
           "end": 114,
           "ctxt": 0
         },
-        "name": {
-          "type": "CustomIdent",
-          "span": {
-            "start": 107,
-            "end": 114,
-            "ctxt": 0
-          },
-          "value": "slidein",
-          "raw": "slidein"
-        }
+        "value": "slidein",
+        "raw": "slidein"
       },
       "block": {
         "type": "SimpleBlock",
@@ -389,22 +357,14 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "CustomIdent",
         "span": {
           "start": 236,
           "end": 246,
           "ctxt": 0
         },
-        "name": {
-          "type": "CustomIdent",
-          "span": {
-            "start": 236,
-            "end": 246,
-            "ctxt": 0
-          },
-          "value": "identifier",
-          "raw": "identifier"
-        }
+        "value": "identifier",
+        "raw": "identifier"
       },
       "block": {
         "type": "SimpleBlock",
@@ -858,22 +818,14 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "CustomIdent",
         "span": {
           "start": 380,
           "end": 383,
           "ctxt": 0
         },
-        "name": {
-          "type": "CustomIdent",
-          "span": {
-            "start": 380,
-            "end": 383,
-            "ctxt": 0
-          },
-          "value": "FOO",
-          "raw": "FOO"
-        }
+        "value": "FOO",
+        "raw": "FOO"
       },
       "block": {
         "type": "SimpleBlock",
@@ -904,22 +856,14 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "String",
         "span": {
           "start": 398,
           "end": 407,
           "ctxt": 0
         },
-        "name": {
-          "type": "String",
-          "span": {
-            "start": 398,
-            "end": 407,
-            "ctxt": 0
-          },
-          "value": "initial",
-          "raw": "\"initial\""
-        }
+        "value": "initial",
+        "raw": "\"initial\""
       },
       "block": {
         "type": "SimpleBlock",
@@ -950,22 +894,14 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "String",
         "span": {
           "start": 422,
           "end": 428,
           "ctxt": 0
         },
-        "name": {
-          "type": "String",
-          "span": {
-            "start": 422,
-            "end": 428,
-            "ctxt": 0
-          },
-          "value": "None",
-          "raw": "\"None\""
-        }
+        "value": "None",
+        "raw": "\"None\""
       },
       "block": {
         "type": "SimpleBlock",
@@ -996,22 +932,14 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "CustomIdent",
         "span": {
           "start": 443,
           "end": 454,
           "ctxt": 0
         },
-        "name": {
-          "type": "CustomIdent",
-          "span": {
-            "start": 443,
-            "end": 454,
-            "ctxt": 0
-          },
-          "value": "slide-right",
-          "raw": "slide-right"
-        }
+        "value": "slide-right",
+        "raw": "slide-right"
       },
       "block": {
         "type": "SimpleBlock",
@@ -1392,22 +1320,14 @@
         "raw": "keyframes"
       },
       "prelude": {
-        "type": "DocumentPrelude",
+        "type": "CustomIdent",
         "span": {
           "start": 664,
           "end": 674,
           "ctxt": 0
         },
-        "name": {
-          "type": "CustomIdent",
-          "span": {
-            "start": 664,
-            "end": 674,
-            "ctxt": 0
-          },
-          "value": "slidein-up",
-          "raw": "slidein-up"
-        }
+        "value": "slidein-up",
+        "raw": "slidein-up"
       },
       "block": {
         "type": "SimpleBlock",
