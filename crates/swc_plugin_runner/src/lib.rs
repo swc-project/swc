@@ -6,7 +6,7 @@ use swc_common::plugin::Serialized;
 use transform_executor::TransformExecutor;
 
 pub mod cache;
-mod context;
+mod host_environment;
 mod imported_fn;
 mod load_plugin;
 mod memory_interop;

@@ -1,4 +1,4 @@
-use crate::{context::HostEnvironment, memory_interop::copy_bytes_into_host};
+use crate::{host_environment::HostEnvironment, memory_interop::copy_bytes_into_host};
 
 /// Set plugin's transformed result into host's enviroment.
 /// This is an `imported` fn - when we instantiate plugin module, we inject this

@@ -1,6 +1,6 @@
 use swc_common::{hygiene::MutableMarkContext, plugin::Serialized, Mark, SyntaxContext};
 
-use crate::{context::HostEnvironment, memory_interop::write_into_memory_view};
+use crate::{host_environment::HostEnvironment, memory_interop::write_into_memory_view};
 
 /// A proxy to Mark::fresh() that can be used in plugin.
 /// This it not direcly called by plugin, instead `impl Mark` will selectively
