@@ -4,7 +4,7 @@
     "inline": 3,
     "join_vars": true,
     "loops": true,
-    "passes": 3,
+    "passes": 4,
     "reduce_vars": true,
     "sequences": true,
     "side_effects": true,
