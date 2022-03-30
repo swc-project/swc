@@ -282,8 +282,6 @@ impl BlockScoping {
                     })),
                 ];
 
-                let use_switch = flow_helper.has_break && flow_helper.has_continue;
-
                 let check_ret = if flow_helper.has_return {
                     // if (_typeof(_ret) === "object") return _ret.v;
                     Some(
@@ -319,85 +317,41 @@ impl BlockScoping {
                     None
                 };
 
-                if use_switch {
-                    let mut cases = vec![];
-
-                    if flow_helper.has_break {
-                        cases.push(SwitchCase {
-                            span: DUMMY_SP,
-                            test: Some(Box::new(quote_str!("break").into())),
-                            // TODO: Handle labelled statements
-                            cons: vec![Stmt::Break(BreakStmt {
-                                span: DUMMY_SP,
-                                label: None,
-                            })],
-                        });
-                    }
-
-                    if flow_helper.has_continue {
-                        cases.push(SwitchCase {
-                            span: DUMMY_SP,
-                            test: Some(Box::new(quote_str!("continue").into())),
-                            // TODO: Handle labelled statements
-                            cons: vec![Stmt::Continue(ContinueStmt {
-                                span: DUMMY_SP,
-                                label: None,
-                            })],
-                        });
-                    }
-
-                    cases.extend(check_ret.map(|stmt| SwitchCase {
-                        span: DUMMY_SP,
-                        test: None,
-                        cons: vec![stmt],
-                    }));
-
+                if flow_helper.has_break {
                     stmts.push(
-                        SwitchStmt {
+                        IfStmt {
                             span: DUMMY_SP,
-                            discriminant: Box::new(ret.into()),
-                            cases,
+                            test: ret.clone().make_eq(quote_str!("break")).into(),
+                            // TODO: Handle labelled statements
+                            cons: Stmt::Break(BreakStmt {
+                                span: DUMMY_SP,
+                                label: None,
+                            })
+                            .into(),
+                            alt: None,
                         }
                         .into(),
                     );
-                } else {
-                    //
-                    if flow_helper.has_break {
-                        stmts.push(
-                            IfStmt {
-                                span: DUMMY_SP,
-                                test: ret.clone().make_eq(quote_str!("break")).into(),
-                                // TODO: Handle labelled statements
-                                cons: Stmt::Break(BreakStmt {
-                                    span: DUMMY_SP,
-                                    label: None,
-                                })
-                                .into(),
-                                alt: None,
-                            }
-                            .into(),
-                        );
-                    }
-
-                    if flow_helper.has_continue {
-                        stmts.push(
-                            IfStmt {
-                                span: DUMMY_SP,
-                                test: ret.make_eq(quote_str!("continue")).into(),
-                                // TODO: Handle labelled statements
-                                cons: Stmt::Continue(ContinueStmt {
-                                    span: DUMMY_SP,
-                                    label: None,
-                                })
-                                .into(),
-                                alt: None,
-                            }
-                            .into(),
-                        );
-                    }
-
-                    stmts.extend(check_ret);
                 }
+
+                if flow_helper.has_continue {
+                    stmts.push(
+                        IfStmt {
+                            span: DUMMY_SP,
+                            test: ret.make_eq(quote_str!("continue")).into(),
+                            // TODO: Handle labelled statements
+                            cons: Stmt::Continue(ContinueStmt {
+                                span: DUMMY_SP,
+                                label: None,
+                            })
+                            .into(),
+                            alt: None,
+                        }
+                        .into(),
+                    );
+                }
+
+                stmts.extend(check_ret);
 
                 *body = Box::new(
                     BlockStmt {
