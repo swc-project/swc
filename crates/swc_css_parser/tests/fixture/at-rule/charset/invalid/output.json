@@ -24,22 +24,14 @@
         "raw": "charset"
       },
       "prelude": {
-        "type": "CharsetPrelude",
+        "type": "String",
         "span": {
           "start": 9,
           "end": 22,
           "ctxt": 0
         },
-        "charset": {
-          "type": "String",
-          "span": {
-            "start": 9,
-            "end": 22,
-            "ctxt": 0
-          },
-          "value": "iso-8859-15",
-          "raw": "'iso-8859-15'"
-        }
+        "value": "iso-8859-15",
+        "raw": "'iso-8859-15'"
       },
       "block": null
     },
@@ -61,22 +53,14 @@
         "raw": "charset"
       },
       "prelude": {
-        "type": "CharsetPrelude",
+        "type": "String",
         "span": {
           "start": 74,
           "end": 81,
           "ctxt": 0
         },
-        "charset": {
-          "type": "String",
-          "span": {
-            "start": 74,
-            "end": 81,
-            "ctxt": 0
-          },
-          "value": "UTF-8",
-          "raw": "\"UTF-8\""
-        }
+        "value": "UTF-8",
+        "raw": "\"UTF-8\""
       },
       "block": null
     },
@@ -98,22 +82,14 @@
         "raw": "charset"
       },
       "prelude": {
-        "type": "CharsetPrelude",
+        "type": "String",
         "span": {
           "start": 132,
           "end": 139,
           "ctxt": 0
         },
-        "charset": {
-          "type": "String",
-          "span": {
-            "start": 132,
-            "end": 139,
-            "ctxt": 0
-          },
-          "value": "UTF-8",
-          "raw": "\"UTF-8\""
-        }
+        "value": "UTF-8",
+        "raw": "\"UTF-8\""
       },
       "block": null
     }

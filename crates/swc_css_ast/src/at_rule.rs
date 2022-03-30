@@ -27,8 +27,8 @@ pub enum AtRuleName {
 pub enum AtRulePrelude {
     #[tag("ListOfComponentValues")]
     ListOfComponentValues(ListOfComponentValues),
-    #[tag("CharsetPrelude")]
-    CharsetPrelude(CharsetPrelude),
+    #[tag("Str")]
+    CharsetPrelude(Str),
     #[tag("PropertyPrelude")]
     PropertyPrelude(PropertyPrelude),
     #[tag("CounterStylePrelude")]
@@ -59,12 +59,6 @@ pub enum AtRulePrelude {
 pub struct ListOfComponentValues {
     pub span: Span,
     pub children: Vec<ComponentValue>,
-}
-
-#[ast_node("CharsetPrelude")]
-pub struct CharsetPrelude {
-    pub span: Span,
-    pub charset: Str,
 }
 
 #[ast_node("PropertyPrelude")]

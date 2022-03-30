@@ -79,10 +79,7 @@ where
                         }
                     };
 
-                    let prelude = AtRulePrelude::CharsetPrelude(CharsetPrelude {
-                        span: span!(parser, span.lo),
-                        charset,
-                    });
+                    let prelude = AtRulePrelude::CharsetPrelude(charset);
 
                     parser.input.skip_ws()?;
 

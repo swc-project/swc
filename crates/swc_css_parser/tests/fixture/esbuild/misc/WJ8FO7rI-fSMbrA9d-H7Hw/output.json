@@ -24,22 +24,14 @@
         "raw": "charset"
       },
       "prelude": {
-        "type": "CharsetPrelude",
+        "type": "String",
         "span": {
           "start": 9,
           "end": 16,
           "ctxt": 0
         },
-        "charset": {
-          "type": "String",
-          "span": {
-            "start": 9,
-            "end": 16,
-            "ctxt": 0
-          },
-          "value": "UTF-8",
-          "raw": "\"UTF-8\""
-        }
+        "value": "UTF-8",
+        "raw": "\"UTF-8\""
       },
       "block": null
     }

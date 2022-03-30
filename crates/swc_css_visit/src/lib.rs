@@ -539,7 +539,7 @@ define!({
         PropertyPrelude(PropertyPrelude),
         CounterStylePrelude(CounterStylePrelude),
         ColorProfilePrelude(ColorProfilePrelude),
-        CharsetPrelude(CharsetPrelude),
+        CharsetPrelude(Str),
         DocumentPrelude(DocumentPrelude),
         NestPrelude(SelectorList),
         KeyframesPrelude(KeyframesPrelude),
@@ -554,11 +554,6 @@ define!({
     pub struct ListOfComponentValues {
         pub span: Span,
         pub children: Vec<ComponentValue>,
-    }
-
-    pub struct CharsetPrelude {
-        pub span: Span,
-        pub charset: Str,
     }
 
     pub struct CounterStylePrelude {
