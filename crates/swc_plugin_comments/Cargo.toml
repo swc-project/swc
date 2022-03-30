@@ -8,7 +8,7 @@ publish = false
 license = "Apache-2.0"
 repository = "https://github.com/swc-project/swc.git"
 
-[feature]
+[features]
 # swc/core, which runs plugin
 host = []
 # actual wasm plugin binary

@@ -42,14 +42,16 @@ pub struct PluginContext {
 }
 
 #[cfg(feature = "plugin")]
-pub fn plugins(
+pub fn plugins<'cmt>(
     resolver: Option<CachingResolver<NodeModulesResolver>>,
+    comments: Option<&'cmt swc_common::comments::SingleThreadedComments>,
     config: crate::config::JscExperimental,
     plugin_context: PluginContext,
-) -> impl Fold {
+) -> impl Fold + 'cmt {
     {
         RustPlugins {
             resolver,
+            comments,
             plugins: config.plugins,
             plugin_context,
         }
@@ -61,13 +63,14 @@ pub fn plugins() -> impl Fold {
     noop()
 }
 
-struct RustPlugins {
+struct RustPlugins<'cmt> {
     resolver: Option<CachingResolver<NodeModulesResolver>>,
+    comments: Option<&'cmt swc_common::comments::SingleThreadedComments>,
     plugins: Option<Vec<PluginConfig>>,
     plugin_context: PluginContext,
 }
 
-impl RustPlugins {
+impl<'cmt> RustPlugins<'cmt> {
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
     #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
@@ -77,65 +80,73 @@ impl RustPlugins {
         use swc_common::{plugin::Serialized, FileName};
         use swc_ecma_loader::resolve::Resolve;
 
-        let mut serialized = Serialized::serialize(&n)?;
+        // Set comments once per whole plugin transform execution.
+        swc_plugin_comments::COMMENTS.set(
+            swc_plugin_comments::HostCommentsStorage {
+                inner: self.comments,
+            },
+            || {
+                let mut serialized = Serialized::serialize(&n)?;
 
-        // Run plugin transformation against current program.
-        // We do not serialize / deserialize between each plugin execution but
-        // copies raw transformed bytes directly into plugin's memory space.
-        // Note: This doesn't mean plugin won't perform any se/deserialization: it
-        // still have to construct from raw bytes internally to perform actual
-        // transform.
-        if let Some(plugins) = &self.plugins {
-            for p in plugins {
-                let span = tracing::span!(
-                    tracing::Level::INFO,
-                    "serialize_context",
-                    plugin_module = p.0.as_str()
-                );
-                let context_span_guard = span.enter();
+                // Run plugin transformation against current program.
+                // We do not serialize / deserialize between each plugin execution but
+                // copies raw transformed bytes directly into plugin's memory space.
+                // Note: This doesn't mean plugin won't perform any se/deserialization: it
+                // still have to construct from raw bytes internally to perform actual
+                // transform.
+                if let Some(plugins) = &self.plugins {
+                    for p in plugins {
+                        let span = tracing::span!(
+                            tracing::Level::INFO,
+                            "serialize_context",
+                            plugin_module = p.0.as_str()
+                        );
+                        let context_span_guard = span.enter();
 
-                let config_json = serde_json::to_string(&p.1)
-                    .context("Failed to serialize plugin config as json")
-                    .and_then(|value| Serialized::serialize(&value))?;
+                        let config_json = serde_json::to_string(&p.1)
+                            .context("Failed to serialize plugin config as json")
+                            .and_then(|value| Serialized::serialize(&value))?;
 
-                let context_json = serde_json::to_string(&self.plugin_context)
-                    .context("Failed to serialize plugin context as json")
-                    .and_then(|value| Serialized::serialize(&value))?;
+                        let context_json = serde_json::to_string(&self.plugin_context)
+                            .context("Failed to serialize plugin context as json")
+                            .and_then(|value| Serialized::serialize(&value))?;
 
-                let resolved_path = self
-                    .resolver
-                    .as_ref()
-                    .expect("filesystem_cache should provide resolver")
-                    .resolve(&FileName::Real(PathBuf::from(&p.0)), &p.0)?;
+                        let resolved_path = self
+                            .resolver
+                            .as_ref()
+                            .expect("filesystem_cache should provide resolver")
+                            .resolve(&FileName::Real(PathBuf::from(&p.0)), &p.0)?;
 
-                let path = if let FileName::Real(value) = resolved_path {
-                    Arc::new(value)
-                } else {
-                    anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
-                };
-                drop(context_span_guard);
+                        let path = if let FileName::Real(value) = resolved_path {
+                            Arc::new(value)
+                        } else {
+                            anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
+                        };
+                        drop(context_span_guard);
 
-                let span = tracing::span!(
-                    tracing::Level::INFO,
-                    "execute_plugin_runner",
-                    plugin_module = p.0.as_str()
-                );
-                let transform_span_guard = span.enter();
-                serialized = swc_plugin_runner::apply_transform_plugin(
-                    &p.0,
-                    &path,
-                    &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
-                    serialized,
-                    config_json,
-                    context_json,
-                )?;
-                drop(transform_span_guard);
-            }
-        }
+                        let span = tracing::span!(
+                            tracing::Level::INFO,
+                            "execute_plugin_runner",
+                            plugin_module = p.0.as_str()
+                        );
+                        let transform_span_guard = span.enter();
+                        serialized = swc_plugin_runner::apply_transform_plugin(
+                            &p.0,
+                            &path,
+                            &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
+                            serialized,
+                            config_json,
+                            context_json,
+                        )?;
+                        drop(transform_span_guard);
+                    }
+                }
 
-        // Plugin transformation is done. Deserialize transformed bytes back
-        // into Program
-        Serialized::deserialize(&serialized)
+                // Plugin transformation is done. Deserialize transformed bytes back
+                // into Program
+                Serialized::deserialize(&serialized)
+            },
+        )
     }
 
     #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
@@ -146,34 +157,41 @@ impl RustPlugins {
         use swc_common::{plugin::Serialized, FileName};
         use swc_ecma_loader::resolve::Resolve;
 
-        let mut serialized = Serialized::serialize(&n)?;
+        swc_plugin_comments::COMMENTS.set(
+            swc_plugin_comments::HostCommentsStorage {
+                inner: self.comments,
+            },
+            || {
+                let mut serialized = Serialized::serialize(&n)?;
 
-        if let Some(plugins) = &self.plugins {
-            for p in plugins {
-                let config_json = serde_json::to_string(&p.1)
-                    .context("Failed to serialize plugin config as json")
-                    .and_then(|value| Serialized::serialize(&value))?;
+                if let Some(plugins) = &self.plugins {
+                    for p in plugins {
+                        let config_json = serde_json::to_string(&p.1)
+                            .context("Failed to serialize plugin config as json")
+                            .and_then(|value| Serialized::serialize(&value))?;
 
-                let context_json = serde_json::to_string(&self.plugin_context)
-                    .context("Failed to serialize plugin context as json")
-                    .and_then(|value| Serialized::serialize(&value))?;
+                        let context_json = serde_json::to_string(&self.plugin_context)
+                            .context("Failed to serialize plugin context as json")
+                            .and_then(|value| Serialized::serialize(&value))?;
 
-                serialized = swc_plugin_runner::apply_transform_plugin(
-                    &p.0,
-                    &PathBuf::from(&p.0),
-                    &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
-                    serialized,
-                    config_json,
-                    context_json,
-                )?;
-            }
-        }
+                        serialized = swc_plugin_runner::apply_transform_plugin(
+                            &p.0,
+                            &PathBuf::from(&p.0),
+                            &swc_plugin_runner::cache::PLUGIN_MODULE_CACHE,
+                            serialized,
+                            config_json,
+                            context_json,
+                        )?;
+                    }
+                }
 
-        Serialized::deserialize(&serialized)
+                Serialized::deserialize(&serialized)
+            },
+        )
     }
 }
 
-impl Fold for RustPlugins {
+impl Fold for RustPlugins<'_> {
     noop_fold_type!();
 
     #[cfg(feature = "plugin")]

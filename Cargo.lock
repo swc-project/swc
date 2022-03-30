@@ -2862,6 +2862,7 @@ dependencies = [
  "swc_error_reporters",
  "swc_node_base",
  "swc_node_comments",
+ "swc_plugin_comments",
  "swc_plugin_runner",
  "swc_visit",
  "testing",

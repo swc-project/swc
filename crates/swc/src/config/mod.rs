@@ -466,7 +466,12 @@ impl Options {
                 swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
             }
 
-            crate::plugin::plugins(Some(plugin_resolver), experimental, plugin_context)
+            crate::plugin::plugins(
+                Some(plugin_resolver),
+                comments,
+                experimental,
+                plugin_context,
+            )
         };
 
         // Native runtime plugin target, based on assumption we have
@@ -487,7 +492,7 @@ impl Options {
             };
 
             swc_plugin_runner::cache::init_plugin_module_cache_once();
-            crate::plugin::plugins(None, experimental, plugin_context)
+            crate::plugin::plugins(None, comments, experimental, plugin_context)
         };
 
         #[cfg(not(feature = "plugin"))]
