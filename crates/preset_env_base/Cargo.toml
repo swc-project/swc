@@ -5,7 +5,7 @@ documentation = "https://rustdoc.swc.rs/preset_env_base/"
 edition = "2021"
 license = "Apache-2.0"
 name = "preset_env_base"
-version = "0.2.0"
+version = "0.2.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
