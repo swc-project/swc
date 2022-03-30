@@ -538,7 +538,7 @@ define!({
         ListOfComponentValues(ListOfComponentValues),
         PropertyPrelude(DashedIdent),
         CounterStylePrelude(CustomIdent),
-        ColorProfilePrelude(ColorProfilePrelude),
+        ColorProfilePrelude(ColorProfileName),
         CharsetPrelude(Str),
         DocumentPrelude(DocumentPrelude),
         NestPrelude(SelectorList),
@@ -556,12 +556,7 @@ define!({
         pub children: Vec<ComponentValue>,
     }
 
-    pub struct ColorProfilePrelude {
-        pub span: Span,
-        pub name: ColorProfilePreludeName,
-    }
-
-    pub enum ColorProfilePreludeName {
+    pub enum ColorProfileName {
         DashedIdent(DashedIdent),
         Ident(Ident),
     }

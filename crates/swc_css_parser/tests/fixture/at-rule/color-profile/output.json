@@ -24,22 +24,14 @@
         "raw": "color-profile"
       },
       "prelude": {
-        "type": "ColorProfilePrelude",
+        "type": "DashedIdent",
         "span": {
           "start": 15,
           "end": 24,
           "ctxt": 0
         },
-        "name": {
-          "type": "DashedIdent",
-          "span": {
-            "start": 15,
-            "end": 24,
-            "ctxt": 0
-          },
-          "value": "--fogra39",
-          "raw": "--fogra39"
-        }
+        "value": "--fogra39",
+        "raw": "--fogra39"
       },
       "block": {
         "type": "SimpleBlock",
@@ -121,22 +113,14 @@
         "raw": "color-profile"
       },
       "prelude": {
-        "type": "ColorProfilePrelude",
+        "type": "Ident",
         "span": {
           "start": 111,
           "end": 122,
           "ctxt": 0
         },
-        "name": {
-          "type": "Ident",
-          "span": {
-            "start": 111,
-            "end": 122,
-            "ctxt": 0
-          },
-          "value": "device-cmyk",
-          "raw": "device-cmyk"
-        }
+        "value": "device-cmyk",
+        "raw": "device-cmyk"
       },
       "block": {
         "type": "SimpleBlock",

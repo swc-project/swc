@@ -7864,22 +7864,14 @@
         "raw": "color-profile"
       },
       "prelude": {
-        "type": "ColorProfilePrelude",
+        "type": "DashedIdent",
         "span": {
           "start": 2983,
           "end": 2996,
           "ctxt": 0
         },
-        "name": {
-          "type": "DashedIdent",
-          "span": {
-            "start": 2983,
-            "end": 2996,
-            "ctxt": 0
-          },
-          "value": "--fogra55beta",
-          "raw": "--fogra55beta"
-        }
+        "value": "--fogra55beta",
+        "raw": "--fogra55beta"
       },
       "block": {
         "type": "SimpleBlock",

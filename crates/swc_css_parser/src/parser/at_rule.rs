@@ -302,24 +302,22 @@ where
                 "color-profile" => {
                     parser.input.skip_ws()?;
 
-                    let span = parser.input.cur_span()?;
                     let name = match cur!(parser) {
                         Token::Ident { value, .. } => {
                             if value.starts_with("--") {
-                                ColorProfilePreludeName::DashedIdent(parser.parse()?)
+                                ColorProfileName::DashedIdent(parser.parse()?)
                             } else {
-                                ColorProfilePreludeName::Ident(parser.parse()?)
+                                ColorProfileName::Ident(parser.parse()?)
                             }
                         }
                         _ => {
+                            let span = parser.input.cur_span()?;
+
                             return Err(Error::new(span, ErrorKind::Expected("ident")));
                         }
                     };
 
-                    let prelude = AtRulePrelude::ColorProfilePrelude(ColorProfilePrelude {
-                        span: span!(parser, span.lo),
-                        name,
-                    });
+                    let prelude = AtRulePrelude::ColorProfilePrelude(name);
 
                     parser.input.skip_ws()?;
 

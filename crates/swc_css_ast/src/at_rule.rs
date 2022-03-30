@@ -34,8 +34,8 @@ pub enum AtRulePrelude {
     PropertyPrelude(DashedIdent),
     #[tag("CustomIdent")]
     CounterStylePrelude(CustomIdent),
-    #[tag("ColorProfilePrelude")]
-    ColorProfilePrelude(ColorProfilePrelude),
+    #[tag("ColorProfileName")]
+    ColorProfilePrelude(ColorProfileName),
     #[tag("DocumentPrelude")]
     DocumentPrelude(DocumentPrelude),
     #[tag("SelectorList")]
@@ -62,14 +62,8 @@ pub struct ListOfComponentValues {
     pub children: Vec<ComponentValue>,
 }
 
-#[ast_node("ColorProfilePrelude")]
-pub struct ColorProfilePrelude {
-    pub span: Span,
-    pub name: ColorProfilePreludeName,
-}
-
 #[ast_node]
-pub enum ColorProfilePreludeName {
+pub enum ColorProfileName {
     #[tag("DashedIdent")]
     DashedIdent(DashedIdent),
     #[tag("Ident")]
