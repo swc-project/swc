@@ -28,6 +28,14 @@ pub struct DashedIdent {
     pub raw: JsWord,
 }
 
+#[ast_node("CustomPropertyName")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct CustomPropertyName {
+    pub span: Span,
+    pub value: JsWord,
+    pub raw: JsWord,
+}
+
 /// Quoted string.
 #[ast_node("String")]
 #[derive(Eq, Hash, EqIgnoreSpan)]

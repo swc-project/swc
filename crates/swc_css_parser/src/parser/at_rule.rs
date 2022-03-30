@@ -106,6 +106,21 @@ where
 
                     Ok(Some(prelude))
                 }
+                "font-palette-values" => {
+                    parser.input.skip_ws()?;
+
+                    let prelude = AtRulePrelude::FontPaletteValues(parser.parse()?);
+
+                    parser.input.skip_ws()?;
+
+                    if !is!(parser, "{") {
+                        let span = parser.input.cur_span()?;
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
+                    Ok(Some(prelude))
+                }
                 "layer" => {
                     parser.input.skip_ws()?;
 
@@ -481,6 +496,7 @@ where
                 | "-o-viewport"
                 | "-ms-viewport"
                 | "font-face"
+                | "font-palette-values"
                 | "property"
                 | "color-profile"
                 | "counter-style"

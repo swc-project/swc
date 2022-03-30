@@ -536,11 +536,12 @@ define!({
 
     pub enum AtRulePrelude {
         ListOfComponentValues(ListOfComponentValues),
-        PropertyPrelude(DashedIdent),
+        PropertyPrelude(CustomPropertyName),
         CounterStylePrelude(CustomIdent),
         ColorProfilePrelude(ColorProfileName),
         CharsetPrelude(Str),
         DocumentPrelude(DocumentPrelude),
+        FontPaletteValues(DashedIdent),
         NestPrelude(SelectorList),
         KeyframesPrelude(KeyframesName),
         ImportPrelude(ImportPrelude),

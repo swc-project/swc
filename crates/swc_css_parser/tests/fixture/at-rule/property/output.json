@@ -24,7 +24,7 @@
         "raw": "property"
       },
       "prelude": {
-        "type": "DashedIdent",
+        "type": "CustomPropertyName",
         "span": {
           "start": 10,
           "end": 20,

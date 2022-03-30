@@ -2,8 +2,8 @@ use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
-    ComponentValue, CustomIdent, DashedIdent, Declaration, Dimension, Function, Ident, Number,
-    Percentage, Ratio, SelectorList, SimpleBlock, Str, Url,
+    ComponentValue, CustomIdent, CustomPropertyName, DashedIdent, Declaration, Dimension, Function,
+    Ident, Number, Percentage, Ratio, SelectorList, SimpleBlock, Str, Url,
 };
 
 #[ast_node("AtRule")]
@@ -29,15 +29,16 @@ pub enum AtRulePrelude {
     ListOfComponentValues(ListOfComponentValues),
     #[tag("Str")]
     CharsetPrelude(Str),
-    // TODO improve me https://drafts.csswg.org/css-variables-1/#typedef-custom-property-name
-    #[tag("DashedIdent")]
-    PropertyPrelude(DashedIdent),
+    #[tag("CustomPropertyName")]
+    PropertyPrelude(CustomPropertyName),
     #[tag("CustomIdent")]
     CounterStylePrelude(CustomIdent),
     #[tag("ColorProfileName")]
     ColorProfilePrelude(ColorProfileName),
     #[tag("DocumentPrelude")]
     DocumentPrelude(DocumentPrelude),
+    #[tag("DashedIdent")]
+    FontPaletteValues(DashedIdent),
     #[tag("SelectorList")]
     NestPrelude(SelectorList),
     #[tag("KeyframesName")]
