@@ -453,6 +453,11 @@ impl<'a, I: Tokens> Parser<I> {
             );
             if !is!(self, ']') {
                 expect!(self, ',');
+                if is!(self, ']') {
+                    self.state
+                        .trailing_commas
+                        .insert(start, self.input.prev_span());
+                }
             }
         }
 
@@ -667,7 +672,7 @@ impl<'a, I: Tokens> Parser<I> {
             ..self.ctx()
         };
 
-        let paren_items = self
+        let (paren_items, trailing_comma) = self
             .with_ctx(ctx)
             .include_in_expr(true)
             .parse_args_or_pats()?;
@@ -691,7 +696,7 @@ impl<'a, I: Tokens> Parser<I> {
                 expect!(p, "=>");
 
                 let params: Vec<Pat> = p
-                    .parse_paren_items_as_params(items_ref.clone())?
+                    .parse_paren_items_as_params(items_ref.clone(), trailing_comma)?
                     .into_iter()
                     .collect();
 
@@ -746,7 +751,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(self, "=>");
 
             let params: Vec<Pat> = self
-                .parse_paren_items_as_params(paren_items)?
+                .parse_paren_items_as_params(paren_items, trailing_comma)?
                 .into_iter()
                 .collect();
 
@@ -1482,13 +1487,15 @@ impl<'a, I: Tokens> Parser<I> {
         self.parse_expr()
     }
 
-    pub(super) fn parse_args_or_pats(&mut self) -> PResult<Vec<PatOrExprOrSpread>> {
+    // Returns (args_or_pats, trailing_comma)
+    pub(super) fn parse_args_or_pats(&mut self) -> PResult<(Vec<PatOrExprOrSpread>, Option<Span>)> {
         trace_cur!(self, parse_args_or_pats);
 
         expect!(self, '(');
 
         let mut items = vec![];
         let mut rest_span = None;
+        let mut trailing_comma = None;
 
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
         // as a pattern instead of reparsing)
@@ -1709,7 +1716,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             } {
                 let params: Vec<Pat> = self
-                    .parse_paren_items_as_params(items.clone())?
+                    .parse_paren_items_as_params(items.clone(), None)?
                     .into_iter()
                     .collect();
 
@@ -1736,11 +1743,14 @@ impl<'a, I: Tokens> Parser<I> {
 
             if !is!(self, ')') {
                 expect!(self, ',');
+                if is!(self, ')') {
+                    trailing_comma = Some(self.input.prev_span());
+                }
             }
         }
 
         expect!(self, ')');
-        Ok(items)
+        Ok((items, trailing_comma))
     }
 }
 

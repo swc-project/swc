@@ -1,0 +1,12 @@
+
+  x A rest parameter must be last in a parameter list
+   ,-[$DIR/tests/pat/errors/rest-not-last/class_method_and_constructor.js:2:3]
+ 2 | constructor(...a,b,){}
+   :             ^^^^
+   `----
+
+  x A rest parameter must be last in a parameter list
+   ,-[$DIR/tests/pat/errors/rest-not-last/class_method_and_constructor.js:3:3]
+ 3 | fn(...a,b,) {}
+   :    ^^^^
+   `----

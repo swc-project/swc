@@ -21,6 +21,7 @@ impl<'a, I: Tokens> Parser<I> {
             trace_cur!(p, parse_object);
 
             let start = cur_pos!(p);
+            let mut trailing_comma = None;
             assert_and_bump!(p, '{');
 
             let mut props = vec![];
@@ -30,10 +31,13 @@ impl<'a, I: Tokens> Parser<I> {
 
                 if !is!(p, '}') {
                     expect!(p, ',');
+                    if is!(p, '}') {
+                        trailing_comma = Some(p.input.prev_span());
+                    }
                 }
             }
 
-            p.make_object(span!(p, start), props)
+            p.make_object(span!(p, start), props, trailing_comma)
         })
     }
 
@@ -122,7 +126,15 @@ impl<'a, I: Tokens> Parser<I> {
 impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
     type Prop = PropOrSpread;
 
-    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<Box<Expr>> {
+    fn make_object(
+        &mut self,
+        span: Span,
+        props: Vec<Self::Prop>,
+        trailing_comma: Option<Span>,
+    ) -> PResult<Box<Expr>> {
+        if let Some(trailing_comma) = trailing_comma {
+            self.state.trailing_commas.insert(span.lo, trailing_comma);
+        }
         Ok(Box::new(Expr::Object(ObjectLit { span, props })))
     }
 
@@ -384,13 +396,22 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 impl<I: Tokens> ParseObject<Pat> for Parser<I> {
     type Prop = ObjectPatProp;
 
-    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<Pat> {
+    fn make_object(
+        &mut self,
+        span: Span,
+        props: Vec<Self::Prop>,
+        trailing_comma: Option<Span>,
+    ) -> PResult<Pat> {
         let len = props.len();
         for (i, p) in props.iter().enumerate() {
             if i == len - 1 {
                 if let ObjectPatProp::Rest(ref rest) = p {
                     match *rest.arg {
-                        Pat::Ident(..) => {}
+                        Pat::Ident(..) => {
+                            if let Some(trailing_comma) = trailing_comma {
+                                self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
+                            }
+                        }
                         _ => syntax_error!(self, p.span(), SyntaxError::DotsWithoutIdentifier),
                     }
                 }

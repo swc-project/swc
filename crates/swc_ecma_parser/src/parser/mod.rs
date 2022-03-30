@@ -1,5 +1,8 @@
 #![deny(non_snake_case)]
-use std::ops::{Deref, DerefMut};
+use std::{
+    collections::HashMap,
+    ops::{Deref, DerefMut},
+};
 
 use swc_atoms::JsWord;
 use swc_common::{comments::Comments, input::Input, BytePos, Span};
@@ -52,6 +55,8 @@ struct State {
     potential_arrow_start: Option<BytePos>,
 
     found_module_item: bool,
+    /// Start position of an AST node and the span of its trailing comma.
+    trailing_commas: HashMap<BytePos, Span>,
 }
 
 impl<'a, I: Input> Parser<Lexer<'a, I>> {

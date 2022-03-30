@@ -1,0 +1,6 @@
+
+  x Rest element must be final element
+   ,-[$DIR/tests/pat/errors/rest-not-last/array_assign_pattern.js:1:1]
+ 1 | [...a,b,]=[...spread,];
+   :  ^^^^
+   `----

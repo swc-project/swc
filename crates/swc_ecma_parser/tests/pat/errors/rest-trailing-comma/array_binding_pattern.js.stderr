@@ -1,0 +1,6 @@
+
+  x Trailing comma isn't permitted after a rest element
+   ,-[$DIR/tests/pat/errors/rest-trailing-comma/array_binding_pattern.js:1:1]
+ 1 | const [...a,] = [...spread,];
+   :            ^
+   `----
