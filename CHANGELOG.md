@@ -23,10 +23,16 @@
 
 
 
+- **(common/preset-env)** Dedup `arrayvec` (#4201) ([1ad357c](https://github.com/swc-project/swc/commit/1ad357cb32147ea95ccce534076b87ea5ae76ebd))
+
+
 - **(es/minifier)** Evaluate trivial expressions (#4179) ([a6f6799](https://github.com/swc-project/swc/commit/a6f679981140867bd36e887249ae63d75186ca5a))
 
 
 - **(es/minifier)** Optimize switches more correctly (#4180) ([6d3ea17](https://github.com/swc-project/swc/commit/6d3ea17aa6b708c7819a6769dccd920bd3fe2efe))
+
+
+- **(es/minifier)** Evaluate more iifes (#4200) ([11fe5fa](https://github.com/swc-project/swc/commit/11fe5fabd8280f7cf2c3ef0d6a12e0f3803ef3e8))
 
 
 - **(es/parser)** Allow parsing files with missing close braces (#4187) ([cffe5ca](https://github.com/swc-project/swc/commit/cffe5ca58e933253f69eb9befd77243c9b81775f))

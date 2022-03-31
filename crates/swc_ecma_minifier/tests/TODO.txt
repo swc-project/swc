@@ -251,7 +251,6 @@ functions/inline_true/input.js
 functions/inner_ref/input.js
 functions/issue_203/input.js
 functions/issue_2084/input.js
-functions/issue_2101/input.js
 functions/issue_2107/input.js
 functions/issue_2114_1/input.js
 functions/issue_2114_2/input.js
@@ -499,8 +498,6 @@ issue_976/eval_mangle/input.js
 issue_976/eval_unused/input.js
 issue_979/issue979_reported/input.js
 issue_979/issue979_test_negated_is_best/input.js
-issue_t120/issue_t120_1/input.js
-issue_t120/issue_t120_2/input.js
 issue_t120/issue_t120_3/input.js
 issue_t120/issue_t120_4/input.js
 issue_t120/issue_t120_5/input.js
