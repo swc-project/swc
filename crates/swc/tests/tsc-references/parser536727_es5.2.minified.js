@@ -1,11 +1,14 @@
 function foo(f) {
     return f("");
 }
-var g = function(x) {
+foo(function(x) {
     return x + "blah";
-};
-foo(g), foo(function() {
-    return g;
 }), foo(function() {
-    return g;
+    return function(x) {
+        return x + "blah";
+    };
+}), foo(function() {
+    return function(x) {
+        return x + "blah";
+    };
 });

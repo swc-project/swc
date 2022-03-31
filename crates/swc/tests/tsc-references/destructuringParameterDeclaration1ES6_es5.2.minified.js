@@ -96,7 +96,7 @@ a1([
     !1,
     !0
 ]);
-var Foo, C2 = function() {
+var C2 = function() {
     "use strict";
     function C2() {
         swcHelpers.classCallCheck(this, C2);

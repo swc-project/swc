@@ -3,7 +3,7 @@ function a10(param) {
     var _param = swcHelpers.toArray(param), ref = (_param[0], _param[1], swcHelpers.slicedToArray(_param[2], 1)), ref1 = swcHelpers.slicedToArray(ref[0], 1);
     ref1[0], _param.slice(3);
 }
-var E, E1, array = [
+var array = [
     1,
     2,
     3

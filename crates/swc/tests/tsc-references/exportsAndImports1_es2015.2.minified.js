@@ -1,5 +1,5 @@
 import { I, N, T } from "./t1";
-var E, D, M, v = 1;
+var M, v = 1;
 function f() {}
 class C {
 }

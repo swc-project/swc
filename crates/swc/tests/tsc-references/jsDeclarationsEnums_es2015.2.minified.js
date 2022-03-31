@@ -1,4 +1,3 @@
-var C, DD;
 export var A;
 export var B;
 !function(B) {

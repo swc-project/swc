@@ -1,4 +1,4 @@
-var E, M;
+var M;
 class C {
     static foo() {}
 }

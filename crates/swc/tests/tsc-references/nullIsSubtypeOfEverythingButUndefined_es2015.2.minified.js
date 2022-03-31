@@ -1,4 +1,3 @@
-var E;
 function f() {}
 new Date(), function(E) {
     E[E.A = 0] = "A";

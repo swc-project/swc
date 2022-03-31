@@ -1,4 +1,3 @@
-var E01, E02, E03, E04, E05, E06, E07, E08, E11, E12, E20;
 !function(E01) {
     E01[E01.A = 0] = "A";
 }(E01 || (E01 = {})), function(E02) {

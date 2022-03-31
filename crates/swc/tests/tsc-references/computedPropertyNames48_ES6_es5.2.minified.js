@@ -1,4 +1,4 @@
-var E, a;
+var a;
 import * as swcHelpers from "@swc/helpers";
 !function(E) {
     E[E.x = 0] = "x";

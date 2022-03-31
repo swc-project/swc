@@ -1,4 +1,3 @@
-var K;
 !function(K) {
     K.a = "a", K.b = "b";
 }(K || (K = {}));

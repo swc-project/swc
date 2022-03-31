@@ -1,4 +1,3 @@
-var T1, T2, T3, T4, T5, T6, T7;
 !function(T1) {
     T1.a = "1";
 }(T1 || (T1 = {})), function(T2) {

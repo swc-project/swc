@@ -7,7 +7,7 @@ class D {
 }(E1 || (E1 = {})), function(E2) {
     E2[E2.one = 0] = "one";
 }(E2 || (E2 = {}));
-var E1, E2, classCDATuple = [
+var classCDATuple = [
     new C(),
     new D()
 ];

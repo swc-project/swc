@@ -1,4 +1,4 @@
-var s, E1, E2;
+var s;
 function foo(x) {}
 foo({
     read: ()=>s

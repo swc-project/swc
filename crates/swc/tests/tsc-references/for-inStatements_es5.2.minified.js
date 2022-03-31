@@ -26,7 +26,7 @@ for(var x in function(x1) {
 for(var x in function(x2, y) {
     return x2 + y;
 });
-var aString, anAny, c, d, e, i, M, Color, A = function() {
+var aString, anAny, c, d, e, i, M, A = function() {
     "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);

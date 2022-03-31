@@ -1,4 +1,4 @@
-var foo, color;
+var color;
 !function(foo) {
     foo[foo.red = 0] = "red", foo[foo.green = 1] = "green", foo[foo.blue = 2] = "blue";
 }(foo || (foo = {})), (foo || (foo = {})).answer = 42, module.exports = foo;

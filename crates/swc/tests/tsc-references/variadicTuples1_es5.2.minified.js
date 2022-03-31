@@ -65,15 +65,21 @@ t = [
     [
         "def"
     ]
-]);
-var t, u, t1, u1, fn1 = function(a, b, c, d) {
+]), curry(function(a, b, c, d) {
     return 0;
-};
-curry(fn1), curry(fn1, 1), curry(fn1, 1, "abc"), curry(fn1, 1, "abc", !0), curry(fn1, 1, "abc", !0, [
+}), curry(function(a, b, c, d) {
+    return 0;
+}, 1), curry(function(a, b, c, d) {
+    return 0;
+}, 1, "abc"), curry(function(a, b, c, d) {
+    return 0;
+}, 1, "abc", !0), curry(function(a, b, c, d) {
+    return 0;
+}, 1, "abc", !0, [
     "x",
     "y"
 ]);
-var fn2 = function(x, b) {
+var t, u, t1, u1, fn2 = function(x, b) {
     for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)args[_key - 2] = arguments[_key];
     return 0;
 };

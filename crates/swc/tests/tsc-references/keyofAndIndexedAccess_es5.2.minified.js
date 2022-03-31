@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var E, Flag, Shape = function() {
+var Shape = function() {
     "use strict";
     swcHelpers.classCallCheck(this, Shape);
 }, TaggedShape = function(Shape1) {

@@ -1,4 +1,3 @@
-var K;
 export default class {
 };
 export class A {

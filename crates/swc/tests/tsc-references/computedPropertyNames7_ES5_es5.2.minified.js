@@ -1,4 +1,3 @@
-var E;
 import * as swcHelpers from "@swc/helpers";
 !function(E) {
     E[E.member = 0] = "member";

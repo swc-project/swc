@@ -1,4 +1,4 @@
-var E, F, x;
+var x;
 function foo(x, a, b) {}
 function foo2(x, a, b) {}
 foo("", function(x) {

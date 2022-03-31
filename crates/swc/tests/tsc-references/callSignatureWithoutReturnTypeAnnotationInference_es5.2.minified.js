@@ -2,17 +2,14 @@ import * as swcHelpers from "@swc/helpers";
 function foo3() {
     return foo3();
 }
-x1 = 1, function(x) {
-    var x1;
-    x1 = 1;
-}(1), foo3(), function(x) {
+x = 1, x = 1, foo3(), x = 1, function(x) {
     try {} catch (e) {
         return [];
     } finally{}
 }(1), function(x) {
     void 0 === x || swcHelpers.typeOf(x);
 }(1);
-var x1, M, e1, C = function() {
+var M, C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
 };

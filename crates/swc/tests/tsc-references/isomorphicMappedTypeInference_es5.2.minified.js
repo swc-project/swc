@@ -1,3 +1,6 @@
+function getProps(obj, list) {
+    return {};
+}
 applySpec({
     sum: function(a) {
         return 3;
@@ -15,20 +18,6 @@ applySpec({
             }
         }
     }
-});
-var foo = function(object, partial) {
-    return object;
-}, o = {
-    a: 5,
-    b: 7
-};
-function getProps(obj, list) {
-    return {};
-}
-foo(o, {
-    b: 9
-}), o = foo(o, {
-    b: 9
 }), f20({
     foo: 42,
     bar: "hello"

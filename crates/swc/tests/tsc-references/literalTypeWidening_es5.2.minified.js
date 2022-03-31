@@ -9,7 +9,7 @@ export function Set() {
 export function keys(obj) {
     return Object.keys(obj);
 }
-var E, langCodeSet = Set("fr", "en", "es", "it", "nl");
+var langCodeSet = Set("fr", "en", "es", "it", "nl");
 export var langCodes = keys(langCodeSet);
 langCodes.map(function(code) {
     return {

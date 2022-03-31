@@ -1,4 +1,3 @@
-var NumericEnum1, NumericEnum2, StringEnum1;
 !function(NumericEnum1) {
     NumericEnum1[NumericEnum1.A = 0] = "A", NumericEnum1[NumericEnum1.B = 1] = "B", NumericEnum1[NumericEnum1.C = 2] = "C";
 }(NumericEnum1 || (NumericEnum1 = {})), function(NumericEnum2) {

@@ -1,7 +1,7 @@
 var TypeScript;
 import * as swcHelpers from "@swc/helpers";
 !function(TypeScript1) {
-    var GetAstPathOptions, lastOf = function(items) {
+    var lastOf = function(items) {
         return null === items || 0 === items.length ? null : items[items.length - 1];
     }, max = function(a, b) {
         return a >= b ? a : b;

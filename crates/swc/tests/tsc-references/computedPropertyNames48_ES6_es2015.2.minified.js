@@ -1,4 +1,4 @@
-var E, a;
+var a;
 !function(E) {
     E[E.x = 0] = "x";
 }(E || (E = {})), extractIndexer({

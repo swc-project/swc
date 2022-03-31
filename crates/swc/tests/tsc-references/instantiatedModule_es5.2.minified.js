@@ -18,7 +18,7 @@ M.Point, m.Point, function(M21) {
 }(M2 || (M2 = {}));
 var m2 = M2, a2 = m2.Point, a2 = M2.Point;
 a2.Origin(), new m2.Point(), new M2.Point(), function(M31) {
-    var Color, Color;
+    var Color;
     (Color = Color = M31.Color || (M31.Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
 }(M3 || (M3 = {}));
 var m3 = M3, a3 = m3.Color, a3 = M3.Color;

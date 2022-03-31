@@ -2,7 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 !function(E) {
     E[E.A = 0] = "A";
 }(E || (E = {})), E.A;
-var x, E, M, C = function() {
+var x, M, C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
 };

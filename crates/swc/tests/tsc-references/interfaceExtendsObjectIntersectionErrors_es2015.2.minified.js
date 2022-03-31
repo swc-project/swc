@@ -1,4 +1,3 @@
-var EX;
 class C1 extends Constructor() {
 }
 class C2 extends Constructor() {
