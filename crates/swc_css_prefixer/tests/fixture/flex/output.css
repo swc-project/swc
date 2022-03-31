@@ -8,7 +8,9 @@ a {
   -webkit-flex-flow: row;
   -ms-flex-flow: row;
   flex-flow: row;
+  -webkit-box-ordinal-group: 1;
   -webkit-order: 0;
+  -moz-box-ordinal-group: 1;
   -ms-flex-order: 0;
   order: 0;
   -webkit-box-flex: 0;
@@ -201,7 +203,9 @@ a {
   flex-flow: nowrap;
 }
 .inherit {
+  -webkit-box-ordinal-group: inherit;
   -webkit-order: inherit;
+  -moz-box-ordinal-group: inherit;
   -ms-flex-order: inherit;
   order: inherit;
   -webkit-flex-direction: inherit;
@@ -312,7 +316,9 @@ a {
   justify-items: center;
 }
 .class {
+  -webkit-box-ordinal-group: 2;
   -webkit-order: 1;
+  -moz-box-ordinal-group: 2;
   -ms-flex-order: 1;
   order: 1;
 }

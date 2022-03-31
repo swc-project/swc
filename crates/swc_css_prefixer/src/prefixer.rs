@@ -1187,9 +1187,32 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Webkit, "-webkit-justify-content");
             }
 
-            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "order" => {
+                let old_spec_num = match n.value.get(0) {
+                    Some(ComponentValue::Integer(Integer { value, .. })) => Some(value + 1),
+                    _ => None,
+                };
+
+                match old_spec_num {
+                    Some(old_spec_num) if n.value.len() == 1 => {
+                        simple!("-webkit-box-ordinal-group", old_spec_num.to_string());
+                    }
+                    _ => {
+                        same_content!(Prefix::Webkit, "-webkit-box-ordinal-group");
+                    }
+                }
+
                 same_content!(Prefix::Webkit, "-webkit-order");
+
+                match old_spec_num {
+                    Some(old_spec_num) if n.value.len() == 1 => {
+                        simple!("-moz-box-ordinal-group", old_spec_num.to_string());
+                    }
+                    _ => {
+                        same_content!(Prefix::Webkit, "-moz-box-ordinal-group");
+                    }
+                }
+
                 same_content!(Prefix::Ms, "-ms-flex-order");
             }
 
