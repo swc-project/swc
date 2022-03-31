@@ -356,6 +356,8 @@ hoist_props/toplevel_const/input.js
 hoist_props/toplevel_let/input.js
 hoist_props/toplevel_var/input.js
 hoist_props/undefined_key/input.js
+identity/inline_identity_extra_params/input.js
+identity/inline_identity_function/input.js
 ie8/do_screw_try_catch/input.js
 ie8/do_screw_try_catch_undefined/input.js
 ie8/dont_screw_try_catch/input.js
