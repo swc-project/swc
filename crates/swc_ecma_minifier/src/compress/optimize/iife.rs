@@ -2,7 +2,7 @@ use std::{collections::HashMap, mem::swap};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
-use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{pass::Either, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, ident::IdentLike, undefined, ExprFactory, Id,
@@ -261,6 +261,7 @@ where
         n.visit_mut_with(&mut MultiReplacer {
             vars,
             changed: false,
+            clone: false,
         });
     }
 
@@ -375,14 +376,25 @@ where
                     BlockStmtOrExpr::Expr(body) => {
                         self.changed = true;
 
+                        // We remap variables
+                        let mut remap = HashMap::default();
+                        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+
+                        for p in param_ids.iter() {
+                            let new = Ident::new(p.sym.clone(), p.span.with_ctxt(new_ctxt));
+                            remap.insert(p.to_id(), Box::new(Expr::Ident(new)));
+                        }
+
                         {
-                            let vars = f
-                                .params
+                            let vars = param_ids
                                 .iter()
-                                .cloned()
                                 .map(|name| VarDeclarator {
                                     span: DUMMY_SP.apply_mark(self.marks.non_top_level),
-                                    name,
+                                    name: Ident::new(
+                                        name.sym.clone(),
+                                        name.span.with_ctxt(new_ctxt),
+                                    )
+                                    .into(),
                                     init: Default::default(),
                                     definite: Default::default(),
                                 })
@@ -399,12 +411,18 @@ where
                         }
 
                         let mut exprs = vec![Box::new(make_number(DUMMY_SP, 0.0))];
-                        for (idx, param) in f.params.iter().enumerate() {
+                        for (idx, param) in param_ids.iter().enumerate() {
                             if let Some(arg) = call.args.get_mut(idx) {
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                                     op: op!("="),
-                                    left: PatOrExpr::Pat(Box::new(param.clone())),
+                                    left: PatOrExpr::Pat(
+                                        Ident::new(
+                                            param.sym.clone(),
+                                            param.span.with_ctxt(new_ctxt),
+                                        )
+                                        .into(),
+                                    ),
                                     right: arg.expr.take(),
                                 })));
                             }
@@ -415,6 +433,11 @@ where
                                 exprs.push(arg.expr.take());
                             }
                         }
+                        body.visit_mut_with(&mut MultiReplacer {
+                            vars: remap,
+                            changed: false,
+                            clone: true,
+                        });
                         exprs.push(body.take());
 
                         tracing::debug!("inline: Inlining a call to an arrow function");

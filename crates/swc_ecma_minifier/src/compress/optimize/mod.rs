@@ -2204,6 +2204,7 @@ where
         stmts.visit_mut_with(&mut MultiReplacer {
             vars: take(&mut self.vars_for_inlining),
             changed: false,
+            clone: false,
         });
 
         drop_invalid_stmts(stmts);

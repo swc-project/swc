@@ -171,6 +171,17 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
 pub(crate) struct MultiReplacer {
     pub vars: FxHashMap<Id, Box<Expr>>,
     pub changed: bool,
+    pub clone: bool,
+}
+
+impl MultiReplacer {
+    fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
+        if self.clone {
+            self.vars.get(i).cloned()
+        } else {
+            self.vars.remove(i)
+        }
+    }
 }
 
 impl VisitMut for MultiReplacer {
@@ -180,7 +191,7 @@ impl VisitMut for MultiReplacer {
         e.visit_mut_children_with(self);
 
         if let Expr::Ident(i) = e {
-            if let Some(new) = self.vars.remove(&i.to_id()) {
+            if let Some(new) = self.var(&i.to_id()) {
                 debug!("multi-replacer: Replaced `{}`", i);
                 *e = *new;
                 self.changed = true;
@@ -210,7 +221,7 @@ impl VisitMut for MultiReplacer {
         p.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = p {
-            if let Some(value) = self.vars.remove(&i.to_id()) {
+            if let Some(value) = self.var(&i.to_id()) {
                 debug!("multi-replacer: Replaced `{}` as shorthand", i);
                 self.changed = true;
 
