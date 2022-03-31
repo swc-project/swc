@@ -636,6 +636,8 @@ where
             return;
         }
 
+        assign.left.map_with_mut(|v| v.normalize_ident());
+
         match &mut assign.left {
             PatOrExpr::Expr(_) => {
                 if cfg!(feature = "debug") {
