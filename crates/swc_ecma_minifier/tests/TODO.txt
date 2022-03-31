@@ -268,11 +268,6 @@ functions/issue_2620_1/input.js
 functions/issue_2620_2/input.js
 functions/issue_2620_3/input.js
 functions/issue_2620_4/input.js
-functions/issue_2630_1/input.js
-functions/issue_2630_2/input.js
-functions/issue_2630_3/input.js
-functions/issue_2630_4/input.js
-functions/issue_2630_5/input.js
 functions/issue_2657/input.js
 functions/issue_2663_2/input.js
 functions/issue_2842/input.js
