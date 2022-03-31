@@ -1149,11 +1149,13 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-flex-wrap");
             }
 
+            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "flex-flow" => {
                 same_content!(Prefix::Webkit, "-webkit-flex-flow");
                 same_content!(Prefix::Ms, "-ms-flex-flow");
             }
 
+            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "justify-content" => {
                 if n.value.len() == 1 {
                     if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
@@ -1185,17 +1187,20 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Webkit, "-webkit-justify-content");
             }
 
+            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "order" => {
                 same_content!(Prefix::Webkit, "-webkit-order");
                 same_content!(Prefix::Ms, "-ms-flex-order");
             }
 
+            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/align-items.js
             "align-items" => {
                 same_content!(Prefix::Webkit, "-webkit-align-items");
                 same_content!(Prefix::Webkit, "-webkit-box-align");
                 same_content!(Prefix::Ms, "-ms-flex-align");
             }
 
+            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/align-items.js
             "align-self" => {
                 same_content!(Prefix::Webkit, "-webkit-align-self");
                 same_content!(Prefix::Ms, "-ms-flex-item-align");
@@ -1203,7 +1208,25 @@ impl VisitMut for Prefixer {
 
             "align-content" => {
                 same_content!(Prefix::Webkit, "-webkit-align-content");
-                same_content!(Prefix::Ms, "-ms-flex-line-pack");
+
+                let mut spec_2012_ms_new_value = ms_new_value.clone();
+
+                replace_ident(&mut spec_2012_ms_new_value, "flex-end", "end");
+                replace_ident(&mut spec_2012_ms_new_value, "flex-start", "start");
+                replace_ident(&mut spec_2012_ms_new_value, "space-between", "justify");
+                replace_ident(&mut spec_2012_ms_new_value, "space-around", "distribute");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-flex-line-pack".into(),
+                    raw: "-ms-flex-line-pack".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: spec_2012_ms_new_value,
+                    important: n.important.clone(),
+                });
             }
 
             "image-rendering" => {

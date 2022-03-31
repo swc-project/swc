@@ -60,7 +60,7 @@ a {
   -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
   -webkit-align-content: flex-start;
-  -ms-flex-line-pack: flex-start;
+  -ms-flex-line-pack: start;
   align-content: flex-start;
   -webkit-align-self: flex-start;
   -ms-flex-item-align: flex-start;
@@ -92,7 +92,7 @@ a {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   -webkit-align-content: flex-end;
-  -ms-flex-line-pack: flex-end;
+  -ms-flex-line-pack: end;
   align-content: flex-end;
   -webkit-align-self: flex-end;
   -ms-flex-item-align: flex-end;
@@ -146,7 +146,7 @@ a {
   -ms-flex-align: baseline;
   align-items: baseline;
   -webkit-align-content: space-between;
-  -ms-flex-line-pack: space-between;
+  -ms-flex-line-pack: justify;
   align-content: space-between;
   -webkit-align-self: baseline;
   -ms-flex-item-align: baseline;
@@ -165,7 +165,7 @@ a {
   -ms-flex-align: stretch;
   align-items: stretch;
   -webkit-align-content: space-around;
-  -ms-flex-line-pack: space-around;
+  -ms-flex-line-pack: distribute;
   align-content: space-around;
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
@@ -267,12 +267,12 @@ a {
 }
 .class {
   -webkit-align-content: flex-start;
-  -ms-flex-line-pack: flex-start;
+  -ms-flex-line-pack: start;
   align-content: flex-start;
 }
 .class {
   -webkit-align-content: flex-end;
-  -ms-flex-line-pack: flex-end;
+  -ms-flex-line-pack: end;
   align-content: flex-end;
 }
 .class {
