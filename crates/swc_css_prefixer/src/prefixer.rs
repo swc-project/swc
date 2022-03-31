@@ -1155,36 +1155,76 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-flex-flow");
             }
 
-            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "justify-content" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &*value.to_lowercase() {
-                            "flex-end" => {
-                                simple!("-webkit-box-pack", "end");
-                                simple!("-ms-flex-pack", "end");
-                            }
-
-                            "flex-start" => {
-                                simple!("-webkit-box-pack", "start");
-                                simple!("-ms-flex-pack", "start");
-                            }
-
-                            "justify" => {
-                                same_content!(Prefix::Webkit, "-webkit-box-pack");
-                                same_content!(Prefix::Ms, "-ms-flex-pack");
-                            }
-
-                            "space-between" => {
-                                simple!("-webkit-box-pack", "justify");
-                            }
-
-                            _ => {}
-                        }
+                let need_old_spec = match n.value.get(0) {
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("space-around") =>
+                    {
+                        false
                     }
+                    _ => true,
+                };
+
+                if need_old_spec {
+                    let mut old_spec_webkit_new_value = webkit_new_value.clone();
+
+                    replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_webkit_new_value, "space-between", "justify");
+
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-pack".into(),
+                        raw: "-webkit-box-pack".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: old_spec_webkit_new_value,
+                        important: n.important.clone(),
+                    });
                 }
 
                 same_content!(Prefix::Webkit, "-webkit-justify-content");
+
+                if need_old_spec {
+                    let mut old_spec_moz_new_value = moz_new_value.clone();
+
+                    replace_ident(&mut old_spec_moz_new_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_moz_new_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_moz_new_value, "space-between", "justify");
+
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-moz-box-pack".into(),
+                        raw: "-moz-box-pack".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: old_spec_moz_new_value,
+                        important: n.important.clone(),
+                    });
+                }
+
+                let mut old_spec_ms_new_value = ms_new_value.clone();
+
+                replace_ident(&mut old_spec_ms_new_value, "flex-start", "start");
+                replace_ident(&mut old_spec_ms_new_value, "flex-end", "end");
+                replace_ident(&mut old_spec_ms_new_value, "space-between", "justify");
+                replace_ident(&mut old_spec_ms_new_value, "space-around", "distribute");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-flex-pack".into(),
+                    raw: "-ms-flex-pack".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: old_spec_ms_new_value,
+                    important: n.important.clone(),
+                });
             }
 
             "order" => {

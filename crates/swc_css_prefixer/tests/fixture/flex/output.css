@@ -51,8 +51,9 @@ a {
   -ms-flex-direction: row;
   flex-direction: row;
   -webkit-box-pack: start;
-  -ms-flex-pack: start;
   -webkit-justify-content: flex-start;
+  -moz-box-pack: start;
+  -ms-flex-pack: start;
   justify-content: flex-start;
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
@@ -84,8 +85,9 @@ a {
   -ms-flex-direction: row-reverse;
   flex-direction: row-reverse;
   -webkit-box-pack: end;
-  -ms-flex-pack: end;
   -webkit-justify-content: flex-end;
+  -moz-box-pack: end;
+  -ms-flex-pack: end;
   justify-content: flex-end;
   -webkit-box-align: end;
   -webkit-align-items: flex-end;
@@ -114,7 +116,10 @@ a {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
   -webkit-justify-content: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   -webkit-box-align: center;
   -webkit-align-items: center;
@@ -145,6 +150,8 @@ a {
   flex-direction: column-reverse;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
+  -moz-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-box-align: baseline;
   -webkit-align-items: baseline;
@@ -165,6 +172,7 @@ a {
   display: -ms-flexbox;
   display: flex;
   -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
   justify-content: space-around;
   -webkit-box-align: stretch;
   -webkit-align-items: stretch;
@@ -293,23 +301,30 @@ a {
 }
 .class {
   -webkit-box-pack: end;
-  -ms-flex-pack: end;
   -webkit-justify-content: flex-end;
+  -moz-box-pack: end;
+  -ms-flex-pack: end;
   justify-content: flex-end;
 }
 .class {
   -webkit-box-pack: start;
-  -ms-flex-pack: start;
   -webkit-justify-content: flex-start;
+  -moz-box-pack: start;
+  -ms-flex-pack: start;
   justify-content: flex-start;
 }
 .class {
+  -webkit-box-pack: stretch;
   -webkit-justify-content: stretch;
+  -moz-box-pack: stretch;
+  -ms-flex-pack: stretch;
   justify-content: stretch;
 }
 .class {
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
+  -moz-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
 }
 .class {
