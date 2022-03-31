@@ -448,6 +448,7 @@ where
                             span: DUMMY_SP,
                             exprs,
                         });
+                        e.visit_mut_with(self);
                     }
                 }
             }
