@@ -6,6 +6,7 @@ use swc_common::{
     BytePos,
 };
 
+#[cfg(target = "wasm32")]
 extern "C" {
     fn __get_leading_comments_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
 }
@@ -57,12 +58,15 @@ impl Comments for PluginCommentsProxy {
         let serialized_comments_vec_ptr_raw_ptr = serialized_comments_vec_ptr_ref.as_ptr();
         let serialized_comments_vec_ptr_raw_len = serialized_comments_vec_ptr_ref.len();
 
-        let ret = unsafe {
-            __get_leading_comments_proxy(pos.0, serialized_comments_vec_ptr_raw_ptr as _)
-        };
+        #[cfg(target = "wasm32")]
+        {
+            let ret = unsafe {
+                __get_leading_comments_proxy(pos.0, serialized_comments_vec_ptr_raw_ptr as _)
+            };
 
-        if ret == 0 {
-            return None;
+            if ret == 0 {
+                return None;
+            }
         }
 
         // First, reconstruct CommentsVecPtr to reveal ptr to the allocated
