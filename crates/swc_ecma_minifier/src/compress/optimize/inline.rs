@@ -161,13 +161,6 @@ where
                         }) => arg.is_lit(),
                         Expr::This(..) => usage.is_fn_local,
                         Expr::Arrow(arr) => is_arrow_simple_enough_for_copy(arr),
-                        Expr::Fn(FnExpr {
-                            function:
-                                Function {
-                                    body: Some(body), ..
-                                },
-                            ..
-                        }) => is_block_stmt_of_fn_simple_enough_for_copy(body),
                         _ => false,
                     }
                 {
