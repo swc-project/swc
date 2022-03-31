@@ -665,7 +665,14 @@ where
                                 i.id.span.ctxt
                             );
                             self.changed = true;
-                            *e = *assign.right.take();
+                            if self.ctx.is_this_aware_callee {
+                                *e = Expr::Seq(SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs: vec![0.into(), assign.right.take()],
+                                })
+                            } else {
+                                *e = *assign.right.take();
+                            }
                         } else {
                             if cfg!(feature = "debug") {
                                 tracing::trace!(
