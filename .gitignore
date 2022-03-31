@@ -56,3 +56,4 @@ pkg/
 
 *.mm_profdata
 .tsbuildinfo
+.swc/

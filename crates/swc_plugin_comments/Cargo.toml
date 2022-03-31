@@ -1,0 +1,22 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
+description = "Internal sharable storage for the comments between host to the plugin"
+name = "swc_plugin_comments"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+repository = "https://github.com/swc-project/swc.git"
+
+[features]
+# swc/core, which runs plugin
+plugin-rt = []
+# actual wasm plugin binary
+plugin-mode = []
+
+
+[dependencies]
+better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
+rkyv = "0.7.36"
+swc_common = { version = "0.17.0", path = "../swc_common", features = [
+  "plugin-base",
+] }

@@ -1,4 +1,6 @@
-use swc_plugin::{ast::*, errors::HANDLER, plugin_transform, syntax_pos::DUMMY_SP};
+use swc_plugin::{
+    ast::*, errors::HANDLER, plugin_transform, syntax_pos::DUMMY_SP, TransformPluginProgramMetadata,
+};
 
 struct ConsoleOutputReplacer;
 
@@ -33,7 +35,8 @@ impl VisitMut for ConsoleOutputReplacer {
 ///     config_str_ptr: *const u8,
 ///     config_str_ptr_len: i32,
 ///     context_str_ptr: *const u8,
-///     context_str_ptr_len: i32) ->
+///     context_str_ptr_len: i32,
+///     should_enable_comments: i32) ->
 ///     i32 /*  0 for success, fail otherwise.
 ///             Note this is only for internal pointer interop result,
 ///             not actual transform result */
@@ -42,7 +45,7 @@ impl VisitMut for ConsoleOutputReplacer {
 /// important steps manually need to be performed like sending transformed
 /// results back to host. Refer swc_plugin_macro how does it work internally.
 #[plugin_transform]
-pub fn process(program: Program, _plugin_config: String, _context: String) -> Program {
+pub fn process(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
     HANDLER.with(|handler| {
         handler
             .struct_span_err(DUMMY_SP, "Test diagnostics from plugin")

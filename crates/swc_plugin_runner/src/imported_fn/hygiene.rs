@@ -1,46 +1,6 @@
-//! Functions imported into the guests (plugin) runtime allows interop between
-//! host's state to plugin.
-//! All of these fn is being called inside of guest's memory space, which calls
-//! appropriate host fn as needed.
+use swc_common::{hygiene::MutableMarkContext, plugin::Serialized, Mark, SyntaxContext};
 
-use swc_common::{
-    errors::{Diagnostic, HANDLER},
-    hygiene::MutableMarkContext,
-    plugin::Serialized,
-    Mark, SyntaxContext,
-};
-
-use crate::{
-    context::HostEnvironment,
-    memory_interop::{copy_bytes_into_host, write_into_memory_view},
-};
-
-/// Set plugin's transformed result into host's enviroment.
-/// This is an `imported` fn - when we instantiate plugin module, we inject this
-/// fn into pluging's export space. Once transform completes, plugin will call
-/// this to set its result back to host.
-pub fn set_transform_result(env: &HostEnvironment, bytes_ptr: i32, bytes_ptr_len: i32) {
-    if let Some(memory) = env.memory_ref() {
-        (*env.transform_result.lock()) = copy_bytes_into_host(memory, bytes_ptr, bytes_ptr_len);
-    }
-}
-
-pub fn emit_diagnostics(env: &HostEnvironment, bytes_ptr: i32, bytes_ptr_len: i32) {
-    if let Some(memory) = env.memory_ref() {
-        if HANDLER.is_set() {
-            HANDLER.with(|handler| {
-                let diagnostics_bytes = copy_bytes_into_host(memory, bytes_ptr, bytes_ptr_len);
-                let serialized = Serialized::new_for_plugin(&diagnostics_bytes[..], bytes_ptr_len);
-                let diagnostic = Serialized::deserialize::<Diagnostic>(&serialized)
-                    .expect("Should able to be deserialized into diagnsotic");
-
-                let mut builder =
-                    swc_common::errors::DiagnosticBuilder::new_diagnostic(handler, diagnostic);
-                builder.emit();
-            })
-        }
-    }
-}
+use crate::{host_environment::HostEnvironment, memory_interop::write_into_memory_view};
 
 /// A proxy to Mark::fresh() that can be used in plugin.
 /// This it not direcly called by plugin, instead `impl Mark` will selectively

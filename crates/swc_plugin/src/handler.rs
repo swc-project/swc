@@ -1,33 +1,36 @@
-use swc_common::sync::OnceCell;
+use swc_common::{plugin::Serialized, sync::OnceCell};
 
-/// Simple substitution for scoped_thread_local with limited interface parity.
-/// The only available fn in this struct is `with`, which is being used for the
-/// consumers when they need to access global scope handler (HANDLER.with()).
-/// Any other interfaces to support thread local is not available.
-pub struct PseudoScopedKey {
-    // As we can't use scoped_thread_local for the global HANDLER, it is challenging
-    // to set its inner handler for each plugin scope's diagnostic emitter.
-    // Via lazy init OnceCell we keep static HANDLER as immutable, also allows to set
-    // plugin specific values when proc_macro expands plugin's transform helper.
-    pub inner: OnceCell<swc_common::errors::Handler>,
+use crate::pseudo_scoped_key::PseudoScopedKey;
+
+#[cfg(target_arch = "wasm32")] // Allow testing
+extern "C" {
+    fn __emit_diagnostics(bytes_ptr: i32, bytes_ptr_len: i32);
+    fn __free(bytes_ptr: i32, size: i32) -> i32;
 }
 
-impl PseudoScopedKey {
-    pub fn with<F, R>(&self, f: F) -> R
-    where
-        F: FnOnce(&swc_common::errors::Handler) -> R,
-    {
-        f(self.inner.get().expect("Should set handler before call"))
+/// An emitter for the Diagnostic in plugin's context by borrowing host's
+/// environment context.
+///
+/// It is not expected to call this directly inside of plugin transform.
+/// Instead, it is encouraged to use global HANDLER.
+pub struct PluginDiagnosticsEmitter;
+
+impl swc_common::errors::Emitter for PluginDiagnosticsEmitter {
+    #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+    fn emit(&mut self, db: &swc_common::errors::DiagnosticBuilder<'_>) {
+        let diag =
+            Serialized::serialize(&*db.diagnostic).expect("Should able to serialize Diagnostic");
+        let diag_ref = diag.as_ref();
+
+        let ptr = diag_ref.as_ptr() as i32;
+        let len = diag_ref.len() as i32;
+
+        #[cfg(target_arch = "wasm32")] // Allow testing
+        unsafe {
+            __emit_diagnostics(ptr, len);
+        }
     }
 }
-
-// This is to conform some of swc_common::errors::Handler's thread-safety
-// required properties.
-//
-// NOTE: This only works cause we know each plugin transform doesn't need any
-// thread safety. However, if wasm gets thread support and if we're going to
-// support it this should be revisited.
-unsafe impl std::marker::Sync for PseudoScopedKey {}
 
 /// global context HANDLER in plugin's transform function.
 pub static HANDLER: PseudoScopedKey = PseudoScopedKey {
