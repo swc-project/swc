@@ -1024,11 +1024,101 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            // TODO improve old spec https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L330
-            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "flex" => {
+                let spec_2009_value = match n.value.get(0) {
+                    Some(ComponentValue::Ident(Ident { value, span, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("none") =>
+                    {
+                        Some(ComponentValue::Integer(Integer {
+                            span: *span,
+                            value: 0,
+                            raw: "0".into(),
+                        }))
+                    }
+                    Some(ComponentValue::Ident(Ident { value, span, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("auto") =>
+                    {
+                        Some(ComponentValue::Integer(Integer {
+                            span: *span,
+                            value: 1,
+                            raw: "1".into(),
+                        }))
+                    }
+                    Some(any) => Some(any.clone()),
+                    None => None,
+                };
+
+                if let Some(spec_2009_value) = &spec_2009_value {
+                    let value = vec![spec_2009_value.clone()];
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-flex".into(),
+                        raw: "-webkit-box-flex".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value,
+                        important: n.important.clone(),
+                    });
+                } else {
+                    same_content!(Prefix::Webkit, "-webkit-box-flex");
+                }
+
                 same_content!(Prefix::Webkit, "-webkit-flex");
-                same_content!(Prefix::Ms, "-ms-flex");
+
+                if let Some(spec_2009_value) = &spec_2009_value {
+                    let value = vec![spec_2009_value.clone()];
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-moz-box-flex".into(),
+                        raw: "-moz-box-flex".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value,
+                        important: n.important.clone(),
+                    });
+                } else {
+                    same_content!(Prefix::Webkit, "-moz-box-flex");
+                }
+
+                if n.value.len() == 3 {
+                    let mut value = ms_new_value.clone();
+
+                    if let Some(ComponentValue::Integer(Integer { value: 0, span, .. })) =
+                        value.get(2)
+                    {
+                        value[2] = ComponentValue::Dimension(Dimension::Length(Length {
+                            span: *span,
+                            value: Number {
+                                span: DUMMY_SP,
+                                value: 0.0,
+                                raw: "0".into(),
+                            },
+                            unit: Ident {
+                                span: DUMMY_SP,
+                                value: "px".into(),
+                                raw: "px".into(),
+                            },
+                        }));
+                    }
+
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-ms-flex".into(),
+                        raw: "-ms-flex".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value,
+                        important: n.important.clone(),
+                    });
+                } else {
+                    same_content!(Prefix::Ms, "-ms-flex");
+                }
             }
 
             "flex-grow" => {
@@ -1048,6 +1138,7 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-flex-preferred-size");
             }
 
+            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "flex-direction" => {
                 same_content!(Prefix::Webkit, "-webkit-flex-direction");
                 same_content!(Prefix::Ms, "-ms-flex-direction");

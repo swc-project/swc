@@ -11,7 +11,9 @@ a {
   -webkit-order: 0;
   -ms-flex-order: 0;
   order: 0;
+  -webkit-box-flex: 0;
   -webkit-flex: 0 1 2;
+  -moz-box-flex: 0;
   -ms-flex: 0 1 2;
   flex: 0 1 2;
   -webkit-transition: flex 200ms;
@@ -31,7 +33,9 @@ a {
   -webkit-align-content: stretch;
   -ms-flex-line-pack: stretch;
   align-content: stretch;
+  -webkit-box-flex: 1;
   -webkit-flex: auto;
+  -moz-box-flex: 1;
   -ms-flex: auto;
   flex: auto;
 }
@@ -61,7 +65,9 @@ a {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: flex-start;
   align-self: flex-start;
+  -webkit-box-flex: 0;
   -webkit-flex: none;
+  -moz-box-flex: 0;
   -ms-flex: none;
   flex: none;
 }
@@ -171,8 +177,10 @@ a {
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex: calc(1em + 1px);
   -webkit-flex: -webkit-calc(1em + 1px) 0 0;
-  -ms-flex: calc(1em + 1px) 0 0;
+  -moz-box-flex: calc(1em + 1px);
+  -ms-flex: calc(1em + 1px) 0 0px;
   flex: -webkit-calc(1em + 1px) 0 0;
   flex: -moz-calc(1em + 1px) 0 0;
   flex: calc(1em + 1px) 0 0;
@@ -206,13 +214,17 @@ a {
 }
 @supports (flex: auto) {
   .foo {
+    -webkit-box-flex: 1;
     -webkit-flex: auto;
+    -moz-box-flex: 1;
     -ms-flex: auto;
     flex: auto;
   }
 }
 .class {
+  -webkit-box-flex: inherit;
   -webkit-flex: inherit;
+  -moz-box-flex: inherit;
   -ms-flex: inherit;
   flex: inherit;
 }

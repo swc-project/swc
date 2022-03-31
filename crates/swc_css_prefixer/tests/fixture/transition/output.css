@@ -197,7 +197,9 @@ button::-webkit-search-cancel-button {
   -webkit-order: 0;
   -ms-flex-order: 0;
   order: 0;
+  -webkit-box-flex: 0;
   -webkit-flex: 0 1 2;
+  -moz-box-flex: 0;
   -ms-flex: 0 1 2;
   flex: 0 1 2;
   -webkit-transition: flex 200ms;
