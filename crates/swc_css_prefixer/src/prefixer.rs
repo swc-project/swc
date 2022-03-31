@@ -1200,10 +1200,25 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-flex-align");
             }
 
-            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/align-items.js
             "align-self" => {
                 same_content!(Prefix::Webkit, "-webkit-align-self");
-                same_content!(Prefix::Ms, "-ms-flex-item-align");
+
+                let mut spec_2012_ms_new_value = ms_new_value.clone();
+
+                replace_ident(&mut spec_2012_ms_new_value, "flex-end", "end");
+                replace_ident(&mut spec_2012_ms_new_value, "flex-start", "start");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-flex-item-align".into(),
+                    raw: "-ms-flex-item-align".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: spec_2012_ms_new_value,
+                    important: n.important.clone(),
+                });
             }
 
             "align-content" => {

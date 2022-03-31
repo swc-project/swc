@@ -63,7 +63,7 @@ a {
   -ms-flex-line-pack: start;
   align-content: flex-start;
   -webkit-align-self: flex-start;
-  -ms-flex-item-align: flex-start;
+  -ms-flex-item-align: start;
   align-self: flex-start;
   -webkit-box-flex: 0;
   -webkit-flex: none;
@@ -95,7 +95,7 @@ a {
   -ms-flex-line-pack: end;
   align-content: flex-end;
   -webkit-align-self: flex-end;
-  -ms-flex-item-align: flex-end;
+  -ms-flex-item-align: end;
   align-self: flex-end;
   -webkit-flex-shrink: 1;
   -ms-flex-negative: 1;
@@ -252,12 +252,12 @@ a {
 }
 .class {
   -webkit-align-self: flex-start;
-  -ms-flex-item-align: flex-start;
+  -ms-flex-item-align: start;
   align-self: flex-start;
 }
 .class {
   -webkit-align-self: flex-end;
-  -ms-flex-item-align: flex-end;
+  -ms-flex-item-align: end;
   align-self: flex-end;
 }
 .class {
