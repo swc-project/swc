@@ -729,7 +729,7 @@ where
             if d.init.is_none() {
                 if let Pat::Ident(name) = &d.name {
                     if let Some(usage) = self.data.vars.get(&name.to_id()) {
-                        if usage.declared_as_fn_param {
+                        if usage.is_fn_local && usage.declared_as_fn_param {
                             d.name.take();
                             tracing::debug!(
                                 "Removing a variable statement because it's a function parameter"
