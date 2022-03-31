@@ -5504,7 +5504,7 @@
             "prelude": {
               "type": "ListOfComponentValues",
               "span": {
-                "start": 0,
+                "start": 2271,
                 "end": 2277,
                 "ctxt": 0
               },
@@ -7398,7 +7398,7 @@
             "prelude": {
               "type": "ListOfComponentValues",
               "span": {
-                "start": 0,
+                "start": 2807,
                 "end": 2813,
                 "ctxt": 0
               },

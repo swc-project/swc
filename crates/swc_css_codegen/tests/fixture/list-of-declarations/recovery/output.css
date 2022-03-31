@@ -1,4 +1,4 @@
-@font-face{
+@font-face {
   margin: 0;
   __ident__
     border-radius: 7px;color: white;
@@ -6,9 +6,9 @@
   __ident__
     __ident__
 }
-@font-face{
+@font-face {
   123
     color: red;}
-@font-face{
+@font-face {
   123;color: red;
 }

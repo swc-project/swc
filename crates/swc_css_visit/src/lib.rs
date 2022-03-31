@@ -531,7 +531,7 @@ define!({
     pub struct AtRule {
         pub span: Span,
         pub name: AtRuleName,
-        pub prelude: AtRulePrelude,
+        pub prelude: Option<AtRulePrelude>,
         pub block: Option<SimpleBlock>,
     }
 

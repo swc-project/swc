@@ -87,11 +87,14 @@ where
     fn emit_at_rule(&mut self, n: &AtRule) -> Result {
         write_raw!(self, lo_span_offset!(n.span, 1), "@");
         emit!(self, n.name);
-        emit!(self, n.prelude);
+
+        if let Some(prelude) = &n.prelude {
+            emit!(self, prelude);
+        }
 
         if n.block.is_some() {
             match &n.prelude {
-                AtRulePrelude::ListOfComponentValues(_) => {}
+                Some(AtRulePrelude::ListOfComponentValues(_)) => {}
                 _ => {
                     formatting_space!(self);
                 }

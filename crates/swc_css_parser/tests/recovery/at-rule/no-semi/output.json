@@ -83,7 +83,7 @@
             "prelude": {
               "type": "ListOfComponentValues",
               "span": {
-                "start": 0,
+                "start": 23,
                 "end": 43,
                 "ctxt": 0
               },

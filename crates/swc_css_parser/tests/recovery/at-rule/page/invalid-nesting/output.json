@@ -119,15 +119,7 @@
               "value": "top-left",
               "raw": "top-left"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -219,15 +211,7 @@
               "value": "top-right",
               "raw": "top-right"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -254,15 +238,7 @@
                     "value": "top-right",
                     "raw": "top-right"
                   },
-                  "prelude": {
-                    "type": "ListOfComponentValues",
-                    "span": {
-                      "start": 0,
-                      "end": 0,
-                      "ctxt": 0
-                    },
-                    "children": []
-                  },
+                  "prelude": null,
                   "block": {
                     "type": "SimpleBlock",
                     "span": {

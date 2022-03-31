@@ -23,15 +23,7 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": {
-        "type": "ListOfComponentValues",
-        "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
-        },
-        "children": []
-      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -123,15 +115,7 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": {
-        "type": "ListOfComponentValues",
-        "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
-        },
-        "children": []
-      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -223,15 +207,7 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": {
-        "type": "ListOfComponentValues",
-        "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
-        },
-        "children": []
-      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -292,15 +268,7 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": {
-        "type": "ListOfComponentValues",
-        "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
-        },
-        "children": []
-      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -361,15 +329,7 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": {
-        "type": "ListOfComponentValues",
-        "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
-        },
-        "children": []
-      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -461,15 +421,7 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": {
-        "type": "ListOfComponentValues",
-        "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
-        },
-        "children": []
-      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {

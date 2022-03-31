@@ -9105,7 +9105,7 @@
             "prelude": {
               "type": "ListOfComponentValues",
               "span": {
-                "start": 0,
+                "start": 2872,
                 "end": 2879,
                 "ctxt": 0
               },

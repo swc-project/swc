@@ -48,11 +48,7 @@ where
         let mut at_rule = AtRule {
             span: span!(self, at_rule_span.lo),
             name: at_rule_name,
-            prelude: AtRulePrelude::ListOfComponentValues(ListOfComponentValues {
-                // TODO fix me span
-                span: Default::default(),
-                children: vec![],
-            }),
+            prelude: None,
             block: None,
         };
         let parse_prelude = |parser: &mut Parser<I>| -> PResult<Option<AtRulePrelude>> {
@@ -647,7 +643,7 @@ where
                     match parse_prelude(self) {
                         Ok(prelude) => match prelude {
                             Some(prelude) => {
-                                at_rule.prelude = prelude;
+                                at_rule.prelude = Some(prelude);
                             }
                             None => {}
                         },
@@ -658,23 +654,24 @@ where
 
                             self.input.reset(&state);
 
-                            let list_of_component_value = match at_rule.prelude {
-                                AtRulePrelude::ListOfComponentValues(
+                            let span = self.input.cur_span()?;
+
+                            let mut list_of_component_value = match at_rule.prelude {
+                                Some(AtRulePrelude::ListOfComponentValues(
                                     ref mut list_of_component_value,
-                                ) => list_of_component_value,
+                                )) => list_of_component_value,
                                 _ => {
-                                    at_rule.prelude = AtRulePrelude::ListOfComponentValues(
+                                    at_rule.prelude = Some(AtRulePrelude::ListOfComponentValues(
                                         ListOfComponentValues {
-                                            // TODO fix me span
-                                            span: Default::default(),
+                                            span: span!(self, span.lo),
                                             children: vec![],
                                         },
-                                    );
+                                    ));
 
                                     match at_rule.prelude {
-                                        AtRulePrelude::ListOfComponentValues(
+                                        Some(AtRulePrelude::ListOfComponentValues(
                                             ref mut list_of_component_value,
-                                        ) => list_of_component_value,
+                                        )) => list_of_component_value,
                                         _ => {
                                             unreachable!();
                                         }
@@ -682,7 +679,6 @@ where
                                 }
                             };
 
-                            let span = self.input.cur_span()?;
                             let component_value = self.parse()?;
 
                             list_of_component_value.children.push(component_value);

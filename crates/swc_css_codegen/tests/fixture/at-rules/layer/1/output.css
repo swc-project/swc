@@ -22,8 +22,8 @@
 .sidebar {
   animation: slide-left 300ms;
 }
-@layer{}
-@layer{}
+@layer {}
+@layer {}
 @layer reset.type {
   strong {
     font-weight: bold;

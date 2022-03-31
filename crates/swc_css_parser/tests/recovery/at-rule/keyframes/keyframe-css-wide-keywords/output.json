@@ -26,7 +26,7 @@
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
-          "start": 0,
+          "start": 10,
           "end": 19,
           "ctxt": 0
         },
@@ -104,7 +104,7 @@
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
-          "start": 0,
+          "start": 32,
           "end": 41,
           "ctxt": 0
         },
@@ -182,7 +182,7 @@
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
-          "start": 0,
+          "start": 54,
           "end": 61,
           "ctxt": 0
         },
@@ -260,7 +260,7 @@
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
-          "start": 0,
+          "start": 74,
           "end": 80,
           "ctxt": 0
         },
@@ -338,7 +338,7 @@
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
-          "start": 0,
+          "start": 93,
           "end": 102,
           "ctxt": 0
         },

@@ -122,15 +122,7 @@
         "value": "page",
         "raw": "page"
       },
-      "prelude": {
-        "type": "ListOfComponentValues",
-        "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
-        },
-        "children": []
-      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -157,15 +149,7 @@
               "value": "top-left-corner",
               "raw": "top-left-corner"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -226,15 +210,7 @@
               "value": "top-left",
               "raw": "top-left"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -295,15 +271,7 @@
               "value": "top-center",
               "raw": "top-center"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -364,15 +332,7 @@
               "value": "top-right",
               "raw": "top-right"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -433,15 +393,7 @@
               "value": "top-right-corner",
               "raw": "top-right-corner"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -502,15 +454,7 @@
               "value": "bottom-left-corner",
               "raw": "bottom-left-corner"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -571,15 +515,7 @@
               "value": "bottom-left",
               "raw": "bottom-left"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -640,15 +576,7 @@
               "value": "bottom-center",
               "raw": "bottom-center"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -709,15 +637,7 @@
               "value": "bottom-right",
               "raw": "bottom-right"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -778,15 +698,7 @@
               "value": "bottom-right-corner",
               "raw": "bottom-right-corner"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -847,15 +759,7 @@
               "value": "left-top",
               "raw": "left-top"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -916,15 +820,7 @@
               "value": "left-middle",
               "raw": "left-middle"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -985,15 +881,7 @@
               "value": "left-bottom",
               "raw": "left-bottom"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -1054,15 +942,7 @@
               "value": "right-top",
               "raw": "right-top"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -1123,15 +1003,7 @@
               "value": "right-middle",
               "raw": "right-middle"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -1192,15 +1064,7 @@
               "value": "right-bottom",
               "raw": "right-bottom"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 0,
-                "end": 0,
-                "ctxt": 0
-              },
-              "children": []
-            },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {

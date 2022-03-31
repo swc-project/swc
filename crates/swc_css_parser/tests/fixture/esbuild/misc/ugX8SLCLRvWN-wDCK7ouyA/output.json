@@ -23,15 +23,7 @@
         "value": "-ms-viewport",
         "raw": "-ms-viewport"
       },
-      "prelude": {
-        "type": "ListOfComponentValues",
-        "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
-        },
-        "children": []
-      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {
