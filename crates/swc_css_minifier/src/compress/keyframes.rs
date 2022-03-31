@@ -9,21 +9,23 @@ pub fn compress_keyframes() -> impl VisitMut {
 struct CompressKeyframes {}
 
 impl VisitMut for CompressKeyframes {
-    fn visit_mut_keyframes_rule(&mut self, keyframes_rule: &mut KeyframesRule) {
-        keyframes_rule.visit_mut_children_with(self);
+    fn visit_mut_at_rule(&mut self, at_rule: &mut AtRule) {
+        at_rule.visit_mut_children_with(self);
 
-        match &keyframes_rule.name {
-            KeyframesName::Str(i)
+        match &at_rule.prelude {
+            Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(str)))
                 if !matches!(
-                    &*i.value.to_lowercase(),
+                    &*str.value.to_lowercase(),
                     "initial" | "inherit" | "unset" | "revert" | "default"
                 ) =>
             {
-                keyframes_rule.name = KeyframesName::CustomIdent(CustomIdent {
-                    span: i.span,
-                    value: i.value.to_string().into(),
-                    raw: i.raw[1..i.raw.len() - 1].to_string().into(),
-                })
+                at_rule.prelude = Some(AtRulePrelude::KeyframesPrelude(
+                    KeyframesName::CustomIdent(CustomIdent {
+                        span: str.span,
+                        value: str.value.to_string().into(),
+                        raw: str.raw[1..str.raw.len() - 1].to_string().into(),
+                    }),
+                ));
             }
             _ => {}
         }

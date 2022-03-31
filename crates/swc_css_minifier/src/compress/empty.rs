@@ -12,22 +12,12 @@ impl VisitMut for CompressEmpty {
         stylesheet.visit_mut_children_with(self);
 
         stylesheet.rules.retain(|rule| match rule {
-            Rule::QualifiedRule(QualifiedRule { block, .. })
-            | Rule::AtRule(AtRule::FontFace(FontFaceRule { block, .. }))
-            | Rule::AtRule(AtRule::Keyframes(KeyframesRule { block, .. }))
-            | Rule::AtRule(AtRule::Layer(LayerRule {
-                block: Some(block), ..
-            }))
-            | Rule::AtRule(AtRule::Media(MediaRule { block, .. }))
-            | Rule::AtRule(AtRule::Supports(SupportsRule { block, .. }))
-            | Rule::AtRule(AtRule::Page(PageRule { block, .. }))
-            | Rule::AtRule(AtRule::Viewport(ViewportRule { block, .. }))
-            | Rule::AtRule(AtRule::Document(DocumentRule { block, .. }))
-            | Rule::AtRule(AtRule::Property(PropertyRule { block, .. }))
-                if block.value.is_empty() =>
-            {
-                false
-            }
+            Rule::QualifiedRule(QualifiedRule { block, .. }) if block.value.is_empty() => false,
+            Rule::AtRule(AtRule {
+                name: AtRuleName::Ident(Ident { value, .. }),
+                block: Some(block),
+                ..
+            }) if !need_keep_by_name(value) && block.value.is_empty() => false,
             _ => true,
         });
     }
@@ -37,38 +27,19 @@ impl VisitMut for CompressEmpty {
 
         simple_block.value.retain(|rule| match rule {
             ComponentValue::Rule(Rule::QualifiedRule(QualifiedRule { block, .. }))
-            | ComponentValue::Rule(Rule::AtRule(AtRule::Media(MediaRule { block, .. })))
-            | ComponentValue::Rule(Rule::AtRule(AtRule::Supports(SupportsRule {
-                block, ..
-            })))
-            | ComponentValue::Rule(Rule::AtRule(AtRule::Keyframes(KeyframesRule {
-                block, ..
-            })))
-            | ComponentValue::Rule(Rule::AtRule(AtRule::FontFace(FontFaceRule {
-                block, ..
-            })))
-            | ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::AtRule(
-                AtRule::PageMargin(PageMarginRule { block, .. }),
-            ))
+            | ComponentValue::Rule(Rule::AtRule(AtRule {
+                block: Some(block), ..
+            }))
             | ComponentValue::StyleBlock(StyleBlock::QualifiedRule(QualifiedRule {
                 block, ..
             }))
-            | ComponentValue::StyleBlock(StyleBlock::AtRule(AtRule::Nest(NestRule {
-                block,
+            | ComponentValue::StyleBlock(StyleBlock::AtRule(AtRule {
+                block: Some(block), ..
+            }))
+            | ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::AtRule(AtRule {
+                block: Some(block),
                 ..
-            })))
-            | ComponentValue::StyleBlock(StyleBlock::AtRule(AtRule::Media(MediaRule {
-                block,
-                ..
-            })))
-            | ComponentValue::StyleBlock(StyleBlock::AtRule(AtRule::Supports(SupportsRule {
-                block,
-                ..
-            })))
-            | ComponentValue::StyleBlock(StyleBlock::AtRule(AtRule::Document(DocumentRule {
-                block,
-                ..
-            })))
+            }))
             | ComponentValue::KeyframeBlock(KeyframeBlock { block, .. })
                 if block.value.is_empty() =>
             {
@@ -76,5 +47,12 @@ impl VisitMut for CompressEmpty {
             }
             _ => true,
         });
+    }
+}
+
+fn need_keep_by_name(name: &str) -> bool {
+    match &*name.to_lowercase() {
+        "counter-style" | "color-profile" | "font-palette-values" | "layer" => true,
+        _ => false,
     }
 }
