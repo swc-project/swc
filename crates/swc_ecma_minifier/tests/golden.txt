@@ -652,6 +652,7 @@ identity/inline_identity_async/input.js
 identity/inline_identity_dont_lose_this_when_arg/input.js
 identity/inline_identity_higher_order/input.js
 identity/inline_identity_inner_ref/input.js
+identity/inline_identity_lose_this/input.js
 identity/inline_identity_regression/input.js
 identity/inline_identity_undefined/input.js
 ie8/do_screw/input.js
