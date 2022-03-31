@@ -309,6 +309,7 @@ impl Actual {
             Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
                 let mut state = FnEnvHoister::default();
 
+                arrow_expr.params.visit_mut_with(&mut state);
                 arrow_expr.body.visit_mut_with(&mut state);
 
                 self.hoist_stmts.extend(state.to_stmt());
