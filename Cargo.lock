@@ -4166,8 +4166,9 @@ dependencies = [
 
 [[package]]
 name = "tracing-chrome"
-version = "0.4.0"
-source = "git+https://github.com/kwonoj/tracing-chrome?rev=a345d8e#a345d8e8b0db52911711d01c9d44b1bdb7be2901"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fcb13184244c7cd22758b79e7c993c515ad67a8e730edcb7e05fe7bcabb283c7"
 dependencies = [
  "json",
  "tracing",
