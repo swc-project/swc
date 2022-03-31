@@ -38,7 +38,7 @@ pub enum AtRulePrelude {
     #[tag("DocumentPrelude")]
     DocumentPrelude(DocumentPrelude),
     #[tag("DashedIdent")]
-    FontPaletteValues(DashedIdent),
+    FontPaletteValuesPrelude(DashedIdent),
     #[tag("SelectorList")]
     NestPrelude(SelectorList),
     #[tag("KeyframesName")]
@@ -52,7 +52,7 @@ pub enum AtRulePrelude {
     #[tag("SupportsCondition")]
     SupportsPrelude(SupportsCondition),
     #[tag("PageSelectorList")]
-    PageSelectorList(PageSelectorList),
+    PagePrelude(PageSelectorList),
     #[tag("LayerPrelude")]
     LayerPrelude(LayerPrelude),
 }

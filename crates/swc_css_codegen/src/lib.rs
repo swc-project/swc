@@ -135,7 +135,7 @@ where
                 space!(self);
                 emit!(self, n)
             }
-            AtRulePrelude::FontPaletteValues(n) => {
+            AtRulePrelude::FontPaletteValuesPrelude(n) => {
                 space!(self);
                 emit!(self, n)
             }
@@ -204,7 +204,7 @@ where
 
                 emit!(self, n);
             }
-            AtRulePrelude::PageSelectorList(n) => {
+            AtRulePrelude::PagePrelude(n) => {
                 match n.selectors.get(0) {
                     Some(page_selector) if page_selector.page_type.is_none() => {
                         formatting_space!(self);

@@ -547,14 +547,14 @@ define!({
         ColorProfilePrelude(ColorProfileName),
         CharsetPrelude(Str),
         DocumentPrelude(DocumentPrelude),
-        FontPaletteValues(DashedIdent),
+        FontPaletteValuesPrelude(DashedIdent),
         NestPrelude(SelectorList),
         KeyframesPrelude(KeyframesName),
         ImportPrelude(ImportPrelude),
         NamespacePrelude(NamespacePrelude),
         MediaPrelude(MediaQueryList),
         SupportsPrelude(SupportsCondition),
-        PageSelectorList(PageSelectorList),
+        PagePrelude(PageSelectorList),
         LayerPrelude(LayerPrelude),
     }
 

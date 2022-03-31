@@ -109,7 +109,7 @@ where
                 "font-palette-values" => {
                     parser.input.skip_ws()?;
 
-                    let prelude = AtRulePrelude::FontPaletteValues(parser.parse()?);
+                    let prelude = AtRulePrelude::FontPaletteValuesPrelude(parser.parse()?);
 
                     parser.input.skip_ws()?;
 
@@ -223,7 +223,7 @@ where
                     parser.input.skip_ws()?;
 
                     let prelude = if !is!(parser, "{") {
-                        Some(AtRulePrelude::PageSelectorList(parser.parse()?))
+                        Some(AtRulePrelude::PagePrelude(parser.parse()?))
                     } else {
                         None
                     };
