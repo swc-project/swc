@@ -13,6 +13,7 @@ pub fn no_duplicate_at_import_rules(ctx: LintRuleContext<()>) -> Box<dyn LintRul
         NoDuplicateAtImportRules {
             ctx,
             imports: Default::default(),
+            import_at_rules: None,
         },
     )
 }
@@ -28,36 +29,51 @@ where
 struct NoDuplicateAtImportRules {
     ctx: LintRuleContext<()>,
     imports: AHashSet<(JsWord, Option<JsWord>)>,
+    import_at_rules: Option<AtRule>,
 }
 
 impl Visit for NoDuplicateAtImportRules {
-    fn visit_stylesheet(&mut self, stylesheet: &Stylesheet) {
-        self.imports = Default::default();
-        stylesheet.visit_children_with(self);
+    fn visit_at_rule(&mut self, at_rule: &AtRule) {
+        match at_rule.prelude {
+            Some(AtRulePrelude::ImportPrelude(_)) => {
+                self.import_at_rules = Some(at_rule.clone());
+
+                at_rule.visit_children_with(self);
+
+                self.import_at_rules = None;
+            }
+            _ => {}
+        }
     }
 
-    fn visit_import_rule(&mut self, import_rule: &ImportRule) {
-        let href = match &import_rule.href {
-            ImportHref::Str(Str { value, .. }) => value,
-            ImportHref::Url(Url {
+    fn visit_import_prelude(&mut self, import_prelude: &ImportPrelude) {
+        let href = match &import_prelude.href {
+            ImportPreludeHref::Str(Str { value, .. }) => value,
+            ImportPreludeHref::Url(Url {
                 value: Some(value), ..
             }) => match value {
                 UrlValue::Raw(UrlValueRaw { value, .. }) => value,
                 UrlValue::Str(Str { value, .. }) => value,
             },
             _ => {
-                import_rule.visit_children_with(self);
+                import_prelude.visit_children_with(self);
+
                 return;
             }
         };
 
-        if let Some(queries) = import_rule.media.as_ref().map(|media| &media.queries) {
+        if let Some(queries) = import_prelude.media.as_ref().map(|media| &media.queries) {
             queries.iter().fold(&mut self.imports, |imports, query| {
                 let media = query.media_type.as_ref().map(|ident| ident.value.clone());
                 let pair = (href.clone(), media);
 
                 if imports.contains(&pair) {
-                    self.ctx.report(import_rule, build_message(href));
+                    match &self.import_at_rules {
+                        Some(at_rule) => {
+                            self.ctx.report(at_rule, build_message(href));
+                        }
+                        _ => {}
+                    }
                 }
 
                 imports.insert(pair);
@@ -67,12 +83,17 @@ impl Visit for NoDuplicateAtImportRules {
             let pair = (href.clone(), None);
 
             if self.imports.contains(&pair) {
-                self.ctx.report(import_rule, build_message(href));
+                match &self.import_at_rules {
+                    Some(at_rule) => {
+                        self.ctx.report(at_rule, build_message(href));
+                    }
+                    _ => {}
+                }
             }
 
             self.imports.insert(pair);
         }
 
-        import_rule.visit_children_with(self);
+        import_prelude.visit_children_with(self);
     }
 }

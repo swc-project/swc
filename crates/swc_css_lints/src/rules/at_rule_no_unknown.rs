@@ -38,17 +38,20 @@ struct AtRuleNoUnknown {
 }
 
 impl Visit for AtRuleNoUnknown {
-    fn visit_unknown_at_rule(&mut self, unknown_at_rule: &UnknownAtRule) {
-        let name = match &unknown_at_rule.name {
-            AtRuleName::DashedIdent(dashed_ident) => &dashed_ident.value,
-            AtRuleName::Ident(ident) => &ident.value,
-        };
+    fn visit_at_rule(&mut self, at_rule: &AtRule) {
+        if let AtRuleName::Ident(Ident { value, .. }) = &at_rule.name {
+            match at_rule.prelude {
+                Some(AtRulePrelude::ListOfComponentValues(_)) => {
+                    if self.ignored.iter().all(|item| !item.is_match(&value)) {
+                        let message = format!("Unexpected unknown at-rule \"@{}\".", &value);
 
-        if self.ignored.iter().all(|item| !item.is_match(name)) {
-            let message = format!("Unexpected unknown at-rule \"@{}\".", name);
-            self.ctx.report(&unknown_at_rule.name, message);
+                        self.ctx.report(&at_rule.name, message);
+                    }
+                }
+                _ => {}
+            }
         }
 
-        unknown_at_rule.visit_children_with(self);
+        at_rule.visit_children_with(self);
     }
 }

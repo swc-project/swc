@@ -1,4 +1,3 @@
-use swc_common::Span;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
@@ -9,7 +8,7 @@ pub fn keyframe_declaration_no_important(ctx: LintRuleContext<()>) -> Box<dyn Li
         ctx.reaction(),
         KeyframeDeclarationNoImportant {
             ctx,
-            keyframe_rules: vec![],
+            in_keyframes_at_rule: false,
         },
     )
 }
@@ -19,28 +18,32 @@ const MESSAGE: &str = "Unexpected '!important'.";
 #[derive(Debug, Default)]
 struct KeyframeDeclarationNoImportant {
     ctx: LintRuleContext<()>,
-
-    // rule internal
-    keyframe_rules: Vec<Span>,
+    in_keyframes_at_rule: bool,
 }
 
 impl Visit for KeyframeDeclarationNoImportant {
-    fn visit_keyframes_rule(&mut self, keyframes_rule: &KeyframesRule) {
-        self.keyframe_rules.push(keyframes_rule.span);
+    fn visit_at_rule(&mut self, at_rule: &AtRule) {
+        match at_rule.prelude {
+            Some(AtRulePrelude::KeyframesPrelude(_)) => {
+                let old_value_in_keyframes_at_rule = self.in_keyframes_at_rule;
 
-        keyframes_rule.visit_children_with(self);
+                self.in_keyframes_at_rule = true;
 
-        self.keyframe_rules.pop();
-    }
+                at_rule.visit_children_with(self);
 
-    fn visit_important_flag(&mut self, important_flag: &ImportantFlag) {
-        match self.keyframe_rules.last() {
-            Some(span) if span.contains(important_flag.span) => {
-                self.ctx.report(important_flag, MESSAGE);
+                self.in_keyframes_at_rule = old_value_in_keyframes_at_rule;
             }
             _ => {}
         }
+    }
 
+    fn visit_important_flag(&mut self, important_flag: &ImportantFlag) {
         important_flag.visit_children_with(self);
+
+        if !self.in_keyframes_at_rule {
+            return;
+        }
+
+        self.ctx.report(important_flag, MESSAGE);
     }
 }
