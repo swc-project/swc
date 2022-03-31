@@ -139,6 +139,22 @@ impl Visit for Analyzer<'_> {
         }
     }
 
+    fn visit_jsx_element_name(&mut self, e: &JSXElementName) {
+        e.visit_children_with(self);
+
+        if let JSXElementName::Ident(i) = e {
+            self.add(i.to_id(), false);
+        }
+    }
+
+    fn visit_jsx_object(&mut self, e: &JSXObject) {
+        e.visit_children_with(self);
+
+        if let JSXObject::Ident(i) = e {
+            self.add(i.to_id(), false);
+        }
+    }
+
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         let old = self.cur_fn_id.take();
         self.cur_fn_id = Some(n.ident.to_id());
