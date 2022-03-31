@@ -3012,15 +3012,13 @@
                     return parseUTCTiming;
                 }
             });
-            var _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(779), global_window__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_1__), _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6722), _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3969), merge1 = function merge() {
+            var _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(779), global_window__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_1__), _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6722), _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3969), isObject = function(obj) {
+                return !!obj && 'object' == typeof obj;
+            }, merge1 = function merge() {
                 for(var _len = arguments.length, objects = new Array(_len), _key = 0; _key < _len; _key++)objects[_key] = arguments[_key];
                 return objects.reduce(function(result, source) {
                     return 'object' != typeof source || Object.keys(source).forEach(function(key) {
-                        if (Array.isArray(result[key]) && Array.isArray(source[key])) result[key] = result[key].concat(source[key]);
-                        else {
-                            var obj, obj;
-                            (obj = result[key]) && 'object' == typeof obj && (obj = source[key]) && 'object' == typeof obj ? result[key] = merge(result[key], source[key]) : result[key] = source[key];
-                        }
+                        Array.isArray(result[key]) && Array.isArray(source[key]) ? result[key] = result[key].concat(source[key]) : isObject(result[key]) && isObject(source[key]) ? result[key] = merge(result[key], source[key]) : result[key] = source[key];
                     }), result;
                 }, {});
             }, range1 = function(start, end) {

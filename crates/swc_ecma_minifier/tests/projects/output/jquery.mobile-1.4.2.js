@@ -539,11 +539,9 @@
                 $(fake_onhashchange.stop);
             }
         }), fake_onhashchange = function() {
-            var iframe, iframe_src, timeout_id, self = {}, last_hash = get_fragment(), history_set = function(val) {
+            var iframe, iframe_src, timeout_id, self = {}, last_hash = get_fragment(), fn_retval = function(val) {
                 return val;
-            }, history_get = function(val) {
-                return val;
-            };
+            }, history_set = fn_retval, history_get = fn_retval;
             function poll() {
                 var hash = get_fragment(), history_hash = history_get(last_hash);
                 hash !== last_hash ? (history_set(last_hash = hash, history_hash), $(window).trigger(str_hashchange)) : history_hash !== last_hash && (location.href = location.href.replace(/#.*/, '') + history_hash), timeout_id = setTimeout(poll, $.fn[str_hashchange].delay);
@@ -560,9 +558,7 @@
                         'title' === event.propertyName && (iframe.document.title = doc.title);
                     } catch (e) {}
                 });
-            }, self.stop = function(val) {
-                return val;
-            }, history_get = function() {
+            }, self.stop = fn_retval, history_get = function() {
                 return get_fragment(iframe.location.href);
             }, history_set = function(hash, history_hash) {
                 var iframe_doc = iframe.document, domain = $.fn[str_hashchange].domain;

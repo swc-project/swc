@@ -1,24 +1,32 @@
 var NonGenericParameter, GenericParameter;
 !function(NonGenericParameter) {
-    var cb;
-    cb = void 0, function(cb) {}(function(x) {
+    var foo4 = function(cb) {
+        return cb;
+    };
+    foo4(void 0), foo4(function(x) {
         return x;
-    }), function(cb) {}(function(x) {
+    }), foo4(function(x) {
         return x;
     });
 }(NonGenericParameter || (NonGenericParameter = {})), function(GenericParameter) {
-    var a, a, cb, x1, cb1;
-    (function(cb) {})(function(x) {
+    var a, a, foo5 = function(cb) {
+        return cb;
+    }, foo6 = function(cb) {
+        return cb;
+    }, foo7 = function(x, cb) {
+        return cb;
+    };
+    foo5(function(x) {
         return x;
-    }), cb = a, function(cb) {}(function(x) {
+    }), foo5(a), foo6(function(x) {
         return x;
-    }), function(cb) {}(function(x) {
+    }), foo6(function(x) {
         return "";
-    }), function(cb) {}(function(x, y) {
+    }), foo6(function(x, y) {
         return "";
-    }), function(x1, cb1) {}(1, function(x) {
+    }), foo7(1, function(x) {
         return x;
-    }), function(x1, cb1) {}(1, function(x) {
+    }), foo7(1, function(x) {
         return "";
-    }), x1 = 1, cb1 = a;
+    }), foo7(1, a);
 }(GenericParameter || (GenericParameter = {}));

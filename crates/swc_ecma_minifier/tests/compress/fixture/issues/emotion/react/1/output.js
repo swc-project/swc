@@ -522,6 +522,8 @@
                 strokeWidth: 1
             }, hyphenateRegex = /[A-Z]|^ms/g, animationRegex = /_EMO_([^_]+?)_([^]*?)_EMO_/g, isCustomProperty = function(property) {
                 return 45 === property.charCodeAt(1);
+            }, isProcessableValue = function(value) {
+                return null != value && 'boolean' != typeof value;
             }, processStyleName = function(fn) {
                 var cache = Object.create(null);
                 return function(arg) {
@@ -582,11 +584,11 @@
                 var string = '';
                 if (Array.isArray(obj)) for(var i = 0; i < obj.length; i++)string += handleInterpolation(mergedProps, registered, obj[i]) + ";";
                 else for(var _key in obj){
-                    var value, value, value4 = obj[_key];
-                    if ('object' != typeof value4) null != registered && void 0 !== registered[value4] ? string += _key + "{" + registered[value4] + "}" : null != (value = value4) && 'boolean' != typeof value && (string += processStyleName(_key) + ":" + processStyleValue(_key, value4) + ";");
-                    else if (Array.isArray(value4) && 'string' == typeof value4[0] && (null == registered || void 0 === registered[value4[0]])) for(var _i = 0; _i < value4.length; _i++)null != (value = value4[_i]) && 'boolean' != typeof value && (string += processStyleName(_key) + ":" + processStyleValue(_key, value4[_i]) + ";");
+                    var value = obj[_key];
+                    if ('object' != typeof value) null != registered && void 0 !== registered[value] ? string += _key + "{" + registered[value] + "}" : isProcessableValue(value) && (string += processStyleName(_key) + ":" + processStyleValue(_key, value) + ";");
+                    else if (Array.isArray(value) && 'string' == typeof value[0] && (null == registered || void 0 === registered[value[0]])) for(var _i = 0; _i < value.length; _i++)isProcessableValue(value[_i]) && (string += processStyleName(_key) + ":" + processStyleValue(_key, value[_i]) + ";");
                     else {
-                        var interpolated = handleInterpolation(mergedProps, registered, value4);
+                        var interpolated = handleInterpolation(mergedProps, registered, value);
                         switch(_key){
                             case 'animation':
                             case 'animationName':

@@ -1,13 +1,13 @@
 void 0 !== YUI && (YUI._YUI = YUI);
 var YUI = function() {
-    var o, type, i = 0, Y = this, args = arguments, l = args.length, gconf = 'undefined' != typeof YUI_config && YUI_config;
-    if ((o = Y, type = YUI, o && o.hasOwnProperty && o instanceof type) ? (Y._init(), YUI.GlobalConfig && Y.applyConfig(YUI.GlobalConfig), gconf && Y.applyConfig(gconf), l || Y._setup()) : Y = new YUI(), l) {
+    var i = 0, Y = this, args = arguments, l = args.length, instanceOf = function(o, type) {
+        return o && o.hasOwnProperty && o instanceof type;
+    }, gconf = 'undefined' != typeof YUI_config && YUI_config;
+    if (instanceOf(Y, YUI) ? (Y._init(), YUI.GlobalConfig && Y.applyConfig(YUI.GlobalConfig), gconf && Y.applyConfig(gconf), l || Y._setup()) : Y = new YUI(), l) {
         for(; i < l; i++)Y.applyConfig(args[i]);
         Y._setup();
     }
-    return Y.instanceOf = function(o, type) {
-        return o && o.hasOwnProperty && o instanceof type;
-    }, Y;
+    return Y.instanceOf = instanceOf, Y;
 };
 !function() {
     var proto, prop1, VERSION = '3.12.0', BASE = 'http://yui.yahooapis.com/', DOC_LABEL = 'yui3-js-enabled', CSS_STAMP_EL = 'yui3-css-stamp', NOOP = function() {}, SLICE = Array.prototype.slice, APPLY_TO_AUTH = {

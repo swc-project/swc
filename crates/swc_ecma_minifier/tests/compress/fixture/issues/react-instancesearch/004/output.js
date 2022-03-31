@@ -13,8 +13,12 @@ var _obj, isMultiIndexContext = function(widget) {
         ais: widget.props.contextValue,
         multiIndexContext: widget.props.indexContextValue
     });
+}, isTargetedIndexEqualIndex = function(widget, indexId) {
+    return widget.props.indexContextValue.targetedIndex === indexId;
 }, isIndexWidget = function(widget) {
     return Boolean(widget.props.indexId);
+}, isIndexWidgetEqualIndex = function(widget, indexId) {
+    return widget.props.indexId === indexId;
 }, sortIndexWidgetsFirst = function(firstWidget, secondWidget) {
     var isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
@@ -36,14 +40,14 @@ export default function createInstantSearchManager(param1) {
         }, initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter(function(widget) {
             return Boolean(widget.getSearchParameters);
         }).filter(function(widget) {
-            var widget1, indexId, widget2, indexId1, targetedIndexEqualMainIndex = isMultiIndexContext(widget) && (widget1 = widget, indexId = indexName, widget1.props.indexContextValue.targetedIndex === indexId), subIndexEqualMainIndex = isIndexWidget(widget) && (widget2 = widget, indexId1 = indexName, widget2.props.indexId === indexId1);
+            var targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = isIndexWidget(widget) && isIndexWidgetEqualIndex(widget, indexName);
             return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
         }).sort(sortIndexWidgetsFirst).reduce(function(res, widget) {
             return widget.getSearchParameters(res);
         }, sharedParameters), derivedIndices = widgetsManager.getWidgets().filter(function(widget) {
             return Boolean(widget.getSearchParameters);
         }).filter(function(widget) {
-            var widget1, indexId, widget2, indexId1, targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && (widget1 = widget, indexId = indexName, widget1.props.indexContextValue.targetedIndex !== indexId), subIndexNotEqualMainIndex = isIndexWidget(widget) && (widget2 = widget, indexId1 = indexName, widget2.props.indexId !== indexId1);
+            var targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = isIndexWidget(widget) && !isIndexWidgetEqualIndex(widget, indexName);
             return targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex;
         }).sort(sortIndexWidgetsFirst).reduce(function(indices, widget) {
             var indexId = isMultiIndexContext(widget) ? widget.props.indexContextValue.targetedIndex : widget.props.indexId, widgets = indices[indexId] || [];

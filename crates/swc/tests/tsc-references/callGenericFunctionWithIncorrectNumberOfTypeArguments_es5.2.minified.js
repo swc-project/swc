@@ -2,8 +2,12 @@ import * as swcHelpers from "@swc/helpers";
 function f(x, y) {
     return null;
 }
-f(1, ""), f(1, ""), f3(1, ""), f3(1, "");
-var f3, i, i2, C = function() {
+f(1, ""), f(1, "");
+var f3, i, i2, f2 = function(x, y) {
+    return null;
+};
+f2(1, ""), f2(1, ""), f3(1, ""), f3(1, "");
+var C = function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

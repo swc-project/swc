@@ -5,4 +5,9 @@ Example1 || (Example1 = {}), t = s, Example2 || (Example2 = {}), t = s, Example3
         type: "A",
         data: "whatevs"
     };
-}(GH14865 || (GH14865 = {})), GH12052 || (GH12052 = {}), void 0 = "categorical";
+}(GH14865 || (GH14865 = {})), function(GH12052) {
+    var getAxisType = function() {
+        return "categorical";
+    };
+    getAxisType(), void 0 = getAxisType();
+}(GH12052 || (GH12052 = {}));

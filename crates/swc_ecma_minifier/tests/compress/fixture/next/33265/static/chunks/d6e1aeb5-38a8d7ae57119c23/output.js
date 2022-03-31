@@ -6605,6 +6605,8 @@
                 return useSafeLiveEnd && (lastSegmentEndTime -= liveEdgePadding = 'number' == typeof liveEdgePadding ? liveEdgePadding : liveEdgeDelay(null, playlist)), Math.max(0, lastSegmentEndTime);
             }, isBlacklisted = function(playlist) {
                 return playlist.excludeUntil && playlist.excludeUntil > Date.now();
+            }, isIncompatible = function(playlist) {
+                return playlist.excludeUntil && playlist.excludeUntil === 1 / 0;
             }, isEnabled = function(playlist) {
                 var blacklisted = isBlacklisted(playlist);
                 return !playlist.disabled && !blacklisted;
@@ -6616,6 +6618,8 @@
                 return 0 === master.playlists.filter(function(playlist) {
                     return !!isEnabled(playlist) && (playlist.attributes.BANDWIDTH || 0) < currentBandwidth;
                 }).length;
+            }, playlistMatch = function(a, b) {
+                return (!!a || !!b) && (!!a || !b) && (!a || !!b) && (a === b || !!a.id && !!b.id && a.id === b.id || !!a.resolvedUri && !!b.resolvedUri && a.resolvedUri === b.resolvedUri || !!a.uri && !!b.uri && a.uri === b.uri);
             }, someAudioVariant = function(master, callback) {
                 var AUDIO = master && master.mediaGroups && master.mediaGroups.AUDIO || {}, found = !1;
                 for(var groupName in AUDIO){
@@ -6633,8 +6637,7 @@
                         return CODECS && CODECS.split(',').every(function(c) {
                             return (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.KL)(c);
                         }) ? "continue" : someAudioVariant(master, function(variant) {
-                            var a, b;
-                            return a = playlist, b = variant, (!!a || !!b) && (!!a || !b) && (!a || !!b) && (a === b || !!a.id && !!b.id && a.id === b.id || !!a.resolvedUri && !!b.resolvedUri && a.resolvedUri === b.resolvedUri || !!a.uri && !!b.uri && a.uri === b.uri);
+                            return playlistMatch(playlist, variant);
                         }) ? "continue" : {
                             v: !1
                         };
@@ -6715,9 +6718,7 @@
                     return playlist.disabled;
                 },
                 isBlacklisted: isBlacklisted,
-                isIncompatible: function(playlist) {
-                    return playlist.excludeUntil && playlist.excludeUntil === 1 / 0;
-                },
+                isIncompatible: isIncompatible,
                 playlistEnd: playlistEnd,
                 isAes: function(media) {
                     for(var i = 0; i < media.segments.length; i++)if (media.segments[i].key) return !0;
@@ -6729,11 +6730,11 @@
                 },
                 isLowestEnabledRendition: isLowestEnabledRendition,
                 isAudioOnly: isAudioOnly,
-                playlistMatch: function(a, b) {
-                    return (!!a || !!b) && (!!a || !b) && (!a || !!b) && (a === b || !!a.id && !!b.id && a.id === b.id || !!a.resolvedUri && !!b.resolvedUri && a.resolvedUri === b.resolvedUri || !!a.uri && !!b.uri && a.uri === b.uri);
-                },
+                playlistMatch: playlistMatch,
                 segmentDurationWithParts: segmentDurationWithParts
-            }, log2 = videojs.log, parseManifest = function(_ref) {
+            }, log2 = videojs.log, createPlaylistID = function(index, uri) {
+                return index + "-" + uri;
+            }, parseManifest = function(_ref) {
                 var onwarn = _ref.onwarn, oninfo = _ref.oninfo, manifestString = _ref.manifestString, _ref$customTagParsers = _ref.customTagParsers, _ref$customTagMappers = _ref.customTagMappers, experimentalLLHLS = _ref.experimentalLLHLS, parser = new m3u8_parser__WEBPACK_IMPORTED_MODULE_7__._b();
                 onwarn && parser.on('warn', onwarn), oninfo && parser.on('info', oninfo), (void 0 === _ref$customTagParsers ? [] : _ref$customTagParsers).forEach(function(customParser) {
                     return parser.addParser(customParser);
@@ -6783,10 +6784,10 @@
                 playlist.id = id, playlist.playlistErrors_ = 0, uri && (playlist.uri = uri), playlist.attributes = playlist.attributes || {};
             }, setupMediaPlaylists = function(master) {
                 for(var i = master.playlists.length; i--;){
-                    var index, uri1, playlist = master.playlists[i];
+                    var playlist = master.playlists[i];
                     setupMediaPlaylist({
                         playlist: playlist,
-                        id: (index = i) + "-" + (uri1 = playlist.uri)
+                        id: createPlaylistID(i, playlist.uri)
                     }), playlist.resolvedUri = resolveUrl(master.uri, playlist.uri), master.playlists[playlist.id] = playlist, master.playlists[playlist.uri] = playlist, playlist.attributes.BANDWIDTH || log2.warn('Invalid playlist STREAM-INF detected. Missing BANDWIDTH attribute.');
                 }
             }, resolveMediaGroupUris = function(master) {
@@ -6794,7 +6795,7 @@
                     properties.uri && (properties.resolvedUri = resolveUrl(master.uri, properties.uri));
                 });
             }, masterForMedia = function(media, uri) {
-                var index, uri1, id = (index = 0, "0-" + (uri1 = uri)), master = {
+                var id = createPlaylistID(0, uri), master = {
                     mediaGroups: {
                         AUDIO: {},
                         VIDEO: {},
@@ -6832,7 +6833,7 @@
                         ];
                     }
                     properties.playlists.forEach(function(p, i) {
-                        var index, uri1, id = (index = i) + "-" + (uri1 = groupId);
+                        var id = createPlaylistID(i, groupId);
                         p.uri ? p.resolvedUri = p.resolvedUri || resolveUrl(master.uri, p.uri) : (p.uri = 0 === i ? groupId : id, p.resolvedUri = p.uri), p.id = p.id || id, p.attributes = p.attributes || {}, master.playlists[p.id] = p, master.playlists[p.uri] = p;
                     });
                 }), setupMediaPlaylists(master), resolveMediaGroupUris(master);
@@ -6887,10 +6888,10 @@
                     preloadSegment.duration = media.targetDuration, preloadSegment.preload = !0, segments.push(preloadSegment);
                 }
                 return segments;
+            }, isPlaylistUnchanged = function(a, b) {
+                return a === b || a.segments && b.segments && a.segments.length === b.segments.length && a.endList === b.endList && a.mediaSequence === b.mediaSequence && a.preloadSegment === b.preloadSegment;
             }, updateMaster$1 = function(master, newMedia, unchangedCheck) {
-                void 0 === unchangedCheck && (unchangedCheck = function(a1, b1) {
-                    return a1 === b1 || a1.segments && b1.segments && a1.segments.length === b1.segments.length && a1.endList === b1.endList && a1.mediaSequence === b1.mediaSequence && a1.preloadSegment === b1.preloadSegment;
-                });
+                void 0 === unchangedCheck && (unchangedCheck = isPlaylistUnchanged);
                 var result = mergeOptions$2(master, {}), oldMedia = result.playlists[newMedia.id];
                 if (!oldMedia) return null;
                 if (unchangedCheck(oldMedia, newMedia)) return null;
@@ -7147,6 +7148,8 @@
                     byterange.offset,
                     initSegment.resolvedUri
                 ].join(',');
+            }, segmentKeyId = function(key) {
+                return key.resolvedUri;
             }, hexDump = function(data) {
                 for(var hex, ascii, bytes = Array.prototype.slice.call(data), result = '', j = 0; j < bytes.length / 16; j++)hex = bytes.slice(16 * j, 16 * j + 16).map(formatHexString).join(''), ascii = bytes.slice(16 * j, 16 * j + 16).map(formatAsciiString).join(''), result += hex + ' ' + ascii + '\n';
                 return result;
@@ -7154,9 +7157,7 @@
                 __proto__: null,
                 createTransferableMessage: createTransferableMessage1,
                 initSegmentId: initSegmentId,
-                segmentKeyId: function(key2) {
-                    return key2.resolvedUri;
-                },
+                segmentKeyId: segmentKeyId,
                 hexDump: hexDump,
                 tagDump: function(_ref) {
                     return hexDump(_ref.bytes);
@@ -7299,8 +7300,7 @@
                 });
                 return request1;
             }, EventTarget = videojs.EventTarget, mergeOptions = videojs.mergeOptions, dashPlaylistUnchanged = function(a, b) {
-                var a1, b1;
-                if ((a1 = a) !== (b1 = b) && (!a1.segments || !b1.segments || a1.segments.length !== b1.segments.length || a1.endList !== b1.endList || a1.mediaSequence !== b1.mediaSequence || a1.preloadSegment !== b1.preloadSegment)) return !1;
+                if (!isPlaylistUnchanged(a, b)) return !1;
                 if (a.sidx && b.sidx && (a.sidx.offset !== b.sidx.offset || a.sidx.length !== b.sidx.length)) return !1;
                 if (!a.sidx && b.sidx || a.sidx && !b.sidx) return !1;
                 if (a.segments && !b.segments || !a.segments && b.segments) return !1;
@@ -8940,6 +8940,8 @@
                 }, get708CharFromCode = function(code) {
                     var newCode = CHARACTER_TRANSLATION_708[code] || code;
                     return 4096 & code && code === newCode ? '' : String.fromCharCode(newCode);
+                }, within708TextBlock = function(b) {
+                    return 32 <= b && b <= 127 || 160 <= b && b <= 255;
                 }, Cea708Window = function(windowNum) {
                     this.windowNum = windowNum, this.reset();
                 };
@@ -9006,11 +9008,10 @@
                     var packet708 = this.current708Packet, packetData = packet708.data, serviceNum = null, blockSize = null, i = 0, b = packetData[i++];
                     for(packet708.seq = b >> 6, packet708.sizeCode = 63 & b; i < packetData.length; i++)serviceNum = (b = packetData[i++]) >> 5, blockSize = 31 & b, 7 === serviceNum && blockSize > 0 && (serviceNum = b = packetData[i++]), this.pushServiceBlock(serviceNum, i, blockSize), blockSize > 0 && (i += blockSize - 1);
                 }, Cea708Stream1.prototype.pushServiceBlock = function(serviceNum, start, size) {
-                    var b, b2, i = start, packetData = this.current708Packet.data, service = this.services[serviceNum];
-                    for(service || (service = this.initService(serviceNum, i)); i < start + size && i < packetData.length; i++)32 <= (b = b2 = packetData[i]) && b <= 127 || 160 <= b && b <= 255 ? i = this.handleText(i, service) : 24 === b2 ? i = this.multiByteCharacter(i, service) : 16 === b2 ? i = this.extendedCommands(i, service) : 128 <= b2 && b2 <= 135 ? i = this.setCurrentWindow(i, service) : 152 <= b2 && b2 <= 159 ? i = this.defineWindow(i, service) : 136 === b2 ? i = this.clearWindows(i, service) : 140 === b2 ? i = this.deleteWindows(i, service) : 137 === b2 ? i = this.displayWindows(i, service) : 138 === b2 ? i = this.hideWindows(i, service) : 139 === b2 ? i = this.toggleWindows(i, service) : 151 === b2 ? i = this.setWindowAttributes(i, service) : 144 === b2 ? i = this.setPenAttributes(i, service) : 145 === b2 ? i = this.setPenColor(i, service) : 146 === b2 ? i = this.setPenLocation(i, service) : 143 === b2 ? service = this.reset(i, service) : 8 === b2 ? service.currentWindow.backspace() : 12 === b2 ? service.currentWindow.clearText() : 13 === b2 ? service.currentWindow.pendingNewLine = !0 : 14 === b2 ? service.currentWindow.clearText() : 141 === b2 && i++;
+                    var b, i = start, packetData = this.current708Packet.data, service = this.services[serviceNum];
+                    for(service || (service = this.initService(serviceNum, i)); i < start + size && i < packetData.length; i++)within708TextBlock(b = packetData[i]) ? i = this.handleText(i, service) : 24 === b ? i = this.multiByteCharacter(i, service) : 16 === b ? i = this.extendedCommands(i, service) : 128 <= b && b <= 135 ? i = this.setCurrentWindow(i, service) : 152 <= b && b <= 159 ? i = this.defineWindow(i, service) : 136 === b ? i = this.clearWindows(i, service) : 140 === b ? i = this.deleteWindows(i, service) : 137 === b ? i = this.displayWindows(i, service) : 138 === b ? i = this.hideWindows(i, service) : 139 === b ? i = this.toggleWindows(i, service) : 151 === b ? i = this.setWindowAttributes(i, service) : 144 === b ? i = this.setPenAttributes(i, service) : 145 === b ? i = this.setPenColor(i, service) : 146 === b ? i = this.setPenLocation(i, service) : 143 === b ? service = this.reset(i, service) : 8 === b ? service.currentWindow.backspace() : 12 === b ? service.currentWindow.clearText() : 13 === b ? service.currentWindow.pendingNewLine = !0 : 14 === b ? service.currentWindow.clearText() : 141 === b && i++;
                 }, Cea708Stream1.prototype.extendedCommands = function(i, service) {
-                    var b;
-                    return (32 <= (b = this.current708Packet.data[++i]) && b <= 127 || 160 <= b && b <= 255) && (i = this.handleText(i, service, {
+                    return within708TextBlock(this.current708Packet.data[++i]) && (i = this.handleText(i, service, {
                         isExtended: !0
                     })), i;
                 }, Cea708Stream1.prototype.getPts = function(byteIndex) {
@@ -9029,8 +9030,8 @@
                         currentByte
                     ], _char = service.textDecoder_.decode(new Uint8Array(charCodeArray))) : _char = get708CharFromCode((isExtended ? 4096 : 0) | currentByte), win.pendingNewLine && !win.isEmpty() && win.newLine(this.getPts(i)), win.pendingNewLine = !1, win.addText(_char), i;
                 }, Cea708Stream1.prototype.multiByteCharacter = function(i, service) {
-                    var b, b, packetData = this.current708Packet.data, firstByte = packetData[i + 1], secondByte = packetData[i + 2];
-                    return (32 <= (b = firstByte) && b <= 127 || 160 <= b && b <= 255) && (32 <= (b = secondByte) && b <= 127 || 160 <= b && b <= 255) && (i = this.handleText(++i, service, {
+                    var packetData = this.current708Packet.data, firstByte = packetData[i + 1], secondByte = packetData[i + 2];
+                    return within708TextBlock(firstByte) && within708TextBlock(secondByte) && (i = this.handleText(++i, service, {
                         isMultiByte: !0
                     })), i;
                 }, Cea708Stream1.prototype.setCurrentWindow = function(i, service) {
@@ -11834,6 +11835,8 @@
                     preloadSegment: segment
                 }) - 1 : 0;
                 return name + " [" + (seq + index) + "/" + (seq + segmentLen) + "]" + (hasPartIndex ? " part [" + partIndex + "/" + zeroBasedPartCount + "]" : '') + (" segment start/end [" + segment.start + " => " + segment.end + "]") + (hasPartIndex ? " part start/end [" + part.start + " => " + part.end + "]" : '') + (" startOfSegment [" + startOfSegment + "]") + (" duration [" + duration + "]") + (" timeline [" + timeline + "]") + (" selected by [" + selection + "]") + (" playlist [" + id + "]");
+            }, timingInfoPropertyForMedia = function(mediaType) {
+                return mediaType + "TimingInfo";
             }, timestampOffsetForSegment = function(_ref) {
                 var segmentTimeline = _ref.segmentTimeline, currentTimeline = _ref.currentTimeline, startOfSegment = _ref.startOfSegment, buffered = _ref.buffered;
                 return _ref.overrideCheck || segmentTimeline !== currentTimeline ? segmentTimeline < currentTimeline ? startOfSegment : buffered.length ? buffered.end(buffered.length - 1) : startOfSegment : null;
@@ -11962,7 +11965,7 @@
                     }), storedMap || map;
                 }, _proto.segmentKey = function(key, set) {
                     if (void 0 === set && (set = !1), !key) return null;
-                    var key2, id = (key2 = key).resolvedUri, storedKey = this.keyCache_[id];
+                    var id = segmentKeyId(key), storedKey = this.keyCache_[id];
                     this.cacheEncryptionKeys_ && set && !storedKey && key.bytes && (this.keyCache_[id] = storedKey = {
                         resolvedUri: key.resolvedUri,
                         bytes: key.bytes
@@ -12151,7 +12154,7 @@
                     }, this.startingMediaInfo_ = trackInfo, this.currentMediaInfo_ = trackInfo, this.logger_('trackinfo update', trackInfo), this.trigger('trackinfo')), !this.checkForAbort_(simpleSegment.requestId) && (this.pendingSegment_.trackInfo = trackInfo, this.hasEnoughInfoToAppend_() && this.processCallQueue_())));
                 }, _proto.handleTimingInfo_ = function(simpleSegment, mediaType, timeType, time) {
                     if (this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId)) {
-                        var mediaType1, segmentInfo = this.pendingSegment_, timingInfoProperty = (mediaType1 = mediaType) + "TimingInfo";
+                        var segmentInfo = this.pendingSegment_, timingInfoProperty = timingInfoPropertyForMedia(mediaType);
                         segmentInfo[timingInfoProperty] = segmentInfo[timingInfoProperty] || {}, segmentInfo[timingInfoProperty][timeType] = time, this.logger_("timinginfo: " + mediaType + " - " + timeType + " - " + time), this.hasEnoughInfoToAppend_() && this.processCallQueue_();
                     }
                 }, _proto.handleCaptions_ = function(simpleSegment, captionData) {
@@ -12250,9 +12253,9 @@
                         }
                         var segmentInfo = this.pendingSegment_;
                         if (this.setTimeMapping_(segmentInfo.timeline), this.updateMediaSecondsLoaded_(segmentInfo.part || segmentInfo.segment), 'closed' !== this.mediaSource_.readyState) {
-                            if (simpleSegment.map && (simpleSegment.map = this.initSegmentForMap(simpleSegment.map, !0), segmentInfo.segment.map = simpleSegment.map), simpleSegment.key && this.segmentKey(simpleSegment.key, !0), segmentInfo.isFmp4 = simpleSegment.isFmp4, segmentInfo.timingInfo = segmentInfo.timingInfo || {}, segmentInfo.isFmp4) this.trigger('fmp4'), segmentInfo.timingInfo.start = segmentInfo[(mediaType1 = result.type) + "TimingInfo"].start;
+                            if (simpleSegment.map && (simpleSegment.map = this.initSegmentForMap(simpleSegment.map, !0), segmentInfo.segment.map = simpleSegment.map), simpleSegment.key && this.segmentKey(simpleSegment.key, !0), segmentInfo.isFmp4 = simpleSegment.isFmp4, segmentInfo.timingInfo = segmentInfo.timingInfo || {}, segmentInfo.isFmp4) this.trigger('fmp4'), segmentInfo.timingInfo.start = segmentInfo[timingInfoPropertyForMedia(result.type)].start;
                             else {
-                                var mediaType1, firstVideoFrameTimeForData, trackInfo = this.getCurrentMediaInfo_(), useVideoTimingInfo = 'main' === this.loaderType_ && trackInfo && trackInfo.hasVideo;
+                                var firstVideoFrameTimeForData, trackInfo = this.getCurrentMediaInfo_(), useVideoTimingInfo = 'main' === this.loaderType_ && trackInfo && trackInfo.hasVideo;
                                 useVideoTimingInfo && (firstVideoFrameTimeForData = segmentInfo.videoTimingInfo.start), segmentInfo.timingInfo.start = this.trueSegmentStart_({
                                     currentStart: segmentInfo.timingInfo.start,
                                     playlist: segmentInfo.playlist,
@@ -13453,18 +13456,20 @@
                     }, _proto.push = function(job) {
                         this.jobs.push(job), this.timeout_ || (this.timeout_ = setTimeout(this.processJob_.bind(this), this.delay));
                     }, AsyncStream;
-                }(Stream1), decrypt = function(encrypted, key, initVector) {
-                    var word, word, word, word, word, word, word, word, init0, init1, init2, init3, encrypted0, encrypted1, encrypted2, encrypted3, wordIx, encrypted32 = new Int32Array(encrypted.buffer, encrypted.byteOffset, encrypted.byteLength >> 2), decipher = new AES1(Array.prototype.slice.call(key)), decrypted = new Uint8Array(encrypted.byteLength), decrypted32 = new Int32Array(decrypted.buffer);
-                    for(wordIx = 0, init0 = initVector[0], init1 = initVector[1], init2 = initVector[2], init3 = initVector[3]; wordIx < encrypted32.length; wordIx += 4)encrypted0 = (word = encrypted32[wordIx]) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24, encrypted1 = (word = encrypted32[wordIx + 1]) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24, encrypted2 = (word = encrypted32[wordIx + 2]) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24, encrypted3 = (word = encrypted32[wordIx + 3]) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24, decipher.decrypt(encrypted0, encrypted1, encrypted2, encrypted3, decrypted32, wordIx), decrypted32[wordIx] = (word = decrypted32[wordIx] ^ init0) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24, decrypted32[wordIx + 1] = (word = decrypted32[wordIx + 1] ^ init1) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24, decrypted32[wordIx + 2] = (word = decrypted32[wordIx + 2] ^ init2) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24, decrypted32[wordIx + 3] = (word = decrypted32[wordIx + 3] ^ init3) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24, init0 = encrypted0, init1 = encrypted1, init2 = encrypted2, init3 = encrypted3;
+                }(Stream1), ntoh = function(word) {
+                    return word << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24;
+                }, decrypt = function(encrypted, key, initVector) {
+                    var init0, init1, init2, init3, encrypted0, encrypted1, encrypted2, encrypted3, wordIx, encrypted32 = new Int32Array(encrypted.buffer, encrypted.byteOffset, encrypted.byteLength >> 2), decipher = new AES1(Array.prototype.slice.call(key)), decrypted = new Uint8Array(encrypted.byteLength), decrypted32 = new Int32Array(decrypted.buffer);
+                    for(wordIx = 0, init0 = initVector[0], init1 = initVector[1], init2 = initVector[2], init3 = initVector[3]; wordIx < encrypted32.length; wordIx += 4)encrypted0 = ntoh(encrypted32[wordIx]), encrypted1 = ntoh(encrypted32[wordIx + 1]), encrypted2 = ntoh(encrypted32[wordIx + 2]), encrypted3 = ntoh(encrypted32[wordIx + 3]), decipher.decrypt(encrypted0, encrypted1, encrypted2, encrypted3, decrypted32, wordIx), decrypted32[wordIx] = ntoh(decrypted32[wordIx] ^ init0), decrypted32[wordIx + 1] = ntoh(decrypted32[wordIx + 1] ^ init1), decrypted32[wordIx + 2] = ntoh(decrypted32[wordIx + 2] ^ init2), decrypted32[wordIx + 3] = ntoh(decrypted32[wordIx + 3] ^ init3), init0 = encrypted0, init1 = encrypted1, init2 = encrypted2, init3 = encrypted3;
                     return decrypted;
                 }, Decrypter2 = function() {
                     function Decrypter(encrypted, key, initVector, done) {
-                        var word, word, word, word, step = Decrypter.STEP, encrypted32 = new Int32Array(encrypted.buffer), decrypted = new Uint8Array(encrypted.byteLength), i = 0;
+                        var step = Decrypter.STEP, encrypted32 = new Int32Array(encrypted.buffer), decrypted = new Uint8Array(encrypted.byteLength), i = 0;
                         for(this.asyncStream_ = new AsyncStream1(), this.asyncStream_.push(this.decryptChunk_(encrypted32.subarray(i, i + step), key, initVector, decrypted)), i = step; i < encrypted32.length; i += step)initVector = new Uint32Array([
-                            (word = encrypted32[i - 4]) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24,
-                            (word = encrypted32[i - 3]) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24,
-                            (word = encrypted32[i - 2]) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24,
-                            (word = encrypted32[i - 1]) << 24 | (65280 & word) << 8 | (16711680 & word) >> 8 | word >>> 24
+                            ntoh(encrypted32[i - 4]),
+                            ntoh(encrypted32[i - 3]),
+                            ntoh(encrypted32[i - 2]),
+                            ntoh(encrypted32[i - 1])
                         ]), this.asyncStream_.push(this.decryptChunk_(encrypted32.subarray(i, i + step), key, initVector, decrypted));
                         this.asyncStream_.push(function() {
                             var padded;
@@ -13642,8 +13647,8 @@
                     }
                 }
             }, groupMatch1 = function groupMatch(list, media) {
-                for(var a, b, i = 0; i < list.length; i++){
-                    if (a = media, b = list[i], (a || b) && (a || !b) && (!a || b) && (a === b || a.id && b.id && a.id === b.id || a.resolvedUri && b.resolvedUri && a.resolvedUri === b.resolvedUri || a.uri && b.uri && a.uri === b.uri)) return !0;
+                for(var i = 0; i < list.length; i++){
+                    if (playlistMatch(media, list[i])) return !0;
                     if (list[i].playlists && groupMatch(list[i].playlists, media)) return !0;
                 }
                 return !1;
@@ -14422,22 +14427,21 @@
                 }, _proto.bufferHighWaterLine = function() {
                     return Config.BUFFER_HIGH_WATER_LINE;
                 }, MasterPlaylistController;
-            }(videojs.EventTarget), Representation = function(vhsHandler, playlist2, id) {
+            }(videojs.EventTarget), Representation = function(vhsHandler, playlist1, id) {
                 var loader, playlistID, changePlaylistFn, mpc = vhsHandler.masterPlaylistController_, qualityChangeFunction = mpc[(vhsHandler.options_.smoothQualityChange ? 'smooth' : 'fast') + "QualityChange_"].bind(mpc);
-                if (playlist2.attributes) {
-                    var resolution = playlist2.attributes.RESOLUTION;
-                    this.width = resolution && resolution.width, this.height = resolution && resolution.height, this.bandwidth = playlist2.attributes.BANDWIDTH;
+                if (playlist1.attributes) {
+                    var resolution = playlist1.attributes.RESOLUTION;
+                    this.width = resolution && resolution.width, this.height = resolution && resolution.height, this.bandwidth = playlist1.attributes.BANDWIDTH;
                 }
-                this.codecs = codecsForPlaylist(mpc.master(), playlist2), this.playlist = playlist2, this.id = id, this.enabled = (loader = vhsHandler.playlists, playlistID = playlist2.id, changePlaylistFn = qualityChangeFunction, function(enable) {
-                    var playlist, playlist1 = loader.master.playlists[playlistID], incompatible = (playlist = playlist1).excludeUntil && playlist.excludeUntil === 1 / 0, currentlyEnabled = isEnabled(playlist1);
-                    return void 0 === enable ? currentlyEnabled : (enable ? delete playlist1.disabled : playlist1.disabled = !0, enable === currentlyEnabled || incompatible || (changePlaylistFn(), enable ? loader.trigger('renditionenabled') : loader.trigger('renditiondisabled')), enable);
+                this.codecs = codecsForPlaylist(mpc.master(), playlist1), this.playlist = playlist1, this.id = id, this.enabled = (loader = vhsHandler.playlists, playlistID = playlist1.id, changePlaylistFn = qualityChangeFunction, function(enable) {
+                    var playlist = loader.master.playlists[playlistID], incompatible = isIncompatible(playlist), currentlyEnabled = isEnabled(playlist);
+                    return void 0 === enable ? currentlyEnabled : (enable ? delete playlist.disabled : playlist.disabled = !0, enable === currentlyEnabled || incompatible || (changePlaylistFn(), enable ? loader.trigger('renditionenabled') : loader.trigger('renditiondisabled')), enable);
                 });
             }, renditionSelectionMixin = function(vhsHandler) {
                 vhsHandler.representations = function() {
                     var master = vhsHandler.masterPlaylistController_.master(), playlists = isAudioOnly(master) ? vhsHandler.masterPlaylistController_.getAudioTrackPlaylists_() : master.playlists;
                     return playlists ? playlists.filter(function(media) {
-                        var playlist;
-                        return !(playlist = media).excludeUntil || playlist.excludeUntil !== 1 / 0;
+                        return !isIncompatible(media);
                     }).map(function(e, i) {
                         return new Representation(vhsHandler, e, e.id);
                     }) : [];
