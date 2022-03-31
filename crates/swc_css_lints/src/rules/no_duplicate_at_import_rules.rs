@@ -34,15 +34,12 @@ struct NoDuplicateAtImportRules {
 
 impl Visit for NoDuplicateAtImportRules {
     fn visit_at_rule(&mut self, at_rule: &AtRule) {
-        match at_rule.prelude {
-            Some(AtRulePrelude::ImportPrelude(_)) => {
-                self.import_at_rules = Some(at_rule.clone());
+        if let Some(AtRulePrelude::ImportPrelude(_)) = at_rule.prelude {
+            self.import_at_rules = Some(at_rule.clone());
 
-                at_rule.visit_children_with(self);
+            at_rule.visit_children_with(self);
 
-                self.import_at_rules = None;
-            }
-            _ => {}
+            self.import_at_rules = None;
         }
     }
 
@@ -68,11 +65,8 @@ impl Visit for NoDuplicateAtImportRules {
                 let pair = (href.clone(), media);
 
                 if imports.contains(&pair) {
-                    match &self.import_at_rules {
-                        Some(at_rule) => {
-                            self.ctx.report(at_rule, build_message(href));
-                        }
-                        _ => {}
+                    if let Some(at_rule) = &self.import_at_rules {
+                        self.ctx.report(at_rule, build_message(href));
                     }
                 }
 
@@ -83,11 +77,8 @@ impl Visit for NoDuplicateAtImportRules {
             let pair = (href.clone(), None);
 
             if self.imports.contains(&pair) {
-                match &self.import_at_rules {
-                    Some(at_rule) => {
-                        self.ctx.report(at_rule, build_message(href));
-                    }
-                    _ => {}
+                if let Some(at_rule) = &self.import_at_rules {
+                    self.ctx.report(at_rule, build_message(href));
                 }
             }
 

@@ -23,17 +23,14 @@ struct KeyframeDeclarationNoImportant {
 
 impl Visit for KeyframeDeclarationNoImportant {
     fn visit_at_rule(&mut self, at_rule: &AtRule) {
-        match at_rule.prelude {
-            Some(AtRulePrelude::KeyframesPrelude(_)) => {
-                let old_value_in_keyframes_at_rule = self.in_keyframes_at_rule;
+        if let Some(AtRulePrelude::KeyframesPrelude(_)) = at_rule.prelude {
+            let old_value_in_keyframes_at_rule = self.in_keyframes_at_rule;
 
-                self.in_keyframes_at_rule = true;
+            self.in_keyframes_at_rule = true;
 
-                at_rule.visit_children_with(self);
+            at_rule.visit_children_with(self);
 
-                self.in_keyframes_at_rule = old_value_in_keyframes_at_rule;
-            }
-            _ => {}
+            self.in_keyframes_at_rule = old_value_in_keyframes_at_rule;
         }
     }
 

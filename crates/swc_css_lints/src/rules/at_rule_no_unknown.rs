@@ -40,15 +40,12 @@ struct AtRuleNoUnknown {
 impl Visit for AtRuleNoUnknown {
     fn visit_at_rule(&mut self, at_rule: &AtRule) {
         if let AtRuleName::Ident(Ident { value, .. }) = &at_rule.name {
-            match at_rule.prelude {
-                Some(AtRulePrelude::ListOfComponentValues(_)) => {
-                    if self.ignored.iter().all(|item| !item.is_match(&value)) {
-                        let message = format!("Unexpected unknown at-rule \"@{}\".", &value);
+            if let Some(AtRulePrelude::ListOfComponentValues(_)) = at_rule.prelude {
+                if self.ignored.iter().all(|item| !item.is_match(&value)) {
+                    let message = format!("Unexpected unknown at-rule \"@{}\".", &value);
 
-                        self.ctx.report(&at_rule.name, message);
-                    }
+                    self.ctx.report(&at_rule.name, message);
                 }
-                _ => {}
             }
         }
 
