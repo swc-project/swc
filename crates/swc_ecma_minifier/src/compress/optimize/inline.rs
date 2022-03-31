@@ -628,8 +628,20 @@ fn is_arrow_simple_enough(e: &ArrowExpr) -> bool {
 
         false
     }
-    if let BlockStmtOrExpr::Expr(e) = &e.body {
-        return is_arrow_body_simple_enough(e);
+
+    match &e.body {
+        BlockStmtOrExpr::BlockStmt(BlockStmt { stmts, .. }) => {
+            if stmts.len() == 1 {
+                if let Stmt::Return(ret) = &stmts[0] {
+                    return ret
+                        .arg
+                        .as_deref()
+                        .map(is_arrow_body_simple_enough)
+                        .unwrap_or(true);
+                }
+            }
+        }
+        BlockStmtOrExpr::Expr(e) => return is_arrow_body_simple_enough(e),
     }
 
     false
