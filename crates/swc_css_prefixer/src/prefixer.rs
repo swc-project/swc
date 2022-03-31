@@ -1138,9 +1138,99 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-flex-preferred-size");
             }
 
-            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "flex-direction" => {
+                let old_values = match n.value.get(0) {
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("row") =>
+                    {
+                        Some(("horizontal", "normal"))
+                    }
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("column") =>
+                    {
+                        Some(("vertical", "normal"))
+                    }
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("row-reverse") =>
+                    {
+                        Some(("horizontal", "reverse"))
+                    }
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("column-reverse") =>
+                    {
+                        Some(("vertical", "reverse"))
+                    }
+                    Some(_) | None => None,
+                };
+
+                if let Some((orient, direction)) = old_values {
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-orient".into(),
+                        raw: "-webkit-box-orient".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: orient.into(),
+                            raw: orient.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-direction".into(),
+                        raw: "-webkit-box-direction".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: direction.into(),
+                            raw: direction.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                }
+
                 same_content!(Prefix::Webkit, "-webkit-flex-direction");
+
+                if let Some((orient, direction)) = old_values {
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-orient".into(),
+                        raw: "-webkit-box-orient".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: orient.into(),
+                            raw: orient.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-direction".into(),
+                        raw: "-webkit-box-direction".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: direction.into(),
+                            raw: direction.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                }
+
                 same_content!(Prefix::Ms, "-ms-flex-direction");
             }
 
