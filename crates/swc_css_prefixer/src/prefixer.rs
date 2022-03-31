@@ -546,6 +546,7 @@ impl VisitMut for Prefixer {
         self.in_keyframe_block = old_in_keyframe_block;
     }
 
+    // TODO don't generate wrong prefixes in prefixed selectors
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         n.visit_mut_children_with(self);
 
@@ -1239,9 +1240,119 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-flex-wrap");
             }
 
-            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "flex-flow" => {
+                let is_single_flex_wrap = match n.value.get(0) {
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if n.value.len() == 1
+                            && matches!(
+                                &*value.to_lowercase(),
+                                "wrap" | "nowrap" | "wrap-reverse"
+                            ) =>
+                    {
+                        true
+                    }
+                    _ => false,
+                };
+
+                let old_values = match is_single_flex_wrap {
+                    true => None,
+                    _ => {
+                        let get_old_values = |index: usize| match n.value.get(index) {
+                            Some(ComponentValue::Ident(Ident { value, .. }))
+                                if value.as_ref().eq_ignore_ascii_case("row") =>
+                            {
+                                Some(("horizontal", "normal"))
+                            }
+                            Some(ComponentValue::Ident(Ident { value, .. }))
+                                if value.as_ref().eq_ignore_ascii_case("column") =>
+                            {
+                                Some(("vertical", "normal"))
+                            }
+                            Some(ComponentValue::Ident(Ident { value, .. }))
+                                if value.as_ref().eq_ignore_ascii_case("row-reverse") =>
+                            {
+                                Some(("horizontal", "reverse"))
+                            }
+                            Some(ComponentValue::Ident(Ident { value, .. }))
+                                if value.as_ref().eq_ignore_ascii_case("column-reverse") =>
+                            {
+                                Some(("vertical", "reverse"))
+                            }
+                            Some(_) | None => None,
+                        };
+
+                        get_old_values(0).or_else(|| get_old_values(1))
+                    }
+                };
+
+                if let Some((orient, direction)) = old_values {
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-orient".into(),
+                        raw: "-webkit-box-orient".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: orient.into(),
+                            raw: orient.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-direction".into(),
+                        raw: "-webkit-box-direction".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: direction.into(),
+                            raw: direction.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                }
+
                 same_content!(Prefix::Webkit, "-webkit-flex-flow");
+
+                if let Some((orient, direction)) = old_values {
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-moz-box-orient".into(),
+                        raw: "-moz-box-orient".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: orient.into(),
+                            raw: orient.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-moz-box-direction".into(),
+                        raw: "-moz-box-direction".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: direction.into(),
+                            raw: direction.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                }
+
                 same_content!(Prefix::Ms, "-ms-flex-flow");
             }
 

@@ -191,7 +191,11 @@ button::-webkit-search-cancel-button {
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
   -webkit-flex-flow: row;
+  -moz-box-orient: horizontal;
+  -moz-box-direction: normal;
   -ms-flex-flow: row;
   flex-flow: row;
   -webkit-box-ordinal-group: 1;

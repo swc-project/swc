@@ -165,3 +165,7 @@ a {
 .class {
     flex-direction: column;
 }
+
+.class {
+    flex-flow: wrap column;
+}
