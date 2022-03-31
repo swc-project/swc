@@ -42,12 +42,12 @@ pub struct PluginContext {
 }
 
 #[cfg(feature = "plugin")]
-pub fn plugins<'cmt>(
+pub fn plugins(
     resolver: Option<CachingResolver<NodeModulesResolver>>,
-    comments: Option<&'cmt swc_common::comments::SingleThreadedComments>,
+    comments: Option<&'_ swc_common::comments::SingleThreadedComments>,
     config: crate::config::JscExperimental,
     plugin_context: PluginContext,
-) -> impl Fold + 'cmt {
+) -> impl Fold + '_ {
     {
         RustPlugins {
             resolver,
