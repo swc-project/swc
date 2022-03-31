@@ -2426,6 +2426,8 @@ where
             *s = *body.take();
         }
 
+        self.remove_duplicate_var_decls(s);
+
         // visit_mut_children_with above may produce easily optimizable block
         // statements.
         self.try_removing_block(s, false);

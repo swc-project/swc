@@ -715,6 +715,37 @@ where
         }
     }
 
+    pub(super) fn remove_duplicate_var_decls(&mut self, s: &mut Stmt) -> Option<()> {
+        if !self.options.unused {
+            return None;
+        }
+
+        let var = match s {
+            Stmt::Decl(Decl::Var(v)) => v,
+            _ => return None,
+        };
+
+        for d in var.decls.iter_mut() {
+            if d.init.is_none() {
+                if let Pat::Ident(name) = &d.name {
+                    if let Some(usage) = self.data.vars.get(&name.to_id()) {
+                        if usage.declared_as_fn_param {
+                            d.name.take();
+                            tracing::debug!(
+                                "Removing a variable statement because it's a function parameter"
+                            );
+                            self.changed = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        var.decls.retain(|v| !v.name.is_invalid());
+
+        None
+    }
+
     /// `var Parser = function Parser() {};` => `var Parser = function () {}`
     pub(super) fn remove_duplicate_name_of_function(&mut self, v: &mut VarDeclarator) {
         if !self.options.unused {
