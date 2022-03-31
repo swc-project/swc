@@ -2204,6 +2204,7 @@ where
         stmts.visit_mut_with(&mut MultiReplacer {
             vars: take(&mut self.vars_for_inlining),
             changed: false,
+            clone: false,
         });
 
         drop_invalid_stmts(stmts);
@@ -2424,6 +2425,8 @@ where
         {
             *s = *body.take();
         }
+
+        self.remove_duplicate_var_decls(s);
 
         // visit_mut_children_with above may produce easily optimizable block
         // statements.
@@ -2747,7 +2750,7 @@ where
 
         var.init.visit_mut_with(self);
 
-        self.remove_duplicate_names(var);
+        self.remove_duplicate_name_of_function(var);
 
         self.store_var_for_inlining(var);
         self.store_var_for_prop_hoisting(var);

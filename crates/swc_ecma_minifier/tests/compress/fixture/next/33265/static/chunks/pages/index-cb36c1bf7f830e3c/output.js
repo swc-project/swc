@@ -3633,7 +3633,7 @@
             }, parse = function(manifestString, options) {
                 void 0 === options && (options = {});
                 var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options);
-                return toM3u8(parsedManifestInfo.representationInfo.map(generateSegments), parsedManifestInfo.locations, options.sidxMapping);
+                return toM3u8((0, parsedManifestInfo.representationInfo).map(generateSegments), parsedManifestInfo.locations, options.sidxMapping);
             }, parseUTCTiming = function(manifestString) {
                 return parseUTCTimingScheme(stringToMpdXml(manifestString));
             };
