@@ -19,4 +19,5 @@ pub mod es2020;
 pub mod es2021;
 pub mod es2022;
 pub mod es3;
+pub mod regexp;
 pub mod reserved_words;
