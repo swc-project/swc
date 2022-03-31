@@ -22,6 +22,9 @@
 
 - **(es/parser)** Fix parsing of an arrow and a conditional expression (#4199) ([99a0d34](https://github.com/swc-project/swc/commit/99a0d34a1e13a69f5bc1ecf51a6279adab6c20cc))
 
+
+- **(node-swc)** Initialize custom trace subscriber only once (#4209) ([eecda21](https://github.com/swc-project/swc/commit/eecda21d9a36fc2c4b98c2cae4933adb300cdaa0))
+
 ### Features
 
 
