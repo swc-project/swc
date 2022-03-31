@@ -376,7 +376,10 @@ where
                     BlockStmtOrExpr::Expr(body) => {
                         self.changed = true;
 
-                        // We remap variables
+                        // We remap variables.
+                        //
+                        // For arrow expressions this is required because we copy simple arrow
+                        // expressions.
                         let mut remap = HashMap::default();
                         let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
 
