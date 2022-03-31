@@ -14,6 +14,9 @@
 - **(es/compat)** Fix label handling of `block_scoping` (#4198) ([c946236](https://github.com/swc-project/swc/commit/c946236fcc911da8bdc213dc8674b48c5d0a41e7))
 
 
+- **(es/compat)** Hoist env in function params (#4210) ([6a27a0c](https://github.com/swc-project/swc/commit/6a27a0ce882269df7da71c431a8f8026b698cd60))
+
+
 - **(es/minifier)** Fix `react-ace` (#4183) ([9a9a4f3](https://github.com/swc-project/swc/commit/9a9a4f37d82336f53bf6efbdf4ee38a63d45e278))
 
 
