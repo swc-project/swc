@@ -64,6 +64,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "better_scoped_tls"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b73e8ecdec39e98aa3b19e8cd0b8ed8f77ccb86a6b0b2dc7cd86d105438a2123"
+dependencies = [
+ "scoped-tls",
+]
+
+[[package]]
 name = "bitflags"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -516,12 +525,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ea6a9290e3c9cf0f18145ef7ffa62d68ee0bf5fcd651017e586dc7fd5da448c2"
 
 [[package]]
-name = "scoped-tls-hkt"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2e9d7eaddb227e8fbaaa71136ae0e1e913ca159b86c7da82f3e8f0044ad3a63"
-
-[[package]]
 name = "scopeguard"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -623,7 +626,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "ast_node",
- "better_scoped_tls",
+ "better_scoped_tls 0.1.0",
  "cfg-if",
  "debug_unreachable",
  "either",
@@ -712,8 +715,8 @@ dependencies = [
 name = "swc_plugin_comments"
 version = "0.1.0"
 dependencies = [
+ "better_scoped_tls 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "rkyv",
- "scoped-tls-hkt",
  "swc_common",
 ]
 

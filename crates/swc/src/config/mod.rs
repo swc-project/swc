@@ -466,6 +466,7 @@ impl Options {
                 swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
             }
 
+            let comments = comments.cloned();
             crate::plugin::plugins(
                 Some(plugin_resolver),
                 comments,
@@ -492,6 +493,7 @@ impl Options {
             };
 
             swc_plugin_runner::cache::init_plugin_module_cache_once();
+            let comments = comments.cloned();
             crate::plugin::plugins(None, comments, experimental, plugin_context)
         };
 

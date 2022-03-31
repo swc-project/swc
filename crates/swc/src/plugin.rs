@@ -44,10 +44,10 @@ pub struct PluginContext {
 #[cfg(feature = "plugin")]
 pub fn plugins(
     resolver: Option<CachingResolver<NodeModulesResolver>>,
-    comments: Option<&'_ swc_common::comments::SingleThreadedComments>,
+    comments: Option<swc_common::comments::SingleThreadedComments>,
     config: crate::config::JscExperimental,
     plugin_context: PluginContext,
-) -> impl Fold + '_ {
+) -> impl Fold {
     {
         RustPlugins {
             resolver,
@@ -63,14 +63,14 @@ pub fn plugins() -> impl Fold {
     noop()
 }
 
-struct RustPlugins<'cmt> {
+struct RustPlugins {
     resolver: Option<CachingResolver<NodeModulesResolver>>,
-    comments: Option<&'cmt swc_common::comments::SingleThreadedComments>,
+    comments: Option<swc_common::comments::SingleThreadedComments>,
     plugins: Option<Vec<PluginConfig>>,
     plugin_context: PluginContext,
 }
 
-impl<'cmt> RustPlugins<'cmt> {
+impl RustPlugins {
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
     #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
@@ -85,8 +85,8 @@ impl<'cmt> RustPlugins<'cmt> {
 
         // Set comments once per whole plugin transform execution.
         swc_plugin_comments::COMMENTS.set(
-            swc_plugin_comments::HostCommentsStorage {
-                inner: self.comments,
+            &swc_plugin_comments::HostCommentsStorage {
+                inner: self.comments.clone(),
             },
             || {
                 let mut serialized = Serialized::serialize(&n)?;
@@ -164,8 +164,8 @@ impl<'cmt> RustPlugins<'cmt> {
         let should_enable_comments_proxy = self.comments.is_some();
 
         swc_plugin_comments::COMMENTS.set(
-            swc_plugin_comments::HostCommentsStorage {
-                inner: self.comments,
+            &swc_plugin_comments::HostCommentsStorage {
+                inner: self.comments.clone(),
             },
             || {
                 let mut serialized = Serialized::serialize(&n)?;
@@ -198,7 +198,7 @@ impl<'cmt> RustPlugins<'cmt> {
     }
 }
 
-impl Fold for RustPlugins<'_> {
+impl Fold for RustPlugins {
     noop_fold_type!();
 
     #[cfg(feature = "plugin")]
