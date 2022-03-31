@@ -14,6 +14,7 @@ members = [
   "crates/swc_plugin_macro",
   "crates/swc_plugin_runner",
   "crates/swc_plugin_testing",
+  "crates/swc_plugin_comments",
   "crates/swc_timer",
   "crates/swc_webpack_ast",
   "crates/wasm",
@@ -61,5 +62,3 @@ opt-level = 3
 [patch.crates-io]
 cranelift-codegen = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
 cranelift-entity = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
-# https://github.com/thoren-d/tracing-chrome/pull/6
-tracing-chrome = { git = "https://github.com/kwonoj/tracing-chrome", rev = "a345d8e" }

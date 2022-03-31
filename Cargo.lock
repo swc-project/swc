@@ -2345,9 +2345,9 @@ checksum = "11000e6ba5020e53e7cc26f73b91ae7d5496b4977851479edb66b694c0675c21"
 
 [[package]]
 name = "rkyv"
-version = "0.7.35"
+version = "0.7.36"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2cdcf5caf69bcc87b1e3f5427b4f21a32fdd53c2847687bdf9861abb1cdaa0d8"
+checksum = "5230ae2981a885590b0dc84e0b24c0ed23ad24f7adc0eb824b26cafa961f7c36"
 dependencies = [
  "bytecheck",
  "hashbrown 0.12.0",
@@ -2359,9 +2359,9 @@ dependencies = [
 
 [[package]]
 name = "rkyv_derive"
-version = "0.7.35"
+version = "0.7.36"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a6cf557da1f81b8c7e889c59c9c3abaf6978f7feb156b9579e4f8bf6d7a2bada"
+checksum = "0fc752d5925dbcb324522f3a4c93193d17f107b2e11810913aa3ad352fa01480"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2856,6 +2856,7 @@ dependencies = [
  "swc_error_reporters",
  "swc_node_base",
  "swc_node_comments",
+ "swc_plugin_comments",
  "swc_plugin_runner",
  "swc_visit",
  "testing",
@@ -3472,7 +3473,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.109.1"
+version = "0.109.2"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3767,14 +3768,24 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.39.0"
+version = "0.40.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_quote",
  "swc_ecma_visit",
+ "swc_plugin_comments",
  "swc_plugin_macro",
+]
+
+[[package]]
+name = "swc_plugin_comments"
+version = "0.1.0"
+dependencies = [
+ "better_scoped_tls",
+ "rkyv",
+ "swc_common",
 ]
 
 [[package]]
@@ -3801,6 +3812,7 @@ dependencies = [
  "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_ecma_visit",
+ "swc_plugin_comments",
  "testing",
  "tracing",
  "wasmer",
@@ -4166,8 +4178,9 @@ dependencies = [
 
 [[package]]
 name = "tracing-chrome"
-version = "0.4.0"
-source = "git+https://github.com/kwonoj/tracing-chrome?rev=a345d8e#a345d8e8b0db52911711d01c9d44b1bdb7be2901"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fcb13184244c7cd22758b79e7c993c515ad67a8e730edcb7e05fe7bcabb283c7"
 dependencies = [
  "json",
  "tracing",
