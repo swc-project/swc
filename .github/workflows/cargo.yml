@@ -102,8 +102,6 @@ jobs:
             os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
-          - crate: fastmem
-            os: ubuntu-latest
           - crate: from_variant
             os: ubuntu-latest
           - crate: jsdoc
