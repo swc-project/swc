@@ -94,7 +94,7 @@ where
 
         if n.block.is_some() {
             match &n.prelude {
-                Some(AtRulePrelude::ListOfComponentValues(_)) => {}
+                Some(AtRulePrelude::ListOfComponentValues(_)) | None => {}
                 _ => {
                     formatting_space!(self);
                 }
