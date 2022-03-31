@@ -1,3 +1,4 @@
+var enumdule;
 import * as swcHelpers from "@swc/helpers";
 !function(enumdule) {
     enumdule[enumdule.Red = 0] = "Red", enumdule[enumdule.Blue = 1] = "Blue";

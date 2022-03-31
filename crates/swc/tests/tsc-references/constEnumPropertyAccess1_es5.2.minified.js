@@ -4,7 +4,7 @@ import * as swcHelpers from "@swc/helpers";
 }(G || (G = {})), ({
     1: !0
 })[1];
-var C = function() {
+var G, C = function() {
     "use strict";
     function C() {
         swcHelpers.classCallCheck(this, C);

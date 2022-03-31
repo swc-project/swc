@@ -6633,6 +6633,7 @@
                         return CODECS && CODECS.split(',').every(function(c) {
                             return (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.KL)(c);
                         }) ? "continue" : someAudioVariant(master, function(variant) {
+                            var a, b;
                             return a = playlist, b = variant, (!!a || !!b) && (!!a || !b) && (!a || !!b) && (a === b || !!a.id && !!b.id && a.id === b.id || !!a.resolvedUri && !!b.resolvedUri && a.resolvedUri === b.resolvedUri || !!a.uri && !!b.uri && a.uri === b.uri);
                         }) ? "continue" : {
                             v: !1
@@ -6887,8 +6888,8 @@
                 }
                 return segments;
             }, updateMaster$1 = function(master, newMedia, unchangedCheck) {
-                void 0 === unchangedCheck && (unchangedCheck = function(a, b) {
-                    return a === b || a.segments && b.segments && a.segments.length === b.segments.length && a.endList === b.endList && a.mediaSequence === b.mediaSequence && a.preloadSegment === b.preloadSegment;
+                void 0 === unchangedCheck && (unchangedCheck = function(a1, b1) {
+                    return a1 === b1 || a1.segments && b1.segments && a1.segments.length === b1.segments.length && a1.endList === b1.endList && a1.mediaSequence === b1.mediaSequence && a1.preloadSegment === b1.preloadSegment;
                 });
                 var result = mergeOptions$2(master, {}), oldMedia = result.playlists[newMedia.id];
                 if (!oldMedia) return null;
@@ -7153,8 +7154,8 @@
                 __proto__: null,
                 createTransferableMessage: createTransferableMessage1,
                 initSegmentId: initSegmentId,
-                segmentKeyId: function(key) {
-                    return key.resolvedUri;
+                segmentKeyId: function(key2) {
+                    return key2.resolvedUri;
                 },
                 hexDump: hexDump,
                 tagDump: function(_ref) {
@@ -7297,14 +7298,15 @@
                     return callbackWrapper(request1, error, response, progressListener);
                 });
                 return request1;
-            }, EventTarget = videojs.EventTarget, mergeOptions = videojs.mergeOptions, dashPlaylistUnchanged = function(a1, b1) {
-                if ((a = a1) !== (b = b1) && (!a.segments || !b.segments || a.segments.length !== b.segments.length || a.endList !== b.endList || a.mediaSequence !== b.mediaSequence || a.preloadSegment !== b.preloadSegment)) return !1;
-                if (a1.sidx && b1.sidx && (a1.sidx.offset !== b1.sidx.offset || a1.sidx.length !== b1.sidx.length)) return !1;
-                if (!a1.sidx && b1.sidx || a1.sidx && !b1.sidx) return !1;
-                if (a1.segments && !b1.segments || !a1.segments && b1.segments) return !1;
-                if (!a1.segments && !b1.segments) return !0;
-                for(var i = 0; i < a1.segments.length; i++){
-                    var aSegment = a1.segments[i], bSegment = b1.segments[i];
+            }, EventTarget = videojs.EventTarget, mergeOptions = videojs.mergeOptions, dashPlaylistUnchanged = function(a, b) {
+                var a1, b1;
+                if ((a1 = a) !== (b1 = b) && (!a1.segments || !b1.segments || a1.segments.length !== b1.segments.length || a1.endList !== b1.endList || a1.mediaSequence !== b1.mediaSequence || a1.preloadSegment !== b1.preloadSegment)) return !1;
+                if (a.sidx && b.sidx && (a.sidx.offset !== b.sidx.offset || a.sidx.length !== b.sidx.length)) return !1;
+                if (!a.sidx && b.sidx || a.sidx && !b.sidx) return !1;
+                if (a.segments && !b.segments || !a.segments && b.segments) return !1;
+                if (!a.segments && !b.segments) return !0;
+                for(var i = 0; i < a.segments.length; i++){
+                    var aSegment = a.segments[i], bSegment = b.segments[i];
                     if (aSegment.uri !== bSegment.uri) return !1;
                     if (aSegment.byterange || bSegment.byterange) {
                         var aByterange = aSegment.byterange, bByterange = bSegment.byterange;
@@ -11958,15 +11960,15 @@
                         tracks: map.tracks,
                         timescales: map.timescales
                     }), storedMap || map;
-                }, _proto.segmentKey = function(key2, set) {
-                    if (void 0 === set && (set = !1), !key2) return null;
-                    var id = (key = key2).resolvedUri, storedKey = this.keyCache_[id];
-                    this.cacheEncryptionKeys_ && set && !storedKey && key2.bytes && (this.keyCache_[id] = storedKey = {
-                        resolvedUri: key2.resolvedUri,
-                        bytes: key2.bytes
+                }, _proto.segmentKey = function(key, set) {
+                    if (void 0 === set && (set = !1), !key) return null;
+                    var key2, id = (key2 = key).resolvedUri, storedKey = this.keyCache_[id];
+                    this.cacheEncryptionKeys_ && set && !storedKey && key.bytes && (this.keyCache_[id] = storedKey = {
+                        resolvedUri: key.resolvedUri,
+                        bytes: key.bytes
                     });
                     var result = {
-                        resolvedUri: (storedKey || key2).resolvedUri
+                        resolvedUri: (storedKey || key).resolvedUri
                     };
                     return storedKey && (result.bytes = storedKey.bytes), result;
                 }, _proto.couldBeginLoading_ = function() {
@@ -14420,20 +14422,21 @@
                 }, _proto.bufferHighWaterLine = function() {
                     return Config.BUFFER_HIGH_WATER_LINE;
                 }, MasterPlaylistController;
-            }(videojs.EventTarget), Representation = function(vhsHandler, playlist1, id) {
+            }(videojs.EventTarget), Representation = function(vhsHandler, playlist2, id) {
                 var loader, playlistID, changePlaylistFn, mpc = vhsHandler.masterPlaylistController_, qualityChangeFunction = mpc[(vhsHandler.options_.smoothQualityChange ? 'smooth' : 'fast') + "QualityChange_"].bind(mpc);
-                if (playlist1.attributes) {
-                    var resolution = playlist1.attributes.RESOLUTION;
-                    this.width = resolution && resolution.width, this.height = resolution && resolution.height, this.bandwidth = playlist1.attributes.BANDWIDTH;
+                if (playlist2.attributes) {
+                    var resolution = playlist2.attributes.RESOLUTION;
+                    this.width = resolution && resolution.width, this.height = resolution && resolution.height, this.bandwidth = playlist2.attributes.BANDWIDTH;
                 }
-                this.codecs = codecsForPlaylist(mpc.master(), playlist1), this.playlist = playlist1, this.id = id, this.enabled = (loader = vhsHandler.playlists, playlistID = playlist1.id, changePlaylistFn = qualityChangeFunction, function(enable) {
-                    var playlist2 = loader.master.playlists[playlistID], incompatible = (playlist = playlist2).excludeUntil && playlist.excludeUntil === 1 / 0, currentlyEnabled = isEnabled(playlist2);
-                    return void 0 === enable ? currentlyEnabled : (enable ? delete playlist2.disabled : playlist2.disabled = !0, enable === currentlyEnabled || incompatible || (changePlaylistFn(), enable ? loader.trigger('renditionenabled') : loader.trigger('renditiondisabled')), enable);
+                this.codecs = codecsForPlaylist(mpc.master(), playlist2), this.playlist = playlist2, this.id = id, this.enabled = (loader = vhsHandler.playlists, playlistID = playlist2.id, changePlaylistFn = qualityChangeFunction, function(enable) {
+                    var playlist, playlist1 = loader.master.playlists[playlistID], incompatible = (playlist = playlist1).excludeUntil && playlist.excludeUntil === 1 / 0, currentlyEnabled = isEnabled(playlist1);
+                    return void 0 === enable ? currentlyEnabled : (enable ? delete playlist1.disabled : playlist1.disabled = !0, enable === currentlyEnabled || incompatible || (changePlaylistFn(), enable ? loader.trigger('renditionenabled') : loader.trigger('renditiondisabled')), enable);
                 });
             }, renditionSelectionMixin = function(vhsHandler) {
                 vhsHandler.representations = function() {
                     var master = vhsHandler.masterPlaylistController_.master(), playlists = isAudioOnly(master) ? vhsHandler.masterPlaylistController_.getAudioTrackPlaylists_() : master.playlists;
                     return playlists ? playlists.filter(function(media) {
+                        var playlist;
                         return !(playlist = media).excludeUntil || playlist.excludeUntil !== 1 / 0;
                     }).map(function(e, i) {
                         return new Representation(vhsHandler, e, e.id);

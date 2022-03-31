@@ -1,3 +1,4 @@
+var enumdule;
 (enumdule || (enumdule = {})).Point = class {
     constructor(x, y){
         this.x = x, this.y = y;

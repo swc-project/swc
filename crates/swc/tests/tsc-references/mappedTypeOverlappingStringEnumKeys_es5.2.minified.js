@@ -1,3 +1,4 @@
+var TerrestrialAnimalTypes, AlienAnimalTypes;
 !function(TerrestrialAnimalTypes) {
     TerrestrialAnimalTypes.CAT = "cat", TerrestrialAnimalTypes.DOG = "dog";
 }(TerrestrialAnimalTypes || (TerrestrialAnimalTypes = {})), function(AlienAnimalTypes) {

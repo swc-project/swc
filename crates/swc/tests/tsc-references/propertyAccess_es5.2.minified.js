@@ -1,5 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var bothIndex, stringOrNumber, someObject, A = function() {
+var Compass, bothIndex, stringOrNumber, someObject, A = function() {
     "use strict";
     swcHelpers.classCallCheck(this, A);
 }, B = function(A1) {

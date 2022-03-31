@@ -1,6 +1,6 @@
 void 0 !== YUI && (YUI._YUI = YUI);
 var YUI = function() {
-    var i = 0, Y = this, args = arguments, l = args.length, gconf = 'undefined' != typeof YUI_config && YUI_config;
+    var o, type, i = 0, Y = this, args = arguments, l = args.length, gconf = 'undefined' != typeof YUI_config && YUI_config;
     if ((o = Y, type = YUI, o && o.hasOwnProperty && o instanceof type) ? (Y._init(), YUI.GlobalConfig && Y.applyConfig(YUI.GlobalConfig), gconf && Y.applyConfig(gconf), l || Y._setup()) : Y = new YUI(), l) {
         for(; i < l; i++)Y.applyConfig(args[i]);
         Y._setup();

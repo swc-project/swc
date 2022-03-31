@@ -1,7 +1,7 @@
 var A, Y;
 import * as swcHelpers from "@swc/helpers";
 !function(A3) {
-    var Module, A1, Color, A2 = function() {
+    var Module, Color, A1, Color, A2 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A2);
     }, AA1 = function() {
@@ -29,7 +29,7 @@ import * as swcHelpers from "@swc/helpers";
         swcHelpers.classCallCheck(this, A1);
     }, (Color = Color || (Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
 }(A || (A = {})), function(Y1) {
-    var A6 = function() {
+    var Color, A6 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A6);
     };

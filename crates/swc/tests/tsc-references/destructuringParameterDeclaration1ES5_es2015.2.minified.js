@@ -1,3 +1,4 @@
+var Foo;
 function a1([a, b, [[c]]]) {}
 function b2(z = null, o = {
     x: 0,

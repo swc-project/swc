@@ -1,6 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 M = null;
-var C = function() {
+var E, C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
 };

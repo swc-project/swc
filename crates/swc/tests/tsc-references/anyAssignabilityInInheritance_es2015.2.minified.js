@@ -1,4 +1,4 @@
-var a;
+var a, E;
 function f() {}
 foo2(a), foo3(a), foo3(a), foo3(a), foo3(a), foo3(a), foo3(a), foo3(a), foo3(a), foo3(a), foo3(a), foo3(a), function(E) {
     E[E.A = 0] = "A";

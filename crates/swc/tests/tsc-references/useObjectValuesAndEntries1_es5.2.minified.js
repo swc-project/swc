@@ -1,4 +1,4 @@
-var o = {
+var E, o = {
     a: 1,
     b: 2
 }, _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;

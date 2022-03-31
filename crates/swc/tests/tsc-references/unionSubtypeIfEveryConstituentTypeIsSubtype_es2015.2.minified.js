@@ -1,3 +1,4 @@
+var e, E2;
 function f() {}
 !function(e) {
     e[e.e1 = 0] = "e1", e[e.e2 = 1] = "e2";

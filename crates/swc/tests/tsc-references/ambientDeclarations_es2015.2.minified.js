@@ -1,3 +1,4 @@
+var E1, E2, E3;
 !function(E1) {
     E1[E1.x = 0] = "x", E1[E1.y = 1] = "y", E1[E1.z = 2] = "z";
 }(E1 || (E1 = {})), function(E2) {

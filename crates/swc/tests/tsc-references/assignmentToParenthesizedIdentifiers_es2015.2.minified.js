@@ -1,4 +1,4 @@
-var M, M2;
+var M, M2, E;
 !function(M1) {
     var y;
     M1.y = y;

@@ -1,4 +1,4 @@
-var x;
+var E, F, x;
 function foo(x, a, b) {}
 function foo2(x, a, b) {}
 foo('', (x)=>''

@@ -1,4 +1,4 @@
-var aString, anAny, c, d, e, i, M;
+var aString, anAny, c, d, e, i, M, Color;
 for(aString in {});
 for(anAny in {});
 for(var x in {});

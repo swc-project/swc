@@ -1,3 +1,4 @@
+var E, E1;
 function a10([a, b, [[c]], ...x]) {}
 function foo(...a) {}
 function foo1(...a) {}

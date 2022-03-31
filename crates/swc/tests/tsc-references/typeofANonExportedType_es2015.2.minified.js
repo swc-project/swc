@@ -1,4 +1,4 @@
-var M;
+var M, E;
 export var r1;
 export var r2;
 export var c;
