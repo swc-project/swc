@@ -8,6 +8,35 @@ use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
 
 impl Pure<'_> {
+    pub(super) fn eval_free_iife(&mut self, s: &mut Stmt) {
+        if !self.options.unused || self.options.inline != 3 {
+            return;
+        }
+        if self.ctx.top_level {
+            return;
+        }
+
+        let es = match s {
+            Stmt::Expr(v) => v,
+            _ => return,
+        };
+
+        if let Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            args,
+            ..
+        }) = &mut *es.expr
+        {
+            if let Expr::Fn(callee) = &mut **callee {
+                if args.is_empty() && callee.function.params.is_empty() {
+                    self.changed = true;
+                    tracing::debug!("Flattening iife");
+                    *s = Stmt::Block(callee.function.body.take().unwrap());
+                }
+            }
+        }
+    }
+
     pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;

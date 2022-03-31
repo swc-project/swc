@@ -51,6 +51,7 @@ pub(crate) fn pure_optimizer<'a>(
         data,
         ctx: Ctx {
             force_str_for_tpl,
+            top_level: true,
             ..Default::default()
         },
         changed: Default::default(),
@@ -598,6 +599,8 @@ impl VisitMut for Pure<'_> {
             }
         }
 
+        self.eval_free_iife(s);
+
         self.loop_to_for_stmt(s);
 
         self.drop_instant_break(s);
@@ -636,10 +639,14 @@ impl VisitMut for Pure<'_> {
                 }
             }
         }
+        let ctx = Ctx {
+            top_level: false,
+            ..self.ctx
+        };
 
-        self.visit_par(items);
+        self.with_ctx(ctx).visit_par(items);
 
-        self.handle_stmt_likes(items);
+        self.with_ctx(ctx).handle_stmt_likes(items);
 
         items.retain(|s| !matches!(s, Stmt::Empty(..)));
 
