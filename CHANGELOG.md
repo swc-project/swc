@@ -17,6 +17,9 @@
 - **(es/minifier)** Fix `react-ace` (#4183) ([9a9a4f3](https://github.com/swc-project/swc/commit/9a9a4f37d82336f53bf6efbdf4ee38a63d45e278))
 
 
+- **(es/minifier)** Fix evaluation of IIFEs (#4207) ([1071854](https://github.com/swc-project/swc/commit/10718547e0724271f7b8e06292647ec6faa035f7))
+
+
 - **(es/optimization)** Support jsx in `dce` (#4203) ([073751f](https://github.com/swc-project/swc/commit/073751f70d7eb557d0f865aa997cbc36396d923d))
 
 
