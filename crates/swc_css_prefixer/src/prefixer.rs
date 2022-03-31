@@ -1193,11 +1193,59 @@ impl VisitMut for Prefixer {
                 same_content!(Prefix::Ms, "-ms-flex-order");
             }
 
-            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/align-items.js
             "align-items" => {
+                let mut old_spec_ms_new_value = webkit_new_value.clone();
+
+                replace_ident(&mut old_spec_ms_new_value, "flex-end", "end");
+                replace_ident(&mut old_spec_ms_new_value, "flex-start", "start");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-webkit-box-align".into(),
+                    raw: "-webkit-box-align".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: old_spec_ms_new_value,
+                    important: n.important.clone(),
+                });
+
                 same_content!(Prefix::Webkit, "-webkit-align-items");
-                same_content!(Prefix::Webkit, "-webkit-box-align");
-                same_content!(Prefix::Ms, "-ms-flex-align");
+
+                let mut old_spec_moz_new_value = moz_new_value.clone();
+
+                replace_ident(&mut old_spec_moz_new_value, "flex-end", "end");
+                replace_ident(&mut old_spec_moz_new_value, "flex-start", "start");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-moz-box-align".into(),
+                    raw: "-moz-box-align".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: old_spec_moz_new_value,
+                    important: n.important.clone(),
+                });
+
+                let mut old_spec_ms_new_value = ms_new_value.clone();
+
+                replace_ident(&mut old_spec_ms_new_value, "flex-end", "end");
+                replace_ident(&mut old_spec_ms_new_value, "flex-start", "start");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-flex-align".into(),
+                    raw: "-ms-flex-align".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: old_spec_ms_new_value,
+                    important: n.important.clone(),
+                });
             }
 
             "align-self" => {
