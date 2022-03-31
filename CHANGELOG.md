@@ -59,6 +59,9 @@
 
 
 
+- **(*)** Remove `fastmem` (#4211) ([3b1da22](https://github.com/swc-project/swc/commit/3b1da220e2c148725a646064519165f2be2a0036))
+
+
 - **(cli)** Alias plugin build with wasm target (#4181) ([8ca4e67](https://github.com/swc-project/swc/commit/8ca4e674515b77341f77f180235fcfb396dac26d))
 
 ## [1.2.161] - 2022-03-28
