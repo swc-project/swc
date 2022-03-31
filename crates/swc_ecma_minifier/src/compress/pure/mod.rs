@@ -423,9 +423,14 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.bindings = Some(Arc::new(collect_decls(items)));
 
-        self.visit_par(items);
+        let ctx = Ctx {
+            top_level: true,
+            ..self.ctx
+        };
 
-        self.handle_stmt_likes(items);
+        self.with_ctx(ctx).visit_par(items);
+
+        self.with_ctx(ctx).handle_stmt_likes(items);
     }
 
     fn visit_mut_new_expr(&mut self, e: &mut NewExpr) {
