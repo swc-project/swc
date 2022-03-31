@@ -716,7 +716,7 @@ where
     }
 
     /// `var Parser = function Parser() {};` => `var Parser = function () {}`
-    pub(super) fn remove_duplicate_names(&mut self, v: &mut VarDeclarator) {
+    pub(super) fn remove_duplicate_name_of_function(&mut self, v: &mut VarDeclarator) {
         if !self.options.unused {
             return;
         }

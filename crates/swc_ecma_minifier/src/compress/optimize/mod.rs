@@ -2748,7 +2748,7 @@ where
 
         var.init.visit_mut_with(self);
 
-        self.remove_duplicate_names(var);
+        self.remove_duplicate_name_of_function(var);
 
         self.store_var_for_inlining(var);
         self.store_var_for_prop_hoisting(var);
