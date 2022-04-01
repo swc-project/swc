@@ -13,7 +13,7 @@ use crate::token::Token;
 /// Note: this struct is 8 bytes.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Error {
-    pub(crate) error: Box<(Span, SyntaxError)>,
+    error: Box<(Span, SyntaxError)>,
 }
 
 impl Spanned for Error {
@@ -23,6 +23,13 @@ impl Spanned for Error {
 }
 
 impl Error {
+    #[cold]
+    pub(crate) fn new(span: Span, error: SyntaxError) -> Self {
+        Self {
+            error: Box::new((span, error)),
+        }
+    }
+
     pub fn kind(&self) -> &SyntaxError {
         &self.error.1
     }
