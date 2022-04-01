@@ -322,7 +322,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 &lexical::parse_float_options::Options::from_radix(RADIX),
             )
             .expect("failed to parse float using lexical"),
-            LazyBigInt::new(raw_number_str.clone()),
+            LazyBigInt::new(raw_number_str),
             raw_str,
             non_octal,
         ))
