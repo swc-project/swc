@@ -1,7 +1,7 @@
 const n1 = 9007199254740991n;
 const n2 = -9007199254740991n;
 const n3 = +9007199254740991n;
-const n4 = 100000000n;
+const n4 = 100_000_000n;
 const n5 = 0n;
 const n6 = +0n;
 const n7 = -0n;
@@ -11,3 +11,4 @@ const n10 = 0X10n;
 const n11 = 0b101n;
 const n12 = 0b101n;
 const n13 = 0o13n;
+const n14 = 0b101_101n;

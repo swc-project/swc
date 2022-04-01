@@ -130,7 +130,9 @@ impl<'a, I: Input> Lexer<'a, I> {
         // `.1.a`, `.1e-4.a` are valid,
         if self.cur() == Some('.') {
             raw_val.push('.');
+
             self.bump();
+
             if starts_with_dot {
                 debug_assert!(self.cur().is_some());
                 debug_assert!(self.cur().unwrap().is_digit(10));
@@ -139,12 +141,15 @@ impl<'a, I: Input> Lexer<'a, I> {
             let mut raw = Raw(Some(String::new()));
             // Read numbers after dot
             let dec_val = self.read_int::<10>(0, &mut raw)?;
+
             val = {
                 if let Some(..) = dec_val {
                     raw_val.push_str(raw.0.as_ref().unwrap());
                 }
 
                 raw_val
+                    // Remove number separator from number
+                    .replace('_', "")
                     .parse()
                     .expect("failed to parse float using rust's impl")
             };
@@ -256,6 +261,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let res = self.read_digits::<_, f64, RADIX>(
             |total, radix, v| {
                 read_any = true;
+
                 Ok((f64::mul_add(total, radix as f64, v as f64), true))
             },
             &mut Raw(None),
@@ -307,14 +313,16 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         let raw_str = raw.0.take().unwrap();
+        // Remove number separator from number
+        let raw_number_str = raw_str.replace('_', "");
 
         Ok((
             lexical::parse_with_options::<f64, _, FORMAT>(
-                raw_str.as_bytes(),
+                raw_number_str.as_bytes(),
                 &lexical::parse_float_options::Options::from_radix(RADIX),
             )
             .expect("failed to parse float using lexical"),
-            LazyBigInt::new(raw_str.clone()),
+            LazyBigInt::new(raw_number_str.clone()),
             raw_str,
             non_octal,
         ))
@@ -450,6 +458,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 // Ignore this _ character
                 self.input.bump();
+                raw.push(c);
 
                 continue;
             }
