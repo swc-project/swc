@@ -5,7 +5,7 @@ use std::sync::Arc;
 use rayon::prelude::*;
 use swc_common::{collections::AHashSet, pass::Repeated, util::take::Take, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
-use swc_ecma_utils::collect_decls;
+use swc_ecma_utils::{collect_decls, undefined};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
 
@@ -260,6 +260,30 @@ impl VisitMut for Pure<'_> {
                 ..self.ctx
             };
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+
+        if self.options.unused {
+            if let Expr::Unary(UnaryExpr {
+                span,
+                op: op!("void"),
+                arg,
+            }) = e
+            {
+                if !arg.is_lit() {
+                    self.ignore_return_value(
+                        arg,
+                        DropOpts {
+                            drop_global_refs_if_unused: true,
+                            drop_zero: true,
+                            drop_str_lit: true,
+                        },
+                    );
+                    if arg.is_invalid() {
+                        *e = *undefined(*span);
+                        return;
+                    }
+                }
+            }
         }
 
         self.eval_trivial_values_in_expr(e);
