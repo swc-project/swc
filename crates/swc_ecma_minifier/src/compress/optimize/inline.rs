@@ -307,6 +307,10 @@ where
                 Expr::Lit(..) => true,
                 Expr::Ident(..) => true,
 
+                Expr::Bin(e) => is_expr_simple_enough(&e.left) && is_expr_simple_enough(&e.right),
+
+                Expr::Update(e) => is_expr_simple_enough(&e.arg),
+
                 Expr::Assign(e) => e.left.as_ident().is_some() && is_expr_simple_enough(&e.right),
                 Expr::Seq(e) => e.exprs.iter().map(|v| &**v).all(is_expr_simple_enough),
 
