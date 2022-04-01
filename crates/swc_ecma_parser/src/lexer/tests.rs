@@ -130,9 +130,7 @@ impl WithSpan for AssignOpToken {
 fn module_legacy_decimal() {
     assert_eq!(
         lex_module_errors(Syntax::default(), "08"),
-        vec![Error {
-            error: Box::new((sp(0..2), SyntaxError::LegacyDecimal)),
-        }]
+        vec![Error::new(sp(0..2), SyntaxError::LegacyDecimal)]
     );
 }
 
@@ -140,9 +138,7 @@ fn module_legacy_decimal() {
 fn module_legacy_comment_1() {
     assert_eq!(
         lex_module_errors(Syntax::default(), "<!-- foo oo"),
-        vec![Error {
-            error: Box::new((sp(0..11), SyntaxError::LegacyCommentInModule)),
-        }]
+        vec![Error::new(sp(0..11), SyntaxError::LegacyCommentInModule)]
     )
 }
 
