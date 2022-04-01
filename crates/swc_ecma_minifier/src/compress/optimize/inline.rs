@@ -302,10 +302,22 @@ where
 
     /// Check if the body of a function is simple enough to inline.
     fn is_fn_body_simple_enough_to_inline(&self, body: &BlockStmt) -> bool {
+        fn is_expr_simple_enough(e: &Expr) -> bool {
+            match e {
+                Expr::Lit(..) => true,
+                Expr::Ident(..) => true,
+
+                Expr::Assign(e) => e.left.as_ident().is_some() && is_expr_simple_enough(&e.right),
+                Expr::Seq(e) => e.exprs.iter().map(|v| &**v).all(is_expr_simple_enough),
+
+                _ => false,
+            }
+        }
+
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
                 Stmt::Expr(ExprStmt { expr, .. }) => {
-                    if let Expr::Lit(..) = &**expr {
+                    if is_expr_simple_enough(expr) {
                         return true;
                     }
                 }
