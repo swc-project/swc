@@ -17,6 +17,9 @@
 
 
 
+- **(es/minifier)** Add fast-path for sequences pass (#4217) ([688f653](https://github.com/swc-project/swc/commit/688f653323cc9480f9c262040e0bc3861a2ffff9))
+
+
 - **(es/parser)** Improve performance by using `#[cold]` (#4215) ([1645562](https://github.com/swc-project/swc/commit/164556290b03cd530ad5158947cd28310c18fb12))
 
 ## [1.2.162] - 2022-03-31
