@@ -102,7 +102,7 @@ impl Scope {
         }
     }
 
-    #[inline]
+    #[inline(never)]
     fn can_rename(&self, id: &Id, symbol: &JsWord, renamed: &RenameMap) -> bool {
         if let Some(lefts) = renamed.get_by_right(symbol) {
             for left in lefts {

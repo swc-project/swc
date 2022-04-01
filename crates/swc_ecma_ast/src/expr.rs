@@ -888,6 +888,15 @@ impl Spanned for ExprOrSpread {
     }
 }
 
+impl From<Expr> for ExprOrSpread {
+    fn from(e: Expr) -> Self {
+        Self {
+            spread: None,
+            expr: Box::new(e),
+        }
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[allow(variant_size_differences)]

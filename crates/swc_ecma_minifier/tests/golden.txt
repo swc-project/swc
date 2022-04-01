@@ -535,6 +535,7 @@ functions/inline_loop_4/input.js
 functions/issue_1841_1/input.js
 functions/issue_1841_2/input.js
 functions/issue_2097/input.js
+functions/issue_2101/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
 functions/issue_2647_3/input.js
@@ -648,8 +649,12 @@ html_comments/html_comment_in_string_literal/input.js
 html_comments/html_comment_in_zero_fill_right_shift/input.js
 identity/inline_identity/input.js
 identity/inline_identity_async/input.js
+identity/inline_identity_dont_lose_this_when_arg/input.js
+identity/inline_identity_duplicate_arg_var/input.js
 identity/inline_identity_higher_order/input.js
+identity/inline_identity_inline_function/input.js
 identity/inline_identity_inner_ref/input.js
+identity/inline_identity_lose_this/input.js
 identity/inline_identity_regression/input.js
 identity/inline_identity_undefined/input.js
 ie8/do_screw/input.js
@@ -808,6 +813,8 @@ issue_782/remove_redundant_sequence_items/input.js
 issue_926/template_strings/input.js
 issue_973/this_binding_sequences/input.js
 issue_973/this_binding_side_effects/input.js
+issue_t120/issue_t120_1/input.js
+issue_t120/issue_t120_2/input.js
 issue_t50/issue_t50/input.js
 issue_t50/issue_t50_const/input.js
 issue_t50/issue_t50_let/input.js

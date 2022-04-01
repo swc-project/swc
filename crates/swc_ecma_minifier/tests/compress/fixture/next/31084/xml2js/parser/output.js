@@ -15,7 +15,7 @@
         return "object" == typeof thing && null != thing && 0 === Object.keys(thing).length;
     }, processItem = function(processors, item, key) {
         var i, len;
-        for(i = 0, len = processors.length; i < len; i++)item = processors[i](item, key);
+        for(i = 0, len = processors.length; i < len; i++)item = (0, processors[i])(item, key);
         return item;
     }, exports.Parser = function(superClass) {
         function Parser(opts) {

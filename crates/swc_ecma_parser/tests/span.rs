@@ -67,7 +67,7 @@ impl Shower<'_> {
     fn show(&self, name: &str, node: &dyn Spanned) {
         let span = node.span();
 
-        self.handler.struct_span_warn(span, name).emit();
+        self.handler.struct_span_err(span, name).emit();
     }
 }
 

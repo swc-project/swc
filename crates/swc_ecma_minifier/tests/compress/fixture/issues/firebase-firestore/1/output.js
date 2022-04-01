@@ -2109,7 +2109,7 @@
                         throw L();
                     })(0, t)
                 )), e32.precondition.isNone || (n12.currentDocument = (t51 = t52, void 0 !== (e31 = e32.precondition).updateTime ? {
-                    updateTime: Un(t51, e31.updateTime.toTimestamp())
+                    updateTime: Un(t51, (0, e31.updateTime).toTimestamp())
                 } : void 0 !== e31.exists ? {
                     exists: e31.exists
                 } : L())), n12;

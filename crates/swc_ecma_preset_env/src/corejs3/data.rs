@@ -138,6 +138,8 @@ static URL_SEARCH_PARAMS_DEPENDENCIES: &[&str] = &[
     "web.dom-collections.iterator",
 ];
 
+pub static REGEXP_DEPENDENCIES: &[&str] = &["es.regexp.constructor"];
+
 pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
     AggregateError: [
         "esnext.aggregate-error",
@@ -477,6 +479,7 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     concat: ["es.array.concat"],
     copyWithin: ["es.array.copy-within"],
     description: ["es.symbol", "es.symbol.description"],
+    dotAll: [ "es.regexp.dot-all"],
     endsWith: ["es.string.ends-with"],
     entries: ARRAY_NATURE_ITERATORS_WITH_TAG,
     every: ["es.array.every"],
@@ -522,6 +525,7 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     splice: ["es.array.splice"],
     split: ["es.string.split", "es.regexp.exec"],
     startsWith: ["es.string.starts-with"],
+    sticky:["es.regexp.sticky"],
     strike: ["es.string.strike"],
     sub: ["es.string.sub"],
     sup: ["es.string.sup"],

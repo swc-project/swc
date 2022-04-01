@@ -6,7 +6,7 @@ license = "Apache-2.0"
 name = "wasm"
 publish = false
 repository = "https://github.com/swc-project/swc.git"
-version = "1.2.161"
+version = "1.2.162"
 
 [lib]
 crate-type = ["cdylib"]
@@ -36,7 +36,7 @@ path-clean = "0.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 swc = { path = "../swc" }
-swc_common = { path = "../swc_common" }
+swc_common = { path = "../swc_common", features = ["perf"] }
 swc_ecma_lints = { path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }

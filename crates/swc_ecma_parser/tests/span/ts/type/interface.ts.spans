@@ -1,0 +1,192 @@
+
+  x Module
+   ,-[$DIR/tests/span/ts/type/interface.ts:1:1]
+ 1 | ,-> interface Foo {
+ 2 | |       new();
+ 3 | |       (foo: string): void;
+ 4 | |       [foo: string]: void;
+ 5 | `-> }
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/ts/type/interface.ts:1:1]
+ 1 | ,-> interface Foo {
+ 2 | |       new();
+ 3 | |       (foo: string): void;
+ 4 | |       [foo: string]: void;
+ 5 | `-> }
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/ts/type/interface.ts:1:1]
+ 1 | ,-> interface Foo {
+ 2 | |       new();
+ 3 | |       (foo: string): void;
+ 4 | |       [foo: string]: void;
+ 5 | `-> }
+   `----
+
+  x Decl
+   ,-[$DIR/tests/span/ts/type/interface.ts:1:1]
+ 1 | ,-> interface Foo {
+ 2 | |       new();
+ 3 | |       (foo: string): void;
+ 4 | |       [foo: string]: void;
+ 5 | `-> }
+   `----
+
+  x TsInterfaceDecl
+   ,-[$DIR/tests/span/ts/type/interface.ts:1:1]
+ 1 | ,-> interface Foo {
+ 2 | |       new();
+ 3 | |       (foo: string): void;
+ 4 | |       [foo: string]: void;
+ 5 | `-> }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/type/interface.ts:1:1]
+ 1 | interface Foo {
+   :           ^^^
+   `----
+
+  x TsInterfaceBody
+   ,-[$DIR/tests/span/ts/type/interface.ts:1:1]
+ 1 | ,-> interface Foo {
+ 2 | |       new();
+ 3 | |       (foo: string): void;
+ 4 | |       [foo: string]: void;
+ 5 | `-> }
+   `----
+
+  x TsTypeElement
+   ,-[$DIR/tests/span/ts/type/interface.ts:2:5]
+ 2 | new();
+   : ^^^^^^
+   `----
+
+  x TsConstructSignatureDecl
+   ,-[$DIR/tests/span/ts/type/interface.ts:2:5]
+ 2 | new();
+   : ^^^^^^
+   `----
+
+  x TsTypeElement
+   ,-[$DIR/tests/span/ts/type/interface.ts:3:5]
+ 3 | (foo: string): void;
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TsCallSignatureDecl
+   ,-[$DIR/tests/span/ts/type/interface.ts:3:5]
+ 3 | (foo: string): void;
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TsFnParam
+   ,-[$DIR/tests/span/ts/type/interface.ts:3:5]
+ 3 | (foo: string): void;
+   :  ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/type/interface.ts:3:5]
+ 3 | (foo: string): void;
+   :  ^^^^^^^^^^^
+   `----
+
+  x TsTypeAnn
+   ,-[$DIR/tests/span/ts/type/interface.ts:3:5]
+ 3 | (foo: string): void;
+   :     ^^^^^^^^
+   `----
+
+  x TsType
+   ,-[$DIR/tests/span/ts/type/interface.ts:3:5]
+ 3 | (foo: string): void;
+   :       ^^^^^^
+   `----
+
+  x TsKeywordType
+   ,-[$DIR/tests/span/ts/type/interface.ts:3:5]
+ 3 | (foo: string): void;
+   :       ^^^^^^
+   `----
+
+  x TsTypeAnn
+   ,-[$DIR/tests/span/ts/type/interface.ts:3:5]
+ 3 | (foo: string): void;
+   :              ^^^^^^
+   `----
+
+  x TsType
+   ,-[$DIR/tests/span/ts/type/interface.ts:3:5]
+ 3 | (foo: string): void;
+   :                ^^^^
+   `----
+
+  x TsKeywordType
+   ,-[$DIR/tests/span/ts/type/interface.ts:3:5]
+ 3 | (foo: string): void;
+   :                ^^^^
+   `----
+
+  x TsTypeElement
+   ,-[$DIR/tests/span/ts/type/interface.ts:4:5]
+ 4 | [foo: string]: void;
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TsIndexSignature
+   ,-[$DIR/tests/span/ts/type/interface.ts:4:5]
+ 4 | [foo: string]: void;
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x TsFnParam
+   ,-[$DIR/tests/span/ts/type/interface.ts:4:5]
+ 4 | [foo: string]: void;
+   :  ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/type/interface.ts:4:5]
+ 4 | [foo: string]: void;
+   :  ^^^^^^^^^^^
+   `----
+
+  x TsTypeAnn
+   ,-[$DIR/tests/span/ts/type/interface.ts:4:5]
+ 4 | [foo: string]: void;
+   :     ^^^^^^^^
+   `----
+
+  x TsType
+   ,-[$DIR/tests/span/ts/type/interface.ts:4:5]
+ 4 | [foo: string]: void;
+   :       ^^^^^^
+   `----
+
+  x TsKeywordType
+   ,-[$DIR/tests/span/ts/type/interface.ts:4:5]
+ 4 | [foo: string]: void;
+   :       ^^^^^^
+   `----
+
+  x TsTypeAnn
+   ,-[$DIR/tests/span/ts/type/interface.ts:4:5]
+ 4 | [foo: string]: void;
+   :              ^^^^^^
+   `----
+
+  x TsType
+   ,-[$DIR/tests/span/ts/type/interface.ts:4:5]
+ 4 | [foo: string]: void;
+   :                ^^^^
+   `----
+
+  x TsKeywordType
+   ,-[$DIR/tests/span/ts/type/interface.ts:4:5]
+ 4 | [foo: string]: void;
+   :                ^^^^
+   `----

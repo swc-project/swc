@@ -43,6 +43,22 @@ fn dce_repeated(input: PathBuf) {
     );
 }
 
+#[testing::fixture("tests/dce-jsx/**/input.js")]
+fn dce_jsx(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    test_fixture(
+        Syntax::Es(EsConfig {
+            decorators: true,
+            jsx: true,
+            ..Default::default()
+        }),
+        &|t| chain!(remover(t), dce(Default::default())),
+        &input,
+        &output,
+    );
+}
+
 #[testing::fixture("tests/expr-simplifier/**/input.js")]
 fn expr(input: PathBuf) {
     let output = input.with_file_name("output.js");

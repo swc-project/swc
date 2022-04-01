@@ -106,9 +106,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[cold]
     #[inline(never)]
     pub(super) fn error_span<T>(&mut self, span: Span, kind: SyntaxError) -> LexResult<T> {
-        Err(Error {
-            error: Box::new((span, kind)),
-        })
+        Err(Error::new(span, kind))
     }
 
     #[cold]
@@ -126,9 +124,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         warn!("Lexer error at {:?}", span);
-        let err = Error {
-            error: Box::new((span, kind)),
-        };
+        let err = Error::new(span, kind);
         self.errors.borrow_mut().push(err);
     }
 
@@ -147,9 +143,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             return;
         }
 
-        let err = Error {
-            error: Box::new((span, kind)),
-        };
+        let err = Error::new(span, kind);
 
         self.add_module_mode_error(err);
     }
@@ -166,9 +160,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[cold]
     #[inline(never)]
     pub(super) fn emit_module_mode_error_span(&mut self, span: Span, kind: SyntaxError) {
-        let err = Error {
-            error: Box::new((span, kind)),
-        };
+        let err = Error::new(span, kind);
 
         self.add_module_mode_error(err);
     }

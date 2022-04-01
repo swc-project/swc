@@ -886,3 +886,101 @@ foo("foo", "bar");
 
 "#
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    spread_string_literial,
+    "
+    String.raw({ raw: 'abcd' }, ...'___');
+    ",
+    r#"
+var _String;
+(_String = String).raw.apply(_String, [
+    {
+        raw: 'abcd'
+    }
+].concat(Array.from('___')));
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    spread_string_literial_2,
+    "
+    f({ x: 0 }, ...[1, 2], [3], ...'456');
+    ",
+    r#"
+f.apply(void 0, [
+    {
+        x: 0
+    }
+].concat(_toConsumableArray([
+    1,
+    2
+]), [
+    [
+        3
+    ]
+], Array.from('456')));
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    spread_literial,
+    r#"
+    f(1, ...[2, 3], ...[...[4, 5]], ...[6, ...[7]]);
+    f(1, ..."123", ...[..."456", ..."789"]);
+    "#,
+    r#"
+f.apply(void 0, [
+    1
+].concat(_toConsumableArray([
+    2,
+    3
+]), _toConsumableArray(_toConsumableArray([
+    4,
+    5
+])), _toConsumableArray([
+    6
+].concat(_toConsumableArray([
+    7
+])))));
+f.apply(void 0, [
+    1
+].concat(Array.from("123"), _toConsumableArray(Array.from("456").concat(Array.from("789")))));
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    spread_literial_init_hole,
+    r#"
+    f(1, ...[2, , 3], ...[...[4, ,]]);
+    f(...[2, , 3], ...[...[4, ,]]);
+    "#,
+    "
+    f.apply(void 0, [
+        1
+    ].concat(_toConsumableArray([
+        2,
+        ,
+        3
+    ]), _toConsumableArray(_toConsumableArray([
+        4,
+        ,
+    ]))));
+    f.apply(void 0, _toConsumableArray([
+        2,
+        ,
+        3
+    ]).concat(_toConsumableArray(_toConsumableArray([
+        4,
+        ,
+    ]))));
+    "
+);

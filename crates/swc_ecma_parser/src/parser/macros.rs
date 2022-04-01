@@ -247,14 +247,13 @@ macro_rules! cur {
             Some(c) => Ok(c),
             None => {
                 if $required {
-                    let err = crate::error::Error {
-                        error: Box::new((last, crate::error::SyntaxError::Eof)),
-                    };
+                    let err = crate::error::Error::new(last, crate::error::SyntaxError::Eof);
                     return Err(err);
                 }
-                Err(crate::error::Error {
-                    error: Box::new((last, crate::error::SyntaxError::Eof)),
-                })
+                Err(crate::error::Error::new(
+                    last,
+                    crate::error::SyntaxError::Eof,
+                ))
             }
         }
     }};
@@ -274,9 +273,7 @@ Current token is {:?}",
         match $p.input.peek() {
             Some(c) => Ok(c),
             None => {
-                let err = crate::error::Error {
-                    error: Box::new((last, crate::error::SyntaxError::Eof)),
-                };
+                let err = crate::error::Error::new(last, crate::error::SyntaxError::Eof);
                 Err(err)
             }
         }
@@ -349,9 +346,7 @@ macro_rules! span {
 
 macro_rules! make_error {
     ($p:expr, $span:expr, $err:expr) => {{
-        crate::error::Error {
-            error: Box::new(($span, $err)),
-        }
+        crate::error::Error::new($span, $err)
     }};
 }
 

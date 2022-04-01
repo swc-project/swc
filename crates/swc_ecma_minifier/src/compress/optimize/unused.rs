@@ -636,6 +636,8 @@ where
             return;
         }
 
+        assign.left.map_with_mut(|v| v.normalize_ident());
+
         match &mut assign.left {
             PatOrExpr::Expr(_) => {
                 if cfg!(feature = "debug") {
@@ -663,7 +665,14 @@ where
                                 i.id.span.ctxt
                             );
                             self.changed = true;
-                            *e = *assign.right.take();
+                            if self.ctx.is_this_aware_callee {
+                                *e = Expr::Seq(SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs: vec![0.into(), assign.right.take()],
+                                })
+                            } else {
+                                *e = *assign.right.take();
+                            }
                         } else {
                             if cfg!(feature = "debug") {
                                 tracing::trace!(
@@ -706,8 +715,39 @@ where
         }
     }
 
+    pub(super) fn remove_duplicate_var_decls(&mut self, s: &mut Stmt) -> Option<()> {
+        if !self.options.unused {
+            return None;
+        }
+
+        let var = match s {
+            Stmt::Decl(Decl::Var(v)) => v,
+            _ => return None,
+        };
+
+        for d in var.decls.iter_mut() {
+            if d.init.is_none() {
+                if let Pat::Ident(name) = &d.name {
+                    if let Some(usage) = self.data.vars.get(&name.to_id()) {
+                        if usage.is_fn_local && usage.declared_as_fn_param {
+                            d.name.take();
+                            tracing::debug!(
+                                "Removing a variable statement because it's a function parameter"
+                            );
+                            self.changed = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        var.decls.retain(|v| !v.name.is_invalid());
+
+        None
+    }
+
     /// `var Parser = function Parser() {};` => `var Parser = function () {}`
-    pub(super) fn remove_duplicate_names(&mut self, v: &mut VarDeclarator) {
+    pub(super) fn remove_duplicate_name_of_function(&mut self, v: &mut VarDeclarator) {
         if !self.options.unused {
             return;
         }

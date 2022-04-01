@@ -27,7 +27,7 @@ pub enum PluginError {
     /// plugin_macro, noramlly plugin author should not raise this manually.
     SizeInteropFailure(String),
     /// Occurs when failed to reconstruct a struct from `Serialized`.
-    Deserialize((String, Vec<u8>)),
+    Deserialize(String),
     /// Occurs when failed to serialize a struct into `Serialized`.
     /// Unlike deserialize error, this error cannot forward any context for the
     /// raw bytes: when serialze failed, there's nothing we can pass between
@@ -93,5 +93,28 @@ impl Serialized {
         archived
             .deserialize(&mut rkyv::Infallible)
             .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
+    }
+
+    /// Convinient wrapper to Serialized::* to construct actual struct from raw
+    /// ptr. This is common workflow on both of runtime (host / plugin) to
+    /// deserialize struct from allocated / copied ptr.
+    ///
+    /// # Safety
+    /// This is naturally unsafe by constructing bytes slice from raw ptr.
+    pub unsafe fn deserialize_from_ptr<W>(
+        raw_allocated_ptr: *const u8,
+        raw_allocated_ptr_len: i32,
+    ) -> Result<W, Error>
+    where
+        W: rkyv::Archive,
+        W::Archived: rkyv::Deserialize<W, rkyv::Infallible>,
+    {
+        // Create serialized bytes slice from ptr
+        let raw_ptr_bytes = unsafe {
+            std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len.try_into()?)
+        };
+
+        let serialized = Serialized::new_for_plugin(raw_ptr_bytes, raw_allocated_ptr_len);
+        Serialized::deserialize(&serialized)
     }
 }

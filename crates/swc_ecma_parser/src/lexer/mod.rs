@@ -554,7 +554,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             // read unicode escape sequences
             'u' => match self.read_unicode_escape(raw) {
                 Ok(chars) => return Ok(Some(chars)),
-                Err(err) => self.error(start, err.error.1)?,
+                Err(err) => self.error(start, err.into_kind())?,
             },
 
             // octal escape sequences

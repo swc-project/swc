@@ -94,6 +94,7 @@ fn internal() -> Result<(), Error> {
             program,
             config,
             context,
+            false,
         )
         .expect("Plugin should apply transform");
 
@@ -142,6 +143,7 @@ fn internal() -> Result<(), Error> {
                 program,
                 config,
                 context,
+                false,
             )
             .expect("Plugin should apply transform")
         });
@@ -176,6 +178,7 @@ fn internal() -> Result<(), Error> {
             Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
             Serialized::serialize(&"{sourceFileName: 'multiple_plugin_test'}".to_string())
                 .expect("Should serializable"),
+            false,
         )
         .expect("Plugin should apply transform");
 
@@ -188,6 +191,7 @@ fn internal() -> Result<(), Error> {
             Serialized::serialize(&"{}".to_string()).expect("Should serializable"),
             Serialized::serialize(&"{sourceFileName: 'multiple_plugin_test2'}".to_string())
                 .expect("Should serializable"),
+            false,
         )
         .expect("Plugin should apply transform");
 

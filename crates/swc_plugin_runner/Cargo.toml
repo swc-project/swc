@@ -27,6 +27,9 @@ swc_common = { version = "0.17.0", path = "../swc_common", features = [
   "plugin-rt",
   "concurrent",
 ] }
+swc_plugin_comments = { version = "0.1.0", path = "../swc_plugin_comments", features = [
+  "plugin-rt",
+] }
 swc_ecma_ast = { version = "0.73.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }

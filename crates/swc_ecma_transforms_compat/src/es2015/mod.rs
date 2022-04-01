@@ -11,6 +11,7 @@ pub use self::{
     spread::spread, sticky_regex::sticky_regex, template_literal::template_literal,
     typeof_symbol::typeof_symbol,
 };
+use crate::regexp::{self, regexp};
 
 mod arrow;
 mod block_scoped_fn;
@@ -50,6 +51,14 @@ where
     C: Comments,
 {
     chain!(
+        regexp(regexp::Config {
+            dot_all_regex: false,
+            lookbehind_assertion: false,
+            named_capturing_groups_regex: false,
+            sticky_regex: true,
+            unicode_property_regex: false,
+            unicode_regex: true,
+        }),
         block_scoped_functions(),
         template_literal(c.template_literal),
         classes(comments, c.classes),

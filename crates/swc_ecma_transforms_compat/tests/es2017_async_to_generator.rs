@@ -3557,6 +3557,32 @@ const p = Z((f)=>_asyncToGenerator(function*(n = 0) {
 "
 );
 
+test!(
+    Syntax::default(),
+    |_| async_to_generator(Default::default()),
+    issue_4208,
+    "
+    function foo() {
+        const bar = async (baz = this.baz) => {
+            console.log(this);
+        }
+    }
+    ",
+    "
+    function foo() {
+        var _this = this;
+        const bar = function() {
+            var _ref = _asyncToGenerator(function*(baz = _this.baz) {
+                console.log(_this);
+            });
+            return function bar() {
+                return _ref.apply(this, arguments);
+            };
+        }();
+    }
+    "
+);
+
 #[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();

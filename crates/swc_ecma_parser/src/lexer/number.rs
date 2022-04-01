@@ -341,9 +341,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     .and_then(|v| v.checked_add(val as u32))
                     .ok_or_else(|| {
                         let span = Span::new(start, start, SyntaxContext::empty());
-                        Error {
-                            error: Box::new((span, SyntaxError::InvalidUnicodeEscape)),
-                        }
+                        Error::new(span, SyntaxError::InvalidUnicodeEscape)
                     })?;
 
                 Ok((Some(total), count != len))

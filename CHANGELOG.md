@@ -1,14 +1,55 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/compat)** Support more regex expressions (#4205) ([b793aa0](https://github.com/swc-project/swc/commit/b793aa020095d797a76e2c19f42ab5822ee2ef03))
+
+### Performance
+
+
+
+- **(es/parser)** Improve performance by using `#[cold]` (#4215) ([1645562](https://github.com/swc-project/swc/commit/164556290b03cd530ad5158947cd28310c18fb12))
+
+## [1.2.162] - 2022-03-31
+
 ### Bug Fixes
 
 
 
+- **(es/compat)** Handle spreads of string literials (#4191) ([4f5c5cf](https://github.com/swc-project/swc/commit/4f5c5cf8429bb6c10b48aefdc3440b563f21d836))
+
+
+- **(es/compat)** Handle `new.target` in getter/setter properties (#4194) ([3426dda](https://github.com/swc-project/swc/commit/3426dda4f7d662c758d7cb9a15527029f369779f))
+
+
+- **(es/compat)** Fix label handling of `block_scoping` (#4198) ([c946236](https://github.com/swc-project/swc/commit/c946236fcc911da8bdc213dc8674b48c5d0a41e7))
+
+
+- **(es/compat)** Hoist env in function params (#4210) ([6a27a0c](https://github.com/swc-project/swc/commit/6a27a0ce882269df7da71c431a8f8026b698cd60))
+
+
 - **(es/minifier)** Fix `react-ace` (#4183) ([9a9a4f3](https://github.com/swc-project/swc/commit/9a9a4f37d82336f53bf6efbdf4ee38a63d45e278))
+
+
+- **(es/minifier)** Fix evaluation of IIFEs (#4207) ([1071854](https://github.com/swc-project/swc/commit/10718547e0724271f7b8e06292647ec6faa035f7))
+
+
+- **(es/optimization)** Support jsx in `dce` (#4203) ([073751f](https://github.com/swc-project/swc/commit/073751f70d7eb557d0f865aa997cbc36396d923d))
+
+
+- **(es/parser)** Fix parsing of an arrow and a conditional expression (#4199) ([99a0d34](https://github.com/swc-project/swc/commit/99a0d34a1e13a69f5bc1ecf51a6279adab6c20cc))
+
+
+- **(node-swc)** Initialize custom trace subscriber only once (#4209) ([eecda21](https://github.com/swc-project/swc/commit/eecda21d9a36fc2c4b98c2cae4933adb300cdaa0))
 
 ### Features
 
+
+
+- **(common/preset-env)** Dedup `arrayvec` (#4201) ([1ad357c](https://github.com/swc-project/swc/commit/1ad357cb32147ea95ccce534076b87ea5ae76ebd))
 
 
 - **(es/minifier)** Evaluate trivial expressions (#4179) ([a6f6799](https://github.com/swc-project/swc/commit/a6f679981140867bd36e887249ae63d75186ca5a))
@@ -16,8 +57,26 @@
 
 - **(es/minifier)** Optimize switches more correctly (#4180) ([6d3ea17](https://github.com/swc-project/swc/commit/6d3ea17aa6b708c7819a6769dccd920bd3fe2efe))
 
+
+- **(es/minifier)** Evaluate more iifes (#4200) ([11fe5fa](https://github.com/swc-project/swc/commit/11fe5fabd8280f7cf2c3ef0d6a12e0f3803ef3e8))
+
+
+- **(es/parser)** Allow parsing files with missing close braces (#4187) ([cffe5ca](https://github.com/swc-project/swc/commit/cffe5ca58e933253f69eb9befd77243c9b81775f))
+
+
+- **(plugin)** Implement PoC of comments api (#4206) ([536a190](https://github.com/swc-project/swc/commit/536a190dc940b89ebb21aa3ee78b90dfbadbf622))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/parser)** Add span tests back (#4186) ([1759567](https://github.com/swc-project/swc/commit/1759567fc46c93f963b2fbe54997197f00bc884a))
+
 ### Refactor
 
+
+
+- **(*)** Remove `fastmem` (#4211) ([3b1da22](https://github.com/swc-project/swc/commit/3b1da220e2c148725a646064519165f2be2a0036))
 
 
 - **(cli)** Alias plugin build with wasm target (#4181) ([8ca4e67](https://github.com/swc-project/swc/commit/8ca4e674515b77341f77f180235fcfb396dac26d))

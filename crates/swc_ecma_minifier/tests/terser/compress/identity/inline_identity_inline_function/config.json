@@ -1,7 +1,7 @@
 {
     "evaluate": true,
     "inline": true,
-    "passes": 3,
+    "passes": 5,
     "reduce_vars": true,
     "side_effects": true,
     "unused": true,

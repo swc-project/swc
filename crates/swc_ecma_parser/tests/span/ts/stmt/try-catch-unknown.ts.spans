@@ -1,0 +1,76 @@
+
+  x Module
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:1:1]
+ 1 | ,-> try {
+ 2 | |   } catch (e: unknown) {
+ 3 | `-> }
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:1:1]
+ 1 | ,-> try {
+ 2 | |   } catch (e: unknown) {
+ 3 | `-> }
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:1:1]
+ 1 | ,-> try {
+ 2 | |   } catch (e: unknown) {
+ 3 | `-> }
+   `----
+
+  x TryStmt
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:1:1]
+ 1 | ,-> try {
+ 2 | |   } catch (e: unknown) {
+ 3 | `-> }
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:1:1]
+ 1 | ,-> try {
+ 2 | `-> } catch (e: unknown) {
+   `----
+
+  x CatchClause
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:1]
+ 2 | ,-> } catch (e: unknown) {
+ 3 | `-> }
+   `----
+
+  x Pat
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:1]
+ 2 | } catch (e: unknown) {
+   :          ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:1]
+ 2 | } catch (e: unknown) {
+   :          ^
+   `----
+
+  x TsTypeAnn
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:1]
+ 2 | } catch (e: unknown) {
+   :           ^^^^^^^^^
+   `----
+
+  x TsType
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:1]
+ 2 | } catch (e: unknown) {
+   :             ^^^^^^^
+   `----
+
+  x TsKeywordType
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:1]
+ 2 | } catch (e: unknown) {
+   :             ^^^^^^^
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/ts/stmt/try-catch-unknown.ts:2:1]
+ 2 | ,-> } catch (e: unknown) {
+ 3 | `-> }
+   `----
