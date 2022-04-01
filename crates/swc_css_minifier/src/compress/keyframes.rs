@@ -13,17 +13,17 @@ impl VisitMut for CompressKeyframes {
         at_rule.visit_mut_children_with(self);
 
         match &at_rule.prelude {
-            Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(str)))
+            Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(string)))
                 if !matches!(
-                    &*str.value.to_lowercase(),
+                    &*string.value.to_lowercase(),
                     "initial" | "inherit" | "unset" | "revert" | "default"
                 ) =>
             {
                 at_rule.prelude = Some(AtRulePrelude::KeyframesPrelude(
                     KeyframesName::CustomIdent(CustomIdent {
-                        span: str.span,
-                        value: str.value.to_string().into(),
-                        raw: str.raw[1..str.raw.len() - 1].to_string().into(),
+                        span: string.span,
+                        value: string.value.to_string().into(),
+                        raw: string.raw[1..string.raw.len() - 1].to_string().into(),
                     }),
                 ));
             }

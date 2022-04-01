@@ -51,8 +51,8 @@ impl VisitMut for CompressEmpty {
 }
 
 fn need_keep_by_name(name: &str) -> bool {
-    match &*name.to_lowercase() {
-        "counter-style" | "color-profile" | "font-palette-values" | "layer" => true,
-        _ => false,
-    }
+    matches!(
+        &*name.to_lowercase(),
+        "counter-style" | "color-profile" | "font-palette-values" | "layer"
+    )
 }
