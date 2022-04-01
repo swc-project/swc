@@ -80,7 +80,7 @@ jobs:
           yarn build:dev
           yarn global add @swc/cli@0.1.33
           yarn link
-          yarn global add:$PWD
+          yarn global add file:$PWD
 
       - name: (swc) three.js
         run: |
