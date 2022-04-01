@@ -160,7 +160,7 @@ where
                             op: op!("!"), arg, ..
                         }) => arg.is_lit(),
                         Expr::This(..) => usage.is_fn_local,
-                        Expr::Arrow(arr) => is_arrow_simple_enough(arr),
+                        Expr::Arrow(arr) => is_arrow_simple_enough_for_copy(arr),
                         _ => false,
                     }
                 {
@@ -608,28 +608,42 @@ where
     }
 }
 
-fn is_arrow_simple_enough(e: &ArrowExpr) -> bool {
+fn is_arrow_simple_enough_for_copy(e: &ArrowExpr) -> bool {
     if e.is_async {
         return false;
     }
 
-    fn is_arrow_body_simple_enough(e: &Expr) -> bool {
-        match e {
-            Expr::Ident(..) | Expr::Lit(..) => return true,
-            Expr::Member(MemberExpr { prop, .. }) if !prop.is_computed() => return true,
-            Expr::Unary(u) => return is_arrow_body_simple_enough(&u.arg),
-
-            Expr::Bin(b) => {
-                return is_arrow_body_simple_enough(&b.left)
-                    && is_arrow_body_simple_enough(&b.right)
-            }
-            _ => {}
-        }
-
-        false
+    match &e.body {
+        BlockStmtOrExpr::BlockStmt(s) => is_block_stmt_of_fn_simple_enough_for_copy(s),
+        BlockStmtOrExpr::Expr(e) => is_arrow_body_simple_enough_for_copy(e),
     }
-    if let BlockStmtOrExpr::Expr(e) = &e.body {
-        return is_arrow_body_simple_enough(e);
+}
+
+fn is_arrow_body_simple_enough_for_copy(e: &Expr) -> bool {
+    match e {
+        Expr::Ident(..) | Expr::Lit(..) => return true,
+        Expr::Member(MemberExpr { prop, .. }) if !prop.is_computed() => return true,
+        Expr::Unary(u) => return is_arrow_body_simple_enough_for_copy(&u.arg),
+
+        Expr::Bin(b) => {
+            return is_arrow_body_simple_enough_for_copy(&b.left)
+                && is_arrow_body_simple_enough_for_copy(&b.right)
+        }
+        _ => {}
+    }
+
+    false
+}
+
+fn is_block_stmt_of_fn_simple_enough_for_copy(b: &BlockStmt) -> bool {
+    if b.stmts.len() == 1 {
+        if let Stmt::Return(ret) = &b.stmts[0] {
+            return ret
+                .arg
+                .as_deref()
+                .map(is_arrow_body_simple_enough_for_copy)
+                .unwrap_or(true);
+        }
     }
 
     false

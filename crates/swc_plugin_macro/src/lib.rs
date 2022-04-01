@@ -58,68 +58,28 @@ fn handle_func(func: ItemFn) -> TokenStream {
         // There are some cases error won't be wrapped up however - for example, we expect
         // serialization of PluginError itself should succeed.
         #[no_mangle]
-        pub fn #process_impl_ident(ast_ptr: *const u8, ast_ptr_len: i32, config_str_ptr: *const u8, config_str_ptr_len: i32, context_str_ptr: *const u8, context_str_ptr_len: i32) -> i32 {
-            let ast_ptr_len_usize: Result<usize, std::num::TryFromIntError> = std::convert::TryInto::try_into(ast_ptr_len);
-            let config_str_ptr_len_usize: Result<usize, std::num::TryFromIntError> = std::convert::TryInto::try_into(config_str_ptr_len);
-            let context_str_ptr_len_usize: Result<usize, std::num::TryFromIntError> = std::convert::TryInto::try_into(context_str_ptr_len);
-
-            if ast_ptr_len_usize.is_err() {
-                let err = swc_plugin::PluginError::SizeInteropFailure("Failed to convert size of AST pointer".to_string());
-                return construct_error_ptr(err);
-            }
-
-            if config_str_ptr_len_usize.is_err() {
-                let err = swc_plugin::PluginError::SizeInteropFailure("Failed to convert size of plugin config string pointer".to_string());
-                return construct_error_ptr(err);
-            }
-
-            if context_str_ptr_len_usize.is_err() {
-                let err = swc_plugin::PluginError::SizeInteropFailure("Failed to convert size of context string pointer".to_string());
-                return construct_error_ptr(err);
-            }
-
-            // Read raw serialized bytes from wasm's memory space. Host (SWC) should
-            // allocate memory, copy bytes and pass ptr to plugin.
-            let raw_ast_serialized_bytes =
-                unsafe { std::slice::from_raw_parts(ast_ptr, ast_ptr_len_usize.unwrap()) };
-            let raw_config_serialized_bytes =
-                unsafe { std::slice::from_raw_parts(config_str_ptr, config_str_ptr_len_usize.unwrap()) };
-            let raw_context_serialized_bytes =
-                unsafe { std::slice::from_raw_parts(context_str_ptr, context_str_ptr_len_usize.unwrap()) };
-
-            // Reconstruct SerializedProgram from raw bytes
-            let serialized_program = swc_plugin::Serialized::new_for_plugin(raw_ast_serialized_bytes, ast_ptr_len);
-            let serialized_config = swc_plugin::Serialized::new_for_plugin(raw_config_serialized_bytes, config_str_ptr_len);
-            let serialized_context = swc_plugin::Serialized::new_for_plugin(raw_context_serialized_bytes, context_str_ptr_len);
-
+        pub fn #process_impl_ident(ast_ptr: *const u8, ast_ptr_len: i32, config_str_ptr: *const u8, config_str_ptr_len: i32, context_str_ptr: *const u8, context_str_ptr_len: i32, should_enable_comments_proxy: i32) -> i32 {
             // Reconstruct `Program` & config string from serialized program
-            let program = swc_plugin::Serialized::deserialize(&serialized_program);
-            let config = swc_plugin::Serialized::deserialize(&serialized_config);
-            let context = swc_plugin::Serialized::deserialize(&serialized_context);
-
+            // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
+            let program = unsafe { swc_plugin::Serialized::deserialize_from_ptr(ast_ptr, ast_ptr_len) };
             if program.is_err() {
-                let err = swc_plugin::PluginError::Deserialize(
-                        ("Failed to deserialize program received from host".to_string(),
-                            raw_ast_serialized_bytes.to_vec())
-                    );
+                let err = swc_plugin::PluginError::Deserialize("Failed to deserialize program received from host".to_string());
                 return construct_error_ptr(err);
             }
             let program: Program = program.expect("Should be a program");
 
+            let config = unsafe { swc_plugin::Serialized::deserialize_from_ptr(config_str_ptr, config_str_ptr_len) };
             if config.is_err() {
                 let err = swc_plugin::PluginError::Deserialize(
-                        ("Failed to deserialize config string received from host".to_string(),
-                            raw_config_serialized_bytes.to_vec())
+                        "Failed to deserialize config string received from host".to_string()
                     );
                 return construct_error_ptr(err);
             }
             let config: String = config.expect("Should be a string");
 
+            let context = unsafe { swc_plugin::Serialized::deserialize_from_ptr(context_str_ptr, context_str_ptr_len) };
             if context.is_err() {
-                let err = swc_plugin::PluginError::Deserialize(
-                        ("Failed to deserialize context string received from host".to_string(),
-                        raw_context_serialized_bytes.to_vec())
-                    );
+                let err = swc_plugin::PluginError::Deserialize("Failed to deserialize context string received from host".to_string());
                 return construct_error_ptr(err);
             }
             let context: String = context.expect("Should be a string");
@@ -128,7 +88,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             let handler = swc_plugin::errors::Handler::with_emitter(
                 true,
                 false,
-                Box::new(swc_plugin::environment::PluginDiagnosticsEmitter {})
+                Box::new(swc_plugin::environment::PluginDiagnosticsEmitter)
             );
             let handler_set_result = swc_plugin::errors::HANDLER.inner.set(handler);
 
@@ -139,8 +99,16 @@ fn handle_func(func: ItemFn) -> TokenStream {
                 return construct_error_ptr(err);
             }
 
+            // Construct metadata to the `Program` for the transform plugin.
+            let plugin_comments_proxy = if should_enable_comments_proxy == 1 { Some(swc_plugin::comments::PluginCommentsProxy) } else { None };
+            let mut metadata = swc_plugin::TransformPluginProgramMetadata {
+                comments: plugin_comments_proxy,
+                plugin_config: config,
+                transform_context: context
+            };
+
             // Take original plugin fn ident, then call it with interop'ed args
-            let transformed_program = #ident(program, config, context);
+            let transformed_program = #ident(program, metadata);
 
             // Serialize transformed result, return back to the host.
             let serialized_result = swc_plugin::Serialized::serialize(&transformed_program);

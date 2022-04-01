@@ -2577,7 +2577,7 @@
                     if (pending) {
                         var callbacks = pending;
                         pending.length && nextTick(function() {
-                            for(var i = 0, ii = callbacks.length; i < ii; i++)callbacks[i][2](progress);
+                            for(var i = 0, ii = callbacks.length; i < ii; i++)(0, callbacks[i])[2](progress);
                         });
                     }
                 },

@@ -34,7 +34,7 @@ swc_common = { version = "0.17.5", path = "../swc_common" }
 swc_trace_macro = { version = "0.1.0", path = "../swc_trace_macro" }
 swc_plugin_runner = { version = "0.48.0", path = "../swc_plugin_runner", default-features = false, optional = true }
 tracing = "0.1.32"
-tracing-chrome = "0.4.0"
+tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 walkdir = "2"
