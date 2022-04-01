@@ -327,8 +327,10 @@ where
                 }
 
                 Stmt::Return(ReturnStmt { arg, .. }) => {
-                    if let Some(Expr::Lit(Lit::Num(..))) = arg.as_deref() {
-                        return true;
+                    if let Some(e) = arg.as_deref() {
+                        if is_expr_simple_enough(e) {
+                            return true;
+                        }
                     }
                 }
 
