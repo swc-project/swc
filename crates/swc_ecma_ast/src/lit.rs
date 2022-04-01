@@ -136,8 +136,9 @@ impl<'a> arbitrary::Arbitrary<'a> for BigInt {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let value = u.arbitrary::<usize>()?.into();
+        let raw = Some(u.arbitrary::<String>()?.into());
 
-        Ok(Self { span, value })
+        Ok(Self { span, value, raw })
     }
 }
 
