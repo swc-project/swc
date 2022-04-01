@@ -536,6 +536,8 @@ functions/issue_1841_1/input.js
 functions/issue_1841_2/input.js
 functions/issue_2097/input.js
 functions/issue_2101/input.js
+functions/issue_2630_1/input.js
+functions/issue_2630_4/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
 functions/issue_2647_3/input.js
@@ -771,9 +773,11 @@ issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
 issue_269/issue_269_in_scope/input.js
+issue_281/drop_fargs/input.js
 issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
 issue_281/issue_1595_3/input.js
+issue_281/keep_fargs/input.js
 issue_281/modified/input.js
 issue_281/negate_iife_3/input.js
 issue_281/negate_iife_3_off/input.js

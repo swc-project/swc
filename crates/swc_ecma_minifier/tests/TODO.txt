@@ -452,11 +452,9 @@ issue_269/regexp/input.js
 issue_269/strings_concat/input.js
 issue_2719/warn/input.js
 issue_281/collapse_vars_constants/input.js
-issue_281/drop_fargs/input.js
 issue_281/inner_var_for_in_1/input.js
 issue_281/issue_1288_side_effects/input.js
 issue_281/issue_1758/input.js
-issue_281/keep_fargs/input.js
 issue_281/pure_annotation_1/input.js
 issue_281/pure_annotation_2/input.js
 issue_281/ref_scope/input.js
