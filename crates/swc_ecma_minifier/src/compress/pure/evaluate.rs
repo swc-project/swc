@@ -27,11 +27,29 @@ impl Pure<'_> {
             ..
         }) = &mut *es.expr
         {
-            if let Expr::Fn(callee) = &mut **callee {
-                if args.is_empty() && callee.function.params.is_empty() {
+            if let Expr::Fn(FnExpr {
+                function:
+                    Function {
+                        params,
+                        body: Some(body),
+                        is_async: false,
+                        ..
+                    },
+                ..
+            }) = &mut **callee
+            {
+                if body
+                    .stmts
+                    .iter()
+                    .any(|s| matches!(s, Stmt::Decl(Decl::Var(..))))
+                {
+                    return;
+                }
+
+                if args.is_empty() && params.is_empty() {
                     self.changed = true;
                     tracing::debug!("Flattening iife");
-                    *s = Stmt::Block(callee.function.body.take().unwrap());
+                    *s = Stmt::Block(body.take());
                 }
             }
         }
