@@ -374,9 +374,9 @@ impl Pure<'_> {
                         return;
                     }
 
-                    if bin.left.is_await_expr() {
+                    if matches!(*bin.left, Expr::Await(..) | Expr::Update(..)) {
                         self.changed = true;
-                        tracing::debug!("ignore_return_value: Left is await");
+                        tracing::debug!("ignore_return_value: Compressing binary as seq");
                         *e = Expr::Seq(SeqExpr {
                             span,
                             exprs: vec![bin.left.take(), bin.right.take()],
