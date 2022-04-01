@@ -18,12 +18,24 @@ pub struct Ident {
     pub raw: JsWord,
 }
 
+impl EqIgnoreSpan for Ident {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
+
 #[ast_node("CustomIdent")]
 #[derive(Eq, Hash)]
 pub struct CustomIdent {
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,
+}
+
+impl EqIgnoreSpan for CustomIdent {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
 }
 
 #[ast_node("DashedIdent")]
@@ -34,12 +46,24 @@ pub struct DashedIdent {
     pub raw: JsWord,
 }
 
+impl EqIgnoreSpan for DashedIdent {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
+
 #[ast_node("CustomPropertyName")]
 #[derive(Eq, Hash)]
 pub struct CustomPropertyName {
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,
+}
+
+impl EqIgnoreSpan for CustomPropertyName {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
 }
 
 /// Quoted string.
@@ -49,6 +73,12 @@ pub struct Str {
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,
+}
+
+impl EqIgnoreSpan for Str {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -229,6 +259,12 @@ pub struct Integer {
     pub raw: JsWord,
 }
 
+impl EqIgnoreSpan for Integer {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
+
 #[ast_node("Number")]
 pub struct Number {
     pub span: Span,
@@ -258,6 +294,12 @@ impl Hash for Number {
 
         self.span.hash(state);
         integer_decode(self.value).hash(state);
+    }
+}
+
+impl EqIgnoreSpan for Number {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
     }
 }
 
