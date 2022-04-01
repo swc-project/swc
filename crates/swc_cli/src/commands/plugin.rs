@@ -243,7 +243,7 @@ impl VisitMut for TransformVisitor {
 /// important steps manually need to be performed like sending transformed
 /// results back to host. Refer swc_plugin_macro how does it work internally.
 #[plugin_transform]
-pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata, _context: String) -> Program {
+pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
     program.fold_with(&mut as_folder(TransformVisitor))
 }
 "#
