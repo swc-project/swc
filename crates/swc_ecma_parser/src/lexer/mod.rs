@@ -186,9 +186,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                         .read_number(true)
                         .map(|v| match v {
                             Left(v) => Num(v),
-                            Right(v) => BigInt {
-                                value: v,
-                                raw: js_word!(""),
+                            Right((value, raw)) => BigInt {
+                                value,
+                                raw: raw.into(),
                             },
                         })
                         .map(Some);
@@ -272,9 +272,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                             .read_number(false)
                             .map(|v| match v {
                                 Left(v) => Num(v),
-                                Right(v) => BigInt {
-                                    value: v,
-                                    raw: js_word!(""),
+                                Right((value, raw)) => BigInt {
+                                    value,
+                                    raw: raw.into(),
                                 },
                             })
                             .map(Some)
@@ -284,21 +284,22 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return bigint
                     .map(|v| match v {
                         Left(v) => Num(v),
-                        Right(v) => BigInt {
-                            value: v,
-                            raw: js_word!(""),
+                        Right((value, raw)) => BigInt {
+                            value,
+                            raw: raw.into(),
                         },
                     })
                     .map(Some);
             }
+
             '1'..='9' => {
                 return self
                     .read_number(false)
                     .map(|v| match v {
                         Left(v) => Num(v),
-                        Right(v) => BigInt {
-                            value: v,
-                            raw: js_word!(""),
+                        Right((value, raw)) => BigInt {
+                            value,
+                            raw: raw.into(),
                         },
                     })
                     .map(Some)
