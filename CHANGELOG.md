@@ -7,6 +7,12 @@
 
 - **(es/compat)** Support more regex expressions (#4205) ([b793aa0](https://github.com/swc-project/swc/commit/b793aa020095d797a76e2c19f42ab5822ee2ef03))
 
+### Performance
+
+
+
+- **(es/parser)** Improve performance by using `#[cold]` (#4215) ([1645562](https://github.com/swc-project/swc/commit/164556290b03cd530ad5158947cd28310c18fb12))
+
 ## [1.2.162] - 2022-03-31
 
 ### Bug Fixes
