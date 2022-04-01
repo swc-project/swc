@@ -11,7 +11,7 @@ use crate::{
         compat::DATA as CORE_JS_COMPAT_DATA,
         data::{
             COMMON_ITERATORS, INSTANCE_PROPERTIES, POSSIBLE_GLOBAL_OBJECTS, PROMISE_DEPENDENCIES,
-            STATIC_PROPERTIES,
+            REGEXP_DEPENDENCIES, STATIC_PROPERTIES,
         },
     },
     util::DataMapExt,
@@ -173,12 +173,20 @@ impl Visit for UsageVisitor {
     }
 
     /// import('something').then(...)
+    /// RegExp(".", "us")
     fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
-        if let Callee::Import(_) = &e.callee {
-            self.add(PROMISE_DEPENDENCIES)
-        }
+        match &e.callee {
+            Callee::Import(_) => self.add(PROMISE_DEPENDENCIES),
+            Callee::Expr(expr) => match **expr {
+                Expr::Ident(ref ident) if ident.sym == js_word!("RegExp") => {
+                    self.add(REGEXP_DEPENDENCIES)
+                }
+                _ => {}
+            },
+            _ => {}
+        };
     }
 
     fn visit_expr(&mut self, e: &Expr) {

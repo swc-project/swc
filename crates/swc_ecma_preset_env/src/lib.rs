@@ -11,7 +11,10 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{chain, collections::AHashSet, comments::Comments, FromVariant, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
-    compat::{bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3},
+    compat::{
+        bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3,
+        regexp::{self, regexp},
+    },
     pass::{noop, Optional},
     Assumptions,
 };
@@ -88,6 +91,37 @@ where
         BugfixSafariIdDestructuringCollisionInFunctionExpression,
         bugfixes::safari_id_destructuring_collision_in_function_expression()
     );
+
+    let pass = {
+        let enable_dot_all_regex = should_enable!(DotAllRegex, false);
+        let enable_named_capturing_groups_regex = should_enable!(NamedCapturingGroupsRegex, false);
+        let enable_sticky_regex = should_enable!(StickyRegex, false);
+        let enable_unicode_property_regex = should_enable!(UnicodePropertyRegex, false);
+        let enable_unicode_regex = should_enable!(UnicodeRegex, false);
+
+        let enable = enable_dot_all_regex
+            || enable_named_capturing_groups_regex
+            || enable_sticky_regex
+            || enable_unicode_property_regex
+            || enable_unicode_regex;
+
+        chain!(
+            pass,
+            Optional::new(
+                regexp(regexp::Config {
+                    dot_all_regex: enable_dot_all_regex,
+
+                    // TODO: add Feature::LookbehindAssertion
+                    lookbehind_assertion: false,
+                    named_capturing_groups_regex: enable_named_capturing_groups_regex,
+                    sticky_regex: enable_sticky_regex,
+                    unicode_property_regex: enable_unicode_property_regex,
+                    unicode_regex: enable_unicode_regex,
+                }),
+                enable
+            )
+        )
+    };
 
     // Proposals
 

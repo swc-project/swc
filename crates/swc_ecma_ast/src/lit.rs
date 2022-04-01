@@ -233,6 +233,16 @@ pub struct Regex {
     pub flags: JsWord,
 }
 
+impl Take for Regex {
+    fn dummy() -> Self {
+        Self {
+            span: DUMMY_SP,
+            exp: Default::default(),
+            flags: Default::default(),
+        }
+    }
+}
+
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
 impl<'a> arbitrary::Arbitrary<'a> for Regex {
