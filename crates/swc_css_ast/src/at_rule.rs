@@ -33,8 +33,7 @@ pub enum AtRulePrelude {
     PropertyPrelude(CustomPropertyName),
     #[tag("CustomIdent")]
     CounterStylePrelude(CustomIdent),
-    #[tag("DashedIdent")]
-    #[tag("Ident")]
+    #[tag("ColorProfileName")]
     ColorProfilePrelude(ColorProfileName),
     #[tag("DocumentPrelude")]
     DocumentPrelude(DocumentPrelude),
@@ -42,8 +41,7 @@ pub enum AtRulePrelude {
     FontPaletteValuesPrelude(DashedIdent),
     #[tag("SelectorList")]
     NestPrelude(SelectorList),
-    #[tag("CustomIdent")]
-    #[tag("Str")]
+    #[tag("KeyframesName")]
     KeyframesPrelude(KeyframesName),
     #[tag("ImportPrelude")]
     ImportPrelude(ImportPrelude),
