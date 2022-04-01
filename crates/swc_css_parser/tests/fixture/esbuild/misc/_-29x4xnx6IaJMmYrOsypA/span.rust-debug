@@ -17,12 +17,6 @@
    : ^^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:1]
- 1 | @unknown{}
-   : ^^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:1]
  1 | @unknown{}

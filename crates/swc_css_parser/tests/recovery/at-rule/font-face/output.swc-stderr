@@ -23,19 +23,19 @@
     : ^^^
     `----
 
-  x Expected '{', '(' or '[' token
+  x Expected '{' token
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
  17 | @font-face foo {}
     :            ^^^
     `----
 
-  x Expected '{', '(' or '[' token
+  x Expected '{' token
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
  19 | @font-face foo;
     :            ^^^
     `----
 
-  x Expected '{', '(' or '[' token
+  x Expected '{' token
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:21:1]
  21 | @font-face ;
     :            ^

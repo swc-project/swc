@@ -85,62 +85,165 @@ where
 
     #[emitter]
     fn emit_at_rule(&mut self, n: &AtRule) -> Result {
-        match n {
-            AtRule::Charset(n) => emit!(self, n),
-            AtRule::Import(n) => emit!(self, n),
-            AtRule::FontFace(n) => emit!(self, n),
-            AtRule::Keyframes(n) => emit!(self, n),
-            AtRule::Layer(n) => emit!(self, n),
-            AtRule::Media(n) => emit!(self, n),
-            AtRule::Supports(n) => emit!(self, n),
-            AtRule::Page(n) => emit!(self, n),
-            AtRule::PageMargin(n) => emit!(self, n),
-            AtRule::Namespace(n) => emit!(self, n),
-            AtRule::Nest(n) => emit!(self, n),
-            AtRule::Viewport(n) => emit!(self, n),
-            AtRule::Document(n) => emit!(self, n),
-            AtRule::ColorProfile(n) => emit!(self, n),
-            AtRule::CounterStyle(n) => emit!(self, n),
-            AtRule::Property(n) => emit!(self, n),
-            AtRule::Unknown(n) => emit!(self, n),
+        write_raw!(self, lo_span_offset!(n.span, 1), "@");
+        emit!(self, n.name);
+
+        if let Some(prelude) = &n.prelude {
+            emit!(self, prelude);
+        }
+
+        if n.block.is_some() {
+            match &n.prelude {
+                Some(AtRulePrelude::ListOfComponentValues(_)) | None => {}
+                _ => {
+                    formatting_space!(self);
+                }
+            }
+
+            emit!(self, n.block)
+        } else {
+            semi!(self);
         }
     }
 
     #[emitter]
-    fn emit_import_supports_type(&mut self, n: &ImportSupportsType) -> Result {
+    fn emit_at_rule_name(&mut self, n: &AtRuleName) -> Result {
         match n {
-            ImportSupportsType::SupportsCondition(n) => emit!(self, n),
-            ImportSupportsType::Declaration(n) => emit!(self, n),
+            AtRuleName::Ident(n) => emit!(self, n),
+            AtRuleName::DashedIdent(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_charset_rule(&mut self, n: &CharsetRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "charset");
-        // https://drafts.csswg.org/css2/#charset%E2%91%A0
-        // @charset must be written literally, i.e., the 10 characters '@charset "'
-        // (lowercase, no backslash escapes), followed by the encoding name, followed by
-        // ";.
-        space!(self);
-        emit!(self, n.charset);
-        semi!(self);
-    }
-
-    #[emitter]
-    fn emit_import_rule(&mut self, n: &ImportRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "import");
-
-        match n.href {
-            ImportHref::Url(_) => {
+    fn emit_at_rule_prelude(&mut self, n: &AtRulePrelude) -> Result {
+        match n {
+            AtRulePrelude::ListOfComponentValues(n) => emit!(self, n),
+            AtRulePrelude::CharsetPrelude(n) => {
                 space!(self);
+                emit!(self, n)
             }
-            ImportHref::Str(_) => {
-                formatting_space!(self);
+            AtRulePrelude::PropertyPrelude(n) => {
+                space!(self);
+                emit!(self, n)
+            }
+            AtRulePrelude::CounterStylePrelude(n) => {
+                space!(self);
+                emit!(self, n)
+            }
+            AtRulePrelude::ColorProfilePrelude(n) => {
+                space!(self);
+                emit!(self, n);
+            }
+            AtRulePrelude::DocumentPrelude(n) => {
+                space!(self);
+                emit!(self, n)
+            }
+            AtRulePrelude::FontPaletteValuesPrelude(n) => {
+                space!(self);
+                emit!(self, n)
+            }
+            AtRulePrelude::NestPrelude(n) => {
+                space!(self);
+                emit!(self, n)
+            }
+            AtRulePrelude::KeyframesPrelude(n) => {
+                match n {
+                    KeyframesName::Str(_) => {
+                        formatting_space!(self);
+                    }
+                    KeyframesName::CustomIdent(_) => {
+                        space!(self);
+                    }
+                }
+
+                emit!(self, n)
+            }
+            AtRulePrelude::ImportPrelude(n) => {
+                match n.href {
+                    ImportPreludeHref::Url(_) => {
+                        space!(self);
+                    }
+                    ImportPreludeHref::Str(_) => {
+                        formatting_space!(self);
+                    }
+                }
+
+                emit!(self, n)
+            }
+            AtRulePrelude::NamespacePrelude(n) => emit!(self, n),
+            AtRulePrelude::MediaPrelude(n) => {
+                let need_space = match n.queries.get(0) {
+                    Some(media_query)
+                        if media_query.modifier.is_none() && media_query.media_type.is_none() =>
+                    {
+                        match &media_query.condition {
+                            Some(MediaConditionType::All(media_condition)) => !matches!(
+                                media_condition.conditions.get(0),
+                                Some(MediaConditionAllType::MediaInParens(_))
+                            ),
+                            _ => true,
+                        }
+                    }
+                    _ => true,
+                };
+
+                if need_space {
+                    space!(self);
+                } else {
+                    formatting_space!(self);
+                }
+
+                emit!(self, n)
+            }
+            AtRulePrelude::SupportsPrelude(n) => {
+                match n.conditions.get(0) {
+                    Some(SupportsConditionType::SupportsInParens(_)) => {
+                        formatting_space!(self);
+                    }
+                    _ => {
+                        space!(self);
+                    }
+                }
+
+                emit!(self, n);
+            }
+            AtRulePrelude::PagePrelude(n) => {
+                match n.selectors.get(0) {
+                    Some(page_selector) if page_selector.page_type.is_none() => {
+                        formatting_space!(self);
+                    }
+                    _ => {
+                        space!(self);
+                    }
+                }
+
+                emit!(self, n)
+            }
+            AtRulePrelude::LayerPrelude(n) => {
+                space!(self);
+                emit!(self, n)
             }
         }
+    }
 
+    #[emitter]
+    fn emit_list_of_component_values(&mut self, n: &ListOfComponentValues) -> Result {
+        self.emit_list_of_component_values_inner(
+            &n.children,
+            ListFormat::SpaceDelimited | ListFormat::SingleLine,
+        )?;
+    }
+
+    #[emitter]
+    fn emit_import_prelude_supports_type(&mut self, n: &ImportPreludeSupportsType) -> Result {
+        match n {
+            ImportPreludeSupportsType::SupportsCondition(n) => emit!(self, n),
+            ImportPreludeSupportsType::Declaration(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_import_prelude(&mut self, n: &ImportPrelude) -> Result {
         emit!(self, n.href);
 
         if let Some(layer_name) = &n.layer_name {
@@ -148,7 +251,7 @@ where
             emit!(self, layer_name);
 
             if self.config.minify && (n.supports.is_some() || n.media.is_some()) {
-                if let ImportLayerName::Ident(_) = layer_name {
+                if let ImportPreludeLayerName::Ident(_) = layer_name {
                     space!(self);
                 }
             }
@@ -166,51 +269,22 @@ where
             formatting_space!(self);
             emit!(self, media);
         }
-
-        semi!(self);
     }
 
     #[emitter]
-    fn emit_import_href(&mut self, n: &ImportHref) -> Result {
+    fn emit_import_prelude_href(&mut self, n: &ImportPreludeHref) -> Result {
         match n {
-            ImportHref::Url(n) => emit!(self, n),
-            ImportHref::Str(n) => emit!(self, n),
+            ImportPreludeHref::Url(n) => emit!(self, n),
+            ImportPreludeHref::Str(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_import_layer_name(&mut self, n: &ImportLayerName) -> Result {
+    fn emit_import_layer_name(&mut self, n: &ImportPreludeLayerName) -> Result {
         match n {
-            ImportLayerName::Ident(n) => emit!(self, n),
-            ImportLayerName::Function(n) => emit!(self, n),
+            ImportPreludeLayerName::Ident(n) => emit!(self, n),
+            ImportPreludeLayerName::Function(n) => emit!(self, n),
         }
-    }
-
-    #[emitter]
-    fn emit_font_face_rule(&mut self, n: &FontFaceRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "font-face");
-        formatting_space!(self);
-        emit!(self, n.block);
-    }
-
-    #[emitter]
-    fn emit_keyframes_rule(&mut self, n: &KeyframesRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "keyframes");
-
-        match n.name {
-            KeyframesName::Str(_) => {
-                formatting_space!(self);
-            }
-            KeyframesName::CustomIdent(_) => {
-                space!(self);
-            }
-        }
-
-        emit!(self, n.name);
-        formatting_space!(self);
-        emit!(self, n.block);
     }
 
     #[emitter]
@@ -254,62 +328,6 @@ where
             LayerPrelude::Name(n) => emit!(self, n),
             LayerPrelude::NameList(n) => emit!(self, n),
         }
-    }
-
-    #[emitter]
-    fn emit_layer_rule(&mut self, n: &LayerRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "layer");
-
-        if n.prelude.is_some() {
-            space!(self);
-            emit!(self, n.prelude);
-        } else {
-            formatting_space!(self);
-        }
-
-        if let Some(block) = &n.block {
-            emit!(self, block);
-        } else {
-            semi!(self);
-        }
-    }
-
-    #[emitter]
-    fn emit_media_rule(&mut self, n: &MediaRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "media");
-
-        if n.media.is_some() {
-            let need_space = match n.media.as_ref().unwrap().queries.get(0) {
-                Some(media_query)
-                    if media_query.modifier.is_none() && media_query.media_type.is_none() =>
-                {
-                    match &media_query.condition {
-                        Some(MediaConditionType::All(media_condition)) => !matches!(
-                            media_condition.conditions.get(0),
-                            Some(MediaConditionAllType::MediaInParens(_))
-                        ),
-                        _ => true,
-                    }
-                }
-                _ => true,
-            };
-
-            if need_space {
-                space!(self);
-            } else {
-                formatting_space!(self);
-            }
-
-            emit!(self, n.media);
-
-            formatting_space!(self);
-        } else {
-            formatting_space!(self);
-        }
-
-        emit!(self, n.block);
     }
 
     #[emitter]
@@ -486,25 +504,6 @@ where
     }
 
     #[emitter]
-    fn emit_supports_rule(&mut self, n: &SupportsRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "supports");
-
-        match n.condition.conditions.get(0) {
-            Some(SupportsConditionType::SupportsInParens(_)) => {
-                formatting_space!(self);
-            }
-            _ => {
-                space!(self);
-            }
-        }
-
-        emit!(self, n.condition);
-        formatting_space!(self);
-        emit!(self, n.block);
-    }
-
-    #[emitter]
     fn emit_supports_condition(&mut self, n: &SupportsCondition) -> Result {
         self.emit_list(&n.conditions, ListFormat::NotDelimited)?;
     }
@@ -577,28 +576,6 @@ where
     }
 
     #[emitter]
-    fn emit_page_rule(&mut self, n: &PageRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "page");
-
-        if let Some(prelude) = &n.prelude {
-            match prelude.selectors.get(0) {
-                Some(page_selector) if page_selector.page_type.is_none() => {
-                    formatting_space!(self);
-                }
-                _ => {
-                    space!(self);
-                }
-            }
-
-            emit!(self, prelude);
-        }
-
-        formatting_space!(self);
-        emit!(self, n.block);
-    }
-
-    #[emitter]
     fn emit_page_selector_list(&mut self, n: &PageSelectorList) -> Result {
         self.emit_list(&n.selectors, ListFormat::CommaDelimited)?;
     }
@@ -626,30 +603,11 @@ where
     }
 
     #[emitter]
-    fn emit_page_margin_rule(&mut self, n: &PageMarginRule) -> Result {
-        write_raw!(self, "@");
-        emit!(self, n.name);
-        formatting_space!(self);
-        emit!(self, n.block);
-    }
-
-    #[emitter]
-    fn emit_namespace_uri(&mut self, n: &NamespaceUri) -> Result {
-        match n {
-            NamespaceUri::Url(n) => emit!(self, n),
-            NamespaceUri::Str(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
-    fn emit_namespace_rule(&mut self, n: &NamespaceRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "namespace");
-
+    fn emit_namespace_prelude(&mut self, n: &NamespacePrelude) -> Result {
         let has_prefix = n.prefix.is_some();
         let is_uri_url = match n.uri {
-            NamespaceUri::Url(_) => true,
-            NamespaceUri::Str(_) => false,
+            NamespacePreludeUri::Url(_) => true,
+            NamespacePreludeUri::Str(_) => false,
         };
 
         if has_prefix || is_uri_url {
@@ -669,46 +627,33 @@ where
         }
 
         emit!(self, n.uri);
-        semi!(self);
     }
 
     #[emitter]
-    fn emit_nest_rule(&mut self, n: &NestRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "nest");
-        space!(self);
-        emit!(self, n.prelude);
-        formatting_space!(self);
-        emit!(self, n.block);
-    }
-
-    #[emitter]
-    fn emit_viewport_rule(&mut self, n: &ViewportRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "viewport");
-        formatting_space!(self);
-        emit!(self, n.block);
-    }
-
-    #[emitter]
-    fn emit_document_rule(&mut self, n: &DocumentRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "document");
-        space!(self);
-        self.emit_list(&n.matching_functions, ListFormat::CommaDelimited)?;
-        formatting_space!(self);
-        emit!(self, n.block);
-    }
-
-    #[emitter]
-    fn emit_document_rule_matching_function(&mut self, n: &DocumentRuleMatchingFunction) -> Result {
+    fn emit_namespace_prelude_uri(&mut self, n: &NamespacePreludeUri) -> Result {
         match n {
-            DocumentRuleMatchingFunction::Url(n) => emit!(self, n),
-            DocumentRuleMatchingFunction::Function(n) => emit!(self, n),
+            NamespacePreludeUri::Url(n) => emit!(self, n),
+            NamespacePreludeUri::Str(n) => emit!(self, n),
         }
     }
 
-    fn emit_list_of_component_values(
+    #[emitter]
+    fn emit_document_prelude(&mut self, n: &DocumentPrelude) -> Result {
+        self.emit_list(&n.matching_functions, ListFormat::CommaDelimited)?;
+    }
+
+    #[emitter]
+    fn emit_document_prelude_matching_function(
+        &mut self,
+        n: &DocumentPreludeMatchingFunction,
+    ) -> Result {
+        match n {
+            DocumentPreludeMatchingFunction::Url(n) => emit!(self, n),
+            DocumentPreludeMatchingFunction::Function(n) => emit!(self, n),
+        }
+    }
+
+    fn emit_list_of_component_values_inner(
         &mut self,
         nodes: &[ComponentValue],
         format: ListFormat,
@@ -807,7 +752,7 @@ where
     fn emit_function(&mut self, n: &Function) -> Result {
         emit!(self, n.name);
         write_raw!(self, "(");
-        self.emit_list_of_component_values(
+        self.emit_list_of_component_values_inner(
             &n.value,
             ListFormat::SpaceDelimited | ListFormat::SingleLine,
         )?;
@@ -815,62 +760,10 @@ where
     }
 
     #[emitter]
-    fn emit_at_rule_name(&mut self, n: &AtRuleName) -> Result {
-        match n {
-            AtRuleName::Ident(n) => emit!(self, n),
-            AtRuleName::DashedIdent(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_color_profile_name(&mut self, n: &ColorProfileName) -> Result {
         match n {
             ColorProfileName::Ident(n) => emit!(self, n),
             ColorProfileName::DashedIdent(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
-    fn emit_color_profile_rule(&mut self, n: &ColorProfileRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "color-profile");
-        space!(self);
-        emit!(self, n.name);
-        formatting_space!(self);
-        emit!(self, n.block);
-    }
-
-    #[emitter]
-    fn emit_counter_style_rule(&mut self, n: &CounterStyleRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "counter-style");
-        space!(self);
-        emit!(self, n.name);
-        formatting_space!(self);
-        emit!(self, n.block);
-    }
-
-    #[emitter]
-    fn emit_property_rule(&mut self, n: &PropertyRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        write_raw!(self, "property");
-        space!(self);
-        emit!(self, n.name);
-        formatting_space!(self);
-        emit!(self, n.block);
-    }
-
-    #[emitter]
-    fn emit_unknown_at_rule(&mut self, n: &UnknownAtRule) -> Result {
-        write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        emit!(self, n.name);
-
-        self.emit_list(&n.prelude, ListFormat::NotDelimited)?;
-
-        if n.block.is_some() {
-            emit!(self, n.block)
-        } else {
-            semi!(self);
         }
     }
 
@@ -1067,7 +960,7 @@ where
         if is_custom_property {
             self.emit_list(&n.value, ListFormat::NotDelimited)?;
         } else {
-            self.emit_list_of_component_values(
+            self.emit_list_of_component_values_inner(
                 &n.value,
                 ListFormat::SpaceDelimited | ListFormat::SingleLine,
             )?;
@@ -1121,6 +1014,11 @@ where
     }
 
     #[emitter]
+    fn emit_custom_property_name(&mut self, n: &CustomPropertyName) -> Result {
+        write_raw!(self, n.span, &n.raw);
+    }
+
+    #[emitter]
     fn emit_percentage(&mut self, n: &Percentage) -> Result {
         emit!(self, n.value);
         write_raw!(self, hi_span_offset!(n.span, 1), "%");
@@ -1140,7 +1038,7 @@ where
     }
 
     #[emitter]
-    fn emit_lenth(&mut self, n: &Length) -> Result {
+    fn emit_length(&mut self, n: &Length) -> Result {
         emit!(self, n.value);
         emit!(self, n.unit);
     }

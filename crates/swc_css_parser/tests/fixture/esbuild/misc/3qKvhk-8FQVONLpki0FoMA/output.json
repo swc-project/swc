@@ -7,13 +7,23 @@
   },
   "rules": [
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 17,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 11,

@@ -1,12 +1,12 @@
-@page {}
-@page {}
-@page {
+@page{}
+@page{}
+@page{
   margin: 1cm;
 }
-@page {
+@page{
   margin: 1cm;
 }
-@page {
+@page{
   margin: 1cm;
 }
 @page :first {
@@ -20,21 +20,21 @@
 }
 @page :first {
   color: green;
-  @top-left {
+  @top-left{
     content: "foo";
     color: blue;
   }
-  @top-right {
+  @top-right{
     content: "bar";
   }
 }
 @page :first {
   color: green;
-  @top-left {
+  @top-left{
     content: "foo";
     color: blue;
   }
-  @top-right {
+  @top-right{
     content: "bar";
   }
   margin: 20px;

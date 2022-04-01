@@ -17,10 +17,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframesRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/pRPE8K2z9GGrr7UQaKAQZQ/input.css:1:1]
  1 | @-o-keyframes name {}
-   : ^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/pRPE8K2z9GGrr7UQaKAQZQ/input.css:1:1]
+ 1 | @-o-keyframes name {}
+   :  ^^^^^^^^^^^^
    `----
 
   x CustomIdent

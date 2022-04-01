@@ -426,12 +426,6 @@
     : ^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
- 14 | @--custom {}
-    : ^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
  14 | @--custom {}
@@ -469,12 +463,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/dashed-ident/input.css:15:1]
- 15 | @--library1-custom {}
-    : ^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/dashed-ident/input.css:15:1]
  15 | @--library1-custom {}
     : ^^^^^^^^^^^^^^^^^^^^^

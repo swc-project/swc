@@ -272,7 +272,15 @@ macro_rules! mtd {
 }
 
 impl Visit for SpanVisualizer<'_> {
+    mtd!(Stylesheet, visit_stylesheet);
+
     mtd!(AtRule, visit_at_rule);
+
+    mtd!(AtRuleName, visit_at_rule_name);
+
+    mtd!(QualifiedRule, visit_qualified_rule);
+
+    mtd!(StyleBlock, visit_style_block);
 
     mtd!(SelectorList, visit_selector_list);
 
@@ -368,12 +376,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(Str, visit_str);
 
-    mtd!(QualifiedRule, visit_qualified_rule);
-
-    mtd!(StyleBlock, visit_style_block);
-
-    mtd!(Stylesheet, visit_stylesheet);
-
     mtd!(Ident, visit_ident);
 
     mtd!(CustomIdent, visit_custom_ident);
@@ -420,40 +422,11 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(CalcValue, visit_calc_value);
 
-    mtd!(CharsetRule, visit_charset_rule);
-
-    mtd!(DocumentRule, visit_document_rule);
-
-    mtd!(
-        DocumentRuleMatchingFunction,
-        visit_document_rule_matching_function
-    );
-
-    mtd!(FontFaceRule, visit_font_face_rule);
-
-    mtd!(ImportRule, visit_import_rule);
-
-    mtd!(ImportHref, visit_import_href);
-
-    mtd!(ImportLayerName, visit_import_layer_name);
-
-    mtd!(ImportSupportsType, visit_import_supports_type);
-
-    mtd!(KeyframesRule, visit_keyframes_rule);
-
-    mtd!(KeyframeBlock, visit_keyframe_block);
-
-    mtd!(KeyframeSelector, visit_keyframe_selector);
-
     mtd!(LayerName, visit_layer_name);
 
     mtd!(LayerNameList, visit_layer_name_list);
 
     mtd!(LayerPrelude, visit_layer_prelude);
-
-    mtd!(LayerRule, visit_layer_rule);
-
-    mtd!(MediaRule, visit_media_rule);
 
     mtd!(MediaQueryList, visit_media_query_list);
 
@@ -495,8 +468,6 @@ impl Visit for SpanVisualizer<'_> {
         visit_media_feature_range_interval
     );
 
-    mtd!(SupportsRule, visit_supports_rule);
-
     mtd!(SupportsCondition, visit_supports_condition);
 
     mtd!(SupportsConditionType, visit_supports_condition_type);
@@ -511,12 +482,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(SupportsFeature, visit_supports_feature);
 
-    mtd!(NamespaceUri, visit_namespace_uri);
-
-    mtd!(NamespaceRule, visit_namespace_rule);
-
-    mtd!(PageRule, visit_page_rule);
-
     mtd!(PageSelectorList, visit_page_selector_list);
 
     mtd!(PageSelector, visit_page_selector);
@@ -524,22 +489,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(PageSelectorType, visit_page_selector_type);
 
     mtd!(PageSelectorPseudo, visit_page_selector_pseudo);
-
-    mtd!(AtRuleName, visit_at_rule_name);
-
-    mtd!(PageMarginRule, visit_page_margin_rule);
-
-    mtd!(UnknownAtRule, visit_unknown_at_rule);
-
-    mtd!(ViewportRule, visit_viewport_rule);
-
-    mtd!(ColorProfileName, visit_color_profile_name);
-
-    mtd!(ColorProfileRule, visit_color_profile_rule);
-
-    mtd!(CounterStyleRule, visit_counter_style_rule);
-
-    mtd!(PropertyRule, visit_property_rule);
 
     fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
         self.handler

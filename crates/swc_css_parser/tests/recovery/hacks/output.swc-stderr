@@ -23,12 +23,6 @@
     :                               ^
     `----
 
-  x Expected '{' delim token
-    ,-[$DIR/tests/recovery/hacks/input.css:16:1]
- 16 | @media \\0 screen {}
-    :        ^^^
-    `----
-
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
      ,-[$DIR/tests/recovery/hacks/input.css:104:5]
  104 | !property: value;
@@ -87,6 +81,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:136:5]
  136 | @property: value;
      :          ^
+     `----
+
+  x Expected '--' at the start of custom property name
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :            ^^^^^
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
@@ -201,12 +201,6 @@
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
      :                               ^
-     `----
-
-  x Expected '{' delim token
-     ,-[$DIR/tests/recovery/hacks/input.css:241:1]
- 241 | @media \\0 screen {}
-     :        ^^^
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token

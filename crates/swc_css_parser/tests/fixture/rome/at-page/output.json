@@ -7,11 +7,21 @@
   },
   "rules": [
     {
-      "type": "PageRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 72,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 5,
+          "ctxt": 0
+        },
+        "value": "page",
+        "raw": "page"
       },
       "prelude": {
         "type": "PageSelectorList",
@@ -79,7 +89,7 @@
         "name": "{",
         "value": [
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 22,
               "end": 51,
@@ -95,6 +105,7 @@
               "value": "top-center",
               "raw": "top-center"
             },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -191,11 +202,21 @@
       }
     },
     {
-      "type": "PageRule",
+      "type": "AtRule",
       "span": {
         "start": 74,
         "end": 140,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 75,
+          "end": 79,
+          "ctxt": 0
+        },
+        "value": "page",
+        "raw": "page"
       },
       "prelude": {
         "type": "PageSelectorList",
@@ -246,7 +267,7 @@
         "name": "{",
         "value": [
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 90,
               "end": 119,
@@ -262,6 +283,7 @@
               "value": "top-center",
               "raw": "top-center"
             },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -358,11 +380,21 @@
       }
     },
     {
-      "type": "PageRule",
+      "type": "AtRule",
       "span": {
         "start": 142,
         "end": 201,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 143,
+          "end": 147,
+          "ctxt": 0
+        },
+        "value": "page",
+        "raw": "page"
       },
       "prelude": null,
       "block": {
@@ -375,7 +407,7 @@
         "name": "{",
         "value": [
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 151,
               "end": 180,
@@ -391,6 +423,7 @@
               "value": "top-center",
               "raw": "top-center"
             },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -487,11 +520,21 @@
       }
     },
     {
-      "type": "PageRule",
+      "type": "AtRule",
       "span": {
         "start": 203,
         "end": 262,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 204,
+          "end": 208,
+          "ctxt": 0
+        },
+        "value": "page",
+        "raw": "page"
       },
       "prelude": null,
       "block": {
@@ -504,7 +547,7 @@
         "name": "{",
         "value": [
           {
-            "type": "PageMarginRule",
+            "type": "AtRule",
             "span": {
               "start": 212,
               "end": 241,
@@ -520,6 +563,7 @@
               "value": "top-center",
               "raw": "top-center"
             },
+            "prelude": null,
             "block": {
               "type": "SimpleBlock",
               "span": {

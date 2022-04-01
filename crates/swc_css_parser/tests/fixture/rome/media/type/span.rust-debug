@@ -22,10 +22,16 @@
    : ^^^^^^^^^^^^^^^^
    `----
 
-  x MediaRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/rome/media/type/input.css:1:1]
  1 | @media screen {}
-   : ^^^^^^^^^^^^^^^^
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/type/input.css:1:1]
+ 1 | @media screen {}
+   :  ^^^^^
    `----
 
   x MediaQueryList
@@ -64,10 +70,16 @@
    : ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/rome/media/type/input.css:2:1]
  2 | @media not screen {}
-   : ^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/type/input.css:2:1]
+ 2 | @media not screen {}
+   :  ^^^^^
    `----
 
   x MediaQueryList
@@ -112,10 +124,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/rome/media/type/input.css:3:1]
  3 | @media only screen {}
-   : ^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/type/input.css:3:1]
+ 3 | @media only screen {}
+   :  ^^^^^
    `----
 
   x MediaQueryList
@@ -160,10 +178,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/rome/media/type/input.css:4:1]
  4 | @media print, screen {}
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/type/input.css:4:1]
+ 4 | @media print, screen {}
+   :  ^^^^^
    `----
 
   x MediaQueryList
@@ -214,10 +238,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/rome/media/type/input.css:5:1]
  5 | @media screen, all, print {}
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/type/input.css:5:1]
+ 5 | @media screen, all, print {}
+   :  ^^^^^
    `----
 
   x MediaQueryList
@@ -280,10 +310,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/rome/media/type/input.css:6:1]
  6 | @media only screen, not all, only print {}
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/media/type/input.css:6:1]
+ 6 | @media only screen, not all, only print {}
+   :  ^^^^^
    `----
 
   x MediaQueryList

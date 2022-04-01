@@ -7,13 +7,23 @@
   },
   "rules": [
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 33,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 9,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 10,
@@ -84,13 +94,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 35,
         "end": 246,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 36,
+          "end": 44,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 45,
@@ -522,13 +542,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 249,
         "end": 369,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 250,
+          "end": 258,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 259,

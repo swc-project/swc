@@ -1,5 +1,5 @@
 @layer framework, override, foo, bar.baz;
-@layer override{
+@layer override {
   @keyframes slide-left {
     from {
       translate: 0;
@@ -9,7 +9,7 @@
     }
   }
 }
-@layer framework{
+@layer framework {
   @keyframes slide-left {
     from {
       margin-left: 0;
@@ -22,42 +22,42 @@
 .sidebar {
   animation: slide-left 300ms;
 }
-@layer {}
-@layer {}
-@layer reset.type{
+@layer{}
+@layer{}
+@layer reset.type {
   strong {
     font-weight: bold;
   }
 }
-@layer framework{
+@layer framework {
   .title {
     font-weight: 100;
   }
-  @layer theme{
+  @layer theme {
     h1, 
     h2 {
       color: maroon;
     }
   }
 }
-@layer reset{
+@layer reset {
   [hidden] {
     display: none;
   }
 }
-@layer framework{
-  @layer default{
+@layer framework {
+  @layer default {
     p {
       margin-block: 0.75em;
     }
   }
-  @layer theme{
+  @layer theme {
     p {
       color: #222;
     }
   }
 }
-@layer framework.theme{
+@layer framework.theme {
   blockquote {
     color: rebeccapurple;
   }

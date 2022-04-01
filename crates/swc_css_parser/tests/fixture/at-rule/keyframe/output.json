@@ -7,13 +7,23 @@
   },
   "rules": [
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 28,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 11,
@@ -35,13 +45,23 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 29,
         "end": 59,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 30,
+          "end": 39,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "String",
         "span": {
           "start": 40,
@@ -63,13 +83,23 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 60,
         "end": 94,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 61,
+          "end": 70,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 74,
@@ -91,13 +121,23 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 96,
         "end": 223,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 97,
+          "end": 106,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 107,
@@ -117,6 +157,7 @@
         "name": "{",
         "value": [
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 121,
               "end": 168,
@@ -206,6 +247,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 174,
               "end": 221,
@@ -298,13 +340,23 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 225,
         "end": 367,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 226,
+          "end": 235,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 236,
@@ -324,6 +376,7 @@
         "name": "{",
         "value": [
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 253,
               "end": 276,
@@ -424,6 +477,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 281,
               "end": 299,
@@ -511,6 +565,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 304,
               "end": 328,
@@ -616,6 +671,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 333,
               "end": 365,
@@ -745,13 +801,23 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 369,
         "end": 386,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 370,
+          "end": 379,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 380,
@@ -773,13 +839,23 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 387,
         "end": 410,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 388,
+          "end": 397,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "String",
         "span": {
           "start": 398,
@@ -801,13 +877,23 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 411,
         "end": 431,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 412,
+          "end": 421,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "String",
         "span": {
           "start": 422,
@@ -829,13 +915,23 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 432,
         "end": 651,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 433,
+          "end": 442,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 443,
@@ -855,6 +951,7 @@
         "name": "{",
         "value": [
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 462,
               "end": 500,
@@ -934,6 +1031,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 506,
               "end": 565,
@@ -1052,6 +1150,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 571,
               "end": 604,
@@ -1121,6 +1220,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 610,
               "end": 648,
@@ -1203,13 +1303,23 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 653,
         "end": 783,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 654,
+          "end": 663,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 664,
@@ -1229,6 +1339,7 @@
         "name": "{",
         "value": [
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 681,
               "end": 728,
@@ -1318,6 +1429,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 734,
               "end": 781,

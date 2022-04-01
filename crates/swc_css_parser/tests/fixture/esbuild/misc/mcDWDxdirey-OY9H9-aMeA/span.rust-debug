@@ -17,16 +17,16 @@
    : ^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/mcDWDxdirey-OY9H9-aMeA/input.css:1:1]
  1 | @import "foo.css";
-   : ^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
-  x ImportHref
+  x Ident
    ,-[$DIR/tests/fixture/esbuild/misc/mcDWDxdirey-OY9H9-aMeA/input.css:1:1]
  1 | @import "foo.css";
-   :         ^^^^^^^^^
+   :  ^^^^^^
    `----
 
   x Str

@@ -15,7 +15,7 @@ li::before {
 div {
   grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
 }
-@font-face {
+@font-face{
   font-family: examplefont;
   src: local(Example Font), url('examplefont.woff') format("woff"), url('examplefont.otf') format("opentype");
 }

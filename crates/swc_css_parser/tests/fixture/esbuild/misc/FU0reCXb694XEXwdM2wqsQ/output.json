@@ -7,46 +7,65 @@
   },
   "rules": [
     {
-      "type": "ImportRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 22,
         "ctxt": 0
       },
-      "href": {
-        "type": "Url",
+      "name": {
+        "type": "Ident",
         "span": {
-          "start": 8,
-          "end": 20,
+          "start": 1,
+          "end": 7,
           "ctxt": 0
         },
-        "name": {
-          "type": "Ident",
+        "value": "import",
+        "raw": "import"
+      },
+      "prelude": {
+        "type": "ImportPrelude",
+        "span": {
+          "start": 8,
+          "end": 21,
+          "ctxt": 0
+        },
+        "href": {
+          "type": "Url",
           "span": {
             "start": 8,
-            "end": 11,
+            "end": 20,
             "ctxt": 0
           },
-          "value": "url",
-          "raw": "url"
-        },
-        "value": {
-          "type": "UrlValueRaw",
-          "span": {
-            "start": 12,
-            "end": 19,
-            "ctxt": 0
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 8,
+              "end": 11,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
           },
-          "before": "",
-          "after": "",
-          "value": "foo.css",
-          "raw": "foo.css"
+          "value": {
+            "type": "UrlValueRaw",
+            "span": {
+              "start": 12,
+              "end": 19,
+              "ctxt": 0
+            },
+            "before": "",
+            "after": "",
+            "value": "foo.css",
+            "raw": "foo.css"
+          },
+          "modifiers": null
         },
-        "modifiers": null
+        "layerName": null,
+        "supports": null,
+        "media": null
       },
-      "layerName": null,
-      "supports": null,
-      "media": null
+      "block": null
     }
   ]
 }

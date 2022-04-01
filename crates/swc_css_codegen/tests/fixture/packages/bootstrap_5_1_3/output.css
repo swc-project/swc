@@ -4702,7 +4702,7 @@ fieldset:disabled .btn {
 .alert-dark .alert-link {
   color: #101214;
 }
-@keyframes progress-bar-stripes {
+@-webkit-keyframes progress-bar-stripes {
   0% {
     background-position-x: 1rem;
   }
@@ -5850,7 +5850,7 @@ fieldset:disabled .btn {
 .carousel-dark .carousel-caption {
   color: #000;
 }
-@keyframes spinner-border {
+@-webkit-keyframes spinner-border {
   to {
     transform: rotate(360deg);
   }
@@ -5876,7 +5876,7 @@ fieldset:disabled .btn {
   height: 1rem;
   border-width: 0.2em;
 }
-@keyframes spinner-grow {
+@-webkit-keyframes spinner-grow {
   0% {
     transform: scale(0);
   }
@@ -6029,7 +6029,7 @@ fieldset:disabled .btn {
   -webkit-animation: placeholder-glow 2s ease-in-out infinite;
   animation: placeholder-glow 2s ease-in-out infinite;
 }
-@keyframes placeholder-glow {
+@-webkit-keyframes placeholder-glow {
   50% {
     opacity: 0.2;
   }
@@ -6047,7 +6047,7 @@ fieldset:disabled .btn {
   -webkit-animation: placeholder-wave 2s linear infinite;
   animation: placeholder-wave 2s linear infinite;
 }
-@keyframes placeholder-wave {
+@-webkit-keyframes placeholder-wave {
   100% {
     -webkit-mask-position: -200% 0%;
     mask-position: -200% 0%;

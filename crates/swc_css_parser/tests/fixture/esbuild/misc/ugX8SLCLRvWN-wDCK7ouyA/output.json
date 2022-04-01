@@ -7,12 +7,23 @@
   },
   "rules": [
     {
-      "type": "ViewportRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 30,
         "ctxt": 0
       },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "-ms-viewport",
+        "raw": "-ms-viewport"
+      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {

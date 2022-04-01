@@ -1,0 +1,111 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 0,
+    "end": 100,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 0,
+        "end": 99,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 20,
+          "ctxt": 0
+        },
+        "value": "font-palette-values",
+        "raw": "font-palette-values"
+      },
+      "prelude": {
+        "type": "DashedIdent",
+        "span": {
+          "start": 21,
+          "end": 38,
+          "ctxt": 0
+        },
+        "value": "--SelectedPalette",
+        "raw": "--SelectedPalette"
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 39,
+          "end": 99,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 45,
+              "end": 75,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 45,
+                "end": 56,
+                "ctxt": 0
+              },
+              "value": "font-family",
+              "raw": "font-family"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 58,
+                  "end": 75,
+                  "ctxt": 0
+                },
+                "value": "MyVectorColorFont",
+                "raw": "MyVectorColorFont"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 81,
+              "end": 96,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 81,
+                "end": 93,
+                "ctxt": 0
+              },
+              "value": "base-palette",
+              "raw": "base-palette"
+            },
+            "value": [
+              {
+                "type": "Integer",
+                "span": {
+                  "start": 95,
+                  "end": 96,
+                  "ctxt": 0
+                },
+                "value": 3,
+                "raw": "3"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}

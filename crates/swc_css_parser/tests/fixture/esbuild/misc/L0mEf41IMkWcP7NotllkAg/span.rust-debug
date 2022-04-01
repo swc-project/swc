@@ -23,14 +23,6 @@
  4 | `-> }
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
- 1 | ,-> @unknown{
- 2 | |   a: b;
- 3 | |   c: d;
- 4 | `-> }
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{

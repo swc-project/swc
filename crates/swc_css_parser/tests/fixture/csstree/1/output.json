@@ -7,13 +7,23 @@
   },
   "rules": [
     {
-      "type": "CharsetRule",
+      "type": "AtRule",
       "span": {
         "start": 17,
         "end": 34,
         "ctxt": 0
       },
-      "charset": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 18,
+          "end": 25,
+          "ctxt": 0
+        },
+        "value": "charset",
+        "raw": "charset"
+      },
+      "prelude": {
         "type": "String",
         "span": {
           "start": 26,
@@ -22,14 +32,25 @@
         },
         "value": "utf-8",
         "raw": "'utf-8'"
-      }
+      },
+      "block": null
     },
     {
-      "type": "PageRule",
+      "type": "AtRule",
       "span": {
         "start": 35,
         "end": 67,
         "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 36,
+          "end": 40,
+          "ctxt": 0
+        },
+        "value": "page",
+        "raw": "page"
       },
       "prelude": {
         "type": "PageSelectorList",
@@ -132,13 +153,23 @@
       }
     },
     {
-      "type": "MediaRule",
+      "type": "AtRule",
       "span": {
         "start": 68,
         "end": 137,
         "ctxt": 0
       },
-      "media": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 69,
+          "end": 74,
+          "ctxt": 0
+        },
+        "value": "media",
+        "raw": "media"
+      },
+      "prelude": {
         "type": "MediaQueryList",
         "span": {
           "start": 75,
@@ -2014,13 +2045,23 @@
       }
     },
     {
-      "type": "MediaRule",
+      "type": "AtRule",
       "span": {
         "start": 749,
         "end": 928,
         "ctxt": 0
       },
-      "media": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 750,
+          "end": 755,
+          "ctxt": 0
+        },
+        "value": "media",
+        "raw": "media"
+      },
+      "prelude": {
         "type": "MediaQueryList",
         "span": {
           "start": 756,
@@ -2480,13 +2521,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 930,
         "end": 1048,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 931,
+          "end": 939,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 940,
@@ -3006,64 +3057,93 @@
       }
     },
     {
-      "type": "ImportRule",
+      "type": "AtRule",
       "span": {
         "start": 1117,
         "end": 1138,
         "ctxt": 0
       },
-      "href": {
-        "type": "String",
+      "name": {
+        "type": "Ident",
         "span": {
-          "start": 1125,
-          "end": 1130,
+          "start": 1118,
+          "end": 1124,
           "ctxt": 0
         },
-        "value": "foo",
-        "raw": "'foo'"
+        "value": "import",
+        "raw": "import"
       },
-      "layerName": null,
-      "supports": null,
-      "media": {
-        "type": "MediaQueryList",
+      "prelude": {
+        "type": "ImportPrelude",
         "span": {
-          "start": 1131,
+          "start": 1125,
           "end": 1137,
           "ctxt": 0
         },
-        "queries": [
-          {
-            "type": "MediaQuery",
-            "span": {
-              "start": 1131,
-              "end": 1137,
-              "ctxt": 0
-            },
-            "modifier": null,
-            "mediaType": {
-              "type": "Ident",
+        "href": {
+          "type": "String",
+          "span": {
+            "start": 1125,
+            "end": 1130,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "raw": "'foo'"
+        },
+        "layerName": null,
+        "supports": null,
+        "media": {
+          "type": "MediaQueryList",
+          "span": {
+            "start": 1131,
+            "end": 1137,
+            "ctxt": 0
+          },
+          "queries": [
+            {
+              "type": "MediaQuery",
               "span": {
                 "start": 1131,
                 "end": 1137,
                 "ctxt": 0
               },
-              "value": "screen",
-              "raw": "screen"
-            },
-            "keyword": null,
-            "condition": null
-          }
-        ]
-      }
+              "modifier": null,
+              "mediaType": {
+                "type": "Ident",
+                "span": {
+                  "start": 1131,
+                  "end": 1137,
+                  "ctxt": 0
+                },
+                "value": "screen",
+                "raw": "screen"
+              },
+              "keyword": null,
+              "condition": null
+            }
+          ]
+        }
+      },
+      "block": null
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 1139,
         "end": 1260,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1140,
+          "end": 1149,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "String",
         "span": {
           "start": 1150,
@@ -3083,6 +3163,7 @@
         "name": "{",
         "value": [
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 1163,
               "end": 1183,
@@ -3144,6 +3225,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 1188,
               "end": 1229,
@@ -3244,6 +3326,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 1234,
               "end": 1258,

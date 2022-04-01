@@ -425,10 +425,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x MediaRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/comment/input.css:23:1]
  23 | @media/* comment */screen/* comment */{}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/comment/input.css:23:1]
+ 23 | @media/* comment */screen/* comment */{}
+    :  ^^^^^
     `----
 
   x MediaQueryList
@@ -467,10 +473,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x MediaRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/comment/input.css:24:1]
  24 | @media /* comment */ screen /* comment */ {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/comment/input.css:24:1]
+ 24 | @media /* comment */ screen /* comment */ {}
+    :  ^^^^^
     `----
 
   x MediaQueryList

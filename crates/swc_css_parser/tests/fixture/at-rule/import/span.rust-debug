@@ -179,16 +179,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/import/input.css:1:1]
  1 | @import url("./style.css");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
-  x ImportHref
+  x Ident
    ,-[$DIR/tests/fixture/at-rule/import/input.css:1:1]
  1 | @import url("./style.css");
-   :         ^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
   x Url
@@ -227,16 +227,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/import/input.css:2:1]
  2 | @import url('./style.css');
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
-  x ImportHref
+  x Ident
    ,-[$DIR/tests/fixture/at-rule/import/input.css:2:1]
  2 | @import url('./style.css');
-   :         ^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
   x Url
@@ -275,16 +275,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/import/input.css:3:1]
  3 | @import url(./style.css);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
-  x ImportHref
+  x Ident
    ,-[$DIR/tests/fixture/at-rule/import/input.css:3:1]
  3 | @import url(./style.css);
-   :         ^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
   x Url
@@ -323,16 +323,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/import/input.css:4:1]
  4 | @import './style.css';
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
-  x ImportHref
+  x Ident
    ,-[$DIR/tests/fixture/at-rule/import/input.css:4:1]
  4 | @import './style.css';
-   :         ^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
   x Str
@@ -353,16 +353,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/import/input.css:5:1]
  5 | @import "./style.css";
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
-  x ImportHref
+  x Ident
    ,-[$DIR/tests/fixture/at-rule/import/input.css:5:1]
  5 | @import "./style.css";
-   :         ^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
   x Str
@@ -383,16 +383,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/import/input.css:6:1]
  6 | @IMPORT url("./style.css");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
-  x ImportHref
+  x Ident
    ,-[$DIR/tests/fixture/at-rule/import/input.css:6:1]
  6 | @IMPORT url("./style.css");
-   :         ^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
   x Url
@@ -431,16 +431,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/import/input.css:7:1]
  7 | @import URL(./style.css);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
-  x ImportHref
+  x Ident
    ,-[$DIR/tests/fixture/at-rule/import/input.css:7:1]
  7 | @import URL(./style.css);
-   :         ^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
   x Url
@@ -479,16 +479,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/import/input.css:8:1]
  8 | @import URL("./style.css");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
-  x ImportHref
+  x Ident
    ,-[$DIR/tests/fixture/at-rule/import/input.css:8:1]
  8 | @import URL("./style.css");
-   :         ^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
   x Url
@@ -527,16 +527,16 @@
    : ^^^^^^^^^^^^^^^^^^
    `----
 
-  x ImportRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/import/input.css:9:1]
  9 | @import"test.css";
-   : ^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^
    `----
 
-  x ImportHref
+  x Ident
    ,-[$DIR/tests/fixture/at-rule/import/input.css:9:1]
  9 | @import"test.css";
-   :        ^^^^^^^^^^
+   :  ^^^^^^
    `----
 
   x Str
@@ -557,16 +557,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:10:1]
  10 | @import "common.css" screen;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:10:1]
  10 | @import "common.css" screen;
-    :         ^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -605,16 +605,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:11:1]
  11 | @import url('landscape.css') screen and (orientation:landscape);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:11:1]
  11 | @import url('landscape.css') screen and (orientation:landscape);
-    :         ^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -731,16 +731,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:12:1]
  12 | @import url("theme.css") layer;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:12:1]
  12 | @import url("theme.css") layer;
-    :         ^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -765,12 +765,6 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:12:1]
  12 | @import url("theme.css") layer;
     :             ^^^^^^^^^^^
-    `----
-
-  x ImportLayerName
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:12:1]
- 12 | @import url("theme.css") layer;
-    :                          ^^^^^
     `----
 
   x Ident
@@ -791,16 +785,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:13:1]
  13 | @import url("theme.css") layer   ;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:13:1]
  13 | @import url("theme.css") layer   ;
-    :         ^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -825,12 +819,6 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:13:1]
  13 | @import url("theme.css") layer   ;
     :             ^^^^^^^^^^^
-    `----
-
-  x ImportLayerName
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:13:1]
- 13 | @import url("theme.css") layer   ;
-    :                          ^^^^^
     `----
 
   x Ident
@@ -851,16 +839,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:14:1]
  14 | @import url("theme.css") LAYER;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:14:1]
  14 | @import url("theme.css") LAYER;
-    :         ^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -885,12 +873,6 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:14:1]
  14 | @import url("theme.css") LAYER;
     :             ^^^^^^^^^^^
-    `----
-
-  x ImportLayerName
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:14:1]
- 14 | @import url("theme.css") LAYER;
-    :                          ^^^^^
     `----
 
   x Ident
@@ -911,16 +893,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:15:1]
  15 | @import url("theme.css") layer(default);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:15:1]
  15 | @import url("theme.css") layer(default);
-    :         ^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -945,12 +927,6 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:15:1]
  15 | @import url("theme.css") layer(default);
     :             ^^^^^^^^^^^
-    `----
-
-  x ImportLayerName
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:15:1]
- 15 | @import url("theme.css") layer(default);
-    :                          ^^^^^^^^^^^^^^
     `----
 
   x Function
@@ -989,16 +965,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:16:1]
  16 | @import url("theme.css") LAYER(default);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:16:1]
  16 | @import url("theme.css") LAYER(default);
-    :         ^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1023,12 +999,6 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:16:1]
  16 | @import url("theme.css") LAYER(default);
     :             ^^^^^^^^^^^
-    `----
-
-  x ImportLayerName
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:16:1]
- 16 | @import url("theme.css") LAYER(default);
-    :                          ^^^^^^^^^^^^^^
     `----
 
   x Function
@@ -1067,16 +1037,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
  18 | @import url("override.css") layer();
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
  18 | @import url("override.css") layer();
-    :         ^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1101,12 +1071,6 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
  18 | @import url("override.css") layer();
     :             ^^^^^^^^^^^^^^
-    `----
-
-  x ImportLayerName
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
- 18 | @import url("override.css") layer();
-    :                             ^^^^^^^
     `----
 
   x Function
@@ -1133,16 +1097,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:19:1]
  19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:19:1]
  19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
-    :         ^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1167,12 +1131,6 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:19:1]
  19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
     :             ^^^^^^^^^^^^
-    `----
-
-  x ImportSupportsType
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:19:1]
- 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
-    :                                    ^^^^^^^^^^^^^
     `----
 
   x Declaration
@@ -1313,16 +1271,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:20:1]
  20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:20:1]
  20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
-    :         ^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1347,12 +1305,6 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:20:1]
  20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
     :             ^^^^^^^^^^^^
-    `----
-
-  x ImportSupportsType
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:20:1]
- 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
-    :                                    ^^^^^^^^^^^^^
     `----
 
   x Declaration
@@ -1493,16 +1445,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:21:1]
  21 | @import url("fallback-layout.css") supports(not (display: flex));
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:21:1]
  21 | @import url("fallback-layout.css") supports(not (display: flex));
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1527,12 +1479,6 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:21:1]
  21 | @import url("fallback-layout.css") supports(not (display: flex));
     :             ^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ImportSupportsType
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:21:1]
- 21 | @import url("fallback-layout.css") supports(not (display: flex));
-    :                                             ^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsCondition
@@ -1613,16 +1559,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:22:1]
  22 | @import url(test.css);
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:22:1]
  22 | @import url(test.css);
-    :         ^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1661,16 +1607,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:23:1]
  23 | @import url('test.css');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:23:1]
  23 | @import url('test.css');
-    :         ^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1709,16 +1655,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:24:1]
  24 | @import url("test.css");
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:24:1]
  24 | @import url("test.css");
-    :         ^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1757,16 +1703,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:25:1]
  25 | @IMPORT url(test.css);
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:25:1]
  25 | @IMPORT url(test.css);
-    :         ^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1805,16 +1751,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:26:1]
  26 | @import URL(test.css);
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:26:1]
  26 | @import URL(test.css);
-    :         ^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1853,16 +1799,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:27:1]
  27 | @import url(test.css );
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:27:1]
  27 | @import url(test.css );
-    :         ^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1901,16 +1847,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:28:1]
  28 | @import url( test.css);
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:28:1]
  28 | @import url( test.css);
-    :         ^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1949,16 +1895,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:29:1]
  29 | @import url( test.css );
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:29:1]
  29 | @import url( test.css );
-    :         ^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -1999,18 +1945,16 @@
  32 | `-> );
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:30:1]
- 30 | ,-> @import url(
- 31 | |   test.css
- 32 | `-> );
+ 30 | @import url(
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:30:1]
- 30 | ,-> @import url(
- 31 | |   test.css
- 32 | `-> );
+ 30 | @import url(
+    :  ^^^^^^
     `----
 
   x Url
@@ -2052,16 +1996,16 @@
     : ^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:33:1]
  33 | @import url();
-    : ^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:33:1]
  33 | @import url();
-    :         ^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -2100,16 +2044,16 @@
     : ^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:34:1]
  34 | @import url('');
-    : ^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:34:1]
  34 | @import url('');
-    :         ^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -2148,16 +2092,16 @@
     : ^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:35:1]
  35 | @import url("");
-    : ^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:35:1]
  35 | @import url("");
-    :         ^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -2196,16 +2140,16 @@
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:36:1]
  36 | @import "test.css";
-    : ^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:36:1]
  36 | @import "test.css";
-    :         ^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -2226,16 +2170,16 @@
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:37:1]
  37 | @import 'test.css';
-    : ^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:37:1]
  37 | @import 'test.css';
-    :         ^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -2256,16 +2200,16 @@
     : ^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:38:1]
  38 | @import '';
-    : ^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:38:1]
  38 | @import '';
-    :         ^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -2286,16 +2230,16 @@
     : ^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:39:1]
  39 | @import "";
-    : ^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:39:1]
  39 | @import "";
-    :         ^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -2316,24 +2260,24 @@
     : ^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:40:1]
  40 | @import "   ";
-    : ^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:40:1]
+ 40 | @import "   ";
+    :  ^^^^^^
+    `----
+
+  x Str
     ,-[$DIR/tests/fixture/at-rule/import/input.css:40:1]
  40 | @import "   ";
     :         ^^^^^
     `----
 
-  x Str
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:40:1]
- 40 | @import "   ";
-    :         ^^^^^
-    `----
-
   x Rule
     ,-[$DIR/tests/fixture/at-rule/import/input.css:41:1]
  41 | ,-> @import "\
@@ -2346,16 +2290,16 @@
  42 | `-> ";
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:41:1]
- 41 | ,-> @import "\
- 42 | `-> ";
+ 41 | @import "\
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:41:1]
- 41 | ,-> @import "\
- 42 | `-> ";
+ 41 | @import "\
+    :  ^^^^^^
     `----
 
   x Str
@@ -2376,16 +2320,16 @@
     : ^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:43:1]
  43 | @import url();
-    : ^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:43:1]
  43 | @import url();
-    :         ^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -2424,16 +2368,16 @@
     : ^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:44:1]
  44 | @import url('');
-    : ^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:44:1]
  44 | @import url('');
-    :         ^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -2472,16 +2416,16 @@
     : ^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:45:1]
  45 | @import url("");
-    : ^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:45:1]
  45 | @import url("");
-    :         ^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -2520,16 +2464,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:46:1]
  46 | @import url(test.css) screen and (orientation:landscape);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:46:1]
  46 | @import url(test.css) screen and (orientation:landscape);
-    :         ^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -2646,16 +2590,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:47:1]
  47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:47:1]
  47 | @import url(test.css) SCREEN AND (ORIENTATION: LANDSCAPE);
-    :         ^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -2772,16 +2716,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:48:1]
  48 | @import url(test.css)screen and (orientation:landscape);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:48:1]
  48 | @import url(test.css)screen and (orientation:landscape);
-    :         ^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -2898,16 +2842,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:49:1]
  49 | @import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:49:1]
  49 | @import url(test.css)   screen   and   (   orientation   :   landscape   )   ;
-    :         ^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3024,16 +2968,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:50:1]
  50 | @import url(test.css) screen and (orientation:landscape);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:50:1]
  50 | @import url(test.css) screen and (orientation:landscape);
-    :         ^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3150,16 +3094,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:51:1]
  51 | @import url("//example.com/style.css");
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:51:1]
  51 | @import url("//example.com/style.css");
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3198,16 +3142,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:52:1]
  52 | @import url(~package/test.css);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:52:1]
  52 | @import url(~package/test.css);
-    :         ^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3246,16 +3190,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:53:1]
  53 | @import url('https://fonts.googleapis.com/css?family=Roboto');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:53:1]
  53 | @import url('https://fonts.googleapis.com/css?family=Roboto');
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3294,16 +3238,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:54:1]
  54 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:54:1]
  54 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC');
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3342,16 +3286,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:55:1]
  55 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC|Roboto');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:55:1]
  55 | @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC|Roboto');
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3390,16 +3334,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:56:1]
  56 | @import url('./relative.css');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:56:1]
  56 | @import url('./relative.css');
-    :         ^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3438,16 +3382,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:57:1]
  57 | @import url('../import/top-relative.css');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:57:1]
  57 | @import url('../import/top-relative.css');
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3486,16 +3430,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:58:1]
  58 | @import url(~package/tilde.css);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:58:1]
  58 | @import url(~package/tilde.css);
-    :         ^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3534,16 +3478,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:59:1]
  59 | @import url(~aliasesImport/alias.css);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:59:1]
  59 | @import url(~aliasesImport/alias.css);
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3582,16 +3526,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:60:1]
  60 | @import url('./url.css');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:60:1]
  60 | @import url('./url.css');
-    :         ^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3630,16 +3574,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:62:1]
  62 | @import url(./test.css);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:62:1]
  62 | @import url(./test.css);
-    :         ^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3678,16 +3622,16 @@
  65 | `-> st.css';
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:64:1]
- 64 | ,-> @import './te\
- 65 | `-> st.css';
+ 64 | @import './te\
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:64:1]
- 64 | ,-> @import './te\
- 65 | `-> st.css';
+ 64 | @import './te\
+    :  ^^^^^^
     `----
 
   x Str
@@ -3712,20 +3656,16 @@
  69 | `-> st.css';
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:66:1]
- 66 | ,-> @import './te\
- 67 | |   \
- 68 | |   \
- 69 | `-> st.css';
+ 66 | @import './te\
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:66:1]
- 66 | ,-> @import './te\
- 67 | |   \
- 68 | |   \
- 69 | `-> st.css';
+ 66 | @import './te\
+    :  ^^^^^^
     `----
 
   x Str
@@ -3748,16 +3688,16 @@
  71 | `-> st.css');
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:70:1]
- 70 | ,-> @import url('./te\
- 71 | `-> st.css');
+ 70 | @import url('./te\
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:70:1]
- 70 | ,-> @import url('./te\
- 71 | `-> st.css');
+ 70 | @import url('./te\
+    :  ^^^^^^
     `----
 
   x Url
@@ -3800,20 +3740,16 @@
  75 | `-> st.css');
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:72:1]
- 72 | ,-> @import url('./te\
- 73 | |   \
- 74 | |   \
- 75 | `-> st.css');
+ 72 | @import url('./te\
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:72:1]
- 72 | ,-> @import url('./te\
- 73 | |   \
- 74 | |   \
- 75 | `-> st.css');
+ 72 | @import url('./te\
+    :  ^^^^^^
     `----
 
   x Url
@@ -3858,16 +3794,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:77:1]
  77 | @import "./te'st.css";
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:77:1]
  77 | @import "./te'st.css";
-    :         ^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -3888,16 +3824,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:78:1]
  78 | @import url("./te'st.css");
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:78:1]
  78 | @import url("./te'st.css");
-    :         ^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -3936,16 +3872,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:79:1]
  79 | @import './te\'st.css';
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:79:1]
  79 | @import './te\'st.css';
-    :         ^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -3966,16 +3902,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:80:1]
  80 | @import url('./te\'st.css');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:80:1]
  80 | @import url('./te\'st.css');
-    :         ^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -4014,16 +3950,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:81:1]
  81 | @import './test test.css';
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:81:1]
  81 | @import './test test.css';
-    :         ^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -4044,16 +3980,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:82:1]
  82 | @import url('./test test.css');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:82:1]
  82 | @import url('./test test.css');
-    :         ^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -4092,16 +4028,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:83:1]
  83 | @import './test\ test.css';
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:83:1]
  83 | @import './test\ test.css';
-    :         ^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -4122,16 +4058,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:84:1]
  84 | @import url('./test\ test.css');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:84:1]
  84 | @import url('./test\ test.css');
-    :         ^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -4170,16 +4106,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:85:1]
  85 | @import './test%20test.css';
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:85:1]
  85 | @import './test%20test.css';
-    :         ^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -4200,16 +4136,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:86:1]
  86 | @import url('./test%20test.css');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:86:1]
  86 | @import url('./test%20test.css');
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -4248,16 +4184,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:87:1]
  87 | @import './\74\65\73\74.css';
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:87:1]
  87 | @import './\74\65\73\74.css';
-    :         ^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -4278,16 +4214,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:88:1]
  88 | @import url('./\74\65\73\74.css');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:88:1]
  88 | @import url('./\74\65\73\74.css');
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -4326,16 +4262,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:89:1]
  89 | @import './t\65\73\74.css';
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:89:1]
  89 | @import './t\65\73\74.css';
-    :         ^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -4356,16 +4292,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:90:1]
  90 | @import url('./t\65\73\74.css');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:90:1]
  90 | @import url('./t\65\73\74.css');
-    :         ^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -4404,16 +4340,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:91:1]
  91 | @import url(./test\ test.css);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:91:1]
  91 | @import url(./test\ test.css);
-    :         ^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -4452,16 +4388,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:92:1]
  92 | @import url(./t\65st%20test.css);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:92:1]
  92 | @import url(./t\65st%20test.css);
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -4500,16 +4436,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:93:1]
  93 | @import url('./t\65st%20test.css');
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:93:1]
  93 | @import url('./t\65st%20test.css');
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -4548,16 +4484,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:94:1]
  94 | @import url("./t\65st%20test.css");
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:94:1]
  94 | @import url("./t\65st%20test.css");
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -4596,16 +4532,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:95:1]
  95 | @import "./t\65st%20test.css";
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:95:1]
  95 | @import "./t\65st%20test.css";
-    :         ^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -4626,16 +4562,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:96:1]
  96 | @import './t\65st%20test.css';
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:96:1]
  96 | @import './t\65st%20test.css';
-    :         ^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -4656,16 +4592,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:97:1]
  97 | @import url(                 test.css                      );
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:97:1]
  97 | @import url(                 test.css                      );
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
   x Url
@@ -4708,21 +4644,17 @@
  101 | `-> ';
      `----
 
-  x ImportRule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:98:1]
-  98 | ,-> @import '\
-  99 | |   \
- 100 | |   \
- 101 | `-> ';
-     `----
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:98:1]
+ 98 | @import '\
+    :  ^^^^^^
+    `----
 
-  x ImportHref
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:98:1]
-  98 | ,-> @import '\
-  99 | |   \
- 100 | |   \
- 101 | `-> ';
-     `----
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:98:1]
+ 98 | @import '\
+    :  ^^^^^^
+    `----
 
   x Str
      ,-[$DIR/tests/fixture/at-rule/import/input.css:98:1]
@@ -4744,16 +4676,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:102:1]
  102 | @import url('!!../../helpers/string-loader.js?esModule=false!~package/tilde.css');
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:102:1]
  102 | @import url('!!../../helpers/string-loader.js?esModule=false!~package/tilde.css');
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -4792,16 +4724,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:104:1]
  104 | @import url(test.css?foo=bar);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:104:1]
  104 | @import url(test.css?foo=bar);
-     :         ^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -4840,16 +4772,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:105:1]
  105 | @import url(test.css?foo=bar#hash);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:105:1]
  105 | @import url(test.css?foo=bar#hash);
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -4888,16 +4820,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:106:1]
  106 | @import url(test.css?#hash);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:106:1]
  106 | @import url(test.css?#hash);
-     :         ^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -4936,28 +4868,22 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
  108 | @import "test.css" supports(display: flex);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
  108 | @import "test.css" supports(display: flex);
-     :         ^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Str
      ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
  108 | @import "test.css" supports(display: flex);
      :         ^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
- 108 | @import "test.css" supports(display: flex);
-     :                             ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -5002,28 +4928,22 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:109:1]
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:109:1]
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
-     :         ^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Str
      ,-[$DIR/tests/fixture/at-rule/import/input.css:109:1]
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      :         ^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:109:1]
- 109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
-     :                             ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -5146,28 +5066,22 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:110:1]
  110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:110:1]
  110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
-     :        ^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Str
      ,-[$DIR/tests/fixture/at-rule/import/input.css:110:1]
  110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
      :        ^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:110:1]
- 110 | @import"test.css"supports(display: flex)screen and (orientation:landscape);
-     :                           ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -5290,16 +5204,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:112:1]
  112 | @import "   ./test.css   ";
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:112:1]
  112 | @import "   ./test.css   ";
-     :         ^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Str
@@ -5320,16 +5234,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:113:1]
  113 | @import url('   ./test.css   ');
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:113:1]
  113 | @import url('   ./test.css   ');
-     :         ^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -5368,16 +5282,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:114:1]
  114 | @import url(   ./test.css   );
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:114:1]
  114 | @import url(   ./test.css   );
-     :         ^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -5416,16 +5330,16 @@
      : ^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:116:1]
  116 | @import "./my.scss";
-     : ^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:116:1]
  116 | @import "./my.scss";
-     :         ^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Str
@@ -5446,16 +5360,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:118:1]
  118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:118:1]
  118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -5494,16 +5408,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:119:1]
  119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:119:1]
  119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -5542,16 +5456,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:120:1]
  120 | @import url('   !!../../helpers/string-loader.js?esModule=false!~package/tilde.css   ');
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:120:1]
  120 | @import url('   !!../../helpers/string-loader.js?esModule=false!~package/tilde.css   ');
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -5590,16 +5504,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:121:1]
  121 | @import url(data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:121:1]
  121 | @import url(data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D);
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -5638,16 +5552,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:123:1]
  123 | @import url(package/first.css);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:123:1]
  123 | @import url(package/first.css);
-     :         ^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -5686,16 +5600,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:124:1]
  124 | @import url(package/second.css);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:124:1]
  124 | @import url(package/second.css);
-     :         ^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -5734,16 +5648,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:128:1]
  128 | @import url("./test.css") supports(display: flex);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:128:1]
  128 | @import url("./test.css") supports(display: flex);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -5768,12 +5682,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:128:1]
  128 | @import url("./test.css") supports(display: flex);
      :             ^^^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:128:1]
- 128 | @import url("./test.css") supports(display: flex);
-     :                                    ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -5818,16 +5726,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:129:1]
  129 | @import url("./test.css") supports(display: flex !important);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:129:1]
  129 | @import url("./test.css") supports(display: flex !important);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -5852,12 +5760,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:129:1]
  129 | @import url("./test.css") supports(display: flex !important);
      :             ^^^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:129:1]
- 129 | @import url("./test.css") supports(display: flex !important);
-     :                                    ^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -5914,16 +5816,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:130:1]
  130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:130:1]
  130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -5948,12 +5850,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:130:1]
  130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
      :             ^^^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:130:1]
- 130 | @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
-     :                                    ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -6094,16 +5990,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:131:1]
  131 | @import url("./test.css") layer;
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:131:1]
  131 | @import url("./test.css") layer;
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -6128,12 +6024,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:131:1]
  131 | @import url("./test.css") layer;
      :             ^^^^^^^^^^^^
-     `----
-
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:131:1]
- 131 | @import url("./test.css") layer;
-     :                           ^^^^^
      `----
 
   x Ident
@@ -6154,16 +6044,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:132:1]
  132 | @import url("./test.css") layer(default);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:132:1]
  132 | @import url("./test.css") layer(default);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -6188,12 +6078,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:132:1]
  132 | @import url("./test.css") layer(default);
      :             ^^^^^^^^^^^^
-     `----
-
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:132:1]
- 132 | @import url("./test.css") layer(default);
-     :                           ^^^^^^^^^^^^^^
      `----
 
   x Function
@@ -6232,16 +6116,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:133:1]
  133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:133:1]
  133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -6268,12 +6152,6 @@
      :             ^^^^^^^^^^^^
      `----
 
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:133:1]
- 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
-     :                           ^^^^^^^^^^^^^^
-     `----
-
   x Function
      ,-[$DIR/tests/fixture/at-rule/import/input.css:133:1]
  133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
@@ -6296,12 +6174,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:133:1]
  133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
      :                                 ^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:133:1]
- 133 | @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
-     :                                                   ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -6442,16 +6314,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:134:1]
  134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:134:1]
  134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -6478,22 +6350,10 @@
      :             ^^^^^^^^^^^^
      `----
 
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:134:1]
- 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
-     :                           ^^^^^
-     `----
-
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:134:1]
  134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
      :                           ^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:134:1]
- 134 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
-     :                                          ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -6634,16 +6494,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
  135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
  135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -6670,12 +6530,6 @@
      :             ^^^^^^^^^^^^
      `----
 
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                           ^^^^^^^
-     `----
-
   x Function
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
  135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
@@ -6686,12 +6540,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
  135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
      :                           ^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                            ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -6832,16 +6680,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
  136 | @import url("./test.css") layer();
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
  136 | @import url("./test.css") layer();
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -6866,12 +6714,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
  136 | @import url("./test.css") layer();
      :             ^^^^^^^^^^^^
-     `----
-
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
- 136 | @import url("./test.css") layer();
-     :                           ^^^^^^^
      `----
 
   x Function
@@ -6898,16 +6740,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:137:1]
  137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:137:1]
  137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -6932,12 +6774,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:137:1]
  137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:137:1]
- 137 | @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
-     :                                                      ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -7078,16 +6914,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:138:1]
  138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:138:1]
  138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -7114,12 +6950,6 @@
      :             ^^^^^^^^^^^^
      `----
 
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:138:1]
- 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
-     :                          ^^^^^^^^^^^^^^
-     `----
-
   x Function
      ,-[$DIR/tests/fixture/at-rule/import/input.css:138:1]
  138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
@@ -7142,12 +6972,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:138:1]
  138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
      :                                ^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:138:1]
- 138 | @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
-     :                                                 ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -7288,16 +7112,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:139:1]
  139 | @import url("./test.css")screen and (min-width: 400px);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:139:1]
  139 | @import url("./test.css")screen and (min-width: 400px);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -7432,16 +7256,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:140:1]
  140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:140:1]
  140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -7468,12 +7292,6 @@
      :             ^^^^^^^^^^^^
      `----
 
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:140:1]
- 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
-     :                               ^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
   x Function
      ,-[$DIR/tests/fixture/at-rule/import/input.css:140:1]
  140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
@@ -7496,12 +7314,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:140:1]
  140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
      :                                          ^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:140:1]
- 140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
-     :                                                                          ^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -7642,16 +7454,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:141:1]
  141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:141:1]
  141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -7678,12 +7490,6 @@
      :             ^^^^^^^^^^^^
      `----
 
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:141:1]
- 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
-     :                           ^^^^^^^^^^^^^^
-     `----
-
   x Function
      ,-[$DIR/tests/fixture/at-rule/import/input.css:141:1]
  141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
@@ -7706,12 +7512,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:141:1]
  141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
      :                                 ^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:141:1]
- 141 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
-     :                                                   ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -7852,16 +7652,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:142:1]
  142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:142:1]
  142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -7888,12 +7688,6 @@
      :             ^^^^^^^^^^^^
      `----
 
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:142:1]
- 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
-     :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
   x Function
      ,-[$DIR/tests/fixture/at-rule/import/input.css:142:1]
  142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
@@ -7916,12 +7710,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:142:1]
  142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
      :                                                            ^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:142:1]
- 142 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
-     :                                                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -8062,16 +7850,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:143:1]
  143 | @import url(test.css) /* Comment */;
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:143:1]
  143 | @import url(test.css) /* Comment */;
-     :         ^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -8110,16 +7898,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:144:1]
  144 | @import /* Comment */ url(test.css) /* Comment */;
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:144:1]
  144 | @import /* Comment */ url(test.css) /* Comment */;
-     :                       ^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -8158,16 +7946,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:145:1]
  145 | @import url(test.css) /* Comment */ print and (orientation:landscape);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:145:1]
  145 | @import url(test.css) /* Comment */ print and (orientation:landscape);
-     :         ^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -8284,16 +8072,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
  146 | @import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
  146 | @import /* Comment */ url(test.css) /* Comment */ print and (orientation:landscape);
-     :                       ^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -8410,16 +8198,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:148:1]
  148 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:148:1]
  148 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -8524,16 +8312,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:149:1]
  149 | @import url("./import-with-supports.css") supports(display: flex);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:149:1]
  149 | @import url("./import-with-supports.css") supports(display: flex);
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -8558,12 +8346,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:149:1]
  149 | @import url("./import-with-supports.css") supports(display: flex);
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:149:1]
- 149 | @import url("./import-with-supports.css") supports(display: flex);
-     :                                                    ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -8608,16 +8390,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:150:1]
  150 | @import url("./import-with-supports.css") supports(((display: flex)));
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:150:1]
  150 | @import url("./import-with-supports.css") supports(((display: flex)));
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -8642,12 +8424,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:150:1]
  150 | @import url("./import-with-supports.css") supports(((display: flex)));
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:150:1]
- 150 | @import url("./import-with-supports.css") supports(((display: flex)));
-     :                                                    ^^^^^^^^^^^^^^^^^
      `----
 
   x SupportsCondition
@@ -8734,16 +8510,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:151:1]
  151 | @import url("./deep-import-with-supports.css") supports(display: flex);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:151:1]
  151 | @import url("./deep-import-with-supports.css") supports(display: flex);
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -8768,12 +8544,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:151:1]
  151 | @import url("./deep-import-with-supports.css") supports(display: flex);
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:151:1]
- 151 | @import url("./deep-import-with-supports.css") supports(display: flex);
-     :                                                         ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -8818,16 +8588,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:152:1]
  152 | @import url('./test.css') supports(display: grid);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:152:1]
  152 | @import url('./test.css') supports(display: grid);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -8852,12 +8622,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:152:1]
  152 | @import url('./test.css') supports(display: grid);
      :             ^^^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:152:1]
- 152 | @import url('./test.css') supports(display: grid);
-     :                                    ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -8902,16 +8666,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:153:1]
  153 | @import url('./test.css') supports(   display   :    grid   );
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:153:1]
  153 | @import url('./test.css') supports(   display   :    grid   );
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -8936,12 +8700,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:153:1]
  153 | @import url('./test.css') supports(   display   :    grid   );
      :             ^^^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:153:1]
- 153 | @import url('./test.css') supports(   display   :    grid   );
-     :                                       ^^^^^^^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -8986,16 +8744,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:154:1]
  154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:154:1]
  154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -9020,12 +8778,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:154:1]
  154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:154:1]
- 154 | @import url("./import-with-supports-and-media.css") supports(display: flex) screen and (min-width: 400px);
-     :                                                              ^^^^^^^^^^^^^
      `----
 
   x Declaration
@@ -9166,16 +8918,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:155:1]
  155 | @import url("./test.css") layer(framework);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:155:1]
  155 | @import url("./test.css") layer(framework);
-     :         ^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -9200,12 +8952,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:155:1]
  155 | @import url("./test.css") layer(framework);
      :             ^^^^^^^^^^^^
-     `----
-
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:155:1]
- 155 | @import url("./test.css") layer(framework);
-     :                           ^^^^^^^^^^^^^^^^
      `----
 
   x Function
@@ -9244,16 +8990,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:156:1]
  156 | @import url("./import-multiple-with-layer.css") layer(default);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:156:1]
  156 | @import url("./import-multiple-with-layer.css") layer(default);
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -9278,12 +9024,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:156:1]
  156 | @import url("./import-multiple-with-layer.css") layer(default);
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:156:1]
- 156 | @import url("./import-multiple-with-layer.css") layer(default);
-     :                                                 ^^^^^^^^^^^^^^
      `----
 
   x Function
@@ -9322,16 +9062,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:157:1]
  157 | @import url("./import-unnamed-layer.css") layer(base);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:157:1]
  157 | @import url("./import-unnamed-layer.css") layer(base);
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -9356,12 +9096,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:157:1]
  157 | @import url("./import-unnamed-layer.css") layer(base);
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:157:1]
- 157 | @import url("./import-unnamed-layer.css") layer(base);
-     :                                           ^^^^^^^^^^^
      `----
 
   x Function
@@ -9400,16 +9134,16 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportRule
+  x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
  158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
-  x ImportHref
+  x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
  158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
-     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     :  ^^^^^^
      `----
 
   x Url
@@ -9436,12 +9170,6 @@
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ImportLayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
- 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
-     :                                                     ^^^^^^^^^^^^^^
-     `----
-
   x Function
      ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
  158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
@@ -9464,12 +9192,6 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
  158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
      :                                                           ^^^^^^^
-     `----
-
-  x ImportSupportsType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
- 158 | @import url("./import-with-layer-and-supports.css") layer(default) supports(display: flex);
-     :                                                                             ^^^^^^^^^^^^^
      `----
 
   x Declaration

@@ -104,11 +104,21 @@
             "important": null
           },
           {
-            "type": "NestRule",
+            "type": "AtRule",
             "span": {
               "start": 27,
               "end": 70,
               "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 28,
+                "end": 32,
+                "ctxt": 0
+              },
+              "value": "nest",
+              "raw": "nest"
             },
             "prelude": {
               "type": "SelectorList",
@@ -331,11 +341,21 @@
             "important": null
           },
           {
-            "type": "NestRule",
+            "type": "AtRule",
             "span": {
               "start": 101,
               "end": 145,
               "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 102,
+                "end": 106,
+                "ctxt": 0
+              },
+              "value": "nest",
+              "raw": "nest"
             },
             "prelude": {
               "type": "SelectorList",
@@ -558,11 +578,21 @@
             "important": null
           },
           {
-            "type": "NestRule",
+            "type": "AtRule",
             "span": {
               "start": 176,
               "end": 218,
               "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 177,
+                "end": 181,
+                "ctxt": 0
+              },
+              "value": "nest",
+              "raw": "nest"
             },
             "prelude": {
               "type": "SelectorList",
@@ -798,11 +828,21 @@
             "important": null
           },
           {
-            "type": "NestRule",
+            "type": "AtRule",
             "span": {
               "start": 251,
               "end": 343,
               "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 252,
+                "end": 256,
+                "ctxt": 0
+              },
+              "value": "nest",
+              "raw": "nest"
             },
             "prelude": {
               "type": "SelectorList",

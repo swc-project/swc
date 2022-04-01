@@ -7,43 +7,61 @@
   },
   "rules": [
     {
-      "type": "DocumentRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 65,
         "ctxt": 0
       },
-      "matchingFunctions": [
-        {
-          "type": "Url",
-          "span": {
-            "start": 10,
-            "end": 41,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 9,
+          "ctxt": 0
+        },
+        "value": "document",
+        "raw": "document"
+      },
+      "prelude": {
+        "type": "DocumentPrelude",
+        "span": {
+          "start": 10,
+          "end": 42,
+          "ctxt": 0
+        },
+        "matchingFunctions": [
+          {
+            "type": "Url",
             "span": {
               "start": 10,
-              "end": 13,
+              "end": 41,
               "ctxt": 0
             },
-            "value": "url",
-            "raw": "url"
-          },
-          "value": {
-            "type": "String",
-            "span": {
-              "start": 14,
-              "end": 40,
-              "ctxt": 0
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 10,
+                "end": 13,
+                "ctxt": 0
+              },
+              "value": "url",
+              "raw": "url"
             },
-            "value": "https://www.example.com/",
-            "raw": "\"https://www.example.com/\""
-          },
-          "modifiers": []
-        }
-      ],
+            "value": {
+              "type": "String",
+              "span": {
+                "start": 14,
+                "end": 40,
+                "ctxt": 0
+              },
+              "value": "https://www.example.com/",
+              "raw": "\"https://www.example.com/\""
+            },
+            "modifiers": []
+          }
+        ]
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {

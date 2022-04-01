@@ -68,15 +68,24 @@ impl VisitMut for CompressAtRule {
         }
     }
 
+    fn visit_mut_custom_property_name(&mut self, custom_property_name: &mut CustomPropertyName) {
+        custom_property_name.visit_mut_children_with(self);
+
+        if !self.stylesheet_has_non_ascii_characters {
+            self.stylesheet_has_non_ascii_characters =
+                !contains_only_ascii_characters(&custom_property_name.value);
+        }
+    }
+
     fn visit_mut_stylesheet(&mut self, stylesheet: &mut Stylesheet) {
         stylesheet.visit_mut_children_with(self);
 
         if !self.stylesheet_has_non_ascii_characters {
             match stylesheet.rules.get(0) {
-                Some(Rule::AtRule(AtRule::Charset(CharsetRule {
-                    charset: Str { value, .. },
+                Some(Rule::AtRule(AtRule {
+                    prelude: Some(AtRulePrelude::CharsetPrelude(Str { value, .. })),
                     ..
-                }))) if value.as_ref().eq_ignore_ascii_case("utf-8") => {
+                })) if value.as_ref().eq_ignore_ascii_case("utf-8") => {
                     stylesheet.rules.remove(0);
                 }
                 _ => {}
@@ -84,10 +93,10 @@ impl VisitMut for CompressAtRule {
         }
     }
 
-    fn visit_mut_import_href(&mut self, import_href: &mut ImportHref) {
+    fn visit_mut_import_prelude_href(&mut self, import_href: &mut ImportPreludeHref) {
         import_href.visit_mut_children_with(self);
 
-        if let ImportHref::Url(Url {
+        if let ImportPreludeHref::Url(Url {
             value: Some(value),
             modifiers,
             span,
@@ -105,7 +114,7 @@ impl VisitMut for CompressAtRule {
                 UrlValue::Raw(UrlValueRaw { value, .. }) => value,
             };
 
-            *import_href = ImportHref::Str(Str {
+            *import_href = ImportPreludeHref::Str(Str {
                 span: *span,
                 value: (&*new_value).into(),
                 raw: (&*new_value).into(),
