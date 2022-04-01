@@ -9,6 +9,50 @@ use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
 
 impl Pure<'_> {
     pub(super) fn eval_free_iife(&mut self, s: &mut Stmt) {
+        fn is_fine_to_move(s: &Stmt) -> bool {
+            match s {
+                Stmt::Debugger(..) | Stmt::Empty(..) | Stmt::Expr(..) => true,
+                Stmt::Break(..)
+                | Stmt::Continue(..)
+                | Stmt::Return(..)
+                | Stmt::Decl(Decl::Var(..)) => false,
+                Stmt::Decl(..) => true,
+
+                Stmt::Block(s) => s.stmts.iter().all(is_fine_to_move),
+
+                Stmt::With(s) => is_fine_to_move(&s.body),
+                Stmt::Labeled(s) => is_fine_to_move(&s.body),
+
+                Stmt::If(s) => {
+                    is_fine_to_move(&s.cons)
+                        && s.alt.as_deref().map(is_fine_to_move).unwrap_or(true)
+                }
+                Stmt::Switch(s) => s
+                    .cases
+                    .iter()
+                    .all(|case| case.cons.iter().all(is_fine_to_move)),
+                Stmt::Throw(..) => true,
+                Stmt::Try(..) => {
+                    // TODO
+                    false
+                }
+                Stmt::While(s) => is_fine_to_move(&s.body),
+                Stmt::DoWhile(s) => is_fine_to_move(&s.body),
+                Stmt::For(..) => {
+                    // TODO
+                    false
+                }
+                Stmt::ForIn(..) => {
+                    // TODO
+                    false
+                }
+                Stmt::ForOf(..) => {
+                    // TODO
+                    false
+                }
+            }
+        }
+
         if !self.options.unused || self.options.inline != 3 {
             return;
         }
@@ -38,11 +82,7 @@ impl Pure<'_> {
                 ..
             }) = &mut **callee
             {
-                if body
-                    .stmts
-                    .iter()
-                    .any(|s| matches!(s, Stmt::Decl(Decl::Var(..))))
-                {
+                if body.stmts.iter().any(|s| !is_fine_to_move(s)) {
                     return;
                 }
 
