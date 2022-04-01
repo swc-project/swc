@@ -186,7 +186,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                         .read_number(true)
                         .map(|v| match v {
                             Left(v) => Num(v),
-                            Right(v) => BigInt(v),
+                            Right(v) => BigInt {
+                                value: v,
+                                raw: js_word!(""),
+                            },
                         })
                         .map(Some);
                 }
@@ -269,7 +272,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                             .read_number(false)
                             .map(|v| match v {
                                 Left(v) => Num(v),
-                                Right(v) => BigInt(v),
+                                Right(v) => BigInt {
+                                    value: v,
+                                    raw: js_word!(""),
+                                },
                             })
                             .map(Some)
                     }
@@ -278,7 +284,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return bigint
                     .map(|v| match v {
                         Left(v) => Num(v),
-                        Right(v) => BigInt(v),
+                        Right(v) => BigInt {
+                            value: v,
+                            raw: js_word!(""),
+                        },
                     })
                     .map(Some);
             }
@@ -287,7 +296,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                     .read_number(false)
                     .map(|v| match v {
                         Left(v) => Num(v),
-                        Right(v) => BigInt(v),
+                        Right(v) => BigInt {
+                            value: v,
+                            raw: js_word!(""),
+                        },
                     })
                     .map(Some)
             }

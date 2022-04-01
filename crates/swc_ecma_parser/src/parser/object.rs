@@ -65,10 +65,11 @@ impl<'a, I: Tokens> Parser<I> {
                     }),
                     _ => unreachable!(),
                 },
-                Token::BigInt(_) => match bump!(p) {
-                    Token::BigInt(value) => PropName::BigInt(BigInt {
+                Token::BigInt { .. } => match bump!(p) {
+                    Token::BigInt { value, raw } => PropName::BigInt(BigInt {
                         span: span!(p, start),
                         value,
+                        raw: Some(raw),
                     }),
                     _ => unreachable!(),
                 },
