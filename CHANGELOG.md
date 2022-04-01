@@ -22,6 +22,12 @@
 
 - **(es/parser)** Improve performance by using `#[cold]` (#4215) ([1645562](https://github.com/swc-project/swc/commit/164556290b03cd530ad5158947cd28310c18fb12))
 
+### Refactor
+
+
+
+- **(css/ast)** Union all at-rules to one at-rule in AST (#4189) ([6696a93](https://github.com/swc-project/swc/commit/6696a93b5c7d005bb35be97e3f3ec52c1fe235aa))
+
 ## [1.2.162] - 2022-03-31
 
 ### Bug Fixes
