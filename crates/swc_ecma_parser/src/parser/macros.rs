@@ -346,9 +346,7 @@ macro_rules! span {
 
 macro_rules! make_error {
     ($p:expr, $span:expr, $err:expr) => {{
-        crate::error::Error {
-            error: Box::new(($span, $err)),
-        }
+        crate::error::Error::new($span, $err)
     }};
 }
 

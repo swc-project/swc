@@ -221,9 +221,7 @@ impl<I: Tokens> Parser<I> {
             return;
         }
 
-        self.emit_error(Error {
-            error: Box::new((span, error)),
-        })
+        self.emit_error(Error::new(span, error))
     }
 
     #[cold]
@@ -240,9 +238,7 @@ impl<I: Tokens> Parser<I> {
         if self.ctx().ignore_error {
             return;
         }
-        let error = Error {
-            error: Box::new((span, error)),
-        };
+        let error = Error::new(span, error);
         self.input_ref().add_module_mode_error(error);
     }
 }
