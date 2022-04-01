@@ -138,6 +138,8 @@ impl Swcify for BigIntLiteral {
                 .value
                 .parse()
                 .expect("failed to parse the value of BigIntLiteral"),
+            // TODO improve me
+            raw: None,
         }
     }
 }
