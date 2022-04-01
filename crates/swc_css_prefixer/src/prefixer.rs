@@ -546,6 +546,7 @@ impl VisitMut for Prefixer {
         self.in_keyframe_block = old_in_keyframe_block;
     }
 
+    // TODO don't generate wrong prefixes in prefixed selectors
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         n.visit_mut_children_with(self);
 
@@ -1024,11 +1025,101 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            // TODO improve old spec https://github.com/postcss/autoprefixer/blob/main/data/prefixes.js#L330
-            // TODO https://github.com/postcss/autoprefixer/blob/main/lib/hacks/ (starting with flex)
             "flex" => {
+                let spec_2009_value = match n.value.get(0) {
+                    Some(ComponentValue::Ident(Ident { value, span, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("none") =>
+                    {
+                        Some(ComponentValue::Integer(Integer {
+                            span: *span,
+                            value: 0,
+                            raw: "0".into(),
+                        }))
+                    }
+                    Some(ComponentValue::Ident(Ident { value, span, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("auto") =>
+                    {
+                        Some(ComponentValue::Integer(Integer {
+                            span: *span,
+                            value: 1,
+                            raw: "1".into(),
+                        }))
+                    }
+                    Some(any) => Some(any.clone()),
+                    None => None,
+                };
+
+                if let Some(spec_2009_value) = &spec_2009_value {
+                    let value = vec![spec_2009_value.clone()];
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-flex".into(),
+                        raw: "-webkit-box-flex".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value,
+                        important: n.important.clone(),
+                    });
+                } else {
+                    same_content!(Prefix::Webkit, "-webkit-box-flex");
+                }
+
                 same_content!(Prefix::Webkit, "-webkit-flex");
-                same_content!(Prefix::Ms, "-ms-flex");
+
+                if let Some(spec_2009_value) = &spec_2009_value {
+                    let value = vec![spec_2009_value.clone()];
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-moz-box-flex".into(),
+                        raw: "-moz-box-flex".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value,
+                        important: n.important.clone(),
+                    });
+                } else {
+                    same_content!(Prefix::Webkit, "-moz-box-flex");
+                }
+
+                if n.value.len() == 3 {
+                    let mut value = ms_new_value.clone();
+
+                    if let Some(ComponentValue::Integer(Integer { value: 0, span, .. })) =
+                        value.get(2)
+                    {
+                        value[2] = ComponentValue::Dimension(Dimension::Length(Length {
+                            span: *span,
+                            value: Number {
+                                span: DUMMY_SP,
+                                value: 0.0,
+                                raw: "0".into(),
+                            },
+                            unit: Ident {
+                                span: DUMMY_SP,
+                                value: "px".into(),
+                                raw: "px".into(),
+                            },
+                        }));
+                    }
+
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-ms-flex".into(),
+                        raw: "-ms-flex".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value,
+                        important: n.important.clone(),
+                    });
+                } else {
+                    same_content!(Prefix::Ms, "-ms-flex");
+                }
             }
 
             "flex-grow" => {
@@ -1049,7 +1140,98 @@ impl VisitMut for Prefixer {
             }
 
             "flex-direction" => {
+                let old_values = match n.value.get(0) {
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("row") =>
+                    {
+                        Some(("horizontal", "normal"))
+                    }
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("column") =>
+                    {
+                        Some(("vertical", "normal"))
+                    }
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("row-reverse") =>
+                    {
+                        Some(("horizontal", "reverse"))
+                    }
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("column-reverse") =>
+                    {
+                        Some(("vertical", "reverse"))
+                    }
+                    Some(_) | None => None,
+                };
+
+                if let Some((orient, direction)) = old_values {
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-orient".into(),
+                        raw: "-webkit-box-orient".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: orient.into(),
+                            raw: orient.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-direction".into(),
+                        raw: "-webkit-box-direction".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: direction.into(),
+                            raw: direction.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                }
+
                 same_content!(Prefix::Webkit, "-webkit-flex-direction");
+
+                if let Some((orient, direction)) = old_values {
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-orient".into(),
+                        raw: "-webkit-box-orient".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: orient.into(),
+                            raw: orient.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-direction".into(),
+                        raw: "-webkit-box-direction".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: direction.into(),
+                            raw: direction.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                }
+
                 same_content!(Prefix::Ms, "-ms-flex-direction");
             }
 
@@ -1059,60 +1241,319 @@ impl VisitMut for Prefixer {
             }
 
             "flex-flow" => {
+                let is_single_flex_wrap = match n.value.get(0) {
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if n.value.len() == 1
+                            && matches!(
+                                &*value.to_lowercase(),
+                                "wrap" | "nowrap" | "wrap-reverse"
+                            ) =>
+                    {
+                        true
+                    }
+                    _ => false,
+                };
+
+                let old_values = match is_single_flex_wrap {
+                    true => None,
+                    _ => {
+                        let get_old_values = |index: usize| match n.value.get(index) {
+                            Some(ComponentValue::Ident(Ident { value, .. }))
+                                if value.as_ref().eq_ignore_ascii_case("row") =>
+                            {
+                                Some(("horizontal", "normal"))
+                            }
+                            Some(ComponentValue::Ident(Ident { value, .. }))
+                                if value.as_ref().eq_ignore_ascii_case("column") =>
+                            {
+                                Some(("vertical", "normal"))
+                            }
+                            Some(ComponentValue::Ident(Ident { value, .. }))
+                                if value.as_ref().eq_ignore_ascii_case("row-reverse") =>
+                            {
+                                Some(("horizontal", "reverse"))
+                            }
+                            Some(ComponentValue::Ident(Ident { value, .. }))
+                                if value.as_ref().eq_ignore_ascii_case("column-reverse") =>
+                            {
+                                Some(("vertical", "reverse"))
+                            }
+                            Some(_) | None => None,
+                        };
+
+                        get_old_values(0).or_else(|| get_old_values(1))
+                    }
+                };
+
+                if let Some((orient, direction)) = old_values {
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-orient".into(),
+                        raw: "-webkit-box-orient".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: orient.into(),
+                            raw: orient.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-direction".into(),
+                        raw: "-webkit-box-direction".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: direction.into(),
+                            raw: direction.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                }
+
                 same_content!(Prefix::Webkit, "-webkit-flex-flow");
+
+                if let Some((orient, direction)) = old_values {
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-moz-box-orient".into(),
+                        raw: "-moz-box-orient".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: orient.into(),
+                            raw: orient.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-moz-box-direction".into(),
+                        raw: "-moz-box-direction".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: vec![ComponentValue::Ident(Ident {
+                            span: DUMMY_SP,
+                            value: direction.into(),
+                            raw: direction.into(),
+                        })],
+                        important: n.important.clone(),
+                    });
+                }
+
                 same_content!(Prefix::Ms, "-ms-flex-flow");
             }
 
             "justify-content" => {
-                if n.value.len() == 1 {
-                    if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                        match &*value.to_lowercase() {
-                            "flex-end" => {
-                                simple!("-webkit-box-pack", "end");
-                                simple!("-ms-flex-pack", "end");
-                            }
-
-                            "flex-start" => {
-                                simple!("-webkit-box-pack", "start");
-                                simple!("-ms-flex-pack", "start");
-                            }
-
-                            "justify" => {
-                                same_content!(Prefix::Webkit, "-webkit-box-pack");
-                                same_content!(Prefix::Ms, "-ms-flex-pack");
-                            }
-
-                            "space-between" => {
-                                simple!("-webkit-box-pack", "justify");
-                            }
-
-                            _ => {}
-                        }
+                let need_old_spec = match n.value.get(0) {
+                    Some(ComponentValue::Ident(Ident { value, .. }))
+                        if value.as_ref().eq_ignore_ascii_case("space-around") =>
+                    {
+                        false
                     }
+                    _ => true,
+                };
+
+                if need_old_spec {
+                    let mut old_spec_webkit_new_value = webkit_new_value.clone();
+
+                    replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_webkit_new_value, "space-between", "justify");
+
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-webkit-box-pack".into(),
+                        raw: "-webkit-box-pack".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: old_spec_webkit_new_value,
+                        important: n.important.clone(),
+                    });
                 }
 
                 same_content!(Prefix::Webkit, "-webkit-justify-content");
+
+                if need_old_spec {
+                    let mut old_spec_moz_new_value = moz_new_value.clone();
+
+                    replace_ident(&mut old_spec_moz_new_value, "flex-start", "start");
+                    replace_ident(&mut old_spec_moz_new_value, "flex-end", "end");
+                    replace_ident(&mut old_spec_moz_new_value, "space-between", "justify");
+
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: "-moz-box-pack".into(),
+                        raw: "-moz-box-pack".into(),
+                    });
+                    self.added_declarations.push(Declaration {
+                        span: n.span,
+                        name,
+                        value: old_spec_moz_new_value,
+                        important: n.important.clone(),
+                    });
+                }
+
+                let mut old_spec_ms_new_value = ms_new_value.clone();
+
+                replace_ident(&mut old_spec_ms_new_value, "flex-start", "start");
+                replace_ident(&mut old_spec_ms_new_value, "flex-end", "end");
+                replace_ident(&mut old_spec_ms_new_value, "space-between", "justify");
+                replace_ident(&mut old_spec_ms_new_value, "space-around", "distribute");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-flex-pack".into(),
+                    raw: "-ms-flex-pack".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: old_spec_ms_new_value,
+                    important: n.important.clone(),
+                });
             }
 
             "order" => {
+                let old_spec_num = match n.value.get(0) {
+                    Some(ComponentValue::Integer(Integer { value, .. })) => Some(value + 1),
+                    _ => None,
+                };
+
+                match old_spec_num {
+                    Some(old_spec_num) if n.value.len() == 1 => {
+                        simple!("-webkit-box-ordinal-group", old_spec_num.to_string());
+                    }
+                    _ => {
+                        same_content!(Prefix::Webkit, "-webkit-box-ordinal-group");
+                    }
+                }
+
                 same_content!(Prefix::Webkit, "-webkit-order");
+
+                match old_spec_num {
+                    Some(old_spec_num) if n.value.len() == 1 => {
+                        simple!("-moz-box-ordinal-group", old_spec_num.to_string());
+                    }
+                    _ => {
+                        same_content!(Prefix::Webkit, "-moz-box-ordinal-group");
+                    }
+                }
+
                 same_content!(Prefix::Ms, "-ms-flex-order");
             }
 
             "align-items" => {
+                let mut old_spec_ms_new_value = webkit_new_value.clone();
+
+                replace_ident(&mut old_spec_ms_new_value, "flex-end", "end");
+                replace_ident(&mut old_spec_ms_new_value, "flex-start", "start");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-webkit-box-align".into(),
+                    raw: "-webkit-box-align".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: old_spec_ms_new_value,
+                    important: n.important.clone(),
+                });
+
                 same_content!(Prefix::Webkit, "-webkit-align-items");
-                same_content!(Prefix::Webkit, "-webkit-box-align");
-                same_content!(Prefix::Ms, "-ms-flex-align");
+
+                let mut old_spec_moz_new_value = moz_new_value.clone();
+
+                replace_ident(&mut old_spec_moz_new_value, "flex-end", "end");
+                replace_ident(&mut old_spec_moz_new_value, "flex-start", "start");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-moz-box-align".into(),
+                    raw: "-moz-box-align".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: old_spec_moz_new_value,
+                    important: n.important.clone(),
+                });
+
+                let mut old_spec_ms_new_value = ms_new_value.clone();
+
+                replace_ident(&mut old_spec_ms_new_value, "flex-end", "end");
+                replace_ident(&mut old_spec_ms_new_value, "flex-start", "start");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-flex-align".into(),
+                    raw: "-ms-flex-align".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: old_spec_ms_new_value,
+                    important: n.important.clone(),
+                });
             }
 
             "align-self" => {
                 same_content!(Prefix::Webkit, "-webkit-align-self");
-                same_content!(Prefix::Ms, "-ms-flex-item-align");
+
+                let mut spec_2012_ms_new_value = ms_new_value.clone();
+
+                replace_ident(&mut spec_2012_ms_new_value, "flex-end", "end");
+                replace_ident(&mut spec_2012_ms_new_value, "flex-start", "start");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-flex-item-align".into(),
+                    raw: "-ms-flex-item-align".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: spec_2012_ms_new_value,
+                    important: n.important.clone(),
+                });
             }
 
             "align-content" => {
                 same_content!(Prefix::Webkit, "-webkit-align-content");
-                same_content!(Prefix::Ms, "-ms-flex-line-pack");
+
+                let mut spec_2012_ms_new_value = ms_new_value.clone();
+
+                replace_ident(&mut spec_2012_ms_new_value, "flex-end", "end");
+                replace_ident(&mut spec_2012_ms_new_value, "flex-start", "start");
+                replace_ident(&mut spec_2012_ms_new_value, "space-between", "justify");
+                replace_ident(&mut spec_2012_ms_new_value, "space-around", "distribute");
+
+                let name = DeclarationName::Ident(Ident {
+                    span: DUMMY_SP,
+                    value: "-ms-flex-line-pack".into(),
+                    raw: "-ms-flex-line-pack".into(),
+                });
+                self.added_declarations.push(Declaration {
+                    span: n.span,
+                    name,
+                    value: spec_2012_ms_new_value,
+                    important: n.important.clone(),
+                });
             }
 
             "image-rendering" => {
