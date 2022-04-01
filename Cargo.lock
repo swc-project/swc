@@ -3114,7 +3114,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.73.0"
+version = "0.73.1"
 dependencies = [
  "arbitrary",
  "is-macro",
