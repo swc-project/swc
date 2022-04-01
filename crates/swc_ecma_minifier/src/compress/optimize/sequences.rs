@@ -1043,6 +1043,39 @@ where
             }
         }
 
+        {
+            // Fast path, before digging into `b`
+
+            match a {
+                Mergable::Var(a) => {
+                    // We only inline identifiers
+                    if !a.name.is_ident() {
+                        return Ok(false);
+                    }
+                }
+                Mergable::Expr(a) => match a {
+                    Expr::Assign(a) => {
+                        // We only inline identifiers
+                        if a.left.as_ident().is_none() {
+                            return Ok(false);
+                        }
+                    }
+
+                    // We don't handle this currently, but we will.
+                    Expr::Update(a) => {
+                        if !a.arg.is_ident() {
+                            return Ok(false);
+                        }
+                    }
+
+                    _ => {
+                        // if a is not a modification, we can skip it
+                        return Ok(false);
+                    }
+                },
+            }
+        }
+
         match b {
             Expr::Update(..) | Expr::Arrow(..) | Expr::Fn(..) => return Ok(false),
 
