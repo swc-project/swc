@@ -194,7 +194,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                 write!(raw_val, "{}", exp).unwrap();
 
                 // TODO:
-                raw_val.parse().expect("failed to parse float literal")
+                raw_val
+                    .replace('_', "")
+                    .parse()
+                    .expect("failed to parse float literal")
             }
         }
 
