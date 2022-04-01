@@ -1061,6 +1061,7 @@ where
                         }
                     }
 
+                    // We don't handle this currently, but we will.
                     Expr::Update(a) => {
                         if !a.arg.is_ident() {
                             return Ok(false);
