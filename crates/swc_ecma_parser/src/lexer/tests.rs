@@ -130,9 +130,7 @@ impl WithSpan for AssignOpToken {
 fn module_legacy_decimal() {
     assert_eq!(
         lex_module_errors(Syntax::default(), "08"),
-        vec![Error {
-            error: Box::new((sp(0..2), SyntaxError::LegacyDecimal)),
-        }]
+        vec![Error::new(sp(0..2), SyntaxError::LegacyDecimal)]
     );
 }
 
@@ -140,9 +138,7 @@ fn module_legacy_decimal() {
 fn module_legacy_comment_1() {
     assert_eq!(
         lex_module_errors(Syntax::default(), "<!-- foo oo"),
-        vec![Error {
-            error: Box::new((sp(0..11), SyntaxError::LegacyCommentInModule)),
-        }]
+        vec![Error::new(sp(0..11), SyntaxError::LegacyCommentInModule)]
     )
 }
 
@@ -150,9 +146,7 @@ fn module_legacy_comment_1() {
 fn module_legacy_comment_2() {
     assert_eq!(
         lex_module_errors(Syntax::default(), "-->"),
-        vec![Error {
-            error: Box::new((sp(0..3), SyntaxError::LegacyCommentInModule)),
-        }]
+        vec![Error::new(sp(0..3), SyntaxError::LegacyCommentInModule)]
     )
 }
 
@@ -263,18 +257,16 @@ fn tpl_invalid_unicode_escape() {
         vec![
             tok!('`'),
             Token::Template {
-                cooked: Err(Error {
-                    error: Box::new((
-                        Span {
-                            lo: BytePos(1),
-                            hi: BytePos(3),
-                            ctxt: SyntaxContext::empty(),
-                        },
-                        SyntaxError::BadCharacterEscapeSequence {
-                            expected: "4 hex characters"
-                        }
-                    ))
-                }),
+                cooked: Err(Error::new(
+                    Span {
+                        lo: BytePos(1),
+                        hi: BytePos(3),
+                        ctxt: SyntaxContext::empty(),
+                    },
+                    SyntaxError::BadCharacterEscapeSequence {
+                        expected: "4 hex characters"
+                    }
+                )),
                 raw: "\\unicode".into(),
             },
             tok!('`'),
@@ -285,18 +277,16 @@ fn tpl_invalid_unicode_escape() {
         vec![
             tok!('`'),
             Token::Template {
-                cooked: Err(Error {
-                    error: Box::new((
-                        Span {
-                            lo: BytePos(1),
-                            hi: BytePos(4),
-                            ctxt: SyntaxContext::empty(),
-                        },
-                        SyntaxError::BadCharacterEscapeSequence {
-                            expected: "1-6 hex characters"
-                        }
-                    ))
-                }),
+                cooked: Err(Error::new(
+                    Span {
+                        lo: BytePos(1),
+                        hi: BytePos(4),
+                        ctxt: SyntaxContext::empty(),
+                    },
+                    SyntaxError::BadCharacterEscapeSequence {
+                        expected: "1-6 hex characters"
+                    }
+                )),
                 raw: "\\u{".into(),
             },
             tok!('`'),
@@ -307,18 +297,16 @@ fn tpl_invalid_unicode_escape() {
         vec![
             tok!('`'),
             Token::Template {
-                cooked: Err(Error {
-                    error: Box::new((
-                        Span {
-                            lo: BytePos(1),
-                            hi: BytePos(3),
-                            ctxt: SyntaxContext::empty(),
-                        },
-                        SyntaxError::BadCharacterEscapeSequence {
-                            expected: "2 hex characters"
-                        }
-                    ))
-                }),
+                cooked: Err(Error::new(
+                    Span {
+                        lo: BytePos(1),
+                        hi: BytePos(3),
+                        ctxt: SyntaxContext::empty(),
+                    },
+                    SyntaxError::BadCharacterEscapeSequence {
+                        expected: "2 hex characters"
+                    }
+                )),
                 raw: "\\xhex".into(),
             },
             tok!('`'),

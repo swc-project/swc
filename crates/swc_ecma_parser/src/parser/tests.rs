@@ -314,16 +314,14 @@ fn illegal_language_mode_directive1() {
             let errors = p.take_errors();
             assert_eq!(
                 errors,
-                vec![Error {
-                    error: Box::new((
-                        Span {
-                            lo: BytePos(20),
-                            hi: BytePos(33),
-                            ctxt: swc_common::SyntaxContext::empty()
-                        },
-                        crate::parser::SyntaxError::IllegalLanguageModeDirective
-                    ))
-                }]
+                vec![Error::new(
+                    Span {
+                        lo: BytePos(20),
+                        hi: BytePos(33),
+                        ctxt: swc_common::SyntaxContext::empty()
+                    },
+                    crate::parser::SyntaxError::IllegalLanguageModeDirective
+                )]
             );
 
             Ok(program)
@@ -341,16 +339,14 @@ fn illegal_language_mode_directive2() {
             let errors = p.take_errors();
             assert_eq!(
                 errors,
-                vec![Error {
-                    error: Box::new((
-                        Span {
-                            lo: BytePos(21),
-                            hi: BytePos(34),
-                            ctxt: swc_common::SyntaxContext::empty()
-                        },
-                        crate::parser::SyntaxError::IllegalLanguageModeDirective
-                    ))
-                }]
+                vec![Error::new(
+                    Span {
+                        lo: BytePos(21),
+                        hi: BytePos(34),
+                        ctxt: swc_common::SyntaxContext::empty()
+                    },
+                    crate::parser::SyntaxError::IllegalLanguageModeDirective
+                )]
             );
 
             Ok(program)
