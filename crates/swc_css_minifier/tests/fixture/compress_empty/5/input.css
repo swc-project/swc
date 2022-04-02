@@ -1,0 +1,17 @@
+h1 { color: darkslateblue; }
+
+@layer reset.type {
+
+}
+
+@layer framework {
+    .title { font-weight: 100; }
+
+    @layer theme {
+        h1, h2 { color: maroon; }
+    }
+}
+
+@layer reset {
+    [hidden] { display: none; }
+}

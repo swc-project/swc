@@ -42,22 +42,45 @@ struct NoInvalidPositionAtImportRule {
 impl Visit for NoInvalidPositionAtImportRule {
     fn visit_stylesheet(&mut self, stylesheet: &Stylesheet) {
         stylesheet.rules.iter().fold(false, |seen, rule| {
-            if seen && matches!(rule, Rule::AtRule(AtRule::Import(..))) {
+            if seen
+                && matches!(
+                    rule,
+                    Rule::AtRule(AtRule {
+                        prelude: Some(AtRulePrelude::ImportPrelude(_)),
+                        ..
+                    })
+                )
+            {
                 self.ctx.report(rule, MESSAGE);
             }
 
+            // TODO improve me https://www.w3.org/TR/css-cascade-5/#layer-empty - @import and @namespace rules must be consecutive
             match rule {
-                Rule::AtRule(AtRule::Charset(..) | AtRule::Import(..)) => seen,
-                Rule::AtRule(AtRule::Layer(LayerRule { block, .. })) => match block {
+                Rule::AtRule(
+                    AtRule {
+                        prelude: Some(AtRulePrelude::CharsetPrelude(_)),
+                        ..
+                    }
+                    | AtRule {
+                        prelude: Some(AtRulePrelude::ImportPrelude(_)),
+                        ..
+                    },
+                ) => seen,
+                Rule::AtRule(AtRule {
+                    prelude: Some(AtRulePrelude::LayerPrelude(_)),
+                    block,
+                    ..
+                }) => match block {
                     Some(block) if block.value.is_empty() => seen,
                     None => seen,
                     _ => true,
                 },
-                Rule::AtRule(AtRule::Unknown(UnknownAtRule { name, .. })) => {
+                Rule::AtRule(AtRule { name, .. }) => {
                     let name = match name {
                         AtRuleName::DashedIdent(dashed_ident) => &dashed_ident.value,
                         AtRuleName::Ident(ident) => &ident.value,
                     };
+
                     if self.ignored.iter().any(|item| item.is_match(name)) {
                         seen
                     } else {

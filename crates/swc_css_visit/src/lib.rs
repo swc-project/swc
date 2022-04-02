@@ -9,8 +9,6 @@ use swc_visit::define;
 /// Visitable nodes.
 pub trait Node {}
 
-impl<T: ?Sized> Node for T {}
-
 define!({
     pub struct Tokens {
         pub span: Span,
@@ -65,6 +63,12 @@ define!({
     }
 
     pub struct CustomIdent {
+        pub span: Span,
+        pub value: JsWord,
+        pub raw: JsWord,
+    }
+
+    pub struct CustomPropertyName {
         pub span: Span,
         pub value: JsWord,
         pub raw: JsWord,
@@ -490,79 +494,45 @@ define!({
         Invalid(Tokens),
     }
 
-    pub enum AtRule {
-        Charset(CharsetRule),
-        Import(ImportRule),
-        FontFace(FontFaceRule),
-        Keyframes(KeyframesRule),
-        Layer(LayerRule),
-        Media(MediaRule),
-        Supports(SupportsRule),
-        Page(PageRule),
-        PageMargin(PageMarginRule),
-        Namespace(NamespaceRule),
-        Nest(NestRule),
-        Viewport(ViewportRule),
-        Document(DocumentRule),
-        ColorProfile(ColorProfileRule),
-        CounterStyle(CounterStyleRule),
-        Property(PropertyRule),
-        Unknown(UnknownAtRule),
-    }
-
-    pub struct CharsetRule {
+    pub struct ImportPrelude {
         pub span: Span,
-        pub charset: Str,
+        pub href: ImportPreludeHref,
+        pub layer_name: Option<ImportPreludeLayerName>,
+        pub supports: Option<ImportPreludeSupportsType>,
+        pub media: Option<MediaQueryList>,
     }
 
-    pub enum ImportHref {
+    pub enum ImportPreludeHref {
         Url(Url),
         Str(Str),
     }
 
-    pub enum ImportLayerName {
+    pub enum ImportPreludeLayerName {
         Ident(Ident),
         Function(Function),
     }
 
-    pub enum ImportSupportsType {
+    pub enum ImportPreludeSupportsType {
         SupportsCondition(SupportsCondition),
         Declaration(Declaration),
     }
 
-    pub struct ImportRule {
+    pub struct NamespacePrelude {
         pub span: Span,
-        pub href: ImportHref,
-        pub layer_name: Option<ImportLayerName>,
-        pub supports: Option<ImportSupportsType>,
-        pub media: Option<MediaQueryList>,
+        pub prefix: Option<Ident>,
+        pub uri: NamespacePreludeUri,
     }
 
-    pub struct FontFaceRule {
-        pub span: Span,
-        pub block: SimpleBlock,
-    }
-
-    pub enum NamespaceUri {
+    pub enum NamespacePreludeUri {
         Url(Url),
         Str(Str),
     }
 
-    pub struct NamespaceRule {
+    pub struct AtRule {
         pub span: Span,
-        pub prefix: Option<Ident>,
-        pub uri: NamespaceUri,
-    }
-
-    pub struct NestRule {
-        pub span: Span,
-        pub prelude: SelectorList,
-        pub block: SimpleBlock,
-    }
-
-    pub struct ViewportRule {
-        pub span: Span,
-        pub block: SimpleBlock,
+        pub name: AtRuleName,
+        pub prelude: Option<AtRulePrelude>,
+        pub block: Option<SimpleBlock>,
     }
 
     pub enum AtRuleName {
@@ -570,20 +540,40 @@ define!({
         Ident(Ident),
     }
 
-    pub struct UnknownAtRule {
-        pub span: Span,
-        pub name: AtRuleName,
-        pub prelude: Vec<ComponentValue>,
-        pub block: Option<SimpleBlock>,
+    pub enum AtRulePrelude {
+        ListOfComponentValues(ListOfComponentValues),
+        PropertyPrelude(CustomPropertyName),
+        CounterStylePrelude(CustomIdent),
+        ColorProfilePrelude(ColorProfileName),
+        CharsetPrelude(Str),
+        DocumentPrelude(DocumentPrelude),
+        FontPaletteValuesPrelude(DashedIdent),
+        NestPrelude(SelectorList),
+        KeyframesPrelude(KeyframesName),
+        ImportPrelude(ImportPrelude),
+        NamespacePrelude(NamespacePrelude),
+        MediaPrelude(MediaQueryList),
+        SupportsPrelude(SupportsCondition),
+        PagePrelude(PageSelectorList),
+        LayerPrelude(LayerPrelude),
     }
 
-    pub struct DocumentRule {
+    pub struct ListOfComponentValues {
         pub span: Span,
-        pub matching_functions: Vec<DocumentRuleMatchingFunction>,
-        pub block: SimpleBlock,
+        pub children: Vec<ComponentValue>,
     }
 
-    pub enum DocumentRuleMatchingFunction {
+    pub enum ColorProfileName {
+        DashedIdent(DashedIdent),
+        Ident(Ident),
+    }
+
+    pub struct DocumentPrelude {
+        pub span: Span,
+        pub matching_functions: Vec<DocumentPreludeMatchingFunction>,
+    }
+
+    pub enum DocumentPreludeMatchingFunction {
         Url(Url),
         Function(Function),
     }
@@ -591,12 +581,6 @@ define!({
     pub enum KeyframesName {
         CustomIdent(CustomIdent),
         Str(Str),
-    }
-
-    pub struct KeyframesRule {
-        pub span: Span,
-        pub name: KeyframesName,
-        pub block: SimpleBlock,
     }
 
     pub struct KeyframeBlock {
@@ -623,18 +607,6 @@ define!({
     pub enum LayerPrelude {
         Name(LayerName),
         NameList(LayerNameList),
-    }
-
-    pub struct LayerRule {
-        pub span: Span,
-        pub prelude: Option<LayerPrelude>,
-        pub block: Option<SimpleBlock>,
-    }
-
-    pub struct MediaRule {
-        pub span: Span,
-        pub media: Option<MediaQueryList>,
-        pub block: SimpleBlock,
     }
 
     pub struct MediaQueryList {
@@ -746,12 +718,6 @@ define!({
         pub right: MediaFeatureValue,
     }
 
-    pub struct PageRule {
-        pub span: Span,
-        pub prelude: Option<PageSelectorList>,
-        pub block: SimpleBlock,
-    }
-
     pub struct PageSelectorList {
         pub span: Span,
         pub selectors: Vec<PageSelector>,
@@ -771,18 +737,6 @@ define!({
     pub struct PageSelectorPseudo {
         pub span: Span,
         pub value: Ident,
-    }
-
-    pub struct PageMarginRule {
-        pub span: Span,
-        pub name: Ident,
-        pub block: SimpleBlock,
-    }
-
-    pub struct SupportsRule {
-        pub span: Span,
-        pub condition: SupportsCondition,
-        pub block: SimpleBlock,
     }
 
     pub struct SupportsCondition {
@@ -830,27 +784,6 @@ define!({
         Function(Function),
         SimpleBlock(SimpleBlock),
     }
-
-    pub enum ColorProfileName {
-        DashedIdent(DashedIdent),
-        Ident(Ident),
-    }
-
-    pub struct ColorProfileRule {
-        pub span: Span,
-        pub name: ColorProfileName,
-        pub block: SimpleBlock,
-    }
-
-    pub struct CounterStyleRule {
-        pub span: Span,
-        pub name: CustomIdent,
-        pub block: SimpleBlock,
-    }
-
-    pub struct PropertyRule {
-        pub span: Span,
-        pub name: DashedIdent,
-        pub block: SimpleBlock,
-    }
 });
+
+impl<T: ?Sized> Node for T {}

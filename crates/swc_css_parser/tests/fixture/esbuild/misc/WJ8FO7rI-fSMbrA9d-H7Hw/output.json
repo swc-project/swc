@@ -7,13 +7,23 @@
   },
   "rules": [
     {
-      "type": "CharsetRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 17,
         "ctxt": 0
       },
-      "charset": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "charset",
+        "raw": "charset"
+      },
+      "prelude": {
         "type": "String",
         "span": {
           "start": 9,
@@ -22,7 +32,8 @@
         },
         "value": "UTF-8",
         "raw": "\"UTF-8\""
-      }
+      },
+      "block": null
     }
   ]
 }

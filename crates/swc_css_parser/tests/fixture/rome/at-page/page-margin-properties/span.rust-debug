@@ -27,13 +27,16 @@
  5 | `-> }
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:1:1]
- 1 | ,-> @page {
- 2 | |   	@top-center {
- 3 | |   		display: none;
- 4 | |   	}
- 5 | `-> }
+ 1 | @page {
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:1:1]
+ 1 | @page {
+   :  ^^^^
    `----
 
   x SimpleBlock
@@ -59,11 +62,10 @@
  4 | `-> 	}
    `----
 
-  x PageMarginRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:5]
- 2 | ,-> @top-center {
- 3 | |   		display: none;
- 4 | `-> 	}
+ 2 | @top-center {
+   :  ^^^^^^^^^^
    `----
 
   x Ident

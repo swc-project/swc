@@ -7,13 +7,23 @@
   },
   "rules": [
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 46,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 11,
@@ -33,6 +43,7 @@
         "name": "{",
         "value": [
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 16,
               "end": 31,
@@ -94,6 +105,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 31,
               "end": 45,

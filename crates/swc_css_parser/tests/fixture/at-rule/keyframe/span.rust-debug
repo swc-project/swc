@@ -69,10 +69,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframesRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:1:1]
  1 | @keyframes foo { /* ... */ }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:1:1]
+ 1 | @keyframes foo { /* ... */ }
+   :  ^^^^^^^^^
    `----
 
   x CustomIdent
@@ -99,10 +105,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframesRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:2:1]
  2 | @keyframes "foo" { /* ... */ }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:2:1]
+ 2 | @keyframes "foo" { /* ... */ }
+   :  ^^^^^^^^^
    `----
 
   x Str
@@ -129,10 +141,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframesRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:3:1]
  3 | @keyframes    foo    { /* ... */ }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:3:1]
+ 3 | @keyframes    foo    { /* ... */ }
+   :  ^^^^^^^^^
    `----
 
   x CustomIdent
@@ -173,18 +191,17 @@
  13 | `-> }
     `----
 
-  x KeyframesRule
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:5:1]
-  5 | ,-> @keyframes slidein {
-  6 | |       from {
-  7 | |           transform: translateX(0%);
-  8 | |       }
-  9 | |   
- 10 | |       to {
- 11 | |           transform: translateX(100%);
- 12 | |       }
- 13 | `-> }
-    `----
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:5:1]
+ 5 | @keyframes slidein {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:5:1]
+ 5 | @keyframes slidein {
+   :  ^^^^^^^^^
+   `----
 
   x CustomIdent
    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:5:1]
@@ -210,19 +227,6 @@
  6 | ,-> from {
  7 | |           transform: translateX(0%);
  8 | `->     }
-   `----
-
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:6:5]
- 6 | ,-> from {
- 7 | |           transform: translateX(0%);
- 8 | `->     }
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:6:5]
- 6 | from {
-   : ^^^^
    `----
 
   x Ident
@@ -303,19 +307,6 @@
  10 | ,-> to {
  11 | |           transform: translateX(100%);
  12 | `->     }
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:10:5]
- 10 | ,-> to {
- 11 | |           transform: translateX(100%);
- 12 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:10:5]
- 10 | to {
-    : ^^
     `----
 
   x Ident
@@ -411,14 +402,16 @@
  20 | `-> }
     `----
 
-  x KeyframesRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:15:1]
- 15 | ,-> @keyframes identifier {
- 16 | |       0% { top: 0; left: 0; }
- 17 | |       30% { top: 50px; }
- 18 | |       68%, 72% { left: 50px; }
- 19 | |       100% { top: 100px; left: 100%; }
- 20 | `-> }
+ 15 | @keyframes identifier {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:15:1]
+ 15 | @keyframes identifier {
+    :  ^^^^^^^^^
     `----
 
   x CustomIdent
@@ -441,18 +434,6 @@
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:16:5]
  16 | 0% { top: 0; left: 0; }
     : ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:16:5]
- 16 | 0% { top: 0; left: 0; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:16:5]
- 16 | 0% { top: 0; left: 0; }
-    : ^^
     `----
 
   x Percentage
@@ -551,18 +532,6 @@
     : ^^^^^^^^^^^^^^^^^^
     `----
 
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
- 17 | 30% { top: 50px; }
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
- 17 | 30% { top: 50px; }
-    : ^^^
-    `----
-
   x Percentage
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:17:5]
  17 | 30% { top: 50px; }
@@ -641,18 +610,6 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
- 18 | 68%, 72% { left: 50px; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
- 18 | 68%, 72% { left: 50px; }
-    : ^^^
-    `----
-
   x Percentage
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
  18 | 68%, 72% { left: 50px; }
@@ -663,12 +620,6 @@
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
  18 | 68%, 72% { left: 50px; }
     : ^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:18:5]
- 18 | 68%, 72% { left: 50px; }
-    :      ^^^
     `----
 
   x Percentage
@@ -747,18 +698,6 @@
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
  19 | 100% { top: 100px; left: 100%; }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
- 19 | 100% { top: 100px; left: 100%; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:19:5]
- 19 | 100% { top: 100px; left: 100%; }
-    : ^^^^
     `----
 
   x Percentage
@@ -887,10 +826,16 @@
     : ^^^^^^^^^^^^^^^^^
     `----
 
-  x KeyframesRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:22:1]
  22 | @keyframes FOO {}
-    : ^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:22:1]
+ 22 | @keyframes FOO {}
+    :  ^^^^^^^^^
     `----
 
   x CustomIdent
@@ -917,10 +862,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x KeyframesRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:23:1]
  23 | @keyframes "initial" {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:23:1]
+ 23 | @keyframes "initial" {}
+    :  ^^^^^^^^^
     `----
 
   x Str
@@ -947,10 +898,16 @@
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x KeyframesRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:24:1]
  24 | @keyframes "None" {}
-    : ^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:24:1]
+ 24 | @keyframes "None" {}
+    :  ^^^^^^^^^
     `----
 
   x Str
@@ -1013,28 +970,16 @@
  44 | `-> }
     `----
 
-  x KeyframesRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:25:1]
- 25 | ,-> @keyframes slide-right {
- 26 | |   
- 27 | |       from {
- 28 | |           margin-left: 0px;
- 29 | |       }
- 30 | |   
- 31 | |       50% {
- 32 | |           margin-left: 110px;
- 33 | |           opacity: 1;
- 34 | |       }
- 35 | |   
- 36 | |       50% {
- 37 | |           opacity: 0.9;
- 38 | |       }
- 39 | |   
- 40 | |       to {
- 41 | |           margin-left: 200px;
- 42 | |       }
- 43 | |   
- 44 | `-> }
+ 25 | @keyframes slide-right {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:25:1]
+ 25 | @keyframes slide-right {
+    :  ^^^^^^^^^
     `----
 
   x CustomIdent
@@ -1072,19 +1017,6 @@
  27 | ,-> from {
  28 | |           margin-left: 0px;
  29 | `->     }
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:27:5]
- 27 | ,-> from {
- 28 | |           margin-left: 0px;
- 29 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:27:5]
- 27 | from {
-    : ^^^^
     `----
 
   x Ident
@@ -1160,20 +1092,6 @@
  32 | |           margin-left: 110px;
  33 | |           opacity: 1;
  34 | `->     }
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:31:5]
- 31 | ,-> 50% {
- 32 | |           margin-left: 110px;
- 33 | |           opacity: 1;
- 34 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:31:5]
- 31 | 50% {
-    : ^^^
     `----
 
   x Percentage
@@ -1293,19 +1211,6 @@
  38 | `->     }
     `----
 
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:36:5]
- 36 | ,-> 50% {
- 37 | |           opacity: 0.9;
- 38 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:36:5]
- 36 | 50% {
-    : ^^^
-    `----
-
   x Percentage
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:36:5]
  36 | 50% {
@@ -1366,19 +1271,6 @@
  40 | ,-> to {
  41 | |           margin-left: 200px;
  42 | `->     }
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:40:5]
- 40 | ,-> to {
- 41 | |           margin-left: 200px;
- 42 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:40:5]
- 40 | to {
-    : ^^
     `----
 
   x Ident
@@ -1474,17 +1366,16 @@
  54 | `-> }
     `----
 
-  x KeyframesRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:46:1]
- 46 | ,-> @keyframes slidein-up {
- 47 | |       fRoM {
- 48 | |           transform: translateX(0%);
- 49 | |       }
- 50 | |   
- 51 | |       tO {
- 52 | |           transform: translateX(100%);
- 53 | |       }
- 54 | `-> }
+ 46 | @keyframes slidein-up {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:46:1]
+ 46 | @keyframes slidein-up {
+    :  ^^^^^^^^^
     `----
 
   x CustomIdent
@@ -1511,19 +1402,6 @@
  47 | ,-> fRoM {
  48 | |           transform: translateX(0%);
  49 | `->     }
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:47:5]
- 47 | ,-> fRoM {
- 48 | |           transform: translateX(0%);
- 49 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:47:5]
- 47 | fRoM {
-    : ^^^^
     `----
 
   x Ident
@@ -1604,19 +1482,6 @@
  51 | ,-> tO {
  52 | |           transform: translateX(100%);
  53 | `->     }
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:51:5]
- 51 | ,-> tO {
- 52 | |           transform: translateX(100%);
- 53 | `->     }
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/at-rule/keyframe/input.css:51:5]
- 51 | tO {
-    : ^^
     `----
 
   x Ident

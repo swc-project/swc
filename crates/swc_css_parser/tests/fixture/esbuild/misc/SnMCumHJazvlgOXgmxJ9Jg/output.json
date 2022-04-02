@@ -7,7 +7,7 @@
   },
   "rules": [
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 11,
@@ -23,35 +23,43 @@
         "value": "unknown",
         "raw": "unknown"
       },
-      "prelude": [
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 8,
-            "end": 9,
-            "ctxt": 0
-          },
-          "token": {
-            "WhiteSpace": {
-              "value": " "
-            }
-          }
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 8,
+          "end": 10,
+          "ctxt": 0
         },
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 9,
-            "end": 10,
-            "ctxt": 0
+        "children": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 8,
+              "end": 9,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           },
-          "token": {
-            "Ident": {
-              "value": "x",
-              "raw": "x"
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 9,
+              "end": 10,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "x",
+                "raw": "x"
+              }
             }
           }
-        }
-      ],
+        ]
+      },
       "block": null
     }
   ]

@@ -213,7 +213,7 @@ prepublish = "build --target {}""#,
         create_dir_all(&src_path)?;
         fs::write(
             &src_path.join("lib.rs"),
-            r#"use swc_plugin::{ast::*, plugin_transform};
+            r#"use swc_plugin::{ast::*, plugin_transform, TransformPluginProgramMetadata};
 
 pub struct TransformVisitor;
 
@@ -243,7 +243,7 @@ impl VisitMut for TransformVisitor {
 /// important steps manually need to be performed like sending transformed
 /// results back to host. Refer swc_plugin_macro how does it work internally.
 #[plugin_transform]
-pub fn process_transform(program: Program, _plugin_config: String, _context: String) -> Program {
+pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
     program.fold_with(&mut as_folder(TransformVisitor))
 }
 "#

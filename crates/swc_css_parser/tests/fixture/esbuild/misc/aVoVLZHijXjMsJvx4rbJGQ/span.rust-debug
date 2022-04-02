@@ -17,10 +17,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ViewportRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
+ 1 | @viewport { width: 100vw }
+   :  ^^^^^^^^
    `----
 
   x SimpleBlock

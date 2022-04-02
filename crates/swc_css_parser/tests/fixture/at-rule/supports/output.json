@@ -7,13 +7,23 @@
   },
   "rules": [
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 68,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 9,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 10,
@@ -174,13 +184,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 70,
         "end": 242,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 71,
+          "end": 79,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 80,
@@ -338,13 +358,23 @@
             }
           },
           {
-            "type": "MediaRule",
+            "type": "AtRule",
             "span": {
               "start": 141,
               "end": 240,
               "ctxt": 0
             },
-            "media": {
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 142,
+                "end": 147,
+                "ctxt": 0
+              },
+              "value": "media",
+              "raw": "media"
+            },
+            "prelude": {
               "type": "MediaQueryList",
               "span": {
                 "start": 148,
@@ -562,13 +592,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 243,
         "end": 286,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 244,
+          "end": 252,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 255,
@@ -621,13 +661,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 287,
         "end": 319,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 288,
+          "end": 296,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 297,
@@ -698,13 +748,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 320,
         "end": 352,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 321,
+          "end": 329,
+          "ctxt": 0
+        },
+        "value": "SUPPORTS",
+        "raw": "SUPPORTS"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 330,
@@ -775,13 +835,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 353,
         "end": 530,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 354,
+          "end": 362,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 363,
@@ -1213,13 +1283,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 531,
         "end": 724,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 532,
+          "end": 540,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 541,
@@ -1651,13 +1731,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 725,
         "end": 824,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 726,
+          "end": 734,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 735,
@@ -1856,13 +1946,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 825,
         "end": 924,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 826,
+          "end": 834,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 835,
@@ -2061,13 +2161,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 925,
         "end": 1076,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 926,
+          "end": 934,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 937,
@@ -2266,13 +2376,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1077,
         "end": 1169,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1078,
+          "end": 1086,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1086,
@@ -2471,13 +2591,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1170,
         "end": 1200,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1171,
+          "end": 1179,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1180,
@@ -2540,13 +2670,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1201,
         "end": 1240,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1202,
+          "end": 1210,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1211,
@@ -2616,13 +2756,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1241,
         "end": 1273,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1242,
+          "end": 1250,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1251,
@@ -2693,13 +2843,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1274,
         "end": 1373,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1275,
+          "end": 1283,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1284,
@@ -2898,13 +3058,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1374,
         "end": 1473,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1375,
+          "end": 1383,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1384,
@@ -3103,13 +3273,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1474,
         "end": 1508,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1475,
+          "end": 1483,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1484,
@@ -3190,13 +3370,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1510,
         "end": 1599,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1511,
+          "end": 1519,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1520,
@@ -3504,13 +3694,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1601,
         "end": 1695,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1602,
+          "end": 1610,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1611,
@@ -3721,13 +3921,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1697,
         "end": 1789,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1698,
+          "end": 1706,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1707,
@@ -3902,13 +4112,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1791,
         "end": 1842,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1792,
+          "end": 1800,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1801,
@@ -4051,13 +4271,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1844,
         "end": 1897,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1845,
+          "end": 1853,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1854,
@@ -4210,13 +4440,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1899,
         "end": 1953,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1900,
+          "end": 1908,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1909,
@@ -4380,13 +4620,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 1955,
         "end": 2011,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1956,
+          "end": 1964,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 1965,
@@ -4560,13 +4810,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 2013,
         "end": 2070,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2014,
+          "end": 2022,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 2023,
@@ -4746,13 +5006,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 2072,
         "end": 2131,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2073,
+          "end": 2081,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 2082,
@@ -4942,13 +5212,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 2133,
         "end": 2213,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2134,
+          "end": 2142,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 2143,
@@ -5138,13 +5418,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 2215,
         "end": 2385,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2216,
+          "end": 2224,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 2225,
@@ -5195,7 +5485,7 @@
         "name": "{",
         "value": [
           {
-            "type": "UnknownAtRule",
+            "type": "AtRule",
             "span": {
               "start": 2254,
               "end": 2383,
@@ -5211,48 +5501,56 @@
               "value": "-custom-keyframe",
               "raw": "-custom-keyframe"
             },
-            "prelude": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 2271,
-                  "end": 2272,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 2271,
+                "end": 2277,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 2272,
-                  "end": 2276,
-                  "ctxt": 0
+              "children": [
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 2271,
+                    "end": 2272,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "WhiteSpace": {
+                      "value": " "
+                    }
+                  }
                 },
-                "token": {
-                  "Ident": {
-                    "value": "anim",
-                    "raw": "anim"
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 2272,
+                    "end": 2276,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "Ident": {
+                      "value": "anim",
+                      "raw": "anim"
+                    }
+                  }
+                },
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 2276,
+                    "end": 2277,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "WhiteSpace": {
+                      "value": " "
+                    }
                   }
                 }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 2276,
-                  "end": 2277,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              }
-            ],
+              ]
+            },
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -5545,13 +5843,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 2387,
         "end": 2435,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2388,
+          "end": 2396,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 2397,
@@ -5688,13 +5996,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 2437,
         "end": 2513,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2438,
+          "end": 2446,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 2447,
@@ -5879,13 +6197,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 2515,
         "end": 2605,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2516,
+          "end": 2524,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 2525,
@@ -6338,13 +6666,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 2607,
         "end": 2749,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2608,
+          "end": 2616,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 2617,
@@ -6974,13 +7312,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 2751,
         "end": 2921,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2752,
+          "end": 2760,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 2761,
@@ -7031,7 +7379,7 @@
         "name": "{",
         "value": [
           {
-            "type": "UnknownAtRule",
+            "type": "AtRule",
             "span": {
               "start": 2790,
               "end": 2919,
@@ -7047,48 +7395,56 @@
               "value": "-custom-keyframe",
               "raw": "-custom-keyframe"
             },
-            "prelude": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 2807,
-                  "end": 2808,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
+            "prelude": {
+              "type": "ListOfComponentValues",
+              "span": {
+                "start": 2807,
+                "end": 2813,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 2808,
-                  "end": 2812,
-                  "ctxt": 0
+              "children": [
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 2807,
+                    "end": 2808,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "WhiteSpace": {
+                      "value": " "
+                    }
+                  }
                 },
-                "token": {
-                  "Ident": {
-                    "value": "anim",
-                    "raw": "anim"
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 2808,
+                    "end": 2812,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "Ident": {
+                      "value": "anim",
+                      "raw": "anim"
+                    }
+                  }
+                },
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 2812,
+                    "end": 2813,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "WhiteSpace": {
+                      "value": " "
+                    }
                   }
                 }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 2812,
-                  "end": 2813,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              }
-            ],
+              ]
+            },
             "block": {
               "type": "SimpleBlock",
               "span": {
@@ -7381,13 +7737,23 @@
       }
     },
     {
-      "type": "SupportsRule",
+      "type": "AtRule",
       "span": {
         "start": 2923,
         "end": 3017,
         "ctxt": 0
       },
-      "condition": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2924,
+          "end": 2932,
+          "ctxt": 0
+        },
+        "value": "supports",
+        "raw": "supports"
+      },
+      "prelude": {
         "type": "SupportsCondition",
         "span": {
           "start": 2933,

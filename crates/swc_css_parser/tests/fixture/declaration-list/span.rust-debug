@@ -46,7 +46,19 @@
  4 | `-> }
    `----
 
-  x FontFaceRule
+  x AtRuleName
+   ,-[$DIR/tests/fixture/declaration-list/input.css:1:1]
+ 1 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/declaration-list/input.css:1:1]
+ 1 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x SimpleBlock
    ,-[$DIR/tests/fixture/declaration-list/input.css:1:1]
  1 | ,-> @font-face {
  2 | |       prop1: value;
@@ -54,14 +66,6 @@
  4 | `-> }
    `----
 
-  x SimpleBlock
-   ,-[$DIR/tests/fixture/declaration-list/input.css:1:1]
- 1 | ,-> @font-face {
- 2 | |       prop1: value;
- 3 | |       prop2: value;
- 4 | `-> }
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/declaration-list/input.css:2:5]
  2 | prop1: value;
@@ -152,14 +156,17 @@
  10 | `-> }
     `----
 
-  x FontFaceRule
-    ,-[$DIR/tests/fixture/declaration-list/input.css:6:1]
-  6 | ,-> @font-face {
-  7 | |       prop1: value;
-  8 | |       ;;;;;
-  9 | |       prop2: value;
- 10 | `-> }
-    `----
+  x AtRuleName
+   ,-[$DIR/tests/fixture/declaration-list/input.css:6:1]
+ 6 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/declaration-list/input.css:6:1]
+ 6 | @font-face {
+   :  ^^^^^^^^^
+   `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/declaration-list/input.css:6:1]
@@ -256,11 +263,16 @@
  15 | `-> }
     `----
 
-  x FontFaceRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/declaration-list/input.css:13:1]
- 13 | ,-> @font-face {;;
- 14 | |       prop1: value;;
- 15 | `-> }
+ 13 | @font-face {;;
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/declaration-list/input.css:13:1]
+ 13 | @font-face {;;
+    :  ^^^^^^^^^
     `----
 
   x SimpleBlock
@@ -320,11 +332,16 @@
  19 | `-> }
     `----
 
-  x FontFaceRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/declaration-list/input.css:17:1]
- 17 | ,-> @font-face {
- 18 | |       prop1: value
- 19 | `-> }
+ 17 | @font-face {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/declaration-list/input.css:17:1]
+ 17 | @font-face {
+    :  ^^^^^^^^^
     `----
 
   x SimpleBlock
@@ -384,11 +401,16 @@
  23 | `-> }
     `----
 
-  x FontFaceRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/declaration-list/input.css:21:1]
- 21 | ,-> @font-face {
- 22 | |       prop1: value;;;prop2: value
- 23 | `-> }
+ 21 | @font-face {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/declaration-list/input.css:21:1]
+ 21 | @font-face {
+    :  ^^^^^^^^^
     `----
 
   x SimpleBlock
@@ -484,11 +506,16 @@
  27 | `-> }
     `----
 
-  x FontFaceRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/declaration-list/input.css:25:1]
- 25 | ,-> @font-face {
- 26 | |       prop1: value;;;prop2: value;
- 27 | `-> }
+ 25 | @font-face {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/declaration-list/input.css:25:1]
+ 25 | @font-face {
+    :  ^^^^^^^^^
     `----
 
   x SimpleBlock

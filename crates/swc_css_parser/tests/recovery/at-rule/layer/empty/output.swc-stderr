@@ -1,5 +1,5 @@
 
-  x Expected '{' delim token or ';'
+  x Expected '{' token
    ,-[$DIR/tests/recovery/at-rule/layer/empty/input.css:1:1]
  1 | @layer ;
    :        ^

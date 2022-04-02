@@ -7,13 +7,23 @@
   },
   "rules": [
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 132,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 11,
@@ -33,6 +43,7 @@
         "name": "{",
         "value": [
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 28,
               "end": 77,
@@ -129,6 +140,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 82,
               "end": 130,
@@ -228,13 +240,23 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 134,
         "end": 232,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 135,
+          "end": 144,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 145,
@@ -254,6 +276,7 @@
         "name": "{",
         "value": [
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 155,
               "end": 167,
@@ -283,6 +306,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 172,
               "end": 182,
@@ -312,6 +336,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 187,
               "end": 198,
@@ -349,6 +374,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 203,
               "end": 213,
@@ -386,6 +412,7 @@
             }
           },
           {
+            "type": "KeyframeBlock",
             "span": {
               "start": 218,
               "end": 230,
@@ -426,13 +453,23 @@
       }
     },
     {
-      "type": "KeyframesRule",
+      "type": "AtRule",
       "span": {
         "start": 234,
         "end": 252,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 235,
+          "end": 244,
+          "ctxt": 0
+        },
+        "value": "keyframes",
+        "raw": "keyframes"
+      },
+      "prelude": {
         "type": "CustomIdent",
         "span": {
           "start": 245,

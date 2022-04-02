@@ -80,12 +80,6 @@
    : ^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:1:1]
- 1 | @unknown;
-   : ^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:1:1]
  1 | @unknown;
@@ -105,12 +99,6 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:2:1]
- 2 | @unknown x y;
-   : ^^^^^^^^^^^^^
-   `----
-
-  x UnknownAtRule
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:2:1]
  2 | @unknown x y;
    : ^^^^^^^^^^^^^
@@ -183,12 +171,6 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:3:1]
- 3 | @unknown "blah";
-   : ^^^^^^^^^^^^^^^^
-   `----
-
-  x UnknownAtRule
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:3:1]
  3 | @unknown "blah";
    : ^^^^^^^^^^^^^^^^
@@ -242,12 +224,6 @@
    : ^^^^^^^^^^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:4:1]
- 4 | @unknown \"blah\";
-   : ^^^^^^^^^^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:4:1]
  4 | @unknown \"blah\";
@@ -296,12 +272,6 @@
    : ^^^^^^^^^^^
    `----
 
-  x UnknownAtRule
-   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:7:1]
- 7 | @unknown  ;
-   : ^^^^^^^^^^^
-   `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:7:1]
  7 | @unknown  ;
@@ -333,12 +303,6 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:8:1]
- 8 | @unknown  x  y;
-   : ^^^^^^^^^^^^^^^
-   `----
-
-  x UnknownAtRule
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:8:1]
  8 | @unknown  x  y;
    : ^^^^^^^^^^^^^^^
@@ -416,12 +380,6 @@
     : ^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:10:1]
- 10 | @unknown {}
-    : ^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:10:1]
  10 | @unknown {}
@@ -464,12 +422,6 @@
     : ^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:11:1]
- 11 | @\unknown {}
-    : ^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:11:1]
  11 | @\unknown {}
@@ -507,12 +459,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:12:1]
- 12 | @unknown a b {}
-    : ^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:12:1]
  12 | @unknown a b {}
     : ^^^^^^^^^^^^^^^
@@ -608,12 +554,6 @@
     : ^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:13:1]
- 13 | @unknown {p:v}
-    : ^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:13:1]
  13 | @unknown {p:v}
@@ -687,12 +627,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:14:1]
- 14 | @unknown x y {p:v}
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:14:1]
  14 | @unknown x y {p:v}
     : ^^^^^^^^^^^^^^^^^^
@@ -819,12 +753,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:15:1]
- 15 | @unknown x, y x(1) {p:v}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:15:1]
  15 | @unknown x, y x(1) {p:v}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1005,12 +933,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:16:1]
- 16 | @unknown x, y x(1+2) {p:v}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:16:1]
  16 | @unknown x, y x(1+2) {p:v}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1208,12 +1130,6 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:17:1]
- 17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:17:1]
  17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
@@ -1275,12 +1191,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:20:1]
- 20 | @unknown  {  p  :  v  }
-    : ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:20:1]
  20 | @unknown  {  p  :  v  }
     : ^^^^^^^^^^^^^^^^^^^^^^^
@@ -1407,12 +1317,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:21:1]
- 21 | @unknown  x  y  {  p  :  v  }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:21:1]
  21 | @unknown  x  y  {  p  :  v  }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1592,12 +1496,6 @@
     : ^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:24:1]
- 24 | @unknown {s{p:v}}
-    : ^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:24:1]
  24 | @unknown {s{p:v}}
@@ -1695,12 +1593,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:25:1]
- 25 | @unknown x y {s{p:v}}
-    : ^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:25:1]
  25 | @unknown x y {s{p:v}}
     : ^^^^^^^^^^^^^^^^^^^^^
@@ -1851,12 +1743,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:26:1]
- 26 | @unknown x, y f(1) {s{p:v}}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:26:1]
  26 | @unknown x, y f(1) {s{p:v}}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2061,12 +1947,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:27:1]
- 27 | @unknown x, y f(1+2) {s{p:v}}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:27:1]
  27 | @unknown x, y f(1+2) {s{p:v}}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2283,12 +2163,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
- 28 | @unknown { .a { p: v; } .b { p: v } }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2624,12 +2498,6 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:29:1]
- 29 | @unknown/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:29:1]
  29 | @unknown/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
@@ -2715,12 +2583,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:32:1]
- 32 | @unknown  {  s  {  p  :  v  }  }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:32:1]
  32 | @unknown  {  s  {  p  :  v  }  }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2907,12 +2769,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
- 33 | @unknown  x  y  {  s  {  p  :  v  }  }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
  33 | @unknown  x  y  {  s  {  p  :  v  }  }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -3147,12 +3003,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
- 34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -3453,12 +3303,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
- 35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -3780,14 +3624,6 @@
  40 | `-> }
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:37:1]
- 37 | ,-> @unknown {
- 38 | |       --> {}
- 39 | |       <!-- {}
- 40 | `-> }
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:37:1]
  37 | @unknown {
@@ -3941,13 +3777,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:42:1]
- 42 | ,-> @unknown {
- 43 | |       @unknown {s{p:v}}
- 44 | `-> }
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:42:1]
  42 | ,-> @unknown {
  43 | |       @unknown {s{p:v}}
@@ -4119,15 +3948,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:46:1]
- 46 | ,-> @unknown {
- 47 | |       @unknown {s{p:v}}
- 48 | |       
- 49 | |       color: red;
- 50 | `-> }
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:46:1]
  46 | ,-> @unknown {
  47 | |       @unknown {s{p:v}}
@@ -4492,12 +4312,6 @@
     : ^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:53:5]
- 53 | @unknown {s{p:v}}
-    : ^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:53:5]
  53 | @unknown {s{p:v}}
@@ -4595,12 +4409,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:58:1]
- 58 | @unknown x ( a , b ) ;
-    : ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:58:1]
  58 | @unknown x ( a , b ) ;
     : ^^^^^^^^^^^^^^^^^^^^^^
@@ -4769,12 +4577,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
- 59 | @unknown x ( a , b ) { foo: bar }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
  59 | @unknown x ( a , b ) { foo: bar }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -5026,12 +4828,6 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
- 60 | @unknown x( a, b ) { foo: bar }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
@@ -5212,12 +5008,6 @@
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:61:1]
- 61 | @unknown x ( a + b ) ;
-    : ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:61:1]
  61 | @unknown x ( a + b ) ;
@@ -5381,12 +5171,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:62:1]
- 62 | @unknown x ( a - b ) ;
-    : ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:62:1]
  62 | @unknown x ( a - b ) ;
     : ^^^^^^^^^^^^^^^^^^^^^^
@@ -5560,12 +5344,6 @@
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:63:1]
- 63 | @unknown x ( a * b ) ;
-    : ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:63:1]
  63 | @unknown x ( a * b ) ;
@@ -5734,12 +5512,6 @@
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:64:1]
- 64 | @unknown x ( a / b ) ;
-    : ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:64:1]
  64 | @unknown x ( a / b ) ;
@@ -5903,12 +5675,6 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:65:1]
- 65 | @unknown{}
-    : ^^^^^^^^^^
-    `----
-
-  x UnknownAtRule
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:65:1]
  65 | @unknown{}
     : ^^^^^^^^^^

@@ -5,10 +5,16 @@
 
 
 
+- **(cli)** Update plugin template (#4222) ([69cb512](https://github.com/swc-project/swc/commit/69cb512e571de1f8b245fdc538cf9a09c51823f2))
+
+
 - **(css/prefixer)** Fix flex box (#4212) ([75b0ed5](https://github.com/swc-project/swc/commit/75b0ed55f6c352ab2cd918ac746ceef99fa0f124))
 
 ### Features
 
+
+
+- **(css/ast)** Derive more traits (#4220) ([def2826](https://github.com/swc-project/swc/commit/def2826029fcc405ac73283b3559415105266ad2))
 
 
 - **(es/compat)** Support more regex expressions (#4205) ([b793aa0](https://github.com/swc-project/swc/commit/b793aa020095d797a76e2c19f42ab5822ee2ef03))
@@ -17,7 +23,16 @@
 
 
 
+- **(es/minifier)** Add fast-path for sequences pass (#4217) ([688f653](https://github.com/swc-project/swc/commit/688f653323cc9480f9c262040e0bc3861a2ffff9))
+
+
 - **(es/parser)** Improve performance by using `#[cold]` (#4215) ([1645562](https://github.com/swc-project/swc/commit/164556290b03cd530ad5158947cd28310c18fb12))
+
+### Refactor
+
+
+
+- **(css/ast)** Union all at-rules to one at-rule in AST (#4189) ([6696a93](https://github.com/swc-project/swc/commit/6696a93b5c7d005bb35be97e3f3ec52c1fe235aa))
 
 ## [1.2.162] - 2022-03-31
 

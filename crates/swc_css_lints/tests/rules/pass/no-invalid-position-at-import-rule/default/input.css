@@ -1,6 +1,5 @@
 @charset "utf-8";
 @layer framework, override;
-@layer {}
 
 @import "kumiko.css";
 @import "reina.css";

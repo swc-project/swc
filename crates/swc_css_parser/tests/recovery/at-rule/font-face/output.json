@@ -7,12 +7,23 @@
   },
   "rules": [
     {
-      "type": "FontFaceRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 26,
         "ctxt": 0
       },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "font-face",
+        "raw": "font-face"
+      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -63,12 +74,23 @@
       }
     },
     {
-      "type": "FontFaceRule",
+      "type": "AtRule",
       "span": {
         "start": 28,
         "end": 55,
         "ctxt": 0
       },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 29,
+          "end": 38,
+          "ctxt": 0
+        },
+        "value": "font-face",
+        "raw": "font-face"
+      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -115,12 +137,23 @@
       }
     },
     {
-      "type": "FontFaceRule",
+      "type": "AtRule",
       "span": {
         "start": 57,
         "end": 79,
         "ctxt": 0
       },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 58,
+          "end": 67,
+          "ctxt": 0
+        },
+        "value": "font-face",
+        "raw": "font-face"
+      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -172,12 +205,23 @@
       }
     },
     {
-      "type": "FontFaceRule",
+      "type": "AtRule",
       "span": {
         "start": 81,
         "end": 104,
         "ctxt": 0
       },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 82,
+          "end": 91,
+          "ctxt": 0
+        },
+        "value": "font-face",
+        "raw": "font-face"
+      },
+      "prelude": null,
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -225,7 +269,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 106,
         "end": 123,
@@ -241,48 +285,43 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": [
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 116,
-            "end": 117,
-            "ctxt": 0
-          },
-          "token": {
-            "WhiteSpace": {
-              "value": " "
-            }
-          }
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 116,
+          "end": 120,
+          "ctxt": 0
         },
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 117,
-            "end": 120,
-            "ctxt": 0
+        "children": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 116,
+              "end": 117,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           },
-          "token": {
-            "Ident": {
-              "value": "foo",
-              "raw": "foo"
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 117,
+              "end": 120,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "foo",
+                "raw": "foo"
+              }
             }
           }
-        },
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 120,
-            "end": 121,
-            "ctxt": 0
-          },
-          "token": {
-            "WhiteSpace": {
-              "value": " "
-            }
-          }
-        }
-      ],
+        ]
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -295,7 +334,7 @@
       }
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 125,
         "end": 140,
@@ -311,39 +350,47 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": [
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 135,
-            "end": 136,
-            "ctxt": 0
-          },
-          "token": {
-            "WhiteSpace": {
-              "value": " "
-            }
-          }
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 135,
+          "end": 139,
+          "ctxt": 0
         },
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 136,
-            "end": 139,
-            "ctxt": 0
+        "children": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 135,
+              "end": 136,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           },
-          "token": {
-            "Ident": {
-              "value": "foo",
-              "raw": "foo"
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 136,
+              "end": 139,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "foo",
+                "raw": "foo"
+              }
             }
           }
-        }
-      ],
+        ]
+      },
       "block": null
     },
     {
-      "type": "UnknownAtRule",
+      "type": "AtRule",
       "span": {
         "start": 142,
         "end": 154,
@@ -359,21 +406,29 @@
         "value": "font-face",
         "raw": "font-face"
       },
-      "prelude": [
-        {
-          "type": "PreservedToken",
-          "span": {
-            "start": 152,
-            "end": 153,
-            "ctxt": 0
-          },
-          "token": {
-            "WhiteSpace": {
-              "value": " "
+      "prelude": {
+        "type": "ListOfComponentValues",
+        "span": {
+          "start": 152,
+          "end": 153,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 152,
+              "end": 153,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
             }
           }
-        }
-      ],
+        ]
+      },
       "block": null
     }
   ]

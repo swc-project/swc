@@ -7847,13 +7847,23 @@
       }
     },
     {
-      "type": "ColorProfileRule",
+      "type": "AtRule",
       "span": {
         "start": 2968,
         "end": 3076,
         "ctxt": 0
       },
       "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2969,
+          "end": 2982,
+          "ctxt": 0
+        },
+        "value": "color-profile",
+        "raw": "color-profile"
+      },
+      "prelude": {
         "type": "DashedIdent",
         "span": {
           "start": 2983,

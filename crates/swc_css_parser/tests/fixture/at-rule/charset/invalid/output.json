@@ -7,13 +7,23 @@
   },
   "rules": [
     {
-      "type": "CharsetRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 23,
         "ctxt": 0
       },
-      "charset": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "charset",
+        "raw": "charset"
+      },
+      "prelude": {
         "type": "String",
         "span": {
           "start": 9,
@@ -22,16 +32,27 @@
         },
         "value": "iso-8859-15",
         "raw": "'iso-8859-15'"
-      }
+      },
+      "block": null
     },
     {
-      "type": "CharsetRule",
+      "type": "AtRule",
       "span": {
         "start": 64,
         "end": 82,
         "ctxt": 0
       },
-      "charset": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 65,
+          "end": 72,
+          "ctxt": 0
+        },
+        "value": "charset",
+        "raw": "charset"
+      },
+      "prelude": {
         "type": "String",
         "span": {
           "start": 74,
@@ -40,16 +61,27 @@
         },
         "value": "UTF-8",
         "raw": "\"UTF-8\""
-      }
+      },
+      "block": null
     },
     {
-      "type": "CharsetRule",
+      "type": "AtRule",
       "span": {
         "start": 123,
         "end": 140,
         "ctxt": 0
       },
-      "charset": {
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 124,
+          "end": 131,
+          "ctxt": 0
+        },
+        "value": "charset",
+        "raw": "charset"
+      },
+      "prelude": {
         "type": "String",
         "span": {
           "start": 132,
@@ -58,7 +90,8 @@
         },
         "value": "UTF-8",
         "raw": "\"UTF-8\""
-      }
+      },
+      "block": null
     }
   ]
 }

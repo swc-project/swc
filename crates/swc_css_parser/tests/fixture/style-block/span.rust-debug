@@ -346,11 +346,16 @@
  8 | `->     }
    `----
 
-  x MediaRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
- 6 | ,-> @media (orientation: landscape) {
- 7 | |           grid-auto-flow: column;
- 8 | `->     }
+ 6 | @media (orientation: landscape) {
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/style-block/input.css:6:5]
+ 6 | @media (orientation: landscape) {
+   :  ^^^^^
    `----
 
   x MediaQueryList
@@ -624,15 +629,16 @@
  20 | `->     }
     `----
 
-  x MediaRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
- 14 | ,-> @media (orientation: landscape) {
- 15 | |           grid-auto-flow: column;
- 16 | |   
- 17 | |           @media (min-inline-size > 1024px) {
- 18 | |               max-inline-size: 1024px;
- 19 | |           }
- 20 | `->     }
+ 14 | @media (orientation: landscape) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:14:5]
+ 14 | @media (orientation: landscape) {
+    :  ^^^^^
     `----
 
   x MediaQueryList
@@ -775,11 +781,16 @@
  19 | `->         }
     `----
 
-  x MediaRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
- 17 | ,-> @media (min-inline-size > 1024px) {
- 18 | |               max-inline-size: 1024px;
- 19 | `->         }
+ 17 | @media (min-inline-size > 1024px) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+    :  ^^^^^
     `----
 
   x MediaQueryList
@@ -951,13 +962,16 @@
  27 | `-> }
     `----
 
-  x MediaRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
- 23 | ,-> @media (orientation: landscape) {
- 24 | |       & {
- 25 | |           grid-auto-flow: column;
- 26 | |       }
- 27 | `-> }
+ 23 | @media (orientation: landscape) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 | @media (orientation: landscape) {
+    :  ^^^^^
     `----
 
   x MediaQueryList
@@ -1261,11 +1275,16 @@
  34 | `->     }
     `----
 
-  x MediaRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
- 32 | ,-> @media (min-width: 480px) {
- 33 | |           & h1, & h2 { color: blue; }
- 34 | `->     }
+ 32 | @media (min-width: 480px) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+    :  ^^^^^
     `----
 
   x MediaQueryList
@@ -1635,13 +1654,16 @@
  42 | `->     }
     `----
 
-  x SupportsRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | ,-> @supports not (display: grid) {
- 39 | |           float: right;
- 40 | |       
- 41 | |           & .class { color: red }
- 42 | `->     }
+ 38 | @supports not (display: grid) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
+ 38 | @supports not (display: grid) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -2025,13 +2047,16 @@
  52 | `->     }
     `----
 
-  x SupportsRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
- 48 | ,-> @supports not (display: grid) {
- 49 | |           float: right;
- 50 | |       
- 51 | |           & .class { color: red }
- 52 | `->     }
+ 48 | @supports not (display: grid) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:48:5]
+ 48 | @supports not (display: grid) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -2539,13 +2564,16 @@
  66 | `->     }
     `----
 
-  x SupportsRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
- 62 | ,-> @supports not (display: grid) {
- 63 | |           float: right;
- 64 | |       
- 65 | |           & .class { color: red }
- 66 | `->     }
+ 62 | @supports not (display: grid) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:62:5]
+ 62 | @supports not (display: grid) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -2917,17 +2945,16 @@
  75 | `->     }
     `----
 
-  x DocumentRule
-    ,-[$DIR/tests/fixture/style-block/input.css:73:5]
- 73 | ,-> @document url("https://www.example.com/") {
- 74 | |           color: green;
- 75 | `->     }
-    `----
-
-  x DocumentRuleMatchingFunction
+  x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:73:5]
  73 | @document url("https://www.example.com/") {
-    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/style-block/input.css:73:5]
+ 73 | @document url("https://www.example.com/") {
+    :  ^^^^^^^^
     `----
 
   x Url
@@ -3471,13 +3498,6 @@
  93 | `->     }
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | ,-> @mixin mobile {
- 92 | |           height: 100px;
- 93 | `->     }
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:91:5]
  91 | @mixin mobile {
@@ -3811,12 +3831,6 @@
     :     ^^^^^^^^^^^^^^^^^
     `----
 
-  x UnknownAtRule
-    ,-[$DIR/tests/fixture/style-block/input.css:98:1]
- 98 | a { @unknown "a.css"; }
-    :     ^^^^^^^^^^^^^^^^^
-    `----
-
   x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:98:1]
  98 | a { @unknown "a.css"; }
@@ -3926,12 +3940,6 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/style-block/input.css:100:1]
- 100 | a { @unknown foo {} }
-     :     ^^^^^^^^^^^^^^^
-     `----
-
-  x UnknownAtRule
      ,-[$DIR/tests/fixture/style-block/input.css:100:1]
  100 | a { @unknown foo {} }
      :     ^^^^^^^^^^^^^^^

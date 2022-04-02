@@ -17,10 +17,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframesRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
  1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
+ 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
+   :  ^^^^^^^^^
    `----
 
   x CustomIdent
@@ -41,18 +47,6 @@
    :                 ^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
- 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
-   :                 ^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
- 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
-   :                 ^^
-   `----
-
   x Percentage
    ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
  1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
@@ -63,12 +57,6 @@
    ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
  1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
    :                 ^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
- 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
-   :                    ^^^
    `----
 
   x Percentage
@@ -131,18 +119,6 @@
    :                                  ^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
- 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
-   :                                  ^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
- 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
-   :                                  ^^^
-   `----
-
   x Percentage
    ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
  1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
@@ -153,12 +129,6 @@
    ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
  1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
    :                                  ^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/uWMeE1AAowARdci8tkE-cg/input.css:1:1]
- 1 | @keyframes name{0%,50%{color:red}25%,75%{color:blue}}
-   :                                      ^^^
    `----
 
   x Percentage

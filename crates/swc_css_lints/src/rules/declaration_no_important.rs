@@ -25,12 +25,14 @@ struct DeclarationNoImportant {
 }
 
 impl Visit for DeclarationNoImportant {
-    fn visit_keyframes_rule(&mut self, keyframes_rule: &KeyframesRule) {
-        self.keyframe_rules.push(keyframes_rule.span);
+    fn visit_at_rule(&mut self, keyframes_rule: &AtRule) {
+        if let Some(AtRulePrelude::KeyframesPrelude(_)) = keyframes_rule.prelude {
+            self.keyframe_rules.push(keyframes_rule.span);
 
-        keyframes_rule.visit_children_with(self);
+            keyframes_rule.visit_children_with(self);
 
-        self.keyframe_rules.pop();
+            self.keyframe_rules.pop();
+        }
     }
 
     fn visit_important_flag(&mut self, important_flag: &ImportantFlag) {

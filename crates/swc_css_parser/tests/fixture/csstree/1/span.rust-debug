@@ -70,10 +70,16 @@
    : ^^^^^^^^^^^^^^^^^
    `----
 
-  x CharsetRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/csstree/1/input.css:2:1]
  2 | @charset 'utf-8';
-   : ^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/csstree/1/input.css:2:1]
+ 2 | @charset 'utf-8';
+   :  ^^^^^^^
    `----
 
   x Str
@@ -96,11 +102,16 @@
  5 | `-> }
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/csstree/1/input.css:3:1]
- 3 | ,-> @page :left {
- 4 | |       margin: 2em;
- 5 | `-> }
+ 3 | @page :left {
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/csstree/1/input.css:3:1]
+ 3 | @page :left {
+   :  ^^^^
    `----
 
   x PageSelectorList
@@ -206,14 +217,17 @@
  10 | `-> }
     `----
 
-  x MediaRule
-    ,-[$DIR/tests/fixture/csstree/1/input.css:6:1]
-  6 | ,-> @media screen and (foo: 1) {
-  7 | |       .class {
-  8 | |           color: red;
-  9 | |       }
- 10 | `-> }
-    `----
+  x AtRuleName
+   ,-[$DIR/tests/fixture/csstree/1/input.css:6:1]
+ 6 | @media screen and (foo: 1) {
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/csstree/1/input.css:6:1]
+ 6 | @media screen and (foo: 1) {
+   :  ^^^^^
+   `----
 
   x MediaQueryList
    ,-[$DIR/tests/fixture/csstree/1/input.css:6:1]
@@ -2106,15 +2120,16 @@
  31 | `-> }
     `----
 
-  x MediaRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/csstree/1/input.css:25:1]
- 25 | ,-> @media (device-aspect-ratio: 16/9) {
- 26 | |       *|span:before {
- 27 | |           --custom1: { something !important };
- 28 | |           --custom2: ([]) !important;
- 29 | |           background: element(#id);
- 30 | |       }
- 31 | `-> }
+ 25 | @media (device-aspect-ratio: 16/9) {
+    :  ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/csstree/1/input.css:25:1]
+ 25 | @media (device-aspect-ratio: 16/9) {
+    :  ^^^^^
     `----
 
   x MediaQueryList
@@ -2626,13 +2641,16 @@
  37 | `-> }
     `----
 
-  x SupportsRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/csstree/1/input.css:33:1]
- 33 | ,-> @supports (box-shadow: 1px 2px black !important) {
- 34 | |       .rule {
- 35 | |           box-shadow: var(--something, fallback);
- 36 | |       }
- 37 | `-> }
+ 33 | @supports (box-shadow: 1px 2px black !important) {
+    :  ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/csstree/1/input.css:33:1]
+ 33 | @supports (box-shadow: 1px 2px black !important) {
+    :  ^^^^^^^^
     `----
 
   x SupportsCondition
@@ -3155,16 +3173,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x ImportRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/csstree/1/input.css:44:1]
  44 | @import 'foo' screen;
-    : ^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^
     `----
 
-  x ImportHref
+  x Ident
     ,-[$DIR/tests/fixture/csstree/1/input.css:44:1]
  44 | @import 'foo' screen;
-    :         ^^^^^
+    :  ^^^^^^
     `----
 
   x Str
@@ -3209,13 +3227,16 @@
  49 | `-> }
     `----
 
-  x KeyframesRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/csstree/1/input.css:45:1]
- 45 | ,-> @keyframes 'anim' {
- 46 | |       from  { color: red }
- 47 | |       50.1% { color: green; background: green }
- 48 | |       100%  { ;color: blue;; }
- 49 | `-> }
+ 45 | @keyframes 'anim' {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/csstree/1/input.css:45:1]
+ 45 | @keyframes 'anim' {
+    :  ^^^^^^^^^
     `----
 
   x Str
@@ -3237,18 +3258,6 @@
     ,-[$DIR/tests/fixture/csstree/1/input.css:46:5]
  46 | from  { color: red }
     : ^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/csstree/1/input.css:46:5]
- 46 | from  { color: red }
-    : ^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/csstree/1/input.css:46:5]
- 46 | from  { color: red }
-    : ^^^^
     `----
 
   x Ident
@@ -3303,18 +3312,6 @@
     ,-[$DIR/tests/fixture/csstree/1/input.css:47:5]
  47 | 50.1% { color: green; background: green }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/csstree/1/input.css:47:5]
- 47 | 50.1% { color: green; background: green }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/csstree/1/input.css:47:5]
- 47 | 50.1% { color: green; background: green }
-    : ^^^^^
     `----
 
   x Percentage
@@ -3411,18 +3408,6 @@
     ,-[$DIR/tests/fixture/csstree/1/input.css:48:5]
  48 | 100%  { ;color: blue;; }
     : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeBlock
-    ,-[$DIR/tests/fixture/csstree/1/input.css:48:5]
- 48 | 100%  { ;color: blue;; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x KeyframeSelector
-    ,-[$DIR/tests/fixture/csstree/1/input.css:48:5]
- 48 | 100%  { ;color: blue;; }
-    : ^^^^
     `----
 
   x Percentage

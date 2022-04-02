@@ -17,10 +17,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframesRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
+ 1 | @k\65yframes abc { from {} }
+   :  ^^^^^^^^^^^
    `----
 
   x CustomIdent
@@ -39,18 +45,6 @@
    ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    :                    ^^^^^^^
-   `----
-
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
- 1 | @k\65yframes abc { from {} }
-   :                    ^^^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
- 1 | @k\65yframes abc { from {} }
-   :                    ^^^^
    `----
 
   x Ident

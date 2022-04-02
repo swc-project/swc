@@ -7,32 +7,51 @@
   },
   "rules": [
     {
-      "type": "NamespaceRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 23,
         "ctxt": 0
       },
-      "prefix": {
+      "name": {
         "type": "Ident",
         "span": {
-          "start": 11,
-          "end": 15,
+          "start": 1,
+          "end": 10,
           "ctxt": 0
         },
-        "value": "ns",
-        "raw": "\\6es"
+        "value": "namespace",
+        "raw": "namespace"
       },
-      "uri": {
-        "type": "String",
+      "prelude": {
+        "type": "NamespacePrelude",
         "span": {
-          "start": 16,
+          "start": 11,
           "end": 22,
           "ctxt": 0
         },
-        "value": "path",
-        "raw": "'path'"
-      }
+        "prefix": {
+          "type": "Ident",
+          "span": {
+            "start": 11,
+            "end": 15,
+            "ctxt": 0
+          },
+          "value": "ns",
+          "raw": "\\6es"
+        },
+        "uri": {
+          "type": "String",
+          "span": {
+            "start": 16,
+            "end": 22,
+            "ctxt": 0
+          },
+          "value": "path",
+          "raw": "'path'"
+        }
+      },
+      "block": null
     }
   ]
 }

@@ -17,10 +17,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:1]
  1 | @page { color: red; @top-left {} }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:1]
+ 1 | @page { color: red; @top-left {} }
+   :  ^^^^
    `----
 
   x SimpleBlock
@@ -77,10 +83,10 @@
    :                     ^^^^^^^^^^^^
    `----
 
-  x PageMarginRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/FTOGKsI_y1QxMNEu_Fgq7Q/input.css:1:1]
  1 | @page { color: red; @top-left {} }
-   :                     ^^^^^^^^^^^^
+   :                      ^^^^^^^^
    `----
 
   x Ident

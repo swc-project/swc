@@ -75,10 +75,16 @@
    : ^^^^^^^^
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/page/input.css:1:1]
  1 | @page{ }
-   : ^^^^^^^^
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:1:1]
+ 1 | @page{ }
+   :  ^^^^
    `----
 
   x SimpleBlock
@@ -99,10 +105,16 @@
    : ^^^^^^^
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/page/input.css:2:1]
  2 | @page{}
-   : ^^^^^^^
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:2:1]
+ 2 | @page{}
+   :  ^^^^
    `----
 
   x SimpleBlock
@@ -123,10 +135,16 @@
    : ^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/page/input.css:3:1]
  3 | @page{margin: 1cm}
-   : ^^^^^^^^^^^^^^^^^^
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:3:1]
+ 3 | @page{margin: 1cm}
+   :  ^^^^
    `----
 
   x SimpleBlock
@@ -201,10 +219,16 @@
    : ^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/page/input.css:4:1]
  4 | @page {margin: 1cm}
-   : ^^^^^^^^^^^^^^^^^^^
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:4:1]
+ 4 | @page {margin: 1cm}
+   :  ^^^^
    `----
 
   x SimpleBlock
@@ -279,10 +303,16 @@
    : ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/page/input.css:5:1]
  5 | @page {margin: 1cm;}
-   : ^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:5:1]
+ 5 | @page {margin: 1cm;}
+   :  ^^^^
    `----
 
   x SimpleBlock
@@ -357,10 +387,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/page/input.css:6:1]
  6 | @page :first {margin: 2cm}
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:6:1]
+ 6 | @page :first {margin: 2cm}
+   :  ^^^^
    `----
 
   x PageSelectorList
@@ -459,10 +495,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/page/input.css:7:1]
  7 | @page :first {margin: 2cm;}
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:7:1]
+ 7 | @page :first {margin: 2cm;}
+   :  ^^^^
    `----
 
   x PageSelectorList
@@ -561,10 +603,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/page/input.css:8:1]
  8 | @page :first{margin: 2cm;}
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:8:1]
+ 8 | @page :first{margin: 2cm;}
+   :  ^^^^
    `----
 
   x PageSelectorList
@@ -663,10 +711,16 @@
    : ^^^^^^^^
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/page/input.css:9:1]
  9 | @page {}
-   : ^^^^^^^^
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:9:1]
+ 9 | @page {}
+   :  ^^^^
    `----
 
   x SimpleBlock
@@ -687,10 +741,16 @@
     : ^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:10:1]
  10 | @page :left {}
-    : ^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:10:1]
+ 10 | @page :left {}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -735,10 +795,16 @@
     : ^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:11:1]
  11 | @page :right {}
-    : ^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:11:1]
+ 11 | @page :right {}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -783,10 +849,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:12:1]
  12 | @page LandscapeTable {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:12:1]
+ 12 | @page LandscapeTable {}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -831,10 +903,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:13:1]
  13 | @page CompanyLetterHead:first {} /*  identifier and pseudo page. */
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:13:1]
+ 13 | @page CompanyLetterHead:first {} /*  identifier and pseudo page. */
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -891,10 +969,16 @@
     : ^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:14:1]
  14 | @page:first {}
-    : ^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:14:1]
+ 14 | @page:first {}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -939,10 +1023,16 @@
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:15:1]
  15 | @page toc, index {}
-    : ^^^^^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:15:1]
+ 15 | @page toc, index {}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1005,10 +1095,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:16:1]
  16 | @page :blank:first { }
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:16:1]
+ 16 | @page :blank:first { }
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1069,12 +1165,16 @@
  20 | `-> }
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:17:1]
- 17 | ,-> @page {
- 18 | |       @top-left {}
- 19 | |       @bottom-center {}
- 20 | `-> }
+ 17 | @page {
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:17:1]
+ 17 | @page {
+    :  ^^^^
     `----
 
   x SimpleBlock
@@ -1097,10 +1197,10 @@
     : ^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:18:5]
  18 | @top-left {}
-    : ^^^^^^^^^^^^
+    :  ^^^^^^^^
     `----
 
   x Ident
@@ -1127,10 +1227,10 @@
     : ^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:19:5]
  19 | @bottom-center {}
-    : ^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^^^
     `----
 
   x Ident
@@ -1157,10 +1257,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:21:1]
  21 | @page :left { @left-middle {}}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:21:1]
+ 21 | @page :left { @left-middle {}}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1205,10 +1311,10 @@
     :               ^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:21:1]
  21 | @page :left { @left-middle {}}
-    :               ^^^^^^^^^^^^^^^
+    :                ^^^^^^^^^^^
     `----
 
   x Ident
@@ -1235,10 +1341,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:22:1]
  22 | @page :right{ @right-middle {}}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:22:1]
+ 22 | @page :right{ @right-middle {}}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1283,10 +1395,10 @@
     :               ^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:22:1]
  22 | @page :right{ @right-middle {}}
-    :               ^^^^^^^^^^^^^^^^
+    :                ^^^^^^^^^^^^
     `----
 
   x Ident
@@ -1313,10 +1425,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
  24 | @page :left { @bottom-left-corner {}}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+ 24 | @page :left { @bottom-left-corner {}}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1361,10 +1479,10 @@
     :               ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
  24 | @page :left { @bottom-left-corner {}}
-    :               ^^^^^^^^^^^^^^^^^^^^^^
+    :                ^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
@@ -1391,10 +1509,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:25:1]
  25 | @page :right { @bottom-right-corner {}}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:25:1]
+ 25 | @page :right { @bottom-right-corner {}}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1439,10 +1563,10 @@
     :                ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:25:1]
  25 | @page :right { @bottom-right-corner {}}
-    :                ^^^^^^^^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
@@ -1473,12 +1597,16 @@
  29 | `-> }
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:26:1]
- 26 | ,-> @page :first {
- 27 | |       @bottom-left-corner {}
- 28 | |       @bottom-right-corner {}
- 29 | `-> }
+ 26 | @page :first {
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:26:1]
+ 26 | @page :first {
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1525,10 +1653,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:27:5]
  27 | @bottom-left-corner {}
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
@@ -1555,10 +1683,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:28:5]
  28 | @bottom-right-corner {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
@@ -1585,10 +1713,16 @@
     : ^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:30:1]
  30 | @page {}
-    : ^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:30:1]
+ 30 | @page {}
+    :  ^^^^
     `----
 
   x SimpleBlock
@@ -1609,10 +1743,16 @@
     : ^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:31:1]
  31 | @page :left {}
-    : ^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:31:1]
+ 31 | @page :left {}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1657,10 +1797,16 @@
     : ^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:32:1]
  32 | @page :first {}
-    : ^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:32:1]
+ 32 | @page :first {}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1705,10 +1851,16 @@
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:33:1]
  33 | @page :blank:left {}
-    : ^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:33:1]
+ 33 | @page :blank:left {}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1765,10 +1917,16 @@
     : ^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:34:1]
  34 | @page artsy {}
-    : ^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:34:1]
+ 34 | @page artsy {}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1813,10 +1971,16 @@
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:35:1]
  35 | @page artsy:left {}
-    : ^^^^^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:35:1]
+ 35 | @page artsy:left {}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1873,10 +2037,16 @@
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:36:1]
  36 | @page artsy:first {}
-    : ^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:36:1]
+ 36 | @page artsy:first {}
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -1951,19 +2121,16 @@
  47 | `-> }
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:37:1]
- 37 | ,-> @page :first {
- 38 | |       color: green;
- 39 | |   
- 40 | |       @top-left {
- 41 | |           content: "foo";
- 42 | |           color: blue;
- 43 | |       }
- 44 | |       @top-right {
- 45 | |           content: "bar";
- 46 | |       }
- 47 | `-> }
+ 37 | @page :first {
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:37:1]
+ 37 | @page :first {
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -2057,12 +2224,10 @@
  43 | `->     }
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | ,-> @top-left {
- 41 | |           content: "foo";
- 42 | |           color: blue;
- 43 | `->     }
+ 40 | @top-left {
+    :  ^^^^^^^^
     `----
 
   x Ident
@@ -2165,11 +2330,10 @@
  46 | `->     }
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:44:5]
- 44 | ,-> @top-right {
- 45 | |           content: "bar";
- 46 | `->     }
+ 44 | @top-right {
+    :  ^^^^^^^^^
     `----
 
   x Ident
@@ -2255,21 +2419,16 @@
  60 | `-> }
     `----
 
-  x PageRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:48:1]
- 48 | ,-> @page :first {
- 49 | |       color: green;
- 50 | |   
- 51 | |       @top-left {
- 52 | |           content: "foo";
- 53 | |           color: blue;
- 54 | |       }
- 55 | |       @top-right {
- 56 | |           content: "bar";
- 57 | |       }
- 58 | |       
- 59 | |       margin: 20px;
- 60 | `-> }
+ 48 | @page :first {
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:48:1]
+ 48 | @page :first {
+    :  ^^^^
     `----
 
   x PageSelectorList
@@ -2365,12 +2524,10 @@
  54 | `->     }
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | ,-> @top-left {
- 52 | |           content: "foo";
- 53 | |           color: blue;
- 54 | `->     }
+ 51 | @top-left {
+    :  ^^^^^^^^
     `----
 
   x Ident
@@ -2473,11 +2630,10 @@
  57 | `->     }
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/page/input.css:55:5]
- 55 | ,-> @top-right {
- 56 | |           content: "bar";
- 57 | `->     }
+ 55 | @top-right {
+    :  ^^^^^^^^^
     `----
 
   x Ident

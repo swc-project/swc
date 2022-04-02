@@ -485,7 +485,7 @@ table th:not([align]) {
 table th {
   color: #363636;
 }
-@keyframes spinAround {
+@-webkit-keyframes spinAround {
   from {
     transform: rotate(0deg);
   }
@@ -2508,7 +2508,7 @@ div.icon-text {
 .progress.is-large {
   height: 1.5rem;
 }
-@keyframes moveIndeterminate {
+@-webkit-keyframes moveIndeterminate {
   from {
     background-position: 200% 0;
   }

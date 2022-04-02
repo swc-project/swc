@@ -7,43 +7,61 @@
   },
   "rules": [
     {
-      "type": "DocumentRule",
+      "type": "AtRule",
       "span": {
         "start": 0,
         "end": 82,
         "ctxt": 0
       },
-      "matchingFunctions": [
-        {
-          "type": "Url",
-          "span": {
-            "start": 10,
-            "end": 41,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 1,
+          "end": 9,
+          "ctxt": 0
+        },
+        "value": "document",
+        "raw": "document"
+      },
+      "prelude": {
+        "type": "DocumentPrelude",
+        "span": {
+          "start": 10,
+          "end": 42,
+          "ctxt": 0
+        },
+        "matchingFunctions": [
+          {
+            "type": "Url",
             "span": {
               "start": 10,
-              "end": 13,
+              "end": 41,
               "ctxt": 0
             },
-            "value": "url",
-            "raw": "url"
-          },
-          "value": {
-            "type": "String",
-            "span": {
-              "start": 14,
-              "end": 40,
-              "ctxt": 0
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 10,
+                "end": 13,
+                "ctxt": 0
+              },
+              "value": "url",
+              "raw": "url"
             },
-            "value": "https://www.example.com/",
-            "raw": "\"https://www.example.com/\""
-          },
-          "modifiers": []
-        }
-      ],
+            "value": {
+              "type": "String",
+              "span": {
+                "start": 14,
+                "end": 40,
+                "ctxt": 0
+              },
+              "value": "https://www.example.com/",
+              "raw": "\"https://www.example.com/\""
+            },
+            "modifiers": []
+          }
+        ]
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -164,163 +182,181 @@
       }
     },
     {
-      "type": "DocumentRule",
+      "type": "AtRule",
       "span": {
         "start": 84,
         "end": 299,
         "ctxt": 0
       },
-      "matchingFunctions": [
-        {
-          "type": "Url",
-          "span": {
-            "start": 94,
-            "end": 119,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 85,
+          "end": 93,
+          "ctxt": 0
+        },
+        "value": "document",
+        "raw": "document"
+      },
+      "prelude": {
+        "type": "DocumentPrelude",
+        "span": {
+          "start": 94,
+          "end": 228,
+          "ctxt": 0
+        },
+        "matchingFunctions": [
+          {
+            "type": "Url",
             "span": {
               "start": 94,
-              "end": 97,
+              "end": 119,
               "ctxt": 0
             },
-            "value": "url",
-            "raw": "url"
-          },
-          "value": {
-            "type": "String",
-            "span": {
-              "start": 98,
-              "end": 118,
-              "ctxt": 0
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 94,
+                "end": 97,
+                "ctxt": 0
+              },
+              "value": "url",
+              "raw": "url"
             },
-            "value": "http://www.w3.org/",
-            "raw": "\"http://www.w3.org/\""
+            "value": {
+              "type": "String",
+              "span": {
+                "start": 98,
+                "end": 118,
+                "ctxt": 0
+              },
+              "value": "http://www.w3.org/",
+              "raw": "\"http://www.w3.org/\""
+            },
+            "modifiers": []
           },
-          "modifiers": []
-        },
-        {
-          "type": "Function",
-          "span": {
-            "start": 121,
-            "end": 159,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "Function",
             "span": {
               "start": 121,
-              "end": 131,
+              "end": 159,
               "ctxt": 0
             },
-            "value": "url-prefix",
-            "raw": "url-prefix"
-          },
-          "value": [
-            {
-              "type": "String",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 132,
-                "end": 158,
+                "start": 121,
+                "end": 131,
                 "ctxt": 0
               },
-              "value": "http://www.w3.org/Style/",
-              "raw": "\"http://www.w3.org/Style/\""
-            }
-          ]
-        },
-        {
-          "type": "Function",
-          "span": {
-            "start": 161,
-            "end": 182,
-            "ctxt": 0
+              "value": "url-prefix",
+              "raw": "url-prefix"
+            },
+            "value": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 132,
+                  "end": 158,
+                  "ctxt": 0
+                },
+                "value": "http://www.w3.org/Style/",
+                "raw": "\"http://www.w3.org/Style/\""
+              }
+            ]
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "Function",
             "span": {
               "start": 161,
-              "end": 167,
+              "end": 182,
               "ctxt": 0
             },
-            "value": "domain",
-            "raw": "domain"
-          },
-          "value": [
-            {
-              "type": "String",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 168,
-                "end": 181,
+                "start": 161,
+                "end": 167,
                 "ctxt": 0
               },
-              "value": "mozilla.org",
-              "raw": "\"mozilla.org\""
-            }
-          ]
-        },
-        {
-          "type": "Function",
-          "span": {
-            "start": 184,
-            "end": 207,
-            "ctxt": 0
+              "value": "domain",
+              "raw": "domain"
+            },
+            "value": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 168,
+                  "end": 181,
+                  "ctxt": 0
+                },
+                "value": "mozilla.org",
+                "raw": "\"mozilla.org\""
+              }
+            ]
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "Function",
             "span": {
               "start": 184,
-              "end": 198,
+              "end": 207,
               "ctxt": 0
             },
-            "value": "media-document",
-            "raw": "media-document"
-          },
-          "value": [
-            {
-              "type": "String",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 199,
-                "end": 206,
+                "start": 184,
+                "end": 198,
                 "ctxt": 0
               },
-              "value": "video",
-              "raw": "\"video\""
-            }
-          ]
-        },
-        {
-          "type": "Function",
-          "span": {
-            "start": 209,
-            "end": 227,
-            "ctxt": 0
+              "value": "media-document",
+              "raw": "media-document"
+            },
+            "value": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 199,
+                  "end": 206,
+                  "ctxt": 0
+                },
+                "value": "video",
+                "raw": "\"video\""
+              }
+            ]
           },
-          "name": {
-            "type": "Ident",
+          {
+            "type": "Function",
             "span": {
               "start": 209,
-              "end": 215,
+              "end": 227,
               "ctxt": 0
             },
-            "value": "regexp",
-            "raw": "regexp"
-          },
-          "value": [
-            {
-              "type": "String",
+            "name": {
+              "type": "Ident",
               "span": {
-                "start": 216,
-                "end": 226,
+                "start": 209,
+                "end": 215,
                 "ctxt": 0
               },
-              "value": "https:.*",
-              "raw": "\"https:.*\""
-            }
-          ]
-        }
-      ],
+              "value": "regexp",
+              "raw": "regexp"
+            },
+            "value": [
+              {
+                "type": "String",
+                "span": {
+                  "start": 216,
+                  "end": 226,
+                  "ctxt": 0
+                },
+                "value": "https:.*",
+                "raw": "\"https:.*\""
+              }
+            ]
+          }
+        ]
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -472,45 +508,63 @@
       }
     },
     {
-      "type": "DocumentRule",
+      "type": "AtRule",
       "span": {
         "start": 301,
         "end": 343,
         "ctxt": 0
       },
-      "matchingFunctions": [
-        {
-          "type": "Url",
-          "span": {
-            "start": 311,
-            "end": 340,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 302,
+          "end": 310,
+          "ctxt": 0
+        },
+        "value": "document",
+        "raw": "document"
+      },
+      "prelude": {
+        "type": "DocumentPrelude",
+        "span": {
+          "start": 311,
+          "end": 341,
+          "ctxt": 0
+        },
+        "matchingFunctions": [
+          {
+            "type": "Url",
             "span": {
               "start": 311,
-              "end": 314,
+              "end": 340,
               "ctxt": 0
             },
-            "value": "url",
-            "raw": "url"
-          },
-          "value": {
-            "type": "UrlValueRaw",
-            "span": {
-              "start": 315,
-              "end": 339,
-              "ctxt": 0
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 311,
+                "end": 314,
+                "ctxt": 0
+              },
+              "value": "url",
+              "raw": "url"
             },
-            "before": "",
-            "after": "",
-            "value": "https://www.example.com/",
-            "raw": "https://www.example.com/"
-          },
-          "modifiers": null
-        }
-      ],
+            "value": {
+              "type": "UrlValueRaw",
+              "span": {
+                "start": 315,
+                "end": 339,
+                "ctxt": 0
+              },
+              "before": "",
+              "after": "",
+              "value": "https://www.example.com/",
+              "raw": "https://www.example.com/"
+            },
+            "modifiers": null
+          }
+        ]
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -523,43 +577,61 @@
       }
     },
     {
-      "type": "DocumentRule",
+      "type": "AtRule",
       "span": {
         "start": 344,
         "end": 393,
         "ctxt": 0
       },
-      "matchingFunctions": [
-        {
-          "type": "Url",
-          "span": {
-            "start": 359,
-            "end": 390,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 345,
+          "end": 358,
+          "ctxt": 0
+        },
+        "value": "-moz-document",
+        "raw": "-moz-document"
+      },
+      "prelude": {
+        "type": "DocumentPrelude",
+        "span": {
+          "start": 359,
+          "end": 391,
+          "ctxt": 0
+        },
+        "matchingFunctions": [
+          {
+            "type": "Url",
             "span": {
               "start": 359,
-              "end": 362,
+              "end": 390,
               "ctxt": 0
             },
-            "value": "url",
-            "raw": "url"
-          },
-          "value": {
-            "type": "String",
-            "span": {
-              "start": 363,
-              "end": 389,
-              "ctxt": 0
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 359,
+                "end": 362,
+                "ctxt": 0
+              },
+              "value": "url",
+              "raw": "url"
             },
-            "value": "https://www.example.com/",
-            "raw": "\"https://www.example.com/\""
-          },
-          "modifiers": []
-        }
-      ],
+            "value": {
+              "type": "String",
+              "span": {
+                "start": 363,
+                "end": 389,
+                "ctxt": 0
+              },
+              "value": "https://www.example.com/",
+              "raw": "\"https://www.example.com/\""
+            },
+            "modifiers": []
+          }
+        ]
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -572,43 +644,61 @@
       }
     },
     {
-      "type": "DocumentRule",
+      "type": "AtRule",
       "span": {
         "start": 394,
         "end": 463,
         "ctxt": 0
       },
-      "matchingFunctions": [
-        {
-          "type": "Url",
-          "span": {
-            "start": 432,
-            "end": 452,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 395,
+          "end": 408,
+          "ctxt": 0
+        },
+        "value": "-moz-document",
+        "raw": "-moz-document"
+      },
+      "prelude": {
+        "type": "DocumentPrelude",
+        "span": {
+          "start": 432,
+          "end": 461,
+          "ctxt": 0
+        },
+        "matchingFunctions": [
+          {
+            "type": "Url",
             "span": {
               "start": 432,
-              "end": 435,
+              "end": 452,
               "ctxt": 0
             },
-            "value": "url",
-            "raw": "url"
-          },
-          "value": {
-            "type": "String",
-            "span": {
-              "start": 436,
-              "end": 451,
-              "ctxt": 0
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 432,
+                "end": 435,
+                "ctxt": 0
+              },
+              "value": "url",
+              "raw": "url"
             },
-            "value": "example.com/{",
-            "raw": "\"example.com/{\""
-          },
-          "modifiers": []
-        }
-      ],
+            "value": {
+              "type": "String",
+              "span": {
+                "start": 436,
+                "end": 451,
+                "ctxt": 0
+              },
+              "value": "example.com/{",
+              "raw": "\"example.com/{\""
+            },
+            "modifiers": []
+          }
+        ]
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -621,43 +711,61 @@
       }
     },
     {
-      "type": "DocumentRule",
+      "type": "AtRule",
       "span": {
         "start": 465,
         "end": 619,
         "ctxt": 0
       },
-      "matchingFunctions": [
-        {
-          "type": "Url",
-          "span": {
-            "start": 475,
-            "end": 506,
-            "ctxt": 0
-          },
-          "name": {
-            "type": "Ident",
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 466,
+          "end": 474,
+          "ctxt": 0
+        },
+        "value": "document",
+        "raw": "document"
+      },
+      "prelude": {
+        "type": "DocumentPrelude",
+        "span": {
+          "start": 475,
+          "end": 507,
+          "ctxt": 0
+        },
+        "matchingFunctions": [
+          {
+            "type": "Url",
             "span": {
               "start": 475,
-              "end": 478,
+              "end": 506,
               "ctxt": 0
             },
-            "value": "url",
-            "raw": "url"
-          },
-          "value": {
-            "type": "String",
-            "span": {
-              "start": 479,
-              "end": 505,
-              "ctxt": 0
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 475,
+                "end": 478,
+                "ctxt": 0
+              },
+              "value": "url",
+              "raw": "url"
             },
-            "value": "https://www.example.com/",
-            "raw": "\"https://www.example.com/\""
-          },
-          "modifiers": []
-        }
-      ],
+            "value": {
+              "type": "String",
+              "span": {
+                "start": 479,
+                "end": 505,
+                "ctxt": 0
+              },
+              "value": "https://www.example.com/",
+              "raw": "\"https://www.example.com/\""
+            },
+            "modifiers": []
+          }
+        ]
+      },
       "block": {
         "type": "SimpleBlock",
         "span": {
@@ -668,13 +776,23 @@
         "name": "{",
         "value": [
           {
-            "type": "MediaRule",
+            "type": "AtRule",
             "span": {
               "start": 513,
               "end": 617,
               "ctxt": 0
             },
-            "media": {
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 514,
+                "end": 519,
+                "ctxt": 0
+              },
+              "value": "media",
+              "raw": "media"
+            },
+            "prelude": {
               "type": "MediaQueryList",
               "span": {
                 "start": 520,

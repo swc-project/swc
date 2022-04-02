@@ -20,11 +20,16 @@
  3 | `-> }
    `----
 
-  x FontFaceRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
- 1 | ,-> @font-face {
- 2 | |   	src: url("");
- 3 | `-> }
+ 1 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+ 1 | @font-face {
+   :  ^^^^^^^^^
    `----
 
   x SimpleBlock

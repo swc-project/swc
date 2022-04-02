@@ -17,10 +17,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframesRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:1]
  1 | @keyframes test { from {} to { color: red } }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:1]
+ 1 | @keyframes test { from {} to { color: red } }
+   :  ^^^^^^^^^
    `----
 
   x CustomIdent
@@ -41,18 +47,6 @@
    :                   ^^^^^^^
    `----
 
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:1]
- 1 | @keyframes test { from {} to { color: red } }
-   :                   ^^^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:1]
- 1 | @keyframes test { from {} to { color: red } }
-   :                   ^^^^
-   `----
-
   x Ident
    ,-[$DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:1]
  1 | @keyframes test { from {} to { color: red } }
@@ -69,18 +63,6 @@
    ,-[$DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:1]
  1 | @keyframes test { from {} to { color: red } }
    :                           ^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:1]
- 1 | @keyframes test { from {} to { color: red } }
-   :                           ^^^^^^^^^^^^^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/aDkLP2LEPmyD_ImzrGw8SQ/input.css:1:1]
- 1 | @keyframes test { from {} to { color: red } }
-   :                           ^^
    `----
 
   x Ident

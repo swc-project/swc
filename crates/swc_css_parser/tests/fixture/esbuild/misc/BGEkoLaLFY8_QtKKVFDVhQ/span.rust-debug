@@ -17,10 +17,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x KeyframesRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/BGEkoLaLFY8_QtKKVFDVhQ/input.css:1:1]
  1 | @keyframes a\,c { \66rom {} }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/BGEkoLaLFY8_QtKKVFDVhQ/input.css:1:1]
+ 1 | @keyframes a\,c { \66rom {} }
+   :  ^^^^^^^^^
    `----
 
   x CustomIdent
@@ -39,18 +45,6 @@
    ,-[$DIR/tests/fixture/esbuild/misc/BGEkoLaLFY8_QtKKVFDVhQ/input.css:1:1]
  1 | @keyframes a\,c { \66rom {} }
    :                   ^^^^^^^^^
-   `----
-
-  x KeyframeBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/BGEkoLaLFY8_QtKKVFDVhQ/input.css:1:1]
- 1 | @keyframes a\,c { \66rom {} }
-   :                   ^^^^^^^^^
-   `----
-
-  x KeyframeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/BGEkoLaLFY8_QtKKVFDVhQ/input.css:1:1]
- 1 | @keyframes a\,c { \66rom {} }
-   :                   ^^^^^^
    `----
 
   x Ident

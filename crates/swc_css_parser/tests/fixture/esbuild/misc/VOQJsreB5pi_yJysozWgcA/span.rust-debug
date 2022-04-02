@@ -36,10 +36,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9]
  2 | @page :first { margin: 0 }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9]
+ 2 | @page :first { margin: 0 }
+   :  ^^^^
    `----
 
   x PageSelectorList
@@ -152,27 +158,17 @@
  20 | `-> 		}
     `----
 
-  x PageRule
-    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
-  3 | ,-> @page {
-  4 | |   			@top-left-corner { content: 'tlc' }
-  5 | |   			@top-left { content: 'tl' }
-  6 | |   			@top-center { content: 'tc' }
-  7 | |   			@top-right { content: 'tr' }
-  8 | |   			@top-right-corner { content: 'trc' }
-  9 | |   			@bottom-left-corner { content: 'blc' }
- 10 | |   			@bottom-left { content: 'bl' }
- 11 | |   			@bottom-center { content: 'bc' }
- 12 | |   			@bottom-right { content: 'br' }
- 13 | |   			@bottom-right-corner { content: 'brc' }
- 14 | |   			@left-top { content: 'lt' }
- 15 | |   			@left-middle { content: 'lm' }
- 16 | |   			@left-bottom { content: 'lb' }
- 17 | |   			@right-top { content: 'rt' }
- 18 | |   			@right-middle { content: 'rm' }
- 19 | |   			@right-bottom { content: 'rb' }
- 20 | `-> 		}
-    `----
+  x AtRuleName
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page {
+   :  ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
+ 3 | @page {
+   :  ^^^^
+   `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:3:9]
@@ -208,10 +204,10 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageMarginRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:13]
  4 | @top-left-corner { content: 'tlc' }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^^^^^^^
    `----
 
   x Ident
@@ -274,10 +270,10 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageMarginRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
  5 | @top-left { content: 'tl' }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^
    `----
 
   x Ident
@@ -340,10 +336,10 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageMarginRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
  6 | @top-center { content: 'tc' }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^^
    `----
 
   x Ident
@@ -406,10 +402,10 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageMarginRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
  7 | @top-right { content: 'tr' }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^
    `----
 
   x Ident
@@ -472,10 +468,10 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageMarginRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
  8 | @top-right-corner { content: 'trc' }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^^^^^^^^
    `----
 
   x Ident
@@ -538,10 +534,10 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x PageMarginRule
+  x AtRuleName
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
  9 | @bottom-left-corner { content: 'blc' }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :  ^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
@@ -604,10 +600,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
  10 | @bottom-left { content: 'bl' }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^
     `----
 
   x Ident
@@ -670,10 +666,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
  11 | @bottom-center { content: 'bc' }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^^^
     `----
 
   x Ident
@@ -736,10 +732,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
  12 | @bottom-right { content: 'br' }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^^
     `----
 
   x Ident
@@ -802,10 +798,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
  13 | @bottom-right-corner { content: 'brc' }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
@@ -868,10 +864,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
  14 | @left-top { content: 'lt' }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^
     `----
 
   x Ident
@@ -934,10 +930,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
  15 | @left-middle { content: 'lm' }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^
     `----
 
   x Ident
@@ -1000,10 +996,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
  16 | @left-bottom { content: 'lb' }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^
     `----
 
   x Ident
@@ -1066,10 +1062,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
  17 | @right-top { content: 'rt' }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^
     `----
 
   x Ident
@@ -1132,10 +1128,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
  18 | @right-middle { content: 'rm' }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^^
     `----
 
   x Ident
@@ -1198,10 +1194,10 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x PageMarginRule
+  x AtRuleName
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
  19 | @right-bottom { content: 'rb' }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^^^^^^^^^^^^
     `----
 
   x Ident

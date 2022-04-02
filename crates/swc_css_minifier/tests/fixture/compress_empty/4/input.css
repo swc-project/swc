@@ -133,3 +133,14 @@ div {
     body {  }
 }
 
+div {
+    color: red;
+
+    &.test {}
+}
+
+div {
+    color: red;
+
+    @media all {  }
+}
