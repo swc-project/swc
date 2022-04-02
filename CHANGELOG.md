@@ -17,6 +17,9 @@
 - **(css/ast)** Derive more traits (#4220) ([def2826](https://github.com/swc-project/swc/commit/def2826029fcc405ac73283b3559415105266ad2))
 
 
+- **(es/ast)** Add `raw` to `BigInt` (#4218) ([e91f271](https://github.com/swc-project/swc/commit/e91f2718730b87d7318f45ecfe4ac0c03a52c6fd))
+
+
 - **(es/compat)** Support more regex expressions (#4205) ([b793aa0](https://github.com/swc-project/swc/commit/b793aa020095d797a76e2c19f42ab5822ee2ef03))
 
 ### Performance
@@ -33,6 +36,12 @@
 
 
 - **(css/ast)** Union all at-rules to one at-rule in AST (#4189) ([6696a93](https://github.com/swc-project/swc/commit/6696a93b5c7d005bb35be97e3f3ec52c1fe235aa))
+
+### Testing
+
+
+
+- **(es)** Add a test to ensure that an issue is not a bug of swc (#4227) ([bbbaf15](https://github.com/swc-project/swc/commit/bbbaf15bbae204030d7c781ca4155987d324c16a))
 
 ## [1.2.162] - 2022-03-31
 

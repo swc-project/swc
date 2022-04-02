@@ -104,7 +104,7 @@ impl<'a> From<&'a Token> for TokenType {
                         | Token::Word(Word::Ident(..))
                         | Token::DollarLBrace
                         | Token::Regex(..)
-                        | Token::BigInt(..)
+                        | Token::BigInt { .. }
                         | Token::JSXText { .. }
                         | Token::RBrace
                 ),
