@@ -1,3 +1,4 @@
+use is_macro::Is;
 use string_enum::StringEnum;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
@@ -7,6 +8,7 @@ use crate::{
 };
 
 #[ast_node("AtRule")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct AtRule {
     pub span: Span,
     pub name: AtRuleName,
@@ -15,6 +17,7 @@ pub struct AtRule {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AtRuleName {
     #[tag("DashedIdent")]
     DashedIdent(DashedIdent),
@@ -24,6 +27,7 @@ pub enum AtRuleName {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AtRulePrelude {
     #[tag("ListOfComponentValues")]
     ListOfComponentValues(ListOfComponentValues),
@@ -58,12 +62,14 @@ pub enum AtRulePrelude {
 }
 
 #[ast_node("ListOfComponentValues")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ListOfComponentValues {
     pub span: Span,
     pub children: Vec<ComponentValue>,
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ColorProfileName {
     #[tag("DashedIdent")]
     DashedIdent(DashedIdent),
@@ -72,12 +78,14 @@ pub enum ColorProfileName {
 }
 
 #[ast_node("DocumentPrelude")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct DocumentPrelude {
     pub span: Span,
     pub matching_functions: Vec<DocumentPreludeMatchingFunction>,
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum DocumentPreludeMatchingFunction {
     #[tag("Url")]
     Url(Url),
@@ -86,6 +94,7 @@ pub enum DocumentPreludeMatchingFunction {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum KeyframesName {
     #[tag("CustomIdent")]
     CustomIdent(CustomIdent),
@@ -94,6 +103,7 @@ pub enum KeyframesName {
 }
 
 #[ast_node("KeyframeBlock")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct KeyframeBlock {
     pub span: Span,
     pub prelude: Vec<KeyframeSelector>,
@@ -101,6 +111,7 @@ pub struct KeyframeBlock {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum KeyframeSelector {
     #[tag("Ident")]
     Ident(Ident),
@@ -109,6 +120,7 @@ pub enum KeyframeSelector {
 }
 
 #[ast_node("ImportPrelude")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ImportPrelude {
     pub span: Span,
     pub href: ImportPreludeHref,
@@ -118,6 +130,7 @@ pub struct ImportPrelude {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ImportPreludeHref {
     #[tag("Url")]
     Url(Url),
@@ -126,6 +139,7 @@ pub enum ImportPreludeHref {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ImportPreludeLayerName {
     #[tag("Ident")]
     Ident(Ident),
@@ -134,6 +148,7 @@ pub enum ImportPreludeLayerName {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ImportPreludeSupportsType {
     #[tag("SupportsCondition")]
     SupportsCondition(SupportsCondition),
@@ -142,6 +157,7 @@ pub enum ImportPreludeSupportsType {
 }
 
 #[ast_node("NamespacePrelude")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct NamespacePrelude {
     pub span: Span,
     pub prefix: Option<Ident>,
@@ -149,6 +165,7 @@ pub struct NamespacePrelude {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum NamespacePreludeUri {
     #[tag("Url")]
     Url(Url),
@@ -157,12 +174,14 @@ pub enum NamespacePreludeUri {
 }
 
 #[ast_node("MediaQueryList")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaQueryList {
     pub span: Span,
     pub queries: Vec<MediaQuery>,
 }
 
 #[ast_node("MediaQuery")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaQuery {
     pub span: Span,
     pub modifier: Option<Ident>,
@@ -172,6 +191,7 @@ pub struct MediaQuery {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum MediaConditionType {
     #[tag("MediaCondition")]
     All(MediaCondition),
@@ -181,18 +201,21 @@ pub enum MediaConditionType {
 }
 
 #[ast_node("MediaCondition")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaCondition {
     pub span: Span,
     pub conditions: Vec<MediaConditionAllType>,
 }
 
 #[ast_node("MediaConditionWithoutOr")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaConditionWithoutOr {
     pub span: Span,
     pub conditions: Vec<MediaConditionWithoutOrType>,
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum MediaConditionAllType {
     #[tag("MediaNot")]
     Not(MediaNot),
@@ -208,6 +231,7 @@ pub enum MediaConditionAllType {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum MediaConditionWithoutOrType {
     #[tag("MediaNot")]
     Not(MediaNot),
@@ -220,6 +244,7 @@ pub enum MediaConditionWithoutOrType {
 }
 
 #[ast_node("MediaNot")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaNot {
     pub span: Span,
     pub keyword: Ident,
@@ -227,6 +252,7 @@ pub struct MediaNot {
 }
 
 #[ast_node("MediaAnd")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaAnd {
     pub span: Span,
     pub keyword: Ident,
@@ -234,6 +260,7 @@ pub struct MediaAnd {
 }
 
 #[ast_node("MediaOr")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaOr {
     pub span: Span,
     pub keyword: Ident,
@@ -241,6 +268,7 @@ pub struct MediaOr {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum MediaInParens {
     #[tag("MediaCondition")]
     MediaCondition(MediaCondition),
@@ -251,6 +279,7 @@ pub enum MediaInParens {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum MediaFeature {
     #[tag("MediaFeaturePlain")]
     Plain(MediaFeaturePlain),
@@ -266,12 +295,14 @@ pub enum MediaFeature {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum MediaFeatureName {
     #[tag("Ident")]
     Ident(Ident),
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum MediaFeatureValue {
     #[tag("Number")]
     Number(Number),
@@ -287,6 +318,7 @@ pub enum MediaFeatureValue {
 }
 
 #[ast_node("MediaFeaturePlain")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaFeaturePlain {
     pub span: Span,
     pub name: MediaFeatureName,
@@ -294,6 +326,7 @@ pub struct MediaFeaturePlain {
 }
 
 #[ast_node("MediaFeatureBoolean")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaFeatureBoolean {
     pub span: Span,
     pub name: MediaFeatureName,
@@ -318,6 +351,7 @@ pub enum MediaFeatureRangeComparison {
 }
 
 #[ast_node("MediaFeatureRange")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaFeatureRange {
     pub span: Span,
     pub left: MediaFeatureValue,
@@ -326,6 +360,7 @@ pub struct MediaFeatureRange {
 }
 
 #[ast_node("MediaFeatureRangeInterval")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct MediaFeatureRangeInterval {
     pub span: Span,
     pub left: MediaFeatureValue,
@@ -338,12 +373,14 @@ pub struct MediaFeatureRangeInterval {
 }
 
 #[ast_node("SupportsCondition")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct SupportsCondition {
     pub span: Span,
     pub conditions: Vec<SupportsConditionType>,
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum SupportsConditionType {
     #[tag("SupportsNot")]
     Not(SupportsNot),
@@ -359,6 +396,7 @@ pub enum SupportsConditionType {
 }
 
 #[ast_node("SupportsNot")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct SupportsNot {
     pub span: Span,
     pub keyword: Ident,
@@ -366,6 +404,7 @@ pub struct SupportsNot {
 }
 
 #[ast_node("SupportsAnd")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct SupportsAnd {
     pub span: Span,
     pub keyword: Ident,
@@ -373,6 +412,7 @@ pub struct SupportsAnd {
 }
 
 #[ast_node("SupportsOr")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct SupportsOr {
     pub span: Span,
     pub keyword: Ident,
@@ -380,6 +420,7 @@ pub struct SupportsOr {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum SupportsInParens {
     #[tag("SupportsCondition")]
     SupportsCondition(SupportsCondition),
@@ -392,6 +433,7 @@ pub enum SupportsInParens {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum SupportsFeature {
     #[tag("Declaration")]
     Declaration(Declaration),
@@ -400,6 +442,7 @@ pub enum SupportsFeature {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum GeneralEnclosed {
     #[tag("Function")]
     Function(Function),
@@ -408,12 +451,14 @@ pub enum GeneralEnclosed {
 }
 
 #[ast_node("PageSelectorList")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct PageSelectorList {
     pub span: Span,
     pub selectors: Vec<PageSelector>,
 }
 
 #[ast_node("PageSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct PageSelector {
     pub span: Span,
     pub page_type: Option<PageSelectorType>,
@@ -421,18 +466,21 @@ pub struct PageSelector {
 }
 
 #[ast_node("PageSelectorType")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct PageSelectorType {
     pub span: Span,
     pub value: Ident,
 }
 
 #[ast_node("PageSelectorPseudo")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct PageSelectorPseudo {
     pub span: Span,
     pub value: Ident,
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum LayerPrelude {
     #[tag("LayerName")]
     Name(LayerName),
@@ -441,12 +489,14 @@ pub enum LayerPrelude {
 }
 
 #[ast_node("LayerName")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct LayerName {
     pub span: Span,
     pub name: Vec<Ident>,
 }
 
 #[ast_node("LayerNameList")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct LayerNameList {
     pub span: Span,
     pub name_list: Vec<LayerName>,

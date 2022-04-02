@@ -1,20 +1,21 @@
 use is_macro::Is;
-use swc_common::{ast_node, Span};
+use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
     AlphaValue, AtRule, CalcSum, CmykComponent, Color, ComplexSelector, DashedIdent, Delimiter,
-    Dimension, Function, Hue, Ident, Integer, KeyframeBlock, Number, Percentage, Ratio,
-    SelectorList, Str, TokenAndSpan, Tokens, UnicodeRange, Url,
+    Dimension, Hue, Ident, Integer, KeyframeBlock, Number, Percentage, Ratio, SelectorList, Str,
+    TokenAndSpan, Tokens, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Stylesheet {
     pub span: Span,
     pub rules: Vec<Rule>,
 }
 
 #[ast_node]
-#[derive(Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Rule {
     #[tag("QualifiedRule")]
     QualifiedRule(QualifiedRule),
@@ -27,6 +28,7 @@ pub enum Rule {
 }
 
 #[ast_node("QualifiedRule")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct QualifiedRule {
     pub span: Span,
     pub prelude: QualifiedRulePrelude,
@@ -34,6 +36,7 @@ pub struct QualifiedRule {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum QualifiedRulePrelude {
     #[tag("SelectorList")]
     SelectorList(SelectorList),
@@ -42,6 +45,7 @@ pub enum QualifiedRulePrelude {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum StyleBlock {
     #[tag("AtRule")]
     AtRule(AtRule),
@@ -54,6 +58,7 @@ pub enum StyleBlock {
 }
 
 #[ast_node("SimpleBlock")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct SimpleBlock {
     pub span: Span,
     // TODO Create a simple block with its associated token set to the current input token and with
@@ -62,7 +67,17 @@ pub struct SimpleBlock {
     pub value: Vec<ComponentValue>,
 }
 
+#[ast_node("Function")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct Function {
+    /// Span starting from the `lo` of identifier and to the end of `)`.
+    pub span: Span,
+    pub name: Ident,
+    pub value: Vec<ComponentValue>,
+}
+
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ComponentValue {
     // No grammar
     #[tag("TokenAndSpan")]
@@ -122,6 +137,7 @@ pub enum ComponentValue {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum DeclarationOrAtRule {
     #[tag("Declaration")]
     Declaration(Declaration),
@@ -132,6 +148,7 @@ pub enum DeclarationOrAtRule {
 }
 
 #[ast_node("Declaration")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Declaration {
     pub span: Span,
     pub name: DeclarationName,
@@ -141,6 +158,7 @@ pub struct Declaration {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub enum DeclarationName {
     #[tag("Ident")]
     Ident(Ident),
@@ -149,6 +167,7 @@ pub enum DeclarationName {
 }
 
 #[ast_node("ImportantFlag")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ImportantFlag {
     pub span: Span,
     pub value: Ident,
