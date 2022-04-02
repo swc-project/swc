@@ -10,6 +10,9 @@
 
 - **(css/prefixer)** Fix flex box (#4212) ([75b0ed5](https://github.com/swc-project/swc/commit/75b0ed55f6c352ab2cd918ac746ceef99fa0f124))
 
+
+- **(es/preset-env)** Change order of passes ([7eea95b](https://github.com/swc-project/swc/commit/7eea95be7a08d27d999e9f8a698077bf08b12d12))
+
 ### Features
 
 
