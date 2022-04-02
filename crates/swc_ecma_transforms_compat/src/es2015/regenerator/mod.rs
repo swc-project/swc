@@ -113,33 +113,35 @@ impl VisitMut for Regenerator {
         e.visit_mut_children_with(self);
 
         if let Expr::Fn(FnExpr {
-            ident, function, ..
+            ident,
+            function: function @ Function {
+                is_generator: true, ..
+            },
+            ..
         }) = e
         {
-            if function.is_generator {
-                let marked = ident.clone().unwrap_or_else(|| private_ident!("_callee"));
-                let ident = self.visit_mut_fn(
-                    Some(ident.take().unwrap_or_else(|| marked.clone())),
-                    marked,
-                    function,
-                );
+            let marked = ident.clone().unwrap_or_else(|| private_ident!("_callee"));
+            let ident = self.visit_mut_fn(
+                Some(ident.take().unwrap_or_else(|| marked.clone())),
+                marked,
+                function,
+            );
 
-                *e = Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: self
-                        .regenerator_runtime
-                        .clone()
-                        .unwrap()
-                        .make_member(quote_ident!("mark"))
-                        .as_callee(),
-                    args: vec![FnExpr {
-                        ident,
-                        function: function.take(),
-                    }
-                    .as_arg()],
-                    type_args: None,
-                });
-            }
+            *e = Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: self
+                    .regenerator_runtime
+                    .clone()
+                    .unwrap()
+                    .make_member(quote_ident!("mark"))
+                    .as_callee(),
+                args: vec![FnExpr {
+                    ident,
+                    function: function.take(),
+                }
+                .as_arg()],
+                type_args: None,
+            });
         }
     }
 
