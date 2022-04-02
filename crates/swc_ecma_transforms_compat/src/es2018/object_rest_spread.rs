@@ -790,7 +790,9 @@ impl ObjectRest {
                                 }))),
                             }),
                         ),
-                        PropName::BigInt(BigInt { span, ref value }) => {
+                        PropName::BigInt(BigInt {
+                            span, ref value, ..
+                        }) => {
                             let value = value.clone();
                             (
                                 key,
@@ -1003,7 +1005,7 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                     value: format!("{}", value).into(),
                 })
                 .as_arg(),
-                PropName::BigInt(BigInt { span, value }) => Lit::Str(Str {
+                PropName::BigInt(BigInt { span, value, .. }) => Lit::Str(Str {
                     span: *span,
                     raw: None,
                     value: format!("{}", value).into(),

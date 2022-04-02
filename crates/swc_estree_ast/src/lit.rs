@@ -317,6 +317,8 @@ pub struct BigIntLiteral {
     pub base: BaseNode,
     #[serde(default)]
     pub value: String,
+    #[serde(default)]
+    pub raw: JsWord,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

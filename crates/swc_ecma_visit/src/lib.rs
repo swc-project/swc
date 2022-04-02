@@ -986,6 +986,7 @@ define!({
     pub struct BigInt {
         pub span: Span,
         pub value: BigIntValue,
+        pub raw: Option<JsWord>,
     }
     pub struct Str {
         pub span: Span,
