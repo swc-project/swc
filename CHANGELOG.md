@@ -37,6 +37,12 @@
 
 - **(css/ast)** Union all at-rules to one at-rule in AST (#4189) ([6696a93](https://github.com/swc-project/swc/commit/6696a93b5c7d005bb35be97e3f3ec52c1fe235aa))
 
+### Testing
+
+
+
+- **(es)** Add a test to ensure that an issue is not a bug of swc (#4227) ([bbbaf15](https://github.com/swc-project/swc/commit/bbbaf15bbae204030d7c781ca4155987d324c16a))
+
 ## [1.2.162] - 2022-03-31
 
 ### Bug Fixes
