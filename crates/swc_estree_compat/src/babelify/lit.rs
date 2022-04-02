@@ -84,6 +84,11 @@ impl Babelify for BigInt {
         BigIntLiteral {
             base: ctx.base(self.span),
             value: self.value.to_string(),
+            // TODO improve me
+            raw: match self.raw {
+                Some(value) => value,
+                _ => "".into(),
+            },
         }
     }
 }
