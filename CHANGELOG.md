@@ -14,6 +14,9 @@
 
 
 
+- **(css/ast)** Derive more traits (#4220) ([def2826](https://github.com/swc-project/swc/commit/def2826029fcc405ac73283b3559415105266ad2))
+
+
 - **(es/compat)** Support more regex expressions (#4205) ([b793aa0](https://github.com/swc-project/swc/commit/b793aa020095d797a76e2c19f42ab5822ee2ef03))
 
 ### Performance
