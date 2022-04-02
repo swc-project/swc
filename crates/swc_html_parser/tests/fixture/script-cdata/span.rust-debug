@@ -1,0 +1,62 @@
+
+  x Document
+   ,-[$DIR/tests/fixture/script-cdata/input.html:1:1]
+ 1 | ,-> <script type="text/javascript">
+ 2 | |   //<![CDATA[
+ 3 | |   document.write("<");
+ 4 | |   //]]>
+ 5 | `-> </script>
+   `----
+
+  x StartTag { tag_name: Atom('script' type=inline), self_closing: false, attributes: [Attribute { name: Atom('type' type=static), value: Atom('text/javascript' type=dynamic) }] }
+   ,-[$DIR/tests/fixture/script-cdata/input.html:1:1]
+ 1 | <script type="text/javascript">
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/script-cdata/input.html:1:1]
+ 1 | <script type="text/javascript">
+   :                                ^
+ 2 | //<![CDATA[
+   `----
+
+  x Character { value: '/' }
+   ,-[$DIR/tests/fixture/script-cdata/input.html:2:1]
+ 2 | //<![CDATA[
+   : ^
+   `----
+
+  x Character { value: '/' }
+   ,-[$DIR/tests/fixture/script-cdata/input.html:2:1]
+ 2 | //<![CDATA[
+   :  ^
+   `----
+
+  x Comment { data: Atom('[CDATA[
+  | document.write("<");
+  | //]]' type=dynamic) }
+   ,-[$DIR/tests/fixture/script-cdata/input.html:2:1]
+ 2 | ,-> //<![CDATA[
+ 3 | |   document.write("<");
+ 4 | `-> //]]>
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/script-cdata/input.html:4:1]
+ 4 | //]]>
+   :      ^
+ 5 | </script>
+   `----
+
+  x EndTag { tag_name: Atom('script' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/script-cdata/input.html:5:1]
+ 5 | </script>
+   : ^^^^^^^^^
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/script-cdata/input.html:5:1]
+ 5 | </script>
+   :          ^
+   `----
