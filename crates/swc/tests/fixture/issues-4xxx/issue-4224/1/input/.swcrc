@@ -1,0 +1,9 @@
+{
+    "env": {
+        "targets": {
+            "ie": "11.0.0"
+        },
+        "mode": "entry",
+        "coreJs": 3
+    }
+}
