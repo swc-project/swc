@@ -4,6 +4,8 @@
             "ie": "11.0.0"
         },
         "mode": "entry",
-        "coreJs": 3
+        "coreJs": 3,
+        "shippedProposals": true,
+        "bugfixes": true
     }
 }
