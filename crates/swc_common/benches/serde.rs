@@ -79,7 +79,6 @@ fn bench_ast_node(c: &mut Criterion) {
         }))
         .unwrap();
         println!("{}", src);
-        b.bytes = src.len() as _;
 
         b.iter(|| {
             let t: AstNode = serde_json::from_str(&src).unwrap();
