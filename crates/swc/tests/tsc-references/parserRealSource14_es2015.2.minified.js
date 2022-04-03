@@ -217,8 +217,8 @@ var TypeScript;
         }
     }
     TypeScript1.AstPathContext = AstPathContext;
-    let GetAstPathOptions;
-    (GetAstPathOptions = GetAstPathOptions = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {}))[GetAstPathOptions.Default = 0] = "Default", GetAstPathOptions[GetAstPathOptions.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions[GetAstPathOptions.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = function(script, pos, options = GetAstPathOptions.Default) {
+    let GetAstPathOptions1;
+    (GetAstPathOptions = GetAstPathOptions1 = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {}))[GetAstPathOptions.Default = 0] = "Default", GetAstPathOptions[GetAstPathOptions.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions[GetAstPathOptions.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = function(script, pos, options = GetAstPathOptions1.Default) {
         var lookInComments = (comments)=>{
             if (comments && comments.length > 0) for(var i = 0; i < comments.length; i++){
                 var minChar = comments[i].minChar, limChar = comments[i].limChar;
@@ -226,12 +226,12 @@ var TypeScript;
             }
         }, pre = function(cur, parent, walker) {
             if (isValidAstNode(cur)) {
-                var inclusive = hasFlag(options, GetAstPathOptions.EdgeInclusive) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar, minChar = cur.minChar, limChar = cur.limChar + (inclusive ? 1 : 0);
+                var inclusive = hasFlag(options, GetAstPathOptions1.EdgeInclusive) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar, minChar = cur.minChar, limChar = cur.limChar + (inclusive ? 1 : 0);
                 if (pos >= minChar && pos < limChar) {
                     var previous = ctx.path.ast();
                     (null == previous || cur.minChar >= previous.minChar && cur.limChar <= previous.limChar) && ctx.path.push(cur);
                 }
-                pos < limChar && lookInComments(cur.preComments), pos >= minChar && lookInComments(cur.postComments), hasFlag(options, GetAstPathOptions.DontPruneSearchBasedOnPosition) || (walker.options.goChildren = minChar <= pos && pos <= limChar);
+                pos < limChar && lookInComments(cur.preComments), pos >= minChar && lookInComments(cur.postComments), hasFlag(options, GetAstPathOptions1.DontPruneSearchBasedOnPosition) || (walker.options.goChildren = minChar <= pos && pos <= limChar);
             }
             return cur;
         }, ctx = new AstPathContext();

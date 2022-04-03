@@ -1,7 +1,7 @@
 var A, Y;
 import * as swcHelpers from "@swc/helpers";
 !function(A3) {
-    var Module, Color, A1, Color, A2 = function() {
+    var Module, Color, A1, Color1, A2 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A2);
     }, AA1 = function() {
@@ -27,9 +27,9 @@ import * as swcHelpers from "@swc/helpers";
     Module || (Module = {}), A1 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A1);
-    }, (Color = Color || (Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
+    }, (Color1 = Color || (Color = {}))[Color1.Blue = 0] = "Blue", Color1[Color1.Red = 1] = "Red";
 }(A || (A = {})), function(Y1) {
-    var Color, A6 = function() {
+    var A6 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A6);
     };
@@ -61,7 +61,7 @@ import * as swcHelpers from "@swc/helpers";
     Y1.BB = BB, Y1.Module || (Y1.Module = {}), A5 = function() {
         "use strict";
         swcHelpers.classCallCheck(this, A5);
-    }, (Color = Color = Y1.Color || (Y1.Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
+    }, (Color = Y1.Color || (Y1.Color = {}))[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
         return 2;
     }, Y1.array = null, Y1.fn = function(s) {
         return "hello " + s;
