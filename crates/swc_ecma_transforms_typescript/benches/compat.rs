@@ -1,14 +1,10 @@
-#![feature(test)]
-
-extern crate test;
-
+use criterion::{criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{chain, comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::{helpers, resolver::resolver_with_mark};
 use swc_ecma_transforms_typescript::strip;
 use swc_ecma_visit::{Fold, FoldWith};
-use test::Bencher;
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
@@ -29,8 +25,6 @@ fn run<V>(b: &mut Bencher, tr: impl Fn() -> V)
 where
     V: Fold,
 {
-    b.bytes = SOURCE.len() as _;
-
     let _ = ::testing::run_test(false, |cm, _| {
         let module = module(cm);
         let mark = Mark::fresh(Mark::root());
@@ -285,7 +279,6 @@ fn es3(b: &mut Bencher) {
     run(b, || swc_ecma_transforms_compat::es3(Default::default()));
 }
 
-#[bench]
 fn full_es2016(b: &mut Bencher) {
     run(b, || {
         chain!(
@@ -301,7 +294,6 @@ fn full_es2016(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn full_es2017(b: &mut Bencher) {
     run(b, || {
         chain!(
@@ -316,7 +308,6 @@ fn full_es2017(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn full_es2018(b: &mut Bencher) {
     run(b, || {
         chain!(
@@ -329,3 +320,18 @@ fn full_es2018(b: &mut Bencher) {
         )
     });
 }
+
+fn full_group(c: &mut Criterion) {
+    c.bench_function("es2016", full_es2016);
+    c.bench_function("es2017", full_es2017);
+    c.bench_function("es2018", full_es2018);
+}
+
+criterion_group!(
+    benches,
+    codegen_group,
+    full_group,
+    parser_group,
+    base_tr_group
+);
+criterion_main!(benches);
