@@ -232,6 +232,7 @@ fn bench_cases(c: &mut Criterion) {
     c.bench_function("boxing_boxed", boxing_boxed);
     c.bench_function("boxing_unboxed", boxing_unboxed);
     c.bench_function("visit_empty", visit_empty);
+    c.bench_function("visit_contains_this", visit_contains_this);
 }
 
 criterion_group!(benches, bench_cases);
