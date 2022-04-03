@@ -1,6 +1,6 @@
 use swc_common::{hygiene::MutableMarkContext, plugin::Serialized, Mark, SyntaxContext};
 
-use crate::{host_environment::HostEnvironment, memory_interop::write_into_memory_view};
+use crate::{host_environment::BaseHostEnvironment, memory_interop::write_into_memory_view};
 
 /// A proxy to Mark::fresh() that can be used in plugin.
 /// This it not direcly called by plugin, instead `impl Mark` will selectively
@@ -27,7 +27,7 @@ pub fn mark_set_builtin_proxy(self_mark: u32, is_builtin: u32) {
 /// Inside of guest context, once this host function returns it'll assign params
 /// with return value accordingly.
 pub fn mark_is_descendant_of_proxy(
-    env: &HostEnvironment,
+    env: &BaseHostEnvironment,
     self_mark: u32,
     ancestor: u32,
     allocated_ptr: i32,
@@ -49,7 +49,7 @@ pub fn mark_is_descendant_of_proxy(
     }
 }
 
-pub fn mark_least_ancestor_proxy(env: &HostEnvironment, a: u32, b: u32, allocated_ptr: i32) {
+pub fn mark_least_ancestor_proxy(env: &BaseHostEnvironment, a: u32, b: u32, allocated_ptr: i32) {
     let a = Mark::from_u32(a);
     let b = Mark::from_u32(b);
 
@@ -70,7 +70,11 @@ pub fn syntax_context_apply_mark_proxy(self_syntax_context: u32, mark: u32) -> u
         .as_u32()
 }
 
-pub fn syntax_context_remove_mark_proxy(env: &HostEnvironment, self_mark: u32, allocated_ptr: i32) {
+pub fn syntax_context_remove_mark_proxy(
+    env: &BaseHostEnvironment,
+    self_mark: u32,
+    allocated_ptr: i32,
+) {
     let mut self_mark = SyntaxContext::from_u32(self_mark);
 
     let return_value = self_mark.remove_mark();

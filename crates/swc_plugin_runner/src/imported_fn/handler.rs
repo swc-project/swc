@@ -3,9 +3,9 @@ use swc_common::{
     plugin::Serialized,
 };
 
-use crate::{host_environment::HostEnvironment, memory_interop::copy_bytes_into_host};
+use crate::{host_environment::BaseHostEnvironment, memory_interop::copy_bytes_into_host};
 
-pub fn emit_diagnostics(env: &HostEnvironment, bytes_ptr: i32, bytes_ptr_len: i32) {
+pub fn emit_diagnostics(env: &BaseHostEnvironment, bytes_ptr: i32, bytes_ptr_len: i32) {
     if let Some(memory) = env.memory_ref() {
         if HANDLER.is_set() {
             HANDLER.with(|handler| {
