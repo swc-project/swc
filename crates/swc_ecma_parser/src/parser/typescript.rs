@@ -364,7 +364,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeParameter`
-    fn parse_ts_type_param(&mut self) -> PResult<TsTypeParam> {
+    fn parse_ts_type_param(&mut self, allow_modifier: bool) -> PResult<TsTypeParam> {
         debug_assert!(self.input.syntax().typescript());
 
         let mut is_in = false;
@@ -388,7 +388,9 @@ impl<I: Tokens> Parser<I> {
         )? {
             match modifer {
                 "in" => {
-                    if is_in {
+                    if !allow_modifier {
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1274(js_word!("in")));
+                    } else if is_in {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("in")));
                     } else if is_out {
                         self.emit_err(
@@ -400,7 +402,9 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
                 "out" => {
-                    if is_out {
+                    if !allow_modifier {
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1274(js_word!("out")));
+                    } else if is_out {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("out")));
                     } else {
                         is_out = true;
@@ -425,7 +429,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeParameter`
-    pub(super) fn parse_ts_type_params(&mut self) -> PResult<TsTypeParamDecl> {
+    pub(super) fn parse_ts_type_params(
+        &mut self,
+        allow_modifier: bool,
+    ) -> PResult<TsTypeParamDecl> {
         self.in_type().parse_with(|p| {
             p.ts_in_no_context(|p| {
                 let start = cur_pos!(p);
@@ -437,7 +444,7 @@ impl<I: Tokens> Parser<I> {
 
                 let params = p.parse_ts_bracketed_list(
                     ParsingContext::TypeParametersOrArguments,
-                    |p| p.parse_ts_type_param(), // bracket
+                    |p| p.parse_ts_type_param(allow_modifier), // bracket
                     false,
                     // skip_first_token
                     true,
@@ -1025,7 +1032,7 @@ impl<I: Tokens> Parser<I> {
             _ => {}
         }
 
-        let type_params = self.try_parse_ts_type_params()?;
+        let type_params = self.try_parse_ts_type_params(true)?;
 
         let extends = if eat!(self, "extends") {
             self.parse_ts_heritage_clause()?
@@ -1067,7 +1074,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
-        let type_params = self.try_parse_ts_type_params()?;
+        let type_params = self.try_parse_ts_type_params(true)?;
         let type_ann = self.expect_then_parse_ts_type(&tok!('='), "=")?;
         expect!(self, ';');
         Ok(TsTypeAliasDecl {
@@ -1228,7 +1235,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         // ----- inlined self.tsFillSignature(tt.colon, node);
-        let type_params = self.try_parse_ts_type_params()?;
+        let type_params = self.try_parse_ts_type_params(false)?;
         expect!(self, '(');
         let params = self.parse_ts_binding_list_for_signature()?;
         let type_ann = if is!(self, ':') {
@@ -1365,7 +1372,7 @@ impl<I: Tokens> Parser<I> {
         let optional = eat!(self, '?');
 
         if !readonly && is_one_of!(self, '(', '<') {
-            let type_params = self.try_parse_ts_type_params()?;
+            let type_params = self.try_parse_ts_type_params(false)?;
             expect!(self, '(');
             let params = self.parse_ts_binding_list_for_signature()?;
             let type_ann = if is!(self, ':') {
@@ -1776,7 +1783,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         // ----- inlined `self.tsFillSignature(tt.arrow, node)`
-        let type_params = self.try_parse_ts_type_params()?;
+        let type_params = self.try_parse_ts_type_params(false)?;
         expect!(self, '(');
         let params = self.parse_ts_binding_list_for_signature()?;
         let type_ann = self.parse_ts_type_or_type_predicate_ann(&tok!("=>"))?;
@@ -1941,13 +1948,16 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsTryParseTypeParameters`
-    pub(super) fn try_parse_ts_type_params(&mut self) -> PResult<Option<TsTypeParamDecl>> {
+    pub(super) fn try_parse_ts_type_params(
+        &mut self,
+        allow_modifier: bool,
+    ) -> PResult<Option<TsTypeParamDecl>> {
         if !cfg!(feature = "typescript") {
             return Ok(None);
         }
 
         if is!(self, '<') {
-            return self.parse_ts_type_params().map(Some);
+            return self.parse_ts_type_params(allow_modifier).map(Some);
         }
         Ok(None)
     }
@@ -2527,7 +2537,7 @@ impl<I: Tokens> Parser<I> {
 
         let res = if is_one_of!(self, '<', JSXTagStart) {
             self.try_parse_ts(|p| {
-                let type_params = p.parse_ts_type_params()?;
+                let type_params = p.parse_ts_type_params(false)?;
                 // Don't use overloaded parseFunctionParams which would look for "<" again.
                 expect!(p, '(');
                 let params: Vec<Pat> = p
