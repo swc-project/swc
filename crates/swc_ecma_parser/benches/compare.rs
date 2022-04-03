@@ -1,13 +1,10 @@
-#![feature(test)]
-
 extern crate swc_node_base;
-extern crate test;
 
+use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{FileName, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith};
-use test::Bencher;
 
 static SOURCE: &str = include_str!("files/angular-1.2.5.js");
 
@@ -23,80 +20,78 @@ where
         b.iter(|| {
             let module = module.clone();
             let module = op(module);
-            test::black_box(module)
+            black_box(module)
         });
         Ok(())
     });
 }
 
-#[bench]
-fn base_clone(b: &mut Bencher) {
-    run(b, |m| m);
-}
+fn bench_cases(c: &mut Criterion) {
+    c.bench_function("clone", |b| run(b, |m| m));
 
-#[bench]
-fn visit_mut_span(b: &mut Bencher) {
-    struct RespanVisitMut;
+    c.bench_function("visit_mut_span", |b| {
+        struct RespanVisitMut;
 
-    impl VisitMut for RespanVisitMut {
-        fn visit_mut_span(&mut self, span: &mut Span) {
-            *span = DUMMY_SP;
+        impl VisitMut for RespanVisitMut {
+            fn visit_mut_span(&mut self, span: &mut Span) {
+                *span = DUMMY_SP;
+            }
         }
-    }
 
-    run(b, |mut m| {
-        m.visit_mut_with(&mut RespanVisitMut);
+        run(b, |mut m| {
+            m.visit_mut_with(&mut RespanVisitMut);
 
-        m
+            m
+        });
+    });
+
+    c.bench_function("visit_mut_span_panic", |b| {
+        struct RespanVisitMut;
+
+        impl VisitMut for RespanVisitMut {
+            fn visit_mut_span(&mut self, span: &mut Span) {
+                if span.ctxt != SyntaxContext::empty() {
+                    panic!()
+                }
+
+                *span = DUMMY_SP;
+            }
+        }
+
+        run(b, |mut m| {
+            m.visit_mut_with(&mut RespanVisitMut);
+
+            m
+        });
+    });
+
+    c.bench_function("fold_span", |b| {
+        struct RespanFold;
+
+        impl Fold for RespanFold {
+            fn fold_span(&mut self, _: Span) -> Span {
+                DUMMY_SP
+            }
+        }
+
+        run(b, |m| m.fold_with(&mut RespanFold));
+    });
+
+    c.bench_function("fold_span_panic", |b| {
+        struct RespanFold;
+
+        impl Fold for RespanFold {
+            fn fold_span(&mut self, s: Span) -> Span {
+                if s.ctxt != SyntaxContext::empty() {
+                    panic!()
+                }
+                DUMMY_SP
+            }
+        }
+
+        run(b, |m| m.fold_with(&mut RespanFold));
     });
 }
 
-#[bench]
-fn visit_mut_span_panic(b: &mut Bencher) {
-    struct RespanVisitMut;
-
-    impl VisitMut for RespanVisitMut {
-        fn visit_mut_span(&mut self, span: &mut Span) {
-            if span.ctxt != SyntaxContext::empty() {
-                panic!()
-            }
-
-            *span = DUMMY_SP;
-        }
-    }
-
-    run(b, |mut m| {
-        m.visit_mut_with(&mut RespanVisitMut);
-
-        m
-    });
-}
-
-#[bench]
-fn fold_span(b: &mut Bencher) {
-    struct RespanFold;
-
-    impl Fold for RespanFold {
-        fn fold_span(&mut self, _: Span) -> Span {
-            DUMMY_SP
-        }
-    }
-
-    run(b, |m| m.fold_with(&mut RespanFold));
-}
-
-#[bench]
-fn fold_span_panic(b: &mut Bencher) {
-    struct RespanFold;
-
-    impl Fold for RespanFold {
-        fn fold_span(&mut self, s: Span) -> Span {
-            if s.ctxt != SyntaxContext::empty() {
-                panic!()
-            }
-            DUMMY_SP
-        }
-    }
-
-    run(b, |m| m.fold_with(&mut RespanFold));
-}
+criterion_group!(benches, bench_cases);
+criterion_main!(benches);

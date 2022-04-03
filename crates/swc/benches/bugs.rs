@@ -1,14 +1,10 @@
-#![feature(test)]
-#![feature(bench_black_box)]
-
 extern crate swc_node_base;
-extern crate test;
 
-use std::{fs::read_to_string, io::stderr, path::Path};
+use std::{io::stderr, path::Path};
 
+use criterion::{criterion_group, criterion_main, Bencher, Criterion};
 use swc::config::{IsModule, Options};
 use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, SourceMap};
-use test::Bencher;
 
 fn mk() -> swc::Compiler {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
@@ -18,8 +14,6 @@ fn mk() -> swc::Compiler {
 
 fn bench_file(b: &mut Bencher, path: &Path) {
     let c = mk();
-
-    b.bytes = read_to_string(&path).unwrap().len() as _;
 
     b.iter(|| {
         let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
@@ -41,7 +35,13 @@ fn bench_file(b: &mut Bencher, path: &Path) {
     });
 }
 
-#[bench]
 fn bugs_1(b: &mut Bencher) {
     bench_file(b, Path::new("benches/bugs/1/input.tsx"));
 }
+
+fn bench_bugs(c: &mut Criterion) {
+    c.bench_function("bugs_1", bugs_1);
+}
+
+criterion_group!(benches, bench_bugs);
+criterion_main!(benches);
