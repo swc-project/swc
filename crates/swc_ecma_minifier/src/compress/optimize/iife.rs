@@ -365,17 +365,6 @@ where
                                 return;
                             }
                         }
-
-                        {
-                            // As we remap parameters and variables, inlining should not
-                            // interfere with it.
-                            if param_ids
-                                .iter()
-                                .any(|id| self.has_pending_inline_for(&id.to_id()))
-                            {
-                                return;
-                            }
-                        }
                     }
                 }
 
@@ -546,15 +535,6 @@ where
     }
 
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
-        // As we remap parameters and variables, inlining should not
-        // interfere with it.
-        if param_ids
-            .iter()
-            .any(|id| self.has_pending_inline_for(&id.to_id()))
-        {
-            return false;
-        }
-
         // Don't create top-level variables.
         if !param_ids.is_empty() && self.ctx.in_top_level() {
             for pid in param_ids {
