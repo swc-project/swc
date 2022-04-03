@@ -3573,6 +3573,7 @@ dependencies = [
 name = "swc_ecma_transforms_typescript"
 version = "0.106.0"
 dependencies = [
+ "criterion",
  "serde",
  "swc_atoms",
  "swc_common",
