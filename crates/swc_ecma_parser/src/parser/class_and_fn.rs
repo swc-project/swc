@@ -93,7 +93,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             let type_params = if p.input.syntax().typescript() {
-                p.try_parse_ts_type_params()?
+                p.try_parse_ts_type_params(true)?
             } else {
                 None
             };
@@ -360,12 +360,15 @@ impl<'a, I: Tokens> Parser<I> {
 
     pub(super) fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
         Ok(self
-            .parse_ts_modifier(&["public", "protected", "private"], false)?
-            .map(|s| match s {
-                "public" => Accessibility::Public,
-                "protected" => Accessibility::Protected,
-                "private" => Accessibility::Private,
-                _ => unreachable!(),
+            .parse_ts_modifier(&["public", "protected", "private", "in", "out"], false)?
+            .and_then(|s| match s {
+                "public" => Some(Accessibility::Public),
+                "protected" => Some(Accessibility::Protected),
+                "private" => Some(Accessibility::Private),
+                other => {
+                    self.emit_err(self.input.prev_span(), SyntaxError::TS1274(other.into()));
+                    None
+                }
             }))
     }
 
@@ -707,7 +710,7 @@ impl<'a, I: Tokens> Parser<I> {
                         self.emit_err(span!(self, start), SyntaxError::TS1098);
                         self.emit_err(span!(self, start2), SyntaxError::TS1092);
                     } else {
-                        let type_params = self.try_parse_ts_type_params()?;
+                        let type_params = self.try_parse_ts_type_params(false)?;
 
                         if let Some(type_params) = type_params {
                             for param in type_params.params {
@@ -1171,7 +1174,7 @@ impl<'a, I: Tokens> Parser<I> {
                     trace_cur!(p, parse_fn_args_body__type_params);
 
                     Ok(if is!(p, '<') {
-                        Some(p.parse_ts_type_params()?)
+                        Some(p.parse_ts_type_params(false)?)
                     } else if is!(p, JSXTagStart) {
                         debug_assert_eq!(
                             p.input.token_context().current(),
@@ -1184,7 +1187,7 @@ impl<'a, I: Tokens> Parser<I> {
                         );
                         p.input.token_context_mut().pop();
 
-                        Some(p.parse_ts_type_params()?)
+                        Some(p.parse_ts_type_params(false)?)
                     } else {
                         None
                     })
