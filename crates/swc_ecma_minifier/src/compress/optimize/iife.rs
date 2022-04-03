@@ -5,13 +5,14 @@ use swc_atoms::js_word;
 use swc_common::{pass::Either, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, ident::IdentLike, undefined, ExprFactory, Id,
+    contains_arguments, contains_this_expr, find_ids, ident::IdentLike, undefined, ExprFactory, Id,
 };
 use swc_ecma_visit::VisitMutWith;
 
 use super::{util::MultiReplacer, Optimizer};
 use crate::{
-    compress::optimize::Ctx,
+    compress::optimize::{util::Remapper, Ctx},
+    debug::dump,
     mode::Mode,
     util::{idents_captured_by, idents_used_by, make_number},
 };
@@ -250,18 +251,17 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
     where
-        N: VisitMutWith<MultiReplacer>,
+        N: for<'aa> VisitMutWith<MultiReplacer<'aa>>,
     {
         if cfg!(feature = "debug") {
             tracing::trace!("inline: inline_vars_in_node");
         }
 
         n.visit_mut_with(&mut MultiReplacer {
-            vars,
+            vars: &mut vars,
             changed: false,
-            clone: false,
         });
     }
 
@@ -384,8 +384,7 @@ where
                         let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
 
                         for p in param_ids.iter() {
-                            let new = Ident::new(p.sym.clone(), p.span.with_ctxt(new_ctxt));
-                            remap.insert(p.to_id(), Box::new(Expr::Ident(new)));
+                            remap.insert(p.to_id(), new_ctxt);
                         }
 
                         {
@@ -437,10 +436,10 @@ where
                             }
                         }
                         body.visit_mut_with(&mut MultiReplacer {
-                            vars: remap,
+                            vars: &mut self.vars_for_inlining,
                             changed: false,
-                            clone: true,
                         });
+                        body.visit_mut_with(&mut Remapper { vars: remap });
                         exprs.push(body.take());
 
                         tracing::debug!("inline: Inlining a call to an arrow function");
@@ -527,6 +526,10 @@ where
                     self.changed = true;
                     tracing::debug!("inline: Inlining a function call");
 
+                    if cfg!(feature = "debug") {
+                        tracing::debug!("[Change]: {}", dump(&new, false));
+                    }
+
                     *e = new;
                 }
 
@@ -534,6 +537,10 @@ where
             }
             _ => {}
         }
+    }
+
+    fn has_pending_inline_for(&self, id: &Id) -> bool {
+        self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
     }
 
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
@@ -566,7 +573,7 @@ where
                 decls,
                 ..
             })) => {
-                if decls.iter().any(|decl| match decl.name {
+                if decls.iter().any(|decl| match &decl.name {
                     Pat::Ident(BindingIdent {
                         id:
                             Ident {
@@ -575,7 +582,14 @@ where
                             },
                         ..
                     }) => true,
-                    Pat::Ident(..) => false,
+                    Pat::Ident(id) => {
+                        if self.has_pending_inline_for(&id.to_id()) {
+                            return true;
+                        }
+
+                        false
+                    }
+
                     _ => true,
                 }) {
                     return false;
@@ -636,6 +650,45 @@ where
         tracing::debug!("inline: Inlining an iife");
 
         let mut exprs = vec![];
+
+        // We remap variables.
+        let mut remap = HashMap::default();
+        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+
+        let params = params
+            .iter()
+            .map(|i| {
+                // As the result of this function comes from `params` and `body`, we only need
+                // to remap those.
+
+                let new = Ident::new(i.sym.clone(), i.span.with_ctxt(new_ctxt));
+                remap.insert(i.to_id(), new_ctxt);
+                new
+            })
+            .collect::<Vec<_>>();
+
+        {
+            for stmt in &body.stmts {
+                if let Stmt::Decl(Decl::Var(var)) = stmt {
+                    for decl in &var.decls {
+                        let ids: Vec<Id> = find_ids(&decl.name);
+
+                        remap.extend(ids.into_iter().map(|id| {
+                            (
+                                id,
+                                SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
+                            )
+                        }));
+                    }
+                }
+            }
+        }
+
+        body.visit_mut_with(&mut MultiReplacer {
+            vars: &mut self.vars_for_inlining,
+            changed: false,
+        });
+        body.visit_mut_with(&mut Remapper { vars: remap });
 
         {
             let vars = params

@@ -488,6 +488,15 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    fn visit_class_expr(&mut self, n: &ClassExpr) {
+        n.visit_children_with(self);
+
+        if let Some(id) = &n.ident {
+            self.declare_decl(id, true, None, false);
+        }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_cond_expr(&mut self, n: &CondExpr) {
         n.test.visit_with(self);
 

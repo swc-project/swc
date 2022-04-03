@@ -705,7 +705,7 @@ where
                 .vars
                 .get(&i.to_id())
                 .map(|v| (v.ref_count == 0 && v.usage_count == 0) || v.var_kind.is_some())
-                .unwrap_or(true);
+                .unwrap_or(false);
 
             if can_remove_ident {
                 self.changed = true;
