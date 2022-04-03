@@ -3374,6 +3374,7 @@ name = "swc_ecma_transforms_base"
 version = "0.74.0"
 dependencies = [
  "better_scoped_tls",
+ "criterion",
  "once_cell",
  "phf",
  "rayon",
