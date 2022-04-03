@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Remap variables on IIFE evaluation (#4230) ([55b98fc](https://github.com/swc-project/swc/commit/55b98fc87470cc5b2e2645ae8588c106c490fb3a))
 
+### Features
+
+
+
+- **(es/minifier)** Improve sequential inlining (#4231) ([fe358ad](https://github.com/swc-project/swc/commit/fe358ad0b93d6f3bd2150fc9ce888f798875beed))
+
 ## [1.2.163] - 2022-04-03
 
 ### Bug Fixes
