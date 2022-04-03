@@ -1,4 +1,4 @@
-use criterion::{criterion_group, criterion_main, Bencher, Criterion};
+use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{chain, comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
@@ -38,7 +38,7 @@ where
             let _ = helpers::HELPERS.set(&Default::default(), || {
                 let mut tr = tr();
 
-                test::black_box(module.fold_with(&mut tr));
+                black_box(module.fold_with(&mut tr));
             });
         });
 
@@ -75,7 +75,7 @@ fn common_typescript(b: &mut Bencher) {
             let module = module.clone();
 
             let _ = helpers::HELPERS.set(&Default::default(), || {
-                test::black_box(module.fold_with(&mut strip(mark)));
+                black_box(module.fold_with(&mut strip(mark)));
             });
         });
 
@@ -90,11 +90,11 @@ fn common_reserved_word(b: &mut Bencher) {
 }
 
 fn version_group(c: &mut Criterion) {
+    c.bench_function("es3", es3);
     c.bench_function("es2015", es2015);
     c.bench_function("es2016", es2016);
     c.bench_function("es2017", es2017);
     c.bench_function("es2018", es2018);
-    c.bench_function("es2019", es2019);
     c.bench_function("es2020", es2020);
 }
 
@@ -103,6 +103,27 @@ fn single_tr_group(c: &mut Criterion) {
     c.bench_function("es2020_optional_chaining", es2020_optional_chaining);
     c.bench_function("es2022_class_properties", es2022_class_properties);
     c.bench_function("es2018_object_rest_spread", es2018_object_rest_spread);
+    c.bench_function(
+        "es2019_optional_catch_binding",
+        es2019_optional_catch_binding,
+    );
+    c.bench_function("es2017_async_to_generator", es2017_async_to_generator);
+    c.bench_function("es2016_exponentation", es2016_exponentation);
+    c.bench_function("es2015_arrow", es2015_arrow);
+    c.bench_function("es2015_block_scoped_fn", es2015_block_scoped_fn);
+    c.bench_function("es2015_block_scoping", es2015_block_scoping);
+    c.bench_function("es2015_classes", es2015_classes);
+    c.bench_function("es2015_computed_props", es2015_computed_props);
+    c.bench_function("es2015_destructuring", es2015_destructuring);
+    c.bench_function("es2015_duplicate_keys", es2015_duplicate_keys);
+    c.bench_function("es2015_parameters", es2015_parameters);
+    c.bench_function("es2015_fn_name", es2015_fn_name);
+    c.bench_function("es2015_for_of", es2015_for_of);
+    c.bench_function("es2015_instanceof", es2015_instanceof);
+    c.bench_function("es2015_shorthand_property", es2015_shorthand_property);
+    c.bench_function("es2015_spread", es2015_spread);
+    c.bench_function("es2015_sticky_regex", es2015_sticky_regex);
+    c.bench_function("es2015_typeof_symbol", es2015_typeof_symbol);
 }
 
 fn es2020(b: &mut Bencher) {
@@ -149,7 +170,6 @@ fn es2018_object_rest_spread(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn es2019_optional_catch_binding(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2019::optional_catch_binding()
@@ -160,7 +180,6 @@ fn es2017(b: &mut Bencher) {
     run(b, || swc_ecma_transforms_compat::es2017(Default::default()));
 }
 
-#[bench]
 fn es2017_async_to_generator(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2017::async_to_generator(Default::default())
@@ -171,7 +190,6 @@ fn es2016(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2016);
 }
 
-#[bench]
 fn es2016_exponentation(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2016::exponentation);
 }
@@ -186,24 +204,20 @@ fn es2015(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn es2015_arrow(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2015::arrow);
 }
 
-#[bench]
 fn es2015_block_scoped_fn(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2015::block_scoped_functions()
     });
 }
 
-#[bench]
 fn es2015_block_scoping(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2015::block_scoping);
 }
 
-#[bench]
 fn es2015_classes(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2015::classes(
@@ -213,55 +227,46 @@ fn es2015_classes(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn es2015_computed_props(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2015::computed_properties(Default::default())
     });
 }
 
-#[bench]
 fn es2015_destructuring(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2015::destructuring(Default::default())
     });
 }
 
-#[bench]
 fn es2015_duplicate_keys(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2015::duplicate_keys);
 }
 
-#[bench]
 fn es2015_parameters(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2015::parameters(Default::default())
     });
 }
 
-#[bench]
 fn es2015_fn_name(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2015::function_name);
 }
 
-#[bench]
 fn es2015_for_of(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2015::for_of(Default::default())
     });
 }
 
-#[bench]
 fn es2015_instanceof(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2015::instance_of);
 }
 
-#[bench]
 fn es2015_shorthand_property(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2015::shorthand);
 }
 
-#[bench]
 fn es2015_spread(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2015::spread(
@@ -272,17 +277,14 @@ fn es2015_spread(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn es2015_sticky_regex(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2015::sticky_regex);
 }
 
-#[bench]
 fn es2015_typeof_symbol(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2015::typeof_symbol);
 }
 
-#[bench]
 fn es3(b: &mut Bencher) {
     run(b, || swc_ecma_transforms_compat::es3(Default::default()));
 }
@@ -335,5 +337,11 @@ fn full_group(c: &mut Criterion) {
     c.bench_function("es2018", full_es2018);
 }
 
-criterion_group!(benches, full_group, single_tr_group, baseline_group);
+criterion_group!(
+    benches,
+    full_group,
+    single_tr_group,
+    baseline_group,
+    version_group
+);
 criterion_main!(benches);
