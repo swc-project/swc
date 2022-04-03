@@ -11,7 +11,7 @@ use swc_ecma_visit::VisitMutWith;
 
 use super::{util::MultiReplacer, Optimizer};
 use crate::{
-    compress::optimize::Ctx,
+    compress::optimize::{util::Remapper, Ctx},
     mode::Mode,
     util::{idents_captured_by, idents_used_by, make_number},
 };
@@ -261,7 +261,6 @@ where
         n.visit_mut_with(&mut MultiReplacer {
             vars,
             changed: false,
-            clone: false,
         });
     }
 
@@ -384,8 +383,7 @@ where
                         let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
 
                         for p in param_ids.iter() {
-                            let new = Ident::new(p.sym.clone(), p.span.with_ctxt(new_ctxt));
-                            remap.insert(p.to_id(), Box::new(Expr::Ident(new)));
+                            remap.insert(p.to_id(), new_ctxt);
                         }
 
                         {
@@ -436,11 +434,7 @@ where
                                 exprs.push(arg.expr.take());
                             }
                         }
-                        body.visit_mut_with(&mut MultiReplacer {
-                            vars: remap,
-                            changed: false,
-                            clone: true,
-                        });
+                        body.visit_mut_with(&mut Remapper { vars: remap });
                         exprs.push(body.take());
 
                         tracing::debug!("inline: Inlining a call to an arrow function");
@@ -636,6 +630,27 @@ where
         tracing::debug!("inline: Inlining an iife");
 
         let mut exprs = vec![];
+
+        // We remap variables.
+        let mut remap = HashMap::default();
+        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+
+        let params = params
+            .iter()
+            .map(|i| {
+                // As the result of this function comes from `params` and `body`, we only need
+                // to remap those.
+
+                let new = Ident::new(i.sym.clone(), i.span.with_ctxt(new_ctxt));
+                remap.insert(i.to_id(), new_ctxt);
+                new
+            })
+            .collect::<Vec<_>>();
+
+        {
+            let mut v = Remapper { vars: remap };
+            body.visit_mut_with(&mut v);
+        }
 
         {
             let vars = params

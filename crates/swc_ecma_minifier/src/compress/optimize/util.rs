@@ -2,7 +2,7 @@ use std::ops::{Deref, DerefMut};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::Span;
+use swc_common::{Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, prop_name_eq, ExprExt, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -168,19 +168,32 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
     !matches!(e, Expr::Lit(..) | Expr::Unary(..))
 }
 
+/// Variable remapper
+///
+/// - Used for evaluating IIFEs
+
+pub(crate) struct Remapper {
+    pub vars: FxHashMap<Id, SyntaxContext>,
+}
+
+impl VisitMut for Remapper {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if let Some(new_ctxt) = self.vars.get(&i.to_id()).copied() {
+            i.span.ctxt = new_ctxt;
+        }
+    }
+}
+
 pub(crate) struct MultiReplacer {
     pub vars: FxHashMap<Id, Box<Expr>>,
     pub changed: bool,
-    pub clone: bool,
 }
 
 impl MultiReplacer {
     fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
-        if self.clone {
-            self.vars.get(i).cloned()
-        } else {
-            self.vars.remove(i)
-        }
+        self.vars.remove(i)
     }
 }
 
