@@ -3267,6 +3267,7 @@ dependencies = [
 name = "swc_ecma_parser"
 version = "0.99.0"
 dependencies = [
+ "criterion",
  "either",
  "enum_kind",
  "lexical",
