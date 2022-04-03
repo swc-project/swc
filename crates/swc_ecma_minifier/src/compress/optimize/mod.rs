@@ -1797,6 +1797,16 @@ where
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        {
+            let ctx = Ctx {
+                executed_multiple_time: true,
+                ..self.ctx
+            };
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         if let Decl::Fn(f) = &mut n.decl {
