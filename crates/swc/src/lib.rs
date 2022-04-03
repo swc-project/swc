@@ -130,6 +130,7 @@ use common::{
     Span,
 };
 use config::{util::BoolOrObject, IsModule, JsMinifyCommentOption, JsMinifyOptions};
+use json_comments::StripComments;
 use once_cell::sync::Lazy;
 use parking_lot::Mutex;
 use serde::Serialize;
@@ -1275,11 +1276,13 @@ fn load_swcrc(path: &Path) -> Result<Rc, Error> {
 
     let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
 
-    if let Ok(v) = serde_json::from_str(content.trim_start_matches('\u{feff}')) {
+    if let Ok(v) = serde_json::from_reader(StripComments::new(
+        content.trim_start_matches('\u{feff}').as_bytes(),
+    )) {
         return Ok(v);
     }
 
-    serde_json::from_str::<Config>(&content)
+    serde_json::from_reader::<StripComments<&[u8]>, Config>(StripComments::new(content.as_bytes()))
         .map(Rc::Single)
         .map_err(convert_json_err)
 }
