@@ -2202,7 +2202,7 @@ where
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         stmts.visit_mut_with(&mut MultiReplacer {
-            vars: take(&mut self.vars_for_inlining),
+            vars: &mut self.vars_for_inlining,
             changed: false,
         });
 

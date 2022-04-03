@@ -186,18 +186,18 @@ impl VisitMut for Remapper {
     }
 }
 
-pub(crate) struct MultiReplacer {
-    pub vars: FxHashMap<Id, Box<Expr>>,
+pub(crate) struct MultiReplacer<'a> {
+    pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
     pub changed: bool,
 }
 
-impl MultiReplacer {
+impl MultiReplacer<'_> {
     fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
         self.vars.remove(i)
     }
 }
 
-impl VisitMut for MultiReplacer {
+impl VisitMut for MultiReplacer<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {

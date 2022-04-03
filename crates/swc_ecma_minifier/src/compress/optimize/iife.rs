@@ -251,16 +251,16 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
     where
-        N: VisitMutWith<MultiReplacer>,
+        N: for<'aa> VisitMutWith<MultiReplacer<'aa>>,
     {
         if cfg!(feature = "debug") {
             tracing::trace!("inline: inline_vars_in_node");
         }
 
         n.visit_mut_with(&mut MultiReplacer {
-            vars,
+            vars: &mut vars,
             changed: false,
         });
     }
@@ -680,10 +680,11 @@ where
             }
         }
 
-        {
-            let mut v = Remapper { vars: remap };
-            body.visit_mut_with(&mut v);
-        }
+        body.visit_mut_with(&mut MultiReplacer {
+            vars: &mut self.vars_for_inlining,
+            changed: false,
+        });
+        body.visit_mut_with(&mut Remapper { vars: remap });
 
         {
             let vars = params
