@@ -5,6 +5,14 @@
 
 
 
+- **(es/minifier)** Remap variables on IIFE evaluation (#4230) ([55b98fc](https://github.com/swc-project/swc/commit/55b98fc87470cc5b2e2645ae8588c106c490fb3a))
+
+## [1.2.163] - 2022-04-03
+
+### Bug Fixes
+
+
+
 - **(cli)** Update plugin template (#4222) ([69cb512](https://github.com/swc-project/swc/commit/69cb512e571de1f8b245fdc538cf9a09c51823f2))
 
 
