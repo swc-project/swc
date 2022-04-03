@@ -3294,6 +3294,7 @@ version = "0.116.1"
 dependencies = [
  "ahash",
  "anyhow",
+ "criterion",
  "dashmap",
  "indexmap",
  "once_cell",
