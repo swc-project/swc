@@ -3759,7 +3759,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.42.0"
+version = "0.43.0"
 dependencies = [
  "swc_atoms",
  "swc_common",

@@ -25,6 +25,9 @@
 
 - **(es/compat)** Support more regex expressions (#4205) ([b793aa0](https://github.com/swc-project/swc/commit/b793aa020095d797a76e2c19f42ab5822ee2ef03))
 
+
+- **(plugin)** Implement plugin api for comments (#4229) ([6ea66cf](https://github.com/swc-project/swc/commit/6ea66cf001754bb88604a824a2290a3360a798b8))
+
 ### Performance
 
 
