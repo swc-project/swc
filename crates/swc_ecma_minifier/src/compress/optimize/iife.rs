@@ -5,13 +5,14 @@ use swc_atoms::js_word;
 use swc_common::{pass::Either, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, ident::IdentLike, undefined, ExprFactory, Id,
+    contains_arguments, contains_this_expr, find_ids, ident::IdentLike, undefined, ExprFactory, Id,
 };
 use swc_ecma_visit::VisitMutWith;
 
 use super::{util::MultiReplacer, Optimizer};
 use crate::{
     compress::optimize::{util::Remapper, Ctx},
+    debug::dump,
     mode::Mode,
     util::{idents_captured_by, idents_used_by, make_number},
 };
@@ -521,6 +522,10 @@ where
                     self.changed = true;
                     tracing::debug!("inline: Inlining a function call");
 
+                    if cfg!(feature = "debug") {
+                        tracing::debug!("[Change]: {}", dump(&new, false));
+                    }
+
                     *e = new;
                 }
 
@@ -657,6 +662,23 @@ where
                 new
             })
             .collect::<Vec<_>>();
+
+        {
+            for stmt in &body.stmts {
+                if let Stmt::Decl(Decl::Var(var)) = stmt {
+                    for decl in &var.decls {
+                        let ids: Vec<Id> = find_ids(&decl.name);
+
+                        remap.extend(ids.into_iter().map(|id| {
+                            (
+                                id,
+                                SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
+                            )
+                        }));
+                    }
+                }
+            }
+        }
 
         {
             let mut v = Remapper { vars: remap };
