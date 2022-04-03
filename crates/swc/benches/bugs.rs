@@ -1,6 +1,6 @@
 extern crate swc_node_base;
 
-use std::{fs::read_to_string, io::stderr, path::Path};
+use std::{io::stderr, path::Path};
 
 use criterion::{criterion_group, criterion_main, Bencher, Criterion};
 use swc::config::{IsModule, Options};
