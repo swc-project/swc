@@ -46,7 +46,12 @@ where
     });
 }
 
-#[bench]
+fn baseline_group(c: &mut Criterion) {
+    c.bench_function("base", base);
+    c.bench_function("common_reserved_word", common_reserved_word);
+    c.bench_function("common_typescript", common_typescript);
+}
+
 fn base(b: &mut Bencher) {
     struct Noop;
     impl Fold for Noop {
@@ -58,10 +63,7 @@ fn base(b: &mut Bencher) {
     run(b, || Noop);
 }
 
-#[bench]
 fn common_typescript(b: &mut Bencher) {
-    b.bytes = SOURCE.len() as _;
-
     let _ = ::testing::run_test(false, |cm, _| {
         let module = module(cm);
         let mark = Mark::fresh(Mark::root());
@@ -81,14 +83,28 @@ fn common_typescript(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn common_reserved_word(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::reserved_words::reserved_words()
     });
 }
 
-#[bench]
+fn version_group(c: &mut Criterion) {
+    c.bench_function("es2015", es2015);
+    c.bench_function("es2016", es2016);
+    c.bench_function("es2017", es2017);
+    c.bench_function("es2018", es2018);
+    c.bench_function("es2019", es2019);
+    c.bench_function("es2020", es2020);
+}
+
+fn single_tr_group(c: &mut Criterion) {
+    c.bench_function("es2020_nullish_coalescing", es2020_nullish_coalescing);
+    c.bench_function("es2020_optional_chaining", es2020_optional_chaining);
+    c.bench_function("es2022_class_properties", es2022_class_properties);
+    c.bench_function("es2018_object_rest_spread", es2018_object_rest_spread);
+}
+
 fn es2020(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2022(
@@ -98,7 +114,6 @@ fn es2020(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn es2020_nullish_coalescing(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2020::nullish_coalescing(
@@ -109,14 +124,12 @@ fn es2020_nullish_coalescing(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn es2020_optional_chaining(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2020::optional_chaining(Default::default())
     });
 }
 
-#[bench]
 fn es2022_class_properties(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2022::class_properties(
@@ -126,12 +139,10 @@ fn es2022_class_properties(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn es2018(b: &mut Bencher) {
     run(b, || swc_ecma_transforms_compat::es2018(Default::default()));
 }
 
-#[bench]
 fn es2018_object_rest_spread(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2018::object_rest_spread(Default::default())
@@ -145,7 +156,6 @@ fn es2019_optional_catch_binding(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn es2017(b: &mut Bencher) {
     run(b, || swc_ecma_transforms_compat::es2017(Default::default()));
 }
@@ -157,7 +167,6 @@ fn es2017_async_to_generator(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn es2016(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2016);
 }
@@ -167,7 +176,6 @@ fn es2016_exponentation(b: &mut Bencher) {
     run(b, swc_ecma_transforms_compat::es2016::exponentation);
 }
 
-#[bench]
 fn es2015(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2015(
@@ -327,11 +335,5 @@ fn full_group(c: &mut Criterion) {
     c.bench_function("es2018", full_es2018);
 }
 
-criterion_group!(
-    benches,
-    codegen_group,
-    full_group,
-    parser_group,
-    base_tr_group
-);
+criterion_group!(benches, full_group, single_tr_group, baseline_group);
 criterion_main!(benches);
