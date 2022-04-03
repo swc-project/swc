@@ -3668,6 +3668,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "copyless",
+ "criterion",
  "pretty_assertions",
  "rayon",
  "serde",
