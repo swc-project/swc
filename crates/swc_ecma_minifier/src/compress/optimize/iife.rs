@@ -435,6 +435,10 @@ where
                                 exprs.push(arg.expr.take());
                             }
                         }
+                        body.visit_mut_with(&mut MultiReplacer {
+                            vars: &mut self.vars_for_inlining,
+                            changed: false,
+                        });
                         body.visit_mut_with(&mut Remapper { vars: remap });
                         exprs.push(body.take());
 
