@@ -2960,6 +2960,7 @@ dependencies = [
  "atty",
  "better_scoped_tls",
  "cfg-if 1.0.0",
+ "criterion",
  "debug_unreachable",
  "either",
  "from_variant",
