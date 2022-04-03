@@ -1357,77 +1357,133 @@ where
             _ => {}
         }
 
-        // if cfg!(feature = "debug") && false {
-        //     tracing::trace!(
-        //         "sequences: Trying to merge `{}` => `{}`",
-        //         dump(&*a),
-        //         dump(&*b)
-        //     );
-        // }
-
-        {
-            // This requires tracking if `b` is in an assignment pattern.
-            //
-            // Update expressions can be inline.
-            //
-            // ++c, console.log(c)
-            //
-            // is same as
-            //
-            // console.log(c++)
-
+        if cfg!(feature = "debug") {
             match a {
-                Mergable::Var(_) => {}
+                Mergable::Var(a) => {
+                    tracing::trace!(
+                        "sequences: Trying to merge `{}` => `{}`",
+                        crate::debug::dump(&**a, false),
+                        crate::debug::dump(&*b, false)
+                    );
+                }
                 Mergable::Expr(a) => {
-                    if let Expr::Update(UpdateExpr {
-                        op,
-                        prefix: false,
-                        arg,
-                        ..
-                    }) = *a
-                    {
-                        if let Expr::Ident(a_id) = &**arg {
-                            let mut v = UsageCounter {
-                                expr_usage: Default::default(),
-                                pat_usage: Default::default(),
-                                target: &*a_id,
-                                in_lhs: false,
-                            };
-                            b.visit_with(&mut v);
-                            if v.expr_usage != 1 || v.pat_usage != 0 {
-                                tracing::trace!(
-                                    "[X] sequences: Aborting merging of an update expression \
-                                     because of usage counts ({}, ref = {}, pat = {})",
-                                    a_id,
-                                    v.expr_usage,
-                                    v.pat_usage
-                                );
-                                return Ok(false);
-                            }
-
-                            let mut replaced = false;
-                            replace_expr(b, |e| {
-                                if let Expr::Update(e @ UpdateExpr { prefix: false, .. }) = e {
-                                    if *op == e.op && arg.is_ident_ref_to(a_id.sym.clone()) {
-                                        e.prefix = true;
-                                        replaced = true;
-                                    }
-                                }
-                            });
-                            if replaced {
-                                a.take();
-                                return Ok(true);
-                            }
-                        }
-
-                        return Ok(false);
-                    }
+                    tracing::trace!(
+                        "sequences: Trying to merge `{}` => `{}`",
+                        crate::debug::dump(&**a, false),
+                        crate::debug::dump(&*b, false)
+                    );
                 }
             }
         }
 
+        if self.replace_seq_update(a, b)? {
+            return Ok(true);
+        }
+
+        if self.replace_seq_assignment(a, b)? {
+            return Ok(true);
+        }
+
+        Ok(false)
+    }
+
+    /// This requires tracking if `b` is in an assignment pattern.
+    ///
+    /// Update expressions can be inline.
+    ///
+    /// c++, console.log(c)
+    ///
+    /// is same as
+    ///
+    /// console.log(++c)
+
+    fn replace_seq_update(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
+        if let Mergable::Expr(a) = a {
+            if let Expr::Update(UpdateExpr {
+                op,
+                prefix: false,
+                arg,
+                ..
+            }) = *a
+            {
+                if let Expr::Ident(a_id) = &**arg {
+                    if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
+                        if let Some(VarDeclKind::Const) = usage.var_kind {
+                            return Err(());
+                        }
+                    }
+
+                    let mut v = UsageCounter {
+                        expr_usage: Default::default(),
+                        pat_usage: Default::default(),
+                        target: &*a_id,
+                        in_lhs: false,
+                    };
+                    b.visit_with(&mut v);
+                    if v.expr_usage != 1 || v.pat_usage != 0 {
+                        if cfg!(feature = "debug") {
+                            tracing::trace!(
+                                "[X] sequences: Aborting merging of an update expression because \
+                                 of usage counts ({}, ref = {}, pat = {})",
+                                a_id,
+                                v.expr_usage,
+                                v.pat_usage
+                            );
+                        }
+
+                        return Ok(false);
+                    }
+
+                    let mut replaced = false;
+                    replace_expr(b, |e| {
+                        if replaced {
+                            return;
+                        }
+
+                        if let Expr::Ident(orig_expr) = &*e {
+                            if orig_expr.to_id() == a_id.to_id() {
+                                replaced = true;
+                                *e = Expr::Update(UpdateExpr {
+                                    span: DUMMY_SP,
+                                    op: *op,
+                                    prefix: true,
+                                    arg: Box::new(Expr::Ident(orig_expr.clone())),
+                                });
+                                return;
+                            }
+                        }
+
+                        if let Expr::Update(e @ UpdateExpr { prefix: false, .. }) = e {
+                            if let Expr::Ident(arg) = &*e.arg {
+                                if *op == e.op && arg.to_id() == a_id.to_id() {
+                                    e.prefix = true;
+                                    replaced = true;
+                                }
+                            }
+                        }
+                    });
+                    if replaced {
+                        self.changed = true;
+                        tracing::debug!(
+                            "sequences: Merged update expression into another expression",
+                        );
+
+                        a.take();
+                        return Ok(true);
+                    }
+                }
+
+                return Ok(false);
+            }
+        }
+
+        Ok(false)
+    }
+
+    /// Handle where a: [Expr::Assign] or [Mergable::Var]
+    fn replace_seq_assignment(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
         let mut right_val;
-        let (left_id, right) = match a {
+        let (left_id, a_right) = match a {
             Mergable::Expr(a) => {
                 match a {
                     Expr::Assign(AssignExpr { left, right, .. }) => {
@@ -1505,10 +1561,10 @@ where
             }
         };
 
-        if right.is_this() || right.is_ident_ref_to(js_word!("arguments")) {
+        if a_right.is_this() || a_right.is_ident_ref_to(js_word!("arguments")) {
             return Ok(false);
         }
-        if contains_arguments(&**right) {
+        if contains_arguments(&**a_right) {
             return Ok(false);
         }
 
@@ -1525,7 +1581,7 @@ where
             //
             // rand should not be inlined because of `index`.
 
-            let deps = idents_used_by_ignoring_nested(&*right);
+            let deps = idents_used_by_ignoring_nested(&*a_right);
 
             let used_by_b = idents_used_by(&*b);
 
