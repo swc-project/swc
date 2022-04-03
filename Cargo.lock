@@ -3134,6 +3134,7 @@ name = "swc_ecma_codegen"
 version = "0.102.0"
 dependencies = [
  "bitflags",
+ "criterion",
  "memchr",
  "num-bigint",
  "once_cell",
