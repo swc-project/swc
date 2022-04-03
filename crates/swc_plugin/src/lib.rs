@@ -7,7 +7,7 @@ pub use swc_common::{
 };
 
 pub mod comments {
-    pub use swc_common::comments::Comments;
+    pub use swc_common::comments::{Comment, CommentKind, Comments};
     pub use swc_plugin_comments::PluginCommentsProxy;
 }
 

@@ -64,15 +64,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "better_scoped_tls"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b73e8ecdec39e98aa3b19e8cd0b8ed8f77ccb86a6b0b2dc7cd86d105438a2123"
-dependencies = [
- "scoped-tls",
-]
-
-[[package]]
 name = "bitflags"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -621,12 +612,12 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.18"
+version = "0.17.19"
 dependencies = [
  "ahash",
  "anyhow",
  "ast_node",
- "better_scoped_tls 0.1.0",
+ "better_scoped_tls",
  "cfg-if",
  "debug_unreachable",
  "either",
@@ -647,7 +638,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.73.0"
+version = "0.73.1"
 dependencies = [
  "is-macro",
  "num-bigint",
@@ -701,7 +692,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.39.0"
+version = "0.41.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -715,14 +706,14 @@ dependencies = [
 name = "swc_plugin_comments"
 version = "0.1.0"
 dependencies = [
- "better_scoped_tls 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "better_scoped_tls",
  "rkyv",
  "swc_common",
 ]
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.3.1"
+version = "0.4.0"
 dependencies = [
  "proc-macro2",
  "quote",

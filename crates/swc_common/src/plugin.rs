@@ -57,6 +57,15 @@ impl Serialized {
         Serialized { field: vec }
     }
 
+    /// Not an actual trait Into impl: simple wrapper to deserialize<T>:expect()
+    pub fn into<T>(self) -> T
+    where
+        T: rkyv::Archive,
+        T::Archived: rkyv::Deserialize<T, rkyv::Infallible>,
+    {
+        Serialized::deserialize(&self).expect("Should able to deserialize")
+    }
+
     #[allow(clippy::should_implement_trait)]
     pub fn as_ref(&self) -> &rkyv::AlignedVec {
         &self.field
