@@ -6447,7 +6447,7 @@
                 });
                 for(extents.sort(function(a, b) {
                     return a.time - b.time;
-                }), count = 0; count < extents.length; count++)'start' === extents[count].type ? (arity++, 2 === arity && (start = extents[count].time)) : 'end' === extents[count].type && (arity--, 1 === arity && (end = extents[count].time)), null !== start && null !== end && (ranges.push([
+                }), count = 0; count < extents.length; count++)'start' === extents[count].type ? 2 == ++arity && (start = extents[count].time) : 'end' === extents[count].type && 1 == --arity && (end = extents[count].time), null !== start && null !== end && (ranges.push([
                     start,
                     end
                 ]), start = null, end = null);
@@ -11785,7 +11785,7 @@
             }, removeDuplicateCuesFromTrack = function(track) {
                 var cues = track.cues;
                 if (cues) for(var i = 0; i < cues.length; i++){
-                    for(var duplicates = [], occurrences = 0, j = 0; j < cues.length; j++)cues[i].startTime === cues[j].startTime && cues[i].endTime === cues[j].endTime && cues[i].text === cues[j].text && (occurrences++, occurrences > 1 && duplicates.push(cues[j]));
+                    for(var duplicates = [], occurrences = 0, j = 0; j < cues.length; j++)cues[i].startTime === cues[j].startTime && cues[i].endTime === cues[j].endTime && cues[i].text === cues[j].text && ++occurrences > 1 && duplicates.push(cues[j]);
                     duplicates.length && duplicates.forEach(function(dupe) {
                         return track.removeCue(dupe);
                     });
@@ -12036,7 +12036,7 @@
                         return;
                     }
                     var removesRemaining = 1, removeFinished = function() {
-                        removesRemaining--, 0 === removesRemaining && done();
+                        0 == --removesRemaining && done();
                     };
                     for(var track in (force || !this.audioDisabled_) && (removesRemaining++, this.sourceUpdater_.removeAudio(start, end, removeFinished)), (force || 'main' === this.loaderType_) && (this.gopBuffer_ = removeGopBuffer(this.gopBuffer_, start, end, this.timeMapping_), removesRemaining++, this.sourceUpdater_.removeVideo(start, end, removeFinished)), this.inbandTextTracks_)removeCuesFromTrack(start, end, this.inbandTextTracks_[track]);
                     removeCuesFromTrack(start, end, this.segmentMetadataTrack_), removeFinished();

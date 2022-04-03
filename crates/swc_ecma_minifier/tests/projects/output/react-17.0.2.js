@@ -434,7 +434,7 @@
             if (sample && control && 'string' == typeof sample.stack) {
                 for(var sampleLines = sample.stack.split('\n'), controlLines = control.stack.split('\n'), s = sampleLines.length - 1, c = controlLines.length - 1; s >= 1 && c >= 0 && sampleLines[s] !== controlLines[c];)c--;
                 for(; s >= 1 && c >= 0; s--, c--)if (sampleLines[s] !== controlLines[c]) {
-                    if (1 !== s || 1 !== c) do if (s--, c--, c < 0 || sampleLines[s] !== controlLines[c]) {
+                    if (1 !== s || 1 !== c) do if (s--, --c < 0 || sampleLines[s] !== controlLines[c]) {
                         var _frame = '\n' + sampleLines[s].replace(' at new ', ' at ');
                         return 'function' == typeof fn && componentFrameCache.set(fn, _frame), _frame;
                     }
@@ -444,7 +444,7 @@
             }
         } finally{
             reentry = !1, ReactCurrentDispatcher$1.current = previousDispatcher, function() {
-                if (disabledDepth--, 0 === disabledDepth) {
+                if (0 == --disabledDepth) {
                     var props = {
                         configurable: !0,
                         enumerable: !0,

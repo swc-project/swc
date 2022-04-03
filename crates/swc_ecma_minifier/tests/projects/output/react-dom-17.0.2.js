@@ -373,7 +373,7 @@
         disabledDepth++;
     }
     function reenableLogs() {
-        if (disabledDepth--, 0 === disabledDepth) {
+        if (0 == --disabledDepth) {
             var props = {
                 configurable: !0,
                 enumerable: !0,
@@ -460,7 +460,7 @@
             if (sample && control && 'string' == typeof sample.stack) {
                 for(var sampleLines = sample.stack.split('\n'), controlLines = control.stack.split('\n'), s = sampleLines.length - 1, c = controlLines.length - 1; s >= 1 && c >= 0 && sampleLines[s] !== controlLines[c];)c--;
                 for(; s >= 1 && c >= 0; s--, c--)if (sampleLines[s] !== controlLines[c]) {
-                    if (1 !== s || 1 !== c) do if (s--, c--, c < 0 || sampleLines[s] !== controlLines[c]) {
+                    if (1 !== s || 1 !== c) do if (s--, --c < 0 || sampleLines[s] !== controlLines[c]) {
                         var _frame = '\n' + sampleLines[s].replace(' at new ', ' at ');
                         return 'function' == typeof fn && componentFrameCache.set(fn, _frame), _frame;
                     }
@@ -4141,7 +4141,7 @@
         fiber !== fiberStack[index1] && error1('Unexpected Fiber popped.'), cursor.current = valueStack[index1], valueStack[index1] = null, fiberStack[index1] = null, index1--;
     }
     function push(cursor, value, fiber) {
-        index1++, valueStack[index1] = cursor.current, fiberStack[index1] = fiber, cursor.current = value;
+        valueStack[++index1] = cursor.current, fiberStack[index1] = fiber, cursor.current = value;
     }
     warnedAboutMissingGetChildContext = {};
     var emptyContextObject = {};
@@ -5298,7 +5298,7 @@
     }
     function updateHookTypesDev() {
         var hookName = currentHookNameInDev;
-        null !== hookTypesDev && (hookTypesUpdateIndexDev++, hookTypesDev[hookTypesUpdateIndexDev] !== hookName && warnOnHookMismatchInDev(hookName));
+        null !== hookTypesDev && hookTypesDev[++hookTypesUpdateIndexDev] !== hookName && warnOnHookMismatchInDev(hookName);
     }
     function checkDepsAreArrayDev(deps) {
         null == deps || Array.isArray(deps) || error1("%s received a final argument that is not an array (instead, received `%s`). When specified, the final argument must be an array.", currentHookNameInDev, typeof deps);

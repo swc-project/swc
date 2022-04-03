@@ -8609,13 +8609,13 @@
                 };
                 if (':' == chr()) {
                     if (':' != input.charAt(1)) return;
-                    pointer += 2, pieceIndex++, compress = pieceIndex;
+                    pointer += 2, compress = ++pieceIndex;
                 }
                 for(; chr();){
                     if (8 == pieceIndex) return;
                     if (':' == chr()) {
                         if (null !== compress) return;
-                        pointer++, pieceIndex++, compress = pieceIndex;
+                        pointer++, compress = ++pieceIndex;
                         continue;
                     }
                     for(value = length = 0; length < 4 && HEX.test(chr());)value = 16 * value + parseInt(chr(), 16), pointer++, length++;
@@ -8637,7 +8637,7 @@
                                 if (ipv4Piece > 255) return;
                                 pointer++;
                             }
-                            address[pieceIndex] = 256 * address[pieceIndex] + ipv4Piece, numbersSeen++, (2 == numbersSeen || 4 == numbersSeen) && pieceIndex++;
+                            address[pieceIndex] = 256 * address[pieceIndex] + ipv4Piece, (2 == ++numbersSeen || 4 == numbersSeen) && pieceIndex++;
                         }
                         if (4 != numbersSeen) return;
                         break;
@@ -10940,7 +10940,7 @@
                     if (k && d && "string" == typeof k.stack) {
                         for(var e = k.stack.split("\n"), f = d.stack.split("\n"), g = e.length - 1, h = f.length - 1; 1 <= g && 0 <= h && e[g] !== f[h];)h--;
                         for(; 1 <= g && 0 <= h; g--, h--)if (e[g] !== f[h]) {
-                            if (1 !== g || 1 !== h) do if (g--, h--, 0 > h || e[g] !== f[h]) return "\n" + e[g].replace(" at new ", " at ");
+                            if (1 !== g || 1 !== h) do if (g--, 0 > --h || e[g] !== f[h]) return "\n" + e[g].replace(" at new ", " at ");
                             while (1 <= g && 0 <= h)
                             break;
                         }
@@ -12641,7 +12641,7 @@
                 0 > Af || (a.current = zf[Af], zf[Af] = null, Af--);
             }
             function I(a, b) {
-                Af++, zf[Af] = a.current, a.current = b;
+                zf[++Af] = a.current, a.current = b;
             }
             var Cf = {}, M = Bf(Cf), N = Bf(!1), Df = Cf;
             function Ef(a, b) {

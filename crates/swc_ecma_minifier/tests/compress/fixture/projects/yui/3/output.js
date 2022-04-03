@@ -9,7 +9,7 @@ Y.Loader.prototype._rollup = function() {
                     roll = !1;
                     break;
                 }
-                if (r[s[j]] && m.type === smod.type && (c++, roll = c >= m.rollup)) break;
+                if (r[s[j]] && m.type === smod.type && (roll = ++c >= m.rollup)) break;
             }
             roll && (r[i] = !0, rolled = !0, this.getRequires(m));
         }

@@ -44,7 +44,7 @@
     }
     function nextUid() {
         for(var digit, index = uid.length; index;){
-            if (index--, 57 == (digit = uid[index].charCodeAt(0))) return uid[index] = 'A', uid.join('');
+            if (57 == (digit = uid[--index].charCodeAt(0))) return uid[index] = 'A', uid.join('');
             if (90 != digit) return uid[index] = String.fromCharCode(digit + 1), uid.join('');
             uid[index] = '0';
         }
@@ -889,7 +889,7 @@
             try {
                 fn.apply(null, sliceArgs(arguments, 1));
             } finally{
-                if (outstandingRequestCount--, 0 === outstandingRequestCount) for(; outstandingRequestCallbacks.length;)try {
+                if (0 == --outstandingRequestCount) for(; outstandingRequestCallbacks.length;)try {
                     outstandingRequestCallbacks.pop()();
                 } catch (e) {
                     $log.error(e);
@@ -3463,7 +3463,7 @@
             }), arrayRemove(controls, control);
         }, form.$setValidity = function(validationToken, isValid, control) {
             var queue = errors[validationToken];
-            if (isValid) queue && (arrayRemove(queue, control), queue.length || (invalidCount--, invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
+            if (isValid) queue && (arrayRemove(queue, control), queue.length || (--invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
             else {
                 if (invalidCount || toggleValidCss(isValid), queue) {
                     if (-1 != indexOf(queue, control)) return;
