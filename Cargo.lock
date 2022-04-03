@@ -2814,6 +2814,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "base64 0.13.0",
+ "criterion",
  "dashmap",
  "either",
  "indexmap",
