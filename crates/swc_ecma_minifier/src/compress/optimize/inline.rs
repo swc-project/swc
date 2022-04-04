@@ -467,6 +467,12 @@ where
                                     f.ident.span.ctxt
                                 );
 
+                                if f.function.params.iter().any(|param| {
+                                    matches!(param.pat, Pat::Rest(..) | Pat::Assign(..))
+                                }) {
+                                    return;
+                                }
+
                                 self.simple_functions.insert(
                                     i.to_id(),
                                     match decl {
