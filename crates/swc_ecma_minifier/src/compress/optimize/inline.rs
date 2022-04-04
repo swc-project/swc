@@ -307,6 +307,11 @@ where
                 Expr::Lit(..) => true,
                 Expr::Ident(..) => true,
 
+                Expr::Bin(BinExpr {
+                    op: op!("instanceof"),
+                    ..
+                }) => false,
+
                 Expr::Bin(e) => is_expr_simple_enough(&e.left) && is_expr_simple_enough(&e.right),
 
                 Expr::Update(e) => is_expr_simple_enough(&e.arg),
