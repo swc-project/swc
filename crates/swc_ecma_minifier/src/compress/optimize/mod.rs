@@ -1266,6 +1266,14 @@ where
             }
         };
 
+        if pattern.is_empty() {
+            // For some expressions `RegExp()` and `RegExp("")`
+            // Theoretically we can use `/(?:)/` to achieve shorter code
+            // But some browsers released in 2015 don't support them yet.
+            args[0].expr = pattern.into();
+            return;
+        }
+
         let flags = args
             .get_mut(1)
             .map(|v| v.expr.take())
