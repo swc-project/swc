@@ -1,3 +1,5 @@
+#![allow(clippy::needless_update)]
+
 use std::{
     mem::take,
     path::{Path, PathBuf},

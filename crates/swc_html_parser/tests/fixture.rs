@@ -31,7 +31,7 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize document");
 
-                actual_json.clone().compare_to_file(&ref_json_path).unwrap();
+                actual_json.compare_to_file(&ref_json_path).unwrap();
 
                 Ok(())
             }
