@@ -608,7 +608,7 @@ where
                 }
             }
 
-            if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+            if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
                 self.changed = true;
                 tracing::debug!(
                     "inline: Replacing '{}{:?}' with an expression",
@@ -616,7 +616,7 @@ where
                     i.span.ctxt
                 );
 
-                *e = *value.clone();
+                *e = *value;
 
                 if cfg!(feature = "debug") {
                     tracing::trace!("inline: [Change] {}", dump(&*e, false))
