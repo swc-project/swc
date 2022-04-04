@@ -1,13 +1,12 @@
 import * as swcHelpers from "@swc/helpers";
 class A1 {
     constructor(){
-        swcHelpers.classStaticPrivateMethodGet(A1, A1, function method(param) {
+        swcHelpers.classStaticPrivateMethodGet(A1, A1, function(param) {
             return "";
-        }).call(A1, ""), swcHelpers.classStaticPrivateMethodGet(A1, A1, function method(param) {
+        }).call(A1, ""), swcHelpers.classStaticPrivateMethodGet(A1, A1, function(param) {
             return "";
-        }).call(A1, 1), swcHelpers.classStaticPrivateMethodGet(A1, A1, method).call(A1);
+        }).call(A1, 1), swcHelpers.classStaticPrivateMethodGet(A1, A1, function(param) {
+            return "";
+        }).call(A1);
     }
-}
-function method(param) {
-    return "";
 }
