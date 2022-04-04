@@ -3859,7 +3859,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_comments"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
