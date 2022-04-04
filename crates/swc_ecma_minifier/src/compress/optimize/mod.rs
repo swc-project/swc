@@ -72,6 +72,7 @@ where
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         lits: Default::default(),
+        simple_functions: Default::default(),
         vars_for_inlining: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
@@ -195,6 +196,10 @@ struct Optimizer<'a, M> {
     /// Used for inlining.
     lits: AHashMap<Id, Box<Expr>>,
 
+    /// Used for copying functions.
+    ///
+    /// We use this to distinguish [Callee::Expr] from other [Expr]s.
+    simple_functions: FxHashMap<Id, Box<Expr>>,
     vars_for_inlining: FxHashMap<Id, Box<Expr>>,
 
     vars_for_prop_hoisting: AHashMap<Id, Box<Expr>>,
@@ -2219,6 +2224,7 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
+        self.vars_for_inlining.extend(self.simple_functions.drain());
         stmts.visit_mut_with(&mut MultiReplacer {
             vars: &mut self.vars_for_inlining,
             changed: false,

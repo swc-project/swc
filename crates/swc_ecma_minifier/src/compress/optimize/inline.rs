@@ -467,7 +467,7 @@ where
                                     f.ident.span.ctxt
                                 );
 
-                                self.vars_for_inlining.insert(
+                                self.simple_functions.insert(
                                     i.to_id(),
                                     match decl {
                                         Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
