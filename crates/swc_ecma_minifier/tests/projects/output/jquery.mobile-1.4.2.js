@@ -4177,7 +4177,7 @@
                     var columnCount = 0;
                     $(this).children().each(function() {
                         var j, span = parseInt(this.getAttribute("colspan"), 10), selector = ":nth-child(" + (columnCount + 1) + ")";
-                        if (this.setAttribute("data-" + $.mobile.ns + "colstart", columnCount + 1), span) for(j = 0; j < span - 1; j++)columnCount++, selector += ", :nth-child(" + (columnCount + 1) + ")";
+                        if (this.setAttribute("data-" + $.mobile.ns + "colstart", columnCount + 1), span) for(j = 0; j < span - 1; j++)selector += ", :nth-child(" + (++columnCount + 1) + ")";
                         $(this).jqmData("cells", table.find("tr").not(trs.eq(0)).not(this).children(selector)), columnCount++;
                     });
                 });

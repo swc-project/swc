@@ -455,7 +455,7 @@
                         4: "quadclick"
                     };
                     function onMousedown(e) {
-                        if (0 !== exports.getButton(e) ? clicks = 0 : e.detail > 1 ? (clicks++, clicks > 4 && (clicks = 1)) : clicks = 1, useragent.isIE) {
+                        if (0 !== exports.getButton(e) ? clicks = 0 : e.detail > 1 ? ++clicks > 4 && (clicks = 1) : clicks = 1, useragent.isIE) {
                             var isNewClick = Math.abs(e.clientX - startX) > 5 || Math.abs(e.clientY - startY) > 5;
                             (!timer || isNewClick) && (clicks = 1), timer && clearTimeout(timer), timer = setTimeout(function() {
                                 timer = null;
@@ -1311,7 +1311,7 @@
                     }, this.onDragOver = function(e) {
                         if (!editor.getReadOnly() && canAccept(e.dataTransfer)) return x1 = e.clientX, y = e.clientY, !dragSelectionMarker && (addDragMarker(), counter++), null !== onMouseMoveTimer && (onMouseMoveTimer = null), e.dataTransfer.dropEffect = dragOperation = getDropEffect(e), event.preventDefault(e);
                     }, this.onDragLeave = function(e) {
-                        if (counter--, counter <= 0 && dragSelectionMarker) return clearDragMarker(), dragOperation = null, event.preventDefault(e);
+                        if (--counter <= 0 && dragSelectionMarker) return clearDragMarker(), dragOperation = null, event.preventDefault(e);
                     }, this.onDrop = function(e) {
                         if (dragCursor) {
                             var dataTransfer = e.dataTransfer;
@@ -4821,7 +4821,7 @@
                                 self.$tokenizeRow(currentLine), endLine = currentLine;
                                 do currentLine++;
                                 while (self.lines[currentLine])
-                                if (processedLines++, processedLines % 5 == 0 && new Date() - workerStart > 20) {
+                                if (++processedLines % 5 == 0 && new Date() - workerStart > 20) {
                                     self.running = setTimeout(self.$worker, 20);
                                     break;
                                 }
@@ -6195,7 +6195,7 @@
                         var line, column, docRow = 0, docColumn = 0, row = 0, rowLength = 0, rowCache = this.$screenRowCache, i = this.$getRowCacheIndex(rowCache, screenRow), l = rowCache.length;
                         if (l && i >= 0) var row = rowCache[i], docRow = this.$docRowCache[i], doCache = screenRow > rowCache[l - 1];
                         else var doCache = !l;
-                        for(var maxRow = this.getLength() - 1, foldLine = this.getNextFoldLine(docRow), foldStart = foldLine ? foldLine.start.row : 1 / 0; row <= screenRow && !(row + (rowLength = this.getRowLength(docRow)) > screenRow) && !(docRow >= maxRow);)row += rowLength, docRow++, docRow > foldStart && (docRow = foldLine.end.row + 1, foldStart = (foldLine = this.getNextFoldLine(docRow, foldLine)) ? foldLine.start.row : 1 / 0), doCache && (this.$docRowCache.push(docRow), this.$screenRowCache.push(row));
+                        for(var maxRow = this.getLength() - 1, foldLine = this.getNextFoldLine(docRow), foldStart = foldLine ? foldLine.start.row : 1 / 0; row <= screenRow && !(row + (rowLength = this.getRowLength(docRow)) > screenRow) && !(docRow >= maxRow);)row += rowLength, ++docRow > foldStart && (docRow = foldLine.end.row + 1, foldStart = (foldLine = this.getNextFoldLine(docRow, foldLine)) ? foldLine.start.row : 1 / 0), doCache && (this.$docRowCache.push(docRow), this.$screenRowCache.push(row));
                         if (foldLine && foldLine.start.row <= docRow) line = this.getFoldDisplayLine(foldLine), docRow = foldLine.start.row;
                         else {
                             if (row + rowLength <= screenRow || docRow > maxRow) return {
@@ -6251,7 +6251,7 @@
                         var screenRows = 0, fold = null;
                         if (this.$useWrapMode) for(var lastRow = this.$wrapData.length, row = 0, i = 0, fold = this.$foldData[i++], foldStart = fold ? fold.start.row : 1 / 0; row < lastRow;){
                             var splits = this.$wrapData[row];
-                            screenRows += splits ? splits.length + 1 : 1, row++, row > foldStart && (row = fold.end.row + 1, foldStart = (fold = this.$foldData[i++]) ? fold.start.row : 1 / 0);
+                            screenRows += splits ? splits.length + 1 : 1, ++row > foldStart && (row = fold.end.row + 1, foldStart = (fold = this.$foldData[i++]) ? fold.start.row : 1 / 0);
                         }
                         else {
                             screenRows = this.getLength();
@@ -9597,7 +9597,7 @@
                                 type: "fold",
                                 value: placeholder
                             }) : (isNewRow && (tokens1 = session.getTokens(row)), tokens1.length && function(tokens, from, to) {
-                                for(var idx = 0, col = 0; col + tokens[idx].value.length < from;)if (col += tokens[idx].value.length, idx++, idx == tokens.length) return;
+                                for(var idx = 0, col = 0; col + tokens[idx].value.length < from;)if (col += tokens[idx].value.length, ++idx == tokens.length) return;
                                 if (col != from) {
                                     var value = tokens[idx].value.substring(from - col);
                                     value.length > to - from && (value = value.substring(0, to - from)), renderTokens.push({

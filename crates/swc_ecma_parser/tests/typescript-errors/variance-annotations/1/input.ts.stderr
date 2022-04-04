@@ -1,10 +1,4 @@
 
-  x Unexpected token `a`. Expected * for generator, private key, identifier or async
-     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:104:5]
- 104 | in a = 0;  // Error
-     :    ^
-     `----
-
   x 'public' modifier cannot appear on a type parameter
     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:95:1]
  95 | type T20<public T> = T;  // Error
@@ -28,3 +22,27 @@
  98 | type T23<out in T> = T;  // Error
     :              ^^
     `----
+
+  x 'in' modifier can only appear on a type parameter of a class, interface or type alias
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:100:1]
+ 100 | declare function f1<in T>(x: T): void;  // Error
+     :                     ^^
+     `----
+
+  x 'out' modifier can only appear on a type parameter of a class, interface or type alias
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:101:1]
+ 101 | declare function f2<out T>(): T;  // Error
+     :                     ^^^
+     `----
+
+  x 'in' modifier can only appear on a type parameter of a class, interface or type alias
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:104:5]
+ 104 | in a = 0;  // Error
+     : ^^
+     `----
+
+  x 'out' modifier can only appear on a type parameter of a class, interface or type alias
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:105:5]
+ 105 | out b = 0;  // Error
+     : ^^^
+     `----

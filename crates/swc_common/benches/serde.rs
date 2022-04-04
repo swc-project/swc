@@ -1,14 +1,7 @@
-#![feature(test)]
-#![feature(bench_black_box)]
-
-extern crate test;
-
-use std::hint::black_box;
-
 use ast_node::ast_node;
+use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use serde::{Deserialize, Serialize};
 use swc_common::{Span, DUMMY_SP};
-use test::Bencher;
 
 #[derive(Serialize, Deserialize)]
 pub struct SerdeStr {
@@ -49,56 +42,51 @@ pub enum AstNode {
     String(Str),
 }
 
-#[bench]
-fn ser_serde(b: &mut Bencher) {
+fn bench_serde(c: &mut Criterion) {
     let src = Serde::String(SerdeStr {
         span: DUMMY_SP,
         value: String::from("perf-diff"),
     });
 
-    b.iter(|| black_box(serde_json::to_string(&src).unwrap()));
-}
+    c.bench_function("serialization of serde", |b| {
+        b.iter(|| black_box(serde_json::to_string(&src).unwrap()));
+    });
+    c.bench_function("deserialization of serde", |b| {
+        let src = serde_json::to_string(&Serde::String(SerdeStr {
+            span: DUMMY_SP,
+            value: String::from("perf-diff"),
+        }))
+        .unwrap();
+        println!("{}", src);
 
-#[bench]
-fn de_serde(b: &mut Bencher) {
-    let src = serde_json::to_string(&Serde::String(SerdeStr {
-        span: DUMMY_SP,
-        value: String::from("perf-diff"),
-    }))
-    .unwrap();
-    println!("{}", src);
-    b.bytes = src.len() as _;
-
-    b.iter(|| {
-        let t: Serde = serde_json::from_str(&src).unwrap();
-
-        black_box(t);
+        b.iter(|| black_box(serde_json::to_string(&src).unwrap()));
     });
 }
 
-#[bench]
-fn ser_ast_node(b: &mut Bencher) {
-    let src = AstNode::String(Str {
-        span: DUMMY_SP,
-        value: String::from("perf-diff"),
+fn bench_ast_node(c: &mut Criterion) {
+    c.bench_function("serialization of ast node", |b| {
+        let src = AstNode::String(Str {
+            span: DUMMY_SP,
+            value: String::from("perf-diff"),
+        });
+
+        b.iter(|| black_box(serde_json::to_string(&src).unwrap()));
     });
+    c.bench_function("deserialization of ast node", |b| {
+        let src = serde_json::to_string(&AstNode::String(Str {
+            span: DUMMY_SP,
+            value: String::from("perf-diff"),
+        }))
+        .unwrap();
+        println!("{}", src);
 
-    b.iter(|| black_box(serde_json::to_string(&src).unwrap()));
-}
+        b.iter(|| {
+            let t: AstNode = serde_json::from_str(&src).unwrap();
 
-#[bench]
-fn de_ast_node(b: &mut Bencher) {
-    let src = serde_json::to_string(&AstNode::String(Str {
-        span: DUMMY_SP,
-        value: String::from("perf-diff"),
-    }))
-    .unwrap();
-    println!("{}", src);
-    b.bytes = src.len() as _;
-
-    b.iter(|| {
-        let t: AstNode = serde_json::from_str(&src).unwrap();
-
-        black_box(t);
+            black_box(t);
+        });
     });
 }
+
+criterion_group!(benches, bench_ast_node, bench_serde);
+criterion_main!(benches);

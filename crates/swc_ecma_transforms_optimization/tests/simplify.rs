@@ -2,7 +2,7 @@
 
 use std::{cell::RefCell, rc::Rc};
 
-use swc_common::{chain, Mark};
+use swc_common::{chain, pass::Repeat, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{
     helpers::inject_helpers,
@@ -629,4 +629,29 @@ test!(
     X.run();
     (0, X.run)();
     "
+);
+
+test!(
+    Syntax::default(),
+    |_| chain!(
+        resolver(),
+        Repeat::new(chain!(inlining(Default::default()), dead_branch_remover()))
+    ),
+    issue_4173,
+    "
+function emit(type) {
+    const e = events[type];
+    if (Array.isArray(e)) {
+        for (let i = 0; i < e.length; i += 1) {
+            e[i].apply(this);
+        }
+    }
+}
+",
+    "
+function emit(type) {
+    const e = events[type];
+    if (Array.isArray(e)) for(let i = 0; i < e.length; i += 1)e[i].apply(this);
+}
+"
 );

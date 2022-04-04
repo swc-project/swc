@@ -568,8 +568,20 @@ where
     fn emit_big_lit(&mut self, v: &BigInt) -> Result {
         self.emit_leading_comments_of_span(v.span, false)?;
 
-        self.wr.write_lit(v.span, &v.value.to_string())?;
-        self.wr.write_lit(v.span, "n")?;
+        if self.cfg.minify {
+            self.wr.write_lit(v.span, &v.value.to_string())?;
+            self.wr.write_lit(v.span, "n")?;
+        } else {
+            match &v.raw {
+                Some(raw) => {
+                    self.wr.write_lit(v.span, raw)?;
+                }
+                _ => {
+                    self.wr.write_lit(v.span, &v.value.to_string())?;
+                    self.wr.write_lit(v.span, "n")?;
+                }
+            }
+        }
     }
 
     // fn emit_object_binding_pat(&mut self, node: &ObjectPat) -> Result {

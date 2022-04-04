@@ -1,29 +1,25 @@
-use std::sync::Arc;
+use wasmer::{LazyInit, Memory};
 
-use parking_lot::Mutex;
-use wasmer::{LazyInit, Memory, NativeFunc};
-
-#[derive(wasmer::WasmerEnv, Clone)]
 /// An external enviornment state imported (declared in host, injected into
-/// guest) fn can access. This'll allow host access updated state via plugin's
-/// transform.
+/// guest) fn can access. This'll allow host to read from updated state from
+/// guest.
+///
+/// This is `base` environment exposes guest's memory space only. For other
+/// calls requires additional data to be set in the host, separate
+/// hostenvironments are decalred. Refer `CommentsHostEnvironment` for an
+/// example.
+///
 /// ref: https://docs.wasmer.io/integrations/examples/host-functions#declaring-the-data
-pub struct HostEnvironment {
+#[derive(wasmer::WasmerEnv, Clone)]
+pub struct BaseHostEnvironment {
     #[wasmer(export)]
     pub memory: wasmer::LazyInit<Memory>,
-    pub transform_result: Arc<Mutex<Vec<u8>>>,
-    /// Attached imported fn `__alloc` to the hostenvironment to allow any other
-    /// imported fn can allocate guest's memory space from host runtime.
-    #[wasmer(export(name = "__alloc"))]
-    pub alloc_guest_memory: LazyInit<NativeFunc<u32, i32>>,
 }
 
-impl HostEnvironment {
-    pub fn new(transform_result: &Arc<Mutex<Vec<u8>>>) -> HostEnvironment {
-        HostEnvironment {
-            memory: LazyInit::default(),
-            transform_result: transform_result.clone(),
-            alloc_guest_memory: LazyInit::default(),
+impl BaseHostEnvironment {
+    pub fn new() -> BaseHostEnvironment {
+        BaseHostEnvironment {
+            memory: LazyInit::new(),
         }
     }
 }

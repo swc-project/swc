@@ -62,11 +62,22 @@ bridge_lit_from!(Number, usize);
 bridge_lit_from!(BigInt, BigIntValue);
 
 #[ast_node("BigIntLiteral")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct BigInt {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(EncodeBigInt))]
     pub value: BigIntValue,
+
+    /// Use `None` value only for transformations to avoid recalculate
+    /// characters in big integer
+    #[cfg_attr(feature = "rkyv", with(crate::EncodeJsWord))]
+    pub raw: Option<JsWord>,
+}
+
+impl EqIgnoreSpan for BigInt {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
 }
 
 #[cfg(feature = "rkyv")]
@@ -125,8 +136,9 @@ impl<'a> arbitrary::Arbitrary<'a> for BigInt {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let value = u.arbitrary::<usize>()?.into();
+        let raw = Some(u.arbitrary::<String>()?.into());
 
-        Ok(Self { span, value })
+        Ok(Self { span, value, raw })
     }
 }
 
@@ -368,6 +380,7 @@ impl From<BigIntValue> for BigInt {
         BigInt {
             span: DUMMY_SP,
             value,
+            raw: None,
         }
     }
 }

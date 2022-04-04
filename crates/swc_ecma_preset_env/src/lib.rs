@@ -74,24 +74,6 @@ where
         }};
     }
 
-    // Bugfixes
-    let pass = add!(pass, BugfixEdgeDefaultParam, bugfixes::edge_default_param());
-    let pass = add!(
-        pass,
-        BugfixAsyncArrowsInClass,
-        bugfixes::async_arrows_in_class()
-    );
-    let pass = add!(
-        pass,
-        BugfixTaggedTemplateCaching,
-        bugfixes::template_literal_caching()
-    );
-    let pass = add!(
-        pass,
-        BugfixSafariIdDestructuringCollisionInFunctionExpression,
-        bugfixes::safari_id_destructuring_collision_in_function_expression()
-    );
-
     let pass = {
         let enable_dot_all_regex = should_enable!(DotAllRegex, false);
         let enable_named_capturing_groups_regex = should_enable!(NamedCapturingGroupsRegex, false);
@@ -290,6 +272,24 @@ where
         es3::member_expression_literals()
     );
     let pass = add!(pass, ReservedWords, es3::reserved_words(c.dynamic_import));
+
+    // Bugfixes
+    let pass = add!(pass, BugfixEdgeDefaultParam, bugfixes::edge_default_param());
+    let pass = add!(
+        pass,
+        BugfixAsyncArrowsInClass,
+        bugfixes::async_arrows_in_class()
+    );
+    let pass = add!(
+        pass,
+        BugfixTaggedTemplateCaching,
+        bugfixes::template_literal_caching()
+    );
+    let pass = add!(
+        pass,
+        BugfixSafariIdDestructuringCollisionInFunctionExpression,
+        bugfixes::safari_id_destructuring_collision_in_function_expression()
+    );
 
     if c.debug {
         println!("Targets: {:?}", targets);

@@ -1266,6 +1266,14 @@ where
             }
         };
 
+        if pattern.is_empty() {
+            // For some expressions `RegExp()` and `RegExp("")`
+            // Theoretically we can use `/(?:)/` to achieve shorter code
+            // But some browsers released in 2015 don't support them yet.
+            args[0].expr = pattern.into();
+            return;
+        }
+
         let flags = args
             .get_mut(1)
             .map(|v| v.expr.take())
@@ -1797,6 +1805,16 @@ where
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        {
+            let ctx = Ctx {
+                executed_multiple_time: true,
+                ..self.ctx
+            };
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         if let Decl::Fn(f) = &mut n.decl {
@@ -2202,9 +2220,8 @@ where
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         stmts.visit_mut_with(&mut MultiReplacer {
-            vars: take(&mut self.vars_for_inlining),
+            vars: &mut self.vars_for_inlining,
             changed: false,
-            clone: false,
         });
 
         drop_invalid_stmts(stmts);

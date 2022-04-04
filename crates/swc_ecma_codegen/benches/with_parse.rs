@@ -1,14 +1,9 @@
-#![feature(test)]
-#![feature(bench_black_box)]
+extern crate swc_node_base;
 
-extern crate test;
-
-use std::hint::black_box;
-
+use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::FileName;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{Parser, StringInput, Syntax};
-use test::Bencher;
 
 const COLORS_JS: &str = r#"
 'use strict';
@@ -85,8 +80,6 @@ module.exports = {
 const LARGE_PARTIAL_JS: &str = include_str!("large-partial.js");
 
 fn bench_emitter(b: &mut Bencher, s: &str) {
-    b.bytes = s.len() as _;
-
     let _ = ::testing::run_test(true, |cm, handler| {
         b.iter(|| {
             let fm = cm.new_source_file(FileName::Anon, s.into());
@@ -127,12 +120,10 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
     });
 }
 
-#[bench]
-fn colors(b: &mut Bencher) {
-    bench_emitter(b, COLORS_JS)
+fn bench_cases(c: &mut Criterion) {
+    c.bench_function("colors", |b| bench_emitter(b, COLORS_JS));
+    c.bench_function("large", |b| bench_emitter(b, LARGE_PARTIAL_JS));
 }
 
-#[bench]
-fn large_partial(b: &mut Bencher) {
-    bench_emitter(b, LARGE_PARTIAL_JS)
-}
+criterion_group!(benches, bench_cases);
+criterion_main!(benches);

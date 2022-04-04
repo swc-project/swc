@@ -6,31 +6,35 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 use crate::{Delimiter, Ident, Str, TokenAndSpan};
 
 #[ast_node("SelectorList")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct SelectorList {
     pub span: Span,
     pub children: Vec<ComplexSelector>,
 }
 
 #[ast_node("CompoundSelectorList")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct CompoundSelectorList {
     pub span: Span,
     pub children: Vec<CompoundSelector>,
 }
 
 #[ast_node("RelativeSelectorList")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct RelativeSelectorList {
     pub span: Span,
     pub children: Vec<RelativeSelector>,
 }
 
 #[ast_node("ComplexSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ComplexSelector {
     pub span: Span,
     pub children: Vec<ComplexSelectorChildren>,
 }
 
 #[ast_node]
-#[derive(Is)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ComplexSelectorChildren {
     #[tag("CompoundSelector")]
     CompoundSelector(CompoundSelector),
@@ -39,6 +43,7 @@ pub enum ComplexSelectorChildren {
 }
 
 #[ast_node("RelativeSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct RelativeSelector {
     pub span: Span,
     pub combinator: Option<Combinator>,
@@ -47,6 +52,7 @@ pub struct RelativeSelector {
 
 /// e.g. `foo.c1.c2`
 #[ast_node("CompoundSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct CompoundSelector {
     pub span: Span,
     /// "&"
@@ -56,6 +62,7 @@ pub struct CompoundSelector {
 }
 
 #[ast_node("Combinator")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Combinator {
     pub span: Span,
     pub value: CombinatorValue,
@@ -80,11 +87,13 @@ pub enum CombinatorValue {
 }
 
 #[ast_node("NestingSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct NestingSelector {
     pub span: Span,
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum TypeSelector {
     #[tag("TagNameSelector")]
     TagName(TagNameSelector),
@@ -93,24 +102,28 @@ pub enum TypeSelector {
 }
 
 #[ast_node("TagNameSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct TagNameSelector {
     pub span: Span,
     pub name: WqName,
 }
 
 #[ast_node("UniversalSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct UniversalSelector {
     pub span: Span,
     pub prefix: Option<NsPrefix>,
 }
 
 #[ast_node("NsPrefix")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct NsPrefix {
     pub span: Span,
     pub prefix: Option<Ident>,
 }
 
 #[ast_node("WqName")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct WqName {
     pub span: Span,
     pub prefix: Option<NsPrefix>,
@@ -118,6 +131,7 @@ pub struct WqName {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum SubclassSelector {
     #[tag("IdSelector")]
     Id(IdSelector),
@@ -136,6 +150,7 @@ pub enum SubclassSelector {
 }
 
 #[ast_node("IdSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct IdSelector {
     pub span: Span,
     /// Does not include `#`
@@ -143,6 +158,7 @@ pub struct IdSelector {
 }
 
 #[ast_node("ClassSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ClassSelector {
     pub span: Span,
     /// Does not include `.`
@@ -150,6 +166,7 @@ pub struct ClassSelector {
 }
 
 #[ast_node("AttributeSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct AttributeSelector {
     pub span: Span,
     pub name: WqName,
@@ -180,12 +197,14 @@ pub enum AttributeSelectorMatcherValue {
 }
 
 #[ast_node("AttributeSelectorMatcher")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct AttributeSelectorMatcher {
     pub span: Span,
     pub value: AttributeSelectorMatcherValue,
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AttributeSelectorValue {
     #[tag("String")]
     Str(Str),
@@ -195,12 +214,14 @@ pub enum AttributeSelectorValue {
 }
 
 #[ast_node("AttributeSelectorModifier")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct AttributeSelectorModifier {
     pub span: Span,
     pub value: Ident,
 }
 
 #[ast_node("PseudoClassSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct PseudoClassSelector {
     pub span: Span,
     pub name: Ident,
@@ -208,6 +229,7 @@ pub struct PseudoClassSelector {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum PseudoClassSelectorChildren {
     #[tag("TokenAndSpan")]
     PreservedToken(TokenAndSpan),
@@ -238,6 +260,7 @@ pub enum PseudoClassSelectorChildren {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AnPlusB {
     #[tag("Ident")]
     Ident(Ident),
@@ -246,6 +269,7 @@ pub enum AnPlusB {
 }
 
 #[ast_node("AnPlusBNotation")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct AnPlusBNotation {
     pub span: Span,
     pub a: Option<i32>,
@@ -255,6 +279,7 @@ pub struct AnPlusBNotation {
 }
 
 #[ast_node("PseudoElementSelector")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct PseudoElementSelector {
     pub span: Span,
     pub name: Ident,
@@ -262,13 +287,12 @@ pub struct PseudoElementSelector {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum PseudoElementSelectorChildren {
     #[tag("TokenAndSpan")]
     PreservedToken(TokenAndSpan),
-
     #[tag("Ident")]
     Ident(Ident),
-
     #[tag("CompoundSelector")]
     CompoundSelector(CompoundSelector),
 }

@@ -254,9 +254,7 @@
             }, parseDescriptors = function(bytes) {
                 bytes = (0, byte_helpers.Ki)(bytes);
                 for(var results = [], i = 0; bytes.length > i;){
-                    var tag = bytes[i], size = 0, headerSize = 0;
-                    headerSize++;
-                    var byte = bytes[headerSize];
+                    var tag = bytes[i], size = 0, headerSize = 0, byte = bytes[++headerSize];
                     for(headerSize++; 128 & byte;)size = (127 & byte) << 7, byte = bytes[headerSize], headerSize++;
                     size += 127 & byte;
                     for(var z = 0; z < DESCRIPTORS.length; z++){

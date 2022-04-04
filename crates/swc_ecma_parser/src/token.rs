@@ -122,7 +122,10 @@ pub enum Token {
     Num(f64),
 
     #[kind(starts_expr)]
-    BigInt(BigIntValue),
+    BigInt {
+        value: BigIntValue,
+        raw: JsWord,
+    },
 
     JSXName {
         name: JsWord,
@@ -611,7 +614,7 @@ impl Debug for Token {
             Str { value, .. } => write!(f, "string literal ({})", value)?,
             Regex(exp, flags) => write!(f, "regexp literal ({}, {})", exp, flags)?,
             Num(..) => write!(f, "numeric literal")?,
-            BigInt(..) => write!(f, "bigint literal")?,
+            BigInt { .. } => write!(f, "bigint literal")?,
             JSXName { name } => write!(f, "jsx name ({})", name)?,
             JSXText { raw } => write!(f, "jsx text ({})", raw)?,
             JSXTagStart => write!(f, "< (jsx tag start)")?,

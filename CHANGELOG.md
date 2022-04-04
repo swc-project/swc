@@ -5,13 +5,57 @@
 
 
 
-- **(css/prefixer)** Fix flex box (#4212) ([75b0ed5](https://github.com/swc-project/swc/commit/75b0ed55f6c352ab2cd918ac746ceef99fa0f124))
+- **(es/minifier)** Remap variables on IIFE evaluation (#4230) ([55b98fc](https://github.com/swc-project/swc/commit/55b98fc87470cc5b2e2645ae8588c106c490fb3a))
+
+
+- **(es/minifier)** Handle empty RegExp (#4235) ([6a51d04](https://github.com/swc-project/swc/commit/6a51d0471a53cfdd48c8426c9cdc5bfddf200b35))
+
+
+- **(es/optimizer/simplifier)** Collect idents in init first (#4239) ([b1645f6](https://github.com/swc-project/swc/commit/b1645f606d1334eadb7ebf912c847bb5bdff6b96))
+
+
+- **(es/parser)** Support error reporting for TS1274 (#4232) ([6d380ea](https://github.com/swc-project/swc/commit/6d380ea6faf1bde18c6f92c87ed0395c674a1ead))
 
 ### Features
 
 
 
+- **(es/minifier)** Improve sequential inlining (#4231) ([fe358ad](https://github.com/swc-project/swc/commit/fe358ad0b93d6f3bd2150fc9ce888f798875beed))
+
+### Miscellaneous Tasks
+
+
+
+- **(bench)** Migrate to criterion (#4237) ([06d0891](https://github.com/swc-project/swc/commit/06d0891e7cae751dfc62ac4607675e872ac12304))
+
+## [1.2.163] - 2022-04-03
+
+### Bug Fixes
+
+
+
+- **(cli)** Update plugin template (#4222) ([69cb512](https://github.com/swc-project/swc/commit/69cb512e571de1f8b245fdc538cf9a09c51823f2))
+
+
+- **(css/prefixer)** Fix flex box (#4212) ([75b0ed5](https://github.com/swc-project/swc/commit/75b0ed55f6c352ab2cd918ac746ceef99fa0f124))
+
+
+- **(es/preset-env)** Change order of passes ([7eea95b](https://github.com/swc-project/swc/commit/7eea95be7a08d27d999e9f8a698077bf08b12d12))
+
+### Features
+
+
+
+- **(css/ast)** Derive more traits (#4220) ([def2826](https://github.com/swc-project/swc/commit/def2826029fcc405ac73283b3559415105266ad2))
+
+
+- **(es/ast)** Add `raw` to `BigInt` (#4218) ([e91f271](https://github.com/swc-project/swc/commit/e91f2718730b87d7318f45ecfe4ac0c03a52c6fd))
+
+
 - **(es/compat)** Support more regex expressions (#4205) ([b793aa0](https://github.com/swc-project/swc/commit/b793aa020095d797a76e2c19f42ab5822ee2ef03))
+
+
+- **(plugin)** Implement plugin api for comments (#4229) ([6ea66cf](https://github.com/swc-project/swc/commit/6ea66cf001754bb88604a824a2290a3360a798b8))
 
 ### Performance
 
@@ -27,6 +71,12 @@
 
 
 - **(css/ast)** Union all at-rules to one at-rule in AST (#4189) ([6696a93](https://github.com/swc-project/swc/commit/6696a93b5c7d005bb35be97e3f3ec52c1fe235aa))
+
+### Testing
+
+
+
+- **(es)** Add a test to ensure that an issue is not a bug of swc (#4227) ([bbbaf15](https://github.com/swc-project/swc/commit/bbbaf15bbae204030d7c781ca4155987d324c16a))
 
 ## [1.2.162] - 2022-03-31
 

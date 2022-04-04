@@ -33,8 +33,9 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_number(
         &mut self,
         starts_with_dot: bool,
-    ) -> LexResult<Either<f64, BigIntValue>> {
+    ) -> LexResult<Either<f64, (BigIntValue, String)>> {
         debug_assert!(self.cur().is_some());
+
         if starts_with_dot {
             debug_assert_eq!(
                 self.cur(),
@@ -42,6 +43,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 "read_number(starts_with_dot = true) expects current char to be '.'"
             );
         }
+
         let start = self.cur_pos();
 
         let starts_with_zero = self.cur().unwrap() == '0';
@@ -52,14 +54,25 @@ impl<'a, I: Input> Lexer<'a, I> {
             0f64
         } else {
             // Use read_number_no_dot to support long numbers.
-            let (val, s, not_octal) = self
+            let (val, s, mut raw, not_octal) = self
                 .read_number_no_dot_as_str::<10, { lexical::NumberFormatBuilder::from_radix(10) }>(
                 )?;
-            if self.input.cur() == Some('n') {
-                self.input.bump();
-                return Ok(Either::Right(s.into_value()));
+
+            if self.eat(b'n') {
+                raw.push('n');
+
+                return Ok(Either::Right((s.into_value(), raw)));
             }
+
+            if self.input.cur() == Some('n') {
+                raw.push('n');
+                self.input.bump();
+
+                return Ok(Either::Right((s.into_value(), raw)));
+            }
+
             write!(raw_val, "{}", &s.value).unwrap();
+
             if starts_with_zero {
                 // TODO: I guess it would be okay if I don't use -ffast-math
                 // (or something like that), but needs review.
@@ -117,7 +130,9 @@ impl<'a, I: Input> Lexer<'a, I> {
         // `.1.a`, `.1e-4.a` are valid,
         if self.cur() == Some('.') {
             raw_val.push('.');
+
             self.bump();
+
             if starts_with_dot {
                 debug_assert!(self.cur().is_some());
                 debug_assert!(self.cur().unwrap().is_digit(10));
@@ -126,12 +141,15 @@ impl<'a, I: Input> Lexer<'a, I> {
             let mut raw = Raw(Some(String::new()));
             // Read numbers after dot
             let dec_val = self.read_int::<10>(0, &mut raw)?;
+
             val = {
                 if let Some(..) = dec_val {
                     raw_val.push_str(raw.0.as_ref().unwrap());
                 }
 
                 raw_val
+                    // Remove number separator from number
+                    .replace('_', "")
                     .parse()
                     .expect("failed to parse float using rust's impl")
             };
@@ -176,7 +194,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                 write!(raw_val, "{}", exp).unwrap();
 
                 // TODO:
-                raw_val.parse().expect("failed to parse float literal")
+                raw_val
+                    .replace('_', "")
+                    .parse()
+                    .expect("failed to parse float literal")
             }
         }
 
@@ -188,7 +209,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Returns `Left(value)` or `Right(BigInt)`
     pub(super) fn read_radix_number<const RADIX: u8, const FORMAT: u128>(
         &mut self,
-    ) -> LexResult<Either<f64, BigIntValue>> {
+    ) -> LexResult<Either<f64, (BigIntValue, String)>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -196,17 +217,36 @@ impl<'a, I: Input> Lexer<'a, I> {
         );
         debug_assert_eq!(self.cur(), Some('0'));
 
-        self.bump(); // 0
-        self.bump(); // x
+        self.with_buf(|l, buf| {
+            l.bump();
+            buf.push('0');
 
-        let (val, s, _) = self.read_number_no_dot_as_str::<RADIX, FORMAT>()?;
-        if self.eat(b'n') {
-            return Ok(Either::Right(s.into_value()));
-        }
+            let c = match l.input.cur() {
+                Some(c) => {
+                    l.bump();
 
-        self.ensure_not_ident()?;
+                    c
+                }
+                _ => {
+                    unreachable!();
+                }
+            };
 
-        Ok(Either::Left(val))
+            buf.push(c);
+
+            let (val, s, raw, _) = l.read_number_no_dot_as_str::<RADIX, FORMAT>()?;
+
+            if l.eat(b'n') {
+                buf.push_str(&raw);
+                buf.push('n');
+
+                return Ok(Either::Right((s.into_value(), (&**buf).into())));
+            }
+
+            l.ensure_not_ident()?;
+
+            Ok(Either::Left(val))
+        })
     }
 
     /// This can read long integers like
@@ -224,6 +264,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let res = self.read_digits::<_, f64, RADIX>(
             |total, radix, v| {
                 read_any = true;
+
                 Ok((f64::mul_add(total, radix as f64, v as f64), true))
             },
             &mut Raw(None),
@@ -243,18 +284,19 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Returned bool is `true` is there was `8` or `9`.
     fn read_number_no_dot_as_str<const RADIX: u8, const FORMAT: u128>(
         &mut self,
-    ) -> LexResult<(f64, LazyBigInt<RADIX>, bool)> {
+    ) -> LexResult<(f64, LazyBigInt<RADIX>, String, bool)> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
             RADIX
         );
         let start = self.cur_pos();
-        let mut non_octal = false;
 
+        let mut non_octal = false;
         let mut read_any = false;
 
         let mut raw = Raw(Some(String::new()));
+
         self.read_digits::<_, f64, RADIX>(
             |total, radix, v| {
                 read_any = true;
@@ -274,13 +316,17 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         let raw_str = raw.0.take().unwrap();
+        // Remove number separator from number
+        let raw_number_str = raw_str.replace('_', "");
+
         Ok((
             lexical::parse_with_options::<f64, _, FORMAT>(
-                raw_str.as_bytes(),
+                raw_number_str.as_bytes(),
                 &lexical::parse_float_options::Options::from_radix(RADIX),
             )
             .expect("failed to parse float using lexical"),
-            LazyBigInt::new(raw_str),
+            LazyBigInt::new(raw_number_str),
+            raw_str,
             non_octal,
         ))
     }
@@ -372,22 +418,24 @@ impl<'a, I: Input> Lexer<'a, I> {
             "radix for read_int should be one of 2, 8, 10, 16, but got {}",
             RADIX
         );
+
         if cfg!(feature = "debug") {
             trace!("read_digits(radix = {}), cur = {:?}", RADIX, self.cur());
         }
 
         let start = self.cur_pos();
-
         let mut total: Ret = Default::default();
-
         let mut prev = None;
+
         while let Some(c) = self.cur() {
             if allow_num_separator && c == '_' {
                 let is_allowed = |c: Option<char>| {
                     if c.is_none() {
                         return false;
                     }
+
                     let c = c.unwrap();
+
                     c.is_digit(RADIX as _)
                 };
                 let is_forbidden = |c: Option<char>| {
@@ -413,6 +461,8 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                 // Ignore this _ character
                 self.input.bump();
+                raw.push(c);
+
                 continue;
             }
 
@@ -426,11 +476,15 @@ impl<'a, I: Input> Lexer<'a, I> {
             raw.push(c);
 
             self.bump();
+
             let (t, cont) = op(total, RADIX, val)?;
+
             total = t;
+
             if !cont {
                 return Ok(total);
             }
+
             prev = Some(c);
         }
 
@@ -612,9 +666,12 @@ mod tests {
                 "10000000000000000000000000000000000000000000000000000n",
                 |l| l.read_number(false).unwrap().right().unwrap()
             ),
-            "10000000000000000000000000000000000000000000000000000"
-                .parse::<BigIntValue>()
-                .unwrap(),
+            (
+                "10000000000000000000000000000000000000000000000000000"
+                    .parse::<BigIntValue>()
+                    .unwrap(),
+                String::from("10000000000000000000000000000000000000000000000000000n")
+            ),
         );
     }
 

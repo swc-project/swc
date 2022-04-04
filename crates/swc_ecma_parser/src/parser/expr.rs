@@ -102,7 +102,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
-                let type_parameters = p.parse_ts_type_params()?;
+                let type_parameters = p.parse_ts_type_params(false)?;
                 let mut arrow = p.parse_assignment_expr_base()?;
                 match *arrow {
                     Expr::Arrow(ArrowExpr {
@@ -317,7 +317,7 @@ impl<'a, I: Tokens> Parser<I> {
                 | tok!("true")
                 | tok!("false")
                 | Token::Num(..)
-                | Token::BigInt(..)
+                | Token::BigInt { .. }
                 | Token::Str { .. } => {
                     return Ok(Box::new(Expr::Lit(self.parse_lit()?)));
                 }
@@ -1834,10 +1834,11 @@ impl<'a, I: Tokens> Parser<I> {
                 }),
                 _ => unreachable!(),
             },
-            Token::BigInt(..) => match bump!(self) {
-                Token::BigInt(value) => Lit::BigInt(BigInt {
+            Token::BigInt { .. } => match bump!(self) {
+                Token::BigInt { value, raw } => Lit::BigInt(BigInt {
                     span: span!(self, start),
                     value,
+                    raw: Some(raw),
                 }),
                 _ => unreachable!(),
             },

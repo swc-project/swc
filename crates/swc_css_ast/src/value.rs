@@ -1,48 +1,84 @@
+use std::{
+    hash::{Hash, Hasher},
+    mem,
+};
+
+use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-use crate::ComponentValue;
+use crate::Function;
 
 #[ast_node("Ident")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct Ident {
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,
 }
 
+impl EqIgnoreSpan for Ident {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
+
 #[ast_node("CustomIdent")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct CustomIdent {
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,
 }
 
+impl EqIgnoreSpan for CustomIdent {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
+
 #[ast_node("DashedIdent")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct DashedIdent {
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,
 }
 
+impl EqIgnoreSpan for DashedIdent {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
+
 #[ast_node("CustomPropertyName")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct CustomPropertyName {
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,
 }
 
+impl EqIgnoreSpan for CustomPropertyName {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
+
 /// Quoted string.
 #[ast_node("String")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct Str {
     pub span: Span,
     pub value: JsWord,
     pub raw: JsWord,
+}
+
+impl EqIgnoreSpan for Str {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -62,17 +98,10 @@ pub struct Delimiter {
     pub value: DelimiterValue,
 }
 
-#[ast_node("Function")]
-pub struct Function {
-    /// Span starting from the `lo` of identifier and to the end of `)`.
-    pub span: Span,
-    pub name: Ident,
-    pub value: Vec<ComponentValue>,
-}
-
 // TODO small AST improve for `CurrentColorOrSystemColor` and
 // `NamedColorOrTransparent`
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Color {
     #[tag("AbsoluteColorBase")]
     AbsoluteColorBase(AbsoluteColorBase),
@@ -84,6 +113,7 @@ pub enum Color {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AbsoluteColorBase {
     #[tag("HexColor")]
     HexColor(HexColor),
@@ -105,6 +135,7 @@ pub struct HexColor {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AlphaValue {
     #[tag("Number")]
     Number(Number),
@@ -113,6 +144,7 @@ pub enum AlphaValue {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Hue {
     #[tag("Number")]
     Number(Number),
@@ -121,6 +153,7 @@ pub enum Hue {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CmykComponent {
     #[tag("Number")]
     Number(Number),
@@ -131,6 +164,7 @@ pub enum CmykComponent {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Dimension {
     #[tag("Length")]
     Length(Length),
@@ -155,6 +189,7 @@ pub enum Dimension {
 }
 
 #[ast_node("Length")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Length {
     pub span: Span,
     pub value: Number,
@@ -162,6 +197,7 @@ pub struct Length {
 }
 
 #[ast_node("Angle")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Angle {
     pub span: Span,
     pub value: Number,
@@ -169,6 +205,7 @@ pub struct Angle {
 }
 
 #[ast_node("Time")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Time {
     pub span: Span,
     pub value: Number,
@@ -176,6 +213,7 @@ pub struct Time {
 }
 
 #[ast_node("Frequency")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Frequency {
     pub span: Span,
     pub value: Number,
@@ -183,6 +221,7 @@ pub struct Frequency {
 }
 
 #[ast_node("Resolution")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Resolution {
     pub span: Span,
     pub value: Number,
@@ -190,6 +229,7 @@ pub struct Resolution {
 }
 
 #[ast_node("Flex")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Flex {
     pub span: Span,
     pub value: Number,
@@ -197,6 +237,7 @@ pub struct Flex {
 }
 
 #[ast_node("UnknownDimension")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct UnknownDimension {
     pub span: Span,
     pub value: Number,
@@ -204,16 +245,24 @@ pub struct UnknownDimension {
 }
 
 #[ast_node("Percentage")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Percentage {
     pub span: Span,
     pub value: Number,
 }
 
 #[ast_node("Integer")]
+#[derive(Eq, Hash)]
 pub struct Integer {
     pub span: Span,
     pub value: i64,
     pub raw: JsWord,
+}
+
+impl EqIgnoreSpan for Integer {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
 }
 
 #[ast_node("Number")]
@@ -223,7 +272,39 @@ pub struct Number {
     pub raw: JsWord,
 }
 
+impl Eq for Number {}
+
+#[allow(clippy::derive_hash_xor_eq)]
+#[allow(clippy::transmute_float_to_int)]
+impl Hash for Number {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        fn integer_decode(val: f64) -> (u64, i16, i8) {
+            let bits: u64 = unsafe { mem::transmute(val) };
+            let sign: i8 = if bits >> 63 == 0 { 1 } else { -1 };
+            let mut exponent: i16 = ((bits >> 52) & 0x7ff) as i16;
+            let mantissa = if exponent == 0 {
+                (bits & 0xfffffffffffff) << 1
+            } else {
+                (bits & 0xfffffffffffff) | 0x10000000000000
+            };
+
+            exponent -= 1023 + 52;
+            (mantissa, exponent, sign)
+        }
+
+        self.span.hash(state);
+        integer_decode(self.value).hash(state);
+    }
+}
+
+impl EqIgnoreSpan for Number {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
+
 #[ast_node("Ratio")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Ratio {
     pub span: Span,
     pub left: Number,
@@ -243,6 +324,7 @@ pub enum BinOp {
 }
 
 #[ast_node("Url")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Url {
     pub span: Span,
     pub name: Ident,
@@ -251,6 +333,7 @@ pub struct Url {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum UrlValue {
     #[tag("Str")]
     Str(Str),
@@ -259,6 +342,7 @@ pub enum UrlValue {
 }
 
 #[ast_node("UrlValueRaw")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct UrlValueRaw {
     pub span: Span,
     pub before: JsWord,
@@ -268,6 +352,7 @@ pub struct UrlValueRaw {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum UrlModifier {
     #[tag("Ident")]
     Ident(Ident),
@@ -276,6 +361,7 @@ pub enum UrlModifier {
 }
 
 #[ast_node("UnicodeRange")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct UnicodeRange {
     pub span: Span,
     pub prefix: char,
@@ -284,12 +370,14 @@ pub struct UnicodeRange {
 }
 
 #[ast_node("CalcSum")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct CalcSum {
     pub span: Span,
     pub expressions: Vec<CalcProductOrOperator>,
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CalcProductOrOperator {
     #[tag("CalcProduct")]
     Product(CalcProduct),
@@ -298,12 +386,14 @@ pub enum CalcProductOrOperator {
 }
 
 #[ast_node("CalcProduct")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct CalcProduct {
     pub span: Span,
     pub expressions: Vec<CalcValueOrOperator>,
 }
 
 #[ast_node("CalcOperator")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct CalcOperator {
     pub span: Span,
     pub value: CalcOperatorType,
@@ -322,6 +412,7 @@ pub enum CalcOperatorType {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CalcValueOrOperator {
     #[tag("CalcValue")]
     Value(CalcValue),
@@ -330,6 +421,7 @@ pub enum CalcValueOrOperator {
 }
 
 #[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CalcValue {
     #[tag("Number")]
     Number(Number),
