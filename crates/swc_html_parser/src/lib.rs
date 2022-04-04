@@ -18,8 +18,6 @@ mod macros;
 pub mod error;
 pub mod lexer;
 pub mod parser;
-#[cfg(test)]
-mod tests;
 
 pub trait Parse<T> {
     fn parse(&mut self) -> PResult<T>;

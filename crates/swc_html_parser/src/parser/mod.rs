@@ -9,8 +9,6 @@ use crate::{error::Error, Parse};
 mod macros;
 mod base;
 pub mod input;
-#[cfg(test)]
-mod tests;
 
 pub type PResult<T> = Result<T, Error>;
 
