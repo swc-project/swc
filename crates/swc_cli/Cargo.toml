@@ -9,6 +9,7 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.37.0"
 
 [[bin]]
+bench = false
 name = "swc"
 path = "./src/main.rs"
 
