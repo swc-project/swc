@@ -563,7 +563,13 @@ where
             if let Some(value) = self
                 .lits
                 .get(&i.to_id())
-                .or_else(|| self.simple_functions.get(&i.to_id()))
+                .or_else(|| {
+                    if self.ctx.is_callee {
+                        self.simple_functions.get(&i.to_id())
+                    } else {
+                        None
+                    }
+                })
                 .and_then(|v| {
                     // Prevent infinite recursion.
                     let ids = idents_used_by(&**v);
