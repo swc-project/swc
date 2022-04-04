@@ -471,7 +471,7 @@ where
                                     i.to_id(),
                                     match decl {
                                         Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                                            ident: Some(f.ident.clone()),
+                                            ident: None,
                                             function: f.function.clone(),
                                         })),
                                         _ => {
