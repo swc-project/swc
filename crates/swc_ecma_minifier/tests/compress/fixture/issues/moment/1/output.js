@@ -939,7 +939,7 @@
     var aspNetRegex = /^(-|\+)?(?:(\d*)[. ])?(\d+):(\d+)(?::(\d+)(\.\d*)?)?$/, isoRegex = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
     function createDuration(input, key) {
         var sign, ret, diffRes, duration = input, match = null;
-        return input instanceof Duration ? duration = {
+        return isDuration(input) ? duration = {
             ms: input._milliseconds,
             d: input._days,
             M: input._months
@@ -958,7 +958,7 @@
             h: parseIso(match[6], sign),
             m: parseIso(match[7], sign),
             s: parseIso(match[8], sign)
-        }) : null == duration ? duration = {} : 'object' == typeof duration && ('from' in duration || 'to' in duration) && (diffRes = momentsDifference(createLocal(duration.from), createLocal(duration.to)), (duration = {}).ms = diffRes.milliseconds, duration.M = diffRes.months), ret = new Duration(duration), input instanceof Duration && hasOwnProp(input, '_locale') && (ret._locale = input._locale), input instanceof Duration && hasOwnProp(input, '_isValid') && (ret._isValid = input._isValid), ret;
+        }) : null == duration ? duration = {} : 'object' == typeof duration && ('from' in duration || 'to' in duration) && (diffRes = momentsDifference(createLocal(duration.from), createLocal(duration.to)), (duration = {}).ms = diffRes.milliseconds, duration.M = diffRes.months), ret = new Duration(duration), isDuration(input) && hasOwnProp(input, '_locale') && (ret._locale = input._locale), isDuration(input) && hasOwnProp(input, '_isValid') && (ret._isValid = input._isValid), ret;
     }
     function parseIso(inp, sign) {
         var res = inp && parseFloat(inp.replace(',', '.'));
