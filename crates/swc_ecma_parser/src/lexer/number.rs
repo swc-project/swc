@@ -243,7 +243,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left((val, raw.into())))
+            Ok(Either::Left((val, raw)))
         })
     }
 

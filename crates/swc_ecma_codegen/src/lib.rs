@@ -553,21 +553,19 @@ where
                 self.wr.write_str_lit(num.span, "-")?;
             }
             self.wr.write_str_lit(num.span, "Infinity")?;
-        } else {
-            if self.cfg.minify {
-                let minified = minify_number(num.value);
+        } else if self.cfg.minify {
+            let minified = minify_number(num.value);
 
-                self.wr.write_str_lit(num.span, &minified)?;
-            } else {
-                match &num.raw {
-                    Some(raw) => {
-                        self.wr.write_str_lit(num.span, raw)?;
-                    }
-                    _ => {
-                        self.wr.write_str_lit(num.span, &num.value.to_string())?;
-                    }
+            self.wr.write_str_lit(num.span, &minified)?;
+        } else {
+            match &num.raw {
+                Some(raw) => {
+                    self.wr.write_str_lit(num.span, raw)?;
                 }
-            };
+                _ => {
+                    self.wr.write_str_lit(num.span, &num.value.to_string())?;
+                }
+            }
         }
     }
 
@@ -840,7 +838,7 @@ where
                     return false;
                 }
 
-                return true;
+                true
             } else {
                 match raw {
                     Some(raw) => {
@@ -848,7 +846,7 @@ where
                             return false;
                         }
 
-                        return true;
+                        true
                     }
                     _ => {
                         let s = minify_number(*value);
@@ -857,7 +855,7 @@ where
                             return false;
                         }
 
-                        return true;
+                        true
                     }
                 }
             }

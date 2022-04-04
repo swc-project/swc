@@ -707,7 +707,7 @@ impl<I: Tokens> Parser<I> {
                 let mut new_raw = String::new();
 
                 new_raw.push('"');
-                new_raw.push_str(&raw);
+                new_raw.push_str(raw);
                 new_raw.push('"');
 
                 bump!(self);
