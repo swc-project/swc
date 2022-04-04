@@ -259,11 +259,7 @@ where
             tracing::trace!("inline: inline_vars_in_node");
         }
 
-        n.visit_mut_with(&mut MultiReplacer {
-            vars: &mut vars,
-            changed: false,
-            clone: false,
-        });
+        n.visit_mut_with(&mut MultiReplacer::new(&mut vars, false, &mut self.changed));
     }
 
     /// Fully inlines iife.
@@ -436,16 +432,16 @@ where
                                 exprs.push(arg.expr.take());
                             }
                         }
-                        body.visit_mut_with(&mut MultiReplacer {
-                            vars: &mut self.simple_functions,
-                            changed: false,
-                            clone: true,
-                        });
-                        body.visit_mut_with(&mut MultiReplacer {
-                            vars: &mut self.vars_for_inlining,
-                            changed: false,
-                            clone: false,
-                        });
+                        body.visit_mut_with(&mut MultiReplacer::new(
+                            &mut self.simple_functions,
+                            true,
+                            &mut self.changed,
+                        ));
+                        body.visit_mut_with(&mut MultiReplacer::new(
+                            &mut self.vars_for_inlining,
+                            false,
+                            &mut self.changed,
+                        ));
                         body.visit_mut_with(&mut Remapper { vars: remap });
                         exprs.push(body.take());
 
@@ -691,16 +687,16 @@ where
             }
         }
 
-        body.visit_mut_with(&mut MultiReplacer {
-            vars: &mut self.simple_functions,
-            changed: false,
-            clone: true,
-        });
-        body.visit_mut_with(&mut MultiReplacer {
-            vars: &mut self.vars_for_inlining,
-            changed: false,
-            clone: false,
-        });
+        body.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.simple_functions,
+            true,
+            &mut self.changed,
+        ));
+        body.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.vars_for_inlining,
+            false,
+            &mut self.changed,
+        ));
         body.visit_mut_with(&mut Remapper { vars: remap });
 
         {

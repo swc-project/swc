@@ -2226,16 +2226,16 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        stmts.visit_mut_with(&mut MultiReplacer {
-            vars: &mut self.simple_functions,
-            changed: false,
-            clone: true,
-        });
-        stmts.visit_mut_with(&mut MultiReplacer {
-            vars: &mut self.vars_for_inlining,
-            changed: false,
-            clone: false,
-        });
+        stmts.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.simple_functions,
+            true,
+            &mut self.changed,
+        ));
+        stmts.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.vars_for_inlining,
+            false,
+            &mut self.changed,
+        ));
 
         drop_invalid_stmts(stmts);
     }

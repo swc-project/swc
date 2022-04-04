@@ -187,12 +187,23 @@ impl VisitMut for Remapper {
 }
 
 pub(crate) struct MultiReplacer<'a> {
-    pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
-    pub changed: bool,
-    pub clone: bool,
+    vars: &'a mut FxHashMap<Id, Box<Expr>>,
+    changed: bool,
+    clone: bool,
+    worked: &'a mut bool,
 }
 
-impl MultiReplacer<'_> {
+impl<'a> MultiReplacer<'a> {
+    /// `worked` will be changed to `true` if any replacement is done
+    pub fn new(vars: &'a mut FxHashMap<Id, Box<Expr>>, clone: bool, worked: &'a mut bool) -> Self {
+        MultiReplacer {
+            vars,
+            changed: false,
+            clone,
+            worked,
+        }
+    }
+
     fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
         if self.clone {
             self.vars.get(i).cloned()
@@ -211,8 +222,10 @@ impl VisitMut for MultiReplacer<'_> {
         if let Expr::Ident(i) = e {
             if let Some(new) = self.var(&i.to_id()) {
                 debug!("multi-replacer: Replaced `{}`", i);
-                *e = *new;
+                *self.worked = true;
                 self.changed = true;
+
+                *e = *new;
             }
         }
     }
@@ -241,10 +254,14 @@ impl VisitMut for MultiReplacer<'_> {
         if let Prop::Shorthand(i) = p {
             if let Some(value) = self.var(&i.to_id()) {
                 debug!("multi-replacer: Replaced `{}` as shorthand", i);
+                *self.worked = true;
                 self.changed = true;
 
                 *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(i.clone()),
+                    key: PropName::Ident(Ident::new(
+                        i.sym.clone(),
+                        i.span.with_ctxt(Default::default()),
+                    )),
                     value,
                 });
             }
