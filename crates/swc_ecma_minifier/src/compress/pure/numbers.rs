@@ -13,7 +13,7 @@ impl Pure<'_> {
             *e = Expr::Lit(Lit::Num(Number {
                 span: *span,
                 value,
-                ..
+                raw: None,
             }));
         }
     }
