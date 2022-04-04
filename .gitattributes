@@ -15,9 +15,11 @@
 **/tests/**/*.ts    linguist-detectable=false
 **/tests/**/*.tsx   linguist-detectable=false
 **/tests/**/*.css   linguist-detectable=false
+**/tests/**/*.html   linguist-detectable=false
 **/benches/**/*.js  linguist-detectable=false
 **/benches/**/*.jsx linguist-detectable=false
 **/benches/**/*.mjs linguist-detectable=false
 **/benches/**/*.ts  linguist-detectable=false
 **/benches/**/*.tsx linguist-detectable=false
 **/benches/**/*.css linguist-detectable=false
+**/benches/**/*.html linguist-detectable=false

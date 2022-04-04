@@ -8,6 +8,12 @@
 - **(es/minifier)** Remap variables on IIFE evaluation (#4230) ([55b98fc](https://github.com/swc-project/swc/commit/55b98fc87470cc5b2e2645ae8588c106c490fb3a))
 
 
+- **(es/minifier)** Handle empty RegExp (#4235) ([6a51d04](https://github.com/swc-project/swc/commit/6a51d0471a53cfdd48c8426c9cdc5bfddf200b35))
+
+
+- **(es/optimizer/simplifier)** Collect idents in init first (#4239) ([b1645f6](https://github.com/swc-project/swc/commit/b1645f606d1334eadb7ebf912c847bb5bdff6b96))
+
+
 - **(es/parser)** Support error reporting for TS1274 (#4232) ([6d380ea](https://github.com/swc-project/swc/commit/6d380ea6faf1bde18c6f92c87ed0395c674a1ead))
 
 ### Features
@@ -15,6 +21,15 @@
 
 
 - **(es/minifier)** Improve sequential inlining (#4231) ([fe358ad](https://github.com/swc-project/swc/commit/fe358ad0b93d6f3bd2150fc9ce888f798875beed))
+
+
+- **(html)** Initialize (#4240) ([3e7872c](https://github.com/swc-project/swc/commit/3e7872c8de05ac46ef6ffb99f778ef5b64e47f1b))
+
+### Miscellaneous Tasks
+
+
+
+- **(bench)** Migrate to criterion (#4237) ([06d0891](https://github.com/swc-project/swc/commit/06d0891e7cae751dfc62ac4607675e872ac12304))
 
 ## [1.2.163] - 2022-04-03
 

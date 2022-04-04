@@ -2820,6 +2820,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "base64 0.13.0",
+ "criterion",
  "dashmap",
  "either",
  "indexmap",
@@ -2967,6 +2968,7 @@ dependencies = [
  "atty",
  "better_scoped_tls",
  "cfg-if 1.0.0",
+ "criterion",
  "debug_unreachable",
  "either",
  "from_variant",
@@ -3140,6 +3142,7 @@ name = "swc_ecma_codegen"
 version = "0.102.0"
 dependencies = [
  "bitflags",
+ "criterion",
  "memchr",
  "num-bigint",
  "once_cell",
@@ -3234,7 +3237,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.99.2"
+version = "0.99.3"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3272,6 +3275,7 @@ dependencies = [
 name = "swc_ecma_parser"
 version = "0.99.1"
 dependencies = [
+ "criterion",
  "either",
  "enum_kind",
  "lexical",
@@ -3298,6 +3302,7 @@ version = "0.116.1"
 dependencies = [
  "ahash",
  "anyhow",
+ "criterion",
  "dashmap",
  "indexmap",
  "once_cell",
@@ -3377,6 +3382,7 @@ name = "swc_ecma_transforms_base"
 version = "0.74.0"
 dependencies = [
  "better_scoped_tls",
+ "criterion",
  "once_cell",
  "phf",
  "rayon",
@@ -3473,7 +3479,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.111.0"
+version = "0.111.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3575,6 +3581,7 @@ dependencies = [
 name = "swc_ecma_transforms_typescript"
 version = "0.106.0"
 dependencies = [
+ "criterion",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -3669,6 +3676,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "copyless",
+ "criterion",
  "pretty_assertions",
  "rayon",
  "serde",
@@ -3707,6 +3715,78 @@ dependencies = [
  "swc_fast_graph",
  "testing",
  "tracing",
+]
+
+[[package]]
+name = "swc_html"
+version = "0.1.0"
+dependencies = [
+ "swc_html_ast",
+ "swc_html_codegen",
+ "swc_html_parser",
+ "swc_html_visit",
+]
+
+[[package]]
+name = "swc_html_ast"
+version = "0.1.0"
+dependencies = [
+ "is-macro",
+ "serde",
+ "string_enum",
+ "swc_atoms",
+ "swc_common",
+]
+
+[[package]]
+name = "swc_html_codegen"
+version = "0.1.0"
+dependencies = [
+ "auto_impl",
+ "bitflags",
+ "swc_atoms",
+ "swc_common",
+ "swc_html_ast",
+ "swc_html_codegen_macros",
+ "swc_html_parser",
+ "swc_html_visit",
+ "testing",
+]
+
+[[package]]
+name = "swc_html_codegen_macros"
+version = "0.1.0"
+dependencies = [
+ "pmutil",
+ "proc-macro2",
+ "quote",
+ "swc_macros_common",
+ "syn",
+]
+
+[[package]]
+name = "swc_html_parser"
+version = "0.1.0"
+dependencies = [
+ "bitflags",
+ "lexical",
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_html_ast",
+ "swc_html_visit",
+ "testing",
+]
+
+[[package]]
+name = "swc_html_visit"
+version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_html_ast",
+ "swc_visit",
 ]
 
 [[package]]

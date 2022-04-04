@@ -10,6 +10,7 @@ members = [
   "crates/swc_ecma_lints",
   "crates/swc_ecma_quote",
   "crates/swc_estree_compat",
+  "crates/swc_html",
   "crates/swc_plugin",
   "crates/swc_plugin_macro",
   "crates/swc_plugin_runner",

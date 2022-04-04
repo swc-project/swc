@@ -1,0 +1,819 @@
+
+  x Document
+    ,-[$DIR/tests/fixture/headings/input.html:1:1]
+  1 | ,-> <!DOCTYPE html>
+  2 | |   <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <h1>This is heading 1</h1>
+  6 | |   <h2>This is heading 2</h2>
+  7 | |   <h3>This is heading 3</h3>
+  8 | |   <h4>This is heading 4</h4>
+  9 | |   <h5>This is heading 5</h5>
+ 10 | |   <h6>This is heading 6</h6>
+ 11 | |   
+ 12 | |   </body>
+ 13 | `-> </html>
+    `----
+
+  x Doctype { name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
+   ,-[$DIR/tests/fixture/headings/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/headings/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   :                ^
+ 2 | <html>
+   `----
+
+  x StartTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:2:1]
+ 2 | <html>
+   : ^^^^^^
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/headings/input.html:2:1]
+ 2 | <html>
+   :       ^
+ 3 | <body>
+   `----
+
+  x StartTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:3:1]
+ 3 | <body>
+   : ^^^^^^
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/headings/input.html:3:1]
+ 3 | <body>
+   :       ^
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/headings/input.html:4:1]
+ 4 | 
+   : ^
+ 5 | <h1>This is heading 1</h1>
+   `----
+
+  x StartTag { tag_name: Atom('h1' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   : ^^^^
+   `----
+
+  x Character { value: 'T' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :     ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :      ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :       ^
+   `----
+
+  x Character { value: 's' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :        ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :         ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :          ^
+   `----
+
+  x Character { value: 's' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :           ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :            ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :             ^
+   `----
+
+  x Character { value: 'e' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :              ^
+   `----
+
+  x Character { value: 'a' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :               ^
+   `----
+
+  x Character { value: 'd' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :                ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :                 ^
+   `----
+
+  x Character { value: 'n' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :                  ^
+   `----
+
+  x Character { value: 'g' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :                   ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :                    ^
+   `----
+
+  x Character { value: '1' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :                     ^
+   `----
+
+  x EndTag { tag_name: Atom('h1' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :                      ^^^^^
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/headings/input.html:5:1]
+ 5 | <h1>This is heading 1</h1>
+   :                           ^
+ 6 | <h2>This is heading 2</h2>
+   `----
+
+  x StartTag { tag_name: Atom('h2' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   : ^^^^
+   `----
+
+  x Character { value: 'T' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :     ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :      ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :       ^
+   `----
+
+  x Character { value: 's' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :        ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :         ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :          ^
+   `----
+
+  x Character { value: 's' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :           ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :            ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :             ^
+   `----
+
+  x Character { value: 'e' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :              ^
+   `----
+
+  x Character { value: 'a' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :               ^
+   `----
+
+  x Character { value: 'd' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :                ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :                 ^
+   `----
+
+  x Character { value: 'n' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :                  ^
+   `----
+
+  x Character { value: 'g' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :                   ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :                    ^
+   `----
+
+  x Character { value: '2' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :                     ^
+   `----
+
+  x EndTag { tag_name: Atom('h2' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :                      ^^^^^
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/headings/input.html:6:1]
+ 6 | <h2>This is heading 2</h2>
+   :                           ^
+ 7 | <h3>This is heading 3</h3>
+   `----
+
+  x StartTag { tag_name: Atom('h3' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   : ^^^^
+   `----
+
+  x Character { value: 'T' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :     ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :      ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :       ^
+   `----
+
+  x Character { value: 's' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :        ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :         ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :          ^
+   `----
+
+  x Character { value: 's' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :           ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :            ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :             ^
+   `----
+
+  x Character { value: 'e' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :              ^
+   `----
+
+  x Character { value: 'a' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :               ^
+   `----
+
+  x Character { value: 'd' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :                ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :                 ^
+   `----
+
+  x Character { value: 'n' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :                  ^
+   `----
+
+  x Character { value: 'g' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :                   ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :                    ^
+   `----
+
+  x Character { value: '3' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :                     ^
+   `----
+
+  x EndTag { tag_name: Atom('h3' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :                      ^^^^^
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/headings/input.html:7:1]
+ 7 | <h3>This is heading 3</h3>
+   :                           ^
+ 8 | <h4>This is heading 4</h4>
+   `----
+
+  x StartTag { tag_name: Atom('h4' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   : ^^^^
+   `----
+
+  x Character { value: 'T' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :     ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :      ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :       ^
+   `----
+
+  x Character { value: 's' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :        ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :         ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :          ^
+   `----
+
+  x Character { value: 's' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :           ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :            ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :             ^
+   `----
+
+  x Character { value: 'e' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :              ^
+   `----
+
+  x Character { value: 'a' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :               ^
+   `----
+
+  x Character { value: 'd' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :                ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :                 ^
+   `----
+
+  x Character { value: 'n' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :                  ^
+   `----
+
+  x Character { value: 'g' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :                   ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :                    ^
+   `----
+
+  x Character { value: '4' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :                     ^
+   `----
+
+  x EndTag { tag_name: Atom('h4' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :                      ^^^^^
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/headings/input.html:8:1]
+ 8 | <h4>This is heading 4</h4>
+   :                           ^
+ 9 | <h5>This is heading 5</h5>
+   `----
+
+  x StartTag { tag_name: Atom('h5' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   : ^^^^
+   `----
+
+  x Character { value: 'T' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :     ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :      ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :       ^
+   `----
+
+  x Character { value: 's' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :        ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :         ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :          ^
+   `----
+
+  x Character { value: 's' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :           ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :            ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :             ^
+   `----
+
+  x Character { value: 'e' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :              ^
+   `----
+
+  x Character { value: 'a' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :               ^
+   `----
+
+  x Character { value: 'd' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :                ^
+   `----
+
+  x Character { value: 'i' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :                 ^
+   `----
+
+  x Character { value: 'n' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :                  ^
+   `----
+
+  x Character { value: 'g' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :                   ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :                    ^
+   `----
+
+  x Character { value: '5' }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :                     ^
+   `----
+
+  x EndTag { tag_name: Atom('h5' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/headings/input.html:9:1]
+ 9 | <h5>This is heading 5</h5>
+   :                      ^^^^^
+   `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/headings/input.html:9:1]
+  9 | <h5>This is heading 5</h5>
+    :                           ^
+ 10 | <h6>This is heading 6</h6>
+    `----
+
+  x StartTag { tag_name: Atom('h6' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    : ^^^^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :     ^
+    `----
+
+  x Character { value: 'h' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :      ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :       ^
+    `----
+
+  x Character { value: 's' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :         ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :          ^
+    `----
+
+  x Character { value: 's' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :           ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :            ^
+    `----
+
+  x Character { value: 'h' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :             ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :              ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :               ^
+    `----
+
+  x Character { value: 'd' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :                ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :                 ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :                  ^
+    `----
+
+  x Character { value: 'g' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :                    ^
+    `----
+
+  x Character { value: '6' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :                     ^
+    `----
+
+  x EndTag { tag_name: Atom('h6' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :                      ^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/headings/input.html:10:1]
+ 10 | <h6>This is heading 6</h6>
+    :                           ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/headings/input.html:11:1]
+ 11 | 
+    : ^
+ 12 | </body>
+    `----
+
+  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/headings/input.html:12:1]
+ 12 | </body>
+    : ^^^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/headings/input.html:12:1]
+ 12 | </body>
+    :        ^
+ 13 | </html>
+    `----
+
+  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/headings/input.html:13:1]
+ 13 | </html>
+    : ^^^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/headings/input.html:13:1]
+ 13 | </html>
+    :        ^
+    `----

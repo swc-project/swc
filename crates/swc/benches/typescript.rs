@@ -1,22 +1,17 @@
-#![feature(test)]
-#![feature(bench_black_box)]
-
 extern crate swc_node_base;
-extern crate test;
 
 use std::{
-    hint::black_box,
     io::{self, stderr},
     sync::Arc,
 };
 
+use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc::config::{Config, IsModule, JscConfig, Options, SourceMapsConfig};
 use swc_common::{errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms::{fixer, hygiene, resolver, resolver_with_mark, typescript};
 use swc_ecma_visit::FoldWith;
-use test::Bencher;
 
 static SOURCE: &str = include_str!("assets/Observable.ts");
 
@@ -56,7 +51,11 @@ fn as_es(c: &swc::Compiler) -> Program {
         .fold_with(&mut typescript::strip(mark))
 }
 
-#[bench]
+fn base_tr_group(c: &mut Criterion) {
+    c.bench_function("base_tr_fixer", base_tr_fixer);
+    c.bench_function("base_tr_resolver_and_hygiene", base_tr_resolver_and_hygiene);
+}
+
 fn base_tr_fixer(b: &mut Bencher) {
     let c = mk();
     c.run(|| {
@@ -71,7 +70,6 @@ fn base_tr_fixer(b: &mut Bencher) {
     });
 }
 
-#[bench]
 fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
     let c = mk();
     c.run(|| {
@@ -119,23 +117,24 @@ fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
     });
 }
 
-macro_rules! codegen {
-    ($name:ident, $target:expr) => {
-        #[bench]
-        fn $name(b: &mut Bencher) {
-            bench_codegen(b, $target);
-        }
-    };
-}
+fn codegen_group(c: &mut Criterion) {
+    macro_rules! codegen {
+        ($name:ident, $target:expr) => {
+            c.bench_function(stringify!($name), |b| {
+                bench_codegen(b, $target);
+            });
+        };
+    }
 
-codegen!(codegen_es3, EsVersion::Es3);
-codegen!(codegen_es5, EsVersion::Es5);
-codegen!(codegen_es2015, EsVersion::Es2015);
-codegen!(codegen_es2016, EsVersion::Es2016);
-codegen!(codegen_es2017, EsVersion::Es2017);
-codegen!(codegen_es2018, EsVersion::Es2018);
-codegen!(codegen_es2019, EsVersion::Es2019);
-codegen!(codegen_es2020, EsVersion::Es2020);
+    codegen!(codegen_es3, EsVersion::Es3);
+    codegen!(codegen_es5, EsVersion::Es5);
+    codegen!(codegen_es2015, EsVersion::Es2015);
+    codegen!(codegen_es2016, EsVersion::Es2016);
+    codegen!(codegen_es2017, EsVersion::Es2017);
+    codegen!(codegen_es2018, EsVersion::Es2018);
+    codegen!(codegen_es2019, EsVersion::Es2019);
+    codegen!(codegen_es2020, EsVersion::Es2020);
+}
 
 fn bench_full(b: &mut Bencher, opts: &Options) {
     let c = mk();
@@ -153,43 +152,47 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
     });
 }
 
-macro_rules! compat {
-    ($name:ident, $target:expr) => {
-        #[bench]
-        fn $name(b: &mut Bencher) {
-            bench_full(
-                b,
-                &Options {
-                    config: Config {
-                        jsc: JscConfig {
-                            target: Some($target),
-                            syntax: Some(Syntax::Typescript(TsConfig {
+fn full_group(c: &mut Criterion) {
+    macro_rules! compat {
+        ($name:ident, $target:expr) => {
+            c.bench_function(stringify!($name), |b| {
+                bench_full(
+                    b,
+                    &Options {
+                        config: Config {
+                            jsc: JscConfig {
+                                target: Some($target),
+                                syntax: Some(Syntax::Typescript(TsConfig {
+                                    ..Default::default()
+                                })),
                                 ..Default::default()
-                            })),
+                            },
+                            module: None,
                             ..Default::default()
                         },
-                        module: None,
+                        swcrc: false,
+                        is_module: IsModule::Bool(true),
                         ..Default::default()
                     },
-                    swcrc: false,
-                    is_module: IsModule::Bool(true),
-                    ..Default::default()
-                },
-            );
-        }
-    };
+                );
+            });
+        };
+    }
+
+    compat!(full_es3, EsVersion::Es3);
+    compat!(full_es5, EsVersion::Es5);
+    compat!(full_es2015, EsVersion::Es2015);
+    compat!(full_es2016, EsVersion::Es2016);
+    compat!(full_es2017, EsVersion::Es2017);
+    compat!(full_es2018, EsVersion::Es2018);
+    compat!(full_es2019, EsVersion::Es2019);
+    compat!(full_es2020, EsVersion::Es2020);
 }
 
-compat!(full_es3, EsVersion::Es3);
-compat!(full_es5, EsVersion::Es5);
-compat!(full_es2015, EsVersion::Es2015);
-compat!(full_es2016, EsVersion::Es2016);
-compat!(full_es2017, EsVersion::Es2017);
-compat!(full_es2018, EsVersion::Es2018);
-compat!(full_es2019, EsVersion::Es2019);
-compat!(full_es2020, EsVersion::Es2020);
+fn parser_group(c: &mut Criterion) {
+    c.bench_function("parser", parser);
+}
 
-#[bench]
 fn parser(b: &mut Bencher) {
     let c = mk();
 
@@ -199,3 +202,12 @@ fn parser(b: &mut Bencher) {
         black_box(parse(&c));
     })
 }
+
+criterion_group!(
+    benches,
+    codegen_group,
+    full_group,
+    parser_group,
+    base_tr_group
+);
+criterion_main!(benches);
