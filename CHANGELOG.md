@@ -34,6 +34,9 @@
 
 - **(bench)** Migrate to criterion (#4237) ([06d0891](https://github.com/swc-project/swc/commit/06d0891e7cae751dfc62ac4607675e872ac12304))
 
+
+- **(ci)** Fix benchmark action (#4242) ([1f466e1](https://github.com/swc-project/swc/commit/1f466e1d2f10193b45c09ced2b6384d85ea8f333))
+
 ## [1.2.163] - 2022-04-03
 
 ### Bug Fixes
