@@ -1,4 +1,3 @@
-var anyVar;
 function noParams() {}
 function noGenericParams(n) {}
 function someGenerics1(n, m) {}
@@ -9,9 +8,6 @@ function someGenerics4(n, f) {}
 function someGenerics5(n, f) {}
 function someGenerics6(a, b, c) {}
 function someGenerics7(a, b, c) {}
-function someGenerics9(a, b, c) {
-    return null;
-}
 noParams(), noParams(), noParams(), noGenericParams(''), noGenericParams(''), noGenericParams(''), someGenerics1(3, 4), someGenerics1(3, 4), someGenerics1(3, 4), someGenerics1(3, 4), someGenerics2a((n)=>n
 ), someGenerics2a((n)=>n
 ), someGenerics2a((n)=>n.substr(0)
@@ -48,26 +44,4 @@ noParams(), noParams(), noParams(), noGenericParams(''), noGenericParams(''), no
 ), someGenerics7((n)=>n
 , (n)=>n
 , (n)=>n
-), someGenerics7(null, null, null), someGenerics9('', 0, []), someGenerics9({
-    a: 0
-}, {
-    b: ''
-}, null), someGenerics9(void 0, {
-    x: 6,
-    z: window
-}, {
-    x: 6,
-    y: ''
-}), someGenerics9(void 0, {
-    x: 6,
-    z: window
-}, {
-    x: 6,
-    y: ''
-}), someGenerics9({
-    x: 3
-}, {
-    x: 6
-}, {
-    x: 6
-}), someGenerics9(7, anyVar, 4), someGenerics9([], null, void 0);
+), someGenerics7(null, null, null), window, window;

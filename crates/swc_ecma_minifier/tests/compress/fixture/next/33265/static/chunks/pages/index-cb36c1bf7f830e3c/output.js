@@ -1055,15 +1055,14 @@
         },
         1146: function(__unused_webpack_module, exports, __webpack_require__) {
             var NAMESPACE = __webpack_require__(2167).NAMESPACE;
-            function notEmptyString(input) {
-                return '' !== input;
-            }
             function orderedSetReducer(current, element) {
                 return current.hasOwnProperty(element) || (current[element] = !0), current;
             }
-            function toOrderedSet(input) {
-                if (!input) return [];
-                var input1, list = (input1 = input) ? input1.split(/[\t\n\f\r ]+/).filter(notEmptyString) : [];
+            function toOrderedSet(input2) {
+                if (!input2) return [];
+                var input1, list = (input1 = input2) ? input1.split(/[\t\n\f\r ]+/).filter(function(input) {
+                    return '' !== input;
+                }) : [];
                 return Object.keys(list.reduce(orderedSetReducer, {}));
             }
             function copy(src, dest) {
@@ -3869,11 +3868,8 @@
                 this.name = "ParsingError", this.code = errorData.code, this.message = message || errorData.message;
             }
             function parseTimeStamp(input) {
-                function computeSeconds(h, m, s, f) {
-                    return (0 | h) * 3600 + (0 | m) * 60 + (0 | s) + (0 | f) / 1000;
-                }
-                var m1 = input.match(/^(\d+):(\d{1,2})(:\d{1,2})?\.(\d{3})/);
-                return m1 ? m1[3] ? computeSeconds(m1[1], m1[2], m1[3].replace(":", ""), m1[4]) : m1[1] > 59 ? computeSeconds(m1[1], m1[2], 0, m1[4]) : computeSeconds(0, m1[1], m1[2], m1[4]) : null;
+                var h, m, s, f, h1, m1, f1, m2, s1, f2, m3 = input.match(/^(\d+):(\d{1,2})(:\d{1,2})?\.(\d{3})/);
+                return m3 ? m3[3] ? (h = m3[1], m = m3[2], s = m3[3].replace(":", ""), f = m3[4], (0 | h) * 3600 + (0 | m) * 60 + (0 | s) + (0 | f) / 1000) : m3[1] > 59 ? (h1 = m3[1], m1 = m3[2], f1 = m3[4], (0 | h1) * 3600 + (0 | m1) * 60 + 0 + (0 | f1) / 1000) : (m2 = m3[1], s1 = m3[2], f2 = m3[4], 0 + (0 | m2) * 60 + (0 | s1) + (0 | f2) / 1000) : null;
             }
             function Settings() {
                 this.values = _objCreate(null);
@@ -3890,18 +3886,18 @@
                     }
                 }
             }
-            function parseCue(input2, cue1, regionList) {
-                var oInput = input2;
+            function parseCue(input3, cue1, regionList) {
+                var oInput = input3;
                 function consumeTimeStamp() {
-                    var ts = parseTimeStamp(input2);
+                    var ts = parseTimeStamp(input3);
                     if (null === ts) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed timestamp: " + oInput);
-                    return input2 = input2.replace(/^[^\sa-zA-Z-]+/, ""), ts;
+                    return input3 = input3.replace(/^[^\sa-zA-Z-]+/, ""), ts;
                 }
                 function skipWhitespace() {
-                    input2 = input2.replace(/^\s+/, "");
+                    input3 = input3.replace(/^\s+/, "");
                 }
-                if (skipWhitespace(), cue1.startTime = consumeTimeStamp(), skipWhitespace(), "-->" !== input2.substr(0, 3)) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed time stamp (time stamps must be separated by '-->'): " + oInput);
-                input2 = input2.substr(3), skipWhitespace(), cue1.endTime = consumeTimeStamp(), skipWhitespace(), function(input, cue) {
+                if (skipWhitespace(), cue1.startTime = consumeTimeStamp(), skipWhitespace(), "-->" !== input3.substr(0, 3)) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed time stamp (time stamps must be separated by '-->'): " + oInput);
+                input3 = input3.substr(3), skipWhitespace(), cue1.endTime = consumeTimeStamp(), skipWhitespace(), function(input, cue) {
                     var settings = new Settings();
                     parseOptions(input, function(k, v) {
                         switch(k){
@@ -3977,7 +3973,7 @@
                         end: "end",
                         right: "end"
                     }, cue.align);
-                }(input2, cue1);
+                }(input3, cue1);
             }
             ParsingError.prototype = _objCreate(Error.prototype), ParsingError.prototype.constructor = ParsingError, ParsingError.Errors = {
                 BadSignature: {
@@ -4064,12 +4060,12 @@
                             node = window.document.createProcessingInstruction("timestamp", ts), current1.appendChild(node);
                             continue;
                         }
-                        var m2 = t.match(/^<([^.\s/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);
-                        if (!m2) continue;
-                        if (!(node = createElement(m2[1], m2[3]))) continue;
+                        var m4 = t.match(/^<([^.\s/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);
+                        if (!m4) continue;
+                        if (!(node = createElement(m4[1], m4[3]))) continue;
                         if (!shouldAdd(current1, node)) continue;
-                        if (m2[2]) {
-                            var classes = m2[2].split('.');
+                        if (m4[2]) {
+                            var classes = m4[2].split('.');
                             classes.forEach(function(cl) {
                                 var bgColor = /^bg_/.test(cl), colorName = bgColor ? cl.slice(3) : cl;
                                 if (DEFAULT_COLOR_CLASS.hasOwnProperty(colorName)) {
@@ -4078,7 +4074,7 @@
                                 }
                             }), node.className = classes.join(' ');
                         }
-                        tagStack.push(m2[1]), current1.appendChild(node), current1 = node;
+                        tagStack.push(m4[1]), current1.appendChild(node), current1 = node;
                         continue;
                     }
                     current1.appendChild(window.document.createTextNode(unescape(t)));
@@ -4771,8 +4767,8 @@
                         var line = buffer.substr(0, pos);
                         return '\r' === buffer[pos] && ++pos, '\n' === buffer[pos] && ++pos, self.buffer = buffer.substr(pos), line;
                     }
-                    function parseHeader(input3) {
-                        input3.match(/X-TIMESTAMP-MAP/) ? parseOptions(input3, function(k1, v1) {
+                    function parseHeader(input4) {
+                        input4.match(/X-TIMESTAMP-MAP/) ? parseOptions(input4, function(k1, v1) {
                             switch(k1){
                                 case "X-TIMESTAMP-MAP":
                                     var input, settings;
@@ -4791,7 +4787,7 @@
                                     });
                                     break;
                             }
-                        }, /=/) : parseOptions(input3, function(k2, v2) {
+                        }, /=/) : parseOptions(input4, function(k2, v2) {
                             switch(k2){
                                 case "Region":
                                     !function(input) {
@@ -5240,10 +5236,10 @@
             }
             function fromObject(obj) {
                 if (Buffer.isBuffer(obj)) {
-                    var len = 0 | checked(obj.length), buf = createBuffer(len);
+                    var obj1, len = 0 | checked(obj.length), buf = createBuffer(len);
                     return 0 === buf.length || obj.copy(buf, 0, 0, len), buf;
                 }
-                return void 0 !== obj.length ? 'number' != typeof obj.length || numberIsNaN(obj.length) ? createBuffer(0) : fromArrayLike(obj) : 'Buffer' === obj.type && Array.isArray(obj.data) ? fromArrayLike(obj.data) : void 0;
+                return void 0 !== obj.length ? 'number' != typeof obj.length || (obj1 = obj.length) != obj1 ? createBuffer(0) : fromArrayLike(obj) : 'Buffer' === obj.type && Array.isArray(obj.data) ? fromArrayLike(obj.data) : void 0;
             }
             function checked(length) {
                 if (length >= 2147483647) throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 2147483647..toString(16) + ' bytes');
@@ -5310,8 +5306,9 @@
                 b[n] = b[m], b[m] = i;
             }
             function bidirectionalIndexOf(buffer, val, byteOffset, encoding, dir) {
+                var obj;
                 if (0 === buffer.length) return -1;
-                if ('string' == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 2147483647 ? byteOffset = 2147483647 : byteOffset < -2147483648 && (byteOffset = -2147483648), numberIsNaN(byteOffset = +byteOffset) && (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
+                if ('string' == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 2147483647 ? byteOffset = 2147483647 : byteOffset < -2147483648 && (byteOffset = -2147483648), (obj = byteOffset = +byteOffset) != obj && (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
                     if (dir) return -1;
                     byteOffset = buffer.length - 1;
                 } else if (byteOffset < 0) {
@@ -5354,8 +5351,8 @@
                 var strLen = string.length;
                 length > strLen / 2 && (length = strLen / 2);
                 for(var i = 0; i < length; ++i){
-                    var parsed = parseInt(string.substr(2 * i, 2), 16);
-                    if (numberIsNaN(parsed)) return i;
+                    var obj, parsed = parseInt(string.substr(2 * i, 2), 16);
+                    if ((obj = parsed) != obj) return i;
                     buf[offset + i] = parsed;
                 }
                 return i;
@@ -5798,9 +5795,6 @@
             }
             function isInstance(obj, type) {
                 return obj instanceof type || null != obj && null != obj.constructor && null != obj.constructor.name && obj.constructor.name === type.name;
-            }
-            function numberIsNaN(obj) {
-                return obj != obj;
             }
             var hexSliceLookupTable = function() {
                 for(var alphabet = '0123456789abcdef', table = new Array(256), i = 0; i < 16; ++i)for(var i16 = 16 * i, j = 0; j < 16; ++j)table[i16 + j] = alphabet[i] + alphabet[j];

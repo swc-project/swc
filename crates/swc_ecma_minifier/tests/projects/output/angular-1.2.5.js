@@ -70,9 +70,6 @@
         }))(), extra);
     }
     function noop() {}
-    function identity($) {
-        return $;
-    }
     function valueFn1(value) {
         return function() {
             return value;
@@ -111,7 +108,9 @@
     function isScope(obj) {
         return obj && obj.$evalAsync && obj.$watch;
     }
-    isNaN(msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [];
+    isNaN(msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], (function($) {
+        return $;
+    }).$inject = [];
     var trim1 = String.prototype.trim ? function(value) {
         return isString(value) ? value.trim() : value;
     } : function(value) {
@@ -906,11 +905,9 @@
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
             var setTimeout;
-            return isUndefined(pollTimeout) && (setTimeout = setTimeout1, function check() {
-                forEach(pollFns, function(pollFn) {
-                    pollFn();
-                }), pollTimeout = setTimeout(check, 100);
-            }()), pollFns.push(fn), fn;
+            return isUndefined(pollTimeout) && (setTimeout = setTimeout1, forEach(pollFns, function(pollFn) {
+                pollFn();
+            }), pollTimeout = setTimeout(check, 100)), pollFns.push(fn), fn;
         };
         var lastBrowserUrl = location.href, baseElement = document.find('base'), newLocation = null;
         self.url = function(url, replace) {
@@ -1087,7 +1084,9 @@
                         }), fn;
                     }
                 };
-                var startSymbol = $interpolate.startSymbol(), endSymbol = $interpolate.endSymbol(), denormalizeTemplate = '{{' == startSymbol || '}}' == endSymbol ? identity : function(template) {
+                var startSymbol = $interpolate.startSymbol(), endSymbol = $interpolate.endSymbol(), denormalizeTemplate = '{{' == startSymbol || '}}' == endSymbol ? function($) {
+                    return $;
+                } : function(template) {
                     return template.replace(/\{\{/g, startSymbol).replace(/}}/g, endSymbol);
                 }, NG_ATTR_BINDING = /^ngAttr[A-Z]/;
                 return compile;
@@ -1475,9 +1474,6 @@
             data = fn(data, headers);
         }), data);
     }
-    function isSuccess(status) {
-        return 200 <= status && status < 300;
-    }
     function $HttpProvider() {
         var JSON_START = /^\s*(\[|\{[^\{])/, JSON_END = /[\}\]]\s*$/, PROTECTION_PREFIX = /^\)\]\}',?\n/, CONTENT_TYPE_APPLICATION_JSON = {
             'Content-Type': 'application/json;charset=utf-8'
@@ -1561,10 +1557,10 @@
                         }), promise;
                     }, promise;
                     function transformResponse(response) {
-                        var resp = extend({}, response, {
+                        var status, resp = extend({}, response, {
                             data: transformData(response.data, response.headers, config1.transformResponse)
                         });
-                        return isSuccess(response.status) ? resp : $q.reject(resp);
+                        return 200 <= (status = response.status) && status < 300 ? resp : $q.reject(resp);
                     }
                 }
                 return forEach(interceptorFactories, function(interceptorFactory) {
@@ -1606,14 +1602,19 @@
                         isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
                     } else cache.put(url, promise);
                     return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, function(status, response, headersString) {
-                        cache && (isSuccess(status) ? cache.put(url, [
-                            status,
-                            response,
-                            parseHeaders(headersString)
-                        ]) : cache.remove(url)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
+                        if (cache) {
+                            var status1;
+                            200 <= (status1 = status) && status1 < 300 ? cache.put(url, [
+                                status,
+                                response,
+                                parseHeaders(headersString)
+                            ]) : cache.remove(url);
+                        }
+                        resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
                     }, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
                     function resolvePromise(response, status, headers) {
-                        (isSuccess(status = Math.max(status, 0)) ? deferred.resolve : deferred.reject)({
+                        var status2;
+                        (200 <= (status2 = status = Math.max(status, 0)) && status2 < 300 ? deferred.resolve : deferred.reject)({
                             data: response,
                             status: status,
                             headers: headersGetter(headers),
@@ -1665,14 +1666,14 @@
     }
     function createHttpBackend($browser, XHR, $browserDefer, callbacks, rawDocument) {
         return function(method, url, post, callback1, headers, timeout, withCredentials, responseType) {
-            var status1;
+            var status3;
             if ($browser.$$incOutstandingRequestCount(), url = url || $browser.url(), 'jsonp' == lowercase(method)) {
                 var callbackId = '_' + (callbacks.counter++).toString(36);
                 callbacks[callbackId] = function(data) {
                     callbacks[callbackId].data = data;
                 };
                 var jsonpDone = jsonpReq(url.replace('JSON_CALLBACK', 'angular.callbacks.' + callbackId), function() {
-                    callbacks[callbackId].data ? completeRequest(callback1, 200, callbacks[callbackId].data) : completeRequest(callback1, status1 || -2), delete callbacks[callbackId];
+                    callbacks[callbackId].data ? completeRequest(callback1, 200, callbacks[callbackId].data) : completeRequest(callback1, status3 || -2), delete callbacks[callbackId];
                 });
             } else {
                 var xhr = new XHR();
@@ -1681,14 +1682,14 @@
                 }), xhr.onreadystatechange = function() {
                     if (4 == xhr.readyState) {
                         var responseHeaders = null, response = null;
-                        -1 !== status1 && (responseHeaders = xhr.getAllResponseHeaders(), response = xhr.responseType ? xhr.response : xhr.responseText), completeRequest(callback1, status1 || xhr.status, response, responseHeaders);
+                        -1 !== status3 && (responseHeaders = xhr.getAllResponseHeaders(), response = xhr.responseType ? xhr.response : xhr.responseText), completeRequest(callback1, status3 || xhr.status, response, responseHeaders);
                     }
                 }, withCredentials && (xhr.withCredentials = !0), responseType && (xhr.responseType = responseType), xhr.send(post || null);
             }
             if (timeout > 0) var timeoutId = $browserDefer(timeoutRequest, timeout);
             else timeout && timeout.then && timeout.then(timeoutRequest);
             function timeoutRequest() {
-                status1 = -1, jsonpDone && jsonpDone(), xhr && xhr.abort();
+                status3 = -1, jsonpDone && jsonpDone(), xhr && xhr.abort();
             }
             function completeRequest(callback, status, response, headersString) {
                 var protocol = urlResolve(url).protocol;
@@ -1995,7 +1996,9 @@
             }
             return this.$$compose(), this;
         },
-        hash: locationGetterSetter('$$hash', identity),
+        hash: locationGetterSetter('$$hash', function($) {
+            return $;
+        }),
         replace: function() {
             return this.$$replace = !0, this;
         }
@@ -2583,9 +2586,11 @@
                 },
                 promise: {
                     then: function(callback, errback, progressback) {
-                        var result = defer(), wrappedCallback = function(value) {
+                        var result = defer(), wrappedCallback = function(value2) {
                             try {
-                                result.resolve((isFunction(callback) ? callback : defaultCallback)(value));
+                                result.resolve((isFunction(callback) ? callback : function(value) {
+                                    return value;
+                                })(value2));
                             } catch (e) {
                                 result.reject(e), exceptionHandler(e);
                             }
@@ -2597,7 +2602,9 @@
                             }
                         }, wrappedProgressback = function(progress) {
                             try {
-                                result.notify((isFunction(progressback) ? progressback : defaultCallback)(progress));
+                                result.notify((isFunction(progressback) ? progressback : function(value) {
+                                    return value;
+                                })(progress));
                             } catch (e) {
                                 exceptionHandler(e);
                             }
@@ -2616,18 +2623,20 @@
                             var result = defer();
                             return resolved ? result.resolve(value) : result.reject(value), result.promise;
                         }
-                        function handleCallback(value, isResolved) {
+                        function handleCallback(value3, isResolved) {
                             var callbackOutput = null;
                             try {
-                                callbackOutput = (callback || defaultCallback)();
+                                callbackOutput = (callback || function(value) {
+                                    return value;
+                                })();
                             } catch (e) {
                                 return makePromise(e, !1);
                             }
                             return callbackOutput && isFunction(callbackOutput.then) ? callbackOutput.then(function() {
-                                return makePromise(value, isResolved);
+                                return makePromise(value3, isResolved);
                             }, function(error) {
                                 return makePromise(error, !1);
-                            }) : makePromise(value, isResolved);
+                            }) : makePromise(value3, isResolved);
                         }
                         return this.then(function(value) {
                             return handleCallback(value, !0);
@@ -2660,19 +2669,18 @@
                 }
             };
         };
-        function defaultCallback(value) {
-            return value;
-        }
         function defaultErrback(reason) {
             return reject(reason);
         }
         return {
             defer: defer,
             reject: reject,
-            when: function(value2, callback, errback, progressback) {
-                var done, result = defer(), wrappedCallback = function(value) {
+            when: function(value4, callback, errback, progressback) {
+                var done, result = defer(), wrappedCallback = function(value5) {
                     try {
-                        return (isFunction(callback) ? callback : defaultCallback)(value);
+                        return (isFunction(callback) ? callback : function(value) {
+                            return value;
+                        })(value5);
                     } catch (e) {
                         return exceptionHandler(e), reject(e);
                     }
@@ -2684,13 +2692,15 @@
                     }
                 }, wrappedProgressback = function(progress) {
                     try {
-                        return (isFunction(progressback) ? progressback : defaultCallback)(progress);
+                        return (isFunction(progressback) ? progressback : function(value) {
+                            return value;
+                        })(progress);
                     } catch (e) {
                         exceptionHandler(e);
                     }
                 };
                 return nextTick(function() {
-                    ref(value2).then(function(value) {
+                    ref(value4).then(function(value) {
                         done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
                     }, function(reason) {
                         done || (done = !0, result.resolve(wrappedErrback(reason)));
@@ -3039,7 +3049,9 @@
                     return enabled;
                 }, sce.trustAs = $sceDelegate.trustAs, sce.getTrusted = $sceDelegate.getTrusted, sce.valueOf = $sceDelegate.valueOf, enabled || (sce.trustAs = sce.getTrusted = function(type, value) {
                     return value;
-                }, sce.valueOf = identity), sce.parseAs = function(type, expr) {
+                }, sce.valueOf = function($) {
+                    return $;
+                }), sce.parseAs = function(type, expr) {
                     var parsed = $parse(expr);
                     return parsed.literal && parsed.constant ? parsed : function(self, locals) {
                         return sce.getTrusted(type, parsed(self, locals));
@@ -3225,8 +3237,8 @@
                     return array;
             }
             for(var filtered = [], j1 = 0; j1 < array.length; j1++){
-                var value3 = array[j1];
-                predicates.check(value3) && filtered.push(value3);
+                var value6 = array[j1];
+                predicates.check(value6) && filtered.push(value6);
             }
             return filtered;
         };
@@ -3368,7 +3380,9 @@
             }(sortPredicate = isArray(sortPredicate) ? sortPredicate : [
                 sortPredicate
             ], function(predicate) {
-                var descending = !1, get = predicate || identity;
+                var descending = !1, get = predicate || function($) {
+                    return $;
+                };
                 return isString(predicate) && (('+' == predicate.charAt(0) || '-' == predicate.charAt(0)) && (descending = '-' == predicate.charAt(0), predicate = predicate.substring(1)), get = $parse(predicate)), reverseComparator(function(a, b) {
                     return compare(get(a), get(b));
                 }, descending);
@@ -4339,7 +4353,9 @@
             bind: bind,
             toJson: toJson,
             fromJson: fromJson,
-            identity: identity,
+            identity: function($) {
+                return $;
+            },
             isUndefined: isUndefined,
             isDefined: isDefined,
             isString: isString,

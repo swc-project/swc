@@ -96,12 +96,7 @@ for(var k = {
 }; k;);
 do ;
 while (k);
-function fn(x) {
-    return null;
-}
-for(fn(); fn(););
 do ;
-while (fn());
-for(; fn;);
-do ;
-while (fn);
+while (null);
+for(;;);
+for(;;);

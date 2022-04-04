@@ -400,16 +400,13 @@
             }, setTextContent = function(el, content) {
                 el.styleSheet ? el.styleSheet.cssText = content : el.textContent = content;
             }, _guid = 3;
-            function newGUID() {
-                return _guid++;
-            }
             global_window__WEBPACK_IMPORTED_MODULE_0___default().WeakMap || (FakeWeakMap1 = function() {
                 function FakeWeakMap() {
                     this.vdata = 'vdata' + Math.floor(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance && global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now() || Date.now()), this.data = {};
                 }
                 var _proto = FakeWeakMap.prototype;
                 return _proto.set = function(key, value) {
-                    var access = key[this.vdata] || newGUID();
+                    var access = key[this.vdata] || _guid++;
                     return key[this.vdata] || (key[this.vdata] = access), this.data[access] = value, this;
                 }, _proto.get = function(key) {
                     var access = key[this.vdata];
@@ -480,7 +477,7 @@
                 if (Array.isArray(type)) return _handleMultipleEvents(on, elem, type, fn);
                 DomData.has(elem) || DomData.set(elem, {});
                 var data = DomData.get(elem);
-                if (data.handlers || (data.handlers = {}), data.handlers[type] || (data.handlers[type] = []), fn.guid || (fn.guid = newGUID()), data.handlers[type].push(fn), data.dispatcher || (data.disabled = !1, data.dispatcher = function(event, hash) {
+                if (data.handlers || (data.handlers = {}), data.handlers[type] || (data.handlers[type] = []), fn.guid || (fn.guid = _guid++), data.handlers[type].push(fn), data.dispatcher || (data.disabled = !1, data.dispatcher = function(event, hash) {
                     if (!data.disabled) {
                         event = fixEvent(event);
                         var handlers = data.handlers[event.type];
@@ -539,13 +536,13 @@
                 var func1 = function func() {
                     off(elem, type, func), fn.apply(this, arguments);
                 };
-                func1.guid = fn.guid = fn.guid || newGUID(), on(elem, type, func1);
+                func1.guid = fn.guid = fn.guid || _guid++, on(elem, type, func1);
             }
             function any(elem, type, fn) {
                 var func2 = function func() {
                     off(elem, type, func), fn.apply(this, arguments);
                 };
-                func2.guid = fn.guid = fn.guid || newGUID(), on(elem, type, func2);
+                func2.guid = fn.guid = fn.guid || _guid++, on(elem, type, func2);
             }
             var Events = Object.freeze({
                 __proto__: null,
@@ -556,7 +553,7 @@
                 one: one,
                 any: any
             }), bind = function(context, fn, uid) {
-                fn.guid || (fn.guid = newGUID());
+                fn.guid || (fn.guid = _guid++);
                 var bound = fn.bind(context);
                 return bound.guid = uid ? uid + '_' + fn.guid : fn.guid, bound;
             }, throttle = function(fn, wait) {
@@ -789,7 +786,7 @@
                 function Component(player, options, ready) {
                     if (!player && this.play ? this.player_ = player = this : this.player_ = player, this.isDisposed_ = !1, this.parentComponent_ = null, this.options_ = mergeOptions$3({}, this.options_), options = this.options_ = mergeOptions$3(this.options_, options), this.id_ = options.id || options.el && options.el.id, !this.id_) {
                         var id = player && player.id && player.id() || 'no_player';
-                        this.id_ = id + "_component_" + newGUID();
+                        this.id_ = id + "_component_" + _guid++;
                     }
                     this.name_ = options.name || null, options.el ? this.el_ = options.el : !1 !== options.createEl && (this.el_ = this.createEl()), !1 !== options.evented && (evented(this, {
                         eventBusKey: this.el_ ? 'el_' : null
@@ -1499,7 +1496,7 @@
                 function Track(options) {
                     void 0 === options && (options = {}), _this = _EventTarget.call(this) || this;
                     var _this, trackProps = {
-                        id: options.id || 'vjs_track_' + newGUID(),
+                        id: options.id || 'vjs_track_' + _guid++,
                         kind: options.kind || '',
                         language: options.language || ''
                     }, label = options.label || '', _loop = function(key) {
@@ -5187,7 +5184,7 @@
                 huge: 1 / 0
             }, Player1 = function(_Component) {
                 function Player(tag, options, ready) {
-                    if (tag.id = tag.id || options.id || "vjs_video_" + newGUID(), (options = assign(Player.getTagSettings(tag), options)).initChildren = !1, options.createEl = !1, options.evented = !1, options.reportTouchActivity = !1, !options.language) if ('function' == typeof tag.closest) {
+                    if (tag.id = tag.id || options.id || "vjs_video_" + _guid++, (options = assign(Player.getTagSettings(tag), options)).initChildren = !1, options.createEl = !1, options.evented = !1, options.reportTouchActivity = !1, !options.language) if ('function' == typeof tag.closest) {
                         var _this, closest = tag.closest('[lang]');
                         closest && closest.getAttribute && (options.language = closest.getAttribute('lang'));
                     } else for(var element = tag; element && 1 === element.nodeType;){
@@ -7557,11 +7554,9 @@
                     if (!mediaID) throw new Error('refreshMedia_ must take a media id');
                     this.media_ && this.isMaster_ && this.handleMaster_();
                     var playlists = this.masterPlaylistLoader_.master.playlists, mediaChanged = !this.media_ || this.media_ !== playlists[mediaID];
-                    mediaChanged ? this.media_ = playlists[mediaID] : this.trigger('playlistunchanged'), this.mediaUpdateTimeout || function createMediaUpdateTimeout() {
-                        _this9.media().endList || (_this9.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
-                            _this9.trigger('mediaupdatetimeout'), createMediaUpdateTimeout();
-                        }, refreshDelay(_this9.media(), Boolean(mediaChanged))));
-                    }(), this.trigger('loadedplaylist');
+                    mediaChanged ? this.media_ = playlists[mediaID] : this.trigger('playlistunchanged'), this.mediaUpdateTimeout || _this9.media().endList || (_this9.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
+                        _this9.trigger('mediaupdatetimeout'), createMediaUpdateTimeout();
+                    }, refreshDelay(_this9.media(), Boolean(mediaChanged)))), this.trigger('loadedplaylist');
                 }, DashPlaylistLoader;
             }(EventTarget), Config = {
                 GOAL_BUFFER_LENGTH: 30,

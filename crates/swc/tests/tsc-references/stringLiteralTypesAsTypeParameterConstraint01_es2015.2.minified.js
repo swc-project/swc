@@ -1,8 +1,9 @@
-function foo(f) {
+(function(f) {
     return f;
-}
-foo((x)=>x
-)("foo"), foo((x)=>x
+})((x)=>x
+)("foo"), (function(f) {
+    return f;
+})((x)=>x
 )("foo");
 let h = function(f) {
     return f;

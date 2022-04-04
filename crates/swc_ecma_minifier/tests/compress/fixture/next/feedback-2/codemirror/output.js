@@ -4520,9 +4520,6 @@
         return initHooks.push(f);
     };
     var lastCopied = null;
-    function setLastCopied(newLastCopied) {
-        lastCopied = newLastCopied;
-    }
     function applyTextInput(cm, inserted, deleted, sel, origin) {
         var doc = cm.doc;
         cm.display.shift = !1, sel || (sel = doc.sel);
@@ -4776,17 +4773,17 @@
         }
         function onCopyCut(e) {
             if (!(!belongsToInput(e) || signalDOMEvent(cm, e))) {
-                if (cm.somethingSelected()) setLastCopied({
+                if (cm.somethingSelected()) lastCopied = {
                     lineWise: !1,
                     text: cm.getSelections()
-                }), "cut" == e.type && cm.replaceSelection("", null, "cut");
+                }, "cut" == e.type && cm.replaceSelection("", null, "cut");
                 else {
                     if (!cm.options.lineWiseCopyCut) return;
                     var ranges = copyableRanges(cm);
-                    setLastCopied({
+                    lastCopied = {
                         lineWise: !0,
                         text: ranges.text
-                    }), "cut" == e.type && cm.operation(function() {
+                    }, "cut" == e.type && cm.operation(function() {
                         cm.setSelections(ranges.ranges, 0, sel_dontScroll), cm.replaceSelection("", null, "cut");
                     });
                 }
@@ -4977,17 +4974,17 @@
         var te = this.textarea;
         function prepareCopyCut(e) {
             if (!signalDOMEvent(cm, e)) {
-                if (cm.somethingSelected()) setLastCopied({
+                if (cm.somethingSelected()) lastCopied = {
                     lineWise: !1,
                     text: cm.getSelections()
-                });
+                };
                 else {
                     if (!cm.options.lineWiseCopyCut) return;
                     var ranges = copyableRanges(cm);
-                    setLastCopied({
+                    lastCopied = {
                         lineWise: !0,
                         text: ranges.text
-                    }), "cut" == e.type ? cm.setSelections(ranges.ranges, null, sel_dontScroll) : (input.prevInput = "", te.value = ranges.text.join("\n"), selectInput(te));
+                    }, "cut" == e.type ? cm.setSelections(ranges.ranges, null, sel_dontScroll) : (input.prevInput = "", te.value = ranges.text.join("\n"), selectInput(te));
                 }
                 "cut" == e.type && (cm.state.cutIncoming = +new Date);
             }

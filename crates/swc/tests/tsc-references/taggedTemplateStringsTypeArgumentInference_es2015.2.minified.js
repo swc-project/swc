@@ -4,9 +4,6 @@ function someGenerics4(strs, n, f) {}
 function someGenerics5(strs, n, f) {}
 function someGenerics6(strs, a, b, c) {}
 function someGenerics7(strs, a, b, c) {}
-function someGenerics9(strs, a, b, c) {
-    return null;
-}
 (function(n) {})``, (function(n) {})``, (function(n, m) {})`${3}`, (function(n, m) {})`${3}`, (function(strs, n) {})`${(n)=>n
 }`, (function(strs, n) {})`${(n, x)=>n
 }`, someGenerics3`${()=>''
@@ -36,16 +33,26 @@ function someGenerics9(strs, a, b, c) {
 }${(n)=>n
 }`, (function(strs, n) {
     return n;
-})`${someGenerics7}``${null}${null}${null}`, someGenerics9`${''}${0}${[]}`, someGenerics9`${void 0}${{
+})`${someGenerics7}``${null}${null}${null}`, (function(strs, a, b, c) {
+    return null;
+})`${''}${0}${[]}`, (function(strs, a, b, c) {
+    return null;
+})`${void 0}${{
     x: 6,
     z: new Date()
 }}${{
     x: 6,
     y: ''
-}}`, someGenerics9`${{
+}}`, (function(strs, a, b, c) {
+    return null;
+})`${{
     x: 3
 }}${{
     x: 6
 }}${{
     x: 6
-}}`, someGenerics9`${7}${anyVar}${4}`, someGenerics9`${[]}${null}${void 0}`;
+}}`, (function(strs, a, b, c) {
+    return null;
+})`${7}${anyVar}${4}`, (function(strs, a, b, c) {
+    return null;
+})`${[]}${null}${void 0}`;

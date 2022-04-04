@@ -714,13 +714,11 @@
             function warn(message) {
                 console.warn("loadable: " + message);
             }
-            var Context = _react_17_0_2_react.createContext();
-            function getRequiredChunkKey(namespace) {
-                return "" + namespace + '__LOADABLE_REQUIRED_CHUNKS__';
-            }
-            var sharedInternals = Object.freeze({
+            var Context = _react_17_0_2_react.createContext(), sharedInternals = Object.freeze({
                 __proto__: null,
-                getRequiredChunkKey: getRequiredChunkKey,
+                getRequiredChunkKey: function(namespace) {
+                    return "" + namespace + '__LOADABLE_REQUIRED_CHUNKS__';
+                },
                 invariant: invariant,
                 Context: Context
             }), LOADABLE_SHARED = {
@@ -904,7 +902,7 @@
                 if (!BROWSER) return warn('`loadableReady()` must be called in browser only'), done(), Promise.resolve();
                 var requiredChunks = null;
                 if (BROWSER) {
-                    var id = getRequiredChunkKey(void 0 === _ref$namespace ? '' : _ref$namespace), dataElement = document.getElementById(id);
+                    var id = "" + (void 0 === _ref$namespace ? '' : _ref$namespace) + '__LOADABLE_REQUIRED_CHUNKS__', dataElement = document.getElementById(id);
                     if (dataElement) {
                         requiredChunks = JSON.parse(dataElement.textContent);
                         var extElement = document.getElementById(id + "_ext");
@@ -10259,9 +10257,6 @@
                         throw err.name = 'Invariant Violation', err;
                     }
                 }
-                function getShim() {
-                    return shim;
-                }
                 shim.isRequired = shim;
                 var ReactPropTypes = {
                     array: shim,
@@ -10272,16 +10267,30 @@
                     string: shim,
                     symbol: shim,
                     any: shim,
-                    arrayOf: getShim,
+                    arrayOf: function() {
+                        return shim;
+                    },
                     element: shim,
                     elementType: shim,
-                    instanceOf: getShim,
+                    instanceOf: function() {
+                        return shim;
+                    },
                     node: shim,
-                    objectOf: getShim,
-                    oneOf: getShim,
-                    oneOfType: getShim,
-                    shape: getShim,
-                    exact: getShim,
+                    objectOf: function() {
+                        return shim;
+                    },
+                    oneOf: function() {
+                        return shim;
+                    },
+                    oneOfType: function() {
+                        return shim;
+                    },
+                    shape: function() {
+                        return shim;
+                    },
+                    exact: function() {
+                        return shim;
+                    },
                     checkPropTypes: emptyFunctionWithReset,
                     resetWarningCache: emptyFunction
                 };
@@ -10668,9 +10677,6 @@
                 value: !0
             }), exports.reactAppRenderer = exports.getRenderApp = exports.getInitialData = exports.setInitialData = void 0;
             var React = __webpack_require__(59301), ReactDOM = __webpack_require__(4676), queryString = __webpack_require__(20386), component_1 = __webpack_require__(9347);
-            function setInitialData(initialData) {
-                __initialData__ = initialData;
-            }
             function getRenderApp(runtime, options) {
                 var _a, _b, ErrorBoundary = options.ErrorBoundary, _c = options.appConfig, AppProvider = null === (_a = null == runtime ? void 0 : runtime.composeAppProvider) || void 0 === _a ? void 0 : _a.call(runtime), AppComponent = null === (_b = null == runtime ? void 0 : runtime.getAppComponent) || void 0 === _b ? void 0 : _b.call(runtime), rootApp = React.createElement(AppComponent, null);
                 AppProvider && (rootApp = React.createElement(AppProvider, null, rootApp));
@@ -10684,7 +10690,9 @@
                     }, rootApp)), strict && (rootApp = React.createElement(React.StrictMode, null, rootApp)), rootApp;
                 };
             }
-            exports.setInitialData = setInitialData, exports.getInitialData = function() {
+            exports.setInitialData = function(initialData) {
+                __initialData__ = initialData;
+            }, exports.getInitialData = function() {
                 return __initialData__;
             }, exports.getRenderApp = getRenderApp, exports.reactAppRenderer = function(options5) {
                 var _a2;
@@ -10718,7 +10726,8 @@
                             case 2:
                                 _d.initialData = _f.sent(), _f.label = 3;
                             case 3:
-                                return runtime1 = (_e = createBaseApp(appConfig, buildConfig, context)).runtime, modifiedAppConfig = _e.appConfig, initAppLifeCycles(), setInitialData(context.initialData), emitLifeCycles(), [
+                                var initialData;
+                                return runtime1 = (_e = createBaseApp(appConfig, buildConfig, context)).runtime, modifiedAppConfig = _e.appConfig, initAppLifeCycles(), initialData = context.initialData, __initialData__ = initialData, emitLifeCycles(), [
                                     2,
                                     function(runtime, options) {
                                         var mountNode, rootId, _a, _b = options.appConfig, _c = (void 0 === _b ? {} : _b).app, rootId1 = _c.rootId, mountNode1 = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = (mountNode = mountNode1, rootId = rootId1, mountNode || document.getElementById(rootId) || document.getElementById('ice-container'));
@@ -11830,7 +11839,9 @@
                 shiftKey: 0,
                 altKey: 0,
                 metaKey: 0,
-                getModifierState: zd,
+                getModifierState: function() {
+                    return Pd;
+                },
                 button: 0,
                 buttons: 0,
                 relatedTarget: function(a) {
@@ -11916,9 +11927,6 @@
                 var b = this.nativeEvent;
                 return b.getModifierState ? b.getModifierState(a) : !!(a = Od[a]) && !!b[a];
             }
-            function zd() {
-                return Pd;
-            }
             var Rd = rd(m({}, ud, {
                 key: function(a) {
                     if (a.key) {
@@ -11935,7 +11943,9 @@
                 metaKey: 0,
                 repeat: 0,
                 locale: 0,
-                getModifierState: zd,
+                getModifierState: function() {
+                    return Pd;
+                },
                 charCode: function(a) {
                     return "keypress" === a.type ? od(a) : 0;
                 },
@@ -11964,7 +11974,9 @@
                 metaKey: 0,
                 ctrlKey: 0,
                 shiftKey: 0,
-                getModifierState: zd
+                getModifierState: function() {
+                    return Pd;
+                }
             })), Xd = rd(m({}, sd, {
                 propertyName: 0,
                 elapsedTime: 0,
@@ -12754,9 +12766,6 @@
                 return b;
             }
             var mg = Bf(null), ng = null, og = null, pg = null;
-            function qg() {
-                pg = og = ng = null;
-            }
             function rg(a) {
                 var b = mg.current;
                 H(mg), a.type._context._currentValue = b;
@@ -14777,7 +14786,7 @@
                 } catch (h) {
                     Sj(a, h);
                 }
-                if (qg(), oj.current = f, X = e, null !== Y ? d = 0 : (U = null, W = 0, d = V), 0 != (tj & Hi)) Qj(a, 0);
+                if (pg = og = ng = null, oj.current = f, X = e, null !== Y ? d = 0 : (U = null, W = 0, d = V), 0 != (tj & Hi)) Qj(a, 0);
                 else if (0 !== d) {
                     if (2 === d && (X |= 64, a.hydrate && (a.hydrate = !1, qf(a.containerInfo)), 0 !== (c = Wc(a)) && (d = Tj(a, c))), 1 === d) throw b = sj, Qj(a, 0), Ii(a, c), Mj(a, O()), b;
                     switch(a.finishedWork = a.current.alternate, a.finishedLanes = c, d){
@@ -14898,7 +14907,7 @@
                 for(;;){
                     var c = Y;
                     try {
-                        if (qg(), vh.current = Gh, yh) {
+                        if (pg = og = ng = null, vh.current = Gh, yh) {
                             for(var d = R.memoizedState; null !== d;){
                                 var e = d.queue;
                                 null !== e && (e.pending = null), d = d.next;
@@ -14999,7 +15008,7 @@
                 } catch (e) {
                     Sj(a, e);
                 }
-                if (qg(), X = c, oj.current = d, null !== Y) throw Error(y(261));
+                if (pg = og = ng = null, X = c, oj.current = d, null !== Y) throw Error(y(261));
                 return U = null, W = 0, V;
             }
             function ak() {

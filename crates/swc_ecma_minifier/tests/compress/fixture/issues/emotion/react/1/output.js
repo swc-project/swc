@@ -94,9 +94,6 @@
             function peek() {
                 return Utility_charat(characters1, position);
             }
-            function caret() {
-                return position;
-            }
             function slice(begin, end) {
                 return Utility_substr(characters1, begin, end);
             }
@@ -135,9 +132,6 @@
             function alloc(value) {
                 return line = column = 1, Tokenizer_length = Utility_strlen(characters1 = value), position = 0, [];
             }
-            function dealloc(value) {
-                return characters1 = '', value;
-            }
             function delimit(type) {
                 return trim(slice(position - 1, delimiter(91 === type ? type + 2 : 40 === type ? type + 1 : type)));
             }
@@ -148,7 +142,7 @@
             }
             function escaping(index, count) {
                 for(; --count && next1() && !(character1 < 48) && !(character1 > 102) && (!(character1 > 57) || !(character1 < 65)) && (!(character1 > 70) || !(character1 < 97)););
-                return slice(index, caret() + (count < 6 && 32 == peek() && 32 == next1()));
+                return slice(index, position + (count < 6 && 32 == peek() && 32 == next1()));
             }
             function delimiter(type) {
                 for(; next1();)switch(character1){
@@ -319,13 +313,13 @@
                         characters += whitespace(previous);
                         break;
                     case 92:
-                        characters += escaping(caret() - 1, 7);
+                        characters += escaping(position - 1, 7);
                         continue;
                     case 47:
                         switch(peek()){
                             case 42:
                             case 47:
-                                Utility_append(comment(commenter(next1(), caret()), root, parent), declarations);
+                                Utility_append(comment(commenter(next1(), position), root, parent), declarations);
                                 break;
                             default:
                                 characters += '/';
@@ -376,7 +370,7 @@
                                 points[index++] = (Utility_strlen(characters) - 1) * ampersand, ampersand = 1;
                                 break;
                             case 64:
-                                45 === peek() && (characters += delimit(next1())), atrule = peek(), offset = Utility_strlen(type = characters += identifier(caret())), character++;
+                                45 === peek() && (characters += delimit(next1())), atrule = peek(), offset = Utility_strlen(type = characters += identifier(position)), character++;
                                 break;
                             case 45:
                                 45 === previous && 2 == Utility_strlen(characters) && (variable = 0);
@@ -418,12 +412,15 @@
                 }
                 while (character = next1())
                 return parsed;
+            }, getRules = function(value, points) {
+                var value2;
+                return value2 = toRules(alloc(value), points), characters1 = '', value2;
             }, fixedElements = new WeakMap(), compat = function(element) {
                 if ('rule' === element.type && element.parent && element.length) {
                     for(var value = element.value, parent = element.parent, isImplicitRule = element.column === parent.column && element.line === parent.line; 'rule' !== parent.type;)if (!(parent = parent.parent)) return;
                     if ((1 !== element.props.length || 58 === value.charCodeAt(0) || fixedElements.get(parent)) && !isImplicitRule) {
                         fixedElements.set(element, !0);
-                        for(var value2, points, points1 = [], rules = (value2 = value, points = points1, dealloc(toRules(alloc(value2), points))), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points1[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
+                        for(var points = [], rules = getRules(value, points), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
                     }
                 }
             }, removeLabel = function(element) {
@@ -644,12 +641,12 @@
                     for(var output = '', i = 0; i < length; i++)output += collection[i](element, index, children, callback) || '';
                     return output;
                 }), stylis = function(styles) {
-                    var value;
-                    return serialize(dealloc(parse('', null, null, null, [
+                    var value, value4;
+                    return serialize((value4 = parse('', null, null, null, [
                         ''
                     ], value = alloc(value = styles), 0, [
                         0
-                    ], value)), serializer);
+                    ], value), characters1 = '', value4), serializer);
                 };
                 _insert = function(selector, serialized, sheet, shouldCache) {
                     currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);

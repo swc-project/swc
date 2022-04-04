@@ -35,9 +35,6 @@
     }, ReactCurrentOwner = {
         current: null
     }, ReactDebugCurrentFrame = {}, currentExtraStackFrame = null;
-    function setExtraStackFrame(stack) {
-        currentExtraStackFrame = stack;
-    }
     ReactDebugCurrentFrame.setExtraStackFrame = function(stack) {
         currentExtraStackFrame = stack;
     }, ReactDebugCurrentFrame.getCurrentStack = null, ReactDebugCurrentFrame.getStackAddendum = function() {
@@ -522,8 +519,8 @@
     function setCurrentlyValidatingElement$1(element) {
         if (element) {
             var owner = element._owner;
-            setExtraStackFrame(describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null));
-        } else setExtraStackFrame(null);
+            currentExtraStackFrame = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
+        } else currentExtraStackFrame = null;
     }
     function getDeclarationErrorAddendum() {
         if (ReactCurrentOwner.current) {

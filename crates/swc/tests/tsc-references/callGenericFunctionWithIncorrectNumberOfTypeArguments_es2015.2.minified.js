@@ -1,8 +1,5 @@
 var f3, i, i2;
-function f(x, y) {
-    return null;
-}
-f(1, ''), f(1, ''), f3(1, ''), f3(1, '');
+f3(1, ''), f3(1, '');
 class C {
     f(x, y) {
         return null;

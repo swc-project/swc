@@ -1,8 +1,4 @@
 import * as swcHelpers from "@swc/helpers";
-function f(x, y) {
-    return null;
-}
-f(1, ""), f(1, "");
 var f3, i, i2, f2 = function(x, y) {
     return null;
 };
