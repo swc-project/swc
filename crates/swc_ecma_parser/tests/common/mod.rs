@@ -56,8 +56,13 @@ impl Fold for Normalizer {
             Some(v) => v,
             None => return n,
         };
+
         match val.as_f64() {
-            Some(value) => Number { value, ..n },
+            Some(value) => Number {
+                value,
+                raw: None,
+                ..n
+            },
             None => n,
         }
     }

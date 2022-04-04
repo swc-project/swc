@@ -33,7 +33,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     pub(super) fn read_number(
         &mut self,
         starts_with_dot: bool,
-    ) -> LexResult<Either<f64, (BigIntValue, String)>> {
+    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
         debug_assert!(self.cur().is_some());
 
         if starts_with_dot {
@@ -64,13 +64,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return Ok(Either::Right((s.into_value(), raw)));
             }
 
-            if self.input.cur() == Some('n') {
-                raw.push('n');
-                self.input.bump();
-
-                return Ok(Either::Right((s.into_value(), raw)));
-            }
-
             write!(raw_val, "{}", &s.value).unwrap();
 
             if starts_with_zero {
@@ -85,7 +78,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
-                        return self.make_legacy_octal(start, 0f64).map(Either::Left);
+                        return self
+                            .make_legacy_octal(start, 0f64)
+                            .map(|value| Either::Left((value, value.to_string())));
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
@@ -112,7 +107,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                                 panic!("failed to parse {} using `lexical`: {:?}", val_str, err)
                             });
 
-                            return self.make_legacy_octal(start, val).map(Either::Left);
+                            return self
+                                .make_legacy_octal(start, val)
+                                .map(|value| Either::Left((value, val_str.into())));
                         }
                     }
                 }
@@ -191,6 +188,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 let flag = if positive { '+' } else { '-' };
 
                 raw_val.push(flag);
+
                 write!(raw_val, "{}", exp).unwrap();
 
                 // TODO:
@@ -203,13 +201,13 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left(val))
+        Ok(Either::Left((val, raw_val)))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
     pub(super) fn read_radix_number<const RADIX: u8, const FORMAT: u128>(
         &mut self,
-    ) -> LexResult<Either<f64, (BigIntValue, String)>> {
+    ) -> LexResult<Either<(f64, String), (BigIntValue, String)>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -245,7 +243,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left(val))
+            Ok(Either::Left((val, raw.into())))
         })
     }
 
@@ -497,6 +495,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         if self.syntax.typescript() && self.target >= EsVersion::Es5 {
             self.emit_error(start, SyntaxError::TS1085);
         }
+
         self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
 
         Ok(val)
@@ -760,9 +759,21 @@ mod tests {
                 };
                 assert_eq!(vec.len(), 1);
                 let token = vec.into_iter().next().unwrap();
-                assert_eq!(Num(expected), token);
+                assert_eq!(
+                    Num {
+                        value: expected,
+                        raw: expected.to_string().into()
+                    },
+                    token
+                );
             } else if let Ok(vec) = vec {
-                assert_ne!(vec![Num(expected)], vec)
+                assert_ne!(
+                    vec![Num {
+                        value: expected,
+                        raw: expected.to_string().into()
+                    }],
+                    vec
+                )
             }
         }
     }

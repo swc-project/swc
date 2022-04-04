@@ -988,7 +988,11 @@ mod tests {
                         type_ann: None,
                         span,
                         left: Box::new(Pat::Ident(ident("a").into())),
-                        right: Box::new(Expr::Lit(Lit::Num(Number { span, value: 1.0 })))
+                        right: Box::new(Expr::Lit(Lit::Num(Number {
+                            span,
+                            value: 1.0,
+                            raw: Some("1".into())
+                        })))
                     }))
                 ],
                 type_ann: None
@@ -1066,7 +1070,11 @@ mod tests {
                 props: vec![ObjectPatProp::Assign(AssignPatProp {
                     span,
                     key: ident("prop"),
-                    value: Some(Box::new(Expr::Lit(Lit::Num(Number { span, value: 10.0 }))))
+                    value: Some(Box::new(Expr::Lit(Lit::Num(Number {
+                        span,
+                        value: 10.0,
+                        raw: Some("10".into())
+                    }))))
                 })]
             })
         );
@@ -1103,7 +1111,11 @@ mod tests {
                             prop(
                                 PropName::Ident(ident("$")),
                                 "num",
-                                Expr::Lit(Lit::Num(Number { span, value: 10.0 }))
+                                Expr::Lit(Lit::Num(Number {
+                                    span,
+                                    value: 10.0,
+                                    raw: Some("10".into())
+                                }))
                             ),
                             prop(
                                 PropName::Str(Str {

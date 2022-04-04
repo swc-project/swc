@@ -99,7 +99,7 @@ impl<'a> From<&'a Token> for TokenType {
                 before_expr: t.before_expr(),
                 can_have_trailing_comment: matches!(
                     *t,
-                    Token::Num(..)
+                    Token::Num { .. }
                         | Token::Str { .. }
                         | Token::Word(Word::Ident(..))
                         | Token::DollarLBrace

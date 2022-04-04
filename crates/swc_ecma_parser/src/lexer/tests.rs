@@ -79,12 +79,18 @@ impl WithSpan for Token {
 }
 impl WithSpan for usize {
     fn into_token(self) -> Token {
-        Num(self as f64)
+        Num {
+            value: self as f64,
+            raw: self.to_string().into(),
+        }
     }
 }
 impl WithSpan for f64 {
     fn into_token(self) -> Token {
-        Num(self)
+        Num {
+            value: self,
+            raw: self.to_string().into(),
+        }
     }
 }
 impl<'a> WithSpan for &'a str {

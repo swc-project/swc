@@ -703,24 +703,24 @@ impl<I: Tokens> Parser<I> {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
             })?,
-            // TODO we need `raw` for `Num` token too
-            Token::Num(v) => {
+            Token::Num { value, ref raw } => {
+                let mut new_raw = String::new();
+
+                new_raw.push('"');
+                new_raw.push_str(&raw);
+                new_raw.push('"');
+
                 bump!(self);
+
                 let span = span!(self, start);
 
                 // Recover from error
                 self.emit_err(span, SyntaxError::TS2452);
 
-                let mut raw = String::new();
-
-                raw.push('"');
-                raw.push_str(&v.to_string());
-                raw.push('"');
-
                 TsEnumMemberId::Str(Str {
                     span,
-                    value: v.to_string().into(),
-                    raw: Some(raw.into()),
+                    value: value.to_string().into(),
+                    raw: Some(new_raw.into()),
                 })
             }
             Token::LBracket => {
@@ -1341,7 +1341,7 @@ impl<I: Tokens> Parser<I> {
             self.with_ctx(ctx).parse_with(|p| {
                 // We check if it's valid for it to be a private name when we push it.
                 let key = match *cur!(p, true)? {
-                    Token::Num(..) | Token::Str { .. } => p.parse_new_expr(),
+                    Token::Num { .. } | Token::Str { .. } => p.parse_new_expr(),
                     _ => p.parse_maybe_private_name().map(|e| match e {
                         Either::Left(e) => {
                             p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
@@ -2046,16 +2046,30 @@ impl<I: Tokens> Parser<I> {
             }
             tok!('-') => {
                 let start = cur_pos!(self);
+
                 bump!(self);
-                if !matches!(*cur!(self, true)?, Token::Num(..)) {
+
+                if !matches!(*cur!(self, true)?, Token::Num { .. }) {
                     unexpected!(self, "a numeric literal")
                 }
+
                 let lit = self.parse_lit()?;
                 let lit = match lit {
-                    Lit::Num(num) => TsLit::Number(Number {
-                        span: num.span,
-                        value: -num.value,
-                    }),
+                    Lit::Num(Number { span, value, raw }) => {
+                        let mut new_raw = String::from("-");
+                        let orig_raw = match raw {
+                            Some(raw) => raw,
+                            _ => value.to_string().into(),
+                        };
+
+                        new_raw.push_str(&orig_raw);
+
+                        TsLit::Number(Number {
+                            span,
+                            value: -value,
+                            raw: Some(new_raw.into()),
+                        })
+                    }
                     _ => unreachable!(),
                 };
 
@@ -2778,6 +2792,7 @@ mod tests {
                         lit: TsLit::Number(Number {
                             span: DUMMY_SP,
                             value: -1.0,
+                            raw: Some("-1".into()),
                         }),
                     })),
                 })));
@@ -2813,6 +2828,7 @@ mod tests {
                             arg: Box::new(Expr::Lit(Lit::Num(Number {
                                 span: DUMMY_SP,
                                 value: 1.0,
+                                raw: Some("1".into()),
                             }))),
                         }))),
                         definite: false,
