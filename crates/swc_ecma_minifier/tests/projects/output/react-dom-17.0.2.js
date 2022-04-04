@@ -2581,9 +2581,7 @@
         shiftKey: 0,
         altKey: 0,
         metaKey: 0,
-        getModifierState: function(nativeEvent) {
-            return modifierStateGetter;
-        },
+        getModifierState: getEventModifierState,
         button: 0,
         buttons: 0,
         relatedTarget: function(event) {
@@ -2672,6 +2670,9 @@
         var keyProp = modifierKeyToProp[keyArg];
         return !!keyProp && !!nativeEvent[keyProp];
     }
+    function getEventModifierState(nativeEvent) {
+        return modifierStateGetter;
+    }
     var SyntheticKeyboardEvent = createSyntheticEvent(_assign({}, UIEventInterface, {
         key: function(nativeEvent) {
             if (nativeEvent.key) {
@@ -2692,9 +2693,7 @@
         metaKey: 0,
         repeat: 0,
         locale: 0,
-        getModifierState: function(nativeEvent) {
-            return modifierStateGetter;
-        },
+        getModifierState: getEventModifierState,
         charCode: function(event) {
             return 'keypress' === event.type ? getEventCharCode(event) : 0;
         },
@@ -2723,9 +2722,7 @@
         metaKey: 0,
         ctrlKey: 0,
         shiftKey: 0,
-        getModifierState: function(nativeEvent) {
-            return modifierStateGetter;
-        }
+        getModifierState: getEventModifierState
     })), SyntheticTransitionEvent = createSyntheticEvent(_assign({}, EventInterface, {
         propertyName: 0,
         elapsedTime: 0,
@@ -2843,6 +2840,9 @@
     function getTargetInstForInputOrChangeEvent(domEventName, targetInst) {
         if ('input' === domEventName || 'change' === domEventName) return getInstIfValueChanged(targetInst);
     }
+    function is(x, y) {
+        return x === y && (0 !== x || 1 / x == 1 / y) || x != x && y != y;
+    }
     canUseDOM && (isInputEventSupported = function(eventNameSuffix) {
         if (!canUseDOM) return !1;
         var eventName = 'on' + eventNameSuffix, isSupported = eventName in document;
@@ -2852,9 +2852,7 @@
         }
         return isSupported;
     }('input') && (!document.documentMode || document.documentMode > 9));
-    var objectIs = 'function' == typeof Object.is ? Object.is : function(x, y) {
-        return x === y && (0 !== x || 1 / x == 1 / y) || x != x && y != y;
-    }, hasOwnProperty$2 = Object.prototype.hasOwnProperty;
+    var objectIs = 'function' == typeof Object.is ? Object.is : is, hasOwnProperty$2 = Object.prototype.hasOwnProperty;
     function shallowEqual(objA, objB) {
         if (objectIs(objA, objB)) return !0;
         if ('object' != typeof objA || null === objA || 'object' != typeof objB || null === objB) return !1;
@@ -9259,6 +9257,12 @@
         for(var currentHook = fiber.memoizedState; null !== currentHook && id > 0;)currentHook = currentHook.next, id--;
         return currentHook;
     };
+    function emptyFindFiberByHostInstance(instance) {
+        return null;
+    }
+    function getCurrentFiberForDevTools() {
+        return current1;
+    }
     function ReactDOMRoot(container, options) {
         this._internalRoot = createRootImpl(container, 2, options);
     }
@@ -9496,9 +9500,7 @@
             var hostFiber = findCurrentHostFiber(fiber);
             return null === hostFiber ? null : hostFiber.stateNode;
         },
-        findFiberByHostInstance: findFiberByHostInstance || function(instance) {
-            return null;
-        },
+        findFiberByHostInstance: findFiberByHostInstance || emptyFindFiberByHostInstance,
         findHostInstancesForRefresh: function(root, families) {
             var hostInstances = new Set(), types = new Set(families.map(function(family) {
                 return family.current;
@@ -9521,9 +9523,7 @@
         setRefreshHandler: function(handler) {
             resolveFamily = handler;
         },
-        getCurrentFiber: function() {
-            return current1;
-        }
+        getCurrentFiber: getCurrentFiberForDevTools
     }) && canUseDOM && window.top === window.self && (navigator.userAgent.indexOf('Chrome') > -1 && -1 === navigator.userAgent.indexOf('Edge') || navigator.userAgent.indexOf('Firefox') > -1)) {
         var protocol = window.location.protocol;
         /^(https?|file):$/.test(protocol) && console.info("%cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools" + ('file:' === protocol ? "\nYou might need to use a local HTTP server (instead of file://): https://reactjs.org/link/react-devtools-faq" : ''), 'font-weight:bold');

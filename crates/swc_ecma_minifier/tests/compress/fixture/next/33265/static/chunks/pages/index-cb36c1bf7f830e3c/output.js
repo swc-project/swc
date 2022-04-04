@@ -1055,14 +1055,15 @@
         },
         1146: function(__unused_webpack_module, exports, __webpack_require__) {
             var NAMESPACE = __webpack_require__(2167).NAMESPACE;
+            function notEmptyString(input) {
+                return '' !== input;
+            }
             function orderedSetReducer(current, element) {
                 return current.hasOwnProperty(element) || (current[element] = !0), current;
             }
-            function toOrderedSet(input2) {
-                if (!input2) return [];
-                var input1, list = (input1 = input2) ? input1.split(/[\t\n\f\r ]+/).filter(function(input) {
-                    return '' !== input;
-                }) : [];
+            function toOrderedSet(input) {
+                if (!input) return [];
+                var input1, list = (input1 = input) ? input1.split(/[\t\n\f\r ]+/).filter(notEmptyString) : [];
                 return Object.keys(list.reduce(orderedSetReducer, {}));
             }
             function copy(src, dest) {
@@ -3886,18 +3887,18 @@
                     }
                 }
             }
-            function parseCue(input3, cue1, regionList) {
-                var oInput = input3;
+            function parseCue(input2, cue1, regionList) {
+                var oInput = input2;
                 function consumeTimeStamp() {
-                    var ts = parseTimeStamp(input3);
+                    var ts = parseTimeStamp(input2);
                     if (null === ts) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed timestamp: " + oInput);
-                    return input3 = input3.replace(/^[^\sa-zA-Z-]+/, ""), ts;
+                    return input2 = input2.replace(/^[^\sa-zA-Z-]+/, ""), ts;
                 }
                 function skipWhitespace() {
-                    input3 = input3.replace(/^\s+/, "");
+                    input2 = input2.replace(/^\s+/, "");
                 }
-                if (skipWhitespace(), cue1.startTime = consumeTimeStamp(), skipWhitespace(), "-->" !== input3.substr(0, 3)) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed time stamp (time stamps must be separated by '-->'): " + oInput);
-                input3 = input3.substr(3), skipWhitespace(), cue1.endTime = consumeTimeStamp(), skipWhitespace(), function(input, cue) {
+                if (skipWhitespace(), cue1.startTime = consumeTimeStamp(), skipWhitespace(), "-->" !== input2.substr(0, 3)) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed time stamp (time stamps must be separated by '-->'): " + oInput);
+                input2 = input2.substr(3), skipWhitespace(), cue1.endTime = consumeTimeStamp(), skipWhitespace(), function(input, cue) {
                     var settings = new Settings();
                     parseOptions(input, function(k, v) {
                         switch(k){
@@ -3973,7 +3974,7 @@
                         end: "end",
                         right: "end"
                     }, cue.align);
-                }(input3, cue1);
+                }(input2, cue1);
             }
             ParsingError.prototype = _objCreate(Error.prototype), ParsingError.prototype.constructor = ParsingError, ParsingError.Errors = {
                 BadSignature: {
@@ -4767,8 +4768,8 @@
                         var line = buffer.substr(0, pos);
                         return '\r' === buffer[pos] && ++pos, '\n' === buffer[pos] && ++pos, self.buffer = buffer.substr(pos), line;
                     }
-                    function parseHeader(input4) {
-                        input4.match(/X-TIMESTAMP-MAP/) ? parseOptions(input4, function(k1, v1) {
+                    function parseHeader(input3) {
+                        input3.match(/X-TIMESTAMP-MAP/) ? parseOptions(input3, function(k1, v1) {
                             switch(k1){
                                 case "X-TIMESTAMP-MAP":
                                     var input, settings;
@@ -4787,7 +4788,7 @@
                                     });
                                     break;
                             }
-                        }, /=/) : parseOptions(input4, function(k2, v2) {
+                        }, /=/) : parseOptions(input3, function(k2, v2) {
                             switch(k2){
                                 case "Region":
                                     !function(input) {

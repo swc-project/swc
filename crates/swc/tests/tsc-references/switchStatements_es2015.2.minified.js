@@ -1,7 +1,10 @@
 var M, x;
-switch((M || (M = {})).fn = function(x) {
-    return '';
-}, x){
+switch(!function(M1) {
+    function fn(x) {
+        return '';
+    }
+    M1.fn = fn;
+}(M || (M = {})), x){
     case '':
     case 12:
     case !0:

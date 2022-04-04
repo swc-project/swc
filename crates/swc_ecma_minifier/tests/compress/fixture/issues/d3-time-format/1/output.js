@@ -69,9 +69,7 @@ export default function formatLocale(locale) {
         y: formatYear,
         Y: formatFullYear,
         Z: formatZone,
-        "%": function() {
-            return "%";
-        }
+        "%": formatLiteralPercent
     }, utcFormats = {
         a: function(d) {
             return locale_shortWeekdays[d.getUTCDay()];
@@ -115,12 +113,8 @@ export default function formatLocale(locale) {
         X: null,
         y: formatUTCYear,
         Y: formatUTCFullYear,
-        Z: function() {
-            return "+0000";
-        },
-        "%": function() {
-            return "%";
-        }
+        Z: formatUTCZone,
+        "%": formatLiteralPercent
     }, parses = {
         a: function(d, string, i) {
             var n = shortWeekdayRe.exec(string.slice(i));
@@ -457,6 +451,12 @@ function formatUTCFullYear(d, p) {
 function formatUTCFullYearISO(d, p) {
     var day = d.getUTCDay();
     return pad((d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d)).getUTCFullYear() % 10000, p, 4);
+}
+function formatUTCZone() {
+    return "+0000";
+}
+function formatLiteralPercent() {
+    return "%";
 }
 function formatUnixTimestamp(d) {
     return +d;

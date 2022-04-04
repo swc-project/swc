@@ -82,7 +82,11 @@ for(var k = {
 }; k;);
 do ;
 while (k)
+function fn(x) {
+    return null;
+}
 do ;
 while (null)
-for(;;);
-for(;;);
+for(; fn;);
+do ;
+while (fn)

@@ -898,6 +898,9 @@
             return !0;
         }(normalizedInput), this._milliseconds = +milliseconds + 1000 * seconds + 60000 * minutes + 3600000 * hours, this._days = +days + 7 * weeks, this._months = +months + 3 * quarters + 12 * years, this._data = {}, this._locale = getLocale(), this._bubble();
     }
+    function isDuration(obj) {
+        return obj instanceof Duration;
+    }
     function absRound(number) {
         return number < 0 ? -1 * Math.round(-1 * number) : Math.round(number);
     }
@@ -1177,6 +1180,9 @@
     for(token1 = 'S'; token1.length <= 9; token1 += 'S')addParseToken(token1, parseMs);
     getSetMillisecond = makeGetSet('Milliseconds', !1), addFormatToken('z', 0, 0, 'zoneAbbr'), addFormatToken('zz', 0, 0, 'zoneName');
     var proto = Moment.prototype;
+    function preParsePostFormat(string) {
+        return string;
+    }
     proto.add = add, proto.calendar = function(time, formats) {
         if (1 === arguments.length) if (arguments[0]) {
             var input2, input1, arrayTest, dataTypeTest;
@@ -1574,11 +1580,7 @@
         return this._invalidDate;
     }, proto$1.ordinal = function(number) {
         return this._ordinal.replace('%d', number);
-    }, proto$1.preparse = function(string) {
-        return string;
-    }, proto$1.postformat = function(string) {
-        return string;
-    }, proto$1.relativeTime = function(number, withoutSuffix, string, isFuture) {
+    }, proto$1.preparse = preParsePostFormat, proto$1.postformat = preParsePostFormat, proto$1.relativeTime = function(number, withoutSuffix, string, isFuture) {
         var output = this._relativeTime[string];
         return isFunction(output) ? output(number, withoutSuffix, string, isFuture) : output.replace(/%d/i, number);
     }, proto$1.pastFuture = function(diff, output) {
@@ -1862,9 +1864,7 @@
         return listWeekdaysImpl(localeSorted, format, index, 'weekdays');
     }, hooks.parseZone = function() {
         return createLocal.apply(null, arguments).parseZone();
-    }, hooks.localeData = getLocale, hooks.isDuration = function(obj) {
-        return obj instanceof Duration;
-    }, hooks.monthsShort = function(format, index) {
+    }, hooks.localeData = getLocale, hooks.isDuration = isDuration, hooks.monthsShort = function(format, index) {
         return listMonthsImpl(format, index, 'monthsShort');
     }, hooks.weekdaysMin = function(localeSorted, format, index) {
         return listWeekdaysImpl(localeSorted, format, index, 'weekdaysMin');

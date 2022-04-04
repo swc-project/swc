@@ -1,3 +1,12 @@
+function d(a, b) {
+    return null;
+}
+function e(a, b) {
+    return null;
+}
+function f(a) {
+    return a;
+}
 Object.defineProperty(module.exports, "a", {
     value: function() {}
 }), Object.defineProperty(module.exports, "b", {
@@ -5,17 +14,11 @@ Object.defineProperty(module.exports, "a", {
 }), Object.defineProperty(module.exports.b, "cat", {
     value: "cat"
 }), Object.defineProperty(module.exports, "d", {
-    value: function(a, b) {
-        return null;
-    }
+    value: d
 }), Object.defineProperty(module.exports, "e", {
-    value: function(a, b) {
-        return null;
-    }
+    value: e
 }), Object.defineProperty(module.exports, "f", {
-    value: function(a) {
-        return a;
-    }
+    value: f
 }), Object.defineProperty(module.exports.f, "self", {
     value: module.exports.f
 }), Object.defineProperty(module.exports, "g", {

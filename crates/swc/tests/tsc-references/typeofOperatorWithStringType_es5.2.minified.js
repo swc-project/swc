@@ -2,7 +2,11 @@ import * as swcHelpers from "@swc/helpers";
 var STRING, M, STRING1 = [
     "",
     "abc"
-], A = function() {
+];
+function foo() {
+    return "abc";
+}
+var A = function() {
     "use strict";
     function A() {
         swcHelpers.classCallCheck(this, A);
@@ -27,9 +31,7 @@ void 0 === STRING || swcHelpers.typeOf(STRING), swcHelpers.typeOf(STRING1), swcH
 }), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n), swcHelpers.typeOf(STRING1[0]), swcHelpers.typeOf("abc"), swcHelpers.typeOf(A.foo()), swcHelpers.typeOf(STRING + STRING), swcHelpers.typeOf(STRING.charAt(0)), swcHelpers.typeOf(void 0 === STRING ? "undefined" : swcHelpers.typeOf(STRING)), swcHelpers.typeOf(swcHelpers.typeOf(swcHelpers.typeOf(STRING + STRING))), swcHelpers.typeOf(""), void 0 === STRING || swcHelpers.typeOf(STRING), swcHelpers.typeOf(STRING1), swcHelpers.typeOf("abc"), swcHelpers.typeOf(objA.a), M.n;
 z: void 0 === STRING || swcHelpers.typeOf(STRING);
 x: swcHelpers.typeOf(STRING1);
-r: swcHelpers.typeOf(function() {
-    return "abc";
-});
+r: swcHelpers.typeOf(foo);
 z: swcHelpers.typeOf("");
 z: swcHelpers.typeOf(objA.a);
 z: swcHelpers.typeOf(A.foo);

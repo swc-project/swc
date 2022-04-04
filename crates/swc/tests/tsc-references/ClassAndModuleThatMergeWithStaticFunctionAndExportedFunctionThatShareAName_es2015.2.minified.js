@@ -10,10 +10,13 @@ class Point {
         this.x = x, this.y = y;
     }
 }
-(Point || (Point = {})).Origin = function() {
-    return null;
-}, function(A1) {
-    class Point1 {
+!function(Point1) {
+    function Origin() {
+        return null;
+    }
+    Point1.Origin = Origin;
+}(Point || (Point = {})), function(A1) {
+    class Point2 {
         static Origin() {
             return {
                 x: 0,
@@ -24,7 +27,10 @@ class Point {
             this.x = x, this.y = y;
         }
     }
-    A1.Point = Point1, (Point1 = A1.Point || (A1.Point = {})).Origin = function() {
-        return "";
-    };
+    A1.Point = Point2, function(Point3) {
+        function Origin() {
+            return "";
+        }
+        Point3.Origin = Origin;
+    }(Point2 = A1.Point || (A1.Point = {}));
 }(A || (A = {}));

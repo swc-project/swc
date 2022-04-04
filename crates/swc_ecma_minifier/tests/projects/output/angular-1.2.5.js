@@ -70,6 +70,9 @@
         }))(), extra);
     }
     function noop() {}
+    function identity($) {
+        return $;
+    }
     function valueFn1(value) {
         return function() {
             return value;
@@ -108,9 +111,7 @@
     function isScope(obj) {
         return obj && obj.$evalAsync && obj.$watch;
     }
-    isNaN(msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], (function($) {
-        return $;
-    }).$inject = [];
+    isNaN(msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [];
     var trim1 = String.prototype.trim ? function(value) {
         return isString(value) ? value.trim() : value;
     } : function(value) {
@@ -1084,9 +1085,7 @@
                         }), fn;
                     }
                 };
-                var startSymbol = $interpolate.startSymbol(), endSymbol = $interpolate.endSymbol(), denormalizeTemplate = '{{' == startSymbol || '}}' == endSymbol ? function($) {
-                    return $;
-                } : function(template) {
+                var startSymbol = $interpolate.startSymbol(), endSymbol = $interpolate.endSymbol(), denormalizeTemplate = '{{' == startSymbol || '}}' == endSymbol ? identity : function(template) {
                     return template.replace(/\{\{/g, startSymbol).replace(/}}/g, endSymbol);
                 }, NG_ATTR_BINDING = /^ngAttr[A-Z]/;
                 return compile;
@@ -1996,9 +1995,7 @@
             }
             return this.$$compose(), this;
         },
-        hash: locationGetterSetter('$$hash', function($) {
-            return $;
-        }),
+        hash: locationGetterSetter('$$hash', identity),
         replace: function() {
             return this.$$replace = !0, this;
         }
@@ -2586,11 +2583,9 @@
                 },
                 promise: {
                     then: function(callback, errback, progressback) {
-                        var result = defer(), wrappedCallback = function(value2) {
+                        var result = defer(), wrappedCallback = function(value) {
                             try {
-                                result.resolve((isFunction(callback) ? callback : function(value) {
-                                    return value;
-                                })(value2));
+                                result.resolve((isFunction(callback) ? callback : defaultCallback)(value));
                             } catch (e) {
                                 result.reject(e), exceptionHandler(e);
                             }
@@ -2602,9 +2597,7 @@
                             }
                         }, wrappedProgressback = function(progress) {
                             try {
-                                result.notify((isFunction(progressback) ? progressback : function(value) {
-                                    return value;
-                                })(progress));
+                                result.notify((isFunction(progressback) ? progressback : defaultCallback)(progress));
                             } catch (e) {
                                 exceptionHandler(e);
                             }
@@ -2623,20 +2616,18 @@
                             var result = defer();
                             return resolved ? result.resolve(value) : result.reject(value), result.promise;
                         }
-                        function handleCallback(value3, isResolved) {
+                        function handleCallback(value, isResolved) {
                             var callbackOutput = null;
                             try {
-                                callbackOutput = (callback || function(value) {
-                                    return value;
-                                })();
+                                callbackOutput = (callback || defaultCallback)();
                             } catch (e) {
                                 return makePromise(e, !1);
                             }
                             return callbackOutput && isFunction(callbackOutput.then) ? callbackOutput.then(function() {
-                                return makePromise(value3, isResolved);
+                                return makePromise(value, isResolved);
                             }, function(error) {
                                 return makePromise(error, !1);
-                            }) : makePromise(value3, isResolved);
+                            }) : makePromise(value, isResolved);
                         }
                         return this.then(function(value) {
                             return handleCallback(value, !0);
@@ -2669,18 +2660,19 @@
                 }
             };
         };
+        function defaultCallback(value) {
+            return value;
+        }
         function defaultErrback(reason) {
             return reject(reason);
         }
         return {
             defer: defer,
             reject: reject,
-            when: function(value4, callback, errback, progressback) {
-                var done, result = defer(), wrappedCallback = function(value5) {
+            when: function(value2, callback, errback, progressback) {
+                var done, result = defer(), wrappedCallback = function(value) {
                     try {
-                        return (isFunction(callback) ? callback : function(value) {
-                            return value;
-                        })(value5);
+                        return (isFunction(callback) ? callback : defaultCallback)(value);
                     } catch (e) {
                         return exceptionHandler(e), reject(e);
                     }
@@ -2692,15 +2684,13 @@
                     }
                 }, wrappedProgressback = function(progress) {
                     try {
-                        return (isFunction(progressback) ? progressback : function(value) {
-                            return value;
-                        })(progress);
+                        return (isFunction(progressback) ? progressback : defaultCallback)(progress);
                     } catch (e) {
                         exceptionHandler(e);
                     }
                 };
                 return nextTick(function() {
-                    ref(value4).then(function(value) {
+                    ref(value2).then(function(value) {
                         done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
                     }, function(reason) {
                         done || (done = !0, result.resolve(wrappedErrback(reason)));
@@ -3049,9 +3039,7 @@
                     return enabled;
                 }, sce.trustAs = $sceDelegate.trustAs, sce.getTrusted = $sceDelegate.getTrusted, sce.valueOf = $sceDelegate.valueOf, enabled || (sce.trustAs = sce.getTrusted = function(type, value) {
                     return value;
-                }, sce.valueOf = function($) {
-                    return $;
-                }), sce.parseAs = function(type, expr) {
+                }, sce.valueOf = identity), sce.parseAs = function(type, expr) {
                     var parsed = $parse(expr);
                     return parsed.literal && parsed.constant ? parsed : function(self, locals) {
                         return sce.getTrusted(type, parsed(self, locals));
@@ -3237,8 +3225,8 @@
                     return array;
             }
             for(var filtered = [], j1 = 0; j1 < array.length; j1++){
-                var value6 = array[j1];
-                predicates.check(value6) && filtered.push(value6);
+                var value3 = array[j1];
+                predicates.check(value3) && filtered.push(value3);
             }
             return filtered;
         };
@@ -3380,9 +3368,7 @@
             }(sortPredicate = isArray(sortPredicate) ? sortPredicate : [
                 sortPredicate
             ], function(predicate) {
-                var descending = !1, get = predicate || function($) {
-                    return $;
-                };
+                var descending = !1, get = predicate || identity;
                 return isString(predicate) && (('+' == predicate.charAt(0) || '-' == predicate.charAt(0)) && (descending = '-' == predicate.charAt(0), predicate = predicate.substring(1)), get = $parse(predicate)), reverseComparator(function(a, b) {
                     return compare(get(a), get(b));
                 }, descending);
@@ -4353,9 +4339,7 @@
             bind: bind,
             toJson: toJson,
             fromJson: fromJson,
-            identity: function($) {
-                return $;
-            },
+            identity: identity,
             isUndefined: isUndefined,
             isDefined: isDefined,
             isString: isString,
