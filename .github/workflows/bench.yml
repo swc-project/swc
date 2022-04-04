@@ -4,6 +4,9 @@ on:
   - push
   - pull_request
 
+env:
+  RUST_LOG: "off"
+
 jobs:
   binary-size:
     name: Binary size

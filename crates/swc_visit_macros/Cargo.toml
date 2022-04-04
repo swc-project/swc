@@ -10,6 +10,7 @@ version = "0.3.1"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
+bench = false
 proc-macro = true
 
 [dependencies]
@@ -17,5 +18,5 @@ Inflector = "0.11.4"
 pmutil = "0.5.1"
 proc-macro2 = "1"
 quote = "1"
-swc_macros_common = { version = "0.3.2", path = "../swc_macros_common" }
-syn = { version = "1", features = ["parsing", "full"] }
+swc_macros_common = {version = "0.3.2", path = "../swc_macros_common"}
+syn = {version = "1", features = ["parsing", "full"]}

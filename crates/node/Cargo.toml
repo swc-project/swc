@@ -9,6 +9,7 @@ publish = false
 version = "0.1.0"
 
 [lib]
+bench = false
 crate-type = ["cdylib"]
 
 [features]

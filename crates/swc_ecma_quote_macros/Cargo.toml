@@ -8,9 +8,8 @@ name = "swc_ecma_quote_macros"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.9.0"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [lib]
+bench = false
 proc-macro = true
 
 [dependencies]
@@ -18,9 +17,9 @@ anyhow = "1"
 pmutil = "0.5.1"
 proc-macro2 = "1"
 quote = "1"
-swc_atoms = { version = "0.2.9", path = "../swc_atoms" }
-swc_common = { version = "0.17.9", path = "../swc_common" }
-swc_ecma_ast = { version = "0.74.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "0.99.0", path = "../swc_ecma_parser" }
-swc_macros_common = { version = "0.3.3", path = "../swc_macros_common" }
+swc_atoms = {version = "0.2.9", path = "../swc_atoms"}
+swc_common = {version = "0.17.9", path = "../swc_common"}
+swc_ecma_ast = {version = "0.74.0", path = "../swc_ecma_ast"}
+swc_ecma_parser = {version = "0.99.0", path = "../swc_ecma_parser"}
+swc_macros_common = {version = "0.3.3", path = "../swc_macros_common"}
 syn = "1"
