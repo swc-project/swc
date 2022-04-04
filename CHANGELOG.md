@@ -37,6 +37,9 @@
 
 - **(ci)** Fix benchmark action (#4242) ([1f466e1](https://github.com/swc-project/swc/commit/1f466e1d2f10193b45c09ced2b6384d85ea8f333))
 
+
+- **(es/preset-env)** Typo (#4243) ([06020bb](https://github.com/swc-project/swc/commit/06020bb76d5009f693cc702a70ac3add1ef0fe4a))
+
 ## [1.2.163] - 2022-04-03
 
 ### Bug Fixes
