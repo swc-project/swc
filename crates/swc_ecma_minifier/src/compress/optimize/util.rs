@@ -189,11 +189,16 @@ impl VisitMut for Remapper {
 pub(crate) struct MultiReplacer<'a> {
     pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
     pub changed: bool,
+    pub clone: bool,
 }
 
 impl MultiReplacer<'_> {
     fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
-        self.vars.remove(i)
+        if self.clone {
+            self.vars.get(i).cloned()
+        } else {
+            self.vars.remove(i)
+        }
     }
 }
 

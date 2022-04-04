@@ -262,6 +262,7 @@ where
         n.visit_mut_with(&mut MultiReplacer {
             vars: &mut vars,
             changed: false,
+            clone: false,
         });
     }
 
@@ -436,8 +437,14 @@ where
                             }
                         }
                         body.visit_mut_with(&mut MultiReplacer {
+                            vars: &mut self.simple_functions,
+                            changed: false,
+                            clone: true,
+                        });
+                        body.visit_mut_with(&mut MultiReplacer {
                             vars: &mut self.vars_for_inlining,
                             changed: false,
+                            clone: false,
                         });
                         body.visit_mut_with(&mut Remapper { vars: remap });
                         exprs.push(body.take());
@@ -685,8 +692,14 @@ where
         }
 
         body.visit_mut_with(&mut MultiReplacer {
+            vars: &mut self.simple_functions,
+            changed: false,
+            clone: true,
+        });
+        body.visit_mut_with(&mut MultiReplacer {
             vars: &mut self.vars_for_inlining,
             changed: false,
+            clone: false,
         });
         body.visit_mut_with(&mut Remapper { vars: remap });
 

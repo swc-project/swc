@@ -102,6 +102,7 @@ struct Ctx {
 
     in_asm: bool,
 
+    /// `true` only for [Callee::Expr].
     is_callee: bool,
     in_call_arg: bool,
 
@@ -1849,6 +1850,7 @@ where
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = Ctx {
             is_exported: false,
+            is_callee: false,
             ..self.ctx
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2224,10 +2226,15 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        self.vars_for_inlining.extend(self.simple_functions.drain());
+        stmts.visit_mut_with(&mut MultiReplacer {
+            vars: &mut self.simple_functions,
+            changed: false,
+            clone: true,
+        });
         stmts.visit_mut_with(&mut MultiReplacer {
             vars: &mut self.vars_for_inlining,
             changed: false,
+            clone: false,
         });
 
         drop_invalid_stmts(stmts);

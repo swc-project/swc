@@ -563,6 +563,7 @@ where
             if let Some(value) = self
                 .lits
                 .get(&i.to_id())
+                .or_else(|| self.simple_functions.get(&i.to_id()))
                 .and_then(|v| {
                     // Prevent infinite recursion.
                     let ids = idents_used_by(&**v);
