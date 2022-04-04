@@ -259,7 +259,12 @@ where
             tracing::trace!("inline: inline_vars_in_node");
         }
 
-        n.visit_mut_with(&mut MultiReplacer::new(&mut vars, false, &mut self.changed));
+        n.visit_mut_with(&mut MultiReplacer::new(
+            &mut vars,
+            false,
+            false,
+            &mut self.changed,
+        ));
     }
 
     /// Fully inlines iife.
@@ -435,10 +440,12 @@ where
                         body.visit_mut_with(&mut MultiReplacer::new(
                             &mut self.simple_functions,
                             true,
+                            true,
                             &mut self.changed,
                         ));
                         body.visit_mut_with(&mut MultiReplacer::new(
                             &mut self.vars_for_inlining,
+                            false,
                             false,
                             &mut self.changed,
                         ));
@@ -690,10 +697,12 @@ where
         body.visit_mut_with(&mut MultiReplacer::new(
             &mut self.simple_functions,
             true,
+            true,
             &mut self.changed,
         ));
         body.visit_mut_with(&mut MultiReplacer::new(
             &mut self.vars_for_inlining,
+            false,
             false,
             &mut self.changed,
         ));

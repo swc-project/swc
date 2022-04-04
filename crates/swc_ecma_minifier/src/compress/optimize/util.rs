@@ -190,16 +190,23 @@ pub(crate) struct MultiReplacer<'a> {
     vars: &'a mut FxHashMap<Id, Box<Expr>>,
     changed: bool,
     clone: bool,
+    only_callee: bool,
     worked: &'a mut bool,
 }
 
 impl<'a> MultiReplacer<'a> {
     /// `worked` will be changed to `true` if any replacement is done
-    pub fn new(vars: &'a mut FxHashMap<Id, Box<Expr>>, clone: bool, worked: &'a mut bool) -> Self {
+    pub fn new(
+        vars: &'a mut FxHashMap<Id, Box<Expr>>,
+        clone: bool,
+        only_callee: bool,
+        worked: &'a mut bool,
+    ) -> Self {
         MultiReplacer {
             vars,
             changed: false,
             clone,
+            only_callee,
             worked,
         }
     }
@@ -216,16 +223,36 @@ impl<'a> MultiReplacer<'a> {
 impl VisitMut for MultiReplacer<'_> {
     noop_visit_mut_type!();
 
+    fn visit_mut_callee(&mut self, e: &mut Callee) {
+        e.visit_mut_children_with(self);
+
+        if self.only_callee {
+            if let Callee::Expr(e) = e {
+                if let Expr::Ident(i) = &**e {
+                    if let Some(new) = self.var(&i.to_id()) {
+                        debug!("multi-replacer: Replaced `{}`", i);
+                        *self.worked = true;
+                        self.changed = true;
+
+                        **e = *new;
+                    }
+                }
+            }
+        }
+    }
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        if let Expr::Ident(i) = e {
-            if let Some(new) = self.var(&i.to_id()) {
-                debug!("multi-replacer: Replaced `{}`", i);
-                *self.worked = true;
-                self.changed = true;
+        if !self.only_callee {
+            if let Expr::Ident(i) = e {
+                if let Some(new) = self.var(&i.to_id()) {
+                    debug!("multi-replacer: Replaced `{}`", i);
+                    *self.worked = true;
+                    self.changed = true;
 
-                *e = *new;
+                    *e = *new;
+                }
             }
         }
     }

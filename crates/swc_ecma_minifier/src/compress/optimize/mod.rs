@@ -2229,10 +2229,12 @@ where
         stmts.visit_mut_with(&mut MultiReplacer::new(
             &mut self.simple_functions,
             true,
+            true,
             &mut self.changed,
         ));
         stmts.visit_mut_with(&mut MultiReplacer::new(
             &mut self.vars_for_inlining,
+            false,
             false,
             &mut self.changed,
         ));
