@@ -36,6 +36,7 @@ typed-arena = "2.0.1"
 unicode-id = "0.3"
 
 [dev-dependencies]
+criterion = "0.3"
 pretty_assertions = "1.1"
 serde_json = "1"
 swc_ecma_visit = { version = "0.60.0", path = "../swc_ecma_visit" }
@@ -48,3 +49,15 @@ name = "lexer"
 
 [[example]]
 name = "typescript"
+
+[[bench]]
+harness = false
+name = "compare"
+
+[[bench]]
+harness = false
+name = "lexer"
+
+[[bench]]
+harness = false
+name = "parser"

@@ -420,8 +420,6 @@ impl VisitMut for Inlining<'_> {
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
-        node.init.visit_mut_with(self);
-
         {
             node.init.visit_with(&mut IdentListVisitor {
                 scope: &mut self.scope,
@@ -438,6 +436,7 @@ impl VisitMut for Inlining<'_> {
             });
         }
 
+        node.init.visit_mut_with(self);
         node.test.visit_mut_with(self);
         node.update.visit_mut_with(self);
         self.visit_with_child(ScopeKind::Loop, &mut node.body);

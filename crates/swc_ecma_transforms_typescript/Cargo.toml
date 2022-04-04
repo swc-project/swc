@@ -21,9 +21,14 @@ swc_ecma_utils = { version = "0.78.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.60.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
+criterion = "0.3"
 swc_ecma_codegen = { version = "0.102.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "0.99.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_compat = { version = "0.88.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_proposal = { version = "0.96.0", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_testing = { version = "0.76.0", path = "../swc_ecma_transforms_testing" }
 testing = { version = "0.19.0", path = "../testing" }
+
+[[bench]]
+harness = false
+name = "compat"

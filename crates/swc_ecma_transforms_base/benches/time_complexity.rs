@@ -1,12 +1,8 @@
-#![feature(test)]
-
-extern crate test;
-
+use criterion::{criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{input::SourceFileInput, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
-use test::Bencher;
 
 struct Inner {
     cnt: usize,
@@ -66,7 +62,6 @@ fn assert_cnt(b: &mut Bencher, src: &str, cnt: usize) {
     .unwrap();
 }
 
-#[bench]
 fn time_5(b: &mut Bencher) {
     assert_cnt(
         b,
@@ -78,7 +73,6 @@ fn time_5(b: &mut Bencher) {
     );
 }
 
-#[bench]
 fn time_10(b: &mut Bencher) {
     assert_cnt(
         b,
@@ -90,7 +84,6 @@ fn time_10(b: &mut Bencher) {
     );
 }
 
-#[bench]
 fn time_15(b: &mut Bencher) {
     assert_cnt(
         b,
@@ -102,7 +95,6 @@ fn time_15(b: &mut Bencher) {
     );
 }
 
-#[bench]
 fn time_20(b: &mut Bencher) {
     assert_cnt(
         b,
@@ -114,7 +106,6 @@ fn time_20(b: &mut Bencher) {
     );
 }
 
-#[bench]
 fn time_40(b: &mut Bencher) {
     assert_cnt(
         b,
@@ -126,7 +117,6 @@ fn time_40(b: &mut Bencher) {
     );
 }
 
-#[bench]
 fn time_60(b: &mut Bencher) {
     assert_cnt(
         b,
@@ -137,3 +127,15 @@ fn time_60(b: &mut Bencher) {
         60,
     );
 }
+
+fn bench_cases(c: &mut Criterion) {
+    c.bench_function("time 5", time_5);
+    c.bench_function("time 10", time_10);
+    c.bench_function("time 15", time_15);
+    c.bench_function("time 20", time_20);
+    c.bench_function("time 40", time_40);
+    c.bench_function("time 60", time_60);
+}
+
+criterion_group!(benches, bench_cases);
+criterion_main!(benches);

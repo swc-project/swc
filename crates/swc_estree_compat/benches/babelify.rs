@@ -1,10 +1,6 @@
-#![feature(test)]
-#![feature(bench_black_box)]
+use std::{io::stderr, sync::Arc};
 
-extern crate test;
-
-use std::{hint::black_box, io::stderr, sync::Arc};
-
+use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc::config::IsModule;
 use swc_common::{errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Program};
@@ -12,7 +8,6 @@ use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{compat::es2020, resolver_with_mark, typescript};
 use swc_ecma_visit::FoldWith;
 use swc_estree_compat::babelify::{Babelify, Context};
-use test::Bencher;
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
@@ -45,10 +40,7 @@ fn parse(c: &swc::Compiler, src: &str) -> (Arc<SourceFile>, Program) {
     (fm, module)
 }
 
-#[bench]
 fn babelify_only(b: &mut Bencher) {
-    b.bytes = SOURCE.len() as _;
-
     let c = mk();
     let (fm, module) = parse(&c, SOURCE);
     let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
@@ -75,8 +67,6 @@ fn babelify_only(b: &mut Bencher) {
 }
 
 fn parse_and_babelify(b: &mut Bencher, _name: &str, src: &str) {
-    b.bytes = src.len() as _;
-
     let c = mk();
 
     b.iter(|| {
@@ -92,47 +82,53 @@ fn parse_and_babelify(b: &mut Bencher, _name: &str, src: &str) {
     });
 }
 
-/// https://esprima.org/test/compare.html
-macro_rules! src_to_babel_ast {
-    ($name:ident, $src:expr) => {
-        #[bench]
-        fn $name(b: &mut Bencher) {
-            parse_and_babelify(b, stringify!($name), $src);
-        }
-    };
+fn bench_cases(c: &mut Criterion) {
+    c.bench_function("babelify_only", babelify_only);
+
+    /// https://esprima.org/test/compare.html
+    macro_rules! src_to_babel_ast {
+        ($name:ident, $src:expr) => {
+            c.bench_function(stringify!($name), |b| {
+                parse_and_babelify(b, stringify!($name), $src)
+            });
+        };
+    }
+
+    src_to_babel_ast!(
+        parse_and_babelify_angular,
+        include_str!("../../swc_ecma_parser/benches/files/angular-1.2.5.js")
+    );
+
+    src_to_babel_ast!(
+        parse_and_babelify_backbone,
+        include_str!("../../swc_ecma_parser/benches/files/backbone-1.1.0.js")
+    );
+
+    src_to_babel_ast!(
+        parse_and_babelify_jquery,
+        include_str!("../../swc_ecma_parser/benches/files/jquery-1.9.1.js")
+    );
+
+    src_to_babel_ast!(
+        parse_and_babelify_jquery_mobile,
+        include_str!("../../swc_ecma_parser/benches/files/jquery.mobile-1.4.2.js")
+    );
+
+    src_to_babel_ast!(
+        parse_and_babelify_mootools,
+        include_str!("../../swc_ecma_parser/benches/files/mootools-1.4.5.js")
+    );
+
+    src_to_babel_ast!(
+        parse_and_babelify_underscore,
+        include_str!("../../swc_ecma_parser/benches/files/underscore-1.5.2.js")
+    );
+
+    src_to_babel_ast!(
+        parse_and_babelify_yui,
+        include_str!("../../swc_ecma_parser/benches/files/yui-3.12.0.js")
+    );
 }
 
-src_to_babel_ast!(
-    parse_and_babelify_angular,
-    include_str!("../../swc_ecma_parser/benches/files/angular-1.2.5.js")
-);
-
-src_to_babel_ast!(
-    parse_and_babelify_backbone,
-    include_str!("../../swc_ecma_parser/benches/files/backbone-1.1.0.js")
-);
-
-src_to_babel_ast!(
-    parse_and_babelify_jquery,
-    include_str!("../../swc_ecma_parser/benches/files/jquery-1.9.1.js")
-);
-
-src_to_babel_ast!(
-    parse_and_babelify_jquery_mobile,
-    include_str!("../../swc_ecma_parser/benches/files/jquery.mobile-1.4.2.js")
-);
-
-src_to_babel_ast!(
-    parse_and_babelify_mootools,
-    include_str!("../../swc_ecma_parser/benches/files/mootools-1.4.5.js")
-);
-
-src_to_babel_ast!(
-    parse_and_babelify_underscore,
-    include_str!("../../swc_ecma_parser/benches/files/underscore-1.5.2.js")
-);
-
-src_to_babel_ast!(
-    parse_and_babelify_yui,
-    include_str!("../../swc_ecma_parser/benches/files/yui-3.12.0.js")
-);
+criterion_group!(benches, bench_cases);
+criterion_main!(benches);
