@@ -529,7 +529,7 @@ mod tests {
         .unwrap()
     }
 
-    fn num(s: &'static str) -> f64 {
+    fn num(s: &'static str) -> (f64, String) {
         lex(s, |l| {
             l.read_number(s.starts_with('.')).unwrap().left().unwrap()
         })
@@ -547,13 +547,13 @@ mod tests {
                         0000000000000000000000000000000000000000000000000000";
     #[test]
     fn num_inf() {
-        assert_eq!(num(LONG), INFINITY);
+        assert_eq!(num(LONG), (INFINITY, LONG.into()));
     }
 
     /// Number >= 2^53
     #[test]
     fn num_big_exp() {
-        assert_eq!(1e30, num("1e30"));
+        assert_eq!((1e30, "1e30".into()), num("1e30"));
     }
 
     #[test]
@@ -594,36 +594,57 @@ mod tests {
              00000000000000000000000000000000000000000000000000000000000000000\
              000000000000000000000000000000000000000000000000000000";
 
-        assert_eq!(num(LARGE_POSITIVE_EXP), INFINITY);
-        assert_eq!(num(LARGE_NEGATIVE_EXP), 0.0);
-        assert_eq!(num(ZERO_WITH_LARGE_POSITIVE_EXP), 0.0);
-        assert_eq!(num(ZERO_WITH_LARGE_NEGATIVE_EXP), 0.0);
-        assert_eq!(num(LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP), 0.0);
+        assert_eq!(
+            num(LARGE_POSITIVE_EXP),
+            (INFINITY, LARGE_POSITIVE_EXP.into())
+        );
+        assert_eq!(num(LARGE_NEGATIVE_EXP), (0.0, LARGE_NEGATIVE_EXP.into()));
+        assert_eq!(
+            num(ZERO_WITH_LARGE_POSITIVE_EXP),
+            (0.0, ZERO_WITH_LARGE_POSITIVE_EXP.into())
+        );
+        assert_eq!(
+            num(ZERO_WITH_LARGE_NEGATIVE_EXP),
+            (0.0, ZERO_WITH_LARGE_NEGATIVE_EXP.into())
+        );
+        assert_eq!(
+            num(LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP),
+            (0.0, LARGE_MANTISSA_WITH_LARGE_NEGATIVE_EXP.into())
+        );
     }
 
     #[test]
     fn num_big_many_zero() {
         assert_eq!(
-            1_000_000_000_000_000_000_000_000_000_000f64,
+            (
+                1_000_000_000_000_000_000_000_000_000_000f64,
+                "1000000000000000000000000000000".into()
+            ),
             num("1000000000000000000000000000000")
         );
-        assert_eq!(3.402_823_466_385_288_6e38, num("34028234663852886e22"),);
+        assert_eq!(
+            (3.402_823_466_385_288_6e38, "34028234663852886e22".into()),
+            num("34028234663852886e22"),
+        );
     }
 
     #[test]
     fn big_number_with_fract() {
-        assert_eq!(77777777777777777.1f64, num("77777777777777777.1"))
+        assert_eq!(
+            (77777777777777777.1f64, "77777777777777777.1".into()),
+            num("77777777777777777.1")
+        )
     }
 
     #[test]
     fn issue_480() {
-        assert_eq!(9.09, num("9.09"))
+        assert_eq!((9.09, "9.09".into()), num("9.09"))
     }
 
     #[test]
     fn num_legacy_octal() {
-        assert_eq!(0o12 as f64, num("0012"));
-        assert_eq!(10f64, num("012"));
+        assert_eq!((0o12 as f64, "0012".into()), num("0012"));
+        assert_eq!((10f64, "012".into()), num("012"));
     }
 
     #[test]
@@ -641,7 +662,7 @@ mod tests {
     #[test]
     fn read_radix_number() {
         assert_eq!(
-            0o73 as f64,
+            (0o73 as f64, "0o73".into()),
             lex("0o73", |l| l
                 .read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
                 .unwrap()
@@ -702,7 +723,7 @@ mod tests {
                 .unwrap()
                 .left()
                 .unwrap()),
-            9.671_406_556_917_009e24
+            (9.671_406_556_917_009e24, LONG.into())
         );
         assert_eq!(
             lex(VERY_LARGE_BINARY_NUMBER, |l| l
@@ -710,7 +731,7 @@ mod tests {
                 .unwrap()
                 .left()
                 .unwrap()),
-            1.0972248137587377e304
+            (1.0972248137587377e304, VERY_LARGE_BINARY_NUMBER.into())
         );
     }
 
@@ -718,7 +739,7 @@ mod tests {
     fn large_float_number() {
         const LONG: &str = "9.671406556917009e+24";
 
-        assert_eq!(num(LONG), 9.671_406_556_917_009e24);
+        assert_eq!(num(LONG), (9.671_406_556_917_009e24, LONG.into()));
     }
 
     /// Valid even on strict mode.

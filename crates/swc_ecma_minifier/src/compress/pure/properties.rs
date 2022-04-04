@@ -64,7 +64,7 @@ impl Pure<'_> {
                     }
                 }
                 Expr::Lit(Lit::Num(n)) => {
-                    *p = PropName::Num(*n);
+                    *p = PropName::Num(n.clone());
                 }
                 _ => {}
             }

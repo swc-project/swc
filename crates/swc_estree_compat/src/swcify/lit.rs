@@ -44,6 +44,8 @@ impl Swcify for NumberLiteral {
         Number {
             span: ctx.span(&self.base),
             value: self.value,
+            // TODO improve me
+            raw: None,
         }
     }
 }
@@ -55,6 +57,8 @@ impl Swcify for NumericLiteral {
         Number {
             span: ctx.span(&self.base),
             value: self.value,
+            // TODO improve me
+            raw: None,
         }
     }
 }
@@ -154,6 +158,8 @@ impl Swcify for DecimalLiteral {
                 .value
                 .parse()
                 .expect("failed to parse the value of DecimalLiteral"),
+            // TODO improve me
+            raw: None,
         }
     }
 }
