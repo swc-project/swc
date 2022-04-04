@@ -12,13 +12,16 @@ version = "0.104.1"
 all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
+[lib]
+bench = false
+
 [features]
 minifier = ["swc_css_minifier"]
 
 [dependencies]
-swc_css_ast = { version = "0.92.0", path = "../swc_css_ast" }
-swc_css_codegen = { version = "0.101.0", path = "../swc_css_codegen" }
-swc_css_minifier = { version = "0.66.0", path = "../swc_css_minifier", optional = true }
-swc_css_parser = { version = "0.100.0", path = "../swc_css_parser" }
-swc_css_utils = { version = "0.89.0", path = "../swc_css_utils/" }
-swc_css_visit = { version = "0.91.0", path = "../swc_css_visit" }
+swc_css_ast = {version = "0.92.0", path = "../swc_css_ast"}
+swc_css_codegen = {version = "0.101.0", path = "../swc_css_codegen"}
+swc_css_minifier = {version = "0.66.0", path = "../swc_css_minifier", optional = true}
+swc_css_parser = {version = "0.100.0", path = "../swc_css_parser"}
+swc_css_utils = {version = "0.89.0", path = "../swc_css_utils/"}
+swc_css_visit = {version = "0.91.0", path = "../swc_css_visit"}
