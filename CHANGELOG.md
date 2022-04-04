@@ -20,6 +20,9 @@
 
 
 
+- **(es)** Support jsonc for `.swcrc` (#4236) ([8008b79](https://github.com/swc-project/swc/commit/8008b79f8c69f9abc1cdd7be299f5580be8c3c0f))
+
+
 - **(es/minifier)** Improve sequential inlining (#4231) ([fe358ad](https://github.com/swc-project/swc/commit/fe358ad0b93d6f3bd2150fc9ce888f798875beed))
 
 
