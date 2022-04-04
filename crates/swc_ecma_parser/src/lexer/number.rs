@@ -45,14 +45,14 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         let start = self.cur_pos();
-
-        let starts_with_zero = self.cur().unwrap() == '0';
         let mut raw_val = String::new();
 
         let val = if starts_with_dot {
             // first char is '.'
             0f64
         } else {
+            let starts_with_zero = self.cur().unwrap() == '0';
+
             // Use read_number_no_dot to support long numbers.
             let (val, s, mut raw, not_octal) = self
                 .read_number_no_dot_as_str::<10, { lexical::NumberFormatBuilder::from_radix(10) }>(

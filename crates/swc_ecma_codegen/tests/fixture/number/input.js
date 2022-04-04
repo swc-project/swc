@@ -75,3 +75,4 @@ const foo56 = 1_2.3_4
 const foo57 = 1_2.3_4e5_6
 const foo58 = 1_2.3_4e+5_6
 const foo59 = 1_2.3_4e-5_6
+const foo60 = 0.100;

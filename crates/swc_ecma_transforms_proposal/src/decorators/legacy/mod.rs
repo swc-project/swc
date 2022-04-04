@@ -396,6 +396,7 @@ impl Legacy {
                                     Lit::Num(Number {
                                         span: param.span,
                                         value: index as _,
+                                        raw: None,
                                     })
                                     .as_arg(),
                                 ],

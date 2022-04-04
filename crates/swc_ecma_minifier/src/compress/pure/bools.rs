@@ -378,6 +378,7 @@ impl Pure<'_> {
                     *n = Expr::Lit(Lit::Num(Number {
                         span: s.span,
                         value: if s.value.is_empty() { 0.0 } else { 1.0 },
+                        raw: None,
                     }));
                 }
             }

@@ -680,6 +680,7 @@ where
                     arg: Box::new(Expr::Lit(Lit::Num(Number {
                         span: v.span,
                         value: if v.value { 0.0 } else { 1.0 },
+                        raw: None,
                     }))),
                 });
             }

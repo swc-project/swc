@@ -337,6 +337,7 @@ impl SimplifyExpr {
                             Expr::Lit(Lit::Num(Number {
                                 value: v,
                                 span: *span,
+                                raw: None,
                             })),
                             { iter::once(left.take()).chain(iter::once(right.take())) },
                         );
