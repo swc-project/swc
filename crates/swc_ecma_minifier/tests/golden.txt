@@ -1046,6 +1046,7 @@ reduce_vars/conditional_nested_3/input.js
 reduce_vars/const_expr_1/input.js
 reduce_vars/const_expr_2/input.js
 reduce_vars/defun_assign/input.js
+reduce_vars/defun_call/input.js
 reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
 reduce_vars/defun_single_use_loop/input.js

@@ -640,7 +640,6 @@ pure_globals/globals_whose_access_is_pure/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/chained_assignments/input.js
 reduce_vars/conditional_chain_certain_part/input.js
-reduce_vars/defun_call/input.js
 reduce_vars/defun_catch_1/input.js
 reduce_vars/defun_catch_2/input.js
 reduce_vars/defun_catch_3/input.js
