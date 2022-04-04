@@ -1734,6 +1734,7 @@ where
                     let zero = Box::new(Expr::Lit(Lit::Num(Number {
                         span: DUMMY_SP,
                         value: 0.0,
+                        raw: None,
                     })));
                     self.changed = true;
                     tracing::debug!("injecting zero to preserve `this` in call");

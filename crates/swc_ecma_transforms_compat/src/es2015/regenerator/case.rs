@@ -453,6 +453,7 @@ impl CaseHandler<'_> {
                                             Lit::Num(Number {
                                                 span: DUMMY_SP,
                                                 value: 0.0,
+                                                raw: None,
                                             })
                                             .into(),
                                         ),
@@ -1569,6 +1570,7 @@ impl VisitMut for UnmarkedInvalidHandler {
             *e = Expr::Lit(Lit::Num(Number {
                 span: *span,
                 value: self.case_id as _,
+                raw: None,
             }));
         }
     }
