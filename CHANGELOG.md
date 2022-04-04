@@ -8,6 +8,9 @@
 - **(es/minifier)** Remap variables on IIFE evaluation (#4230) ([55b98fc](https://github.com/swc-project/swc/commit/55b98fc87470cc5b2e2645ae8588c106c490fb3a))
 
 
+- **(es/minifier)** Handle empty RegExp (#4235) ([6a51d04](https://github.com/swc-project/swc/commit/6a51d0471a53cfdd48c8426c9cdc5bfddf200b35))
+
+
 - **(es/optimizer/simplifier)** Collect idents in init first (#4239) ([b1645f6](https://github.com/swc-project/swc/commit/b1645f606d1334eadb7ebf912c847bb5bdff6b96))
 
 
