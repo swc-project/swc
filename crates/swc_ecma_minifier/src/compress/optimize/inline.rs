@@ -307,6 +307,7 @@ where
                 Expr::Lit(..) => true,
                 Expr::Ident(..) => true,
 
+                // It's long
                 Expr::Bin(BinExpr {
                     op: op!("instanceof"),
                     ..
