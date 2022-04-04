@@ -3711,6 +3711,78 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_html"
+version = "0.1.0"
+dependencies = [
+ "swc_html_ast",
+ "swc_html_codegen",
+ "swc_html_parser",
+ "swc_html_visit",
+]
+
+[[package]]
+name = "swc_html_ast"
+version = "0.1.0"
+dependencies = [
+ "is-macro",
+ "serde",
+ "string_enum",
+ "swc_atoms",
+ "swc_common",
+]
+
+[[package]]
+name = "swc_html_codegen"
+version = "0.1.0"
+dependencies = [
+ "auto_impl",
+ "bitflags",
+ "swc_atoms",
+ "swc_common",
+ "swc_html_ast",
+ "swc_html_codegen_macros",
+ "swc_html_parser",
+ "swc_html_visit",
+ "testing",
+]
+
+[[package]]
+name = "swc_html_codegen_macros"
+version = "0.1.0"
+dependencies = [
+ "pmutil",
+ "proc-macro2",
+ "quote",
+ "swc_macros_common",
+ "syn",
+]
+
+[[package]]
+name = "swc_html_parser"
+version = "0.1.0"
+dependencies = [
+ "bitflags",
+ "lexical",
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_html_ast",
+ "swc_html_visit",
+ "testing",
+]
+
+[[package]]
+name = "swc_html_visit"
+version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_html_ast",
+ "swc_visit",
+]
+
+[[package]]
 name = "swc_macros_common"
 version = "0.3.3"
 dependencies = [

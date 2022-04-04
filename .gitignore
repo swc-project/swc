@@ -27,6 +27,7 @@ node_modules/
 
 # Flamegraph
 *.html
+!crates/swc_html*/**/*.html
 *.svg
 package-lock.json
 *.data
