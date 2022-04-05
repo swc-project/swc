@@ -49,7 +49,8 @@
                 "end": 17,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             },
             "computed": false,
             "optional": true,

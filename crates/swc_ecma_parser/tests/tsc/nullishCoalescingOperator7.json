@@ -262,7 +262,8 @@
                 "end": 148,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "alternate": {
               "type": "NumericLiteral",
@@ -271,7 +272,8 @@
                 "end": 152,
                 "ctxt": 0
               },
-              "value": 2.0
+              "value": 2.0,
+              "raw": "2"
             }
           },
           "definite": false
@@ -349,7 +351,8 @@
                 "end": 181,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "alternate": {
               "type": "NumericLiteral",
@@ -358,7 +361,8 @@
                 "end": 185,
                 "ctxt": 0
               },
-              "value": 2.0
+              "value": 2.0,
+              "raw": "2"
             }
           },
           "definite": false

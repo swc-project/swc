@@ -596,7 +596,8 @@
                 "end": 216,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             {
               "type": "NumericLiteral",
@@ -605,7 +606,8 @@
                 "end": 223,
                 "ctxt": 0
               },
-              "value": 2.0
+              "value": 2.0,
+              "raw": "2"
             }
           ],
           "quasis": [
@@ -760,7 +762,8 @@
                   "end": 256,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               {
                 "type": "NumericLiteral",
@@ -769,7 +772,8 @@
                   "end": 263,
                   "ctxt": 0
                 },
-                "value": 2.0
+                "value": 2.0,
+                "raw": "2"
               }
             ],
             "quasis": [
@@ -943,7 +947,8 @@
                   "end": 307,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               {
                 "type": "NumericLiteral",
@@ -952,7 +957,8 @@
                   "end": 314,
                   "ctxt": 0
                 },
-                "value": 2.0
+                "value": 2.0,
+                "raw": "2"
               }
             ],
             "quasis": [
@@ -1095,7 +1101,8 @@
                   "end": 341,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             }
           },
@@ -1126,7 +1133,8 @@
                 "end": 357,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             {
               "type": "NumericLiteral",
@@ -1135,7 +1143,8 @@
                 "end": 364,
                 "ctxt": 0
               },
-              "value": 2.0
+              "value": 2.0,
+              "raw": "2"
             }
           ],
           "quasis": [
@@ -1237,7 +1246,8 @@
                       "end": 381,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   {
                     "type": "NumericLiteral",
@@ -1246,7 +1256,8 @@
                       "end": 388,
                       "ctxt": 0
                     },
-                    "value": 2.0
+                    "value": 2.0,
+                    "raw": "2"
                   }
                 ],
                 "quasis": [
@@ -1332,7 +1343,8 @@
                 "end": 418,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             {
               "type": "NumericLiteral",
@@ -1341,7 +1353,8 @@
                 "end": 425,
                 "ctxt": 0
               },
-              "value": 2.0
+              "value": 2.0,
+              "raw": "2"
             }
           ],
           "quasis": [
@@ -1538,7 +1551,8 @@
                 "end": 490,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             {
               "type": "NumericLiteral",
@@ -1547,7 +1561,8 @@
                 "end": 499,
                 "ctxt": 0
               },
-              "value": 2.0
+              "value": 2.0,
+              "raw": "2"
             }
           ],
           "quasis": [
@@ -1720,7 +1735,8 @@
                     "end": 556,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 {
                   "type": "NumericLiteral",
@@ -1729,7 +1745,8 @@
                     "end": 563,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 }
               ],
               "quasis": [

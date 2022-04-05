@@ -41,7 +41,8 @@
               "end": 29,
               "ctxt": 0
             },
-            "value": 10.0
+            "value": 10.0,
+            "raw": "10"
           },
           "definite": false
         }
@@ -106,7 +107,8 @@
             "end": 46,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         }
       }
     },
@@ -169,7 +171,8 @@
             "end": 62,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         }
       }
     },
@@ -232,7 +235,8 @@
             "end": 78,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         }
       }
     },
@@ -295,7 +299,8 @@
             "end": 94,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         }
       }
     },
@@ -351,7 +356,8 @@
                     "end": 100,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "right": {
                   "type": "UpdateExpression",
@@ -384,7 +390,8 @@
             "end": 117,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         }
       }
     },
@@ -440,7 +447,8 @@
                     "end": 123,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "right": {
                   "type": "UpdateExpression",
@@ -473,7 +481,8 @@
             "end": 140,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         }
       }
     },
@@ -529,7 +538,8 @@
                     "end": 146,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "right": {
                   "type": "UpdateExpression",
@@ -562,7 +572,8 @@
             "end": 163,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         }
       }
     },
@@ -618,7 +629,8 @@
                     "end": 169,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "right": {
                   "type": "UpdateExpression",
@@ -651,7 +663,8 @@
             "end": 186,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         }
       }
     },
@@ -692,7 +705,8 @@
                 "end": 192,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -755,7 +769,8 @@
                 "end": 208,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -818,7 +833,8 @@
                 "end": 224,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -881,7 +897,8 @@
                 "end": 240,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -944,7 +961,8 @@
                 "end": 256,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1007,7 +1025,8 @@
                 "end": 272,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1070,7 +1089,8 @@
                 "end": 288,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1133,7 +1153,8 @@
                 "end": 304,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1196,7 +1217,8 @@
                 "end": 320,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1235,7 +1257,8 @@
               "end": 336,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -1277,7 +1300,8 @@
                 "end": 341,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1316,7 +1340,8 @@
               "end": 357,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -1358,7 +1383,8 @@
                 "end": 362,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1397,7 +1423,8 @@
               "end": 378,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -1439,7 +1466,8 @@
                 "end": 383,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1478,7 +1506,8 @@
               "end": 399,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -1520,7 +1549,8 @@
                 "end": 404,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1559,7 +1589,8 @@
               "end": 420,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -1601,7 +1632,8 @@
                 "end": 425,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1640,7 +1672,8 @@
               "end": 441,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -1682,7 +1715,8 @@
                 "end": 446,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1721,7 +1755,8 @@
               "end": 462,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -1763,7 +1798,8 @@
                 "end": 467,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           }
         },
@@ -1802,7 +1838,8 @@
               "end": 483,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -1829,7 +1866,8 @@
             "end": 487,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         },
         "right": {
           "type": "UnaryExpression",
@@ -1884,7 +1922,8 @@
             "end": 501,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         },
         "right": {
           "type": "UnaryExpression",
@@ -1939,7 +1978,8 @@
             "end": 515,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         },
         "right": {
           "type": "UnaryExpression",
@@ -1994,7 +2034,8 @@
             "end": 529,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         },
         "right": {
           "type": "UnaryExpression",
@@ -2049,7 +2090,8 @@
             "end": 543,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         },
         "right": {
           "type": "BinaryExpression",
@@ -2103,7 +2145,8 @@
               "end": 561,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -2130,7 +2173,8 @@
             "end": 564,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         },
         "right": {
           "type": "BinaryExpression",
@@ -2184,7 +2228,8 @@
               "end": 582,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -2211,7 +2256,8 @@
             "end": 585,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         },
         "right": {
           "type": "BinaryExpression",
@@ -2265,7 +2311,8 @@
               "end": 603,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -2292,7 +2339,8 @@
             "end": 606,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         },
         "right": {
           "type": "BinaryExpression",
@@ -2346,7 +2394,8 @@
               "end": 624,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -2373,7 +2422,8 @@
             "end": 627,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         },
         "right": {
           "type": "BinaryExpression",
@@ -2427,7 +2477,8 @@
               "end": 645,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }
@@ -2454,7 +2505,8 @@
             "end": 648,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         },
         "right": {
           "type": "BinaryExpression",
@@ -2508,7 +2560,8 @@
               "end": 666,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       }

@@ -58,7 +58,8 @@
               "end": 52,
               "ctxt": 0
             },
-            "value": 24.0
+            "value": 24.0,
+            "raw": "24"
           },
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
@@ -679,7 +680,8 @@
                       "end": 317,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   }
                 },
                 "test": {
@@ -731,7 +733,8 @@
                       "end": 334,
                       "ctxt": 0
                     },
-                    "value": 10.0
+                    "value": 10.0,
+                    "raw": "10"
                   }
                 },
                 "update": {
@@ -844,7 +847,8 @@
                       "end": 380,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   }
                 },
                 "test": {
@@ -896,7 +900,8 @@
                       "end": 397,
                       "ctxt": 0
                     },
-                    "value": 10.0
+                    "value": 10.0,
+                    "raw": "10"
                   }
                 },
                 "update": {
@@ -1811,7 +1816,8 @@
                         "end": 804,
                         "ctxt": 0
                       },
-                      "value": 0.0
+                      "value": 0.0,
+                      "raw": "0"
                     }
                   },
                   "test": {
@@ -1891,7 +1897,8 @@
                         "end": 835,
                         "ctxt": 0
                       },
-                      "value": 10.0
+                      "value": 10.0,
+                      "raw": "10"
                     }
                   },
                   "update": {
@@ -2060,7 +2067,8 @@
                         "end": 909,
                         "ctxt": 0
                       },
-                      "value": 0.0
+                      "value": 0.0,
+                      "raw": "0"
                     }
                   },
                   "test": {
@@ -2140,7 +2148,8 @@
                         "end": 940,
                         "ctxt": 0
                       },
-                      "value": 10.0
+                      "value": 10.0,
+                      "raw": "10"
                     }
                   },
                   "update": {

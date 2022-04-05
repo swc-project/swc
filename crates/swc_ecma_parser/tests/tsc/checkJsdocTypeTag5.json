@@ -543,7 +543,8 @@
                 "end": 621,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           }
         ]
@@ -727,7 +728,8 @@
                   "end": 869,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "alternate": {
                 "type": "NumericLiteral",
@@ -736,7 +738,8 @@
                   "end": 873,
                   "ctxt": 0
                 },
-                "value": 2.0
+                "value": 2.0,
+                "raw": "2"
               }
             }
           }

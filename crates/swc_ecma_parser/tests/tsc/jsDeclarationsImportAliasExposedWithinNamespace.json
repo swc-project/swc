@@ -287,7 +287,8 @@
                         "end": 992,
                         "ctxt": 0
                       },
-                      "value": 2.0
+                      "value": 2.0,
+                      "raw": "2"
                     },
                     "right": {
                       "type": "Identifier",

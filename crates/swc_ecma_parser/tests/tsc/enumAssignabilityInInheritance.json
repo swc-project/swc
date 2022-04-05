@@ -591,7 +591,8 @@
                     "end": 349,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 }
               }
             ],
@@ -4737,7 +4738,8 @@
                       "end": 1734,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "definite": false
                 }
@@ -5170,7 +5172,8 @@
                       "end": 1900,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "definite": false
                 }

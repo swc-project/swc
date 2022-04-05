@@ -5903,7 +5903,8 @@
                         "end": 1465,
                         "ctxt": 0
                       },
-                      "value": 10.0
+                      "value": 10.0,
+                      "raw": "10"
                     }
                   },
                   "async": false,
@@ -6195,7 +6196,8 @@
                         "end": 1549,
                         "ctxt": 0
                       },
-                      "value": 10.0
+                      "value": 10.0,
+                      "raw": "10"
                     }
                   },
                   "async": false,

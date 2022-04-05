@@ -36,7 +36,8 @@
             "end": 7,
             "ctxt": 0
           },
-          "value": 0.3
+          "value": 0.3,
+          "raw": ".3"
         },
         "alternate": {
           "type": "NumericLiteral",
@@ -45,7 +46,8 @@
             "end": 9,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         }
       }
     },
@@ -79,7 +81,8 @@
             "end": 20,
             "ctxt": 0
           },
-          "value": 0.3
+          "value": 0.3,
+          "raw": ".3"
         },
         "alternate": {
           "type": "NumericLiteral",
@@ -88,7 +91,8 @@
             "end": 24,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         }
       }
     }

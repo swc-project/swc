@@ -49,20 +49,32 @@ impl Fold for Normalizer {
     }
 
     fn fold_number(&mut self, n: Number) -> Number {
-        let n = n.fold_children_with(self);
+        let mut n = n.fold_children_with(self);
 
         let val = serde_json::Number::from_f64(n.value);
         let val = match val {
             Some(v) => v,
-            None => return n,
+            None => {
+                if self.is_test262 {
+                    n.raw = None;
+                }
+
+                return n;
+            }
         };
 
         match val.as_f64() {
-            Some(value) => Number {
-                value,
-                raw: None,
-                ..n
-            },
+            Some(value) => {
+                if self.is_test262 {
+                    Number {
+                        value,
+                        raw: None,
+                        ..n
+                    }
+                } else {
+                    Number { value, ..n }
+                }
+            }
             None => n,
         }
     }

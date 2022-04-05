@@ -774,7 +774,8 @@
                         "end": 600,
                         "ctxt": 0
                       },
-                      "value": 1.0
+                      "value": 1.0,
+                      "raw": "1"
                     }
                   }
                 ]
@@ -819,7 +820,8 @@
                           "end": 644,
                           "ctxt": 0
                         },
-                        "value": 1.0
+                        "value": 1.0,
+                        "raw": "1"
                       }
                     }
                   }
@@ -1028,7 +1030,8 @@
                   "end": 775,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "alternate": {
                 "type": "ConditionalExpression",
@@ -1081,7 +1084,8 @@
                       "end": 811,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 },
                 "alternate": {

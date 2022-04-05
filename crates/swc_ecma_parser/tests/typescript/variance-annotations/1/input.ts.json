@@ -4222,7 +4222,8 @@
               "end": 1943,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -4259,7 +4260,8 @@
               "end": 1968,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -5477,7 +5479,8 @@
                           "end": 2479,
                           "ctxt": 0
                         },
-                        "value": 0.0
+                        "value": 0.0,
+                        "raw": "0"
                       }
                     },
                     {
@@ -5499,7 +5502,8 @@
                           "end": 2485,
                           "ctxt": 0
                         },
-                        "value": 0.0
+                        "value": 0.0,
+                        "raw": "0"
                       }
                     },
                     {

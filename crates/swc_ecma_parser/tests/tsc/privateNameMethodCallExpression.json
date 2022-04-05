@@ -115,7 +115,8 @@
                         "end": 58,
                         "ctxt": 0
                       },
-                      "value": 10.0
+                      "value": 10.0,
+                      "raw": "10"
                     }
                   }
                 }
@@ -282,7 +283,8 @@
               "end": 98,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -571,7 +573,8 @@
                                 "end": 240,
                                 "ctxt": 0
                               },
-                              "value": 1.0
+                              "value": 1.0,
+                              "raw": "1"
                             }
                           },
                           {
@@ -583,7 +586,8 @@
                                 "end": 243,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             }
                           }
                         ]
@@ -650,7 +654,8 @@
                             "end": 270,
                             "ctxt": 0
                           },
-                          "value": 0.0
+                          "value": 0.0,
+                          "raw": "0"
                         }
                       },
                       {
@@ -679,7 +684,8 @@
                             "end": 281,
                             "ctxt": 0
                           },
-                          "value": 3.0
+                          "value": 3.0,
+                          "raw": "3"
                         }
                       }
                     ],
@@ -765,7 +771,8 @@
                                 "end": 322,
                                 "ctxt": 0
                               },
-                              "value": 0.0
+                              "value": 0.0,
+                              "raw": "0"
                             }
                           },
                           {
@@ -794,7 +801,8 @@
                                 "end": 333,
                                 "ctxt": 0
                               },
-                              "value": 3.0
+                              "value": 3.0,
+                              "raw": "3"
                             }
                           }
                         ],
@@ -889,7 +897,8 @@
                                 "end": 386,
                                 "ctxt": 0
                               },
-                              "value": 1.0
+                              "value": 1.0,
+                              "raw": "1"
                             },
                             {
                               "type": "NumericLiteral",
@@ -898,7 +907,8 @@
                                 "end": 396,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             }
                           ],
                           "quasis": [
@@ -1034,7 +1044,8 @@
                             "end": 447,
                             "ctxt": 0
                           },
-                          "value": 1.0
+                          "value": 1.0,
+                          "raw": "1"
                         },
                         {
                           "type": "NumericLiteral",
@@ -1043,7 +1054,8 @@
                             "end": 454,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         }
                       ],
                       "quasis": [
@@ -1170,7 +1182,8 @@
                             "end": 496,
                             "ctxt": 0
                           },
-                          "value": 0.0
+                          "value": 0.0,
+                          "raw": "0"
                         }
                       },
                       {
@@ -1199,7 +1212,8 @@
                             "end": 507,
                             "ctxt": 0
                           },
-                          "value": 3.0
+                          "value": 3.0,
+                          "raw": "3"
                         }
                       }
                     ],
@@ -1321,7 +1335,8 @@
                                 "end": 565,
                                 "ctxt": 0
                               },
-                              "value": 0.0
+                              "value": 0.0,
+                              "raw": "0"
                             }
                           },
                           {
@@ -1350,7 +1365,8 @@
                                 "end": 576,
                                 "ctxt": 0
                               },
-                              "value": 3.0
+                              "value": 3.0,
+                              "raw": "3"
                             }
                           }
                         ],
@@ -1473,7 +1489,8 @@
                                 "end": 644,
                                 "ctxt": 0
                               },
-                              "value": 1.0
+                              "value": 1.0,
+                              "raw": "1"
                             },
                             {
                               "type": "NumericLiteral",
@@ -1482,7 +1499,8 @@
                                 "end": 654,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             }
                           ],
                           "quasis": [

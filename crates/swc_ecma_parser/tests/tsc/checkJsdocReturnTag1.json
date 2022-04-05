@@ -162,7 +162,8 @@
                   "end": 395,
                   "ctxt": 0
                 },
-                "value": 5.0
+                "value": 5.0,
+                "raw": "5"
               },
               "right": {
                 "type": "StringLiteral",

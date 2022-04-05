@@ -161,7 +161,18 @@ fn test262_lexer_error_0001() {
     assert_eq!(
         lex(Syntax::default(), "123..a(1)"),
         vec![
-            123f64.span(0..4).lb(),
+            TokenAndSpan {
+                token: Num {
+                    value: 123.0,
+                    raw: "123.".into(),
+                },
+                had_line_break: true,
+                span: Span {
+                    lo: BytePos(0),
+                    hi: BytePos(4),
+                    ctxt: Default::default(),
+                }
+            },
             Dot.span(4..5),
             "a".span(5..6),
             LParen.span(6..7),

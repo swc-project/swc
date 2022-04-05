@@ -41,7 +41,8 @@
               "end": 50,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "definite": false
         }
@@ -82,7 +83,8 @@
               "end": 62,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "definite": false
         }
@@ -123,7 +125,8 @@
               "end": 76,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           },
           "definite": false
         }
@@ -164,7 +167,8 @@
               "end": 90,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           },
           "definite": false
         }
@@ -233,7 +237,8 @@
                     "end": 124,
                     "ctxt": 0
                   },
-                  "value": 11.0
+                  "value": 11.0,
+                  "raw": "11"
                 },
                 "definite": false
               }
@@ -274,7 +279,8 @@
                     "end": 143,
                     "ctxt": 0
                   },
-                  "value": 22.0
+                  "value": 22.0,
+                  "raw": "22"
                 },
                 "definite": false
               }
@@ -350,7 +356,8 @@
                               "end": 202,
                               "ctxt": 0
                             },
-                            "value": 111.0
+                            "value": 111.0,
+                            "raw": "111"
                           },
                           "definite": false
                         }
@@ -391,7 +398,8 @@
                               "end": 228,
                               "ctxt": 0
                             },
-                            "value": 111.0
+                            "value": 111.0,
+                            "raw": "111"
                           },
                           "definite": false
                         }
@@ -432,7 +440,8 @@
                               "end": 256,
                               "ctxt": 0
                             },
-                            "value": 222.0
+                            "value": 222.0,
+                            "raw": "222"
                           },
                           "definite": false
                         }
@@ -473,7 +482,8 @@
                               "end": 284,
                               "ctxt": 0
                             },
-                            "value": 222.0
+                            "value": 222.0,
+                            "raw": "222"
                           },
                           "definite": false
                         }
@@ -566,7 +576,8 @@
                         "end": 349,
                         "ctxt": 0
                       },
-                      "value": 111.0
+                      "value": 111.0,
+                      "raw": "111"
                     },
                     "definite": false
                   }
@@ -607,7 +618,8 @@
                         "end": 371,
                         "ctxt": 0
                       },
-                      "value": 111.0
+                      "value": 111.0,
+                      "raw": "111"
                     },
                     "definite": false
                   }
@@ -648,7 +660,8 @@
                         "end": 395,
                         "ctxt": 0
                       },
-                      "value": 222.0
+                      "value": 222.0,
+                      "raw": "222"
                     },
                     "definite": false
                   }
@@ -689,7 +702,8 @@
                         "end": 419,
                         "ctxt": 0
                       },
-                      "value": 222.0
+                      "value": 222.0,
+                      "raw": "222"
                     },
                     "definite": false
                   }

@@ -875,7 +875,8 @@
                             "end": 557,
                             "ctxt": 0
                           },
-                          "value": 1.0
+                          "value": 1.0,
+                          "raw": "1"
                         }
                       }
                     ]
@@ -921,7 +922,8 @@
                             "end": 565,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         }
                       }
                     ]
@@ -978,7 +980,8 @@
                     "end": 600,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "consequent": [
                   {
@@ -1024,7 +1027,8 @@
                     "end": 636,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 },
                 "consequent": [
                   {

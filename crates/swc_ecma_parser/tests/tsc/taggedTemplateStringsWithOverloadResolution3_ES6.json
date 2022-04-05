@@ -1001,7 +1001,8 @@
                     "end": 529,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 {
                   "type": "Identifier",
@@ -1116,7 +1117,8 @@
                     "end": 588,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 {
                   "type": "Identifier",
@@ -1284,7 +1286,8 @@
                 "end": 762,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             {
               "type": "StringLiteral",
@@ -1385,7 +1388,8 @@
                 "end": 882,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           ],
           "quasis": [
@@ -2286,7 +2290,8 @@
                     "end": 1196,
                     "ctxt": 0
                   },
-                  "value": 3.0
+                  "value": 3.0,
+                  "raw": "3"
                 }
               ],
               "quasis": [
@@ -2390,7 +2395,8 @@
                     "end": 1224,
                     "ctxt": 0
                   },
-                  "value": 3.0
+                  "value": 3.0,
+                  "raw": "3"
                 },
                 {
                   "type": "StringLiteral",
@@ -2516,7 +2522,8 @@
                     "end": 1253,
                     "ctxt": 0
                   },
-                  "value": 5.0
+                  "value": 5.0,
+                  "raw": "5"
                 },
                 {
                   "type": "NumericLiteral",
@@ -2525,7 +2532,8 @@
                     "end": 1259,
                     "ctxt": 0
                   },
-                  "value": 5.0
+                  "value": 5.0,
+                  "raw": "5"
                 },
                 {
                   "type": "NumericLiteral",
@@ -2534,7 +2542,8 @@
                     "end": 1265,
                     "ctxt": 0
                   },
-                  "value": 5.0
+                  "value": 5.0,
+                  "raw": "5"
                 }
               ],
               "quasis": [
@@ -2699,7 +2708,8 @@
                     "end": 1412,
                     "ctxt": 0
                   },
-                  "value": 4.0
+                  "value": 4.0,
+                  "raw": "4"
                 }
               ],
               "quasis": [
@@ -2950,7 +2960,8 @@
                     "end": 1484,
                     "ctxt": 0
                   },
-                  "value": 3.0
+                  "value": 3.0,
+                  "raw": "3"
                 }
               ],
               "quasis": [
@@ -3679,7 +3690,8 @@
                 "end": 1990,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           ],
           "quasis": [
@@ -3760,7 +3772,8 @@
                 "end": 2005,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             },
             {
               "type": "StringLiteral",
@@ -3851,7 +3864,8 @@
                 "end": 2027,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             },
             {
               "type": "Identifier",
@@ -4875,7 +4889,8 @@
                         "end": 2752,
                         "ctxt": 0
                       },
-                      "value": 0.0
+                      "value": 0.0,
+                      "raw": "0"
                     }
                   }
                 ],

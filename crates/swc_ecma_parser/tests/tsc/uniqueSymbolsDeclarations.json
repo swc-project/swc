@@ -8132,7 +8132,8 @@
               "end": 6153,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         },
         "consequent": {
@@ -8224,7 +8225,8 @@
               "end": 6182,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         },
         "consequent": {
@@ -8334,7 +8336,8 @@
               "end": 6213,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         },
         "consequent": {

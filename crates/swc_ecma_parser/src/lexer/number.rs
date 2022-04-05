@@ -810,14 +810,13 @@ mod tests {
 
                 assert_eq!(expected, value);
             } else if let Ok(vec) = vec {
-                let value = match vec[0] {
-                    Token::Num { value, .. } => value,
-                    _ => {
-                        panic!("expected num token in test")
-                    }
-                };
-
-                assert_ne!(expected, value)
+                assert_ne!(
+                    vec![Num {
+                        value: expected,
+                        raw: expected.to_string().into()
+                    }],
+                    vec
+                )
             }
         }
     }

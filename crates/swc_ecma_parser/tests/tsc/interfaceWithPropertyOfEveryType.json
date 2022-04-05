@@ -181,7 +181,8 @@
                       "end": 74,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "definite": false
                 }
@@ -1170,7 +1171,8 @@
                     "end": 368,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 }
               },
               {
@@ -1290,7 +1292,8 @@
                           "end": 428,
                           "ctxt": 0
                         },
-                        "value": 1.0
+                        "value": 1.0,
+                        "raw": "1"
                       }
                     }
                   ]
@@ -1373,7 +1376,8 @@
                       "end": 465,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "async": false,
                   "generator": false,

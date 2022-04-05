@@ -50,7 +50,8 @@
               "end": 87,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
@@ -239,7 +240,8 @@
               "end": 203,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
@@ -418,7 +420,8 @@
                           "end": 283,
                           "ctxt": 0
                         },
-                        "value": 42.0
+                        "value": 42.0,
+                        "raw": "42"
                       }
                     }
                   ],
