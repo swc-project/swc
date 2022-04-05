@@ -20,7 +20,7 @@ quote = ["swc_ecma_quote"]
 
 [dependencies]
 swc_atoms = {version = "0.2.0", path = "../swc_atoms"}
-swc_common = {version = "0.17.0", path = "../swc_common", features = [
+swc_common = {version = "0.17.19", path = "../swc_common", features = [
   "plugin-mode",
 ]}
 swc_ecma_ast = {version = "0.74.0", path = "../swc_ecma_ast", features = [
@@ -28,7 +28,7 @@ swc_ecma_ast = {version = "0.74.0", path = "../swc_ecma_ast", features = [
 ]}
 swc_ecma_quote = {version = "0.10.0", path = "../swc_ecma_quote", optional = true}
 swc_ecma_visit = {version = "0.60.0", path = "../swc_ecma_visit"}
-swc_plugin_comments = {version = "0.1.0", path = "../swc_plugin_comments", features = [
+swc_plugin_comments = {version = "0.1.1", path = "../swc_plugin_comments", features = [
   "plugin-mode",
 ]}
 swc_plugin_macro = {version = "0.4.0", path = "../swc_plugin_macro"}
