@@ -1782,6 +1782,7 @@ where
                         // Anything else
                         // Start a new attribute in the current tag token. Set that attribute name
                         // and value to the empty string. Reconsume in the attribute name state.
+                        // We set `None` for `value` to support boolean attributes in AST
                         _ => {
                             if let Some(ref mut token) = self.cur_token {
                                 match token {
@@ -1944,6 +1945,7 @@ where
                         // Anything else
                         // Start a new attribute in the current tag token. Set that attribute name
                         // and value to the empty string. Reconsume in the attribute name state.
+                        // We set `None` for `value` to support boolean attributes in AST
                         _ => {
                             if let Some(ref mut token) = self.cur_token {
                                 match token {
@@ -1971,9 +1973,7 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Ignore the character.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {
-                            self.state = State::BeforeAttributeName;
-                        }
+                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {}
                         // U+0022 QUOTATION MARK (")
                         // Switch to the attribute value (double-quoted) state.
                         Some('"') => {
@@ -2031,7 +2031,7 @@ where
 
                                             match &attribute.value {
                                                 Some(value) => {
-                                                    new_value.push_str(&value);
+                                                    new_value.push_str(value);
                                                 }
                                                 None => {}
                                             }
@@ -2063,7 +2063,7 @@ where
 
                                             match &attribute.value {
                                                 Some(value) => {
-                                                    new_value.push_str(&value);
+                                                    new_value.push_str(value);
                                                 }
                                                 None => {}
                                             }
@@ -2110,7 +2110,7 @@ where
 
                                             match &attribute.value {
                                                 Some(value) => {
-                                                    new_value.push_str(&value);
+                                                    new_value.push_str(value);
                                                 }
                                                 None => {}
                                             }
@@ -2142,7 +2142,7 @@ where
 
                                             match &attribute.value {
                                                 Some(value) => {
-                                                    new_value.push_str(&value);
+                                                    new_value.push_str(value);
                                                 }
                                                 None => {}
                                             }
@@ -2198,7 +2198,7 @@ where
 
                                             match &attribute.value {
                                                 Some(value) => {
-                                                    new_value.push_str(&value);
+                                                    new_value.push_str(value);
                                                 }
                                                 None => {}
                                             }
@@ -2240,7 +2240,7 @@ where
 
                                             match &attribute.value {
                                                 Some(value) => {
-                                                    new_value.push_str(&value);
+                                                    new_value.push_str(value);
                                                 }
                                                 None => {}
                                             }
@@ -4455,7 +4455,7 @@ where
 
                                                 match &attribute.value {
                                                     Some(value) => {
-                                                        new_value.push_str(&value);
+                                                        new_value.push_str(value);
                                                     }
                                                     None => {}
                                                 }
