@@ -18,6 +18,10 @@ pub mod util {
     pub use swc_ecma_quote::*;
 }
 
+pub mod utils {
+    pub use swc_ecma_utils::*;
+}
+
 pub mod ast {
     pub use swc_atoms::*;
     pub use swc_ecma_ast::*;
