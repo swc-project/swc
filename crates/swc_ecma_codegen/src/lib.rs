@@ -833,29 +833,37 @@ where
         if let Expr::Lit(Lit::Num(Number { span, value, raw })) = expr {
             if self.cfg.minify {
                 let s = minify_number(*value);
+                let bytes = s.as_bytes();
 
-                if s.as_bytes().contains(&b'.') || s.as_bytes().contains(&b'e') {
-                    return false;
+                if !bytes.contains(&b'.') && !bytes.contains(&b'e') {
+                    return true;
                 }
 
-                true
+                false
             } else {
                 match raw {
                     Some(raw) => {
-                        if raw.as_bytes().contains(&b'.') || raw.as_bytes().contains(&b'e') {
-                            return false;
+                        if raw.bytes().all(|c| c.is_ascii_digit()) {
+                            // Legacy octal contains only digits, but `value` and `raw` are
+                            // different
+                            if !value.to_string().eq(raw.as_ref()) {
+                                return false;
+                            }
+
+                            return true;
                         }
 
-                        true
+                        false
                     }
                     _ => {
-                        let s = minify_number(*value);
+                        let s = value.to_string();
+                        let bytes = s.as_bytes();
 
-                        if s.as_bytes().contains(&b'.') || s.as_bytes().contains(&b'e') {
-                            return false;
+                        if !bytes.contains(&b'.') && !bytes.contains(&b'e') {
+                            return true;
                         }
 
-                        true
+                        false
                     }
                 }
             }

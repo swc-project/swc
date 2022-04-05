@@ -76,3 +76,41 @@ const foo57 = 1_2.3_4e5_6
 const foo58 = 1_2.3_4e+5_6
 const foo59 = 1_2.3_4e-5_6
 const foo60 = 0.100;
+const foo61 = 1E1;
+const foo62 = 5e+9;
+const foo63 = 0xff;
+const foo64 = 0xFf;
+const foo65 = 0xfF;
+const foo66 = 0x00;
+const foo67 = .0;
+const foo68 = 0.0;
+const foo69 = 000;
+const foo70 = 0.0000;
+const foo71 = 0XfF;
+
+0032.toString();
+0xffffffff.toString();
+0Xffffffff.toString();
+0o01234.toString();
+0O01234.toString();
+0b01101101.toString();
+0B01101101.toString();
+1234..toString();
+1e0.toString();
+
+
+77 .toExponential()
+// or
+77
+    .toExponential()
+// or
+;(77).toExponential()
+// or
+77..toExponential()
+// or
+77.0.toExponential()
+
+const hugefoo = 1000000000001..test();
+const hugefoo1 = 0xEE.test();
+
+1_2_3_4..toString();
