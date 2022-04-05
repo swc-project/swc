@@ -451,7 +451,7 @@ fn test_unary_ops_2() {
     fold("a=+Infinity", "a=Infinity");
     fold("a=+NaN", "a=NaN");
     fold("a=+-7", "a=-7");
-    fold("a=+.5", "a=.5");
+    fold("a=+.5", "a=0.5");
 }
 
 #[test]
@@ -775,7 +775,7 @@ fn test_fold_arithmetic2() {
     fold("x = y * 2.25 * 3", "x = y * 6.75");
     fold_same("z = x * y");
     fold_same("x = y * 5");
-    fold("x = y + (z * 24 * 60 * 60 * 1000)", "x = y + z * 864E5");
+    fold("x = y + (z * 24 * 60 * 60 * 1000)", "x = y + z * 86400000");
 }
 
 #[test]
