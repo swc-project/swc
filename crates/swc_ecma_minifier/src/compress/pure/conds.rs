@@ -129,7 +129,6 @@ impl Pure<'_> {
             return;
         }
 
-        self.changed = true;
         tracing::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
         let start_str = dump(&*cond, false);
 

@@ -48,7 +48,6 @@ impl Pure<'_> {
                         return;
                     }
                     tracing::debug!("bools: Optimizing `!(a && b)` as `!a || !b`");
-                    self.changed = true;
                     self.negate(arg, false, false);
                     *e = *arg.take();
                 }
