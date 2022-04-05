@@ -35,9 +35,6 @@
     }, ReactCurrentOwner = {
         current: null
     }, ReactDebugCurrentFrame = {}, currentExtraStackFrame = null;
-    function setExtraStackFrame(stack) {
-        currentExtraStackFrame = stack;
-    }
     ReactDebugCurrentFrame.setExtraStackFrame = function(stack) {
         currentExtraStackFrame = stack;
     }, ReactDebugCurrentFrame.getCurrentStack = null, ReactDebugCurrentFrame.getStackAddendum = function() {
@@ -522,8 +519,8 @@
     function setCurrentlyValidatingElement$1(element) {
         if (element) {
             var owner = element._owner;
-            setExtraStackFrame(describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null));
-        } else setExtraStackFrame(null);
+            currentExtraStackFrame = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
+        } else currentExtraStackFrame = null;
     }
     function getDeclarationErrorAddendum() {
         if (ReactCurrentOwner.current) {
@@ -768,6 +765,9 @@
         var firstTimer = peek(timerQueue);
         return null !== firstTimer && requestHostTimeout(handleTimeout, firstTimer.startTime - currentTime), !1;
     }
+    function unstable_getCurrentPriorityLevel() {
+        return currentPriorityLevel;
+    }
     var unstable_requestPaint = requestPaint, Scheduler = Object.freeze({
         __proto__: null,
         unstable_ImmediatePriority: 1,
@@ -862,9 +862,7 @@
                 }
             };
         },
-        unstable_getCurrentPriorityLevel: function() {
-            return currentPriorityLevel;
-        },
+        unstable_getCurrentPriorityLevel: unstable_getCurrentPriorityLevel,
         get unstable_shouldYield () {
             return shouldYieldToHost;
         },
@@ -884,6 +882,9 @@
         },
         unstable_Profiling: null
     }), interactionIDCounter = 0, threadIDCounter = 0, interactionsRef = null, subscriberRef = null;
+    function unstable_getThreadID() {
+        return ++threadIDCounter;
+    }
     interactionsRef = {
         current: new Set()
     }, subscriberRef = {
@@ -978,9 +979,7 @@
             unstable_getCurrent: function() {
                 return interactionsRef.current;
             },
-            unstable_getThreadID: function() {
-                return ++threadIDCounter;
-            },
+            unstable_getThreadID: unstable_getThreadID,
             unstable_trace: function(name, timestamp, callback) {
                 var returnValue, threadID = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 0, interaction = {
                     __count: 1,

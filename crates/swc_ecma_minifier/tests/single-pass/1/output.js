@@ -6,6 +6,8 @@ var condString, exprAny1, exprBoolean1, exprNumber1, exprString1, exprIsObject1,
     "2",
     "3"
 ];
-condString.toUpperCase, foo(), array[1], foo();
-condString.toUpperCase, foo(), array[1];
+condString.toUpperCase;
+array[1];
+condString.toUpperCase;
+array[1];
 condString.toUpperCase;

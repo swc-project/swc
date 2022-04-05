@@ -1017,9 +1017,10 @@
             };
         },
         function(module, exports) {
-            module.exports = function(value, other) {
+            function eq(value, other) {
                 return value === other || value != value && other != other;
-            };
+            }
+            module.exports = eq;
         },
         function(module, exports, __webpack_require__) {
             var Symbol = __webpack_require__(17).Symbol;
@@ -1243,9 +1244,10 @@
             };
         },
         function(module, exports) {
-            module.exports = function(value) {
+            function identity(value) {
                 return value;
-            };
+            }
+            module.exports = identity;
         },
         function(module, exports, __webpack_require__) {
             var apply = __webpack_require__(147), nativeMax = Math.max;

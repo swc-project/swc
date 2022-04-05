@@ -1,4 +1,3 @@
-var anyVar;
 import * as swcHelpers from "@swc/helpers";
 function _templateObject() {
     var data = swcHelpers.taggedTemplateLiteral([
@@ -251,9 +250,6 @@ function someGenerics4(strs, n, f) {}
 function someGenerics5(strs, n, f) {}
 function someGenerics6(strs, a, b, c) {}
 function someGenerics7(strs, a, b, c) {}
-function someGenerics9(strs, a, b, c) {
-    return null;
-}
 !function(strs, n) {}(_templateObject(), function(n) {
     return n;
 }), function(strs, n) {}(_templateObject1(), function(n, x) {
@@ -306,16 +302,4 @@ function someGenerics9(strs, a, b, c) {
     return n;
 }, function(n) {
     return n;
-}), (_templateObject17(), someGenerics7)(_templateObject18(), null, null, null), someGenerics9(_templateObject19(), "", 0, []), someGenerics9(_templateObject20(), void 0, {
-    x: 6,
-    z: new Date()
-}, {
-    x: 6,
-    y: ""
-}), someGenerics9(_templateObject21(), {
-    x: 3
-}, {
-    x: 6
-}, {
-    x: 6
-}), someGenerics9(_templateObject22(), 7, anyVar, 4), someGenerics9(_templateObject23(), [], null, void 0);
+}), (_templateObject17(), someGenerics7)(_templateObject18(), null, null, null), _templateObject19(), _templateObject20(), new Date(), _templateObject21(), _templateObject22(), _templateObject23();

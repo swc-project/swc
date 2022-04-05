@@ -1,8 +1,9 @@
 new class {
     foo(x1) {
-        return function(x) {
+        function bar(x) {
             return x;
-        };
+        }
+        return bar;
     }
     constructor(x){}
 }({

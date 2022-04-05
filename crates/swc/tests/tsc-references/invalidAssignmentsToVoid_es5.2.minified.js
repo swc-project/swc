@@ -4,6 +4,7 @@ var x, c, i, M, C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
 };
-x = C, x = c, x = i, (M || (M = {})).x = 1, x = M, x = function(a) {
+function f(a) {
     x = a;
-};
+}
+x = C, x = c, x = i, (M || (M = {})).x = 1, x = M, x = f;

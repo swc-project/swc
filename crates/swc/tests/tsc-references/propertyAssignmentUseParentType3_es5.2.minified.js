@@ -1,10 +1,12 @@
-(function() {
+function foo1() {
     return 123;
-}).toFixed = "", (function() {
-    return [];
-}).join = "", (function() {
+}
+function foo3() {
     return "";
-}).trim = "", (function() {
+}
+foo1.toFixed = "", (function() {
+    return [];
+}).join = "", foo3.trim = "", (function() {
     return {
         x: 123
     };

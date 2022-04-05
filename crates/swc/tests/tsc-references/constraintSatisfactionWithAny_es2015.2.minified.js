@@ -1,14 +1,4 @@
 var a, b;
-function foo(x) {
-    return null;
-}
-function foo2(x) {
-    return null;
-}
-function foo4(x) {
-    return null;
-}
-foo(a), foo2(a), foo4(a), foo(b), foo2(b), foo4(b);
 class C {
     constructor(x){
         this.x = x;

@@ -1,14 +1,4 @@
 import * as swcHelpers from "@swc/helpers";
-function foo(x) {
-    return null;
-}
-function foo2(x) {
-    return null;
-}
-function foo4(x) {
-    return null;
-}
-foo(a), foo2(a), foo4(a), foo(b), foo2(b), foo4(b);
 var a, b, C = function(x) {
     "use strict";
     swcHelpers.classCallCheck(this, C), this.x = x;

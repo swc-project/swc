@@ -99,9 +99,8 @@ while (k);
 function fn(x) {
     return null;
 }
-for(fn(); fn(););
 do ;
-while (fn());
+while (null);
 for(; fn;);
 do ;
 while (fn);

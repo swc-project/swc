@@ -259,10 +259,12 @@ where
             tracing::trace!("inline: inline_vars_in_node");
         }
 
-        n.visit_mut_with(&mut MultiReplacer {
-            vars: &mut vars,
-            changed: false,
-        });
+        n.visit_mut_with(&mut MultiReplacer::new(
+            &mut vars,
+            false,
+            false,
+            &mut self.changed,
+        ));
     }
 
     /// Fully inlines iife.
@@ -435,10 +437,18 @@ where
                                 exprs.push(arg.expr.take());
                             }
                         }
-                        body.visit_mut_with(&mut MultiReplacer {
-                            vars: &mut self.vars_for_inlining,
-                            changed: false,
-                        });
+                        body.visit_mut_with(&mut MultiReplacer::new(
+                            &mut self.simple_functions,
+                            true,
+                            true,
+                            &mut self.changed,
+                        ));
+                        body.visit_mut_with(&mut MultiReplacer::new(
+                            &mut self.vars_for_inlining,
+                            false,
+                            false,
+                            &mut self.changed,
+                        ));
                         body.visit_mut_with(&mut Remapper { vars: remap });
                         exprs.push(body.take());
 
@@ -684,10 +694,18 @@ where
             }
         }
 
-        body.visit_mut_with(&mut MultiReplacer {
-            vars: &mut self.vars_for_inlining,
-            changed: false,
-        });
+        body.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.simple_functions,
+            true,
+            true,
+            &mut self.changed,
+        ));
+        body.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.vars_for_inlining,
+            false,
+            false,
+            &mut self.changed,
+        ));
         body.visit_mut_with(&mut Remapper { vars: remap });
 
         {

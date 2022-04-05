@@ -21,15 +21,17 @@ var _used2 = new WeakMap(), _unused2 = new WeakMap();
 export class A3 {
     constructor(){
         swcHelpers.classPrivateFieldInit(this, _used2, {
-            get: function() {
-                return 0;
-            },
+            get: get_used,
             set: function(value) {}
         }), swcHelpers.classPrivateFieldInit(this, _unused2, {
-            get: function() {
-                return 0;
-            },
+            get: get_unused,
             set: function(value) {}
         }), console.log(swcHelpers.classPrivateFieldGet(this, _used2));
     }
+}
+function get_used() {
+    return 0;
+}
+function get_unused() {
+    return 0;
 }

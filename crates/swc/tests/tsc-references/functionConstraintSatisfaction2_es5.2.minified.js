@@ -1,22 +1,18 @@
 import * as swcHelpers from "@swc/helpers";
-function foo(x) {
+!function(x) {
     return x;
-}
-function foo2(x) {
-    return x;
-}
-foo(1), foo(function() {}, 1), foo(1, function() {});
-var b, b2, f2, C = function() {
+}(function() {}, 1), function(x) {}(1, function() {});
+var C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
 }, C2 = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C2);
 };
-foo2(new Function()), foo2(function(x) {
+new Function(), function(x) {}(function(x) {
     return x;
-}), foo2(C), foo2(b), foo2(function(x) {
+}), function(x) {}(function(x) {
     return x;
-}), foo2(function(x, y) {
+}), function(x) {}(function(x, y) {
     return x;
-}), foo2(C2), foo2(b2), foo2(f2);
+});

@@ -187,9 +187,6 @@
     function addUnitPriority(unit, priority) {
         priorities[unit] = priority;
     }
-    function isLeapYear(year) {
-        return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
-    }
     function absFloor(number) {
         return number < 0 ? Math.ceil(number) || 0 : Math.floor(number);
     }
@@ -206,7 +203,10 @@
         return mom.isValid() ? mom._d['get' + (mom._isUTC ? 'UTC' : '') + unit]() : NaN;
     }
     function set$1(mom, unit, value) {
-        mom.isValid() && !isNaN(value) && ('FullYear' === unit && isLeapYear(mom.year()) && 1 === mom.month() && 29 === mom.date() ? (value = toInt(value), mom._d['set' + (mom._isUTC ? 'UTC' : '') + unit](value, mom.month(), daysInMonth(value, mom.month()))) : mom._d['set' + (mom._isUTC ? 'UTC' : '') + unit](value));
+        if (mom.isValid() && !isNaN(value)) {
+            var year;
+            'FullYear' === unit && ((year = mom.year()) % 4 == 0 && year % 100 != 0 || year % 400 == 0) && 1 === mom.month() && 29 === mom.date() ? (value = toInt(value), mom._d['set' + (mom._isUTC ? 'UTC' : '') + unit](value, mom.month(), daysInMonth(value, mom.month()))) : mom._d['set' + (mom._isUTC ? 'UTC' : '') + unit](value);
+        }
     }
     var hookCallback, some, keys, regexes, match1 = /\d/, match2 = /\d\d/, match3 = /\d{3}/, match4 = /\d{4}/, match6 = /[+-]?\d{6}/, match1to2 = /\d\d?/, match3to4 = /\d\d\d\d?/, match5to6 = /\d\d\d\d\d\d?/, match1to3 = /\d{1,3}/, match1to4 = /\d{1,4}/, match1to6 = /[+-]?\d{1,6}/, matchUnsigned = /\d+/, matchSigned = /[+-]?\d+/, matchOffset = /Z|[+-]\d\d:?\d\d/gi, matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi, matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i;
     function addRegexToken(token, regex, strictRegex) {
@@ -245,8 +245,8 @@
     }
     function daysInMonth(year, month) {
         if (isNaN(year) || isNaN(month)) return NaN;
-        var x, modMonth = (month % (x = 12) + x) % x;
-        return year += (month - modMonth) / 12, 1 === modMonth ? isLeapYear(year) ? 29 : 28 : 31 - modMonth % 7 % 2;
+        var x, year1, modMonth = (month % (x = 12) + x) % x;
+        return year += (month - modMonth) / 12, 1 === modMonth ? (year1 = year) % 4 == 0 && year1 % 100 != 0 || year1 % 400 == 0 ? 29 : 28 : 31 - modMonth % 7 % 2;
     }
     indexOf = Array.prototype.indexOf ? Array.prototype.indexOf : function(o) {
         var i;
@@ -312,7 +312,8 @@
         this._monthsRegex = new RegExp('^(' + mixedPieces.join('|') + ')', 'i'), this._monthsShortRegex = this._monthsRegex, this._monthsStrictRegex = new RegExp('^(' + longPieces.join('|') + ')', 'i'), this._monthsShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')', 'i');
     }
     function daysInYear(year) {
-        return isLeapYear(year) ? 366 : 365;
+        var year2;
+        return (year2 = year) % 4 == 0 && year2 % 100 != 0 || year2 % 400 == 0 ? 366 : 365;
     }
     addFormatToken('Y', 0, 0, function() {
         var y = this.year();
@@ -1007,9 +1008,6 @@
     function localeData() {
         return this._locale;
     }
-    function mod$1(dividend, divisor) {
-        return (dividend % divisor + divisor) % divisor;
-    }
     function localStartOfDate(y, m, d) {
         return y < 100 && y >= 0 ? new Date(y + 400, m, d) - 12622780800000 : new Date(y, m, d).valueOf();
     }
@@ -1270,7 +1268,7 @@
         }
         return asFloat ? output : absFloor(output);
     }, proto.endOf = function(units) {
-        var time, startOfDate;
+        var time, startOfDate, divisor, divisor1, divisor2;
         if (void 0 === (units = normalizeUnits(units)) || 'millisecond' === units || !this.isValid()) return this;
         switch(startOfDate = this._isUTC ? utcStartOfDate : localStartOfDate, units){
             case 'year':
@@ -1293,13 +1291,13 @@
                 time = startOfDate(this.year(), this.month(), this.date() + 1) - 1;
                 break;
             case 'hour':
-                time = this._d.valueOf(), time += 3600000 - mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000) - 1;
+                time = this._d.valueOf(), time += 3600000 - ((time + (this._isUTC ? 0 : 60000 * this.utcOffset())) % (divisor = 3600000) + divisor) % divisor - 1;
                 break;
             case 'minute':
-                time = this._d.valueOf(), time += 60000 - mod$1(time, 60000) - 1;
+                time = this._d.valueOf(), time += 60000 - (time % (divisor1 = 60000) + divisor1) % divisor1 - 1;
                 break;
             case 'second':
-                time = this._d.valueOf(), time += 1000 - mod$1(time, 1000) - 1;
+                time = this._d.valueOf(), time += 1000 - (time % (divisor2 = 1000) + divisor2) % divisor2 - 1;
                 break;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
@@ -1361,7 +1359,7 @@
         } else if (isFunction(this[units1 = normalizeUnits(units1)])) return this[units1](value);
         return this;
     }, proto.startOf = function(units) {
-        var time, startOfDate;
+        var time, startOfDate, divisor, divisor3, divisor4;
         if (void 0 === (units = normalizeUnits(units)) || 'millisecond' === units || !this.isValid()) return this;
         switch(startOfDate = this._isUTC ? utcStartOfDate : localStartOfDate, units){
             case 'year':
@@ -1384,13 +1382,13 @@
                 time = startOfDate(this.year(), this.month(), this.date());
                 break;
             case 'hour':
-                time = this._d.valueOf(), time -= mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000);
+                time = this._d.valueOf(), time -= ((time + (this._isUTC ? 0 : 60000 * this.utcOffset())) % (divisor = 3600000) + divisor) % divisor;
                 break;
             case 'minute':
-                time = this._d.valueOf(), time -= mod$1(time, 60000);
+                time = this._d.valueOf(), time -= (time % (divisor3 = 60000) + divisor3) % divisor3;
                 break;
             case 'second':
-                time = this._d.valueOf(), time -= mod$1(time, 1000);
+                time = this._d.valueOf(), time -= (time % (divisor4 = 1000) + divisor4) % divisor4;
                 break;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
@@ -1468,7 +1466,8 @@
         for(i = 0, l = eras.length; i < l; ++i)if (dir = eras[i].since <= eras[i].until ? 1 : -1, val = this.clone().startOf('day').valueOf(), eras[i].since <= val && val <= eras[i].until || eras[i].until <= val && val <= eras[i].since) return (this.year() - hooks(eras[i].since).year()) * dir + eras[i].offset;
         return this.year();
     }, proto.year = getSetYear, proto.isLeapYear = function() {
-        return isLeapYear(this.year());
+        var year;
+        return (year = this.year()) % 4 == 0 && year % 100 != 0 || year % 400 == 0;
     }, proto.weekYear = function(input) {
         return getSetWeekYearHelper.call(this, input, this.week(), this.weekday(), this.localeData()._week.dow, this.localeData()._week.doy);
     }, proto.isoWeekYear = function(input) {
@@ -1725,12 +1724,6 @@
     function absCeil(number) {
         return number < 0 ? Math.floor(number) : Math.ceil(number);
     }
-    function daysToMonths(days) {
-        return 4800 * days / 146097;
-    }
-    function monthsToDays(months) {
-        return 146097 * months / 4800;
-    }
     function makeAs(alias) {
         return function() {
             return this.as(alias);
@@ -1776,7 +1769,7 @@
     }, proto$2.as = function(units) {
         if (!this.isValid()) return NaN;
         var days, months, milliseconds = this._milliseconds;
-        if ('month' === (units = normalizeUnits(units)) || 'quarter' === units || 'year' === units) switch(days = this._days + milliseconds / 86400000, months = this._months + daysToMonths(days), units){
+        if ('month' === (units = normalizeUnits(units)) || 'quarter' === units || 'year' === units) switch(days = this._days + milliseconds / 86400000, months = this._months + 4800 * days / 146097, units){
             case 'month':
                 return months;
             case 'quarter':
@@ -1784,7 +1777,7 @@
             case 'year':
                 return months / 12;
         }
-        else switch(days = this._days + Math.round(monthsToDays(this._months)), units){
+        else switch(days = this._days + Math.round(146097 * this._months / 4800), units){
             case 'week':
                 return days / 7 + milliseconds / 604800000;
             case 'day':
@@ -1804,7 +1797,7 @@
         return this.isValid() ? this._milliseconds + 86400000 * this._days + this._months % 12 * 2592000000 + 31536000000 * toInt(this._months / 12) : NaN;
     }, proto$2._bubble = function() {
         var seconds, minutes, hours, years, monthsFromDays, milliseconds = this._milliseconds, days = this._days, months = this._months, data = this._data;
-        return milliseconds >= 0 && days >= 0 && months >= 0 || milliseconds <= 0 && days <= 0 && months <= 0 || (milliseconds += 86400000 * absCeil(monthsToDays(months) + days), days = 0, months = 0), data.milliseconds = milliseconds % 1000, seconds = absFloor(milliseconds / 1000), data.seconds = seconds % 60, minutes = absFloor(seconds / 60), data.minutes = minutes % 60, hours = absFloor(minutes / 60), data.hours = hours % 24, days += absFloor(hours / 24), months += monthsFromDays = absFloor(daysToMonths(days)), days -= absCeil(monthsToDays(monthsFromDays)), years = absFloor(months / 12), months %= 12, data.days = days, data.months = months, data.years = years, this;
+        return milliseconds >= 0 && days >= 0 && months >= 0 || milliseconds <= 0 && days <= 0 && months <= 0 || (milliseconds += 86400000 * absCeil(146097 * months / 4800 + days), days = 0, months = 0), data.milliseconds = milliseconds % 1000, seconds = absFloor(milliseconds / 1000), data.seconds = seconds % 60, minutes = absFloor(seconds / 60), data.minutes = minutes % 60, hours = absFloor(minutes / 60), data.hours = hours % 24, days += absFloor(hours / 24), months += monthsFromDays = absFloor(4800 * days / 146097), days -= absCeil(146097 * monthsFromDays / 4800), years = absFloor(months / 12), months %= 12, data.days = days, data.months = months, data.years = years, this;
     }, proto$2.clone = function() {
         return createDuration(this);
     }, proto$2.get = function(units) {

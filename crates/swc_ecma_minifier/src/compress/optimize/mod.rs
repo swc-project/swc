@@ -72,6 +72,7 @@ where
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         lits: Default::default(),
+        simple_functions: Default::default(),
         vars_for_inlining: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
@@ -101,6 +102,7 @@ struct Ctx {
 
     in_asm: bool,
 
+    /// `true` only for [Callee::Expr].
     is_callee: bool,
     in_call_arg: bool,
 
@@ -195,6 +197,10 @@ struct Optimizer<'a, M> {
     /// Used for inlining.
     lits: AHashMap<Id, Box<Expr>>,
 
+    /// Used for copying functions.
+    ///
+    /// We use this to distinguish [Callee::Expr] from other [Expr]s.
+    simple_functions: FxHashMap<Id, Box<Expr>>,
     vars_for_inlining: FxHashMap<Id, Box<Expr>>,
 
     vars_for_prop_hoisting: AHashMap<Id, Box<Expr>>,
@@ -1844,6 +1850,7 @@ where
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = Ctx {
             is_exported: false,
+            is_callee: false,
             ..self.ctx
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2219,10 +2226,18 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        stmts.visit_mut_with(&mut MultiReplacer {
-            vars: &mut self.vars_for_inlining,
-            changed: false,
-        });
+        stmts.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.simple_functions,
+            true,
+            true,
+            &mut self.changed,
+        ));
+        stmts.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.vars_for_inlining,
+            false,
+            false,
+            &mut self.changed,
+        ));
 
         drop_invalid_stmts(stmts);
     }

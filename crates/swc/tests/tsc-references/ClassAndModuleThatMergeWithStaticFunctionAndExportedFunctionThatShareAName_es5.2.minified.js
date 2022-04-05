@@ -26,7 +26,10 @@ var A, Point = function() {
             };
         }, Point;
     }();
-    A1.Point = Point, (Point = A1.Point || (A1.Point = {})).Origin = function() {
-        return "";
-    };
+    A1.Point = Point, function(Point) {
+        function Origin() {
+            return "";
+        }
+        Point.Origin = Origin;
+    }(Point = A1.Point || (A1.Point = {}));
 }(A || (A = {}));

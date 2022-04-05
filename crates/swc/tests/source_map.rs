@@ -219,7 +219,9 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     //
     let stacks = stderr
         .lines()
-        .filter(|s| !s.contains("(node:internal") && !s.contains("node_modules"))
+        .filter(|s| {
+            !s.contains("(node:internal") && !s.contains("node_modules") && !s.contains("Node.js v")
+        })
         .collect::<Vec<_>>();
 
     let stacks = stacks.join("\n");
