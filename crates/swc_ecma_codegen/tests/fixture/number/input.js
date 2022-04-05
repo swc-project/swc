@@ -118,3 +118,5 @@ const hugefoo1 = 0xEE.test();
 const foo72 = 86400000;
 const foo73 = 65535;
 const foo74 = 0xffff;
+const foo75 = Infinity;
+const foo76 = Infinity.toString();

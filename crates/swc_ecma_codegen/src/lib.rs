@@ -832,7 +832,7 @@ where
     pub fn needs_2dots_for_property_access(&self, expr: &Expr) -> bool {
         if let Expr::Lit(Lit::Num(Number { span, value, raw })) = expr {
             // TODO we store `NaN` in `swc_ecma_minifier`, but we should not do it
-            if value.is_nan() {
+            if value.is_nan() || value.is_infinite() {
                 return false;
             }
 
