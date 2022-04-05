@@ -11,7 +11,7 @@ pub struct TokenAndSpan {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Attribute {
     pub name: JsWord,
-    pub value: JsWord,
+    pub value: Option<JsWord>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

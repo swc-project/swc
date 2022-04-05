@@ -8,7 +8,7 @@
  5 | `-> </script>
    `----
 
-  x StartTag { tag_name: Atom('script' type=inline), self_closing: false, attributes: [Attribute { name: Atom('type' type=static), value: Atom('text/javascript' type=dynamic) }] }
+  x StartTag { tag_name: Atom('script' type=inline), self_closing: false, attributes: [Attribute { name: Atom('type' type=static), value: Some(Atom('text/javascript' type=dynamic)) }] }
    ,-[$DIR/tests/fixture/script-cdata/input.html:1:1]
  1 | <script type="text/javascript">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -98,17 +98,16 @@ where
                 for attribute in attributes {
                     start_tag.push(' ');
                     start_tag.push_str(&attribute.name);
-                    start_tag.push('=');
 
-                    let quote = if attribute.value.contains('"') {
-                        '\''
-                    } else {
-                        '"'
-                    };
+                    if let Some(value) = &attribute.value {
+                        start_tag.push('=');
 
-                    start_tag.push(quote);
-                    start_tag.push_str(&attribute.value);
-                    start_tag.push(quote);
+                        let quote = if value.contains('"') { '\'' } else { '"' };
+
+                        start_tag.push(quote);
+                        start_tag.push_str(&value);
+                        start_tag.push(quote);
+                    }
                 }
 
                 if *self_closing {
@@ -132,8 +131,16 @@ where
                 for attribute in attributes {
                     start_tag.push(' ');
                     start_tag.push_str(&attribute.name);
-                    start_tag.push('=');
-                    start_tag.push_str(&attribute.value);
+
+                    if let Some(value) = &attribute.value {
+                        start_tag.push('=');
+
+                        let quote = if value.contains('"') { '\'' } else { '"' };
+
+                        start_tag.push(quote);
+                        start_tag.push_str(&value);
+                        start_tag.push(quote);
+                    }
                 }
 
                 start_tag.push('>');
