@@ -1,3 +1,4 @@
+import * as commonjsHelpers from "\0commonjsHelpers.js";
 const string1 = "test";
 const string2 = 'test';
 const string3 = 'te"st';
@@ -124,3 +125,4 @@ const b = "A-Za-z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u02b8\u0300-\u0590\u0900-\u1f
 var x = "\u{D800}";
 var x2 = "\u{D800}";
 var x3 = "\u{D800}\u{D800}";
+const zzz = "\0a";
