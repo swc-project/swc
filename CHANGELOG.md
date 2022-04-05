@@ -35,6 +35,9 @@
 - **(bench)** Migrate to criterion (#4237) ([06d0891](https://github.com/swc-project/swc/commit/06d0891e7cae751dfc62ac4607675e872ac12304))
 
 
+- **(build)** Dedup `swc_common` (#4247) ([4093814](https://github.com/swc-project/swc/commit/4093814895a4c473d13852d2edeee17d06d7421f))
+
+
 - **(ci)** Fix benchmark action (#4242) ([1f466e1](https://github.com/swc-project/swc/commit/1f466e1d2f10193b45c09ced2b6384d85ea8f333))
 
 
