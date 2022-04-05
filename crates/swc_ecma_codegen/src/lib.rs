@@ -2606,7 +2606,9 @@ where
 
     fn has_leading_comment(&self, arg: &Expr) -> bool {
         if let Some(cmt) = self.comments {
-            let lo = arg.span().lo;
+            let span = arg.span();
+
+            let lo = span.lo;
 
             // see #415
             if let Some(cmt) = cmt.get_leading(lo) {
@@ -2621,6 +2623,8 @@ where
                     return true;
                 }
             }
+        } else {
+            return false;
         }
 
         match arg {
@@ -2666,6 +2670,14 @@ where
                 }
             }
 
+            Expr::Seq(e) => {
+                if let Some(e) = e.exprs.first() {
+                    if self.has_leading_comment(e) {
+                        return true;
+                    }
+                }
+            }
+
             _ => {}
         }
 
@@ -2681,11 +2693,11 @@ where
         keyword!("return");
 
         if let Some(ref arg) = n.arg {
-            let need_paren = !n.arg.span().is_dummy()
-                && n.arg
-                    .as_deref()
-                    .map(|expr| self.has_leading_comment(expr))
-                    .unwrap_or(false);
+            let need_paren = n
+                .arg
+                .as_deref()
+                .map(|expr| self.has_leading_comment(expr))
+                .unwrap_or(false);
             if need_paren {
                 punct!("(");
             } else if arg.starts_with_alpha_num() {
@@ -2877,12 +2889,19 @@ where
         keyword!("throw");
 
         {
-            if n.arg.starts_with_alpha_num() {
+            let need_paren = self.has_leading_comment(&n.arg);
+            if need_paren {
+                punct!("(");
+            } else if n.arg.starts_with_alpha_num() {
                 space!();
             } else {
                 formatting_space!();
             }
+
             emit!(n.arg);
+            if need_paren {
+                punct!(")");
+            }
         }
         semi!();
 
