@@ -1212,6 +1212,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "078e285eafdfb6c4b434e0d31e8cfcb5115b651496faca5749b88fafd4f23bfd"
 
 [[package]]
+name = "json_comments"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ab25c689752fbb49903458495d3e71853229e262a2e6136325359e0705606483"
+
+[[package]]
 name = "lazy_static"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2809,7 +2815,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.163.0"
+version = "0.163.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2818,6 +2824,7 @@ dependencies = [
  "dashmap",
  "either",
  "indexmap",
+ "json_comments",
  "lru",
  "napi",
  "napi-derive",
@@ -3839,7 +3846,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.43.0"
+version = "0.43.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3852,7 +3859,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_comments"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "better_scoped_tls",
  "rkyv",

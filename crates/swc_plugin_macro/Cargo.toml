@@ -9,9 +9,10 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.4.0"
 
 [lib]
+bench = false
 proc-macro = true
 
 [dependencies]
 proc-macro2 = "1"
 quote = "1"
-syn = { version = "1", features = ["full"] }
+syn = {version = "1", features = ["full"]}

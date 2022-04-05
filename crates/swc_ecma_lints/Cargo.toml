@@ -9,6 +9,9 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.30.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lib]
+bench = false
+
 [dependencies]
 ahash = "0.7"
 auto_impl = "0.5.0"
@@ -16,20 +19,20 @@ dashmap = "5.1.0"
 parking_lot = "0.12.0"
 rayon = "1.5.1"
 regex = "1"
-serde = { version = "1.0.133", features = ["derive"] }
-swc_atoms = { version = "0.2.9", path = "../swc_atoms" }
-swc_common = { version = "0.17.0", path = "../swc_common", features = [
+serde = {version = "1.0.133", features = ["derive"]}
+swc_atoms = {version = "0.2.9", path = "../swc_atoms"}
+swc_common = {version = "0.17.19", path = "../swc_common", features = [
   "concurrent",
-] }
-swc_ecma_ast = { version = "0.74.0", path = "../swc_ecma_ast" }
-swc_ecma_utils = { version = "0.78.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.60.0", path = "../swc_ecma_visit" }
+]}
+swc_ecma_ast = {version = "0.74.0", path = "../swc_ecma_ast"}
+swc_ecma_utils = {version = "0.78.0", path = "../swc_ecma_utils"}
+swc_ecma_visit = {version = "0.60.0", path = "../swc_ecma_visit"}
 
 [dev-dependencies]
-swc_ecma_codegen = { version = "0.102.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "0.99.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.74.0", path = "../swc_ecma_transforms_base" }
-testing = { version = "0.19.0", path = "../testing" }
+swc_ecma_codegen = {version = "0.102.0", path = "../swc_ecma_codegen"}
+swc_ecma_parser = {version = "0.99.0", path = "../swc_ecma_parser"}
+swc_ecma_transforms_base = {version = "0.74.0", path = "../swc_ecma_transforms_base"}
+testing = {version = "0.19.0", path = "../testing"}
 
 [features]
 non_critical_lints = []

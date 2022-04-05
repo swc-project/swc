@@ -12,8 +12,11 @@ version = "0.1.0"
 all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
+[lib]
+bench = false
+
 [dependencies]
-swc_html_ast = { version = "0.1.0", path = "../swc_html_ast" }
-swc_html_codegen = { version = "0.1.0", path = "../swc_html_codegen" }
-swc_html_parser = { version = "0.1.0", path = "../swc_html_parser" }
-swc_html_visit = { version = "0.1.0", path = "../swc_html_visit" }
+swc_html_ast = {version = "0.1.0", path = "../swc_html_ast"}
+swc_html_codegen = {version = "0.1.0", path = "../swc_html_codegen"}
+swc_html_parser = {version = "0.1.0", path = "../swc_html_parser"}
+swc_html_visit = {version = "0.1.0", path = "../swc_html_visit"}
