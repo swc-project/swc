@@ -11,6 +11,9 @@
 - **(es/minifier)** Handle empty RegExp (#4235) ([6a51d04](https://github.com/swc-project/swc/commit/6a51d0471a53cfdd48c8426c9cdc5bfddf200b35))
 
 
+- **(es/minifier)** Fix infinite loops (#4250) ([350a195](https://github.com/swc-project/swc/commit/350a19587e2220a134d9049b7afb19e35da236f0))
+
+
 - **(es/optimizer/simplifier)** Collect idents in init first (#4239) ([b1645f6](https://github.com/swc-project/swc/commit/b1645f606d1334eadb7ebf912c847bb5bdff6b96))
 
 
