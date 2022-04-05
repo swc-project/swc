@@ -446,10 +446,7 @@ impl<'a, I: Tokens> Parser<I> {
             } else {
                 self.parse_formal_param_pat()?
             };
-            let is_rest = match pat {
-                Pat::Rest(_) => true,
-                _ => false,
-            };
+            let is_rest = matches!(pat, Pat::Rest(_));
 
             params.push(Param {
                 span: span!(self, param_start),
@@ -656,15 +653,13 @@ impl<'a, I: Tokens> Parser<I> {
                                 PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
                                     if idx != len - 1 {
                                         self.emit_err(span, SyntaxError::NonLastRestParam)
-                                    } else {
-                                        if let Some(trailing_comma) =
-                                            self.state.trailing_commas.get(&object_span.lo)
-                                        {
-                                            self.emit_err(
-                                                *trailing_comma,
-                                                SyntaxError::CommaAfterRestElement,
-                                            );
-                                        }
+                                    } else if let Some(trailing_comma) =
+                                        self.state.trailing_commas.get(&object_span.lo)
+                                    {
+                                        self.emit_err(
+                                            *trailing_comma,
+                                            SyntaxError::CommaAfterRestElement,
+                                        );
                                     };
 
                                     let element_pat_ty = pat_ty.element();
@@ -733,7 +728,7 @@ impl<'a, I: Tokens> Parser<I> {
                             },
                         ) => {
                             if self.syntax().early_errors() {
-                                syntax_error!(self, expr.span(), SyntaxError::NonLastRestParam)
+                                self.emit_err(expr.span(), SyntaxError::NonLastRestParam)
                             }
                         }
                         Some(ExprOrSpread { expr, .. }) => {
@@ -829,7 +824,7 @@ impl<'a, I: Tokens> Parser<I> {
                 })
                 | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
                     if self.syntax().early_errors() {
-                        syntax_error!(self, expr.span(), SyntaxError::TS1014)
+                        self.emit_err(expr.span(), SyntaxError::TS1014)
                     }
                 }
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
