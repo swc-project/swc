@@ -105,7 +105,7 @@ where
                         let quote = if value.contains('"') { '\'' } else { '"' };
 
                         start_tag.push(quote);
-                        start_tag.push_str(&value);
+                        start_tag.push_str(value);
                         start_tag.push(quote);
                     }
                 }
@@ -138,7 +138,7 @@ where
                         let quote = if value.contains('"') { '\'' } else { '"' };
 
                         start_tag.push(quote);
-                        start_tag.push_str(&value);
+                        start_tag.push_str(value);
                         start_tag.push(quote);
                     }
                 }
