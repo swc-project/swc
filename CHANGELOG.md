@@ -64,6 +64,9 @@
 
 - **(es)** Organize tests (#4251) ([c32f42b](https://github.com/swc-project/swc/commit/c32f42b374a4964e858d05106eaa1b8fcd446cad))
 
+
+- **(es/parser)** Add a test for a fixed issue (#4255) ([1f0039f](https://github.com/swc-project/swc/commit/1f0039f2c31778acf01a10807ca54be6d3ebac08))
+
 ## [1.2.163] - 2022-04-03
 
 ### Bug Fixes
