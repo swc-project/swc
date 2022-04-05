@@ -831,6 +831,11 @@ where
     /// `1..toString` is a valid property access, emit a dot after the literal
     pub fn needs_2dots_for_property_access(&self, expr: &Expr) -> bool {
         if let Expr::Lit(Lit::Num(Number { span, value, raw })) = expr {
+            // TODO we store `NaN` in `swc_ecma_minifier`, but we should not do it
+            if value.is_nan() {
+                return false;
+            }
+
             if self.cfg.minify {
                 let s = minify_number(*value);
                 let bytes = s.as_bytes();
