@@ -116,3 +116,5 @@ const hugefoo1 = 0xEE.test();
 1_2_3_4..toString();
 
 const foo72 = 86400000;
+const foo73 = 65535;
+const foo74 = 0xffff;

@@ -56,8 +56,8 @@
                 BigInt('0x100000000000000'),
                 BigInt('0x10000000000000000')
             ], bytesToNumber = (a1 = new Uint16Array([
-                65484
-            ]), 255 === (b1 = new Uint8Array(a1.buffer, a1.byteOffset, a1.byteLength))[0] || b1[0], function(bytes, _temp) {
+                0xFFCC
+            ]), 0xFF === (b1 = new Uint8Array(a1.buffer, a1.byteOffset, a1.byteLength))[0] || b1[0], function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
                 var fn = le ? 'reduce' : 'reduceRight', number = (bytes[fn] ? bytes[fn] : Array.prototype[fn]).call(bytes, function(total, byte, i) {
@@ -74,7 +74,7 @@
                 ('bigint' != typeof number && 'number' != typeof number || 'number' == typeof number && number != number) && (number = 0);
                 for(var byteCount = Math.ceil((number = BigInt(number)).toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
-                    bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(255)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
+                    bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xFF)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
                 }
                 return bytes;
             }, bytesToString = function(bytes) {
@@ -234,14 +234,14 @@
             });
             var DESCRIPTORS, byte_helpers = __webpack_require__(562);
             new Uint8Array([
-                79,
-                112,
-                117,
-                115,
-                72,
-                101,
-                97,
-                100
+                0x4f,
+                0x70,
+                0x75,
+                0x73,
+                0x48,
+                0x65,
+                0x61,
+                0x64
             ]);
             var normalizePath1 = function(path) {
                 return 'string' == typeof path ? (0, byte_helpers.qX)(path) : path;
@@ -255,8 +255,8 @@
                 bytes = (0, byte_helpers.Ki)(bytes);
                 for(var results = [], i = 0; bytes.length > i;){
                     var tag = bytes[i], size = 0, headerSize = 0, byte = bytes[++headerSize];
-                    for(headerSize++; 128 & byte;)size = (127 & byte) << 7, byte = bytes[headerSize], headerSize++;
-                    size += 127 & byte;
+                    for(headerSize++; 0x80 & byte;)size = (0x7F & byte) << 7, byte = bytes[headerSize], headerSize++;
+                    size += 0x7F & byte;
                     for(var z = 0; z < DESCRIPTORS.length; z++){
                         var _DESCRIPTORS$z = DESCRIPTORS[z], id = _DESCRIPTORS$z.id, parser = _DESCRIPTORS$z.parser;
                         if (tag === id) {
@@ -270,10 +270,10 @@
             };
             DESCRIPTORS = [
                 {
-                    id: 3,
+                    id: 0x03,
                     parser: function(bytes) {
                         var desc = {
-                            tag: 3,
+                            tag: 0x03,
                             id: bytes[0] << 8 | bytes[1],
                             flags: bytes[2],
                             size: 3,
@@ -282,18 +282,18 @@
                             descriptors: [],
                             url: ''
                         };
-                        if (128 & desc.flags && (desc.dependsOnEsId = bytes[desc.size] << 8 | bytes[desc.size + 1], desc.size += 2), 64 & desc.flags) {
+                        if (0x80 & desc.flags && (desc.dependsOnEsId = bytes[desc.size] << 8 | bytes[desc.size + 1], desc.size += 2), 0x40 & desc.flags) {
                             var len = bytes[desc.size];
                             desc.url = (0, byte_helpers.d3)(bytes.subarray(desc.size + 1, desc.size + 1 + len)), desc.size += len;
                         }
-                        return 32 & desc.flags && (desc.ocrEsId = bytes[desc.size] << 8 | bytes[desc.size + 1], desc.size += 2), desc.descriptors = parseDescriptors(bytes.subarray(desc.size)) || [], desc;
+                        return 0x20 & desc.flags && (desc.ocrEsId = bytes[desc.size] << 8 | bytes[desc.size + 1], desc.size += 2), desc.descriptors = parseDescriptors(bytes.subarray(desc.size)) || [], desc;
                     }
                 },
                 {
-                    id: 4,
+                    id: 0x04,
                     parser: function(bytes) {
                         return {
-                            tag: 4,
+                            tag: 0x04,
                             oti: bytes[0],
                             streamType: bytes[1],
                             bufferSize: bytes[2] << 16 | bytes[3] << 8 | bytes[4],
@@ -304,19 +304,19 @@
                     }
                 },
                 {
-                    id: 5,
+                    id: 0x05,
                     parser: function(bytes) {
                         return {
-                            tag: 5,
+                            tag: 0x05,
                             bytes: bytes
                         };
                     }
                 },
                 {
-                    id: 6,
+                    id: 0x06,
                     parser: function(bytes) {
                         return {
-                            tag: 6,
+                            tag: 0x06,
                             bytes: bytes
                         };
                     }
@@ -340,91 +340,91 @@
                 return results;
             }, EBML_TAGS = {
                 EBML: (0, byte_helpers.Ki)([
-                    26,
-                    69,
-                    223,
-                    163
+                    0x1A,
+                    0x45,
+                    0xDF,
+                    0xA3
                 ]),
                 DocType: (0, byte_helpers.Ki)([
-                    66,
-                    130
+                    0x42,
+                    0x82
                 ]),
                 Segment: (0, byte_helpers.Ki)([
-                    24,
-                    83,
-                    128,
-                    103
+                    0x18,
+                    0x53,
+                    0x80,
+                    0x67
                 ]),
                 SegmentInfo: (0, byte_helpers.Ki)([
-                    21,
-                    73,
-                    169,
-                    102
+                    0x15,
+                    0x49,
+                    0xA9,
+                    0x66
                 ]),
                 Tracks: (0, byte_helpers.Ki)([
-                    22,
-                    84,
-                    174,
-                    107
+                    0x16,
+                    0x54,
+                    0xAE,
+                    0x6B
                 ]),
                 Track: (0, byte_helpers.Ki)([
-                    174
+                    0xAE
                 ]),
                 TrackNumber: (0, byte_helpers.Ki)([
-                    215
+                    0xd7
                 ]),
                 DefaultDuration: (0, byte_helpers.Ki)([
-                    35,
-                    227,
-                    131
+                    0x23,
+                    0xe3,
+                    0x83
                 ]),
                 TrackEntry: (0, byte_helpers.Ki)([
-                    174
+                    0xAE
                 ]),
                 TrackType: (0, byte_helpers.Ki)([
-                    131
+                    0x83
                 ]),
                 FlagDefault: (0, byte_helpers.Ki)([
-                    136
+                    0x88
                 ]),
                 CodecID: (0, byte_helpers.Ki)([
-                    134
+                    0x86
                 ]),
                 CodecPrivate: (0, byte_helpers.Ki)([
-                    99,
-                    162
+                    0x63,
+                    0xA2
                 ]),
                 VideoTrack: (0, byte_helpers.Ki)([
-                    224
+                    0xe0
                 ]),
                 AudioTrack: (0, byte_helpers.Ki)([
-                    225
+                    0xe1
                 ]),
                 Cluster: (0, byte_helpers.Ki)([
-                    31,
-                    67,
-                    182,
-                    117
+                    0x1F,
+                    0x43,
+                    0xB6,
+                    0x75
                 ]),
                 Timestamp: (0, byte_helpers.Ki)([
-                    231
+                    0xE7
                 ]),
                 TimestampScale: (0, byte_helpers.Ki)([
-                    42,
-                    215,
-                    177
+                    0x2A,
+                    0xD7,
+                    0xB1
                 ]),
                 BlockGroup: (0, byte_helpers.Ki)([
-                    160
+                    0xA0
                 ]),
                 BlockDuration: (0, byte_helpers.Ki)([
-                    155
+                    0x9B
                 ]),
                 Block: (0, byte_helpers.Ki)([
-                    161
+                    0xA1
                 ]),
                 SimpleBlock: (0, byte_helpers.Ki)([
-                    163
+                    0xA3
                 ])
             }, LENGTH_TABLE = [
                 128,
@@ -468,7 +468,7 @@
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
                     var id = getvint(bytes, i, !1), dataHeader = getvint(bytes, i + id.length), dataStart = i + id.length + dataHeader.length;
-                    127 === dataHeader.value && (dataHeader.value = getInfinityDataSize1(id, bytes, dataStart), dataHeader.value !== bytes.length && (dataHeader.value -= dataStart));
+                    0x7f === dataHeader.value && (dataHeader.value = getInfinityDataSize1(id, bytes, dataStart), dataHeader.value !== bytes.length && (dataHeader.value -= dataStart));
                     var dataEnd = dataStart + dataHeader.value > bytes.length ? bytes.length : dataStart + dataHeader.value, data = bytes.subarray(dataStart, dataEnd);
                     (0, byte_helpers.G3)(paths[0], id.bytes) && (1 === paths.length ? results.push(data) : results = results.concat(findEbml(data, paths.slice(1))));
                     var totalLength = id.length + dataHeader.length + data.length;
@@ -476,18 +476,18 @@
                 }
                 return results;
             }, id3_helpers = __webpack_require__(8925), NAL_TYPE_ONE = (0, byte_helpers.Ki)([
-                0,
-                0,
-                0,
-                1
+                0x00,
+                0x00,
+                0x00,
+                0x01
             ]), NAL_TYPE_TWO = (0, byte_helpers.Ki)([
-                0,
-                0,
-                1
+                0x00,
+                0x00,
+                0x01
             ]), EMULATION_PREVENTION = (0, byte_helpers.Ki)([
-                0,
-                0,
-                3
+                0x00,
+                0x00,
+                0x03
             ]), discardEmulationPreventionBytes = function(bytes) {
                 for(var positions = [], i = 1; i < bytes.length - 2;)(0, byte_helpers.G3)(bytes.subarray(i, i + 3), EMULATION_PREVENTION) && (positions.push(i + 2), i++), i++;
                 if (0 === positions.length) return bytes;
@@ -504,123 +504,123 @@
                     }
                     if (nalsFound++, nalStart) return discardEmulationPreventionBytes(bytes.subarray(nalStart, i));
                     var nalType = void 0;
-                    'h264' === dataType ? nalType = 31 & bytes[i + nalOffset] : 'h265' === dataType && (nalType = bytes[i + nalOffset] >> 1 & 63), -1 !== types.indexOf(nalType) && (nalStart = i + nalOffset), i += nalOffset + ('h264' === dataType ? 1 : 2);
+                    'h264' === dataType ? nalType = 0x1f & bytes[i + nalOffset] : 'h265' === dataType && (nalType = bytes[i + nalOffset] >> 1 & 0x3f), -1 !== types.indexOf(nalType) && (nalStart = i + nalOffset), i += nalOffset + ('h264' === dataType ? 1 : 2);
                 }
                 return bytes.subarray(0, 0);
             }, CONSTANTS = {
                 webm: (0, byte_helpers.Ki)([
-                    119,
-                    101,
-                    98,
-                    109
+                    0x77,
+                    0x65,
+                    0x62,
+                    0x6d
                 ]),
                 matroska: (0, byte_helpers.Ki)([
-                    109,
-                    97,
-                    116,
-                    114,
-                    111,
-                    115,
-                    107,
-                    97
+                    0x6d,
+                    0x61,
+                    0x74,
+                    0x72,
+                    0x6f,
+                    0x73,
+                    0x6b,
+                    0x61
                 ]),
                 flac: (0, byte_helpers.Ki)([
-                    102,
-                    76,
-                    97,
-                    67
+                    0x66,
+                    0x4c,
+                    0x61,
+                    0x43
                 ]),
                 ogg: (0, byte_helpers.Ki)([
-                    79,
-                    103,
-                    103,
-                    83
+                    0x4f,
+                    0x67,
+                    0x67,
+                    0x53
                 ]),
                 ac3: (0, byte_helpers.Ki)([
-                    11,
-                    119
+                    0x0b,
+                    0x77
                 ]),
                 riff: (0, byte_helpers.Ki)([
-                    82,
-                    73,
-                    70,
-                    70
+                    0x52,
+                    0x49,
+                    0x46,
+                    0x46
                 ]),
                 avi: (0, byte_helpers.Ki)([
-                    65,
-                    86,
-                    73
+                    0x41,
+                    0x56,
+                    0x49
                 ]),
                 wav: (0, byte_helpers.Ki)([
-                    87,
-                    65,
-                    86,
-                    69
+                    0x57,
+                    0x41,
+                    0x56,
+                    0x45
                 ]),
                 '3gp': (0, byte_helpers.Ki)([
-                    102,
-                    116,
-                    121,
-                    112,
-                    51,
-                    103
+                    0x66,
+                    0x74,
+                    0x79,
+                    0x70,
+                    0x33,
+                    0x67
                 ]),
                 mp4: (0, byte_helpers.Ki)([
-                    102,
-                    116,
-                    121,
-                    112
+                    0x66,
+                    0x74,
+                    0x79,
+                    0x70
                 ]),
                 fmp4: (0, byte_helpers.Ki)([
-                    115,
-                    116,
-                    121,
-                    112
+                    0x73,
+                    0x74,
+                    0x79,
+                    0x70
                 ]),
                 mov: (0, byte_helpers.Ki)([
-                    102,
-                    116,
-                    121,
-                    112,
-                    113,
-                    116
+                    0x66,
+                    0x74,
+                    0x79,
+                    0x70,
+                    0x71,
+                    0x74
                 ]),
                 moov: (0, byte_helpers.Ki)([
-                    109,
-                    111,
-                    111,
-                    118
+                    0x6D,
+                    0x6F,
+                    0x6F,
+                    0x76
                 ]),
                 moof: (0, byte_helpers.Ki)([
-                    109,
-                    111,
-                    111,
-                    102
+                    0x6D,
+                    0x6F,
+                    0x6F,
+                    0x66
                 ])
             }, _isLikely = {
                 aac: function(bytes) {
                     var offset = (0, id3_helpers.c)(bytes);
                     return (0, byte_helpers.G3)(bytes, [
-                        255,
-                        16
+                        0xFF,
+                        0x10
                     ], {
                         offset: offset,
                         mask: [
-                            255,
-                            22
+                            0xFF,
+                            0x16
                         ]
                     });
                 },
                 mp3: function(bytes) {
                     var offset = (0, id3_helpers.c)(bytes);
                     return (0, byte_helpers.G3)(bytes, [
-                        255,
-                        2
+                        0xFF,
+                        0x02
                     ], {
                         offset: offset,
                         mask: [
-                            255,
-                            6
+                            0xFF,
+                            0x06
                         ]
                     });
                 },
@@ -666,9 +666,9 @@
                     });
                 },
                 ts: function(bytes) {
-                    if (bytes.length < 189 && bytes.length >= 1) return 71 === bytes[0];
+                    if (bytes.length < 189 && bytes.length >= 1) return 0x47 === bytes[0];
                     for(var i = 0; i + 188 < bytes.length && i < 188;){
-                        if (71 === bytes[i] && 71 === bytes[i + 188]) return !0;
+                        if (0x47 === bytes[i] && 0x47 === bytes[i + 188]) return !0;
                         i += 1;
                     }
                     return !1;
@@ -748,9 +748,9 @@
                 }
             });
             var _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(562), ID3 = (0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__.Ki)([
-                73,
-                68,
-                51
+                0x49,
+                0x44,
+                0x33
             ]), getId3Size = function(bytes, offset) {
                 void 0 === offset && (offset = 0);
                 var flags = (bytes = (0, _byte_helpers_js__WEBPACK_IMPORTED_MODULE_0__.Ki)(bytes))[offset + 5], returnSize = bytes[offset + 6] << 21 | bytes[offset + 7] << 14 | bytes[offset + 8] << 7 | bytes[offset + 9];
@@ -2138,8 +2138,8 @@
                         function entityReplacer(a) {
                             var k = a.slice(1, -1);
                             return k in entityMap ? entityMap[k] : '#' === k.charAt(0) ? function(code) {
-                                if (!(code > 65535)) return String.fromCharCode(code);
-                                var surrogate1 = 55296 + ((code -= 65536) >> 10), surrogate2 = 56320 + (1023 & code);
+                                if (!(code > 0xffff)) return String.fromCharCode(code);
+                                var surrogate1 = 0xd800 + ((code -= 0x10000) >> 10), surrogate2 = 0xdc00 + (0x3ff & code);
                                 return String.fromCharCode(surrogate1, surrogate2);
                             }(parseInt(k.substr(1).replace('x', '0x'))) : (errorHandler.error('entity not found:' + a), a);
                         }
@@ -3648,12 +3648,12 @@
                 0 === result.version ? (result.earliestPresentationTime = view.getUint32(i), result.firstOffset = view.getUint32(i + 4), i += 8) : (result.earliestPresentationTime = 4294967296 * view.getUint32(i) + view.getUint32(i + 4), result.firstOffset = 4294967296 * view.getUint32(i + 8) + view.getUint32(i + 12), i += 16), i += 2;
                 var referenceCount = view.getUint16(i);
                 for(i += 2; referenceCount > 0; i += 12, referenceCount--)result.references.push({
-                    referenceType: (128 & data[i]) >>> 7,
-                    referencedSize: 2147483647 & view.getUint32(i),
+                    referenceType: (0x80 & data[i]) >>> 7,
+                    referencedSize: 0x7FFFFFFF & view.getUint32(i),
                     subsegmentDuration: view.getUint32(i + 4),
-                    startsWithSap: !!(128 & data[i + 8]),
-                    sapType: (112 & data[i + 8]) >>> 4,
-                    sapDeltaTime: 268435455 & view.getUint32(i + 8)
+                    startsWithSap: !!(0x80 & data[i + 8]),
+                    sapType: (0x70 & data[i + 8]) >>> 4,
+                    sapDeltaTime: 0x0FFFFFFF & view.getUint32(i + 8)
                 });
                 return result;
             };
@@ -4084,424 +4084,424 @@
             }
             var strongRTLRanges = [
                 [
-                    1470,
-                    1470
+                    0x5be,
+                    0x5be
                 ],
                 [
-                    1472,
-                    1472
+                    0x5c0,
+                    0x5c0
                 ],
                 [
-                    1475,
-                    1475
+                    0x5c3,
+                    0x5c3
                 ],
                 [
-                    1478,
-                    1478
+                    0x5c6,
+                    0x5c6
                 ],
                 [
-                    1488,
-                    1514
+                    0x5d0,
+                    0x5ea
                 ],
                 [
-                    1520,
-                    1524
+                    0x5f0,
+                    0x5f4
                 ],
                 [
-                    1544,
-                    1544
+                    0x608,
+                    0x608
                 ],
                 [
-                    1547,
-                    1547
+                    0x60b,
+                    0x60b
                 ],
                 [
-                    1549,
-                    1549
+                    0x60d,
+                    0x60d
                 ],
                 [
-                    1563,
-                    1563
+                    0x61b,
+                    0x61b
                 ],
                 [
-                    1566,
-                    1610
+                    0x61e,
+                    0x64a
                 ],
                 [
-                    1645,
-                    1647
+                    0x66d,
+                    0x66f
                 ],
                 [
-                    1649,
-                    1749
+                    0x671,
+                    0x6d5
                 ],
                 [
-                    1765,
-                    1766
+                    0x6e5,
+                    0x6e6
                 ],
                 [
-                    1774,
-                    1775
+                    0x6ee,
+                    0x6ef
                 ],
                 [
-                    1786,
-                    1805
+                    0x6fa,
+                    0x70d
                 ],
                 [
-                    1807,
-                    1808
+                    0x70f,
+                    0x710
                 ],
                 [
-                    1810,
-                    1839
+                    0x712,
+                    0x72f
                 ],
                 [
-                    1869,
-                    1957
+                    0x74d,
+                    0x7a5
                 ],
                 [
-                    1969,
-                    1969
+                    0x7b1,
+                    0x7b1
                 ],
                 [
-                    1984,
-                    2026
+                    0x7c0,
+                    0x7ea
                 ],
                 [
-                    2036,
-                    2037
+                    0x7f4,
+                    0x7f5
                 ],
                 [
-                    2042,
-                    2042
+                    0x7fa,
+                    0x7fa
                 ],
                 [
-                    2048,
-                    2069
+                    0x800,
+                    0x815
                 ],
                 [
-                    2074,
-                    2074
+                    0x81a,
+                    0x81a
                 ],
                 [
-                    2084,
-                    2084
+                    0x824,
+                    0x824
                 ],
                 [
-                    2088,
-                    2088
+                    0x828,
+                    0x828
                 ],
                 [
-                    2096,
-                    2110
+                    0x830,
+                    0x83e
                 ],
                 [
-                    2112,
-                    2136
+                    0x840,
+                    0x858
                 ],
                 [
-                    2142,
-                    2142
+                    0x85e,
+                    0x85e
                 ],
                 [
-                    2208,
-                    2208
+                    0x8a0,
+                    0x8a0
                 ],
                 [
-                    2210,
-                    2220
+                    0x8a2,
+                    0x8ac
                 ],
                 [
-                    8207,
-                    8207
+                    0x200f,
+                    0x200f
                 ],
                 [
-                    64285,
-                    64285
+                    0xfb1d,
+                    0xfb1d
                 ],
                 [
-                    64287,
-                    64296
+                    0xfb1f,
+                    0xfb28
                 ],
                 [
-                    64298,
-                    64310
+                    0xfb2a,
+                    0xfb36
                 ],
                 [
-                    64312,
-                    64316
+                    0xfb38,
+                    0xfb3c
                 ],
                 [
-                    64318,
-                    64318
+                    0xfb3e,
+                    0xfb3e
                 ],
                 [
-                    64320,
-                    64321
+                    0xfb40,
+                    0xfb41
                 ],
                 [
-                    64323,
-                    64324
+                    0xfb43,
+                    0xfb44
                 ],
                 [
-                    64326,
-                    64449
+                    0xfb46,
+                    0xfbc1
                 ],
                 [
-                    64467,
-                    64829
+                    0xfbd3,
+                    0xfd3d
                 ],
                 [
-                    64848,
-                    64911
+                    0xfd50,
+                    0xfd8f
                 ],
                 [
-                    64914,
-                    64967
+                    0xfd92,
+                    0xfdc7
                 ],
                 [
-                    65008,
-                    65020
+                    0xfdf0,
+                    0xfdfc
                 ],
                 [
-                    65136,
-                    65140
+                    0xfe70,
+                    0xfe74
                 ],
                 [
-                    65142,
-                    65276
+                    0xfe76,
+                    0xfefc
                 ],
                 [
-                    67584,
-                    67589
+                    0x10800,
+                    0x10805
                 ],
                 [
-                    67592,
-                    67592
+                    0x10808,
+                    0x10808
                 ],
                 [
-                    67594,
-                    67637
+                    0x1080a,
+                    0x10835
                 ],
                 [
-                    67639,
-                    67640
+                    0x10837,
+                    0x10838
                 ],
                 [
-                    67644,
-                    67644
+                    0x1083c,
+                    0x1083c
                 ],
                 [
-                    67647,
-                    67669
+                    0x1083f,
+                    0x10855
                 ],
                 [
-                    67671,
-                    67679
+                    0x10857,
+                    0x1085f
                 ],
                 [
-                    67840,
-                    67867
+                    0x10900,
+                    0x1091b
                 ],
                 [
-                    67872,
-                    67897
+                    0x10920,
+                    0x10939
                 ],
                 [
-                    67903,
-                    67903
+                    0x1093f,
+                    0x1093f
                 ],
                 [
-                    67968,
-                    68023
+                    0x10980,
+                    0x109b7
                 ],
                 [
-                    68030,
-                    68031
+                    0x109be,
+                    0x109bf
                 ],
                 [
-                    68096,
-                    68096
+                    0x10a00,
+                    0x10a00
                 ],
                 [
-                    68112,
-                    68115
+                    0x10a10,
+                    0x10a13
                 ],
                 [
-                    68117,
-                    68119
+                    0x10a15,
+                    0x10a17
                 ],
                 [
-                    68121,
-                    68147
+                    0x10a19,
+                    0x10a33
                 ],
                 [
-                    68160,
-                    68167
+                    0x10a40,
+                    0x10a47
                 ],
                 [
-                    68176,
-                    68184
+                    0x10a50,
+                    0x10a58
                 ],
                 [
-                    68192,
-                    68223
+                    0x10a60,
+                    0x10a7f
                 ],
                 [
-                    68352,
-                    68405
+                    0x10b00,
+                    0x10b35
                 ],
                 [
-                    68416,
-                    68437
+                    0x10b40,
+                    0x10b55
                 ],
                 [
-                    68440,
-                    68466
+                    0x10b58,
+                    0x10b72
                 ],
                 [
-                    68472,
-                    68479
+                    0x10b78,
+                    0x10b7f
                 ],
                 [
-                    68608,
-                    68680
+                    0x10c00,
+                    0x10c48
                 ],
                 [
-                    126464,
-                    126467
+                    0x1ee00,
+                    0x1ee03
                 ],
                 [
-                    126469,
-                    126495
+                    0x1ee05,
+                    0x1ee1f
                 ],
                 [
-                    126497,
-                    126498
+                    0x1ee21,
+                    0x1ee22
                 ],
                 [
-                    126500,
-                    126500
+                    0x1ee24,
+                    0x1ee24
                 ],
                 [
-                    126503,
-                    126503
+                    0x1ee27,
+                    0x1ee27
                 ],
                 [
-                    126505,
-                    126514
+                    0x1ee29,
+                    0x1ee32
                 ],
                 [
-                    126516,
-                    126519
+                    0x1ee34,
+                    0x1ee37
                 ],
                 [
-                    126521,
-                    126521
+                    0x1ee39,
+                    0x1ee39
                 ],
                 [
-                    126523,
-                    126523
+                    0x1ee3b,
+                    0x1ee3b
                 ],
                 [
-                    126530,
-                    126530
+                    0x1ee42,
+                    0x1ee42
                 ],
                 [
-                    126535,
-                    126535
+                    0x1ee47,
+                    0x1ee47
                 ],
                 [
-                    126537,
-                    126537
+                    0x1ee49,
+                    0x1ee49
                 ],
                 [
-                    126539,
-                    126539
+                    0x1ee4b,
+                    0x1ee4b
                 ],
                 [
-                    126541,
-                    126543
+                    0x1ee4d,
+                    0x1ee4f
                 ],
                 [
-                    126545,
-                    126546
+                    0x1ee51,
+                    0x1ee52
                 ],
                 [
-                    126548,
-                    126548
+                    0x1ee54,
+                    0x1ee54
                 ],
                 [
-                    126551,
-                    126551
+                    0x1ee57,
+                    0x1ee57
                 ],
                 [
-                    126553,
-                    126553
+                    0x1ee59,
+                    0x1ee59
                 ],
                 [
-                    126555,
-                    126555
+                    0x1ee5b,
+                    0x1ee5b
                 ],
                 [
-                    126557,
-                    126557
+                    0x1ee5d,
+                    0x1ee5d
                 ],
                 [
-                    126559,
-                    126559
+                    0x1ee5f,
+                    0x1ee5f
                 ],
                 [
-                    126561,
-                    126562
+                    0x1ee61,
+                    0x1ee62
                 ],
                 [
-                    126564,
-                    126564
+                    0x1ee64,
+                    0x1ee64
                 ],
                 [
-                    126567,
-                    126570
+                    0x1ee67,
+                    0x1ee6a
                 ],
                 [
-                    126572,
-                    126578
+                    0x1ee6c,
+                    0x1ee72
                 ],
                 [
-                    126580,
-                    126583
+                    0x1ee74,
+                    0x1ee77
                 ],
                 [
-                    126585,
-                    126588
+                    0x1ee79,
+                    0x1ee7c
                 ],
                 [
-                    126590,
-                    126590
+                    0x1ee7e,
+                    0x1ee7e
                 ],
                 [
-                    126592,
-                    126601
+                    0x1ee80,
+                    0x1ee89
                 ],
                 [
-                    126603,
-                    126619
+                    0x1ee8b,
+                    0x1ee9b
                 ],
                 [
-                    126625,
-                    126627
+                    0x1eea1,
+                    0x1eea3
                 ],
                 [
-                    126629,
-                    126633
+                    0x1eea5,
+                    0x1eea9
                 ],
                 [
-                    126635,
-                    126651
+                    0x1eeab,
+                    0x1eebb
                 ],
                 [
-                    1114109,
-                    1114109
+                    0x10fffd,
+                    0x10fffd
                 ]
             ];
             function isStrongRTLChar(charCode) {
@@ -5159,11 +5159,11 @@
                 return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
             }, exports.toByteArray = function(b64) {
                 var tmp, i, placeHoldersLen, lens = getLens(b64), validLen = lens[0], placeHoldersLen1 = lens[1], arr = new Arr((validLen + (placeHoldersLen = placeHoldersLen1)) * 3 / 4 - placeHoldersLen), curByte = 0, len = placeHoldersLen1 > 0 ? validLen - 4 : validLen;
-                for(i = 0; i < len; i += 4)tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)], arr[curByte++] = tmp >> 16 & 255, arr[curByte++] = tmp >> 8 & 255, arr[curByte++] = 255 & tmp;
-                return 2 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 255 & tmp), 1 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 255, arr[curByte++] = 255 & tmp), arr;
+                for(i = 0; i < len; i += 4)tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)], arr[curByte++] = tmp >> 16 & 0xFF, arr[curByte++] = tmp >> 8 & 0xFF, arr[curByte++] = 0xFF & tmp;
+                return 2 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xFF & tmp), 1 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xFF, arr[curByte++] = 0xFF & tmp), arr;
             }, exports.fromByteArray = function(uint8) {
                 for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], i = 0, len2 = len - extraBytes; i < len2; i += 16383)parts.push(encodeChunk(uint8, i, i + 16383 > len2 ? len2 : i + 16383));
-                return 1 === extraBytes ? (tmp = uint8[len - 1], parts.push(lookup[tmp >> 2] + lookup[tmp << 4 & 63] + '==')) : 2 === extraBytes && (tmp = (uint8[len - 2] << 8) + uint8[len - 1], parts.push(lookup[tmp >> 10] + lookup[tmp >> 4 & 63] + lookup[tmp << 2 & 63] + '=')), parts.join('');
+                return 1 === extraBytes ? (tmp = uint8[len - 1], parts.push(lookup[tmp >> 2] + lookup[tmp << 4 & 0x3F] + '==')) : 2 === extraBytes && (tmp = (uint8[len - 2] << 8) + uint8[len - 1], parts.push(lookup[tmp >> 10] + lookup[tmp >> 4 & 0x3F] + lookup[tmp << 2 & 0x3F] + '=')), parts.join('');
             };
             for(var lookup = [], revLookup = [], Arr = 'undefined' != typeof Uint8Array ? Uint8Array : Array, code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/', i3 = 0, len1 = code.length; i3 < len1; ++i3)lookup[i3] = code[i3], revLookup[code.charCodeAt(i3)] = i3;
             function getLens(b64) {
@@ -5176,10 +5176,10 @@
                 ];
             }
             function tripletToBase64(num) {
-                return lookup[num >> 18 & 63] + lookup[num >> 12 & 63] + lookup[num >> 6 & 63] + lookup[63 & num];
+                return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[0x3F & num];
             }
             function encodeChunk(uint8, start, end) {
-                for(var tmp, output = [], i = start; i < end; i += 3)tmp = (uint8[i] << 16 & 16711680) + (uint8[i + 1] << 8 & 65280) + (255 & uint8[i + 2]), output.push(tripletToBase64(tmp));
+                for(var tmp, output = [], i = start; i < end; i += 3)tmp = (uint8[i] << 16 & 0xFF0000) + (uint8[i + 1] << 8 & 0xFF00) + (0xFF & uint8[i + 2]), output.push(tripletToBase64(tmp));
                 return output.join('');
             }
             revLookup['-'.charCodeAt(0)] = 62, revLookup['_'.charCodeAt(0)] = 63;
@@ -5188,7 +5188,7 @@
             "use strict";
             var base64 = __webpack_require__(4782), ieee754 = __webpack_require__(8898), customInspectSymbol = 'function' == typeof Symbol && 'function' == typeof Symbol.for ? Symbol.for('nodejs.util.inspect.custom') : null;
             function createBuffer(length) {
-                if (length > 2147483647) throw new RangeError('The value "' + length + '" is invalid for option "size"');
+                if (length > 0x7fffffff) throw new RangeError('The value "' + length + '" is invalid for option "size"');
                 var buf = new Uint8Array(length);
                 return Object.setPrototypeOf(buf, Buffer.prototype), buf;
             }
@@ -5243,7 +5243,7 @@
                 return void 0 !== obj.length ? 'number' != typeof obj.length || (obj1 = obj.length) != obj1 ? createBuffer(0) : fromArrayLike(obj) : 'Buffer' === obj.type && Array.isArray(obj.data) ? fromArrayLike(obj.data) : void 0;
             }
             function checked(length) {
-                if (length >= 2147483647) throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 2147483647..toString(16) + ' bytes');
+                if (length >= 0x7fffffff) throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 0x7fffffff.toString(16) + ' bytes');
                 return 0 | length;
             }
             function byteLength1(string, encoding) {
@@ -5310,6 +5310,7 @@
                 var obj;
                 if (0 === buffer.length) return -1;
                 if ('string' == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 2147483647 ? byteOffset = 2147483647 : byteOffset < -2147483648 && (byteOffset = -2147483648), (obj = byteOffset = +byteOffset) != obj && (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
+                if ('string' == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), numberIsNaN(byteOffset = +byteOffset) && (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
                     if (dir) return -1;
                     byteOffset = buffer.length - 1;
                 } else if (byteOffset < 0) {
@@ -5317,7 +5318,7 @@
                     byteOffset = 0;
                 }
                 if ('string' == typeof val && (val = Buffer.from(val, encoding)), Buffer.isBuffer(val)) return 0 === val.length ? -1 : arrayIndexOf(buffer, val, byteOffset, encoding, dir);
-                if ('number' == typeof val) return (val &= 255, 'function' == typeof Uint8Array.prototype.indexOf) ? dir ? Uint8Array.prototype.indexOf.call(buffer, val, byteOffset) : Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset) : arrayIndexOf(buffer, [
+                if ('number' == typeof val) return (val &= 0xFF, 'function' == typeof Uint8Array.prototype.indexOf) ? dir ? Uint8Array.prototype.indexOf.call(buffer, val, byteOffset) : Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset) : arrayIndexOf(buffer, [
                     val
                 ], byteOffset, encoding, dir);
                 throw new TypeError('val must be string, number or Buffer');
@@ -5379,34 +5380,34 @@
             function utf8Slice(buf, start, end) {
                 end = Math.min(buf.length, end);
                 for(var res = [], i = start; i < end;){
-                    var secondByte, thirdByte, fourthByte, tempCodePoint, firstByte = buf[i], codePoint = null, bytesPerSequence = firstByte > 239 ? 4 : firstByte > 223 ? 3 : firstByte > 191 ? 2 : 1;
+                    var secondByte, thirdByte, fourthByte, tempCodePoint, firstByte = buf[i], codePoint = null, bytesPerSequence = firstByte > 0xEF ? 4 : firstByte > 0xDF ? 3 : firstByte > 0xBF ? 2 : 1;
                     if (i + bytesPerSequence <= end) switch(bytesPerSequence){
                         case 1:
-                            firstByte < 128 && (codePoint = firstByte);
+                            firstByte < 0x80 && (codePoint = firstByte);
                             break;
                         case 2:
-                            (192 & (secondByte = buf[i + 1])) == 128 && (tempCodePoint = (31 & firstByte) << 6 | 63 & secondByte) > 127 && (codePoint = tempCodePoint);
+                            (0xC0 & (secondByte = buf[i + 1])) == 0x80 && (tempCodePoint = (0x1F & firstByte) << 0x6 | 0x3F & secondByte) > 0x7F && (codePoint = tempCodePoint);
                             break;
                         case 3:
-                            secondByte = buf[i + 1], thirdByte = buf[i + 2], (192 & secondByte) == 128 && (192 & thirdByte) == 128 && (tempCodePoint = (15 & firstByte) << 12 | (63 & secondByte) << 6 | 63 & thirdByte) > 2047 && (tempCodePoint < 55296 || tempCodePoint > 57343) && (codePoint = tempCodePoint);
+                            secondByte = buf[i + 1], thirdByte = buf[i + 2], (0xC0 & secondByte) == 0x80 && (0xC0 & thirdByte) == 0x80 && (tempCodePoint = (0xF & firstByte) << 0xC | (0x3F & secondByte) << 0x6 | 0x3F & thirdByte) > 0x7FF && (tempCodePoint < 0xD800 || tempCodePoint > 0xDFFF) && (codePoint = tempCodePoint);
                             break;
                         case 4:
-                            secondByte = buf[i + 1], thirdByte = buf[i + 2], fourthByte = buf[i + 3], (192 & secondByte) == 128 && (192 & thirdByte) == 128 && (192 & fourthByte) == 128 && (tempCodePoint = (15 & firstByte) << 18 | (63 & secondByte) << 12 | (63 & thirdByte) << 6 | 63 & fourthByte) > 65535 && tempCodePoint < 1114112 && (codePoint = tempCodePoint);
+                            secondByte = buf[i + 1], thirdByte = buf[i + 2], fourthByte = buf[i + 3], (0xC0 & secondByte) == 0x80 && (0xC0 & thirdByte) == 0x80 && (0xC0 & fourthByte) == 0x80 && (tempCodePoint = (0xF & firstByte) << 0x12 | (0x3F & secondByte) << 0xC | (0x3F & thirdByte) << 0x6 | 0x3F & fourthByte) > 0xFFFF && tempCodePoint < 0x110000 && (codePoint = tempCodePoint);
                     }
-                    null === codePoint ? (codePoint = 65533, bytesPerSequence = 1) : codePoint > 65535 && (codePoint -= 65536, res.push(codePoint >>> 10 & 1023 | 55296), codePoint = 56320 | 1023 & codePoint), res.push(codePoint), i += bytesPerSequence;
+                    null === codePoint ? (codePoint = 0xFFFD, bytesPerSequence = 1) : codePoint > 0xFFFF && (codePoint -= 0x10000, res.push(codePoint >>> 10 & 0x3FF | 0xD800), codePoint = 0xDC00 | 0x3FF & codePoint), res.push(codePoint), i += bytesPerSequence;
                 }
                 return decodeCodePointsArray(res);
             }
             function decodeCodePointsArray(codePoints) {
                 var len = codePoints.length;
-                if (len <= 4096) return String.fromCharCode.apply(String, codePoints);
-                for(var res = '', i = 0; i < len;)res += String.fromCharCode.apply(String, codePoints.slice(i, i += 4096));
+                if (len <= 0x1000) return String.fromCharCode.apply(String, codePoints);
+                for(var res = '', i = 0; i < len;)res += String.fromCharCode.apply(String, codePoints.slice(i, i += 0x1000));
                 return res;
             }
             function asciiSlice(buf, start, end) {
                 var ret = '';
                 end = Math.min(buf.length, end);
-                for(var i = start; i < end; ++i)ret += String.fromCharCode(127 & buf[i]);
+                for(var i = start; i < end; ++i)ret += String.fromCharCode(0x7F & buf[i]);
                 return ret;
             }
             function latin1Slice(buf, start, end) {
@@ -5439,14 +5440,14 @@
                 if (offset < 0) throw new RangeError('Index out of range');
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 340282346638528860000000000000000000000, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
+                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
             }
             function writeDouble(buf, value, offset, littleEndian, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
+                return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
             }
             exports.Buffer = Buffer, exports.SlowBuffer = function(length) {
                 return +length != length && (length = 0), Buffer.alloc(+length);
-            }, exports.INSPECT_MAX_BYTES = 50, exports.kMaxLength = 2147483647, Buffer.TYPED_ARRAY_SUPPORT = function() {
+            }, exports.INSPECT_MAX_BYTES = 50, exports.kMaxLength = 0x7fffffff, Buffer.TYPED_ARRAY_SUPPORT = function() {
                 try {
                     var arr = new Uint8Array(1), proto = {
                         foo: function() {
@@ -5598,11 +5599,11 @@
                 return Object.setPrototypeOf(newBuf, Buffer.prototype), newBuf;
             }, Buffer.prototype.readUIntLE = function(offset, byteLength, noAssert) {
                 offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
-                for(var val = this[offset], mul = 1, i = 0; ++i < byteLength && (mul *= 256);)val += this[offset + i] * mul;
+                for(var val = this[offset], mul = 1, i = 0; ++i < byteLength && (mul *= 0x100);)val += this[offset + i] * mul;
                 return val;
             }, Buffer.prototype.readUIntBE = function(offset, byteLength, noAssert) {
                 offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
-                for(var val = this[offset + --byteLength], mul = 1; byteLength > 0 && (mul *= 256);)val += this[offset + --byteLength] * mul;
+                for(var val = this[offset + --byteLength], mul = 1; byteLength > 0 && (mul *= 0x100);)val += this[offset + --byteLength] * mul;
                 return val;
             }, Buffer.prototype.readUInt8 = function(offset, noAssert) {
                 return offset >>>= 0, noAssert || checkOffset(offset, 1, this.length), this[offset];
@@ -5611,27 +5612,27 @@
             }, Buffer.prototype.readUInt16BE = function(offset, noAssert) {
                 return offset >>>= 0, noAssert || checkOffset(offset, 2, this.length), this[offset] << 8 | this[offset + 1];
             }, Buffer.prototype.readUInt32LE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + 16777216 * this[offset + 3];
+                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + 0x1000000 * this[offset + 3];
             }, Buffer.prototype.readUInt32BE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), 16777216 * this[offset] + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
+                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), 0x1000000 * this[offset] + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
             }, Buffer.prototype.readIntLE = function(offset, byteLength, noAssert) {
                 offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
-                for(var val = this[offset], mul = 1, i = 0; ++i < byteLength && (mul *= 256);)val += this[offset + i] * mul;
-                return val >= (mul *= 128) && (val -= Math.pow(2, 8 * byteLength)), val;
+                for(var val = this[offset], mul = 1, i = 0; ++i < byteLength && (mul *= 0x100);)val += this[offset + i] * mul;
+                return val >= (mul *= 0x80) && (val -= Math.pow(2, 8 * byteLength)), val;
             }, Buffer.prototype.readIntBE = function(offset, byteLength, noAssert) {
                 offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
-                for(var i = byteLength, mul = 1, val = this[offset + --i]; i > 0 && (mul *= 256);)val += this[offset + --i] * mul;
-                return val >= (mul *= 128) && (val -= Math.pow(2, 8 * byteLength)), val;
+                for(var i = byteLength, mul = 1, val = this[offset + --i]; i > 0 && (mul *= 0x100);)val += this[offset + --i] * mul;
+                return val >= (mul *= 0x80) && (val -= Math.pow(2, 8 * byteLength)), val;
             }, Buffer.prototype.readInt8 = function(offset, noAssert) {
-                return (offset >>>= 0, noAssert || checkOffset(offset, 1, this.length), 128 & this[offset]) ? -((255 - this[offset] + 1) * 1) : this[offset];
+                return (offset >>>= 0, noAssert || checkOffset(offset, 1, this.length), 0x80 & this[offset]) ? -((0xff - this[offset] + 1) * 1) : this[offset];
             }, Buffer.prototype.readInt16LE = function(offset, noAssert) {
                 offset >>>= 0, noAssert || checkOffset(offset, 2, this.length);
                 var val = this[offset] | this[offset + 1] << 8;
-                return 32768 & val ? 4294901760 | val : val;
+                return 0x8000 & val ? 0xFFFF0000 | val : val;
             }, Buffer.prototype.readInt16BE = function(offset, noAssert) {
                 offset >>>= 0, noAssert || checkOffset(offset, 2, this.length);
                 var val = this[offset + 1] | this[offset] << 8;
-                return 32768 & val ? 4294901760 | val : val;
+                return 0x8000 & val ? 0xFFFF0000 | val : val;
             }, Buffer.prototype.readInt32LE = function(offset, noAssert) {
                 return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
             }, Buffer.prototype.readInt32BE = function(offset, noAssert) {
@@ -5650,7 +5651,7 @@
                     checkInt(this, value, offset, byteLength, maxBytes, 0);
                 }
                 var mul = 1, i = 0;
-                for(this[offset] = 255 & value; ++i < byteLength && (mul *= 256);)this[offset + i] = value / mul & 255;
+                for(this[offset] = 0xFF & value; ++i < byteLength && (mul *= 0x100);)this[offset + i] = value / mul & 0xFF;
                 return offset + byteLength;
             }, Buffer.prototype.writeUIntBE = function(value, offset, byteLength, noAssert) {
                 if (value = +value, offset >>>= 0, byteLength >>>= 0, !noAssert) {
@@ -5658,25 +5659,25 @@
                     checkInt(this, value, offset, byteLength, maxBytes, 0);
                 }
                 var i = byteLength - 1, mul = 1;
-                for(this[offset + i] = 255 & value; --i >= 0 && (mul *= 256);)this[offset + i] = value / mul & 255;
+                for(this[offset + i] = 0xFF & value; --i >= 0 && (mul *= 0x100);)this[offset + i] = value / mul & 0xFF;
                 return offset + byteLength;
             }, Buffer.prototype.writeUInt8 = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 255, 0), this[offset] = 255 & value, offset + 1;
+                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0xff, 0), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeUInt16LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 65535, 0), this[offset] = 255 & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeUInt16BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 65535, 0), this[offset] = value >>> 8, this[offset + 1] = 255 & value, offset + 2;
+                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeUInt32LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 4294967295, 0), this[offset + 3] = value >>> 24, this[offset + 2] = value >>> 16, this[offset + 1] = value >>> 8, this[offset] = 255 & value, offset + 4;
+                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset + 3] = value >>> 24, this[offset + 2] = value >>> 16, this[offset + 1] = value >>> 8, this[offset] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeUInt32BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 4294967295, 0), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 255 & value, offset + 4;
+                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeIntLE = function(value, offset, byteLength, noAssert) {
                 if (value = +value, offset >>>= 0, !noAssert) {
                     var limit = Math.pow(2, 8 * byteLength - 1);
                     checkInt(this, value, offset, byteLength, limit - 1, -limit);
                 }
                 var i = 0, mul = 1, sub = 0;
-                for(this[offset] = 255 & value; ++i < byteLength && (mul *= 256);)value < 0 && 0 === sub && 0 !== this[offset + i - 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 255;
+                for(this[offset] = 0xFF & value; ++i < byteLength && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i - 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xFF;
                 return offset + byteLength;
             }, Buffer.prototype.writeIntBE = function(value, offset, byteLength, noAssert) {
                 if (value = +value, offset >>>= 0, !noAssert) {
@@ -5684,18 +5685,18 @@
                     checkInt(this, value, offset, byteLength, limit - 1, -limit);
                 }
                 var i = byteLength - 1, mul = 1, sub = 0;
-                for(this[offset + i] = 255 & value; --i >= 0 && (mul *= 256);)value < 0 && 0 === sub && 0 !== this[offset + i + 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 255;
+                for(this[offset + i] = 0xFF & value; --i >= 0 && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i + 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xFF;
                 return offset + byteLength;
             }, Buffer.prototype.writeInt8 = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 127, -128), value < 0 && (value = 255 + value + 1), this[offset] = 255 & value, offset + 1;
+                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeInt16LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 32767, -32768), this[offset] = 255 & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeInt16BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 32767, -32768), this[offset] = value >>> 8, this[offset + 1] = 255 & value, offset + 2;
+                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeInt32LE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 2147483647, -2147483648), this[offset] = 255 & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
+                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
             }, Buffer.prototype.writeInt32BE = function(value, offset, noAssert) {
-                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 2147483647, -2147483648), value < 0 && (value = 4294967295 + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 255 & value, offset + 4;
+                return value = +value, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeFloatLE = function(value, offset, noAssert) {
                 return writeFloat(this, value, offset, !0, noAssert);
             }, Buffer.prototype.writeFloatBE = function(value, offset, noAssert) {
@@ -5740,43 +5741,43 @@
             function utf8ToBytes(string, units) {
                 units = units || 1 / 0;
                 for(var codePoint, length = string.length, leadSurrogate = null, bytes = [], i = 0; i < length; ++i){
-                    if ((codePoint = string.charCodeAt(i)) > 55295 && codePoint < 57344) {
+                    if ((codePoint = string.charCodeAt(i)) > 0xD7FF && codePoint < 0xE000) {
                         if (!leadSurrogate) {
-                            if (codePoint > 56319) {
-                                (units -= 3) > -1 && bytes.push(239, 191, 189);
+                            if (codePoint > 0xDBFF) {
+                                (units -= 3) > -1 && bytes.push(0xEF, 0xBF, 0xBD);
                                 continue;
                             }
                             if (i + 1 === length) {
-                                (units -= 3) > -1 && bytes.push(239, 191, 189);
+                                (units -= 3) > -1 && bytes.push(0xEF, 0xBF, 0xBD);
                                 continue;
                             }
                             leadSurrogate = codePoint;
                             continue;
                         }
-                        if (codePoint < 56320) {
-                            (units -= 3) > -1 && bytes.push(239, 191, 189), leadSurrogate = codePoint;
+                        if (codePoint < 0xDC00) {
+                            (units -= 3) > -1 && bytes.push(0xEF, 0xBF, 0xBD), leadSurrogate = codePoint;
                             continue;
                         }
-                        codePoint = (leadSurrogate - 55296 << 10 | codePoint - 56320) + 65536;
-                    } else leadSurrogate && (units -= 3) > -1 && bytes.push(239, 191, 189);
-                    if (leadSurrogate = null, codePoint < 128) {
+                        codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000;
+                    } else leadSurrogate && (units -= 3) > -1 && bytes.push(0xEF, 0xBF, 0xBD);
+                    if (leadSurrogate = null, codePoint < 0x80) {
                         if ((units -= 1) < 0) break;
                         bytes.push(codePoint);
-                    } else if (codePoint < 2048) {
+                    } else if (codePoint < 0x800) {
                         if ((units -= 2) < 0) break;
-                        bytes.push(codePoint >> 6 | 192, 63 & codePoint | 128);
-                    } else if (codePoint < 65536) {
+                        bytes.push(codePoint >> 0x6 | 0xC0, 0x3F & codePoint | 0x80);
+                    } else if (codePoint < 0x10000) {
                         if ((units -= 3) < 0) break;
-                        bytes.push(codePoint >> 12 | 224, codePoint >> 6 & 63 | 128, 63 & codePoint | 128);
-                    } else if (codePoint < 1114112) {
+                        bytes.push(codePoint >> 0xC | 0xE0, codePoint >> 0x6 & 0x3F | 0x80, 0x3F & codePoint | 0x80);
+                    } else if (codePoint < 0x110000) {
                         if ((units -= 4) < 0) break;
-                        bytes.push(codePoint >> 18 | 240, codePoint >> 12 & 63 | 128, codePoint >> 6 & 63 | 128, 63 & codePoint | 128);
+                        bytes.push(codePoint >> 0x12 | 0xF0, codePoint >> 0xC & 0x3F | 0x80, codePoint >> 0x6 & 0x3F | 0x80, 0x3F & codePoint | 0x80);
                     } else throw new Error('Invalid code point');
                 }
                 return bytes;
             }
             function asciiToBytes(str) {
-                for(var byteArray = [], i = 0; i < str.length; ++i)byteArray.push(255 & str.charCodeAt(i));
+                for(var byteArray = [], i = 0; i < str.length; ++i)byteArray.push(0xFF & str.charCodeAt(i));
                 return byteArray;
             }
             function utf16leToBytes(str, units) {
@@ -5815,8 +5816,8 @@
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
             }, exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
                 var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 23 === mLen ? 0.00000005960464477539062 : 0, i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = value < 0 || 0 === value && 1 / value < 0 ? 1 : 0;
-                for(isNaN(value = Math.abs(value)) || value === 1 / 0 ? (m = isNaN(value) ? 1 : 0, e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 255 & m, i += d, m /= 256, mLen -= 8);
-                for(e = e << mLen | m, eLen += mLen; eLen > 0; buffer[offset + i] = 255 & e, i += d, e /= 256, eLen -= 8);
+                for(isNaN(value = Math.abs(value)) || value === 1 / 0 ? (m = isNaN(value) ? 1 : 0, e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
+                for(e = e << mLen | m, eLen += mLen; eLen > 0; buffer[offset + i] = 0xff & e, i += d, e /= 256, eLen -= 8);
                 buffer[offset + i - d] |= 128 * s;
             };
         },

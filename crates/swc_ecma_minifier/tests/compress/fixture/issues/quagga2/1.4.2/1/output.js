@@ -245,7 +245,7 @@
                         ]);
                     },
                     round: function() {
-                        return this.x = this.x > 0 ? Math.floor(this.x + 0.5) : Math.floor(this.x - 0.5), this.y = this.y > 0 ? Math.floor(this.y + 0.5) : Math.floor(this.y - 0.5), this;
+                        return this.x = this.x > 0.0 ? Math.floor(this.x + 0.5) : Math.floor(this.x - 0.5), this.y = this.y > 0.0 ? Math.floor(this.y + 0.5) : Math.floor(this.y - 0.5), this;
                     }
                 };
             }
@@ -541,7 +541,7 @@
                     {
                         key: "getAsRGBA",
                         value: function() {
-                            for(var scale = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 1, ret = new Uint8ClampedArray(4 * this.size.x * this.size.y), y = 0; y < this.size.y; y++)for(var x = 0; x < this.size.x; x++){
+                            for(var scale = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 1.0, ret = new Uint8ClampedArray(4 * this.size.x * this.size.y), y = 0; y < this.size.y; y++)for(var x = 0; x < this.size.x; x++){
                                 var pixel = y * this.size.x + x, current = this.get(x, y) * scale;
                                 ret[4 * pixel + 0] = current, ret[4 * pixel + 1] = current, ret[4 * pixel + 2] = current, ret[4 * pixel + 3] = 255;
                             }
@@ -551,7 +551,7 @@
                     {
                         key: "show",
                         value: function(canvas) {
-                            var scale = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1, ctx = canvas.getContext('2d');
+                            var scale = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1.0, ctx = canvas.getContext('2d');
                             if (!ctx) throw new Error('Unable to get canvas context');
                             var frame = ctx.getImageData(0, 0, canvas.width, canvas.height), data = this.getAsRGBA(scale);
                             canvas.width = this.size.x, canvas.height = this.size.y;
@@ -832,7 +832,7 @@
                         for(k = 0; k < moments1.length; k++)moments1[k].m00 > minComponentWeight && eligibleMoments.push(moments1[k]);
                         if (eligibleMoments.length >= 2) {
                             for(k = 0, matchingMoments = function(moments) {
-                                var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, 0.9), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
+                                var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, 0.90), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
                                     return e.getPoints().length;
                                 }), points = [], result = [];
                                 if (1 === topCluster.length) {
@@ -2216,8 +2216,8 @@
             'undefined' == typeof window || window.requestAnimationFrame || (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
                 window.setTimeout(callback, 1000 / 60);
             }), 'function' != typeof Math.imul && (Math.imul = function(a, b) {
-                var al = 65535 & a, bl = 65535 & b;
-                return al * bl + ((a >>> 16 & 65535) * bl + al * (b >>> 16 & 65535) << 16 >>> 0) | 0;
+                var al = 0xffff & a, bl = 0xffff & b;
+                return al * bl + ((a >>> 16 & 0xffff) * bl + al * (b >>> 16 & 0xffff) << 16 >>> 0) | 0;
             }), 'function' != typeof Object.assign && (Object.assign = function(target) {
                 'use strict';
                 if (null === target) throw new TypeError('Cannot convert undefined or null to object');
@@ -2283,7 +2283,7 @@
         function(module, exports, __webpack_require__) {
             module.exports = function(a, b) {
                 var a0 = a[0], a1 = a[1], b0 = b[0], b1 = b[1];
-                return Math.abs(a0 - b0) <= EPSILON * Math.max(1, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1, Math.abs(a1), Math.abs(b1));
+                return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1));
             };
             var EPSILON = __webpack_require__(62);
         },
@@ -2308,7 +2308,7 @@
         },
         function(module, exports) {
             module.exports = function(out, a) {
-                return out[0] = 1 / a[0], out[1] = 1 / a[1], out;
+                return out[0] = 1.0 / a[0], out[1] = 1.0 / a[1], out;
             };
         },
         function(module, exports) {
@@ -2394,8 +2394,8 @@
         },
         function(module, exports) {
             module.exports = function(out, scale) {
-                scale = scale || 1;
-                var r = 2 * Math.random() * Math.PI;
+                scale = scale || 1.0;
+                var r = 2.0 * Math.random() * Math.PI;
                 return out[0] = Math.cos(r) * scale, out[1] = Math.sin(r) * scale, out;
             };
         },
@@ -2452,7 +2452,7 @@
                 var tempA = fromValues(a[0], a[1], a[2]), tempB = fromValues(b[0], b[1], b[2]);
                 normalize(tempA, tempA), normalize(tempB, tempB);
                 var cosine = dot(tempA, tempB);
-                return cosine > 1 ? 0 : Math.acos(cosine);
+                return cosine > 1.0 ? 0 : Math.acos(cosine);
             };
             var fromValues = __webpack_require__(73), normalize = __webpack_require__(74), dot = __webpack_require__(75);
         },
@@ -2469,7 +2469,7 @@
         function(module, exports, __webpack_require__) {
             module.exports = function(a, b) {
                 var a0 = a[0], a1 = a[1], a2 = a[2], b0 = b[0], b1 = b[1], b2 = b[2];
-                return Math.abs(a0 - b0) <= EPSILON * Math.max(1, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= EPSILON * Math.max(1, Math.abs(a2), Math.abs(b2));
+                return Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2));
             };
             var EPSILON = __webpack_require__(71);
         },
@@ -2546,7 +2546,7 @@
         },
         function(module, exports) {
             module.exports = function(out, a) {
-                return out[0] = 1 / a[0], out[1] = 1 / a[1], out[2] = 1 / a[2], out;
+                return out[0] = 1.0 / a[0], out[1] = 1.0 / a[1], out[2] = 1.0 / a[2], out;
             };
         },
         function(module, exports) {
@@ -2563,14 +2563,14 @@
         },
         function(module, exports) {
             module.exports = function(out, scale) {
-                var r = 2 * Math.random() * Math.PI, z = 2 * Math.random() - 1, zScale = Math.sqrt(1 - z * z) * (scale = scale || 1);
+                var r = 2.0 * Math.random() * Math.PI, z = 2.0 * Math.random() - 1.0, zScale = Math.sqrt(1.0 - z * z) * (scale = scale || 1.0);
                 return out[0] = Math.cos(r) * zScale, out[1] = Math.sin(r) * zScale, out[2] = z * scale, out;
             };
         },
         function(module, exports) {
             module.exports = function(out, a, m) {
                 var x = a[0], y = a[1], z = a[2], w = m[3] * x + m[7] * y + m[11] * z + m[15];
-                return w = w || 1, out[0] = (m[0] * x + m[4] * y + m[8] * z + m[12]) / w, out[1] = (m[1] * x + m[5] * y + m[9] * z + m[13]) / w, out[2] = (m[2] * x + m[6] * y + m[10] * z + m[14]) / w, out;
+                return w = w || 1.0, out[0] = (m[0] * x + m[4] * y + m[8] * z + m[12]) / w, out[1] = (m[1] * x + m[5] * y + m[9] * z + m[13]) / w, out[2] = (m[2] * x + m[6] * y + m[10] * z + m[14]) / w, out;
             };
         },
         function(module, exports) {
@@ -3145,7 +3145,7 @@
         function(module, exports) {
             module.exports = function(out, a) {
                 var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], det = a0 * a3 - a2 * a1;
-                return det ? (det = 1 / det, out[0] = a3 * det, out[1] = -a1 * det, out[2] = -a2 * det, out[3] = a0 * det, out) : null;
+                return det ? (det = 1.0 / det, out[0] = a3 * det, out[1] = -a1 * det, out[2] = -a2 * det, out[3] = a0 * det, out) : null;
             };
         },
         function(module, exports) {
@@ -4253,7 +4253,7 @@
                             1,
                             2
                         ]
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.64), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.3), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'code_128'), defineProperty_default()(assertThisInitialized_default()(_this), "MODULE_INDICES", {
+                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.64), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.30), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'code_128'), defineProperty_default()(assertThisInitialized_default()(_this), "MODULE_INDICES", {
                         bar: [
                             0,
                             2,
@@ -4644,7 +4644,7 @@
                     var _this;
                     return classCallCheck_default()(this, EANReader), _this = _super.call(this, merge_default()({
                         supplements: []
-                    }, config), supplements), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'ean_13'), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.7), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
+                    }, config), supplements), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", 'ean_13'), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.70), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
                         1,
                         1,
                         1
@@ -4729,7 +4729,7 @@
                     {
                         key: "_decodePayload",
                         value: function(inCode, result, decodedCodes) {
-                            for(var outCode = _objectSpread({}, inCode), codeFrequency = 0, i = 0; i < 6; i++){
+                            for(var outCode = _objectSpread({}, inCode), codeFrequency = 0x0, i = 0; i < 6; i++){
                                 if (!(outCode = this._decodeCode(outCode.end))) return null;
                                 outCode.code >= 10 ? (outCode.code -= 10, codeFrequency |= 1 << 5 - i) : codeFrequency |= 0 << 5 - i, result.push(outCode.code), decodedCodes.push(outCode);
                             }
@@ -4831,50 +4831,50 @@
             }(barcode_reader), toConsumableArray = __webpack_require__(33), toConsumableArray_default = __webpack_require__.n(toConsumableArray), ALPHABET = new Uint16Array(toConsumableArray_default()('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. *$/+%').map(function(_char) {
                 return _char.charCodeAt(0);
             })), CHARACTER_ENCODINGS = new Uint16Array([
-                52,
-                289,
-                97,
-                352,
-                49,
-                304,
-                112,
-                37,
-                292,
-                100,
-                265,
-                73,
-                328,
-                25,
-                280,
-                88,
-                13,
-                268,
-                76,
-                28,
-                259,
-                67,
-                322,
-                19,
-                274,
-                82,
-                7,
-                262,
-                70,
-                22,
-                385,
-                193,
-                448,
-                145,
-                400,
-                208,
-                133,
-                388,
-                196,
-                148,
-                168,
-                162,
-                138,
-                42
+                0x034,
+                0x121,
+                0x061,
+                0x160,
+                0x031,
+                0x130,
+                0x070,
+                0x025,
+                0x124,
+                0x064,
+                0x109,
+                0x049,
+                0x148,
+                0x019,
+                0x118,
+                0x058,
+                0x00D,
+                0x10C,
+                0x04C,
+                0x01C,
+                0x103,
+                0x043,
+                0x142,
+                0x013,
+                0x112,
+                0x052,
+                0x007,
+                0x106,
+                0x046,
+                0x016,
+                0x181,
+                0x0C1,
+                0x1C0,
+                0x091,
+                0x190,
+                0x0D0,
+                0x085,
+                0x184,
+                0x0C4,
+                0x094,
+                0x0A8,
+                0x0A2,
+                0x08A,
+                0x02A
             ]), code_39_reader = function(_BarcodeReader) {
                 inherits_default()(Code39Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code39Reader, hasNativeReflectConstruct = function() {
@@ -4919,7 +4919,7 @@
                             ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
-                                    if (148 === this._toPattern(counter)) {
+                                    if (0x094 === this._toPattern(counter)) {
                                         var whiteSpaceMustStart = Math.floor(Math.max(0, patternStart - (i - patternStart) / 4));
                                         if (this._matchRange(whiteSpaceMustStart, patternStart, 0)) return {
                                             start: patternStart,
@@ -5073,31 +5073,31 @@
                 67,
                 68
             ], codabar_reader_CHARACTER_ENCODINGS = [
-                3,
-                6,
-                9,
-                96,
-                18,
-                66,
-                33,
-                36,
-                48,
-                72,
-                12,
-                24,
-                69,
-                81,
-                84,
-                21,
-                26,
-                41,
-                11,
-                14
+                0x003,
+                0x006,
+                0x009,
+                0x060,
+                0x012,
+                0x042,
+                0x021,
+                0x024,
+                0x030,
+                0x048,
+                0x00c,
+                0x018,
+                0x045,
+                0x051,
+                0x054,
+                0x015,
+                0x01A,
+                0x029,
+                0x00B,
+                0x00E
             ], START_END = [
-                26,
-                41,
-                11,
-                14
+                0x01A,
+                0x029,
+                0x00B,
+                0x00E
             ], codabar_reader = function(_BarcodeReader) {
                 inherits_default()(NewCodabarReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = NewCodabarReader, hasNativeReflectConstruct = function() {
@@ -5130,7 +5130,7 @@
                         key: "_computeAlternatingThreshold",
                         value: function(offset, end) {
                             for(var min = Number.MAX_VALUE, max = 0, counter = 0, i = offset; i < end; i += 2)(counter = this._counters[i]) > max && (max = counter), counter < min && (min = counter);
-                            return (min + max) / 2 | 0;
+                            return (min + max) / 2.0 | 0;
                         }
                     },
                     {
@@ -5188,14 +5188,14 @@
                     {
                         key: "_verifyWhitespace",
                         value: function(startCounter, endCounter) {
-                            return !!((startCounter - 1 <= 0 || this._counters[startCounter - 1] >= this._calculatePatternLength(startCounter) / 2) && (endCounter + 8 >= this._counters.length || this._counters[endCounter + 7] >= this._calculatePatternLength(endCounter) / 2));
+                            return !!((startCounter - 1 <= 0 || this._counters[startCounter - 1] >= this._calculatePatternLength(startCounter) / 2.0) && (endCounter + 8 >= this._counters.length || this._counters[endCounter + 7] >= this._calculatePatternLength(endCounter) / 2.0));
                         }
                     },
                     {
                         key: "_charToPattern",
                         value: function(_char) {
                             for(var charCode = _char.charCodeAt(0), i = 0; i < codabar_reader_ALPHABET.length; i++)if (codabar_reader_ALPHABET[i] === charCode) return codabar_reader_CHARACTER_ENCODINGS[i];
-                            return 0;
+                            return 0x0;
                         }
                     },
                     {
@@ -5243,7 +5243,7 @@
                                 'bar'
                             ].forEach(function(key) {
                                 var newkind = categorization[key];
-                                newkind.wide.min = Math.floor((newkind.narrow.size / newkind.narrow.counts + newkind.wide.size / newkind.wide.counts) / 2), newkind.narrow.max = Math.ceil(newkind.wide.min), newkind.wide.max = Math.ceil((2 * newkind.wide.size + 1.5) / newkind.wide.counts);
+                                newkind.wide.min = Math.floor((newkind.narrow.size / newkind.narrow.counts + newkind.wide.size / newkind.wide.counts) / 2), newkind.narrow.max = Math.ceil(newkind.wide.min), newkind.wide.max = Math.ceil((2.0 * newkind.wide.size + 1.5) / newkind.wide.counts);
                             }), categorization;
                         }
                     },
@@ -5575,7 +5575,7 @@
                                     });
                                 }
                                 return target;
-                            }({}, inCode), codeFrequency = 0, i2 = 0; i2 < 6; i2++){
+                            }({}, inCode), codeFrequency = 0x0, i2 = 0; i2 < 6; i2++){
                                 if (!(outCode = this._decodeCode(outCode.end))) return null;
                                 outCode.code >= 10 && (outCode.code = outCode.code - 10, codeFrequency |= 1 << 5 - i2), result.push(outCode.code), decodedCodes.push(outCode);
                             }
@@ -6017,7 +6017,7 @@
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "barSpaceRatio", [
                         1,
                         1
-                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", '2of5'), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.78), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.3), _this;
+                    ]), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", '2of5'), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.78), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.30), _this;
                 }
                 return createClass_default()(TwoOfFiveReader, [
                     {
@@ -6138,54 +6138,54 @@
             }(barcode_reader), code_93_reader_ALPHABET = new Uint16Array(toConsumableArray_default()('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*').map(function(_char) {
                 return _char.charCodeAt(0);
             })), code_93_reader_CHARACTER_ENCODINGS = new Uint16Array([
-                276,
-                328,
-                324,
-                322,
-                296,
-                292,
-                290,
-                336,
-                274,
-                266,
-                424,
-                420,
-                418,
-                404,
-                402,
-                394,
-                360,
-                356,
-                354,
-                308,
-                282,
-                344,
-                332,
-                326,
-                300,
-                278,
-                436,
-                434,
-                428,
-                422,
-                406,
-                410,
-                364,
-                358,
-                310,
-                314,
-                302,
-                468,
-                466,
-                458,
-                366,
-                374,
-                430,
-                294,
-                474,
-                470,
-                306,
-                350
+                0x114,
+                0x148,
+                0x144,
+                0x142,
+                0x128,
+                0x124,
+                0x122,
+                0x150,
+                0x112,
+                0x10A,
+                0x1A8,
+                0x1A4,
+                0x1A2,
+                0x194,
+                0x192,
+                0x18A,
+                0x168,
+                0x164,
+                0x162,
+                0x134,
+                0x11A,
+                0x158,
+                0x14C,
+                0x146,
+                0x12C,
+                0x116,
+                0x1B4,
+                0x1B2,
+                0x1AC,
+                0x1A6,
+                0x196,
+                0x19A,
+                0x16C,
+                0x166,
+                0x136,
+                0x13A,
+                0x12E,
+                0x1D4,
+                0x1D2,
+                0x1CA,
+                0x16E,
+                0x176,
+                0x1AE,
+                0x126,
+                0x1DA,
+                0x1D6,
+                0x132,
+                0x15E
             ]), code_93_reader = function(_BarcodeReader) {
                 inherits_default()(Code93Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code93Reader, hasNativeReflectConstruct = function() {
@@ -6248,7 +6248,7 @@
                             ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (this._row[i] ^ (isWhite ? 1 : 0)) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
-                                    if (350 === this._toPattern(counter)) {
+                                    if (0x15E === this._toPattern(counter)) {
                                         var whiteSpaceMustStart = Math.floor(Math.max(0, patternStart - (i - patternStart) / 4));
                                         if (this._matchRange(whiteSpaceMustStart, patternStart, 0)) return {
                                             start: patternStart,
@@ -6865,7 +6865,7 @@
                 };
             }
             var ExifTags = {
-                274: 'orientation'
+                0x0112: 'orientation'
             }, AvailableTags = Object.keys(ExifTags).map(function(key) {
                 return ExifTags[key];
             });
@@ -6880,14 +6880,14 @@
             function readEXIFData(file, start, exifTags) {
                 if ('Exif' !== getStringFromBuffer(file, start, 4)) return !1;
                 var bigEnd, tiffOffset = start + 6;
-                if (18761 === file.getUint16(tiffOffset)) bigEnd = !1;
+                if (0x4949 === file.getUint16(tiffOffset)) bigEnd = !1;
                 else {
-                    if (19789 !== file.getUint16(tiffOffset)) return !1;
+                    if (0x4D4D !== file.getUint16(tiffOffset)) return !1;
                     bigEnd = !0;
                 }
-                if (42 !== file.getUint16(tiffOffset + 2, !bigEnd)) return !1;
+                if (0x002A !== file.getUint16(tiffOffset + 2, !bigEnd)) return !1;
                 var firstIFDOffset = file.getUint32(tiffOffset + 4, !bigEnd);
-                return !(firstIFDOffset < 8) && readTags(file, tiffOffset, tiffOffset + firstIFDOffset, exifTags, bigEnd);
+                return !(firstIFDOffset < 0x00000008) && readTags(file, tiffOffset, tiffOffset + firstIFDOffset, exifTags, bigEnd);
             }
             function readTags(file, tiffStart, dirStart, strings, bigEnd) {
                 for(var entries = file.getUint16(dirStart, !bigEnd), tags = {}, i = 0; i < entries; i++){
@@ -6949,10 +6949,10 @@
                                     })[0];
                                     return exifTag && (result[exifTag] = selectedTag), result;
                                 }, {}), offset = 2;
-                                if (255 !== dataView.getUint8(0) || 216 !== dataView.getUint8(1)) return !1;
+                                if (0xFF !== dataView.getUint8(0) || 0xD8 !== dataView.getUint8(1)) return !1;
                                 for(; offset < length;){
-                                    if (255 !== dataView.getUint8(offset)) return !1;
-                                    if (225 === dataView.getUint8(offset + 1)) return readEXIFData(dataView, offset + 4, exifTags);
+                                    if (0xFF !== dataView.getUint8(offset)) return !1;
+                                    if (0xE1 === dataView.getUint8(offset + 1)) return readEXIFData(dataView, offset + 4, exifTags);
                                     offset += 2 + dataView.getUint16(offset + 2);
                                 }
                                 return !1;

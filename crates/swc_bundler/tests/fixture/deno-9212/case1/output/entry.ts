@@ -439,7 +439,7 @@ var vo = Bn((L)=>{
     }, Jr = L.unstable_forceFrameRate = function() {}) : (po = window.setTimeout, mo = window.clearTimeout, typeof console != "undefined" && (ho = window.cancelAnimationFrame, typeof window.requestAnimationFrame != "function" && console.error("This browser doesn't support requestAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), typeof ho != "function" && console.error("This browser doesn't support cancelAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills")), Hn = !1, An = null, Bt = -1, nl = 5, tl = 0, L.unstable_shouldYield = function() {
         return L.unstable_now() >= tl;
     }, Jr = function() {}, L.unstable_forceFrameRate = function(e) {
-        0 > e || 125 < e ? console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported") : nl = 0 < e ? Math.floor(1000 / e) : 5;
+        0 > e || 125 < e ? console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported") : nl = 0 < e ? Math.floor(1e3 / e) : 5;
     }, rl = new MessageChannel, Wt = rl.port2, rl.port1.onmessage = function() {
         if (An !== null) {
             var e = L.unstable_now();
@@ -603,10 +603,10 @@ var vo = Bn((L)=>{
                 l = 1073741823;
                 break;
             case 4:
-                l = 10000;
+                l = 1e4;
                 break;
             default:
-                l = 5000;
+                l = 5e3;
         }
         return l = t + l, e = {
             id: xa++,
@@ -2664,7 +2664,7 @@ var ia = Bn((re1)=>{
         if (!r) throw Error(v(169));
         t ? (e = Hu(e, n, en), r.__reactInternalMemoizedMergedChildContext = e, M(Z1), M(Q1), j(Q1, e)) : M(Z1), j(Z1, t);
     }
-    var ci = null, nn = null, Vf = V.unstable_runWithPriority, di = V.unstable_scheduleCallback, pi = V.unstable_cancelCallback, Bf = V.unstable_shouldYield, Qu = V.unstable_requestPaint, mi = V.unstable_now, Wf = V.unstable_getCurrentPriorityLevel, Sr = V.unstable_ImmediatePriority, $u = V.unstable_UserBlockingPriority, Yu = V.unstable_NormalPriority, Xu = V.unstable_LowPriority, Ku = V.unstable_IdlePriority, hi = {}, Hf = Qu !== void 0 ? Qu : function() {}, ke1 = null, Er = null, vi = !1, Gu = mi(), $ = 10000 > Gu ? mi : function() {
+    var ci = null, nn = null, Vf = V.unstable_runWithPriority, di = V.unstable_scheduleCallback, pi = V.unstable_cancelCallback, Bf = V.unstable_shouldYield, Qu = V.unstable_requestPaint, mi = V.unstable_now, Wf = V.unstable_getCurrentPriorityLevel, Sr = V.unstable_ImmediatePriority, $u = V.unstable_UserBlockingPriority, Yu = V.unstable_NormalPriority, Xu = V.unstable_LowPriority, Ku = V.unstable_IdlePriority, hi = {}, Hf = Qu !== void 0 ? Qu : function() {}, ke1 = null, Er = null, vi = !1, Gu = mi(), $ = 1e4 > Gu ? mi : function() {
         return mi() - Gu;
     };
     function Ln() {
@@ -4710,7 +4710,7 @@ Error generating stack: ` + i.message + `
                 if ((s & r) == 0 || (s & l) != 0) {
                     d = n, gn(s);
                     var y = O;
-                    i[u] = 10 <= y ? d + 250 : 6 <= y ? d + 5000 : -1;
+                    i[u] = 10 <= y ? d + 250 : 6 <= y ? d + 5e3 : -1;
                 }
             } else d <= n && (e.expiredLanes |= s);
             o &= ~s;
@@ -4771,7 +4771,7 @@ Error generating stack: ` + i.message + `
                         var o = 31 - Me(t);
                         i = 1 << o, o = r[o], o > l && (l = o), t &= ~i;
                     }
-                    if (t = l, t = $() - t, t = (120 > t ? 120 : 480 > t ? 480 : 1080 > t ? 1080 : 1920 > t ? 1920 : 3000 > t ? 3000 : 4320 > t ? 4320 : 1960 * lc(t / 1960)) - t, 10 < t) {
+                    if (t = l, t = $() - t, t = (120 > t ? 120 : 480 > t ? 480 : 1080 > t ? 1080 : 1920 > t ? 1920 : 3e3 > t ? 3e3 : 4320 > t ? 4320 : 1960 * lc(t / 1960)) - t, 10 < t) {
                         e.timeoutHandle = Uu(sn.bind(null, e), t);
                         break;
                     }

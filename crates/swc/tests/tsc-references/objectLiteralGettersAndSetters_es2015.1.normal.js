@@ -9,7 +9,7 @@ var sameName1a = {
     }
 };
 var sameName2a = {
-    get 0 () {
+    get 0.0 () {
         return '';
     },
     set 0 (n){
@@ -18,10 +18,10 @@ var sameName2a = {
     }
 };
 var sameName3a = {
-    get 32 () {
+    get 0x20 () {
         return '';
     },
-    set 32 (n){
+    set 3.2e1 (n){
         var p2 = n;
         var p2;
     }

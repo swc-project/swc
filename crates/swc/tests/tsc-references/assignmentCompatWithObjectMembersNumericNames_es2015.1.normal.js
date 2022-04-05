@@ -11,7 +11,7 @@ var t2;
 var a;
 var b;
 var a2 = {
-    1: ''
+    1.0: ''
 };
 var b2 = {
     1: ''

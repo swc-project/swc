@@ -114,28 +114,28 @@ var TypeScript;
         var addChar = (index)=>{
             var ch = value.charCodeAt(index);
             switch(ch){
-                case 9:
+                case 0x09:
                     result += "\\t";
                     break;
-                case 10:
+                case 0x0a:
                     result += "\\n";
                     break;
-                case 11:
+                case 0x0b:
                     result += "\\v";
                     break;
-                case 12:
+                case 0x0c:
                     result += "\\f";
                     break;
-                case 13:
+                case 0x0d:
                     result += "\\r";
                     break;
-                case 34:
+                case 0x22:
                     result += "\\\"";
                     break;
-                case 39:
+                case 0x27:
                     result += "\\\'";
                     break;
-                case 92:
+                case 0x5c:
                     result += "\\";
                     break;
                 default:
