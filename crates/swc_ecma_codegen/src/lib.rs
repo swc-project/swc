@@ -2644,6 +2644,14 @@ where
                 }
             }
 
+            Expr::Seq(e) => {
+                if let Some(e) = e.exprs.first() {
+                    if self.has_leading_comment(e) {
+                        return true;
+                    }
+                }
+            }
+
             _ => {}
         }
 
