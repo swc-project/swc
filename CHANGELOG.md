@@ -49,6 +49,12 @@
 
 - **(es/preset-env)** Typo (#4243) ([06020bb](https://github.com/swc-project/swc/commit/06020bb76d5009f693cc702a70ac3add1ef0fe4a))
 
+### Testing
+
+
+
+- **(es)** Organize tests (#4251) ([c32f42b](https://github.com/swc-project/swc/commit/c32f42b374a4964e858d05106eaa1b8fcd446cad))
+
 ## [1.2.163] - 2022-04-03
 
 ### Bug Fixes

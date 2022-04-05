@@ -312,25 +312,25 @@ fn deno_8302() {
 #[test]
 #[timeout(60000)]
 fn deno_8399_1() {
-    run("tests/deno/issue-8399-1/input.ts", &[]);
+    run("tests/deno/issue-8399/1/input.ts", &[]);
 }
 
 #[test]
 #[timeout(60000)]
 fn deno_8399_2() {
-    run("tests/deno/issue-8399-2/input.ts", &[]);
+    run("tests/deno/issue-8399/2/input.ts", &[]);
 }
 
 #[test]
 #[timeout(60000)]
 fn deno_8486_1() {
-    run("tests/deno/issue-8486-1/input.ts", &["myCLI"]);
+    run("tests/deno/issue-8486/1/input.ts", &["myCLI"]);
 }
 
 #[test]
 #[timeout(60000)]
 fn deno_7288_1() {
-    run("tests/deno/deno-7288-1/input.ts", &[]);
+    run("tests/deno/deno-7288/1/input.ts", &[]);
 }
 
 #[test]
