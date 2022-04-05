@@ -1,3 +1,5 @@
+use std::fmt::Write;
+
 use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
@@ -2057,12 +2059,15 @@ impl<I: Tokens> Parser<I> {
                 let lit = match lit {
                     Lit::Num(Number { span, value, raw }) => {
                         let mut new_raw = String::from("-");
-                        let orig_raw = match raw {
-                            Some(raw) => raw,
-                            _ => value.to_string().into(),
-                        };
 
-                        new_raw.push_str(&orig_raw);
+                        match raw {
+                            Some(raw) => {
+                                new_raw.push_str(&raw);
+                            }
+                            _ => {
+                                write!(new_raw, "{}", value).unwrap();
+                            }
+                        };
 
                         TsLit::Number(Number {
                             span,
