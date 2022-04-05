@@ -135,7 +135,7 @@ it("should respect isModule = false", async () => {
         }
     );
 
-    expect(out.code.trim()).toEqual(`var five = 5;`)
+    expect(out.code.trim()).toEqual(`var five = 005;`)
 });
 
 it("should respect isModule = true", async () => {

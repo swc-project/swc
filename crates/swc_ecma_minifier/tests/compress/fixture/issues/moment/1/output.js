@@ -896,7 +896,7 @@
                 parseFloat(m[ordering[i]]) !== toInt(m[ordering[i]]) && (unitHasDecimal = !0);
             }
             return !0;
-        }(normalizedInput), this._milliseconds = +milliseconds + 1000 * seconds + 60000 * minutes + 3600000 * hours, this._days = +days + 7 * weeks, this._months = +months + 3 * quarters + 12 * years, this._data = {}, this._locale = getLocale(), this._bubble();
+        }(normalizedInput), this._milliseconds = +milliseconds + 1e3 * seconds + 6e4 * minutes + 3600000 * hours, this._days = +days + 7 * weeks, this._months = +months + 3 * quarters + 12 * years, this._data = {}, this._locale = getLocale(), this._bubble();
     }
     function isDuration(obj) {
         return obj instanceof Duration;
@@ -1238,7 +1238,7 @@
         var that, zoneDelta, output;
         if (!this.isValid()) return NaN;
         if (!(that = cloneWithOffset(input, this)).isValid()) return NaN;
-        switch(zoneDelta = (that.utcOffset() - this.utcOffset()) * 60000, units = normalizeUnits(units)){
+        switch(zoneDelta = (that.utcOffset() - this.utcOffset()) * 6e4, units = normalizeUnits(units)){
             case 'year':
                 output = monthDiff(this, that) / 12;
                 break;
@@ -1249,19 +1249,19 @@
                 output = monthDiff(this, that) / 3;
                 break;
             case 'second':
-                output = (this - that) / 1000;
+                output = (this - that) / 1e3;
                 break;
             case 'minute':
-                output = (this - that) / 60000;
+                output = (this - that) / 6e4;
                 break;
             case 'hour':
-                output = (this - that) / 3600000;
+                output = (this - that) / 36e5;
                 break;
             case 'day':
-                output = (this - that - zoneDelta) / 86400000;
+                output = (this - that - zoneDelta) / 864e5;
                 break;
             case 'week':
-                output = (this - that - zoneDelta) / 604800000;
+                output = (this - that - zoneDelta) / 6048e5;
                 break;
             default:
                 output = this - that;
@@ -1506,7 +1506,7 @@
         var input5, locale, weekday = (input5 = input, locale = this.localeData(), 'string' == typeof input5 ? locale.weekdaysParse(input5) % 7 || 7 : isNaN(input5) ? null : input5);
         return this.day(this.day() % 7 ? weekday : weekday - 7);
     }, proto.dayOfYear = function(input) {
-        var dayOfYear = Math.round((this.clone().startOf('day') - this.clone().startOf('year')) / 86400000) + 1;
+        var dayOfYear = Math.round((this.clone().startOf('day') - this.clone().startOf('year')) / 864e5) + 1;
         return null == input ? dayOfYear : this.add(input - dayOfYear, 'd');
     }, proto.hour = proto.hours = getSetHour, proto.minute = proto.minutes = getSetMinute, proto.second = proto.seconds = getSetSecond, proto.millisecond = proto.milliseconds = getSetMillisecond, proto.utcOffset = function(input, keepLocalTime, keepMinutes) {
         var localAdjust, offset = this._offset || 0;
@@ -1769,7 +1769,7 @@
     }, proto$2.as = function(units) {
         if (!this.isValid()) return NaN;
         var days, months, milliseconds = this._milliseconds;
-        if ('month' === (units = normalizeUnits(units)) || 'quarter' === units || 'year' === units) switch(days = this._days + milliseconds / 86400000, months = this._months + 4800 * days / 146097, units){
+        if ('month' === (units = normalizeUnits(units)) || 'quarter' === units || 'year' === units) switch(days = this._days + milliseconds / 864e5, months = this._months + 4800 * days / 146097, units){
             case 'month':
                 return months;
             case 'quarter':
@@ -1779,25 +1779,25 @@
         }
         else switch(days = this._days + Math.round(146097 * this._months / 4800), units){
             case 'week':
-                return days / 7 + milliseconds / 604800000;
+                return days / 7 + milliseconds / 6048e5;
             case 'day':
-                return days + milliseconds / 86400000;
+                return days + milliseconds / 864e5;
             case 'hour':
-                return 24 * days + milliseconds / 3600000;
+                return 24 * days + milliseconds / 36e5;
             case 'minute':
-                return 1440 * days + milliseconds / 60000;
+                return 1440 * days + milliseconds / 6e4;
             case 'second':
                 return 86400 * days + milliseconds / 1000;
             case 'millisecond':
-                return Math.floor(86400000 * days) + milliseconds;
+                return Math.floor(864e5 * days) + milliseconds;
             default:
                 throw new Error('Unknown unit ' + units);
         }
     }, proto$2.asMilliseconds = asMilliseconds, proto$2.asSeconds = asSeconds, proto$2.asMinutes = asMinutes, proto$2.asHours = asHours, proto$2.asDays = asDays, proto$2.asWeeks = asWeeks, proto$2.asMonths = asMonths, proto$2.asQuarters = asQuarters, proto$2.asYears = asYears, proto$2.valueOf = function() {
-        return this.isValid() ? this._milliseconds + 86400000 * this._days + this._months % 12 * 2592000000 + 31536000000 * toInt(this._months / 12) : NaN;
+        return this.isValid() ? this._milliseconds + 864e5 * this._days + this._months % 12 * 2592e6 + 31536e6 * toInt(this._months / 12) : NaN;
     }, proto$2._bubble = function() {
         var seconds, minutes, hours, years, monthsFromDays, milliseconds = this._milliseconds, days = this._days, months = this._months, data = this._data;
-        return milliseconds >= 0 && days >= 0 && months >= 0 || milliseconds <= 0 && days <= 0 && months <= 0 || (milliseconds += 86400000 * absCeil(146097 * months / 4800 + days), days = 0, months = 0), data.milliseconds = milliseconds % 1000, seconds = absFloor(milliseconds / 1000), data.seconds = seconds % 60, minutes = absFloor(seconds / 60), data.minutes = minutes % 60, hours = absFloor(minutes / 60), data.hours = hours % 24, days += absFloor(hours / 24), months += monthsFromDays = absFloor(4800 * days / 146097), days -= absCeil(146097 * monthsFromDays / 4800), years = absFloor(months / 12), months %= 12, data.days = days, data.months = months, data.years = years, this;
+        return milliseconds >= 0 && days >= 0 && months >= 0 || milliseconds <= 0 && days <= 0 && months <= 0 || (milliseconds += 864e5 * absCeil(146097 * months / 4800 + days), days = 0, months = 0), data.milliseconds = milliseconds % 1000, seconds = absFloor(milliseconds / 1000), data.seconds = seconds % 60, minutes = absFloor(seconds / 60), data.minutes = minutes % 60, hours = absFloor(minutes / 60), data.hours = hours % 24, days += absFloor(hours / 24), months += monthsFromDays = absFloor(4800 * days / 146097), days -= absCeil(146097 * monthsFromDays / 4800), years = absFloor(months / 12), months %= 12, data.days = days, data.months = months, data.years = years, this;
     }, proto$2.clone = function() {
         return createDuration(this);
     }, proto$2.get = function(units) {

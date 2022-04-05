@@ -723,7 +723,8 @@
                       "end": 352,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "async": false,
                   "generator": false,

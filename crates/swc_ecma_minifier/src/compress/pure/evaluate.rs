@@ -638,6 +638,7 @@ impl Pure<'_> {
                             *e = Expr::Lit(Lit::Num(Number {
                                 span: call.span,
                                 value: v as usize as f64,
+                                raw: None,
                             }))
                         }
                         None => {

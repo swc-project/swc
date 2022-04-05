@@ -2063,7 +2063,7 @@
                         0,
                         3,
                         0,
-                        17,
+                        0x11,
                         2,
                         0,
                         1
@@ -2080,8 +2080,8 @@
                     [
                         0,
                         3,
-                        21,
-                        21,
+                        0x15,
+                        0x15,
                         4,
                         0,
                         1
@@ -2127,7 +2127,7 @@
                         2,
                         0,
                         2,
-                        33,
+                        0x21,
                         3,
                         1,
                         1
@@ -2469,7 +2469,7 @@
                         case 12:
                             for(len = types.length, i = ix + 1; i < len && 12 == types[i];)i++;
                             if (i < len) {
-                                var c = chars[ix], rtlCandidate = c >= 1425 && c <= 2303 || 64286 == c;
+                                var c = chars[ix], rtlCandidate = c >= 0x0591 && c <= 0x08FF || 0xFB1E == c;
                                 if (wType = types[i], rtlCandidate && (1 == wType || 7 == wType)) return 1;
                             }
                             if (ix < 1 || 5 == (wType = types[ix - 1])) return 4;
@@ -2490,7 +2490,7 @@
                 }
                 function _getCharacterType(ch) {
                     var uc = ch.charCodeAt(0), hi = uc >> 8;
-                    return 0 == hi ? uc > 191 ? 0 : UnicodeTBL00[uc] : 5 == hi ? /[\u0591-\u05f4]/.test(ch) ? 1 : 0 : 6 == hi ? /[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch) ? 12 : /[\u0660-\u0669\u066b-\u066c]/.test(ch) ? 3 : 1642 == uc ? 11 : /[\u06f0-\u06f9]/.test(ch) ? 2 : 7 : 32 == hi && uc <= 8287 ? UnicodeTBL20[255 & uc] : 254 == hi && uc >= 65136 ? 7 : 4;
+                    return 0 == hi ? uc > 0x00BF ? 0 : UnicodeTBL00[uc] : 5 == hi ? /[\u0591-\u05f4]/.test(ch) ? 1 : 0 : 6 == hi ? /[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch) ? 12 : /[\u0660-\u0669\u066b-\u066c]/.test(ch) ? 3 : 0x066A == uc ? 11 : /[\u06f0-\u06f9]/.test(ch) ? 2 : 7 : 0x20 == hi && uc <= 0x205F ? UnicodeTBL20[0xFF & uc] : 0xFE == hi && uc >= 0xFE70 ? 7 : 4;
                 }
                 exports.L = 0, exports.R = 1, exports.EN = 2, exports.ON_R = 3, exports.AN = 4, exports.R_H = 5, exports.B = 6, exports.RLE = 7, exports.DOT = "\xB7", exports.doBidiReorder = function(text, textCharTypes, isRtl) {
                     if (text.length < 2) return {};
@@ -2499,7 +2499,7 @@
                         var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
                         if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
                         for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_AL = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
-                            if (prevState = newState, classes[ix] = newClass = _getCharClass(chars, charTypes, classes, ix), action = 240 & (newState = impTab[prevState][newClass]), newState &= 15, levels[ix] = newLevel = impTab[newState][5], action > 0) if (16 == action) {
+                            if (prevState = newState, classes[ix] = newClass = _getCharClass(chars, charTypes, classes, ix), action = 0xF0 & (newState = impTab[prevState][newClass]), newState &= 0x0F, levels[ix] = newLevel = impTab[newState][5], action > 0) if (0x10 == action) {
                                 for(i = condPos; i < ix; i++)levels[i] = 1;
                                 condPos = -1;
                             } else condPos = -1;
@@ -6087,7 +6087,7 @@
                     };
                     var PLACEHOLDER_START = 3, PLACEHOLDER_BODY = 4;
                     function isFullWidth(c) {
-                        return !(c < 4352) && (c >= 4352 && c <= 4447 || c >= 4515 && c <= 4519 || c >= 4602 && c <= 4607 || c >= 9001 && c <= 9002 || c >= 11904 && c <= 11929 || c >= 11931 && c <= 12019 || c >= 12032 && c <= 12245 || c >= 12272 && c <= 12283 || c >= 12288 && c <= 12350 || c >= 12353 && c <= 12438 || c >= 12441 && c <= 12543 || c >= 12549 && c <= 12589 || c >= 12593 && c <= 12686 || c >= 12688 && c <= 12730 || c >= 12736 && c <= 12771 || c >= 12784 && c <= 12830 || c >= 12832 && c <= 12871 || c >= 12880 && c <= 13054 || c >= 13056 && c <= 19903 || c >= 19968 && c <= 42124 || c >= 42128 && c <= 42182 || c >= 43360 && c <= 43388 || c >= 44032 && c <= 55203 || c >= 55216 && c <= 55238 || c >= 55243 && c <= 55291 || c >= 63744 && c <= 64255 || c >= 65040 && c <= 65049 || c >= 65072 && c <= 65106 || c >= 65108 && c <= 65126 || c >= 65128 && c <= 65131 || c >= 65281 && c <= 65376 || c >= 65504 && c <= 65510);
+                        return !(c < 0x1100) && (c >= 0x1100 && c <= 0x115F || c >= 0x11A3 && c <= 0x11A7 || c >= 0x11FA && c <= 0x11FF || c >= 0x2329 && c <= 0x232A || c >= 0x2E80 && c <= 0x2E99 || c >= 0x2E9B && c <= 0x2EF3 || c >= 0x2F00 && c <= 0x2FD5 || c >= 0x2FF0 && c <= 0x2FFB || c >= 0x3000 && c <= 0x303E || c >= 0x3041 && c <= 0x3096 || c >= 0x3099 && c <= 0x30FF || c >= 0x3105 && c <= 0x312D || c >= 0x3131 && c <= 0x318E || c >= 0x3190 && c <= 0x31BA || c >= 0x31C0 && c <= 0x31E3 || c >= 0x31F0 && c <= 0x321E || c >= 0x3220 && c <= 0x3247 || c >= 0x3250 && c <= 0x32FE || c >= 0x3300 && c <= 0x4DBF || c >= 0x4E00 && c <= 0xA48C || c >= 0xA490 && c <= 0xA4C6 || c >= 0xA960 && c <= 0xA97C || c >= 0xAC00 && c <= 0xD7A3 || c >= 0xD7B0 && c <= 0xD7C6 || c >= 0xD7CB && c <= 0xD7FB || c >= 0xF900 && c <= 0xFAFF || c >= 0xFE10 && c <= 0xFE19 || c >= 0xFE30 && c <= 0xFE52 || c >= 0xFE54 && c <= 0xFE66 || c >= 0xFE68 && c <= 0xFE6B || c >= 0xFF01 && c <= 0xFF60 || c >= 0xFFE0 && c <= 0xFFE6);
                     }
                     this.$computeWrapSplits = function(tokens, wrapLimit, tabSize) {
                         if (0 == tokens.length) return [];
@@ -6147,7 +6147,7 @@
                             if (9 == c) {
                                 tabSize = this.getScreenTabSize(arr.length + offset), arr.push(11);
                                 for(var n = 1; n < tabSize; n++)arr.push(12);
-                            } else 32 == c ? arr.push(10) : c > 39 && c < 48 || c > 57 && c < 64 ? arr.push(9) : c >= 4352 && isFullWidth(c) ? arr.push(1, 2) : arr.push(1);
+                            } else 32 == c ? arr.push(10) : c > 39 && c < 48 || c > 57 && c < 64 ? arr.push(9) : c >= 0x1100 && isFullWidth(c) ? arr.push(1, 2) : arr.push(1);
                         }
                         return arr;
                     }, this.$getStringScreenWidth = function(str, maxScreenColumn, screenColumn) {
@@ -6156,7 +6156,7 @@
                             0,
                             0
                         ];
-                        for(null == maxScreenColumn && (maxScreenColumn = 1 / 0), screenColumn = screenColumn || 0, column = 0; column < str.length && (9 == (c = str.charCodeAt(column)) ? screenColumn += this.getScreenTabSize(screenColumn) : c >= 4352 && isFullWidth(c) ? screenColumn += 2 : screenColumn += 1, !(screenColumn > maxScreenColumn)); column++);
+                        for(null == maxScreenColumn && (maxScreenColumn = 1 / 0), screenColumn = screenColumn || 0, column = 0; column < str.length && (9 == (c = str.charCodeAt(column)) ? screenColumn += this.getScreenTabSize(screenColumn) : c >= 0x1100 && isFullWidth(c) ? screenColumn += 2 : screenColumn += 1, !(screenColumn > maxScreenColumn)); column++);
                         return [
                             screenColumn,
                             column
@@ -9754,7 +9754,7 @@
                     }, this.setHeight = function(height) {
                         this.element.style.height = height + "px";
                     }, this.setInnerHeight = this.setScrollHeight = function(height) {
-                        this.scrollHeight = height, height > 32768 ? (this.coeff = 32768 / height, height = 32768) : 1 != this.coeff && (this.coeff = 1), this.inner.style.height = height + "px";
+                        this.scrollHeight = height, height > 0x8000 ? (this.coeff = 0x8000 / height, height = 0x8000) : 1 != this.coeff && (this.coeff = 1), this.inner.style.height = height + "px";
                     }, this.setScrollTop = function(scrollTop) {
                         this.scrollTop != scrollTop && (this.skipEvent = !0, this.scrollTop = scrollTop, this.element.scrollTop = scrollTop * this.coeff);
                     };
@@ -11013,7 +11013,7 @@ margin: 0 10px;\
                     },
                     minLines: {
                         set: function(val) {
-                            this.$minLines < 562949953421311 || (this.$minLines = 0), this.updateFull();
+                            this.$minLines < 0x1ffffffffffff || (this.$minLines = 0), this.updateFull();
                         }
                     },
                     maxPixelHeight: {

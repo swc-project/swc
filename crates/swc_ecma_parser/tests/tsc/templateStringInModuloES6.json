@@ -49,7 +49,8 @@
                 "end": 25,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "TemplateLiteral",
@@ -66,7 +67,8 @@
                     "end": 36,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 }
               ],
               "quasis": [

@@ -1480,7 +1480,8 @@
                     "end": 729,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 "definite": false
               }
@@ -1822,7 +1823,8 @@
                     "end": 963,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 "definite": false
               }

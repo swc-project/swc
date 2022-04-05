@@ -311,6 +311,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         right: Box::new(Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
                             value: 1.0,
+                            raw: None,
                         }))),
                     }
                     .as_arg()

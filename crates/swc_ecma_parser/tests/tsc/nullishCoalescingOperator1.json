@@ -1647,7 +1647,8 @@
                 "end": 908,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -1707,7 +1708,8 @@
                 "end": 929,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -1767,7 +1769,8 @@
                 "end": 950,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -1827,7 +1830,8 @@
                 "end": 971,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -2147,7 +2151,8 @@
                       "end": 1094,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]
@@ -2230,7 +2235,8 @@
                       "end": 1120,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]
@@ -2313,7 +2319,8 @@
                       "end": 1146,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]
@@ -2396,7 +2403,8 @@
                       "end": 1172,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]

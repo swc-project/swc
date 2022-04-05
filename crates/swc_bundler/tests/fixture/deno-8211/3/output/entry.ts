@@ -1932,7 +1932,7 @@ const lowOrderMatrix = {
         seconds: 30 * 24 * 60 * 60,
         milliseconds: 30 * 24 * 60 * 60 * 1000
     }
-}, lowOrderMatrix), daysInYearAccurate = 146097 / 400, daysInMonthAccurate = 146097 / 4800, accurateMatrix = Object.assign({
+}, lowOrderMatrix), daysInYearAccurate = 146097.0 / 400, daysInMonthAccurate = 146097.0 / 4800, accurateMatrix = Object.assign({
     years: {
         quarters: 4,
         months: 12,
@@ -2295,7 +2295,7 @@ function dayDiff(earlier, later) {
     return Math.floor(Duration.fromMillis(ms).as("days"));
 }
 const MISSING_FTP = "missing Intl.DateTimeFormat.formatToParts support";
-const MAX_DATE = 8640000000000000;
+const MAX_DATE = 8.64e15;
 function unsupportedZone(zone) {
     return new Invalid("unsupported zone", `the zone "${zone.name}" is not supported`);
 }

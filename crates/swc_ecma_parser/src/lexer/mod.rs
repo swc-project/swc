@@ -185,7 +185,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                     return self
                         .read_number(true)
                         .map(|v| match v {
-                            Left(v) => Num(v),
+                            Left((value, raw)) => Num {
+                                value,
+                                raw: raw.into(),
+                            },
                             Right((value, raw)) => BigInt {
                                 value,
                                 raw: raw.into(),
@@ -271,19 +274,25 @@ impl<'a, I: Input> Lexer<'a, I> {
                         return self
                             .read_number(false)
                             .map(|v| match v {
-                                Left(v) => Num(v),
+                                Left((value, raw)) => Num {
+                                    value,
+                                    raw: raw.into(),
+                                },
                                 Right((value, raw)) => BigInt {
                                     value,
                                     raw: raw.into(),
                                 },
                             })
-                            .map(Some)
+                            .map(Some);
                     }
                 };
 
                 return bigint
                     .map(|v| match v {
-                        Left(v) => Num(v),
+                        Left((value, raw)) => Num {
+                            value,
+                            raw: raw.into(),
+                        },
                         Right((value, raw)) => BigInt {
                             value,
                             raw: raw.into(),
@@ -296,13 +305,16 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return self
                     .read_number(false)
                     .map(|v| match v {
-                        Left(v) => Num(v),
+                        Left((value, raw)) => Num {
+                            value,
+                            raw: raw.into(),
+                        },
                         Right((value, raw)) => BigInt {
                             value,
                             raw: raw.into(),
                         },
                     })
-                    .map(Some)
+                    .map(Some);
             }
 
             '"' | '\'' => return self.read_str_lit().map(Some),

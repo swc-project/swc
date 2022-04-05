@@ -56,7 +56,7 @@ var ff;
 var gg = obj['1'];
 var gg;
 // Bracket notation property access using numeric value on type with numeric index signature
-var hh = numIndex[3];
+var hh = numIndex[3.0];
 var hh;
 // Bracket notation property access using enum value on type with numeric index signature
 var ii = numIndex[Compass.South];

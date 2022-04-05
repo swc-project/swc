@@ -805,7 +805,8 @@
                   "end": 327,
                   "ctxt": 0
                 },
-                "value": 0.5
+                "value": 0.5,
+                "raw": "0.5"
               }
             },
             "consequent": {

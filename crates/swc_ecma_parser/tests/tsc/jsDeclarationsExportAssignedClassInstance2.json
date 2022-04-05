@@ -50,7 +50,8 @@
               "end": 147,
               "ctxt": 0
             },
-            "value": 10.0
+            "value": 10.0,
+            "raw": "10"
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -87,7 +88,8 @@
               "end": 164,
               "ctxt": 0
             },
-            "value": 10.0
+            "value": 10.0,
+            "raw": "10"
           },
           "typeAnnotation": null,
           "isStatic": false,

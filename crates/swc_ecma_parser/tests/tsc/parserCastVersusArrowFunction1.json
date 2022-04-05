@@ -49,7 +49,8 @@
                 "end": 18,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "async": false,
             "generator": false,
@@ -215,7 +216,8 @@
                 "end": 54,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "async": false,
             "generator": false,
@@ -323,7 +325,8 @@
                 "end": 78,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "async": false,
             "generator": false,
@@ -426,7 +429,8 @@
                     "end": 97,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "typeAnnotation": null
               },
@@ -455,7 +459,8 @@
                     "end": 104,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 },
                 "typeAnnotation": null
               }
@@ -467,7 +472,8 @@
                 "end": 110,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "async": false,
             "generator": false,
@@ -759,7 +765,8 @@
                         "end": 165,
                         "ctxt": 0
                       },
-                      "value": 1.0
+                      "value": 1.0,
+                      "raw": "1"
                     }
                   },
                   {
@@ -788,7 +795,8 @@
                         "end": 172,
                         "ctxt": 0
                       },
-                      "value": 2.0
+                      "value": 2.0,
+                      "raw": "2"
                     }
                   }
                 ]

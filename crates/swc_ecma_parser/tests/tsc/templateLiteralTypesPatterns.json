@@ -7736,7 +7736,8 @@
                       "end": 4404,
                       "ctxt": 0
                     },
-                    "value": 42.0
+                    "value": 42.0,
+                    "raw": "42"
                   }
                 },
                 "definite": false
@@ -7796,7 +7797,8 @@
                       "end": 4437,
                       "ctxt": 0
                     },
-                    "value": 42.0
+                    "value": 42.0,
+                    "raw": "42"
                   }
                 },
                 "definite": false

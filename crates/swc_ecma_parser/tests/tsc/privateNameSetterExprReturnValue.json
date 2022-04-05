@@ -242,7 +242,8 @@
                                 "end": 100,
                                 "ctxt": 0
                               },
-                              "value": 42.0
+                              "value": 42.0,
+                              "raw": "42"
                             },
                             "right": {
                               "type": "NumericLiteral",
@@ -251,7 +252,8 @@
                                 "end": 104,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             }
                           }
                         }

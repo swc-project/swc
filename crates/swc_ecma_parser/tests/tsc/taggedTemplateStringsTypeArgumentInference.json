@@ -538,7 +538,8 @@
                 "end": 385,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           ],
           "quasis": [
@@ -788,7 +789,8 @@
                 "end": 474,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           ],
           "quasis": [
@@ -1928,7 +1930,8 @@
                   "end": 1122,
                   "ctxt": 0
                 },
-                "value": 3.0
+                "value": 3.0,
+                "raw": "3"
               },
               "async": false,
               "generator": false,
@@ -2275,7 +2278,8 @@
                 "end": 1371,
                 "ctxt": 0
               },
-              "value": 4.0
+              "value": 4.0,
+              "raw": "4"
             },
             {
               "type": "ArrowFunctionExpression",
@@ -2395,7 +2399,8 @@
                   "end": 1420,
                   "ctxt": 0
                 },
-                "value": 3.0
+                "value": 3.0,
+                "raw": "3"
               },
               "async": false,
               "generator": false,
@@ -2841,7 +2846,8 @@
                 "end": 1707,
                 "ctxt": 0
               },
-              "value": 4.0
+              "value": 4.0,
+              "raw": "4"
             },
             {
               "type": "ArrowFunctionExpression",
@@ -2961,7 +2967,8 @@
                   "end": 1760,
                   "ctxt": 0
                 },
-                "value": 3.0
+                "value": 3.0,
+                "raw": "3"
               },
               "async": false,
               "generator": false,
@@ -5968,7 +5975,8 @@
                     "end": 3026,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 {
                   "type": "ArrayExpression",
@@ -6408,7 +6416,8 @@
                           "end": 3302,
                           "ctxt": 0
                         },
-                        "value": 6.0
+                        "value": 6.0,
+                        "raw": "6"
                       }
                     },
                     {
@@ -6473,7 +6482,8 @@
                           "end": 3330,
                           "ctxt": 0
                         },
-                        "value": 6.0
+                        "value": 6.0,
+                        "raw": "6"
                       }
                     },
                     {
@@ -6684,7 +6694,8 @@
                           "end": 3496,
                           "ctxt": 0
                         },
-                        "value": 3.0
+                        "value": 3.0,
+                        "raw": "3"
                       }
                     }
                   ]
@@ -6716,7 +6727,8 @@
                           "end": 3508,
                           "ctxt": 0
                         },
-                        "value": 6.0
+                        "value": 6.0,
+                        "raw": "6"
                       }
                     }
                   ]
@@ -6748,7 +6760,8 @@
                           "end": 3520,
                           "ctxt": 0
                         },
-                        "value": 6.0
+                        "value": 6.0,
+                        "raw": "6"
                       }
                     }
                   ]
@@ -7007,7 +7020,8 @@
                     "end": 3689,
                     "ctxt": 0
                   },
-                  "value": 7.0
+                  "value": 7.0,
+                  "raw": "7"
                 },
                 {
                   "type": "Identifier",
@@ -7026,7 +7040,8 @@
                     "end": 3706,
                     "ctxt": 0
                   },
-                  "value": 4.0
+                  "value": 4.0,
+                  "raw": "4"
                 }
               ],
               "quasis": [

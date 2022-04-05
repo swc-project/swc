@@ -2563,7 +2563,8 @@
                       "end": 1013,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "definite": false
                 }
@@ -2862,7 +2863,8 @@
                       "end": 1133,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "definite": false
                 }

@@ -359,7 +359,8 @@
                       "end": 117,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   },
                   "value": {
                     "type": "ArrowFunctionExpression",
@@ -457,7 +458,8 @@
                           "end": 162,
                           "ctxt": 0
                         },
-                        "value": 0.0
+                        "value": 0.0,
+                        "raw": "0"
                       },
                       "right": {
                         "type": "NumericLiteral",
@@ -466,7 +468,8 @@
                           "end": 166,
                           "ctxt": 0
                         },
-                        "value": 1.0
+                        "value": 1.0,
+                        "raw": "1"
                       }
                     }
                   },
@@ -477,7 +480,8 @@
                       "end": 170,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   }
                 },
                 {
@@ -526,7 +530,8 @@
                             "end": 187,
                             "ctxt": 0
                           },
-                          "value": 0.0
+                          "value": 0.0,
+                          "raw": "0"
                         }
                       }
                     ]

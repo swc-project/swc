@@ -131,7 +131,8 @@
               "end": 81,
               "ctxt": 0
             },
-            "value": 20000.0
+            "value": 20000.0,
+            "raw": "20000"
           },
           "typeAnnotation": null,
           "isStatic": false,

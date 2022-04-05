@@ -59,7 +59,8 @@
               "end": 81,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "definite": false
         }
@@ -250,7 +251,8 @@
                               "end": 160,
                               "ctxt": 0
                             },
-                            "value": 1.0
+                            "value": 1.0,
+                            "raw": "1"
                           }
                         },
                         {
@@ -272,7 +274,8 @@
                               "end": 166,
                               "ctxt": 0
                             },
-                            "value": 2.0
+                            "value": 2.0,
+                            "raw": "2"
                           }
                         }
                       ]

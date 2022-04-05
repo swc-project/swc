@@ -216,7 +216,8 @@
               "end": 161,
               "ctxt": 0
             },
-            "value": 101.0
+            "value": 101.0,
+            "raw": "101"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -280,7 +281,8 @@
               "end": 201,
               "ctxt": 0
             },
-            "value": 11.0
+            "value": 11.0,
+            "raw": "11"
           },
           "typeAnnotation": null,
           "isStatic": false,

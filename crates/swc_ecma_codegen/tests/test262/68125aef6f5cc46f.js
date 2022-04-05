@@ -1,2 +1,2 @@
 "use strict";
-0;
+0b0;

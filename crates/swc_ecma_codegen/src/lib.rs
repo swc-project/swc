@@ -553,14 +553,19 @@ where
                 self.wr.write_str_lit(num.span, "-")?;
             }
             self.wr.write_str_lit(num.span, "Infinity")?;
-        } else {
-            let printed = if self.cfg.minify {
-                minify_number(num.value)
-            } else {
-                num.value.to_string()
-            };
+        } else if self.cfg.minify {
+            let minified = minify_number(num.value);
 
-            self.wr.write_str_lit(num.span, &printed)?;
+            self.wr.write_str_lit(num.span, &minified)?;
+        } else {
+            match &num.raw {
+                Some(raw) => {
+                    self.wr.write_str_lit(num.span, raw)?;
+                }
+                _ => {
+                    self.wr.write_str_lit(num.span, &num.value.to_string())?;
+                }
+            }
         }
     }
 
@@ -825,31 +830,48 @@ where
 
     /// `1..toString` is a valid property access, emit a dot after the literal
     pub fn needs_2dots_for_property_access(&self, expr: &Expr) -> bool {
-        if let Expr::Lit(Lit::Num(Number { span, value })) = expr {
-            if self.cfg.minify {
-                let s = minify_number(*value);
-                if s.as_bytes().contains(&b'.') || s.as_bytes().contains(&b'e') {
-                    return false;
-                }
-            }
-
-            if value.fract() == 0.0 {
-                return true;
-            }
-            if span.is_dummy() {
+        if let Expr::Lit(Lit::Num(Number { span, value, raw })) = expr {
+            // TODO we store `NaN` in `swc_ecma_minifier`, but we should not do it
+            if value.is_nan() || value.is_infinite() {
                 return false;
             }
 
-            self.cm
-                .with_snippet_of_span(*span, |text| {
-                    // check if numeric literal is a decimal literal that was originally written
-                    // with a dot
-                    if text.contains('.') {
-                        return false;
+            if self.cfg.minify {
+                let s = minify_number(*value);
+                let bytes = s.as_bytes();
+
+                if !bytes.contains(&b'.') && !bytes.contains(&b'e') {
+                    return true;
+                }
+
+                false
+            } else {
+                match raw {
+                    Some(raw) => {
+                        if raw.bytes().all(|c| c.is_ascii_digit()) {
+                            // Legacy octal contains only digits, but `value` and `raw` are
+                            // different
+                            if !value.to_string().eq(raw.as_ref()) {
+                                return false;
+                            }
+
+                            return true;
+                        }
+
+                        false
                     }
-                    text.starts_with('0') || text.ends_with(' ')
-                })
-                .unwrap_or(true)
+                    _ => {
+                        let s = value.to_string();
+                        let bytes = s.as_bytes();
+
+                        if !bytes.contains(&b'.') && !bytes.contains(&b'e') {
+                            return true;
+                        }
+
+                        false
+                    }
+                }
+            }
         } else {
             false
         }

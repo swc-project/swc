@@ -80,7 +80,8 @@
             "end": 366,
             "ctxt": 0
           },
-          "value": 1.0
+          "value": 1.0,
+          "raw": "1"
         }
       },
       "consequent": {
@@ -199,7 +200,8 @@
               "end": 475,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "definite": false
         }
@@ -237,7 +239,8 @@
             "end": 490,
             "ctxt": 0
           },
-          "value": 1.0
+          "value": 1.0,
+          "raw": "1"
         }
       },
       "consequent": {

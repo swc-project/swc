@@ -13,7 +13,7 @@ fail_todo!(JSXText);
 impl_struct!(Str, [span, value, raw]);
 impl_struct!(Bool, [span, value]);
 impl_struct!(Null, [span]);
-impl_struct!(Number, [span, value]);
+impl_struct!(Number, [span, value, raw]);
 impl_struct!(Regex, [span, exp, flags]);
 
 impl ToCode for JsWord {

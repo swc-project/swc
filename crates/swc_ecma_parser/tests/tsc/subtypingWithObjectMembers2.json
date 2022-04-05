@@ -516,7 +516,8 @@
                       "end": 479,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "computed": false,
                   "optional": false,
@@ -566,7 +567,8 @@
                       "end": 498,
                       "ctxt": 0
                     },
-                    "value": 2.0
+                    "value": 2.0,
+                    "raw": "2.0"
                   },
                   "computed": false,
                   "optional": false,
@@ -667,7 +669,8 @@
                       "end": 552,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "computed": false,
                   "optional": false,
@@ -717,7 +720,8 @@
                       "end": 578,
                       "ctxt": 0
                     },
-                    "value": 2.0
+                    "value": 2.0,
+                    "raw": "2"
                   },
                   "computed": false,
                   "optional": false,
@@ -1370,7 +1374,8 @@
                       "end": 1016,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "computed": false,
                   "optional": true,
@@ -1420,7 +1425,8 @@
                       "end": 1036,
                       "ctxt": 0
                     },
-                    "value": 2.0
+                    "value": 2.0,
+                    "raw": "2.0"
                   },
                   "computed": false,
                   "optional": true,
@@ -1521,7 +1527,8 @@
                       "end": 1091,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "computed": false,
                   "optional": true,
@@ -1571,7 +1578,8 @@
                       "end": 1118,
                       "ctxt": 0
                     },
-                    "value": 2.0
+                    "value": 2.0,
+                    "raw": "2"
                   },
                   "computed": false,
                   "optional": true,

@@ -4,11 +4,11 @@
     ], factory) : factory((global = global || self).React = {});
 }(this, function(exports) {
     'use strict';
-    var specialPropKeyWarningShown, specialPropRefWarningShown, didWarnAboutStringRefs, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, prefix, componentFrameCache, propTypesMisspellWarningShown, requestHostCallback, requestHostTimeout, cancelHostTimeout, shouldYieldToHost, requestPaint, getCurrentTime, forceFrameRate, REACT_ELEMENT_TYPE = 60103, REACT_PORTAL_TYPE = 60106;
-    exports.Fragment = 60107, exports.StrictMode = 60108, exports.Profiler = 60114;
-    var REACT_PROVIDER_TYPE = 60109, REACT_CONTEXT_TYPE = 60110, REACT_FORWARD_REF_TYPE = 60112;
-    exports.Suspense = 60113;
-    var REACT_SUSPENSE_LIST_TYPE = 60120, REACT_MEMO_TYPE = 60115, REACT_LAZY_TYPE = 60116, REACT_BLOCK_TYPE = 60121, REACT_SERVER_BLOCK_TYPE = 60122, REACT_FUNDAMENTAL_TYPE = 60117, REACT_DEBUG_TRACING_MODE_TYPE = 60129, REACT_LEGACY_HIDDEN_TYPE = 60131;
+    var specialPropKeyWarningShown, specialPropRefWarningShown, didWarnAboutStringRefs, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, prefix, componentFrameCache, propTypesMisspellWarningShown, requestHostCallback, requestHostTimeout, cancelHostTimeout, shouldYieldToHost, requestPaint, getCurrentTime, forceFrameRate, REACT_ELEMENT_TYPE = 0xeac7, REACT_PORTAL_TYPE = 0xeaca;
+    exports.Fragment = 0xeacb, exports.StrictMode = 0xeacc, exports.Profiler = 0xead2;
+    var REACT_PROVIDER_TYPE = 0xeacd, REACT_CONTEXT_TYPE = 0xeace, REACT_FORWARD_REF_TYPE = 0xead0;
+    exports.Suspense = 0xead1;
+    var REACT_SUSPENSE_LIST_TYPE = 0xead8, REACT_MEMO_TYPE = 0xead3, REACT_LAZY_TYPE = 0xead4, REACT_BLOCK_TYPE = 0xead9, REACT_SERVER_BLOCK_TYPE = 0xeada, REACT_FUNDAMENTAL_TYPE = 0xead5, REACT_DEBUG_TRACING_MODE_TYPE = 0xeae1, REACT_LEGACY_HIDDEN_TYPE = 0xeae3;
     if ('function' == typeof Symbol && Symbol.for) {
         var symbolFor = Symbol.for;
         REACT_ELEMENT_TYPE = symbolFor('react.element'), REACT_PORTAL_TYPE = symbolFor('react.portal'), exports.Fragment = symbolFor('react.fragment'), exports.StrictMode = symbolFor('react.strict_mode'), exports.Profiler = symbolFor('react.profiler'), REACT_PROVIDER_TYPE = symbolFor('react.provider'), REACT_CONTEXT_TYPE = symbolFor('react.context'), REACT_FORWARD_REF_TYPE = symbolFor('react.forward_ref'), exports.Suspense = symbolFor('react.suspense'), REACT_SUSPENSE_LIST_TYPE = symbolFor('react.suspense_list'), REACT_MEMO_TYPE = symbolFor('react.memo'), REACT_LAZY_TYPE = symbolFor('react.lazy'), REACT_BLOCK_TYPE = symbolFor('react.block'), REACT_SERVER_BLOCK_TYPE = symbolFor('react.server.block'), REACT_FUNDAMENTAL_TYPE = symbolFor('react.fundamental'), symbolFor('react.scope'), symbolFor('react.opaque.id'), REACT_DEBUG_TRACING_MODE_TYPE = symbolFor('react.debug_trace_mode'), symbolFor('react.offscreen'), REACT_LEGACY_HIDDEN_TYPE = symbolFor('react.legacy_hidden');

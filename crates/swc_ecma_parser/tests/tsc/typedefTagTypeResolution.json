@@ -115,7 +115,8 @@
               "end": 312,
               "ctxt": 0
             },
-            "value": 3.0
+            "value": 3.0,
+            "raw": "3"
           },
           "definite": false
         }

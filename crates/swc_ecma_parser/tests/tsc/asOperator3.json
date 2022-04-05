@@ -165,7 +165,8 @@
                       "end": 55,
                       "ctxt": 0
                     },
-                    "value": 123.0
+                    "value": 123.0,
+                    "raw": "123"
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -174,7 +175,8 @@
                       "end": 61,
                       "ctxt": 0
                     },
-                    "value": 456.0
+                    "value": 456.0,
+                    "raw": "456"
                   }
                 },
                 "typeAnnotation": {
@@ -275,7 +277,8 @@
                       "end": 97,
                       "ctxt": 0
                     },
-                    "value": 123.0
+                    "value": 123.0,
+                    "raw": "123"
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -284,7 +287,8 @@
                       "end": 103,
                       "ctxt": 0
                     },
-                    "value": 456.0
+                    "value": 456.0,
+                    "raw": "456"
                   }
                 },
                 "typeAnnotation": {
@@ -385,7 +389,8 @@
                       "end": 131,
                       "ctxt": 0
                     },
-                    "value": 123.0
+                    "value": 123.0,
+                    "raw": "123"
                   },
                   "right": {
                     "type": "NumericLiteral",
@@ -394,7 +399,8 @@
                       "end": 137,
                       "ctxt": 0
                     },
-                    "value": 456.0
+                    "value": 456.0,
+                    "raw": "456"
                   }
                 },
                 "typeAnnotation": {
@@ -487,7 +493,8 @@
                     "end": 180,
                     "ctxt": 0
                   },
-                  "value": 123.0
+                  "value": 123.0,
+                  "raw": "123"
                 }
               ],
               "quasis": [
@@ -650,7 +657,8 @@
                   "end": 236,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "TemplateLiteral",
@@ -667,7 +675,8 @@
                       "end": 243,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 ],
                 "quasis": [
@@ -778,7 +787,8 @@
                       "end": 295,
                       "ctxt": 0
                     },
-                    "value": 123.0
+                    "value": 123.0,
+                    "raw": "123"
                   }
                 ],
                 "quasis": [

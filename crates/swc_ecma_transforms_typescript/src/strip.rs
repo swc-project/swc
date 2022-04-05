@@ -509,6 +509,7 @@ where
                                 op!(">>>") => ((l.round() as u64) >> (r.round() as u64)) as _,
                                 _ => return Err(()),
                             },
+                            raw: None,
                         })
                     }
                     (TsLit::Str(l), TsLit::Str(r)) if expr.op == op!(bin, "+") => {
@@ -545,7 +546,7 @@ where
             if let Some(expr) = init {
                 match expr {
                     Expr::Lit(Lit::Str(s)) => return Ok(TsLit::Str(s.clone())),
-                    Expr::Lit(Lit::Num(s)) => return Ok(TsLit::Number(*s)),
+                    Expr::Lit(Lit::Num(s)) => return Ok(TsLit::Number(s.clone())),
                     Expr::Bin(ref bin) => return compute_bin(e, span, values, bin),
                     Expr::Paren(ref paren) => {
                         return compute(e, span, values, default, Some(&paren.expr))
@@ -583,6 +584,7 @@ where
                                         op!("~") => (!(v as i32)) as f64,
                                         _ => return Err(()),
                                     },
+                                    raw: None,
                                 }))
                             }
                             TsLit::Str(_) => {}
@@ -607,6 +609,7 @@ where
                 return Ok(TsLit::Number(Number {
                     span,
                     value: value as _,
+                    raw: None,
                 }));
             }
 
@@ -643,7 +646,7 @@ where
                 let id_span = m.id.span();
                 let val = compute(&e, id_span, &mut values, Some(default), m.init.as_deref())
                     .map(|val| {
-                        if let TsLit::Number(n) = val {
+                        if let TsLit::Number(ref n) = val {
                             default = n.value as i64 + 1;
                         }
                         values.insert(m.id.as_ref().clone(), Some(val.clone()));

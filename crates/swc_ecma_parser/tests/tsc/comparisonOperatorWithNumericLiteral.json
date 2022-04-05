@@ -187,7 +187,8 @@
             "end": 91,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         }
       }
     },
@@ -230,7 +231,8 @@
               "end": 106,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
@@ -283,7 +285,8 @@
               "end": 125,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsTypeReference",
@@ -339,7 +342,8 @@
             "end": 147,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         }
       }
     },
@@ -382,7 +386,8 @@
               "end": 162,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
@@ -435,7 +440,8 @@
               "end": 181,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsTypeReference",
@@ -491,7 +497,8 @@
             "end": 205,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         }
       }
     },
@@ -534,7 +541,8 @@
               "end": 221,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
@@ -587,7 +595,8 @@
               "end": 241,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsTypeReference",
@@ -643,7 +652,8 @@
             "end": 265,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         }
       }
     },
@@ -686,7 +696,8 @@
               "end": 281,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
@@ -739,7 +750,8 @@
               "end": 301,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsTypeReference",
@@ -795,7 +807,8 @@
             "end": 325,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         }
       }
     },
@@ -838,7 +851,8 @@
               "end": 341,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
@@ -891,7 +905,8 @@
               "end": 361,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsTypeReference",
@@ -947,7 +962,8 @@
             "end": 385,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         }
       }
     },
@@ -990,7 +1006,8 @@
               "end": 401,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
@@ -1043,7 +1060,8 @@
               "end": 421,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsTypeReference",
@@ -1099,7 +1117,8 @@
             "end": 447,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         }
       }
     },
@@ -1142,7 +1161,8 @@
               "end": 464,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
@@ -1195,7 +1215,8 @@
               "end": 485,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsTypeReference",
@@ -1251,7 +1272,8 @@
             "end": 511,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         }
       }
     },
@@ -1294,7 +1316,8 @@
               "end": 528,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
@@ -1347,7 +1370,8 @@
               "end": 549,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "typeAnnotation": {
             "type": "TsTypeReference",

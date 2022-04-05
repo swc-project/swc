@@ -50,7 +50,8 @@
               "end": 58,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           }
         },
         {
@@ -77,7 +78,8 @@
               "end": 69,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         }
       ]
@@ -134,7 +136,8 @@
                 "end": 114,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "NumericLiteral",
@@ -143,7 +146,8 @@
                 "end": 119,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           }
         },
@@ -179,7 +183,8 @@
                 "end": 130,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "NumericLiteral",
@@ -188,7 +193,8 @@
                 "end": 135,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           }
         }
@@ -301,7 +307,8 @@
                   "end": 175,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             },
             "consequent": {
@@ -366,7 +373,8 @@
                   "end": 221,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               }
             },
             "consequent": {
@@ -431,7 +439,8 @@
                   "end": 257,
                   "ctxt": 0
                 },
-                "value": 2.0
+                "value": 2.0,
+                "raw": "2"
               }
             },
             "consequent": {
@@ -496,7 +505,8 @@
                   "end": 293,
                   "ctxt": 0
                 },
-                "value": 3.0
+                "value": 3.0,
+                "raw": "3"
               }
             },
             "consequent": {
@@ -643,7 +653,8 @@
                   "end": 363,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             },
             "consequent": {
@@ -708,7 +719,8 @@
                   "end": 399,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               }
             },
             "consequent": {
@@ -773,7 +785,8 @@
                   "end": 435,
                   "ctxt": 0
                 },
-                "value": 2.0
+                "value": 2.0,
+                "raw": "2"
               }
             },
             "consequent": {
@@ -838,7 +851,8 @@
                   "end": 471,
                   "ctxt": 0
                 },
-                "value": 3.0
+                "value": 3.0,
+                "raw": "3"
               }
             },
             "consequent": {

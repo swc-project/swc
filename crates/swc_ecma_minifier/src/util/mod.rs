@@ -19,7 +19,11 @@ pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     if cfg!(feature = "debug") {
         tracing::debug!("Creating a numeric literal");
     }
-    Expr::Lit(Lit::Num(Number { span, value }))
+    Expr::Lit(Lit::Num(Number {
+        span,
+        value,
+        raw: None,
+    }))
 }
 
 pub trait ModuleItemExt:
@@ -99,6 +103,7 @@ pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
         arg: Box::new(Expr::Lit(Lit::Num(Number {
             span: DUMMY_SP,
             value: if value { 0.0 } else { 1.0 },
+            raw: None,
         }))),
     })
 }
