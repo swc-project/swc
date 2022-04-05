@@ -2855,12 +2855,19 @@ where
         keyword!("throw");
 
         {
-            if n.arg.starts_with_alpha_num() {
+            let need_paren = !n.arg.span().is_dummy() && self.has_leading_comment(&n.arg);
+            if need_paren {
+                punct!("(");
+            } else if n.arg.starts_with_alpha_num() {
                 space!();
             } else {
                 formatting_space!();
             }
+
             emit!(n.arg);
+            if need_paren {
+                punct!(")");
+            }
         }
         semi!();
 
