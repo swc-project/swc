@@ -26,6 +26,9 @@
 - **(es/minifier)** Improve sequential inlining (#4231) ([fe358ad](https://github.com/swc-project/swc/commit/fe358ad0b93d6f3bd2150fc9ce888f798875beed))
 
 
+- **(es/minifier)** Improve inliner and evaluator (#4216) ([4701da5](https://github.com/swc-project/swc/commit/4701da576f0b12b656cf1baa57174a787b590742))
+
+
 - **(html)** Initialize (#4240) ([3e7872c](https://github.com/swc-project/swc/commit/3e7872c8de05ac46ef6ffb99f778ef5b64e47f1b))
 
 ### Miscellaneous Tasks
