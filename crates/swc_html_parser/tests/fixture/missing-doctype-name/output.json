@@ -1,0 +1,394 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 0,
+    "end": 95,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 0,
+        "end": 10,
+        "ctxt": 0
+      },
+      "token": {
+        "Doctype": {
+          "name": "�",
+          "force_quirks": true,
+          "public_id": null,
+          "system_id": null
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 10,
+        "end": 11,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 11,
+        "end": 17,
+        "ctxt": 0
+      },
+      "token": {
+        "StartTag": {
+          "tag_name": "html",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 17,
+        "end": 18,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 18,
+        "end": 24,
+        "ctxt": 0
+      },
+      "token": {
+        "StartTag": {
+          "tag_name": "body",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 24,
+        "end": 25,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 25,
+        "end": 26,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 26,
+        "end": 60,
+        "ctxt": 0
+      },
+      "token": {
+        "StartTag": {
+          "tag_name": "a",
+          "self_closing": false,
+          "attributes": [
+            {
+              "name": "href",
+              "value": "https://www.w3schools.com"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 60,
+        "end": 61,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "T"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 61,
+        "end": 62,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "h"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 62,
+        "end": 63,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "i"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 63,
+        "end": 64,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "s"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 64,
+        "end": 65,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 65,
+        "end": 66,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "i"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 66,
+        "end": 67,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "s"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 67,
+        "end": 68,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 68,
+        "end": 69,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "a"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 69,
+        "end": 70,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 70,
+        "end": 71,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "l"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 71,
+        "end": 72,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "i"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 72,
+        "end": 73,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 73,
+        "end": 74,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "k"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 74,
+        "end": 78,
+        "ctxt": 0
+      },
+      "token": {
+        "EndTag": {
+          "tag_name": "a",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 78,
+        "end": 79,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 79,
+        "end": 80,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 80,
+        "end": 87,
+        "ctxt": 0
+      },
+      "token": {
+        "EndTag": {
+          "tag_name": "body",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 87,
+        "end": 88,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 88,
+        "end": 95,
+        "ctxt": 0
+      },
+      "token": {
+        "EndTag": {
+          "tag_name": "html",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    }
+  ]
+}
