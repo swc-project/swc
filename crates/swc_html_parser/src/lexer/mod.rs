@@ -891,6 +891,7 @@ where
                             });
 
                             self.state = State::RawtextEndTagName;
+                            self.reconsume();
                         }
                         // Anything else
                         // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
@@ -2833,6 +2834,7 @@ where
                         // Reconsume in the comment end dash state.
                         _ => {
                             self.state = State::CommentEndDash;
+                            self.reconsume()
                         }
                     }
                 }
