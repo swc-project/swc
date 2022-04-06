@@ -4494,38 +4494,30 @@ where
                     // The shortest entity - `&GT`
                     // The longest entity - `&CounterClockwiseContourIntegral;`
                     let mut entity: Option<&Entity> = None;
-                    let mut prev_entity: Option<&Entity> = None;
                     let mut cur_pos: Option<BytePos> = None;
 
-                    // TODO fix me with surrogtais pairs
+                    // TODO fix me with surrogate pairs
                     while let Some(c) = &self.consume_next_char() {
-                        let next = self.next();
-
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(*c);
 
-                            entity = HTML_ENTITIES.get(temporary_buffer);
+                            let found_entity = HTML_ENTITIES.get(temporary_buffer);
 
-                            // Some entities can we written without `;`, i.e. `&amp` and `&amp;`, so
-                            // we should consume the maximum number of characters possible
-                            if entity.is_some() && next == Some(';') {
-                                prev_entity = entity;
+                            if let Some(found_entity) = found_entity {
                                 cur_pos = Some(self.input.cur_pos());
 
-                                continue;
-                            }
-
-                            if entity.is_none() && prev_entity.is_some() {
-                                entity = prev_entity;
-
-                                self.input.reset_to(cur_pos.unwrap());
+                                entity = Some(found_entity);
                             }
 
                             // We stop when:
                             // - no characters after `;`
                             // - we found entity
                             // - we consume more characters them the longest entity
-                            if *c == ';' || entity.is_some() || temporary_buffer.len() > 33 {
+                            if *c == ';' || temporary_buffer.len() > 33 {
+                                if let Some(cur_pos) = cur_pos {
+                                    self.input.reset_to(cur_pos);
+                                }
+
                                 break;
                             }
                         }

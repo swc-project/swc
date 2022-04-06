@@ -100,9 +100,12 @@
   97 | |   &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
   98 | |   </div>
   99 | |   
- 100 | |   </body>
- 101 | |   </html>
- 102 | `-> 
+ 100 | |   <div>I'm &notin; I tell you</div>
+ 101 | |   <div>I'm &notit; I tell you</div>
+ 102 | |   
+ 103 | |   </body>
+ 104 | |   </html>
+ 105 | `-> 
      `----
 
   x Doctype { name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
@@ -4195,28 +4198,10 @@
     :         ^
     `----
 
-  x Character { value: '¬' }
+  x Character { value: '∉' }
     ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
  42 | <div>I'm &notin; I tell you</div>
-    :          ^^^^
-    `----
-
-  x Character { value: 'i' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
- 42 | <div>I'm &notin; I tell you</div>
-    :              ^
-    `----
-
-  x Character { value: 'n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
- 42 | <div>I'm &notin; I tell you</div>
-    :               ^
-    `----
-
-  x Character { value: ';' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
- 42 | <div>I'm &notin; I tell you</div>
-    :                ^
+    :          ^^^^^^^
     `----
 
   x Character { value: ' ' }
@@ -11245,36 +11230,290 @@
      ,-[$DIR/tests/fixture/html-entity/input.html:99:1]
   99 | 
      : ^
- 100 | </body>
+ 100 | <div>I'm &notin; I tell you</div>
      `----
 
-  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
      ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
- 100 | </body>
-     : ^^^^^^^
+ 100 | <div>I'm &notin; I tell you</div>
+     : ^^^^^
+     `----
+
+  x Character { value: 'I' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :      ^
+     `----
+
+  x Character { value: '\'' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :       ^
+     `----
+
+  x Character { value: 'm' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :        ^
+     `----
+
+  x Character { value: ' ' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :         ^
+     `----
+
+  x Character { value: '∉' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :          ^^^^^^^
+     `----
+
+  x Character { value: ' ' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                 ^
+     `----
+
+  x Character { value: 'I' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                  ^
+     `----
+
+  x Character { value: ' ' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                   ^
+     `----
+
+  x Character { value: 't' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                    ^
+     `----
+
+  x Character { value: 'e' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                     ^
+     `----
+
+  x Character { value: 'l' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                      ^
+     `----
+
+  x Character { value: 'l' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                       ^
+     `----
+
+  x Character { value: ' ' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                        ^
+     `----
+
+  x Character { value: 'y' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                         ^
+     `----
+
+  x Character { value: 'o' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                          ^
+     `----
+
+  x Character { value: 'u' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                           ^
+     `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | <div>I'm &notin; I tell you</div>
+     :                            ^^^^^^
      `----
 
   x Character { value: '\n' }
      ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
- 100 | </body>
-     :        ^
- 101 | </html>
+ 100 | <div>I'm &notin; I tell you</div>
+     :                                  ^
+ 101 | <div>I'm &notit; I tell you</div>
      `----
 
-  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
      ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
- 101 | </html>
-     : ^^^^^^^
+ 101 | <div>I'm &notit; I tell you</div>
+     : ^^^^^
+     `----
+
+  x Character { value: 'I' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :      ^
+     `----
+
+  x Character { value: '\'' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :       ^
+     `----
+
+  x Character { value: 'm' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :        ^
+     `----
+
+  x Character { value: ' ' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :         ^
+     `----
+
+  x Character { value: '¬' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :          ^^^^
+     `----
+
+  x Character { value: 'i' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :              ^
+     `----
+
+  x Character { value: 't' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :               ^
+     `----
+
+  x Character { value: ';' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                ^
+     `----
+
+  x Character { value: ' ' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                 ^
+     `----
+
+  x Character { value: 'I' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                  ^
+     `----
+
+  x Character { value: ' ' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                   ^
+     `----
+
+  x Character { value: 't' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                    ^
+     `----
+
+  x Character { value: 'e' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                     ^
+     `----
+
+  x Character { value: 'l' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                      ^
+     `----
+
+  x Character { value: 'l' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                       ^
+     `----
+
+  x Character { value: ' ' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                        ^
+     `----
+
+  x Character { value: 'y' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                         ^
+     `----
+
+  x Character { value: 'o' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                          ^
+     `----
+
+  x Character { value: 'u' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                           ^
+     `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | <div>I'm &notit; I tell you</div>
+     :                            ^^^^^^
      `----
 
   x Character { value: '\n' }
      ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
- 101 | </html>
-     :        ^
+ 101 | <div>I'm &notit; I tell you</div>
+     :                                  ^
      `----
 
   x Character { value: '\n' }
      ,-[$DIR/tests/fixture/html-entity/input.html:102:1]
  102 | 
+     : ^
+ 103 | </body>
+     `----
+
+  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+     ,-[$DIR/tests/fixture/html-entity/input.html:103:1]
+ 103 | </body>
+     : ^^^^^^^
+     `----
+
+  x Character { value: '\n' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:103:1]
+ 103 | </body>
+     :        ^
+ 104 | </html>
+     `----
+
+  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+     ,-[$DIR/tests/fixture/html-entity/input.html:104:1]
+ 104 | </html>
+     : ^^^^^^^
+     `----
+
+  x Character { value: '\n' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:104:1]
+ 104 | </html>
+     :        ^
+     `----
+
+  x Character { value: '\n' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:105:1]
+ 105 | 
      : ^
      `----
