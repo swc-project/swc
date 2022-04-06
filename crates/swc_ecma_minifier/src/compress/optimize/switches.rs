@@ -6,7 +6,7 @@ use swc_ecma_utils::{ident::IdentLike, prepend, ExprExt, StmtExt, Type, Value::K
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
-use crate::{mode::Mode, util::ExprOptExt};
+use crate::{compress::util::is_pure_undefined, mode::Mode};
 
 /// Methods related to option `switches`.
 impl<M> Optimizer<'_, M>
@@ -29,23 +29,28 @@ where
             _ => return,
         };
 
-        let discriminant = &mut stmt.discriminant;
-        if let Expr::Update(..) = &**discriminant {
-            return;
+        fn tail_expr(e: &Expr) -> &Expr {
+            match e {
+                Expr::Seq(s) => s.exprs.last().unwrap(),
+                _ => e,
+            }
         }
 
-        if stmt
-            .cases
-            .iter()
-            .any(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))))
-        {
-            return;
+        let discriminant = &mut stmt.discriminant;
+
+        let tail = tail_expr(discriminant);
+
+        match tail {
+            Expr::Lit(_) => (),
+            Expr::Ident(id) if self.data.vars.get(&id.to_id()).unwrap().declared => (),
+            e if is_pure_undefined(e) => (),
+            _ => return,
         }
 
         let matching_case = stmt.cases.iter_mut().position(|case| {
             case.test
                 .as_ref()
-                .map(|test| discriminant.value_mut().eq_ignore_span(test))
+                .map(|test| tail.eq_ignore_span(tail_expr(test)))
                 .unwrap_or(false)
         });
 
