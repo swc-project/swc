@@ -1757,6 +1757,7 @@ where
                         // Start a new attribute in the current tag token. Set that attribute's name
                         // to the current input character, and its value to the empty string. Switch
                         // to the attribute name state.
+                        // We set `None` for `value` to support boolean attributes in AST
                         Some(c @ '=') => {
                             self.emit_error(ErrorKind::UnexpectedEqualsSignBeforeAttributeName);
                             if let Some(ref mut token) = self.cur_token {
@@ -1764,13 +1765,13 @@ where
                                     Token::StartTag { attributes, .. } => {
                                         attributes.push(Attribute {
                                             name: c.to_string().into(),
-                                            value: "".into(),
+                                            value: None,
                                         });
                                     }
                                     Token::EndTag { attributes, .. } => {
                                         attributes.push(Attribute {
                                             name: c.to_string().into(),
-                                            value: "".into(),
+                                            value: None,
                                         });
                                     }
                                     _ => {}
@@ -1781,19 +1782,20 @@ where
                         // Anything else
                         // Start a new attribute in the current tag token. Set that attribute name
                         // and value to the empty string. Reconsume in the attribute name state.
+                        // We set `None` for `value` to support boolean attributes in AST
                         _ => {
                             if let Some(ref mut token) = self.cur_token {
                                 match token {
                                     Token::StartTag { attributes, .. } => {
                                         attributes.push(Attribute {
                                             name: "".into(),
-                                            value: "".into(),
+                                            value: None,
                                         });
                                     }
                                     Token::EndTag { attributes, .. } => {
                                         attributes.push(Attribute {
                                             name: "".into(),
-                                            value: "".into(),
+                                            value: None,
                                         });
                                     }
                                     _ => {}
@@ -1943,6 +1945,7 @@ where
                         // Anything else
                         // Start a new attribute in the current tag token. Set that attribute name
                         // and value to the empty string. Reconsume in the attribute name state.
+                        // We set `None` for `value` to support boolean attributes in AST
                         _ => {
                             if let Some(ref mut token) = self.cur_token {
                                 match token {
@@ -1950,7 +1953,7 @@ where
                                     | Token::EndTag { attributes, .. } => {
                                         attributes.push(Attribute {
                                             name: "".into(),
-                                            value: "".into(),
+                                            value: None,
                                         });
                                     }
                                     _ => {}
@@ -1970,9 +1973,7 @@ where
                         // U+000C FORM FEED (FF)
                         // U+0020 SPACE
                         // Ignore the character.
-                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {
-                            self.state = State::BeforeAttributeName;
-                        }
+                        Some('\x09' | '\x0a' | '\x0c' | '\x20') => {}
                         // U+0022 QUOTATION MARK (")
                         // Switch to the attribute value (double-quoted) state.
                         Some('"') => {
@@ -2028,10 +2029,16 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            new_value.push_str(&attribute.value);
+                                            match &attribute.value {
+                                                Some(value) => {
+                                                    new_value.push_str(value);
+                                                }
+                                                None => {}
+                                            }
+
                                             new_value.push(REPLACEMENT_CHARACTER);
 
-                                            attribute.value = new_value.into();
+                                            attribute.value = Some(new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2054,10 +2061,16 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            new_value.push_str(&attribute.value);
+                                            match &attribute.value {
+                                                Some(value) => {
+                                                    new_value.push_str(value);
+                                                }
+                                                None => {}
+                                            }
+
                                             new_value.push(c);
 
-                                            attribute.value = new_value.into();
+                                            attribute.value = Some(new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2095,10 +2108,16 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            new_value.push_str(&attribute.value);
+                                            match &attribute.value {
+                                                Some(value) => {
+                                                    new_value.push_str(value);
+                                                }
+                                                None => {}
+                                            }
+
                                             new_value.push(REPLACEMENT_CHARACTER);
 
-                                            attribute.value = new_value.into();
+                                            attribute.value = Some(new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2121,10 +2140,16 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            new_value.push_str(&attribute.value);
+                                            match &attribute.value {
+                                                Some(value) => {
+                                                    new_value.push_str(value);
+                                                }
+                                                None => {}
+                                            }
+
                                             new_value.push(c);
 
-                                            attribute.value = new_value.into();
+                                            attribute.value = Some(new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2171,10 +2196,16 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            new_value.push_str(&attribute.value);
+                                            match &attribute.value {
+                                                Some(value) => {
+                                                    new_value.push_str(value);
+                                                }
+                                                None => {}
+                                            }
+
                                             new_value.push(REPLACEMENT_CHARACTER);
 
-                                            attribute.value = new_value.into();
+                                            attribute.value = Some(new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2207,10 +2238,16 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            new_value.push_str(&attribute.value);
+                                            match &attribute.value {
+                                                Some(value) => {
+                                                    new_value.push_str(value);
+                                                }
+                                                None => {}
+                                            }
+
                                             new_value.push(c);
 
-                                            attribute.value = new_value.into();
+                                            attribute.value = Some(new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -4416,10 +4453,16 @@ where
                                             if let Some(attribute) = attributes.last_mut() {
                                                 let mut new_value = String::new();
 
-                                                new_value.push_str(&attribute.value);
+                                                match &attribute.value {
+                                                    Some(value) => {
+                                                        new_value.push_str(value);
+                                                    }
+                                                    None => {}
+                                                }
+
                                                 new_value.push(c);
 
-                                                attribute.value = new_value.into();
+                                                attribute.value = Some(new_value.into());
                                             }
                                         }
                                         _ => {}
