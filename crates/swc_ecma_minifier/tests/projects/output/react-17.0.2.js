@@ -805,7 +805,6 @@
                     break;
                 default:
                     priorityLevel = currentPriorityLevel;
-                    break;
             }
             var priorityLevel, previousPriorityLevel = currentPriorityLevel;
             currentPriorityLevel = priorityLevel;
@@ -837,7 +836,6 @@
                 case 3:
                 default:
                     timeout = 5000;
-                    break;
             }
             var expirationTime = startTime + timeout, newTask = {
                 id: taskIdCounter++,

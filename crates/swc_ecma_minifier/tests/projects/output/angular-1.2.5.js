@@ -1154,7 +1154,6 @@
                             try {
                                 (match = COMMENT_DIRECTIVE_REGEXP.exec(node.nodeValue)) && (nName = directiveNormalize(match[1]), addDirective(directives, nName, 'M', maxPriority, ignoreDirective) && (attrs[nName] = trim1(match[2])));
                             } catch (e) {}
-                            break;
                     }
                     return directives.sort(byPriority), directives;
                 }
@@ -3191,7 +3190,6 @@
                                 return comparator(obj, text);
                             default:
                                 for(var objKey in obj)if ('$' !== objKey.charAt(0) && search(obj[objKey], text)) return !0;
-                                break;
                         }
                         return !1;
                     case "array":

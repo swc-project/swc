@@ -968,7 +968,6 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                     break;
                 case 'array':
                     object[key] = value.clone();
-                    break;
             }
         }
         return object;

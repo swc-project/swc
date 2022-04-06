@@ -442,7 +442,6 @@
                             case e.DOM_DELTA_LINE:
                             case e.DOM_DELTA_PAGE:
                                 e.wheelX = 5 * (e.deltaX || 0), e.wheelY = 5 * (e.deltaY || 0);
-                                break;
                         }
                         callback(e);
                     }, destroyer) : addListener(el, "DOMMouseScroll", function(e) {
@@ -915,7 +914,6 @@
                                 break;
                             case 88:
                                 onCut(e);
-                                break;
                         }
                     }, host);
                     var onCompositionUpdate = function() {
@@ -1328,7 +1326,6 @@
                                     break;
                                 case "copy":
                                     range = editor.moveText(range, dragCursor, !0);
-                                    break;
                             }
                             else {
                                 var dropData = dataTransfer.getData('Text');
@@ -4515,7 +4512,6 @@
                         case "remove":
                             var endColumn = delta.end.column, endRow = delta.end.row;
                             row === endRow ? docLines[row] = line.substring(0, startColumn) + line.substring(endColumn) : docLines.splice(row, endRow - row + 1, line.substring(0, startColumn) + docLines[endRow].substring(endColumn));
-                            break;
                     }
                 };
             }), ace.define("ace/anchor", [
@@ -7815,9 +7811,6 @@
                                         case "selectionPart":
                                             var range = this.selection.getRange(), config = this.renderer.layerConfig;
                                             (range.start.row >= config.lastRow || range.end.row <= config.firstRow) && this.renderer.scrollSelectionIntoView(this.selection.anchor, this.selection.lead);
-                                            break;
-                                        default:
-                                            break;
                                     }
                                     "animate" == scrollIntoView && this.renderer.animateScrolling(this.curOp.scrollTop);
                                 }
@@ -8572,7 +8565,6 @@
                                         case ']':
                                         case '}':
                                             depth[bracketType]--, -1 === depth[bracketType] && (matchType = 'bracket', found = !0);
-                                            break;
                                     }
                                 } else -1 !== token.type.indexOf('tag-name') && (isNaN(depth[token.value]) && (depth[token.value] = 0), '<' === prevToken.value ? depth[token.value]++ : '</' === prevToken.value && depth[token.value]--, -1 === depth[token.value] && (matchType = 'tag', found = !0));
                                 found || (prevToken = token, token = iterator.stepForward(), i = 0);
@@ -11131,7 +11123,6 @@ margin: 0 10px;\
                                 break;
                             case "log":
                                 window.console && console.log && console.log.apply(console, msg.data);
-                                break;
                         }
                     }, this.reportError = function(err) {
                         window.console && console.error && console.error(err);

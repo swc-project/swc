@@ -9700,7 +9700,6 @@
                                 break;
                             default:
                                 i += 3;
-                                break;
                         }
                         buffer = buffer.subarray(syncPoint), i -= syncPoint, syncPoint = 0;
                     }, this.reset = function() {
@@ -9750,7 +9749,6 @@
                                 break;
                             case 0x09:
                                 event.nalUnitType = 'access_unit_delimiter_rbsp';
-                                break;
                         }
                         self.trigger('data', event);
                     }), nalByteStream.on('done', function() {
@@ -9890,7 +9888,6 @@
                                         expGolombDecoder.readUnsignedByte() << 8 | expGolombDecoder.readUnsignedByte(),
                                         expGolombDecoder.readUnsignedByte() << 8 | expGolombDecoder.readUnsignedByte()
                                     ];
-                                    break;
                             }
                             sarRatio && (sarRatio[0], sarRatio[1]);
                         }
@@ -10345,7 +10342,6 @@
                                 break;
                             }
                             result.seiNals.push(seiNal);
-                            break;
                     }
                     return result;
                 }, parseSamples = function(truns, baseMediaDecodeTime, tfhd) {
@@ -10649,7 +10645,6 @@
                                 break;
                             default:
                                 frameI += 3;
-                                break;
                         }
                         return frameBuffer = frameBuffer.subarray(frameSyncPoint), frameI -= frameSyncPoint, frameSyncPoint = 0, frameBuffer && frameBuffer.byteLength > 3 && 'slice_layer_without_partitioning_rbsp_idr' === parseNalUnitType(0x1f & frameBuffer[frameSyncPoint + 3]) && (foundKeyFrame = !0), foundKeyFrame;
                     }
@@ -10666,7 +10661,6 @@
                                     pmt.table = pmt.table || {}, Object.keys(table).forEach(function(key) {
                                         pmt.table[key] = table[key];
                                     });
-                                    break;
                             }
                             startIndex += MP2T_PACKET_LENGTH, endIndex += MP2T_PACKET_LENGTH;
                             continue;
@@ -10676,12 +10670,7 @@
                 }, parseAudioPes_ = function(bytes, pmt, result) {
                     for(var packet, pesType, pusi, parsed, startIndex = 0, endIndex = MP2T_PACKET_LENGTH, endLoop = !1; endIndex <= bytes.byteLength;){
                         if (0x47 === bytes[startIndex] && (0x47 === bytes[endIndex] || endIndex === bytes.byteLength)) {
-                            switch(packet = bytes.subarray(startIndex, endIndex), probe.ts.parseType(packet, pmt.pid)){
-                                case 'pes':
-                                    pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), 'audio' === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = 'audio', result.audio.push(parsed), endLoop = !0);
-                                    break;
-                            }
-                            if (endLoop) break;
+                            if (packet = bytes.subarray(startIndex, endIndex), 'pes' === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), 'audio' === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = 'audio', result.audio.push(parsed), endLoop = !0)), endLoop) break;
                             startIndex += MP2T_PACKET_LENGTH, endIndex += MP2T_PACKET_LENGTH;
                             continue;
                         }
@@ -10689,12 +10678,7 @@
                     }
                     for(startIndex = (endIndex = bytes.byteLength) - MP2T_PACKET_LENGTH, endLoop = !1; startIndex >= 0;){
                         if (0x47 === bytes[startIndex] && (0x47 === bytes[endIndex] || endIndex === bytes.byteLength)) {
-                            switch(packet = bytes.subarray(startIndex, endIndex), probe.ts.parseType(packet, pmt.pid)){
-                                case 'pes':
-                                    pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), 'audio' === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = 'audio', result.audio.push(parsed), endLoop = !0);
-                                    break;
-                            }
-                            if (endLoop) break;
+                            if (packet = bytes.subarray(startIndex, endIndex), 'pes' === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), 'audio' === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = 'audio', result.audio.push(parsed), endLoop = !0)), endLoop) break;
                             startIndex -= MP2T_PACKET_LENGTH, endIndex -= MP2T_PACKET_LENGTH;
                             continue;
                         }
@@ -10706,20 +10690,16 @@
                         size: 0
                     }; endIndex < bytes.byteLength;){
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
-                            switch(packet = bytes.subarray(startIndex, endIndex), probe.ts.parseType(packet, pmt.pid)){
-                                case 'pes':
-                                    if (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), 'video' === pesType && (pusi && !endLoop && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = 'video', result.video.push(parsed), endLoop = !0), !result.firstKeyFrame)) {
-                                        if (pusi && 0 !== currentFrame.size) {
-                                            for(frame = new Uint8Array(currentFrame.size), i = 0; currentFrame.data.length;)pes = currentFrame.data.shift(), frame.set(pes, i), i += pes.byteLength;
-                                            if (probe.ts.videoPacketContainsKeyFrame(frame)) {
-                                                var firstKeyFrame = probe.ts.parsePesTime(frame);
-                                                firstKeyFrame ? (result.firstKeyFrame = firstKeyFrame, result.firstKeyFrame.type = 'video') : console.warn("Failed to extract PTS/DTS from PES at first keyframe. This could be an unusual TS segment, or else mux.js did not parse your TS segment correctly. If you know your TS segments do contain PTS/DTS on keyframes please file a bug report! You can try ffprobe to double check for yourself.");
-                                            }
-                                            currentFrame.size = 0;
-                                        }
-                                        currentFrame.data.push(packet), currentFrame.size += packet.byteLength;
+                            if (packet = bytes.subarray(startIndex, endIndex), 'pes' === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), 'video' === pesType && (pusi && !endLoop && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = 'video', result.video.push(parsed), endLoop = !0), !result.firstKeyFrame))) {
+                                if (pusi && 0 !== currentFrame.size) {
+                                    for(frame = new Uint8Array(currentFrame.size), i = 0; currentFrame.data.length;)pes = currentFrame.data.shift(), frame.set(pes, i), i += pes.byteLength;
+                                    if (probe.ts.videoPacketContainsKeyFrame(frame)) {
+                                        var firstKeyFrame = probe.ts.parsePesTime(frame);
+                                        firstKeyFrame ? (result.firstKeyFrame = firstKeyFrame, result.firstKeyFrame.type = 'video') : console.warn("Failed to extract PTS/DTS from PES at first keyframe. This could be an unusual TS segment, or else mux.js did not parse your TS segment correctly. If you know your TS segments do contain PTS/DTS on keyframes please file a bug report! You can try ffprobe to double check for yourself.");
                                     }
-                                    break;
+                                    currentFrame.size = 0;
+                                }
+                                currentFrame.data.push(packet), currentFrame.size += packet.byteLength;
                             }
                             if (endLoop && result.firstKeyFrame) break;
                             startIndex += MP2T_PACKET_LENGTH, endIndex += MP2T_PACKET_LENGTH;
@@ -10729,12 +10709,7 @@
                     }
                     for(startIndex = (endIndex = bytes.byteLength) - MP2T_PACKET_LENGTH, endLoop = !1; startIndex >= 0;){
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
-                            switch(packet = bytes.subarray(startIndex, endIndex), probe.ts.parseType(packet, pmt.pid)){
-                                case 'pes':
-                                    pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), 'video' === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = 'video', result.video.push(parsed), endLoop = !0);
-                                    break;
-                            }
-                            if (endLoop) break;
+                            if (packet = bytes.subarray(startIndex, endIndex), 'pes' === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), 'video' === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = 'video', result.video.push(parsed), endLoop = !0)), endLoop) break;
                             startIndex -= MP2T_PACKET_LENGTH, endIndex -= MP2T_PACKET_LENGTH;
                             continue;
                         }
@@ -10776,7 +10751,6 @@
                                 break;
                             default:
                                 byteIndex++;
-                                break;
                         }
                         if (endLoop) return null;
                     }
@@ -10809,7 +10783,6 @@
                                 break;
                             case streamTypes.ADTS_STREAM_TYPE:
                                 result.audio = [], parseAudioPes_(bytes, pmt, result), 0 === result.audio.length && delete result.audio;
-                                break;
                         }
                     }
                     return result;

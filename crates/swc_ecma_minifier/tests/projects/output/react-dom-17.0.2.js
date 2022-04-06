@@ -2184,7 +2184,6 @@
             case 'lostpointercapture':
                 var _pointerId = nativeEvent.pointerId;
                 queuedPointerCaptures.delete(_pointerId);
-                break;
         }
     }
     function accumulateOrCreateContinuousQueuedReplayableEvent(existingQueuedEvent, blockedOn, domEventName, eventSystemFlags, targetContainer, nativeEvent) {
@@ -2381,7 +2380,6 @@
     function findUpdateLane(lanePriority, wipLanes) {
         switch(lanePriority){
             case 0:
-                break;
             case 15:
                 return SyncLane;
             case 14:
@@ -3252,7 +3250,6 @@
                 case 2:
                 default:
                     listenerWrapper = dispatchEvent;
-                    break;
             }
             return listenerWrapper.bind(null, domEventName, eventSystemFlags, targetContainer);
         }(targetContainer2, domEventName3, eventSystemFlags2), isPassiveListener = void 0;
@@ -3386,7 +3383,6 @@
                             case 'pointerover':
                             case 'pointerup':
                                 SyntheticEventCtor = SyntheticPointerEvent;
-                                break;
                         }
                         var inCapturePhase = (4 & eventSystemFlags) != 0, accumulateTargetOnly = !inCapturePhase && 'scroll' === domEventName, _listeners = accumulateSinglePhaseListeners(targetInst, reactName, nativeEvent.type, inCapturePhase, accumulateTargetOnly);
                         if (_listeners.length > 0) {
@@ -4893,7 +4889,6 @@
                         break;
                     }
                     error1("Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted \u2014 the behavior is unsupported and could change in a future version.", key);
-                    break;
             }
             return knownKeys;
         }
@@ -4921,7 +4916,6 @@
                                             var _existing3 = useFiber(child, element.props);
                                             return _existing3.ref = coerceRef(returnFiber, child, element), _existing3.return = returnFiber, _existing3._debugSource = element._source, _existing3._debugOwner = element._owner, _existing3;
                                         }
-                                        break;
                                 }
                                 deleteRemainingChildren(returnFiber, child);
                                 break;
@@ -5061,7 +5055,6 @@
                 default:
                     var container = 8 === nodeType ? rootContainerInstance.parentNode : rootContainerInstance;
                     namespace = getChildNamespace(container.namespaceURI || null, type = container.tagName);
-                    break;
             }
             return {
                 namespace: namespace,
@@ -5131,7 +5124,6 @@
                 break;
             case 5:
                 returnFiber.type, parentProps = returnFiber.memoizedProps, parentInstance = returnFiber.stateNode, instance4 = instance, !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1] && (1 === instance4.nodeType ? warnForDeletedHydratableElement(parentInstance, instance4) : 8 === instance4.nodeType || warnForDeletedHydratableText(parentInstance, instance4));
-                break;
         }
         var parentContainer, instance3, parentProps, parentInstance, instance4, childToDelete = createFiberFromHostInstanceForDeletion();
         childToDelete.stateNode = instance, childToDelete.return = returnFiber, childToDelete.flags = Deletion, null !== returnFiber.lastEffect ? (returnFiber.lastEffect.nextEffect = childToDelete, returnFiber.lastEffect = childToDelete) : returnFiber.firstEffect = returnFiber.lastEffect = childToDelete;
@@ -5147,7 +5139,6 @@
                         break;
                     case 6:
                         warnForInsertedHydratedText(parentContainer, fiber.pendingProps);
-                        break;
                 }
                 break;
             case 5:
@@ -5164,7 +5155,6 @@
                         break;
                     case 13:
                         parentProps[SUPPRESS_HYDRATION_WARNING$1];
-                        break;
                 }
                 break;
             default:
@@ -6600,6 +6590,18 @@
                         break;
                 }
                 else error1('%s is not a supported value for revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
+            if (void 0 !== revealOrder && 'forwards' !== revealOrder && 'backwards' !== revealOrder && 'together' !== revealOrder && !didWarnAboutRevealOrder[revealOrder]) if (didWarnAboutRevealOrder[revealOrder] = !0, 'string' == typeof revealOrder) switch(revealOrder.toLowerCase()){
+                case 'together':
+                case 'forwards':
+                case 'backwards':
+                    error1('"%s" is not a valid value for revealOrder on <SuspenseList />. Use lowercase "%s" instead.', revealOrder, revealOrder.toLowerCase());
+                    break;
+                case 'forward':
+                case 'backward':
+                    error1('"%s" is not a valid value for revealOrder on <SuspenseList />. React uses the -s suffix in the spelling. Use "%ss" instead.', revealOrder, revealOrder.toLowerCase());
+                    break;
+                default:
+                    error1('"%s" is not a supported revealOrder on <SuspenseList />. Did you mean "together", "forwards" or "backwards"?', revealOrder);
             }
         }(revealOrder1), tailMode = tailMode1, revealOrder2 = revealOrder1, void 0 === tailMode || didWarnAboutTailOptions[tailMode] || ('collapsed' !== tailMode && 'hidden' !== tailMode ? (didWarnAboutTailOptions[tailMode] = !0, error1('"%s" is not a supported value for tail on <SuspenseList />. Did you mean "collapsed" or "hidden"?', tailMode)) : 'forwards' !== revealOrder2 && 'backwards' !== revealOrder2 && (didWarnAboutTailOptions[tailMode] = !0, error1('<SuspenseList tail="%s" /> is only valid if revealOrder is "forwards" or "backwards". Did you mean to specify revealOrder="forwards"?', tailMode))), function(children, revealOrder) {
             if (('forwards' === revealOrder || 'backwards' === revealOrder) && null != children && !1 !== children) {
@@ -6916,9 +6918,7 @@
             case 19:
                 return updateSuspenseListComponent(current13, workInProgress16, renderLanes12);
             case 20:
-                break;
             case 21:
-                break;
             case 22:
                 break;
             case 23:
@@ -6943,7 +6943,6 @@
             case 'collapsed':
                 for(var _tailNode = renderState.tail, _lastTailNode = null; null !== _tailNode;)null !== _tailNode.alternate && (_lastTailNode = _tailNode), _tailNode = _tailNode.sibling;
                 null === _lastTailNode ? hasRenderedATailFallback || null === renderState.tail ? renderState.tail = null : renderState.tail.sibling = null : _lastTailNode.sibling = null;
-                break;
         }
     }
     function completeWork(current, workInProgress, renderLanes) {
@@ -7012,18 +7011,14 @@
                                 break;
                             case 'textarea':
                                 initWrapperState$2(domElement, rawProps), listenToNonDelegatedEvent('invalid', domElement);
-                                break;
                         }
                         assertValidProps(tag, rawProps), extraAttributeNames = new Set();
                         for(var attributes = domElement.attributes, _i = 0; _i < attributes.length; _i++){
                             var name = attributes[_i].name.toLowerCase();
                             switch(name){
                                 case 'data-reactroot':
-                                    break;
                                 case 'value':
-                                    break;
                                 case 'checked':
-                                    break;
                                 case 'selected':
                                     break;
                                 default:
@@ -7085,7 +7080,6 @@
                                 break;
                             default:
                                 'function' == typeof rawProps.onClick && trapClickOnNonInteractiveElement(domElement);
-                                break;
                         }
                         return updatePayload;
                     }(instance, type9, props7, hostContext2.namespace)), fiber.updateQueue = updatePayload1, null !== updatePayload1 && markUpdate(workInProgress);
@@ -7174,7 +7168,6 @@
                                     break;
                                 default:
                                     'function' == typeof props13.onClick && trapClickOnNonInteractiveElement(domElement3);
-                                    break;
                             }
                         }(instance7, type10 = type11, props8 = newProps, rootContainerInstance), shouldAutoFocusHostComponent(type10, props8) && markUpdate(workInProgress);
                     }
@@ -7201,7 +7194,6 @@
                                     returnFiber.type;
                                     var parentProps, textInstance2, text3, parentProps3 = returnFiber.memoizedProps;
                                     returnFiber.stateNode, parentProps = parentProps3, textInstance2 = textInstance1, text3 = textContent, !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1] && warnForUnmatchedText(textInstance2, text3);
-                                    break;
                             }
                         }
                         return shouldUpdate;
@@ -7265,9 +7257,7 @@
                 }
                 return null;
             case 20:
-                break;
             case 21:
-                break;
             case 22:
                 break;
             case 23:
@@ -7327,8 +7317,6 @@
                 popHostContainer(interruptedWork);
                 break;
             case 13:
-                popSuspenseContext(interruptedWork);
-                break;
             case 19:
                 popSuspenseContext(interruptedWork);
                 break;
@@ -7338,7 +7326,6 @@
             case 23:
             case 24:
                 popRenderLanes(interruptedWork);
-                break;
         }
     }
     function createCapturedValue(value, source) {
@@ -7403,7 +7390,6 @@
                         break;
                     default:
                         lastProps = lastRawProps, nextProps = nextRawProps, 'function' != typeof lastProps.onClick && 'function' == typeof nextProps.onClick && trapClickOnNonInteractiveElement(domElement);
-                        break;
                 }
                 assertValidProps(tag, nextProps);
                 var styleUpdates1 = null;
@@ -7541,7 +7527,6 @@
                         enqueueCapturedUpdate(workInProgress, _update2);
                         return;
                     }
-                    break;
             }
             workInProgress = workInProgress.return;
         }while (null !== workInProgress)
@@ -7633,11 +7618,8 @@
                     var _instance = null;
                     if (null !== finishedWork1.child) switch(finishedWork1.child.tag){
                         case 5:
-                            _instance = finishedWork1.child.stateNode;
-                            break;
                         case 1:
                             _instance = finishedWork1.child.stateNode;
-                            break;
                     }
                     commitUpdateQueue(finishedWork1, _updateQueue, _instance);
                 }
@@ -7699,8 +7681,6 @@
             var instanceToUse, instance = finishedWork.stateNode;
             switch(finishedWork.tag){
                 case 5:
-                    instanceToUse = instance;
-                    break;
                 default:
                     instanceToUse = instance;
             }
@@ -7788,8 +7768,6 @@
                 parent1 = parentStateNode, isContainer = !1;
                 break;
             case 3:
-                parent1 = parentStateNode.containerInfo, isContainer = !0;
-                break;
             case 4:
                 parent1 = parentStateNode.containerInfo, isContainer = !0;
                 break;
@@ -7932,7 +7910,6 @@
                                 break;
                             case 'select':
                                 element = domElement8, props = nextRawProps, wasMultiple = (node = element)._wrapperState.wasMultiple, node._wrapperState.wasMultiple = !!props.multiple, value = props.value, null != value ? updateOptions(node, !!props.multiple, value, !1) : !!props.multiple !== wasMultiple && (null != props.defaultValue ? updateOptions(node, !!props.multiple, props.defaultValue, !0) : updateOptions(node, !!props.multiple, props.multiple ? [] : '', !1));
-                                break;
                         }
                     }(domElement6, updatePayload6, type, oldProps, newProps));
                 }
@@ -7957,7 +7934,6 @@
             case 17:
                 return;
             case 20:
-                break;
             case 21:
                 break;
             case 23:
@@ -8129,8 +8105,6 @@
             case 1:
                 throw Error("Root did not complete. This is a bug in React.");
             case 2:
-                commitRoot(root4);
-                break;
             case 3:
                 if (markRootSuspended$1(root4, lanes5), (62914560 & (lanes3 = lanes5)) === lanes3 && !(actingUpdatesScopeDepth > 0)) {
                     var msUntilTimeout = globalMostRecentFallbackTime + 500 - now();
@@ -8526,7 +8500,6 @@
                     break;
                 case Deletion:
                     commitDeletion(root, nextEffect);
-                    break;
             }
             resetCurrentFiber(), nextEffect = nextEffect.nextEffect;
         }
@@ -8725,7 +8698,6 @@
                 break;
             case 1:
                 didWarnAboutUpdateInRender || (error1("Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state."), didWarnAboutUpdateInRender = !0);
-                break;
         }
     }
     didWarnAboutUpdateInRenderForAnotherComponent = new Set();
@@ -8897,7 +8869,6 @@
                 break;
             case 11:
                 candidateType = type.render;
-                break;
         }
         if (null === resolveFamily) throw new Error('Expected resolveFamily to be set during hot reload.');
         var needsRender = !1, needsRemount = !1;
@@ -8917,7 +8888,6 @@
                 break;
             case 11:
                 candidateType = type.render;
-                break;
         }
         var didMatch = !1;
         null !== candidateType && types.has(candidateType) && (didMatch = !0), didMatch ? findHostInstancesForFiberShallowly(fiber, hostInstances) : null !== child && findHostInstancesForMatchingFibersRecursively(child, types, hostInstances), null !== sibling && findHostInstancesForMatchingFibersRecursively(sibling, types, hostInstances);
@@ -9010,7 +8980,6 @@
                 break;
             case 11:
                 workInProgress.type = resolveForwardRefForHotReloading(current.type);
-                break;
         }
         return workInProgress;
     }
@@ -9144,7 +9113,6 @@
                 break;
             case 0:
                 this._debugRootType = 'createLegacyRoot()';
-                break;
         }
     }
     function registerMutableSourceForHydration(root, mutableSource) {
@@ -9175,7 +9143,6 @@
                             return node.stateNode.context;
                         case 1:
                             if (isContextProvider(node.type)) return node.stateNode.__reactInternalMemoizedMergedChildContext;
-                            break;
                     }
                     node = node.return;
                 }while (null !== node)

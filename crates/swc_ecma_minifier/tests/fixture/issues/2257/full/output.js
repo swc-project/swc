@@ -1002,7 +1002,6 @@
                                 value: value,
                                 done: !1
                             });
-                            break;
                     }
                     (front = front.next) ? resume(front.key, front.arg) : back = null;
                 }
@@ -8906,7 +8905,6 @@
                             break;
                         case FRAGMENT:
                             chr != EOF && (url.fragment += percentEncode(chr, fragmentPercentEncodeSet));
-                            break;
                     }
                     pointer++;
                 }
@@ -14413,8 +14411,6 @@
                         if (null !== (b = c.updateQueue)) {
                             if (a = null, null !== c.child) switch(c.child.tag){
                                 case 5:
-                                    a = c.child.stateNode;
-                                    break;
                                 case 1:
                                     a = c.child.stateNode;
                             }
@@ -14529,8 +14525,6 @@
                         var d = !1;
                         break;
                     case 3:
-                        b = b.containerInfo, d = !0;
-                        break;
                     case 4:
                         b = b.containerInfo, d = !0;
                         break;
@@ -14810,8 +14804,6 @@
                         case 1:
                             throw Error(y(345));
                         case 2:
-                            Uj(a);
-                            break;
                         case 3:
                             if (Ii(a, c), (62914560 & c) === c && 10 < (d = jj + 500 - O())) {
                                 if (0 !== Uc(a, 0)) break;
@@ -14903,8 +14895,6 @@
                             fh();
                             break;
                         case 13:
-                            H(P);
-                            break;
                         case 19:
                             H(P);
                             break;
@@ -15189,8 +15179,6 @@
                                     var L = Z.stateNode;
                                     switch(Z.tag){
                                         case 5:
-                                            q = L;
-                                            break;
                                         default:
                                             q = L;
                                     }

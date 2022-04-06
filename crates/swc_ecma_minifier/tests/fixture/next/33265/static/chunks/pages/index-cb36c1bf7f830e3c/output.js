@@ -1314,7 +1314,6 @@
                         break;
                     case ATTRIBUTE_NODE:
                         deep = !0;
-                        break;
                 }
                 if (node2 || (node2 = node.cloneNode(!1)), node2.ownerDocument = doc, node2.parentNode = null, deep) for(var child = node.firstChild; child;)node2.appendChild(importNode(doc, child, deep)), child = child.nextSibling;
                 return node2;
@@ -2043,7 +2042,6 @@
                                     errorHandler.warning('attribute "' + value1 + '" missed quot(")!!'), addAttribute(attrName, value1, start);
                                 case 5:
                                     s = 6;
-                                    break;
                             }
                             else switch(s){
                                 case 2:
@@ -3948,7 +3946,6 @@
                                     "left",
                                     "right"
                                 ]);
-                                break;
                         }
                     }, /:/, /\s/), cue.region = settings.get("region", null), cue.vertical = settings.get("vertical", "");
                     try {
@@ -4566,7 +4563,6 @@
                         break;
                     case "end":
                         textPos = cue.position - cue.size;
-                        break;
                 }
                 "" === cue.vertical ? this.applyStyles({
                     left: this.formatStyle(textPos, "%"),
@@ -4620,7 +4616,6 @@
                                 "-x",
                                 "+x"
                             ], size = "width";
-                            break;
                     }
                     var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis1[0];
                     Math.abs(position) > maxPosition && (position = position < 0 ? -1 : 1, position *= Math.ceil(maxPosition / step) * step), linePos < 0 && (position += "" === cue2.vertical ? containerBox.height : containerBox.width, axis1 = axis1.reverse()), boxPosition.move(initialAxis, position);
@@ -4632,7 +4627,6 @@
                             break;
                         case "end":
                             linePos -= calculatedPercentage;
-                            break;
                     }
                     switch(cue2.vertical){
                         case "":
@@ -4649,7 +4643,6 @@
                             styleBox.applyStyles({
                                 right: styleBox.formatStyle(linePos, "%")
                             });
-                            break;
                     }
                     axis1 = [
                         "+y",
@@ -4687,7 +4680,6 @@
                         break;
                     case "-y":
                         this.top -= toMove, this.bottom -= toMove;
-                        break;
                 }
             }, BoxPosition.prototype.overlaps = function(b2) {
                 return this.left < b2.right && this.right > b2.left && this.top < b2.bottom && this.bottom > b2.top;
@@ -4774,64 +4766,56 @@
                     }
                     function parseHeader(input3) {
                         input3.match(/X-TIMESTAMP-MAP/) ? parseOptions(input3, function(k1, v1) {
-                            switch(k1){
-                                case "X-TIMESTAMP-MAP":
-                                    var input, settings;
-                                    input = v1, settings = new Settings(), parseOptions(input, function(k, v) {
-                                        switch(k){
-                                            case "MPEGT":
-                                                settings.integer(k + 'S', v);
-                                                break;
-                                            case "LOCA":
-                                                settings.set(k + 'L', parseTimeStamp(v));
-                                                break;
-                                        }
-                                    }, /[^\d]:/, /,/), self.ontimestampmap && self.ontimestampmap({
-                                        MPEGTS: settings.get("MPEGTS"),
-                                        LOCAL: settings.get("LOCAL")
-                                    });
-                                    break;
+                            if ("X-TIMESTAMP-MAP" === k1) {
+                                var input, settings;
+                                input = v1, settings = new Settings(), parseOptions(input, function(k, v) {
+                                    switch(k){
+                                        case "MPEGT":
+                                            settings.integer(k + 'S', v);
+                                            break;
+                                        case "LOCA":
+                                            settings.set(k + 'L', parseTimeStamp(v));
+                                    }
+                                }, /[^\d]:/, /,/), self.ontimestampmap && self.ontimestampmap({
+                                    MPEGTS: settings.get("MPEGTS"),
+                                    LOCAL: settings.get("LOCAL")
+                                });
                             }
                         }, /=/) : parseOptions(input3, function(k2, v2) {
-                            switch(k2){
-                                case "Region":
-                                    !function(input) {
-                                        var settings = new Settings();
-                                        if (parseOptions(input, function(k, v) {
-                                            switch(k){
-                                                case "id":
-                                                    settings.set(k, v);
-                                                    break;
-                                                case "width":
-                                                    settings.percent(k, v);
-                                                    break;
-                                                case "lines":
-                                                    settings.integer(k, v);
-                                                    break;
-                                                case "regionanchor":
-                                                case "viewportanchor":
-                                                    var xy = v.split(',');
-                                                    if (2 !== xy.length) break;
-                                                    var anchor = new Settings();
-                                                    if (anchor.percent("x", xy[0]), anchor.percent("y", xy[1]), !anchor.has("x") || !anchor.has("y")) break;
-                                                    settings.set(k + "X", anchor.get("x")), settings.set(k + "Y", anchor.get("y"));
-                                                    break;
-                                                case "scroll":
-                                                    settings.alt(k, v, [
-                                                        "up"
-                                                    ]);
-                                                    break;
-                                            }
-                                        }, /=/, /\s/), settings.has("id")) {
-                                            var region = new (self.vttjs.VTTRegion || self.window.VTTRegion)();
-                                            region.width = settings.get("width", 100), region.lines = settings.get("lines", 3), region.regionAnchorX = settings.get("regionanchorX", 0), region.regionAnchorY = settings.get("regionanchorY", 100), region.viewportAnchorX = settings.get("viewportanchorX", 0), region.viewportAnchorY = settings.get("viewportanchorY", 100), region.scroll = settings.get("scroll", ""), self.onregion && self.onregion(region), self.regionList.push({
-                                                id: settings.get("id"),
-                                                region: region
-                                            });
-                                        }
-                                    }(v2);
-                                    break;
-                            }
+                            "Region" === k2 && function(input) {
+                                var settings = new Settings();
+                                if (parseOptions(input, function(k, v) {
+                                    switch(k){
+                                        case "id":
+                                            settings.set(k, v);
+                                            break;
+                                        case "width":
+                                            settings.percent(k, v);
+                                            break;
+                                        case "lines":
+                                            settings.integer(k, v);
+                                            break;
+                                        case "regionanchor":
+                                        case "viewportanchor":
+                                            var xy = v.split(',');
+                                            if (2 !== xy.length) break;
+                                            var anchor = new Settings();
+                                            if (anchor.percent("x", xy[0]), anchor.percent("y", xy[1]), !anchor.has("x") || !anchor.has("y")) break;
+                                            settings.set(k + "X", anchor.get("x")), settings.set(k + "Y", anchor.get("y"));
+                                            break;
+                                        case "scroll":
+                                            settings.alt(k, v, [
+                                                "up"
+                                            ]);
+                                    }
+                                }, /=/, /\s/), settings.has("id")) {
+                                    var region = new (self.vttjs.VTTRegion || self.window.VTTRegion)();
+                                    region.width = settings.get("width", 100), region.lines = settings.get("lines", 3), region.regionAnchorX = settings.get("regionanchorX", 0), region.regionAnchorY = settings.get("regionanchorY", 100), region.viewportAnchorX = settings.get("viewportanchorX", 0), region.viewportAnchorY = settings.get("viewportanchorY", 100), region.scroll = settings.get("scroll", ""), self.onregion && self.onregion(region), self.regionList.push({
+                                        id: settings.get("id"),
+                                        region: region
+                                    });
+                                }
+                            }(v2);
                         }, /:/);
                     }
                     data && (self.buffer += self.decoder.decode(data, {
