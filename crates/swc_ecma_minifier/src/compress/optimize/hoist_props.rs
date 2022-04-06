@@ -98,6 +98,13 @@ where
                     if let Prop::KeyValue(p) = &**prop {
                         let value = match &*p.value {
                             Expr::Lit(..) => p.value.clone(),
+                            Expr::Fn(..) | Expr::Arrow(..) => {
+                                if self.options.hoist_props {
+                                    p.value.clone()
+                                } else {
+                                    continue;
+                                }
+                            }
                             _ => continue,
                         };
 
