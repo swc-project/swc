@@ -1,6 +1,0 @@
-
-  x Rest element must be final element
-   ,-[$DIR/tests/pat/errors/rest-not-last/function_array_binding_pattern.js:1:1]
- 1 | function fn([...a,b,],) {};
-   :              ^^^^
-   `----
