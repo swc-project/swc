@@ -1,3 +1,4 @@
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, ident::IdentLike};
 
@@ -190,10 +191,18 @@ where
         };
         if let Expr::Ident(obj) = &*member.obj {
             if let MemberProp::Ident(prop) = &member.prop {
-                if let Some(value) = self.simple_props.get(&(obj.to_id(), prop.sym.clone())) {
+                if let Some(mut value) = self
+                    .simple_props
+                    .get(&(obj.to_id(), prop.sym.clone()))
+                    .cloned()
+                {
+                    if let Expr::Fn(f) = &mut *value {
+                        f.function.span = DUMMY_SP;
+                    }
+
                     tracing::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
                     self.changed = true;
-                    *e = *value.clone();
+                    *e = *value;
                     return;
                 }
             }
