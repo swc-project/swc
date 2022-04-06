@@ -4606,10 +4606,9 @@ where
                             }
 
                             // We stop when:
-                            // - no characters after `;`
-                            // - we found entity
+                            // - not ascii alphabetic
                             // - we consume more characters them the longest entity
-                            if *c == ';' || temporary_buffer.len() > 33 {
+                            if !c.is_ascii_alphabetic() || temporary_buffer.len() > 33 {
                                 if let Some(cur_pos) = cur_pos {
                                     self.input.reset_to(cur_pos);
                                 }
