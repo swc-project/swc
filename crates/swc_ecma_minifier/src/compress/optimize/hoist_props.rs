@@ -29,6 +29,9 @@ where
                 .map(|v| !v.mutated && !v.reassigned() && !v.is_infected())
                 .unwrap_or(false)
             {
+                if cfg!(feature = "debug") {
+                    tracing::trace!("[x] bad usage");
+                }
                 return;
             }
 
@@ -67,8 +70,9 @@ where
             }
 
             if !unknown_used_props.is_empty() {
-                #[cfg(feature = "debug")]
-                tracing::trace!("[x] unknown used props: {:?}", unknown_used_props);
+                if cfg!(feature = "debug") {
+                    tracing::trace!("[x] unknown used props: {:?}", unknown_used_props);
+                }
                 return;
             }
 
