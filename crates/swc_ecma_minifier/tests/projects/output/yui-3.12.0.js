@@ -24,7 +24,7 @@ var YUI = function() {
     }, handleLoad = function() {
         YUI.Env.windowLoaded = !0, YUI.Env.DOMReady = !0, hasWin && remove(window, 'load', handleLoad);
     }, getLoader = function(Y, o) {
-        var G_ENV, loader = Y.Env._loader, lCore = [
+        var loader = Y.Env._loader, lCore = [
             'loader-base'
         ], mods = YUI.Env.mods;
         return loader ? (loader.ignoreRegistered = !1, loader.onEnd = null, loader.data = null, loader.required = [], loader.loadType = null) : (loader = new Y.Loader(Y.config), Y.Env._loader = loader), mods && mods.loader && (lCore = [].concat(lCore, YUI.Env.loaderExtras)), YUI.Env.core = Y.Array.dedupe([].concat(YUI.Env.core, lCore)), loader;

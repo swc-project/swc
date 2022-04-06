@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::{contains_this_expr, ident::IdentLike};
 
 use super::Optimizer;
 use crate::mode::Mode;
@@ -28,12 +28,17 @@ where
                 .get(&name.to_id())
                 .map(|v| {
                     !v.mutated
-                        && !v.reassigned_with_assignment
-                        && !v.reassigned_with_var_decl
+                        && v.mutation_by_call_count == 0
+                        && !v.used_as_arg
+                        && !v.used_in_cond
+                        && !v.reassigned()
                         && !v.is_infected()
                 })
                 .unwrap_or(false)
             {
+                if cfg!(feature = "debug") {
+                    tracing::trace!("[x] bad usage");
+                }
                 return;
             }
 
@@ -54,7 +59,12 @@ where
 
                     if let Prop::KeyValue(p) = &**prop {
                         match &*p.value {
-                            Expr::Lit(..) => {}
+                            Expr::Lit(..) | Expr::Arrow(..) => {}
+                            Expr::Fn(f) => {
+                                if contains_this_expr(&f.function.body) {
+                                    continue;
+                                }
+                            }
                             _ => continue,
                         };
 
@@ -72,6 +82,9 @@ where
             }
 
             if !unknown_used_props.is_empty() {
+                if cfg!(feature = "debug") {
+                    tracing::trace!("[x] unknown used props: {:?}", unknown_used_props);
+                }
                 return;
             }
 
@@ -90,7 +103,7 @@ where
 
                         match &p.key {
                             PropName::Str(s) => {
-                                tracing::trace!(
+                                tracing::debug!(
                                     "hoist_props: Storing a variable (`{}`) to inline properties",
                                     name.id
                                 );
@@ -99,7 +112,7 @@ where
                                 self.mode.store(name.to_id(), n.init.as_deref().unwrap());
                             }
                             PropName::Ident(i) => {
-                                tracing::trace!(
+                                tracing::debug!(
                                     "hoist_props: Storing a variable(`{}`) to inline properties",
                                     name.id
                                 );
@@ -121,8 +134,11 @@ where
                 .map(|v| {
                     v.ref_count == 1
                         && v.has_property_access
+                        && !v.mutated
+                        && v.mutation_by_call_count == 0
                         && v.is_fn_local
                         && !v.executed_multiple_time
+                        && !v.used_as_arg
                         && !v.used_in_cond
                 })
                 .unwrap_or(false)

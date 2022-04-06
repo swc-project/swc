@@ -713,7 +713,6 @@ reduce_vars/unsafe_evaluate/input.js
 reduce_vars/unsafe_evaluate_array_2/input.js
 reduce_vars/unsafe_evaluate_array_4/input.js
 reduce_vars/unsafe_evaluate_modified/input.js
-reduce_vars/unsafe_evaluate_object_2/input.js
 reduce_vars/unsafe_evaluate_side_effect_free_1/input.js
 reduce_vars/unsafe_evaluate_side_effect_free_2/input.js
 reduce_vars/unused_modified/input.js
