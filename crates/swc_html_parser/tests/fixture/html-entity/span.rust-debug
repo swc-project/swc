@@ -4963,10 +4963,28 @@
     : ^^^^^
     `----
 
-  x Character { value: 'q' }
+  x Character { value: '&' }
     ,-[$DIR/tests/fixture/html-entity/input.html:65:1]
  65 | <div>&#xq;</div>
     :      ^^^^
+    `----
+
+  x Character { value: '#' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:65:1]
+ 65 | <div>&#xq;</div>
+    :          ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:65:1]
+ 65 | <div>&#xq;</div>
+    :          ^
+    `----
+
+  x Character { value: 'q' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:65:1]
+ 65 | <div>&#xq;</div>
+    :          ^
     `----
 
   x Character { value: ';' }
@@ -4994,10 +5012,28 @@
     : ^^^^^
     `----
 
-  x Character { value: 'q' }
+  x Character { value: '&' }
     ,-[$DIR/tests/fixture/html-entity/input.html:66:1]
  66 | <div>&#xqq;</div>
     :      ^^^^
+    `----
+
+  x Character { value: '#' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:66:1]
+ 66 | <div>&#xqq;</div>
+    :          ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:66:1]
+ 66 | <div>&#xqq;</div>
+    :          ^
+    `----
+
+  x Character { value: 'q' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:66:1]
+ 66 | <div>&#xqq;</div>
+    :          ^
     `----
 
   x Character { value: 'q' }
@@ -5031,10 +5067,28 @@
     : ^^^^^
     `----
 
-  x Character { value: 'q' }
+  x Character { value: '&' }
     ,-[$DIR/tests/fixture/html-entity/input.html:67:1]
  67 | <div>&#xqqq;</div>
     :      ^^^^
+    `----
+
+  x Character { value: '#' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:67:1]
+ 67 | <div>&#xqqq;</div>
+    :          ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:67:1]
+ 67 | <div>&#xqqq;</div>
+    :          ^
+    `----
+
+  x Character { value: 'q' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:67:1]
+ 67 | <div>&#xqqq;</div>
+    :          ^
     `----
 
   x Character { value: 'q' }

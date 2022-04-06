@@ -10700,6 +10700,45 @@
       },
       "token": {
         "Character": {
+          "value": "&"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1561,
+        "end": 1561,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "#"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1561,
+        "end": 1561,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "x"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1561,
+        "end": 1561,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
           "value": "q"
         }
       }
@@ -10764,6 +10803,45 @@
       "type": "TokenAndSpan",
       "span": {
         "start": 1574,
+        "end": 1578,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "&"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1578,
+        "end": 1578,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "#"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1578,
+        "end": 1578,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "x"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1578,
         "end": 1578,
         "ctxt": 0
       },
@@ -10846,6 +10924,45 @@
       "type": "TokenAndSpan",
       "span": {
         "start": 1592,
+        "end": 1596,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "&"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1596,
+        "end": 1596,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "#"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1596,
+        "end": 1596,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "x"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1596,
         "end": 1596,
         "ctxt": 0
       },

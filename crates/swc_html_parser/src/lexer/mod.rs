@@ -4702,7 +4702,11 @@ where
                         _ => {
                             self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
 
-                            // TODO fix me
+                            if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                                for c in temporary_buffer.drain(..) {
+                                    self.flush_code_point_consumed_as_character_reference(c);
+                                }
+                            }
 
                             self.state = self.return_state.clone();
                             self.reconsume();
