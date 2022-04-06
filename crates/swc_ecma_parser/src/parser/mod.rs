@@ -1,11 +1,8 @@
 #![deny(non_snake_case)]
-use std::{
-    collections::HashMap,
-    ops::{Deref, DerefMut},
-};
+use std::ops::{Deref, DerefMut};
 
 use swc_atoms::JsWord;
-use swc_common::{comments::Comments, input::Input, BytePos, Span};
+use swc_common::{collections::AHashMap, comments::Comments, input::Input, BytePos, Span};
 use swc_ecma_ast::*;
 
 pub use self::input::{Capturing, Tokens, TokensInput};
@@ -56,7 +53,7 @@ struct State {
 
     found_module_item: bool,
     /// Start position of an AST node and the span of its trailing comma.
-    trailing_commas: HashMap<BytePos, Span>,
+    trailing_commas: AHashMap<BytePos, Span>,
 }
 
 impl<'a, I: Input> Parser<Lexer<'a, I>> {
