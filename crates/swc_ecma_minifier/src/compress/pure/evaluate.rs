@@ -95,6 +95,9 @@ impl Pure<'_> {
         }
     }
 
+    /// Evaluates `({ foo: 1 }}).foo` => `1`.
+    pub(super) fn eval_member_of_object_lit(&mut self, e: &mut Expr) {}
+
     pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
