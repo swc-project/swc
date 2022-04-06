@@ -726,11 +726,7 @@ impl<'a, I: Tokens> Parser<I> {
                             expr @ ExprOrSpread {
                                 spread: Some(..), ..
                             },
-                        ) => {
-                            if self.syntax().early_errors() {
-                                self.emit_err(expr.span(), SyntaxError::NonLastRestParam)
-                            }
-                        }
+                        ) => self.emit_err(expr.span(), SyntaxError::NonLastRestParam),
                         Some(ExprOrSpread { expr, .. }) => {
                             params.push(self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?)
                         }
@@ -823,9 +819,7 @@ impl<'a, I: Tokens> Parser<I> {
                     spread: Some(..), ..
                 })
                 | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
-                    if self.syntax().early_errors() {
-                        self.emit_err(expr.span(), SyntaxError::TS1014)
-                    }
+                    self.emit_err(expr.span(), SyntaxError::TS1014)
                 }
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                     spread: None, expr, ..

@@ -419,9 +419,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             }
 
             if let ObjectPatProp::Rest(..) = p {
-                if self.syntax().early_errors() {
-                    syntax_error!(self, p.span(), SyntaxError::NonLastRestParam)
-                }
+                self.emit_err(p.span(), SyntaxError::NonLastRestParam)
             }
         }
 
