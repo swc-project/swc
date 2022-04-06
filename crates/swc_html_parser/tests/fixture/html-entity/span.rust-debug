@@ -1,78 +1,109 @@
 
   x Document
-    ,-[$DIR/tests/fixture/html-entity/input.html:1:1]
-  1 | ,-> <!DOCTYPE html>
-  2 | |   <html>
-  3 | |   <body>
-  4 | |   
-  5 | |   <h1>HTML Entity Example</h1>
-  6 | |   
-  7 | |   <div>A space character: &AMP;</div>
-  8 | |   <div>A space character: &amp;</div>
-  9 | |   <div>A space character: &amp;;</div>
- 10 | |   
- 11 | |   <div>A space character: &nbsp;</div>
- 12 | |   <div>The less-than sign: &lt;</div>
- 13 | |   <div>The greater-than sign: &gt;</div>
- 14 | |   <div>The double quote sign: &quot;</div>
- 15 | |   <div>The single quote sign: &apos;</div>
- 16 | |   <div>The cent sign: &cent;</div>
- 17 | |   <div>The pound sign: &pound;</div>
- 18 | |   <div>The yen sign: &yen;</div>
- 19 | |   <div>The euro sign: &euro;</div>
- 20 | |   <div>The copyright sign: &copy;</div>
- 21 | |   <div>The registered trade mark sign: &reg;</div>
- 22 | |   
- 23 | |   <div>&reg;</div>
- 24 | |   <div>&REG;</div>
- 25 | |   <div>&reg;;</div>
- 26 | |   <div>&reg</div>
- 27 | |   <div>reg</div>
- 28 | |   
- 29 | |   <div>&CounterClockwiseContourIntegral;</div>
- 30 | |   <div>&&reg;</div>
- 31 | |   
- 32 | |   <div>An a with a grave accent: a&#768;</div>
- 33 | |   <div>An a with an acute accent: a&#769;</div>
- 34 | |   <div>An a with a circumflex accent: a&#770;</div>
- 35 | |   <div>An a with a tilde: a&#771;</div>
- 36 | |   <div>An o with a grave accent: o&#768;</div>
- 37 | |   <div>An o with an acute accent: o&#769;</div>
- 38 | |   <div>An o with a circumflex accent: o&#770;</div>
- 39 | |   <div>An o with a tilde: o&#771;</div>
- 40 | |   
- 41 | |   <div>A space character: &&</div>
- 42 | |   <div>I'm &notin; I tell you</div>
- 43 | |   <div>I'm &not; I tell you</div>
- 44 | |   
- 45 | |   <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
- 46 | |   <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
- 47 | |       kablammo!
- 48 | |   </a>
- 49 | |   
- 50 | |   <div>&#x2715;</div>
- 51 | |   <div>&#10005;</div>
- 52 | |   <div>✕</div>
- 53 | |   
- 54 | |   <div>&#x24;</div>
- 55 | |   <div>&#36;</div>
- 56 | |   <div>&dollar;</div>
- 57 | |   
- 58 | |   <div>&#q;</div>
- 59 | |   <div>&#qq;</div>
- 60 | |   <div>&#qqq;</div>
- 61 | |   
- 62 | |   <div>&#x24;</div>
- 63 | |   <div>&#X24;</div>
- 64 | |   
- 65 | |   <div>&#xq;</div>
- 66 | |   <div>&#xqq;</div>
- 67 | |   <div>&#xqqq;</div>
- 68 | |   
- 69 | |   </body>
- 70 | |   </html>
- 71 | `-> 
-    `----
+     ,-[$DIR/tests/fixture/html-entity/input.html:1:1]
+   1 | ,-> <!DOCTYPE html>
+   2 | |   <html>
+   3 | |   <body>
+   4 | |   
+   5 | |   <h1>HTML Entity Example</h1>
+   6 | |   
+   7 | |   <div>A space character: &AMP;</div>
+   8 | |   <div>A space character: &amp;</div>
+   9 | |   <div>A space character: &amp;;</div>
+  10 | |   
+  11 | |   <div>A space character: &nbsp;</div>
+  12 | |   <div>The less-than sign: &lt;</div>
+  13 | |   <div>The greater-than sign: &gt;</div>
+  14 | |   <div>The double quote sign: &quot;</div>
+  15 | |   <div>The single quote sign: &apos;</div>
+  16 | |   <div>The cent sign: &cent;</div>
+  17 | |   <div>The pound sign: &pound;</div>
+  18 | |   <div>The yen sign: &yen;</div>
+  19 | |   <div>The euro sign: &euro;</div>
+  20 | |   <div>The copyright sign: &copy;</div>
+  21 | |   <div>The registered trade mark sign: &reg;</div>
+  22 | |   
+  23 | |   <div>&reg;</div>
+  24 | |   <div>&REG;</div>
+  25 | |   <div>&reg;;</div>
+  26 | |   <div>&reg</div>
+  27 | |   <div>reg</div>
+  28 | |   
+  29 | |   <div>&CounterClockwiseContourIntegral;</div>
+  30 | |   <div>&&reg;</div>
+  31 | |   
+  32 | |   <div>An a with a grave accent: a&#768;</div>
+  33 | |   <div>An a with an acute accent: a&#769;</div>
+  34 | |   <div>An a with a circumflex accent: a&#770;</div>
+  35 | |   <div>An a with a tilde: a&#771;</div>
+  36 | |   <div>An o with a grave accent: o&#768;</div>
+  37 | |   <div>An o with an acute accent: o&#769;</div>
+  38 | |   <div>An o with a circumflex accent: o&#770;</div>
+  39 | |   <div>An o with a tilde: o&#771;</div>
+  40 | |   
+  41 | |   <div>A space character: &&</div>
+  42 | |   <div>I'm &notin; I tell you</div>
+  43 | |   <div>I'm &not; I tell you</div>
+  44 | |   
+  45 | |   <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
+  46 | |   <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
+  47 | |       kablammo!
+  48 | |   </a>
+  49 | |   
+  50 | |   <div>&#x2715;</div>
+  51 | |   <div>&#10005;</div>
+  52 | |   <div>✕</div>
+  53 | |   
+  54 | |   <div>&#x24;</div>
+  55 | |   <div>&#36;</div>
+  56 | |   <div>&dollar;</div>
+  57 | |   
+  58 | |   <div>&#q;</div>
+  59 | |   <div>&#qq;</div>
+  60 | |   <div>&#qqq;</div>
+  61 | |   
+  62 | |   <div>&#x24;</div>
+  63 | |   <div>&#X24;</div>
+  64 | |   
+  65 | |   <div>&#xq;</div>
+  66 | |   <div>&#xqq;</div>
+  67 | |   <div>&#xqqq;</div>
+  68 | |   
+  69 | |   
+  70 | |   <div>
+  71 | |   &#x80	0x20AC	EURO SIGN (€)
+  72 | |   &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+  73 | |   &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+  74 | |   &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+  75 | |   &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+  76 | |   &#x86	0x2020	DAGGER (†)
+  77 | |   &#x87	0x2021	DOUBLE DAGGER (‡)
+  78 | |   &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+  79 | |   &#x89	0x2030	PER MILLE SIGN (‰)
+  80 | |   &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+  81 | |   &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+  82 | |   &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+  83 | |   &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+  84 | |   &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+  85 | |   &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+  86 | |   &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+  87 | |   &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+  88 | |   &#x95	0x2022	BULLET (•)
+  89 | |   &#x96	0x2013	EN DASH (–)
+  90 | |   &#x97	0x2014	EM DASH (—)
+  91 | |   &#x98	0x02DC	SMALL TILDE (˜)
+  92 | |   &#x99	0x2122	TRADE MARK SIGN (™)
+  93 | |   &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+  94 | |   &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+  95 | |   &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+  96 | |   &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+  97 | |   &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+  98 | |   </div>
+  99 | |   
+ 100 | |   </body>
+ 101 | |   </html>
+ 102 | `-> 
+     `----
 
   x Doctype { name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
    ,-[$DIR/tests/fixture/html-entity/input.html:1:1]
@@ -5125,36 +5156,6125 @@
     ,-[$DIR/tests/fixture/html-entity/input.html:68:1]
  68 | 
     : ^
- 69 | </body>
-    `----
-
-  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
-    ,-[$DIR/tests/fixture/html-entity/input.html:69:1]
- 69 | </body>
-    : ^^^^^^^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:69:1]
- 69 | </body>
-    :        ^
- 70 | </html>
+ 69 | 
+    : ^
+ 70 | <div>
     `----
 
-  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:70:1]
- 70 | </html>
-    : ^^^^^^^
+ 70 | <div>
+    : ^^^^^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:70:1]
- 70 | </html>
+ 70 | <div>
+    :      ^
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    `----
+
+  x Character { value: '€' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
     :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :          ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :           ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :             ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :              ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :               ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                  ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                   ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                    ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                     ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                      ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                       ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                        ^
+    `----
+
+  x Character { value: '€' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                         ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                            ^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:71:1]
- 71 | 
-    : ^
+ 71 | &#x80	0x20AC	EURO SIGN (€)
+    :                             ^
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
     `----
+
+  x Character { value: '‚' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :          ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :           ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :             ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :              ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :               ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                 ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                  ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                    ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                     ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                      ^
+    `----
+
+  x Character { value: 'W' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                       ^
+    `----
+
+  x Character { value: '-' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                        ^
+    `----
+
+  x Character { value: '9' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                          ^
+    `----
+
+  x Character { value: 'Q' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                           ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                            ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                 ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                  ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                    ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                     ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                      ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                       ^
+    `----
+
+  x Character { value: 'K' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                         ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                          ^
+    `----
+
+  x Character { value: '‚' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                           ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                              ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:72:1]
+ 72 | &#x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+    :                                               ^
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    `----
+
+  x Character { value: 'ƒ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :        ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :         ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :          ^
+    `----
+
+  x Character { value: '9' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :           ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :             ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                 ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                   ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                    ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                     ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                      ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                       ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                         ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                          ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                           ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                            ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                             ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                              ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                               ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                ^
+    `----
+
+  x Character { value: 'F' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                  ^
+    `----
+
+  x Character { value: 'W' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                   ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                    ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                     ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                      ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                       ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                        ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                         ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                          ^
+    `----
+
+  x Character { value: 'K' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                           ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                            ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                             ^
+    `----
+
+  x Character { value: 'ƒ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                              ^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                                ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:73:1]
+ 73 | &#x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+    :                                                 ^
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    `----
+
+  x Character { value: '„' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :          ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :           ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :             ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :              ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :               ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                ^
+    `----
+
+  x Character { value: 'B' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                 ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                  ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                    ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                     ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                      ^
+    `----
+
+  x Character { value: 'W' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                       ^
+    `----
+
+  x Character { value: '-' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                        ^
+    `----
+
+  x Character { value: '9' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                          ^
+    `----
+
+  x Character { value: 'Q' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                           ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                            ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                 ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                  ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                    ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                     ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                      ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                       ^
+    `----
+
+  x Character { value: 'K' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                         ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                          ^
+    `----
+
+  x Character { value: '„' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                           ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                              ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:74:1]
+ 74 | &#x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+    :                                               ^
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    `----
+
+  x Character { value: '…' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :          ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :           ^
+    `----
+
+  x Character { value: '6' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :             ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :              ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :               ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                 ^
+    `----
+
+  x Character { value: 'Z' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                  ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                   ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                    ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                     ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                      ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                        ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                         ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                          ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                           ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                            ^
+    `----
+
+  x Character { value: 'P' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                             ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                              ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                               ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                                ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                                 ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                                  ^
+    `----
+
+  x Character { value: '…' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                                   ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                                      ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:75:1]
+ 75 | &#x85	0x2026	HORIZONTAL ELLIPSIS (…)
+    :                                       ^
+ 76 | &#x86	0x2020	DAGGER (†)
+    `----
+
+  x Character { value: '†' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :          ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :           ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :             ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :               ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :                ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :                 ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :                  ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :                    ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :                     ^
+    `----
+
+  x Character { value: '†' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :                      ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :                         ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:76:1]
+ 76 | &#x86	0x2020	DAGGER (†)
+    :                          ^
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    `----
+
+  x Character { value: '‡' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :          ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :           ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :             ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :              ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :               ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                ^
+    `----
+
+  x Character { value: 'B' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                 ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                  ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                    ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                     ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                      ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                       ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                        ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                         ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                          ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                           ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                            ^
+    `----
+
+  x Character { value: '‡' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                             ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                                ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:77:1]
+ 77 | &#x87	0x2021	DOUBLE DAGGER (‡)
+    :                                 ^
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    `----
+
+  x Character { value: 'ˆ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :        ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :         ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :          ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :           ^
+    `----
+
+  x Character { value: '6' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :             ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :              ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :               ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                 ^
+    `----
+
+  x Character { value: 'F' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                  ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                   ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                    ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                     ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                      ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                       ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                        ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                         ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                          ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                           ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                            ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                             ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                              ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                               ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                 ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                  ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                   ^
+    `----
+
+  x Character { value: 'F' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                    ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                     ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                      ^
+    `----
+
+  x Character { value: 'X' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                        ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                         ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                          ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                           ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                            ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                               ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                                ^
+    `----
+
+  x Character { value: 'ˆ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                                 ^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                                   ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:78:1]
+ 78 | &#x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+    :                                                    ^
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    `----
+
+  x Character { value: '‰' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :          ^
+    `----
+
+  x Character { value: '3' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :           ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :             ^
+    `----
+
+  x Character { value: 'P' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :              ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :               ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                 ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                  ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                   ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                    ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                     ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                      ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                       ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                        ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                         ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                          ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                           ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                            ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                             ^
+    `----
+
+  x Character { value: '‰' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                              ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                                 ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:79:1]
+ 79 | &#x89	0x2030	PER MILLE SIGN (‰)
+    :                                  ^
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    `----
+
+  x Character { value: 'Š' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :        ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :         ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :          ^
+    `----
+
+  x Character { value: '6' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :           ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :             ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                 ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                   ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                    ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                     ^
+    `----
+
+  x Character { value: 'P' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                      ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                       ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                        ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                         ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                          ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                           ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                            ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                              ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                               ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                  ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                    ^
+    `----
+
+  x Character { value: 'W' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                     ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                      ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                       ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                         ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                          ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                           ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                            ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                             ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                               ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                                ^
+    `----
+
+  x Character { value: 'Š' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                                 ^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                                   ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:80:1]
+ 80 | &#x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+    :                                                    ^
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    `----
+
+  x Character { value: '‹' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :          ^
+    `----
+
+  x Character { value: '3' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :           ^
+    `----
+
+  x Character { value: '9' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :             ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :              ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :               ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                 ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                  ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                    ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                     ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                      ^
+    `----
+
+  x Character { value: 'F' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                       ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                        ^
+    `----
+
+  x Character { value: '-' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                         ^
+    `----
+
+  x Character { value: 'P' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                          ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                           ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                            ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                              ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                               ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                  ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                   ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                    ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                     ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                      ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                        ^
+    `----
+
+  x Character { value: 'Q' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                         ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                          ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                           ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                            ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                              ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                               ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                  ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                   ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                    ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                     ^
+    `----
+
+  x Character { value: 'K' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                      ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                       ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                        ^
+    `----
+
+  x Character { value: '‹' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                         ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                            ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:81:1]
+ 81 | &#x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+    :                                                             ^
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    `----
+
+  x Character { value: 'Œ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :        ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :         ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :          ^
+    `----
+
+  x Character { value: '5' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :           ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :             ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                 ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                   ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                    ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                     ^
+    `----
+
+  x Character { value: 'P' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                      ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                       ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                        ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                         ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                          ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                           ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                            ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                             ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                 ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                  ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                    ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                     ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                      ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                       ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                        ^
+    `----
+
+  x Character { value: 'Œ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                         ^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                           ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:82:1]
+ 82 | &#x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+    :                                            ^
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    `----
+
+  x Character { value: 'Ž' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :        ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :         ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :          ^
+    `----
+
+  x Character { value: '7' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :           ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :             ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                 ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                   ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                    ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                     ^
+    `----
+
+  x Character { value: 'P' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                      ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                       ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                        ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                         ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                          ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                           ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                            ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                              ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                               ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                  ^
+    `----
+
+  x Character { value: 'Z' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                    ^
+    `----
+
+  x Character { value: 'W' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                     ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                      ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                       ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                         ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                          ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                           ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                            ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                             ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                               ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                                ^
+    `----
+
+  x Character { value: 'Ž' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                                 ^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                                   ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:83:1]
+ 83 | &#x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+    :                                                    ^
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    `----
+
+  x Character { value: '‘' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :          ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :           ^
+    `----
+
+  x Character { value: '8' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :             ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :              ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :               ^
+    `----
+
+  x Character { value: 'F' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                  ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                   ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                    ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                     ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                      ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                       ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                         ^
+    `----
+
+  x Character { value: 'Q' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                          ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                           ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                            ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                             ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                              ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                               ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                 ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                   ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                    ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                     ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                      ^
+    `----
+
+  x Character { value: 'K' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                        ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                         ^
+    `----
+
+  x Character { value: '‘' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                          ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                             ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:84:1]
+ 84 | &#x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+    :                                              ^
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    `----
+
+  x Character { value: '’' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :          ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :           ^
+    `----
+
+  x Character { value: '9' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :             ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :              ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :               ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                 ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                   ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                    ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                     ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                      ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                       ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                        ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                          ^
+    `----
+
+  x Character { value: 'Q' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                           ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                            ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                 ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                  ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                    ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                     ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                      ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                       ^
+    `----
+
+  x Character { value: 'K' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                         ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                          ^
+    `----
+
+  x Character { value: '’' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                           ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                              ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:85:1]
+ 85 | &#x92	0x2019	RIGHT SINGLE QUOTATION MARK (’)
+    :                                               ^
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    `----
+
+  x Character { value: '“' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :          ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :           ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :             ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :              ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :               ^
+    `----
+
+  x Character { value: 'F' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                  ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                   ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                    ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                     ^
+    `----
+
+  x Character { value: 'B' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                      ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                       ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                         ^
+    `----
+
+  x Character { value: 'Q' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                          ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                           ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                            ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                             ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                              ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                               ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                 ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                   ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                    ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                     ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                      ^
+    `----
+
+  x Character { value: 'K' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                        ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                         ^
+    `----
+
+  x Character { value: '“' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                          ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                             ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:86:1]
+ 86 | &#x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+    :                                              ^
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    `----
+
+  x Character { value: '”' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :          ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :           ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :             ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :              ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :               ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                 ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                   ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                    ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                     ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                      ^
+    `----
+
+  x Character { value: 'B' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                       ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                        ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                          ^
+    `----
+
+  x Character { value: 'Q' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                           ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                            ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                 ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                  ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                    ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                     ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                      ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                       ^
+    `----
+
+  x Character { value: 'K' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                         ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                          ^
+    `----
+
+  x Character { value: '”' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                           ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                              ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:87:1]
+ 87 | &#x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+    :                                               ^
+ 88 | &#x95	0x2022	BULLET (•)
+    `----
+
+  x Character { value: '•' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :          ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :           ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :             ^
+    `----
+
+  x Character { value: 'B' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :              ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :               ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :                ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :                 ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :                  ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :                    ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :                     ^
+    `----
+
+  x Character { value: '•' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :                      ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :                         ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:88:1]
+ 88 | &#x95	0x2022	BULLET (•)
+    :                          ^
+ 89 | &#x96	0x2013	EN DASH (–)
+    `----
+
+  x Character { value: '–' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :          ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :           ^
+    `----
+
+  x Character { value: '3' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :             ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :              ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :               ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :                ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :                 ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :                  ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :                   ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :                    ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :                     ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :                      ^
+    `----
+
+  x Character { value: '–' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :                       ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :                          ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:89:1]
+ 89 | &#x96	0x2013	EN DASH (–)
+    :                           ^
+ 90 | &#x97	0x2014	EM DASH (—)
+    `----
+
+  x Character { value: '—' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :          ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :           ^
+    `----
+
+  x Character { value: '4' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :             ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :              ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :               ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :                ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :                 ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :                  ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :                   ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :                    ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :                     ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :                      ^
+    `----
+
+  x Character { value: '—' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :                       ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :                          ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:90:1]
+ 90 | &#x97	0x2014	EM DASH (—)
+    :                           ^
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    `----
+
+  x Character { value: '˜' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :        ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :         ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :          ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :           ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :             ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :              ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :               ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                 ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                   ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                    ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                     ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                      ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                       ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                         ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                          ^
+    `----
+
+  x Character { value: '˜' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                           ^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                             ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:91:1]
+ 91 | &#x98	0x02DC	SMALL TILDE (˜)
+    :                              ^
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    `----
+
+  x Character { value: '™' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :         ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :          ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :           ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :              ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :               ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                 ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                   ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                    ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                     ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                      ^
+    `----
+
+  x Character { value: 'K' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                        ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                         ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                          ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                           ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                            ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                             ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                              ^
+    `----
+
+  x Character { value: '™' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                               ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                                  ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:92:1]
+ 92 | &#x99	0x2122	TRADE MARK SIGN (™)
+    :                                   ^
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    `----
+
+  x Character { value: 'š' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :        ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :         ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :          ^
+    `----
+
+  x Character { value: '6' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :           ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :             ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                 ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                   ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                    ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                     ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                      ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                       ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                         ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                          ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                           ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                            ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                             ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                              ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                               ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                  ^
+    `----
+
+  x Character { value: 'W' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                   ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                    ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                     ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                      ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                       ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                        ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                         ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                          ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                           ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                            ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                             ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                              ^
+    `----
+
+  x Character { value: 'š' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                               ^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                                 ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:93:1]
+ 93 | &#x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+    :                                                  ^
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    `----
+
+  x Character { value: '›' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :        ^
+    `----
+
+  x Character { value: '2' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :         ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :          ^
+    `----
+
+  x Character { value: '3' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :           ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :             ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :              ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :               ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                 ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                  ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                    ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                     ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                      ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                       ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                        ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                         ^
+    `----
+
+  x Character { value: '-' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                          ^
+    `----
+
+  x Character { value: 'P' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                           ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                            ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                             ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                              ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                               ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                 ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                   ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                    ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                     ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                      ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                       ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                         ^
+    `----
+
+  x Character { value: 'Q' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                          ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                           ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                            ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                             ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                              ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                               ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                 ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                   ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                    ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                     ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                      ^
+    `----
+
+  x Character { value: 'K' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                        ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                         ^
+    `----
+
+  x Character { value: '›' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                          ^^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                             ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:94:1]
+ 94 | &#x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+    :                                                              ^
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    `----
+
+  x Character { value: 'œ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :        ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :         ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :          ^
+    `----
+
+  x Character { value: '5' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :           ^
+    `----
+
+  x Character { value: '3' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :             ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                 ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                   ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                    ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                     ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                      ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                       ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                         ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                          ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                           ^
+    `----
+
+  x Character { value: 'G' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                            ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                              ^
+    `----
+
+  x Character { value: 'U' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                               ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                                ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                                  ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                                   ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                                    ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                                     ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                                      ^
+    `----
+
+  x Character { value: 'œ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                                       ^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                                         ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:95:1]
+ 95 | &#x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+    :                                          ^
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    `----
+
+  x Character { value: 'ž' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :        ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :         ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :          ^
+    `----
+
+  x Character { value: '7' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :           ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :             ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                 ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                   ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                    ^
+    `----
+
+  x Character { value: 'M' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                     ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                      ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                       ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                         ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                          ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                           ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                            ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                             ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                              ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                               ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                ^
+    `----
+
+  x Character { value: 'Z' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                  ^
+    `----
+
+  x Character { value: 'W' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                   ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                    ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                     ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                      ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                       ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                        ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                         ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                          ^
+    `----
+
+  x Character { value: 'O' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                           ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                            ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                             ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                              ^
+    `----
+
+  x Character { value: 'ž' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                               ^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                                 ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:96:1]
+ 96 | &#x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+    :                                                  ^
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    `----
+
+  x Character { value: 'Ÿ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    : ^^^^^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :      ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :       ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :        ^
+    `----
+
+  x Character { value: '0' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :         ^
+    `----
+
+  x Character { value: '1' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :          ^
+    `----
+
+  x Character { value: '7' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :           ^
+    `----
+
+  x Character { value: '8' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :            ^
+    `----
+
+  x Character { value: '\t' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :             ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :              ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :               ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                 ^
+    `----
+
+  x Character { value: 'N' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                   ^
+    `----
+
+  x Character { value: 'C' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                    ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                     ^
+    `----
+
+  x Character { value: 'P' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                      ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                       ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                        ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                         ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                          ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                           ^
+    `----
+
+  x Character { value: 'L' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                            ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                             ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                              ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                               ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                  ^
+    `----
+
+  x Character { value: 'Y' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                    ^
+    `----
+
+  x Character { value: 'W' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                     ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                      ^
+    `----
+
+  x Character { value: 'T' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                       ^
+    `----
+
+  x Character { value: 'H' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                         ^
+    `----
+
+  x Character { value: 'D' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                          ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                           ^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                            ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                             ^
+    `----
+
+  x Character { value: 'R' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                              ^
+    `----
+
+  x Character { value: 'E' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                               ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                                ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                                 ^
+    `----
+
+  x Character { value: 'S' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                                   ^
+    `----
+
+  x Character { value: '(' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                                    ^
+    `----
+
+  x Character { value: 'Ÿ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                                     ^^
+    `----
+
+  x Character { value: ')' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                                       ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:97:1]
+ 97 | &#x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+    :                                                        ^
+ 98 | </div>
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:98:1]
+ 98 | </div>
+    : ^^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:98:1]
+ 98 | </div>
+    :       ^
+    `----
+
+  x Character { value: '\n' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:99:1]
+  99 | 
+     : ^
+ 100 | </body>
+     `----
+
+  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | </body>
+     : ^^^^^^^
+     `----
+
+  x Character { value: '\n' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
+ 100 | </body>
+     :        ^
+ 101 | </html>
+     `----
+
+  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | </html>
+     : ^^^^^^^
+     `----
+
+  x Character { value: '\n' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
+ 101 | </html>
+     :        ^
+     `----
+
+  x Character { value: '\n' }
+     ,-[$DIR/tests/fixture/html-entity/input.html:102:1]
+ 102 | 
+     : ^
+     `----
