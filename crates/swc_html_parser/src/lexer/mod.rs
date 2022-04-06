@@ -23,6 +23,7 @@ where
     last_pos: Option<BytePos>,
     state: State,
     return_state: State,
+    // TODO reemit errors in parser
     errors: Vec<Error>,
     in_foreign_node: bool,
     pending_tokens: Vec<TokenAndSpan>,
@@ -2455,29 +2456,40 @@ where
                         // error. Create a comment token whose data is the "[CDATA[" string.
                         // Switch to the bogus comment state.
                         Some('[') => match self.consume_next_char() {
-                            Some('c' | 'C') => match self.consume_next_char() {
-                                Some('d' | 'D') => match self.consume_next_char() {
-                                    Some('a' | 'A') => match self.consume_next_char() {
-                                        Some('t' | 'T') => match self.consume_next_char() {
-                                            Some('a' | 'A') => match self.consume_next_char() {
-                                                Some('[') => {
-                                                    if self.in_foreign_node {
-                                                        self.state = State::CdataSection;
-                                                    } else {
-                                                        self.emit_error(
-                                                            ErrorKind::CdataInHtmlContent,
-                                                        );
-                                                        // TODO fix me
-                                                        self.cur_token = Some(Token::Comment {
-                                                            data: "[CDATA[".into(),
-                                                        });
-                                                        self.state = State::BogusComment;
+                            Some(c @ 'c' | c @ 'C') => match self.consume_next_char() {
+                                Some(d @ 'd' | d @ 'D') => match self.consume_next_char() {
+                                    Some(a1 @ 'a' | a1 @ 'A') => match self.consume_next_char() {
+                                        Some(t @ 't' | t @ 'T') => match self.consume_next_char() {
+                                            Some(a2 @ 'a' | a2 @ 'A') => {
+                                                match self.consume_next_char() {
+                                                    Some('[') => {
+                                                        if self.in_foreign_node {
+                                                            self.state = State::CdataSection;
+                                                        } else {
+                                                            self.emit_error(
+                                                                ErrorKind::CdataInHtmlContent,
+                                                            );
+                                                            let mut data = String::with_capacity(7);
+
+                                                            data.push('[');
+                                                            data.push(c);
+                                                            data.push(d);
+                                                            data.push(a1);
+                                                            data.push(t);
+                                                            data.push(a2);
+                                                            data.push('[');
+
+                                                            self.cur_token = Some(Token::Comment {
+                                                                data: data.into(),
+                                                            });
+                                                            self.state = State::BogusComment;
+                                                        }
+                                                    }
+                                                    _ => {
+                                                        anything_else(self);
                                                     }
                                                 }
-                                                _ => {
-                                                    anything_else(self);
-                                                }
-                                            },
+                                            }
                                             _ => {
                                                 anything_else(self);
                                             }
