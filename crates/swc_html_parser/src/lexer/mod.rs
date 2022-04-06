@@ -72,7 +72,7 @@ pub static HTML_ENTITIES: Lazy<AHashMap<String, Entity>> = Lazy::new(|| {
     entities
 });
 
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 #[allow(unused)]
 enum State {
     Data,
@@ -4472,9 +4472,14 @@ where
                         // Flush code points consumed as a character reference. Reconsume in the
                         // return state.
                         _ => {
-                            // TODO fix me
+                            if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                                for c in temporary_buffer.drain(..) {
+                                    self.flush_code_point_consumed_as_character_reference(c);
+                                }
+                            }
 
                             self.state = self.return_state.clone();
+                            self.reconsume();
                         }
                     }
                 }

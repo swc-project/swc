@@ -30,27 +30,28 @@
  27 | |   <div>reg</div>
  28 | |   
  29 | |   <div>&CounterClockwiseContourIntegral;</div>
- 30 | |   
- 31 | |   <!--<div>An a with a grave accent: a&#768;</div>-->
- 32 | |   <!--<div>An a with an acute accent: a&#769;</div>-->
- 33 | |   <!--<div>An a with a circumflex accent: a&#770;</div>-->
- 34 | |   <!--<div>An a with a tilde: a&#771;</div>-->
- 35 | |   <!--<div>An o with a grave accent: o&#768;</div>-->
- 36 | |   <!--<div>An o with an acute accent: o&#769;</div>-->
- 37 | |   <!--<div>An o with a circumflex accent: o&#770;</div>-->
- 38 | |   <!--<div>An o with a tilde: o&#771;</div>-->
- 39 | |   
- 40 | |   <!--<div>A space character: &&</div>-->
- 41 | |   <!--<div>I'm &notin; I tell you</div>-->
- 42 | |   
- 43 | |   <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
- 44 | |   <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
- 45 | |   <!--    kablammo!-->
- 46 | |   <!--</a>-->
- 47 | |   
- 48 | |   </body>
- 49 | |   </html>
- 50 | `-> 
+ 30 | |   <div>&&reg;</div>
+ 31 | |   
+ 32 | |   <!--<div>An a with a grave accent: a&#768;</div>-->
+ 33 | |   <!--<div>An a with an acute accent: a&#769;</div>-->
+ 34 | |   <!--<div>An a with a circumflex accent: a&#770;</div>-->
+ 35 | |   <!--<div>An a with a tilde: a&#771;</div>-->
+ 36 | |   <!--<div>An o with a grave accent: o&#768;</div>-->
+ 37 | |   <!--<div>An o with an acute accent: o&#769;</div>-->
+ 38 | |   <!--<div>An o with a circumflex accent: o&#770;</div>-->
+ 39 | |   <!--<div>An o with a tilde: o&#771;</div>-->
+ 40 | |   
+ 41 | |   <!--<div>A space character: &&</div>-->
+ 42 | |   <!--<div>I'm &notin; I tell you</div>-->
+ 43 | |   
+ 44 | |   <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
+ 45 | |   <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
+ 46 | |   <!--    kablammo!-->
+ 47 | |   <!--</a>-->
+ 48 | |   
+ 49 | |   </body>
+ 50 | |   </html>
+ 51 | `-> 
     `----
 
   x Doctype { name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
@@ -2438,242 +2439,273 @@
     ,-[$DIR/tests/fixture/html-entity/input.html:29:1]
  29 | <div>&CounterClockwiseContourIntegral;</div>
     :                                             ^
+ 30 | <div>&&reg;</div>
+    `----
+
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:30:1]
+ 30 | <div>&&reg;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: '&' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:30:1]
+ 30 | <div>&&reg;</div>
+    :      ^^
+    `----
+
+  x Character { value: '®' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:30:1]
+ 30 | <div>&&reg;</div>
+    :        ^^^^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:30:1]
+ 30 | <div>&&reg;</div>
+    :            ^^^^^^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:30:1]
- 30 | 
+ 30 | <div>&&reg;</div>
+    :                  ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:31:1]
+ 31 | 
     : ^
- 31 | <!--<div>An a with a grave accent: a&#768;</div>-->
+ 32 | <!--<div>An a with a grave accent: a&#768;</div>-->
     `----
 
   x Comment { data: Atom('<div>An a with a grave accent: a&#768;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:31:1]
- 31 | <!--<div>An a with a grave accent: a&#768;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <!--<div>An a with a grave accent: a&#768;</div>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:31:1]
- 31 | <!--<div>An a with a grave accent: a&#768;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <!--<div>An a with a grave accent: a&#768;</div>-->
     :                                                    ^
- 32 | <!--<div>An a with an acute accent: a&#769;</div>-->
+ 33 | <!--<div>An a with an acute accent: a&#769;</div>-->
     `----
 
   x Comment { data: Atom('<div>An a with an acute accent: a&#769;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
- 32 | <!--<div>An a with an acute accent: a&#769;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <!--<div>An a with an acute accent: a&#769;</div>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
- 32 | <!--<div>An a with an acute accent: a&#769;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <!--<div>An a with an acute accent: a&#769;</div>-->
     :                                                     ^
- 33 | <!--<div>An a with a circumflex accent: a&#770;</div>-->
+ 34 | <!--<div>An a with a circumflex accent: a&#770;</div>-->
     `----
 
   x Comment { data: Atom('<div>An a with a circumflex accent: a&#770;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
- 33 | <!--<div>An a with a circumflex accent: a&#770;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <!--<div>An a with a circumflex accent: a&#770;</div>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
- 33 | <!--<div>An a with a circumflex accent: a&#770;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <!--<div>An a with a circumflex accent: a&#770;</div>-->
     :                                                         ^
- 34 | <!--<div>An a with a tilde: a&#771;</div>-->
+ 35 | <!--<div>An a with a tilde: a&#771;</div>-->
     `----
 
   x Comment { data: Atom('<div>An a with a tilde: a&#771;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
- 34 | <!--<div>An a with a tilde: a&#771;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <!--<div>An a with a tilde: a&#771;</div>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
- 34 | <!--<div>An a with a tilde: a&#771;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <!--<div>An a with a tilde: a&#771;</div>-->
     :                                             ^
- 35 | <!--<div>An o with a grave accent: o&#768;</div>-->
+ 36 | <!--<div>An o with a grave accent: o&#768;</div>-->
     `----
 
   x Comment { data: Atom('<div>An o with a grave accent: o&#768;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
- 35 | <!--<div>An o with a grave accent: o&#768;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <!--<div>An o with a grave accent: o&#768;</div>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
- 35 | <!--<div>An o with a grave accent: o&#768;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <!--<div>An o with a grave accent: o&#768;</div>-->
     :                                                    ^
- 36 | <!--<div>An o with an acute accent: o&#769;</div>-->
+ 37 | <!--<div>An o with an acute accent: o&#769;</div>-->
     `----
 
   x Comment { data: Atom('<div>An o with an acute accent: o&#769;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
- 36 | <!--<div>An o with an acute accent: o&#769;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <!--<div>An o with an acute accent: o&#769;</div>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
- 36 | <!--<div>An o with an acute accent: o&#769;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <!--<div>An o with an acute accent: o&#769;</div>-->
     :                                                     ^
- 37 | <!--<div>An o with a circumflex accent: o&#770;</div>-->
+ 38 | <!--<div>An o with a circumflex accent: o&#770;</div>-->
     `----
 
   x Comment { data: Atom('<div>An o with a circumflex accent: o&#770;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
- 37 | <!--<div>An o with a circumflex accent: o&#770;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <!--<div>An o with a circumflex accent: o&#770;</div>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
- 37 | <!--<div>An o with a circumflex accent: o&#770;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <!--<div>An o with a circumflex accent: o&#770;</div>-->
     :                                                         ^
- 38 | <!--<div>An o with a tilde: o&#771;</div>-->
+ 39 | <!--<div>An o with a tilde: o&#771;</div>-->
     `----
 
   x Comment { data: Atom('<div>An o with a tilde: o&#771;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
- 38 | <!--<div>An o with a tilde: o&#771;</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <!--<div>An o with a tilde: o&#771;</div>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
- 38 | <!--<div>An o with a tilde: o&#771;</div>-->
-    :                                             ^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
- 39 | 
+ 39 | <!--<div>An o with a tilde: o&#771;</div>-->
+    :                                             ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:40:1]
+ 40 | 
     : ^
- 40 | <!--<div>A space character: &&</div>-->
+ 41 | <!--<div>A space character: &&</div>-->
     `----
 
   x Comment { data: Atom('<div>A space character: &&</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:40:1]
- 40 | <!--<div>A space character: &&</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <!--<div>A space character: &&</div>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:40:1]
- 40 | <!--<div>A space character: &&</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <!--<div>A space character: &&</div>-->
     :                                        ^
- 41 | <!--<div>I'm &notin; I tell you</div>-->
+ 42 | <!--<div>I'm &notin; I tell you</div>-->
     `----
 
   x Comment { data: Atom('<div>I'm &notin; I tell you</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
- 41 | <!--<div>I'm &notin; I tell you</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <!--<div>I'm &notin; I tell you</div>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
- 41 | <!--<div>I'm &notin; I tell you</div>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <!--<div>I'm &notin; I tell you</div>-->
     :                                         ^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
- 42 | 
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | 
     : ^
- 43 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
+ 44 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
     `----
 
   x Comment { data: Atom('<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
- 43 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:44:1]
+ 44 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
- 43 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:44:1]
+ 44 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
     :                                                                       ^
- 44 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
+ 45 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
     `----
 
   x Comment { data: Atom('<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:44:1]
- 44 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
+ 45 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:44:1]
- 44 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
+ 45 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
     :                                                                                  ^
- 45 | <!--    kablammo!-->
+ 46 | <!--    kablammo!-->
     `----
 
   x Comment { data: Atom('    kablammo!' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
- 45 | <!--    kablammo!-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
+ 46 | <!--    kablammo!-->
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
- 45 | <!--    kablammo!-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
+ 46 | <!--    kablammo!-->
     :                     ^
- 46 | <!--</a>-->
+ 47 | <!--</a>-->
     `----
 
   x Comment { data: Atom('</a>' type=inline) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
- 46 | <!--</a>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:47:1]
+ 47 | <!--</a>-->
     : ^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
- 46 | <!--</a>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:47:1]
+ 47 | <!--</a>-->
     :            ^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:47:1]
- 47 | 
+    ,-[$DIR/tests/fixture/html-entity/input.html:48:1]
+ 48 | 
     : ^
- 48 | </body>
+ 49 | </body>
     `----
 
   x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
-    ,-[$DIR/tests/fixture/html-entity/input.html:48:1]
- 48 | </body>
+    ,-[$DIR/tests/fixture/html-entity/input.html:49:1]
+ 49 | </body>
     : ^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:48:1]
- 48 | </body>
+    ,-[$DIR/tests/fixture/html-entity/input.html:49:1]
+ 49 | </body>
     :        ^
- 49 | </html>
+ 50 | </html>
     `----
 
   x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
-    ,-[$DIR/tests/fixture/html-entity/input.html:49:1]
- 49 | </html>
+    ,-[$DIR/tests/fixture/html-entity/input.html:50:1]
+ 50 | </html>
     : ^^^^^^^
-    `----
-
-  x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:49:1]
- 49 | </html>
-    :        ^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:50:1]
- 50 | 
+ 50 | </html>
+    :        ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:51:1]
+ 51 | 
     : ^
     `----
