@@ -102,6 +102,16 @@ impl Pure<'_> {
             _ => return None,
         };
 
+        let obj = match &mut *me.obj {
+            Expr::Object(v) => v,
+            _ => return None,
+        };
+
+        let prop = match &me.prop {
+            MemberProp::Ident(v) => v.clone(),
+            _ => return None,
+        };
+
         None
     }
 
