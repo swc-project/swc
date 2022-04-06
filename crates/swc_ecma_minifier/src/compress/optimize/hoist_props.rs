@@ -26,12 +26,7 @@ where
                 .data
                 .vars
                 .get(&name.to_id())
-                .map(|v| {
-                    !v.mutated
-                        && !v.reassigned_with_assignment
-                        && !v.reassigned_with_var_decl
-                        && !v.is_infected()
-                })
+                .map(|v| !v.mutated && !v.reassigned() && !v.is_infected())
                 .unwrap_or(false)
             {
                 return;
