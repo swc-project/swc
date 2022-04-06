@@ -182,19 +182,19 @@ where
             _ => return,
         };
         if let Expr::Ident(obj) = &*member.obj {
-            if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
-                member.obj = value;
-                self.changed = true;
-                tracing::debug!("hoist_props: Inlined a property");
-                return;
-            }
-
             if let MemberProp::Ident(prop) = &member.prop {
                 if let Some(value) = self.simple_props.get(&(obj.to_id(), prop.sym.clone())) {
                     tracing::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
                     self.changed = true;
-                    *e = *value.clone()
+                    *e = *value.clone();
+                    return;
                 }
+            }
+
+            if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
+                member.obj = value;
+                self.changed = true;
+                tracing::debug!("hoist_props: Inlined a property");
             }
         }
     }
