@@ -203,9 +203,10 @@ struct Optimizer<'a, M> {
     simple_functions: FxHashMap<Id, Box<Expr>>,
     vars_for_inlining: FxHashMap<Id, Box<Expr>>,
 
-    vars_for_prop_hoisting: AHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
-    simple_props: AHashMap<(Id, JsWord), Box<Expr>>,
+    vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
+    /// Used for `hoist_props`.
+    simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
     _simple_array_values: AHashMap<(Id, usize), Box<Expr>>,
     typeofs: AHashMap<Id, JsWord>,
     /// This information is created by analyzing identifier usages.
