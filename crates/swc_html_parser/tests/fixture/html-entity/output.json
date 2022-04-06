@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 1434,
+    "end": 1452,
     "ctxt": 0
   },
   "children": [
@@ -5526,12 +5526,343 @@
       "type": "TokenAndSpan",
       "span": {
         "start": 1148,
+        "end": 1153,
+        "ctxt": 0
+      },
+      "token": {
+        "StartTag": {
+          "tag_name": "div",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1153,
+        "end": 1154,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "A"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1154,
+        "end": 1155,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1155,
+        "end": 1156,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "s"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1156,
+        "end": 1157,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "p"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1157,
+        "end": 1158,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "a"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1158,
+        "end": 1159,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "c"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1159,
+        "end": 1160,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "e"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1160,
+        "end": 1161,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1161,
+        "end": 1162,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "c"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1162,
+        "end": 1163,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "h"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1163,
+        "end": 1164,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "a"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1164,
+        "end": 1165,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "r"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1165,
+        "end": 1166,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "a"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1166,
+        "end": 1167,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "c"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1167,
+        "end": 1168,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "t"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1168,
+        "end": 1169,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "e"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1169,
+        "end": 1170,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "r"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1170,
+        "end": 1171,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": ":"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1171,
+        "end": 1172,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1172,
+        "end": 1174,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "&"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1174,
+        "end": 1175,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "&"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1175,
+        "end": 1180,
+        "ctxt": 0
+      },
+      "token": {
+        "EndTag": {
+          "tag_name": "div",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1180,
+        "end": 1181,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1181,
+        "end": 1186,
+        "ctxt": 0
+      },
+      "token": {
+        "StartTag": {
+          "tag_name": "div",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1186,
         "end": 1187,
         "ctxt": 0
       },
       "token": {
-        "Comment": {
-          "data": "<div>A space character: &&</div>"
+        "Character": {
+          "value": "I"
         }
       }
     },
@@ -5544,7 +5875,7 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "'"
         }
       }
     },
@@ -5552,25 +5883,328 @@
       "type": "TokenAndSpan",
       "span": {
         "start": 1188,
-        "end": 1228,
+        "end": 1189,
         "ctxt": 0
       },
       "token": {
-        "Comment": {
-          "data": "<div>I'm &notin; I tell you</div>"
+        "Character": {
+          "value": "m"
         }
       }
     },
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1228,
-        "end": 1229,
+        "start": 1189,
+        "end": 1190,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1190,
+        "end": 1194,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "¬"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1194,
+        "end": 1195,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "i"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1195,
+        "end": 1196,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1196,
+        "end": 1197,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": ";"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1197,
+        "end": 1198,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1198,
+        "end": 1199,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "I"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1199,
+        "end": 1200,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1200,
+        "end": 1201,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "t"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1201,
+        "end": 1202,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "e"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1202,
+        "end": 1203,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "l"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1203,
+        "end": 1204,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "l"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1204,
+        "end": 1205,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1205,
+        "end": 1206,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "y"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1206,
+        "end": 1207,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "o"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1207,
+        "end": 1208,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "u"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1208,
+        "end": 1214,
+        "ctxt": 0
+      },
+      "token": {
+        "EndTag": {
+          "tag_name": "div",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1214,
+        "end": 1215,
         "ctxt": 0
       },
       "token": {
         "Character": {
           "value": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1215,
+        "end": 1220,
+        "ctxt": 0
+      },
+      "token": {
+        "StartTag": {
+          "tag_name": "div",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1220,
+        "end": 1221,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "I"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1221,
+        "end": 1222,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "'"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1222,
+        "end": 1223,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "m"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1223,
+        "end": 1224,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1224,
+        "end": 1229,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "¬"
         }
       }
     },
@@ -5583,7 +6217,7 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": " "
         }
       }
     },
@@ -5591,7 +6225,178 @@
       "type": "TokenAndSpan",
       "span": {
         "start": 1230,
-        "end": 1300,
+        "end": 1231,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "I"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1231,
+        "end": 1232,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1232,
+        "end": 1233,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "t"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1233,
+        "end": 1234,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "e"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1234,
+        "end": 1235,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "l"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1235,
+        "end": 1236,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "l"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1236,
+        "end": 1237,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": " "
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1237,
+        "end": 1238,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "y"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1238,
+        "end": 1239,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "o"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1239,
+        "end": 1240,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "u"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1240,
+        "end": 1246,
+        "ctxt": 0
+      },
+      "token": {
+        "EndTag": {
+          "tag_name": "div",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1246,
+        "end": 1247,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1247,
+        "end": 1248,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n"
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 1248,
+        "end": 1318,
         "ctxt": 0
       },
       "token": {
@@ -5603,8 +6408,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1300,
-        "end": 1301,
+        "start": 1318,
+        "end": 1319,
         "ctxt": 0
       },
       "token": {
@@ -5616,8 +6421,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1301,
-        "end": 1382,
+        "start": 1319,
+        "end": 1400,
         "ctxt": 0
       },
       "token": {
@@ -5629,8 +6434,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1382,
-        "end": 1383,
+        "start": 1400,
+        "end": 1401,
         "ctxt": 0
       },
       "token": {
@@ -5642,8 +6447,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1383,
-        "end": 1403,
+        "start": 1401,
+        "end": 1421,
         "ctxt": 0
       },
       "token": {
@@ -5655,8 +6460,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1403,
-        "end": 1404,
+        "start": 1421,
+        "end": 1422,
         "ctxt": 0
       },
       "token": {
@@ -5668,8 +6473,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1404,
-        "end": 1415,
+        "start": 1422,
+        "end": 1433,
         "ctxt": 0
       },
       "token": {
@@ -5681,8 +6486,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1415,
-        "end": 1416,
+        "start": 1433,
+        "end": 1434,
         "ctxt": 0
       },
       "token": {
@@ -5694,8 +6499,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1416,
-        "end": 1417,
+        "start": 1434,
+        "end": 1435,
         "ctxt": 0
       },
       "token": {
@@ -5707,8 +6512,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1417,
-        "end": 1424,
+        "start": 1435,
+        "end": 1442,
         "ctxt": 0
       },
       "token": {
@@ -5722,8 +6527,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1424,
-        "end": 1425,
+        "start": 1442,
+        "end": 1443,
         "ctxt": 0
       },
       "token": {
@@ -5735,8 +6540,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1425,
-        "end": 1432,
+        "start": 1443,
+        "end": 1450,
         "ctxt": 0
       },
       "token": {
@@ -5750,8 +6555,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1432,
-        "end": 1433,
+        "start": 1450,
+        "end": 1451,
         "ctxt": 0
       },
       "token": {
@@ -5763,8 +6568,8 @@
     {
       "type": "TokenAndSpan",
       "span": {
-        "start": 1433,
-        "end": 1434,
+        "start": 1451,
+        "end": 1452,
         "ctxt": 0
       },
       "token": {

@@ -41,17 +41,18 @@
  38 | |   <!--<div>An o with a circumflex accent: o&#770;</div>-->
  39 | |   <!--<div>An o with a tilde: o&#771;</div>-->
  40 | |   
- 41 | |   <!--<div>A space character: &&</div>-->
- 42 | |   <!--<div>I'm &notin; I tell you</div>-->
- 43 | |   
- 44 | |   <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
- 45 | |   <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
- 46 | |   <!--    kablammo!-->
- 47 | |   <!--</a>-->
- 48 | |   
- 49 | |   </body>
- 50 | |   </html>
- 51 | `-> 
+ 41 | |   <div>A space character: &&</div>
+ 42 | |   <div>I'm &notin; I tell you</div>
+ 43 | |   <div>I'm &not; I tell you</div>
+ 44 | |   
+ 45 | |   <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
+ 46 | |   <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
+ 47 | |   <!--    kablammo!-->
+ 48 | |   <!--</a>-->
+ 49 | |   
+ 50 | |   </body>
+ 51 | |   </html>
+ 52 | `-> 
     `----
 
   x Doctype { name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
@@ -2586,126 +2587,493 @@
     ,-[$DIR/tests/fixture/html-entity/input.html:40:1]
  40 | 
     : ^
- 41 | <!--<div>A space character: &&</div>-->
+ 41 | <div>A space character: &&</div>
     `----
 
-  x Comment { data: Atom('<div>A space character: &&</div>' type=dynamic) }
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
- 41 | <!--<div>A space character: &&</div>-->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 41 | <div>A space character: &&</div>
+    : ^^^^^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :      ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :       ^
+    `----
+
+  x Character { value: 's' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :        ^
+    `----
+
+  x Character { value: 'p' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :         ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :          ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :           ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :            ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :             ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :              ^
+    `----
+
+  x Character { value: 'h' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :               ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                ^
+    `----
+
+  x Character { value: 'r' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                 ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                  ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                   ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                    ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                     ^
+    `----
+
+  x Character { value: 'r' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                      ^
+    `----
+
+  x Character { value: ':' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                        ^
+    `----
+
+  x Character { value: '&' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                         ^^
+    `----
+
+  x Character { value: '&' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                           ^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
+ 41 | <div>A space character: &&</div>
+    :                            ^^^^^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
- 41 | <!--<div>A space character: &&</div>-->
-    :                                        ^
- 42 | <!--<div>I'm &notin; I tell you</div>-->
+ 41 | <div>A space character: &&</div>
+    :                                 ^
+ 42 | <div>I'm &notin; I tell you</div>
     `----
 
-  x Comment { data: Atom('<div>I'm &notin; I tell you</div>' type=dynamic) }
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
- 42 | <!--<div>I'm &notin; I tell you</div>-->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 42 | <div>I'm &notin; I tell you</div>
+    : ^^^^^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :      ^
+    `----
+
+  x Character { value: '\'' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :       ^
+    `----
+
+  x Character { value: 'm' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :         ^
+    `----
+
+  x Character { value: '¬' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :          ^^^^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :              ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :               ^
+    `----
+
+  x Character { value: ';' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                 ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                  ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                   ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                    ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                     ^
+    `----
+
+  x Character { value: 'l' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                      ^
+    `----
+
+  x Character { value: 'l' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                        ^
+    `----
+
+  x Character { value: 'y' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                         ^
+    `----
+
+  x Character { value: 'o' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                          ^
+    `----
+
+  x Character { value: 'u' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                           ^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
+ 42 | <div>I'm &notin; I tell you</div>
+    :                            ^^^^^^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
- 42 | <!--<div>I'm &notin; I tell you</div>-->
-    :                                         ^
+ 42 | <div>I'm &notin; I tell you</div>
+    :                                  ^
+ 43 | <div>I'm &not; I tell you</div>
+    `----
+
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    : ^^^^^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :      ^
+    `----
+
+  x Character { value: '\'' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :       ^
+    `----
+
+  x Character { value: 'm' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :        ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :         ^
+    `----
+
+  x Character { value: '¬' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :          ^^^^^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :               ^
+    `----
+
+  x Character { value: 'I' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :                ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :                 ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :                  ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :                   ^
+    `----
+
+  x Character { value: 'l' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :                    ^
+    `----
+
+  x Character { value: 'l' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :                     ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :                      ^
+    `----
+
+  x Character { value: 'y' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :                       ^
+    `----
+
+  x Character { value: 'o' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :                        ^
+    `----
+
+  x Character { value: 'u' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :                         ^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
+ 43 | <div>I'm &not; I tell you</div>
+    :                          ^^^^^^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
- 43 | 
+ 43 | <div>I'm &not; I tell you</div>
+    :                                ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:44:1]
+ 44 | 
     : ^
- 44 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
+ 45 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
     `----
 
   x Comment { data: Atom('<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:44:1]
- 44 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
+ 45 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:44:1]
- 44 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
+ 45 | <!--<a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>-->
     :                                                                       ^
- 45 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
+ 46 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
     `----
 
   x Comment { data: Atom('<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
- 45 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
+ 46 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
- 45 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
+ 46 | <!--<a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">-->
     :                                                                                  ^
- 46 | <!--    kablammo!-->
+ 47 | <!--    kablammo!-->
     `----
 
   x Comment { data: Atom('    kablammo!' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
- 46 | <!--    kablammo!-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:47:1]
+ 47 | <!--    kablammo!-->
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
- 46 | <!--    kablammo!-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:47:1]
+ 47 | <!--    kablammo!-->
     :                     ^
- 47 | <!--</a>-->
+ 48 | <!--</a>-->
     `----
 
   x Comment { data: Atom('</a>' type=inline) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:47:1]
- 47 | <!--</a>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:48:1]
+ 48 | <!--</a>-->
     : ^^^^^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:47:1]
- 47 | <!--</a>-->
+    ,-[$DIR/tests/fixture/html-entity/input.html:48:1]
+ 48 | <!--</a>-->
     :            ^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:48:1]
- 48 | 
+    ,-[$DIR/tests/fixture/html-entity/input.html:49:1]
+ 49 | 
     : ^
- 49 | </body>
+ 50 | </body>
     `----
 
   x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
-    ,-[$DIR/tests/fixture/html-entity/input.html:49:1]
- 49 | </body>
+    ,-[$DIR/tests/fixture/html-entity/input.html:50:1]
+ 50 | </body>
     : ^^^^^^^
     `----
 
   x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:49:1]
- 49 | </body>
+    ,-[$DIR/tests/fixture/html-entity/input.html:50:1]
+ 50 | </body>
     :        ^
- 50 | </html>
+ 51 | </html>
     `----
 
   x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
-    ,-[$DIR/tests/fixture/html-entity/input.html:50:1]
- 50 | </html>
+    ,-[$DIR/tests/fixture/html-entity/input.html:51:1]
+ 51 | </html>
     : ^^^^^^^
-    `----
-
-  x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:50:1]
- 50 | </html>
-    :        ^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:51:1]
- 51 | 
+ 51 | </html>
+    :        ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:52:1]
+ 52 | 
     : ^
     `----
