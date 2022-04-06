@@ -333,8 +333,14 @@ where
                         return Ok(token_and_span);
                     }
                 }
+            } else {
+                self.run()?;
             }
+        }
+    }
 
+    fn run(&mut self) -> LexResult<()> {
+        loop {
             match self.state {
                 // https://html.spec.whatwg.org/multipage/parsing.html#data-state
                 State::Data => {
@@ -363,6 +369,8 @@ where
                         // Emit an end-of-file token.
                         None => {
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -400,6 +408,8 @@ where
                         // Emit an end-of-file token.
                         None => {
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -428,6 +438,8 @@ where
                         // Emit an end-of-file token.
                         None => {
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -456,6 +468,8 @@ where
                         // Emit an end-of-file token.
                         None => {
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -481,6 +495,8 @@ where
                         // Emit an end-of-file token.
                         None => {
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -534,6 +550,8 @@ where
                             self.emit_error(ErrorKind::EofBeforeTagName);
                             self.emit_token(Token::Character { value: '<' });
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is an invalid-first-character-of-tag-name parse error. Emit a U+003C
@@ -578,6 +596,8 @@ where
                             self.emit_token(Token::Character { value: '<' });
                             self.emit_token(Token::Character { value: '/' });
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is an invalid-first-character-of-tag-name parse error. Create a
@@ -671,6 +691,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current tag token's tag name.
@@ -1248,6 +1270,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -1288,6 +1312,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Switch to the script data escaped state. Emit the current input character
@@ -1335,6 +1361,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Switch to the script data escaped state. Emit the current input character
@@ -1600,6 +1628,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // end-of-file token. Anything else
                         // Emit the current input character as a character token.
@@ -1643,6 +1673,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Switch to the script data double escaped state. Emit the current input
@@ -1693,6 +1725,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Switch to the script data double escaped state. Emit the current input
@@ -1985,6 +2019,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Start a new attribute in the current tag token. Set that attribute name
@@ -2116,6 +2152,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current attribute's value.
@@ -2217,6 +2255,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current attribute's value.
@@ -2315,6 +2355,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current attribute's value.
@@ -2372,6 +2414,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is a missing-whitespace-between-attributes parse error. Reconsume in
@@ -2411,6 +2455,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is an unexpected-solidus-in-tag parse error. Reconsume in the before
@@ -2437,6 +2483,8 @@ where
                         None => {
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Append a U+FFFD
@@ -2655,6 +2703,8 @@ where
                             self.emit_error(ErrorKind::EofInComment);
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
@@ -2735,6 +2785,8 @@ where
                             self.emit_error(ErrorKind::EofInComment);
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append the current input character to the comment token's data.
@@ -2874,6 +2926,8 @@ where
                             self.emit_error(ErrorKind::EofInComment);
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
@@ -2935,6 +2989,8 @@ where
                             self.emit_error(ErrorKind::EofInComment);
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append two U+002D HYPHEN-MINUS characters (-) to the comment token's
@@ -3000,6 +3056,8 @@ where
                             self.emit_error(ErrorKind::EofInComment);
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION
@@ -3058,6 +3116,8 @@ where
                             });
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is a missing-whitespace-before-doctype-name parse error. Reconsume
@@ -3135,6 +3195,8 @@ where
                             });
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Create a new DOCTYPE token. Set the token's name to the current input
@@ -3226,6 +3288,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current DOCTYPE token's name.
@@ -3280,6 +3344,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // If the six characters starting from the current input character are an
@@ -3428,6 +3494,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-public-identifier parse error. Set
@@ -3530,6 +3598,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-public-identifier parse error. Set
@@ -3622,6 +3692,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current DOCTYPE token's public
@@ -3714,6 +3786,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current DOCTYPE token's public
@@ -3810,6 +3884,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-system-identifier parse error. Set
@@ -3898,6 +3974,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-system-identifier parse error. Set
@@ -4007,6 +4085,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-system-identifier parse error. Set
@@ -4100,6 +4180,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-system-identifier parse error. Set
@@ -4192,6 +4274,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current DOCTYPE token's system
@@ -4284,6 +4368,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current DOCTYPE token's system
@@ -4340,6 +4426,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // This is an unexpected-character-after-doctype-system-identifier parse
@@ -4375,6 +4463,8 @@ where
                         None => {
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Ignore the character.
@@ -4395,6 +4485,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInCdata);
                             self.emit_token(Token::Eof);
+
+                            break Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
