@@ -1,0 +1,34 @@
+
+  x Document
+   ,-[$DIR/tests/fixture/attributes/input.html:1:1]
+ 1 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StartTag { tag_name: Atom('a' type=inline), self_closing: false, attributes: [Attribute { name: Atom('0' type=inline), value: None }, Attribute { name: Atom('1' type=inline), value: None },
+  | Attribute { name: Atom('2' type=inline), value: None }, Attribute { name: Atom('3' type=inline), value: None }, Attribute { name: Atom('4' type=inline), value: None }, Attribute { name: Atom('5'
+  | type=inline), value: None }, Attribute { name: Atom('6' type=inline), value: None }, Attribute { name: Atom('7' type=inline), value: None }, Attribute { name: Atom('8' type=inline), value:
+  | None }, Attribute { name: Atom('9' type=inline), value: None }, Attribute { name: Atom('a' type=inline), value: None }, Attribute { name: Atom('b' type=inline), value: None }, Attribute { name:
+  | Atom('c' type=inline), value: None }, Attribute { name: Atom('d' type=inline), value: None }, Attribute { name: Atom('e' type=inline), value: None }, Attribute { name: Atom('f' type=inline),
+  | value: None }, Attribute { name: Atom('g' type=inline), value: None }, Attribute { name: Atom('h' type=inline), value: None }, Attribute { name: Atom('i' type=inline), value: None }, Attribute
+  | { name: Atom('j' type=inline), value: None }, Attribute { name: Atom('k' type=inline), value: None }, Attribute { name: Atom('l' type=inline), value: None }, Attribute { name: Atom('m'
+  | type=inline), value: None }, Attribute { name: Atom('n' type=inline), value: None }, Attribute { name: Atom('o' type=inline), value: None }, Attribute { name: Atom('p' type=inline), value:
+  | None }, Attribute { name: Atom('q' type=inline), value: None }, Attribute { name: Atom('r' type=inline), value: None }, Attribute { name: Atom('s' type=inline), value: None }, Attribute { name:
+  | Atom('t' type=inline), value: None }, Attribute { name: Atom('u' type=inline), value: None }, Attribute { name: Atom('v' type=inline), value: None }, Attribute { name: Atom('w' type=inline),
+  | value: None }, Attribute { name: Atom('x' type=inline), value: None }, Attribute { name: Atom('y' type=inline), value: None }, Attribute { name: Atom('z' type=inline), value: None }] }
+   ,-[$DIR/tests/fixture/attributes/input.html:1:1]
+ 1 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x EndTag { tag_name: Atom('a' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/attributes/input.html:1:1]
+ 1 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                                            ^^^^
+   `----
+
+  x Character { value: '\n' }
+   ,-[$DIR/tests/fixture/attributes/input.html:1:1]
+ 1 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                                                ^
+   `----
