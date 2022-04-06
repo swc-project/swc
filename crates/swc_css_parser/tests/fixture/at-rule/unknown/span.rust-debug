@@ -5,8 +5,8 @@
   2 | |   @unknown x y;
   3 | |   @unknown "blah";
   4 | |   @unknown \"blah\";
-  5 | |   /*@unknown!*test*!;*/
-  6 | |   /*@unknown!*test*!x!*test*! y;*/
+  5 | |   @unknown /*test*/;
+  6 | |   @unknown /*test*/x/*test*/ y;
   7 | |   @unknown  ;
   8 | |   @unknown  x  y;
   9 | |   
@@ -18,11 +18,11 @@
  15 | |   @unknown x, y x(1) {p:v}
  16 | |   @unknown x, y x(1+2) {p:v}
  17 | |   @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
- 18 | |   /*@unknown!*test*!x!*test*! y!*test*!{!*test*!p!*test*!:!*test*!v!*test*!}*/
- 19 | |   /*@unknown!*test*!x!*test*!,!*test*!y!*test*! x(!*test*!1!*test*!+!*test*!2!*test*!)!*test*!{!*test*!p!*test*!:!*test*!v!*test*!}*/
+ 18 | |   @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+ 19 | |   /*@unknown !*test*!x!*test*!,!*test*!y!*test*! x(!*test*!1!*test*!+!*test*!2!*test*!)!*test*!{!*test*!p!*test*!:!*test*!v!*test*!}*/
  20 | |   @unknown  {  p  :  v  }
  21 | |   @unknown  x  y  {  p  :  v  }
- 22 | |   /*@unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }*/
+ 22 | |   @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
  23 | |   
  24 | |   @unknown {s{p:v}}
  25 | |   @unknown x y {s{p:v}}
@@ -30,8 +30,8 @@
  27 | |   @unknown x, y f(1+2) {s{p:v}}
  28 | |   @unknown { .a { p: v; } .b { p: v } }
  29 | |   @unknown/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
- 30 | |   /*@unknown!*test*!x!*test*! y!*test*!{!*test*!s!*test*!{!*test*!p!*test*!:!*test*!v!*test*!}!*test*!}*/
- 31 | |   /*@unknown!*test*!x!*test*!,!*test*!y!*test*! f(!*test*!1!*test*!+!*test*!2!*test*!)!*test*!{!*test*!s!*test*!{!*test*!p!*test*!:!*test*!v!*test*!}!*test*!}*/
+ 30 | |   @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+ 31 | |   /*@unknown !*test*!x!*test*!,!*test*!y!*test*! f(!*test*!1!*test*!+!*test*!2!*test*!)!*test*!{!*test*!s!*test*!{!*test*!p!*test*!:!*test*!v!*test*!}!*test*!}*/
  32 | |   @unknown  {  s  {  p  :  v  }  }
  33 | |   @unknown  x  y  {  s  {  p  :  v  }  }
  34 | |   @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
@@ -258,6 +258,114 @@
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:4:1]
  4 | @unknown \"blah\";
    :          ^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:5:1]
+ 5 | @unknown /*test*/;
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:5:1]
+ 5 | @unknown /*test*/;
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:5:1]
+ 5 | @unknown /*test*/;
+   :  ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:5:1]
+ 5 | @unknown /*test*/;
+   :  ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:5:1]
+ 5 | @unknown /*test*/;
+   :         ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:5:1]
+ 5 | @unknown /*test*/;
+   :         ^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   :  ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   :  ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   :         ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   :         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   :                  ^
+   `----
+
+  x Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   :                           ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   :                           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   :                            ^
+   `----
+
+  x Ident { value: Atom('y' type=inline), raw: Atom('y' type=inline) }
+   ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
+ 6 | @unknown /*test*/x/*test*/ y;
+   :                            ^
    `----
 
   x Rule
@@ -866,7 +974,7 @@
     :                 ^
     `----
 
-  x Integer
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:15:1]
  15 | @unknown x, y x(1) {p:v}
     :                 ^
@@ -1046,7 +1154,7 @@
     :                 ^
     `----
 
-  x Integer
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:16:1]
  16 | @unknown x, y x(1+2) {p:v}
     :                 ^
@@ -1058,7 +1166,7 @@
     :                  ^^
     `----
 
-  x Integer
+  x Number { value: 2.0, raw: Atom('+2' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:16:1]
  16 | @unknown x, y x(1+2) {p:v}
     :                  ^^
@@ -1182,6 +1290,120 @@
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:17:1]
  17 | @unknown/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
     :                                            ^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :  ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :  ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :         ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :         ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                  ^
+    `----
+
+  x Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                  ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                           ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                            ^
+    `----
+
+  x Ident { value: Atom('y' type=inline), raw: Atom('y' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                            ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                                              ^
+    `----
+
+  x Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                                              ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                                                       ^
+    `----
+
+  x Colon
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                                                       ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                                                                ^
+    `----
+
+  x Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
+ 18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
+    :                                                                ^
     `----
 
   x Rule
@@ -1482,6 +1704,318 @@
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:21:1]
  21 | @unknown  x  y  {  p  :  v  }
     :                           ^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :  ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :  ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :         ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :         ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :           ^
+    `----
+
+  x Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :            ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :            ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :              ^
+    `----
+
+  x Comma
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :              ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :               ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :               ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                 ^
+    `----
+
+  x Ident { value: Atom('y' type=inline), raw: Atom('y' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                 ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                  ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                  ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                    ^^^^^^^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                    ^^^^^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                    ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                      ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                      ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                        ^
+    `----
+
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                        ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                         ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                         ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                           ^
+    `----
+
+  x Delim { value: '+' }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                            ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                            ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                              ^
+    `----
+
+  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                              ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                               ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                               ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                  ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                  ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                    ^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                     ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                     ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                       ^
+    `----
+
+  x Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                       ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                        ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                        ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                          ^
+    `----
+
+  x Colon
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                          ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                           ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                           ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                             ^
+    `----
+
+  x Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                             ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                              ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
+ 22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
+    :                                              ^^
     `----
 
   x Rule
@@ -1856,7 +2390,7 @@
     :                 ^
     `----
 
-  x Integer
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:26:1]
  26 | @unknown x, y f(1) {s{p:v}}
     :                 ^
@@ -2060,7 +2594,7 @@
     :                 ^
     `----
 
-  x Integer
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:27:1]
  27 | @unknown x, y f(1+2) {s{p:v}}
     :                 ^
@@ -2072,7 +2606,7 @@
     :                  ^^
     `----
 
-  x Integer
+  x Number { value: 2.0, raw: Atom('+2' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:27:1]
  27 | @unknown x, y f(1+2) {s{p:v}}
     :                  ^^
@@ -2574,6 +3108,144 @@
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:29:1]
  29 | @unknown/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
     :                                                              ^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :  ^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :  ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :         ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :         ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                  ^
+    `----
+
+  x Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                  ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                           ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                            ^
+    `----
+
+  x Ident { value: Atom('y' type=inline), raw: Atom('y' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                            ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                                              ^
+    `----
+
+  x Ident { value: Atom('s' type=inline), raw: Atom('s' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                                              ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                                                                ^
+    `----
+
+  x Ident { value: Atom('p' type=inline), raw: Atom('p' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                                                                ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                                                                         ^
+    `----
+
+  x Colon
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                                                                         ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                                                                                  ^
+    `----
+
+  x Ident { value: Atom('v' type=inline), raw: Atom('v' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
+ 30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
+    :                                                                                  ^
     `----
 
   x Rule
@@ -3125,13 +3797,37 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
-    :                        ^
+    :                      ^^
     `----
 
-  x Integer
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
+ 34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
+    :                      ^^
+    `----
+
+  x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                        ^
+    `----
+
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
+ 34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
+    :                        ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
+ 34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
+    :                         ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
+ 34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
+    :                         ^^
     `----
 
   x ComponentValue
@@ -3425,10 +4121,22 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
+    :                      ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
+ 35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
+    :                      ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
+ 35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                        ^
     `----
 
-  x Integer
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                        ^
@@ -3437,13 +4145,37 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
-    :                             ^
+    :                         ^^^^
     `----
 
-  x Integer
+  x WhiteSpace { value: Atom('    ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
+ 35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
+    :                         ^^^^
+    `----
+
+  x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                             ^
+    `----
+
+  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
+ 35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
+    :                             ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
+ 35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
+    :                              ^^
+    `----
+
+  x WhiteSpace { value: Atom('  ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
+ 35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
+    :                              ^^
     `----
 
   x ComponentValue
@@ -4873,10 +5605,22 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
+    :            ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
+ 60 | @unknown x( a, b ) { foo: bar }
+    :            ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
+ 60 | @unknown x( a, b ) { foo: bar }
     :             ^
     `----
 
-  x Ident
+  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
     :             ^
@@ -4888,7 +5632,7 @@
     :              ^
     `----
 
-  x Delimiter
+  x Comma
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
     :              ^
@@ -4897,13 +5641,37 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
-    :                ^
+    :               ^
     `----
 
-  x Ident
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
+ 60 | @unknown x( a, b ) { foo: bar }
+    :               ^
+    `----
+
+  x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
     :                ^
+    `----
+
+  x Ident { value: Atom('b' type=inline), raw: Atom('b' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
+ 60 | @unknown x( a, b ) { foo: bar }
+    :                ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
+ 60 | @unknown x( a, b ) { foo: bar }
+    :                 ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
+ 60 | @unknown x( a, b ) { foo: bar }
+    :                 ^
     `----
 
   x ComponentValue

@@ -3972,14 +3972,18 @@
                 },
                 "value": [
                   {
-                    "type": "String",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 1718,
                       "end": 1729,
                       "ctxt": 0
                     },
-                    "value": ".minwidth",
-                    "raw": "\".minwidth\""
+                    "token": {
+                      "String": {
+                        "value": ".minwidth",
+                        "raw": "\".minwidth\""
+                      }
+                    }
                   }
                 ]
               }
@@ -4853,52 +4857,93 @@
             },
             "value": [
               {
-                "type": "Integer",
+                "type": "PreservedToken",
                 "span": {
                   "start": 2028,
                   "end": 2030,
                   "ctxt": 0
                 },
-                "value": 10,
-                "raw": "10"
+                "token": {
+                  "Number": {
+                    "value": 10.0,
+                    "raw": "10",
+                    "type": "integer"
+                  }
+                }
               },
               {
-                "type": "Delimiter",
+                "type": "PreservedToken",
                 "span": {
                   "start": 2030,
                   "end": 2031,
                   "ctxt": 0
                 },
-                "value": ","
+                "token": "Comma"
               },
               {
-                "type": "Integer",
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2031,
+                  "end": 2032,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
                 "span": {
                   "start": 2032,
                   "end": 2034,
                   "ctxt": 0
                 },
-                "value": 20,
-                "raw": "20"
+                "token": {
+                  "Number": {
+                    "value": 20.0,
+                    "raw": "20",
+                    "type": "integer"
+                  }
+                }
               },
               {
-                "type": "Delimiter",
+                "type": "PreservedToken",
                 "span": {
                   "start": 2034,
                   "end": 2035,
                   "ctxt": 0
                 },
-                "value": ","
+                "token": "Comma"
               },
               {
-                "type": "Integer",
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2035,
+                  "end": 2036,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
                 "span": {
                   "start": 2036,
                   "end": 2038,
                   "ctxt": 0
                 },
-                "value": 40,
-                "raw": "40"
+                "token": {
+                  "Number": {
+                    "value": 40.0,
+                    "raw": "40",
+                    "type": "integer"
+                  }
+                }
               }
             ]
           }
@@ -5057,52 +5102,93 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 2088,
                       "end": 2090,
                       "ctxt": 0
                     },
-                    "value": 10,
-                    "raw": "10"
+                    "token": {
+                      "Number": {
+                        "value": 10.0,
+                        "raw": "10",
+                        "type": "integer"
+                      }
+                    }
                   },
                   {
-                    "type": "Delimiter",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 2090,
                       "end": 2091,
                       "ctxt": 0
                     },
-                    "value": ","
+                    "token": "Comma"
                   },
                   {
-                    "type": "Integer",
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 2091,
+                      "end": 2092,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 2092,
                       "end": 2094,
                       "ctxt": 0
                     },
-                    "value": 20,
-                    "raw": "20"
+                    "token": {
+                      "Number": {
+                        "value": 20.0,
+                        "raw": "20",
+                        "type": "integer"
+                      }
+                    }
                   },
                   {
-                    "type": "Delimiter",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 2094,
                       "end": 2095,
                       "ctxt": 0
                     },
-                    "value": ","
+                    "token": "Comma"
                   },
                   {
-                    "type": "Integer",
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 2095,
+                      "end": 2096,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 2096,
                       "end": 2098,
                       "ctxt": 0
                     },
-                    "value": 40,
-                    "raw": "40"
+                    "token": {
+                      "Number": {
+                        "value": 40.0,
+                        "raw": "40",
+                        "type": "integer"
+                      }
+                    }
                   }
                 ]
               }
@@ -5263,52 +5349,145 @@
                 },
                 "value": [
                   {
-                    "type": "Integer",
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 2152,
+                      "end": 2155,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "   "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 2155,
                       "end": 2157,
                       "ctxt": 0
                     },
-                    "value": 10,
-                    "raw": "10"
+                    "token": {
+                      "Number": {
+                        "value": 10.0,
+                        "raw": "10",
+                        "type": "integer"
+                      }
+                    }
                   },
                   {
-                    "type": "Delimiter",
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 2157,
+                      "end": 2160,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "   "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 2160,
                       "end": 2161,
                       "ctxt": 0
                     },
-                    "value": ","
+                    "token": "Comma"
                   },
                   {
-                    "type": "Integer",
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 2161,
+                      "end": 2164,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "   "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 2164,
                       "end": 2166,
                       "ctxt": 0
                     },
-                    "value": 20,
-                    "raw": "20"
+                    "token": {
+                      "Number": {
+                        "value": 20.0,
+                        "raw": "20",
+                        "type": "integer"
+                      }
+                    }
                   },
                   {
-                    "type": "Delimiter",
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 2166,
+                      "end": 2169,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "   "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 2169,
                       "end": 2170,
                       "ctxt": 0
                     },
-                    "value": ","
+                    "token": "Comma"
                   },
                   {
-                    "type": "Integer",
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 2170,
+                      "end": 2173,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "   "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 2173,
                       "end": 2175,
                       "ctxt": 0
                     },
-                    "value": 40,
-                    "raw": "40"
+                    "token": {
+                      "Number": {
+                        "value": 40.0,
+                        "raw": "40",
+                        "type": "integer"
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 2175,
+                      "end": 2178,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "   "
+                      }
+                    }
                   }
                 ]
               }

@@ -4749,7 +4749,7 @@
     :                      ^^^^^^^^^^^
     `----
 
-  x Str
+  x String { value: Atom('.minwidth' type=dynamic), raw: Atom('".minwidth"' type=dynamic) }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:51:1]
  51 | @supports (--element(".minwidth")) {
     :                      ^^^^^^^^^^^
@@ -5706,7 +5706,7 @@
     :                ^^
     `----
 
-  x Integer
+  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                ^^
@@ -5718,7 +5718,7 @@
     :                  ^
     `----
 
-  x Delimiter
+  x Comma
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                  ^
@@ -5727,10 +5727,22 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
+    :                   ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
+ 73 | @supports func(10, 20, 40) {
+    :                   ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
+ 73 | @supports func(10, 20, 40) {
     :                    ^^
     `----
 
-  x Integer
+  x Number { value: 20.0, raw: Atom('20' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                    ^^
@@ -5742,10 +5754,22 @@
     :                      ^
     `----
 
-  x Delimiter
+  x Comma
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                      ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
+ 73 | @supports func(10, 20, 40) {
+    :                       ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
+ 73 | @supports func(10, 20, 40) {
+    :                       ^
     `----
 
   x ComponentValue
@@ -5754,7 +5778,7 @@
     :                        ^^
     `----
 
-  x Integer
+  x Number { value: 40.0, raw: Atom('40' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                        ^^
@@ -5931,7 +5955,7 @@
     :                 ^^
     `----
 
-  x Integer
+  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                 ^^
@@ -5943,7 +5967,7 @@
     :                   ^
     `----
 
-  x Delimiter
+  x Comma
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                   ^
@@ -5952,10 +5976,22 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
+    :                    ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
+ 77 | @supports (func(10, 20, 40)) {
+    :                    ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
+ 77 | @supports (func(10, 20, 40)) {
     :                     ^^
     `----
 
-  x Integer
+  x Number { value: 20.0, raw: Atom('20' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                     ^^
@@ -5967,10 +6003,22 @@
     :                       ^
     `----
 
-  x Delimiter
+  x Comma
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                       ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
+ 77 | @supports (func(10, 20, 40)) {
+    :                        ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
+ 77 | @supports (func(10, 20, 40)) {
+    :                        ^
     `----
 
   x ComponentValue
@@ -5979,7 +6027,7 @@
     :                         ^^
     `----
 
-  x Integer
+  x Number { value: 40.0, raw: Atom('40' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                         ^^
@@ -6153,13 +6201,37 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
-    :                       ^^
+    :                    ^^^
     `----
 
-  x Integer
+  x WhiteSpace { value: Atom('   ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                    ^^^
+    `----
+
+  x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                       ^^
+    `----
+
+  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                       ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                         ^^^
+    `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                         ^^^
     `----
 
   x ComponentValue
@@ -6168,7 +6240,7 @@
     :                            ^
     `----
 
-  x Delimiter
+  x Comma
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                            ^
@@ -6177,10 +6249,22 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                             ^^^
+    `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                             ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                ^^
     `----
 
-  x Integer
+  x Number { value: 20.0, raw: Atom('20' type=inline), type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                ^^
@@ -6189,10 +6273,22 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                                  ^^^
+    `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                                  ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                     ^
     `----
 
-  x Delimiter
+  x Comma
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                     ^
@@ -6201,13 +6297,37 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
-    :                                         ^^
+    :                                      ^^^
     `----
 
-  x Integer
+  x WhiteSpace { value: Atom('   ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                                      ^^^
+    `----
+
+  x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                         ^^
+    `----
+
+  x Number { value: 40.0, raw: Atom('40' type=inline), type_flag: Integer }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                                         ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                                           ^^^
+    `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                                           ^^^
     `----
 
   x SimpleBlock

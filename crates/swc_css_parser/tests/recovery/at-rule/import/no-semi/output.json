@@ -63,14 +63,18 @@
             },
             "value": [
               {
-                "type": "String",
+                "type": "PreservedToken",
                 "span": {
                   "start": 12,
                   "end": 21,
                   "ctxt": 0
                 },
-                "value": "http://",
-                "raw": "'http://'"
+                "token": {
+                  "String": {
+                    "value": "http://",
+                    "raw": "'http://'"
+                  }
+                }
               }
             ]
           },
