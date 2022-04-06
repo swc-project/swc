@@ -862,7 +862,14 @@ impl<'a, I: Tokens> Parser<I> {
             PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
                 self.reparse_expr_as_pat(pat_ty, expr)?
             }
-            PatOrExprOrSpread::Pat(pat) => pat,
+            PatOrExprOrSpread::Pat(pat) => {
+                if let Some(trailing_comma) = trailing_comma {
+                    if let Pat::Rest(..) = pat {
+                        self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
+                    }
+                }
+                pat
+            }
         };
         params.push(last);
 

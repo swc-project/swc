@@ -1494,7 +1494,6 @@ impl<'a, I: Tokens> Parser<I> {
         expect!(self, '(');
 
         let mut items = vec![];
-        let mut rest_span = None;
         let mut trailing_comma = None;
 
         // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
@@ -1622,13 +1621,6 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
                 if let Some(span) = arg.spread {
-                    if let Some(rest_span) = rest_span {
-                        if self.syntax().early_errors() {
-                            // Rest pattern must be last one.
-                            syntax_error!(self, rest_span, SyntaxError::NonLastRestParam);
-                        }
-                    }
-                    rest_span = Some(span);
                     pat = Pat::Rest(RestPat {
                         span: span!(self, pat_start),
                         dot3_token: span,
