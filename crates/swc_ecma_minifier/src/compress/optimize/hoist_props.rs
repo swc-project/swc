@@ -67,6 +67,8 @@ where
             }
 
             if !unknown_used_props.is_empty() {
+                #[cfg(feature = "debug")]
+                tracing::trace!("[x] unknown used props: {:?}", unknown_used_props);
                 return;
             }
 
