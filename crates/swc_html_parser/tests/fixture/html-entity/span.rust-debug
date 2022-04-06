@@ -32,14 +32,14 @@
  29 | |   <div>&CounterClockwiseContourIntegral;</div>
  30 | |   <div>&&reg;</div>
  31 | |   
- 32 | |   <!--<div>An a with a grave accent: a&#768;</div>-->
- 33 | |   <!--<div>An a with an acute accent: a&#769;</div>-->
- 34 | |   <!--<div>An a with a circumflex accent: a&#770;</div>-->
- 35 | |   <!--<div>An a with a tilde: a&#771;</div>-->
- 36 | |   <!--<div>An o with a grave accent: o&#768;</div>-->
- 37 | |   <!--<div>An o with an acute accent: o&#769;</div>-->
- 38 | |   <!--<div>An o with a circumflex accent: o&#770;</div>-->
- 39 | |   <!--<div>An o with a tilde: o&#771;</div>-->
+ 32 | |   <div>An a with a grave accent: a&#768;</div>
+ 33 | |   <div>An a with an acute accent: a&#769;</div>
+ 34 | |   <div>An a with a circumflex accent: a&#770;</div>
+ 35 | |   <div>An a with a tilde: a&#771;</div>
+ 36 | |   <div>An o with a grave accent: o&#768;</div>
+ 37 | |   <div>An o with an acute accent: o&#769;</div>
+ 38 | |   <div>An o with a circumflex accent: o&#770;</div>
+ 39 | |   <div>An o with a tilde: o&#771;</div>
  40 | |   
  41 | |   <div>A space character: &&</div>
  42 | |   <div>I'm &notin; I tell you</div>
@@ -2477,110 +2477,1490 @@
     ,-[$DIR/tests/fixture/html-entity/input.html:31:1]
  31 | 
     : ^
- 32 | <!--<div>An a with a grave accent: a&#768;</div>-->
+ 32 | <div>An a with a grave accent: a&#768;</div>
     `----
 
-  x Comment { data: Atom('<div>An a with a grave accent: a&#768;</div>' type=dynamic) }
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
- 32 | <!--<div>An a with a grave accent: a&#768;</div>-->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :      ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :        ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :          ^
+    `----
+
+  x Character { value: 'w' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :           ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :            ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :             ^
+    `----
+
+  x Character { value: 'h' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :               ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                 ^
+    `----
+
+  x Character { value: 'g' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                  ^
+    `----
+
+  x Character { value: 'r' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                   ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                    ^
+    `----
+
+  x Character { value: 'v' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                     ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                      ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                       ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                        ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                         ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                          ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                           ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                            ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                             ^
+    `----
+
+  x Character { value: ':' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                               ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                                ^
+    `----
+
+  x Character { value: '\u{300}' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                                 ^^^^^^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
+ 32 | <div>An a with a grave accent: a&#768;</div>
+    :                                       ^^^^^^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
- 32 | <!--<div>An a with a grave accent: a&#768;</div>-->
-    :                                                    ^
- 33 | <!--<div>An a with an acute accent: a&#769;</div>-->
-    `----
-
-  x Comment { data: Atom('<div>An a with an acute accent: a&#769;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
- 33 | <!--<div>An a with an acute accent: a&#769;</div>-->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
- 33 | <!--<div>An a with an acute accent: a&#769;</div>-->
-    :                                                     ^
- 34 | <!--<div>An a with a circumflex accent: a&#770;</div>-->
-    `----
-
-  x Comment { data: Atom('<div>An a with a circumflex accent: a&#770;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
- 34 | <!--<div>An a with a circumflex accent: a&#770;</div>-->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
- 34 | <!--<div>An a with a circumflex accent: a&#770;</div>-->
-    :                                                         ^
- 35 | <!--<div>An a with a tilde: a&#771;</div>-->
-    `----
-
-  x Comment { data: Atom('<div>An a with a tilde: a&#771;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
- 35 | <!--<div>An a with a tilde: a&#771;</div>-->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
- 35 | <!--<div>An a with a tilde: a&#771;</div>-->
+ 32 | <div>An a with a grave accent: a&#768;</div>
     :                                             ^
- 36 | <!--<div>An o with a grave accent: o&#768;</div>-->
+ 33 | <div>An a with an acute accent: a&#769;</div>
     `----
 
-  x Comment { data: Atom('<div>An o with a grave accent: o&#768;</div>' type=dynamic) }
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :      ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :        ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :          ^
+    `----
+
+  x Character { value: 'w' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :           ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :            ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :             ^
+    `----
+
+  x Character { value: 'h' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :               ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                  ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                   ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                    ^
+    `----
+
+  x Character { value: 'u' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                     ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                      ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                        ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                         ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                          ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                           ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                            ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                             ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                              ^
+    `----
+
+  x Character { value: ':' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                               ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                                ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                                 ^
+    `----
+
+  x Character { value: '\u{301}' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                                  ^^^^^^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                                        ^^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
+ 33 | <div>An a with an acute accent: a&#769;</div>
+    :                                              ^
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    `----
+
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :      ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :        ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :          ^
+    `----
+
+  x Character { value: 'w' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :           ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :            ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :             ^
+    `----
+
+  x Character { value: 'h' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :               ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                 ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                  ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                   ^
+    `----
+
+  x Character { value: 'r' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                    ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                     ^
+    `----
+
+  x Character { value: 'u' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                      ^
+    `----
+
+  x Character { value: 'm' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                       ^
+    `----
+
+  x Character { value: 'f' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                        ^
+    `----
+
+  x Character { value: 'l' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                         ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                          ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                           ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                            ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                             ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                              ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                               ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                                ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                                 ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                                  ^
+    `----
+
+  x Character { value: ':' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                                    ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                                     ^
+    `----
+
+  x Character { value: '\u{302}' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                                      ^^^^^^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                                            ^^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
+ 34 | <div>An a with a circumflex accent: a&#770;</div>
+    :                                                  ^
+ 35 | <div>An a with a tilde: a&#771;</div>
+    `----
+
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :      ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :        ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :          ^
+    `----
+
+  x Character { value: 'w' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :           ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :            ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :             ^
+    `----
+
+  x Character { value: 'h' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :               ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                 ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                  ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                   ^
+    `----
+
+  x Character { value: 'l' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                    ^
+    `----
+
+  x Character { value: 'd' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                     ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                      ^
+    `----
+
+  x Character { value: ':' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                        ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                         ^
+    `----
+
+  x Character { value: '\u{303}' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                          ^^^^^^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                                ^^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
+ 35 | <div>An a with a tilde: a&#771;</div>
+    :                                      ^
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    `----
+
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
- 36 | <!--<div>An o with a grave accent: o&#768;</div>-->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :      ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :        ^
+    `----
+
+  x Character { value: 'o' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :          ^
+    `----
+
+  x Character { value: 'w' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :           ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :            ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :             ^
+    `----
+
+  x Character { value: 'h' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :               ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                 ^
+    `----
+
+  x Character { value: 'g' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                  ^
+    `----
+
+  x Character { value: 'r' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                   ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                    ^
+    `----
+
+  x Character { value: 'v' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                     ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                      ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                       ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                        ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                         ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                          ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                           ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                            ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                             ^
+    `----
+
+  x Character { value: ':' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                               ^
+    `----
+
+  x Character { value: 'o' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                                ^
+    `----
+
+  x Character { value: '\u{300}' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                                 ^^^^^^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
+ 36 | <div>An o with a grave accent: o&#768;</div>
+    :                                       ^^^^^^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
- 36 | <!--<div>An o with a grave accent: o&#768;</div>-->
-    :                                                    ^
- 37 | <!--<div>An o with an acute accent: o&#769;</div>-->
-    `----
-
-  x Comment { data: Atom('<div>An o with an acute accent: o&#769;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
- 37 | <!--<div>An o with an acute accent: o&#769;</div>-->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
- 37 | <!--<div>An o with an acute accent: o&#769;</div>-->
-    :                                                     ^
- 38 | <!--<div>An o with a circumflex accent: o&#770;</div>-->
-    `----
-
-  x Comment { data: Atom('<div>An o with a circumflex accent: o&#770;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
- 38 | <!--<div>An o with a circumflex accent: o&#770;</div>-->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
- 38 | <!--<div>An o with a circumflex accent: o&#770;</div>-->
-    :                                                         ^
- 39 | <!--<div>An o with a tilde: o&#771;</div>-->
-    `----
-
-  x Comment { data: Atom('<div>An o with a tilde: o&#771;</div>' type=dynamic) }
-    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
- 39 | <!--<div>An o with a tilde: o&#771;</div>-->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Character { value: '\n' }
-    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
- 39 | <!--<div>An o with a tilde: o&#771;</div>-->
+ 36 | <div>An o with a grave accent: o&#768;</div>
     :                                             ^
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    `----
+
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :      ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :        ^
+    `----
+
+  x Character { value: 'o' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :          ^
+    `----
+
+  x Character { value: 'w' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :           ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :            ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :             ^
+    `----
+
+  x Character { value: 'h' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :               ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                 ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                  ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                   ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                    ^
+    `----
+
+  x Character { value: 'u' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                     ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                      ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                        ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                         ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                          ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                           ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                            ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                             ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                              ^
+    `----
+
+  x Character { value: ':' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                               ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                                ^
+    `----
+
+  x Character { value: 'o' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                                 ^
+    `----
+
+  x Character { value: '\u{301}' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                                  ^^^^^^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                                        ^^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
+ 37 | <div>An o with an acute accent: o&#769;</div>
+    :                                              ^
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    `----
+
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :      ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :        ^
+    `----
+
+  x Character { value: 'o' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :          ^
+    `----
+
+  x Character { value: 'w' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :           ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :            ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :             ^
+    `----
+
+  x Character { value: 'h' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :               ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                 ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                  ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                   ^
+    `----
+
+  x Character { value: 'r' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                    ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                     ^
+    `----
+
+  x Character { value: 'u' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                      ^
+    `----
+
+  x Character { value: 'm' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                       ^
+    `----
+
+  x Character { value: 'f' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                        ^
+    `----
+
+  x Character { value: 'l' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                         ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                          ^
+    `----
+
+  x Character { value: 'x' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                           ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                            ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                             ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                              ^
+    `----
+
+  x Character { value: 'c' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                               ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                                ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                                 ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                                  ^
+    `----
+
+  x Character { value: ':' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                                   ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                                    ^
+    `----
+
+  x Character { value: 'o' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                                     ^
+    `----
+
+  x Character { value: '\u{302}' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                                      ^^^^^^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                                            ^^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
+ 38 | <div>An o with a circumflex accent: o&#770;</div>
+    :                                                  ^
+ 39 | <div>An o with a tilde: o&#771;</div>
+    `----
+
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: 'A' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :      ^
+    `----
+
+  x Character { value: 'n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :        ^
+    `----
+
+  x Character { value: 'o' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :         ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :          ^
+    `----
+
+  x Character { value: 'w' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :           ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :            ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :             ^
+    `----
+
+  x Character { value: 'h' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :              ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :               ^
+    `----
+
+  x Character { value: 'a' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                 ^
+    `----
+
+  x Character { value: 't' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                  ^
+    `----
+
+  x Character { value: 'i' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                   ^
+    `----
+
+  x Character { value: 'l' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                    ^
+    `----
+
+  x Character { value: 'd' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                     ^
+    `----
+
+  x Character { value: 'e' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                      ^
+    `----
+
+  x Character { value: ':' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                       ^
+    `----
+
+  x Character { value: ' ' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                        ^
+    `----
+
+  x Character { value: 'o' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                         ^
+    `----
+
+  x Character { value: '\u{303}' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                          ^^^^^^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                                ^^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
+ 39 | <div>An o with a tilde: o&#771;</div>
+    :                                      ^
     `----
 
   x Character { value: '\n' }

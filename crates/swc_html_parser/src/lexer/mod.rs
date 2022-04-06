@@ -4833,7 +4833,7 @@ where
                         // If the number is greater than 0x10FFFF, then this is a
                         // character-reference-outside-unicode-range parse error. Set the character
                         // reference code to 0xFFFD.
-                        Some(c) if c > '\u{10FFFF}' as u32 => {
+                        Some(cr) if cr > '\u{10FFFF}' as u32 => {
                             self.emit_error(ErrorKind::CharacterReferenceOutsideUnicodeRange);
 
                             self.character_reference_code = Some('\u{FFFD}' as u32);
@@ -4844,7 +4844,7 @@ where
                         // code to 0xFFFD.
                         // If the number is a noncharacter, then this is a
                         // noncharacter-character-reference parse error.
-                        Some(c) if is_noncharacter(c) => {
+                        Some(cr) if is_noncharacter(cr) => {
                             self.emit_error(ErrorKind::NoncharacterCharacterReference);
                         }
                         // TODO fix me
@@ -4853,7 +4853,31 @@ where
                         // of the numbers in the first column of the following table, then find the
                         // row with that number in the first column, and set the character reference
                         // code to the number in the second column of that row.
-                        _ => {}
+                        //
+                        // Set the temporary buffer to the empty string. Append a code point equal
+                        // to the character reference code to the temporary buffer. Flush code
+                        // points consumed as a character reference. Switch to the return state.
+                        Some(cr) => {
+                            // TODO handle exception above
+
+                            let mut temporary_buffer = String::new();
+                            let c = match char::from_u32(cr) {
+                                Some(c) => c,
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
+
+                            temporary_buffer.push(c);
+
+                            self.flush_code_point_consumed_as_character_reference(c);
+
+                            self.temporary_buffer = Some(temporary_buffer);
+                            self.state = self.return_state.clone();
+                        }
+                        None => {
+                            unreachable!();
+                        }
                     }
                 }
             }
