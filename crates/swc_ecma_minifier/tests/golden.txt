@@ -292,7 +292,6 @@ dead_code/issue_2666/input.js
 dead_code/issue_2692/input.js
 dead_code/issue_2701/input.js
 dead_code/issue_2860_1/input.js
-dead_code/issue_2860_2/input.js
 dead_code/issue_2929/input.js
 dead_code/throw_assignment/input.js
 dead_code/try_catch_finally/input.js
