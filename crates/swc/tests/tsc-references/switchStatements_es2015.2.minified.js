@@ -28,19 +28,8 @@ var M;
     case M.fn(1):
     case (x)=>''
     :
-    case '':
-    default:
 }
 class C {
 }
-switch(new C()){
-    case new class extends C {
-    }():
-    case {
-        id: 12,
-        name: ''
-    }:
-    case new C():
-}
-new Date(12), new Object(), (x)=>''
+new C(), new C(), new Date(12), new Object(), (x)=>''
 ;

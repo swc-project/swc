@@ -372,6 +372,7 @@ impl TerserCompressorOptions {
             side_effects: self.side_effects.unwrap_or(self.defaults),
             // TODO: Use self.defaults
             switches: self.switches.unwrap_or(false),
+            switches: self.switches.unwrap_or(self.defaults),
             top_retain: self.top_retain.map(From::from).unwrap_or_default(),
             top_level: self.toplevel.map(From::from),
             typeofs: self.typeofs.unwrap_or(self.defaults),
