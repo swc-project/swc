@@ -1,0 +1,84 @@
+
+  x Trailing comma isn't permitted after a rest element
+   ,-[$DIR/tests/errors/rest-trailing-comma/input.js:1:1]
+ 1 | [...a,]=[...spread,];
+   :      ^
+   `----
+
+  x Trailing comma isn't permitted after a rest element
+   ,-[$DIR/tests/errors/rest-trailing-comma/input.js:2:1]
+ 2 | const [...a,] = [...spread,];
+   :            ^
+   `----
+
+  x Trailing comma isn't permitted after a rest element
+   ,-[$DIR/tests/errors/rest-trailing-comma/input.js:3:1]
+ 3 | ([...a,],)=>{};
+   :       ^
+   `----
+
+  x Trailing comma isn't permitted after a rest element
+   ,-[$DIR/tests/errors/rest-trailing-comma/input.js:4:1]
+ 4 | ({...a,},)=>{};
+   :       ^
+   `----
+
+  x Trailing comma isn't permitted after a rest element
+   ,-[$DIR/tests/errors/rest-trailing-comma/input.js:5:1]
+ 5 | (...a,)=>{};
+   :      ^
+   `----
+
+  x Trailing comma isn't permitted after a rest element
+   ,-[$DIR/tests/errors/rest-trailing-comma/input.js:7:3]
+ 7 | constructor(...a,){}
+   :                 ^
+   `----
+
+  x Trailing comma isn't permitted after a rest element
+   ,-[$DIR/tests/errors/rest-trailing-comma/input.js:8:3]
+ 8 | fn(...a,) {}
+   :        ^
+   `----
+
+  x Trailing comma isn't permitted after a rest element
+    ,-[$DIR/tests/errors/rest-trailing-comma/input.js:10:1]
+ 10 | function fn([...a,],) {};
+    :                  ^
+    `----
+
+  x Trailing comma isn't permitted after a rest element
+    ,-[$DIR/tests/errors/rest-trailing-comma/input.js:11:1]
+ 11 | function fn({...a,},) {};
+    :                  ^
+    `----
+
+  x Trailing comma isn't permitted after a rest element
+    ,-[$DIR/tests/errors/rest-trailing-comma/input.js:12:1]
+ 12 | function fn(...a,) {};
+    :                 ^
+    `----
+
+  x Trailing comma isn't permitted after a rest element
+    ,-[$DIR/tests/errors/rest-trailing-comma/input.js:13:1]
+ 13 | ({...a,}={...spread,});
+    :       ^
+    `----
+
+  x Trailing comma isn't permitted after a rest element
+    ,-[$DIR/tests/errors/rest-trailing-comma/input.js:14:1]
+ 14 | const {...a,} = {...spread,};
+    :            ^
+    `----
+
+  x Trailing comma isn't permitted after a rest element
+    ,-[$DIR/tests/errors/rest-trailing-comma/input.js:15:1]
+ 15 | for ([...a,] of a) {}
+    :           ^
+    `----
+
+  x Trailing comma isn't permitted after a rest element
+    ,-[$DIR/tests/errors/rest-trailing-comma/input.js:16:1]
+ 16 | for ({...a,} of b) {}
+    :           ^
+    `----
