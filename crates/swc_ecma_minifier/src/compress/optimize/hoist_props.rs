@@ -26,7 +26,12 @@ where
                 .data
                 .vars
                 .get(&name.to_id())
-                .map(|v| !v.mutated && !v.reassigned() && !v.is_infected())
+                .map(|v| {
+                    !v.mutated
+                        && v.mutation_by_call_count == 0
+                        && !v.reassigned()
+                        && !v.is_infected()
+                })
                 .unwrap_or(false)
             {
                 if cfg!(feature = "debug") {
