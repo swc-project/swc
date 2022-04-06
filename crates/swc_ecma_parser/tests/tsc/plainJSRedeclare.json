@@ -41,7 +41,8 @@
               "end": 86,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "definite": false
         }
@@ -90,7 +91,8 @@
                 "end": 102,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "BooleanLiteral",

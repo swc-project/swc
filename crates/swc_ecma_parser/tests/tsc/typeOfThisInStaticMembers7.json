@@ -50,7 +50,8 @@
               "end": 64,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -121,7 +122,8 @@
                 "end": 91,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "typeAnnotation": null,
@@ -186,7 +188,8 @@
               "end": 132,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -257,7 +260,8 @@
                 "end": 159,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "typeAnnotation": null,
@@ -319,7 +323,8 @@
                     "end": 177,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "right": {
                   "type": "ParenthesisExpression",
@@ -404,7 +409,8 @@
                       "end": 203,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               }
@@ -416,7 +422,8 @@
                 "end": 208,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "typeAnnotation": null,

@@ -1932,7 +1932,7 @@ const lowOrderMatrix = {
         seconds: 30 * 24 * 60 * 60,
         milliseconds: 30 * 24 * 60 * 60 * 1000
     }
-}, lowOrderMatrix), daysInYearAccurate = 146097 / 400, daysInMonthAccurate = 146097 / 4800, accurateMatrix = Object.assign({
+}, lowOrderMatrix), daysInYearAccurate = 146097.0 / 400, daysInMonthAccurate = 146097.0 / 4800, accurateMatrix = Object.assign({
     years: {
         quarters: 4,
         months: 12,
@@ -2627,7 +2627,7 @@ class DateTime {
     static fromMillis(milliseconds, options = {}) {
         if (!isNumber(milliseconds)) {
             throw new InvalidArgumentError(`fromMillis requires a numerical input, but received a ${typeof milliseconds} with value ${milliseconds}`);
-        } else if (milliseconds < -8640000000000000 || milliseconds > 8640000000000000) {
+        } else if (milliseconds < -8.64e15 || milliseconds > 8.64e15) {
             return DateTime.invalid("Timestamp out of range");
         } else {
             return new DateTime({

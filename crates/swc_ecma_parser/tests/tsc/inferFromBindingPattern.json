@@ -592,7 +592,8 @@
                         "end": 327,
                         "ctxt": 0
                       },
-                      "value": 42.0
+                      "value": 42.0,
+                      "raw": "42"
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",

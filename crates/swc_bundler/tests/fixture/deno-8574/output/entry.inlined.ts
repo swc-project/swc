@@ -163,15 +163,15 @@ var performanceNow = performance.now || performance.mozNow || performance.msNow 
     return new Date().getTime();
 };
 function hrtime(previousTimestamp) {
-    var clocktime = performanceNow.call(performance) * 0.001;
+    var clocktime = performanceNow.call(performance) * 1e-3;
     var seconds = Math.floor(clocktime);
-    var nanoseconds = Math.floor(clocktime % 1 * 1000000000);
+    var nanoseconds = Math.floor(clocktime % 1 * 1e9);
     if (previousTimestamp) {
         seconds = seconds - previousTimestamp[0];
         nanoseconds = nanoseconds - previousTimestamp[1];
         if (nanoseconds < 0) {
             seconds--;
-            nanoseconds += 1000000000;
+            nanoseconds += 1e9;
         }
     }
     return [
@@ -183,7 +183,7 @@ var startTime = new Date();
 function uptime() {
     var currentTime = new Date();
     var dif = currentTime - startTime;
-    return dif / 1000;
+    return dif / 1e3;
 }
 var process = {
     nextTick,

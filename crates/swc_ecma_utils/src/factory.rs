@@ -30,7 +30,8 @@ pub trait ExprFactory: Into<Expr> {
     ///
     /// let first = Lit::Num(Number {
     ///     span: DUMMY_SP,
-    ///     value: 0.0
+    ///     value: 0.0,
+    ///     raw: None,
     /// });
     /// let _args = vec![first.as_arg()];
     /// ```

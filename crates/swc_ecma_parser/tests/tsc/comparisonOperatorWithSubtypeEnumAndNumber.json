@@ -544,7 +544,8 @@
                 "end": 149,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           },
           "definite": false
@@ -594,7 +595,8 @@
                 "end": 162,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "right": {
               "type": "MemberExpression",
@@ -980,7 +982,8 @@
                 "end": 274,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           },
           "definite": false
@@ -1030,7 +1033,8 @@
                 "end": 287,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "right": {
               "type": "MemberExpression",
@@ -1416,7 +1420,8 @@
                 "end": 405,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           },
           "definite": false
@@ -1466,7 +1471,8 @@
                 "end": 418,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "right": {
               "type": "MemberExpression",
@@ -1852,7 +1858,8 @@
                 "end": 537,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           },
           "definite": false
@@ -1902,7 +1909,8 @@
                 "end": 550,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "right": {
               "type": "MemberExpression",
@@ -2288,7 +2296,8 @@
                 "end": 669,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           },
           "definite": false
@@ -2338,7 +2347,8 @@
                 "end": 682,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "right": {
               "type": "MemberExpression",
@@ -2724,7 +2734,8 @@
                 "end": 801,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           },
           "definite": false
@@ -2774,7 +2785,8 @@
                 "end": 814,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "right": {
               "type": "MemberExpression",
@@ -3160,7 +3172,8 @@
                 "end": 939,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           },
           "definite": false
@@ -3210,7 +3223,8 @@
                 "end": 952,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "right": {
               "type": "MemberExpression",
@@ -3596,7 +3610,8 @@
                 "end": 1078,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           },
           "definite": false
@@ -3646,7 +3661,8 @@
                 "end": 1091,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "right": {
               "type": "MemberExpression",

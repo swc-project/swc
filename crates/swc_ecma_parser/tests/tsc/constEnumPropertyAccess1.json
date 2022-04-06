@@ -50,7 +50,8 @@
               "end": 288,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           }
         },
         {
@@ -77,7 +78,8 @@
               "end": 299,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           }
         },
         {
@@ -169,7 +171,8 @@
                 "end": 329,
                 "ctxt": 0
               },
-              "value": 2.0
+              "value": 2.0,
+              "raw": "2"
             }
           }
         }
@@ -293,7 +296,8 @@
                     "end": 384,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "value": {
                   "type": "BooleanLiteral",

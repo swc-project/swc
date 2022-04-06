@@ -85,7 +85,7 @@ impl VisitMut for DisplayName {
                         value: i.sym.clone(),
                     }))),
                     PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
-                    PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(*n))),
+                    PropName::Num(ref n) => Box::new(Expr::Lit(Lit::Num(n.clone()))),
                     PropName::BigInt(ref b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
                     PropName::Computed(ref c) => c.expr.clone(),
                 }),

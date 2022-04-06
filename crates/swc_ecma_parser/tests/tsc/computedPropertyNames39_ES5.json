@@ -262,7 +262,8 @@
                   "end": 124,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "NumericLiteral",
@@ -271,7 +272,8 @@
                   "end": 129,
                   "ctxt": 0
                 },
-                "value": 6.0
+                "value": 6.0,
+                "raw": "6"
               }
             }
           },
@@ -362,7 +364,8 @@
                   "end": 162,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "NumericLiteral",
@@ -371,7 +374,8 @@
                   "end": 167,
                   "ctxt": 0
                 },
-                "value": 6.0
+                "value": 6.0,
+                "raw": "6"
               }
             }
           },

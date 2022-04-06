@@ -943,7 +943,8 @@
                 "end": 344,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -1151,7 +1152,8 @@
                 "end": 398,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "MemberExpression",
@@ -1817,7 +1819,8 @@
                 "end": 582,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -2025,7 +2028,8 @@
                 "end": 636,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "MemberExpression",
@@ -2691,7 +2695,8 @@
                 "end": 820,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -2899,7 +2904,8 @@
                 "end": 874,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "MemberExpression",
@@ -3565,7 +3571,8 @@
                 "end": 1058,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -3773,7 +3780,8 @@
                 "end": 1112,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "MemberExpression",
@@ -4439,7 +4447,8 @@
                 "end": 1306,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -4647,7 +4656,8 @@
                 "end": 1362,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "MemberExpression",
@@ -5313,7 +5323,8 @@
                 "end": 1557,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -5521,7 +5532,8 @@
                 "end": 1613,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "MemberExpression",
@@ -6187,7 +6199,8 @@
                 "end": 1818,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -6395,7 +6408,8 @@
                 "end": 1876,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "MemberExpression",
@@ -7061,7 +7075,8 @@
                 "end": 2062,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -7269,7 +7284,8 @@
                 "end": 2116,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "MemberExpression",
@@ -7935,7 +7951,8 @@
                 "end": 2300,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -8143,7 +8160,8 @@
                 "end": 2354,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "MemberExpression",
@@ -8809,7 +8827,8 @@
                 "end": 2538,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           "definite": false
@@ -9017,7 +9036,8 @@
                 "end": 2592,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "MemberExpression",

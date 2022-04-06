@@ -220,7 +220,7 @@
             class it {
                 constructor(t, e){
                     if (this.seconds = t, this.nanoseconds = e, e < 0) throw new j(K.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + e);
-                    if (e >= 1000000000) throw new j(K.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + e);
+                    if (e >= 1e9) throw new j(K.INVALID_ARGUMENT, "Timestamp nanoseconds out of range: " + e);
                     if (t < -62135596800) throw new j(K.INVALID_ARGUMENT, "Timestamp seconds out of range: " + t);
                     if (t >= 253402300800) throw new j(K.INVALID_ARGUMENT, "Timestamp seconds out of range: " + t);
                 }
@@ -231,14 +231,14 @@
                     return it.fromMillis(t.getTime());
                 }
                 static fromMillis(t) {
-                    const e = Math.floor(t / 1000);
-                    return new it(e, Math.floor(1000000 * (t - 1000 * e)));
+                    const e = Math.floor(t / 1e3);
+                    return new it(e, Math.floor(1e6 * (t - 1e3 * e)));
                 }
                 toDate() {
                     return new Date(this.toMillis());
                 }
                 toMillis() {
-                    return 1000 * this.seconds + this.nanoseconds / 1000000;
+                    return 1e3 * this.seconds + this.nanoseconds / 1e6;
                 }
                 _compareTo(t) {
                     return this.seconds === t.seconds ? et(this.nanoseconds, t.nanoseconds) : et(this.seconds, t.seconds);
@@ -277,7 +277,7 @@
                     return this.timestamp.isEqual(t.timestamp);
                 }
                 toMicroseconds() {
-                    return 1000000 * this.timestamp.seconds + this.timestamp.nanoseconds / 1000;
+                    return 1e6 * this.timestamp.seconds + this.timestamp.nanoseconds / 1e3;
                 }
                 toString() {
                     return "SnapshotVersion(" + this.timestamp.toString() + ")";
@@ -492,7 +492,7 @@
                     }
                     const s = new Date(t);
                     return {
-                        seconds: Math.floor(s.getTime() / 1000),
+                        seconds: Math.floor(s.getTime() / 1e3),
                         nanos: e
                     };
                 }
@@ -1989,7 +1989,7 @@
                 }
             }
             function Un(t, e) {
-                return t.D ? `${new Date(1000 * e.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e.nanoseconds).slice(-9)}Z` : {
+                return t.D ? `${new Date(1e3 * e.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e.nanoseconds).slice(-9)}Z` : {
                     seconds: "" + e.seconds,
                     nanos: e.nanoseconds
                 };
@@ -2807,7 +2807,7 @@
                     return new Ri(t, Ri.DEFAULT_COLLECTION_PERCENTILE, Ri.DEFAULT_MAX_SEQUENCE_NUMBERS_TO_COLLECT);
                 }
             }
-            Ri.DEFAULT_COLLECTION_PERCENTILE = 10, Ri.DEFAULT_MAX_SEQUENCE_NUMBERS_TO_COLLECT = 1000, Ri.DEFAULT = new Ri(41943040, Ri.DEFAULT_COLLECTION_PERCENTILE, Ri.DEFAULT_MAX_SEQUENCE_NUMBERS_TO_COLLECT), Ri.DISABLED = new Ri(-1, 0, 0);
+            Ri.DEFAULT_COLLECTION_PERCENTILE = 10, Ri.DEFAULT_MAX_SEQUENCE_NUMBERS_TO_COLLECT = 1e3, Ri.DEFAULT = new Ri(41943040, Ri.DEFAULT_COLLECTION_PERCENTILE, Ri.DEFAULT_MAX_SEQUENCE_NUMBERS_TO_COLLECT), Ri.DISABLED = new Ri(-1, 0, 0);
             class vi {
                 constructor(t, e, n, s){
                     this.userId = t, this.N = e, this.Ht = n, this.referenceDelegate = s, this.Jt = {};
@@ -4102,7 +4102,7 @@
                         sendRawJson: !0,
                         supportsCrossDomainXhr: !0,
                         internalChannelParams: {
-                            forwardChannelRequestTimeoutMs: 600000
+                            forwardChannelRequestTimeoutMs: 6e5
                         },
                         forceLongPolling: this.forceLongPolling,
                         detectBufferingProxy: this.autoDetectLongPolling
@@ -4164,7 +4164,7 @@
                 return new Bn(t, !0);
             }
             class Xr {
-                constructor(t, e, n = 1000, s = 1.5, i = 60000){
+                constructor(t, e, n = 1e3, s = 1.5, i = 6e4){
                     this.Oe = t, this.timerId = e, this.Qi = n, this.Wi = s, this.Gi = i, this.zi = 0, this.Hi = null, this.Ji = Date.now(), this.reset();
                 }
                 reset() {
@@ -4186,7 +4186,7 @@
                     null !== this.Hi && (this.Hi.cancel(), this.Hi = null);
                 }
                 Zi() {
-                    return (Math.random() - 0.5) * this.zi;
+                    return (Math.random() - .5) * this.zi;
                 }
             }
             class Zr {
@@ -4209,7 +4209,7 @@
                     this.state = 0, this.ar.reset();
                 }
                 wr() {
-                    this.hr() && null === this.rr && (this.rr = this.Oe.enqueueAfterDelay(this.er, 60000, ()=>this._r()
+                    this.hr() && null === this.rr && (this.rr = this.Oe.enqueueAfterDelay(this.er, 6e4, ()=>this._r()
                     ));
                 }
                 mr(t) {
@@ -4243,7 +4243,7 @@
                 Er(t161) {
                     const e = this.Tr(this.ir);
                     this.stream = this.Ar(t161), this.stream.Si(()=>{
-                        e(()=>(this.state = 2, this.cr = this.Oe.enqueueAfterDelay(this.nr, 10000, ()=>(this.hr() && (this.state = 3), Promise.resolve())
+                        e(()=>(this.state = 2, this.cr = this.Oe.enqueueAfterDelay(this.nr, 1e4, ()=>(this.hr() && (this.state = 3), Promise.resolve())
                             ), this.listener.Si())
                         );
                     }), this.stream.Ci((t)=>{
@@ -4523,7 +4523,7 @@
                             this.asyncQueue = t, this.onlineStateHandler = e, this.state = "Unknown", this.Or = 0, this.Fr = null, this.Mr = !0;
                         }
                         Lr() {
-                            0 === this.Or && (this.Br("Unknown"), this.Fr = this.asyncQueue.enqueueAfterDelay("online_state_timeout", 10000, ()=>(this.Fr = null, this.Ur("Backend didn't respond within 10 seconds."), this.Br("Offline"), Promise.resolve())
+                            0 === this.Or && (this.Br("Unknown"), this.Fr = this.asyncQueue.enqueueAfterDelay("online_state_timeout", 1e4, ()=>(this.Fr = null, this.Ur("Backend didn't respond within 10 seconds."), this.Br("Offline"), Promise.resolve())
                             ));
                         }
                         qr(t) {
@@ -5182,7 +5182,7 @@
                                 if (a.approximateByteSize() > 0) {
                                     var t212, e118, n42;
                                     const u = c.withResumeToken(a, s19).withSequenceNumber(t213.currentSequenceNumber);
-                                    i = i.insert(r, u), t212 = c, e118 = u, n42 = e, ((B(e118.resumeToken.approximateByteSize() > 0), 0 === t212.resumeToken.approximateByteSize()) ? 0 : e118.snapshotVersion.toMicroseconds() - t212.snapshotVersion.toMicroseconds() >= 300000000 ? 0 : !(n42.addedDocuments.size + n42.modifiedDocuments.size + n42.removedDocuments.size > 0)) || o4.push(n43.ze.updateTargetData(t213, u));
+                                    i = i.insert(r, u), t212 = c, e118 = u, n42 = e, ((B(e118.resumeToken.approximateByteSize() > 0), 0 === t212.resumeToken.approximateByteSize()) ? 0 : e118.snapshotVersion.toMicroseconds() - t212.snapshotVersion.toMicroseconds() >= 3e8 ? 0 : !(n42.addedDocuments.size + n42.modifiedDocuments.size + n42.removedDocuments.size > 0)) || o4.push(n43.ze.updateTargetData(t213, u));
                                 }
                             });
                             let c2 = pn, r7;
@@ -5971,7 +5971,7 @@
                         };
                     }
                     if (t instanceof it) {
-                        const n = new it(t.seconds, 1000 * Math.floor(t.nanoseconds / 1000));
+                        const n = new it(t.seconds, 1e3 * Math.floor(t.nanoseconds / 1e3));
                         return {
                             timestampValue: Un(e.N, n)
                         };

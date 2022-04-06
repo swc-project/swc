@@ -293,7 +293,8 @@
                 "end": 403,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "computed": false,
             "optional": false,
@@ -1537,7 +1538,8 @@
                     "end": 2465,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -1681,7 +1683,8 @@
                     "end": 2569,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -1825,7 +1828,8 @@
                     "end": 2732,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -1944,7 +1948,8 @@
                     "end": 2814,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -2116,7 +2121,8 @@
                     "end": 2928,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",

@@ -802,7 +802,8 @@
                     "end": 370,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 }
               }
             ],
@@ -879,7 +880,8 @@
                     "end": 409,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 }
               },
               {
@@ -891,7 +893,8 @@
                     "end": 412,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 }
               }
             ],
@@ -968,7 +971,8 @@
                     "end": 449,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 }
               },
               {
@@ -1057,7 +1061,8 @@
                     "end": 502,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 }
               },
               {
@@ -1147,7 +1152,8 @@
                     "end": 537,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 }
               },
               {
@@ -1159,7 +1165,8 @@
                     "end": 540,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 }
               },
               {
@@ -1171,7 +1178,8 @@
                     "end": 543,
                     "ctxt": 0
                   },
-                  "value": 3.0
+                  "value": 3.0,
+                  "raw": "3"
                 }
               }
             ],
@@ -1315,7 +1323,8 @@
                     "end": 625,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 }
               ],
               "quasis": [
@@ -1409,7 +1418,8 @@
                     "end": 664,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 {
                   "type": "NumericLiteral",
@@ -1418,7 +1428,8 @@
                     "end": 668,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 }
               ],
               "quasis": [
@@ -1523,7 +1534,8 @@
                     "end": 704,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 {
                   "type": "BooleanLiteral",
@@ -1637,7 +1649,8 @@
                     "end": 757,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 {
                   "type": "StringLiteral",
@@ -1752,7 +1765,8 @@
                     "end": 792,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 {
                   "type": "NumericLiteral",
@@ -1761,7 +1775,8 @@
                     "end": 796,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 },
                 {
                   "type": "NumericLiteral",
@@ -1770,7 +1785,8 @@
                     "end": 800,
                     "ctxt": 0
                   },
-                  "value": 3.0
+                  "value": 3.0,
+                  "raw": "3"
                 }
               ],
               "quasis": [

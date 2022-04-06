@@ -394,7 +394,8 @@
                 "end": 487,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           {
@@ -603,7 +604,8 @@
                 "end": 587,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           },
           {
@@ -679,7 +681,8 @@
                 "end": 629,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           {
@@ -774,7 +777,8 @@
                 "end": 677,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           },
           {
@@ -809,7 +813,8 @@
                   "end": 688,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "NumericLiteral",
@@ -818,7 +823,8 @@
                   "end": 693,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             }
           },
@@ -854,7 +860,8 @@
                   "end": 704,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "NumericLiteral",
@@ -863,7 +870,8 @@
                   "end": 709,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               }
             }
           },
@@ -899,7 +907,8 @@
                   "end": 720,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "NumericLiteral",
@@ -908,7 +917,8 @@
                   "end": 725,
                   "ctxt": 0
                 },
-                "value": 2.0
+                "value": 2.0,
+                "raw": "2"
               }
             }
           },
@@ -1032,7 +1042,8 @@
                 "end": 788,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             }
           },
           {
@@ -1067,7 +1078,8 @@
                   "end": 799,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "NumericLiteral",
@@ -1076,7 +1088,8 @@
                   "end": 804,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             }
           },
@@ -1112,7 +1125,8 @@
                   "end": 815,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "NumericLiteral",
@@ -1121,7 +1135,8 @@
                   "end": 820,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               }
             }
           },
@@ -1157,7 +1172,8 @@
                   "end": 831,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "NumericLiteral",
@@ -1166,7 +1182,8 @@
                   "end": 836,
                   "ctxt": 0
                 },
-                "value": 2.0
+                "value": 2.0,
+                "raw": "2"
               }
             }
           },

@@ -17507,7 +17507,8 @@
                                           "end": 16032,
                                           "ctxt": 0
                                         },
-                                        "value": 0.0
+                                        "value": 0.0,
+                                        "raw": "0"
                                       },
                                       "definite": false
                                     }
@@ -21605,7 +21606,8 @@
                                       "end": 19306,
                                       "ctxt": 0
                                     },
-                                    "value": 1.0
+                                    "value": 1.0,
+                                    "raw": "1"
                                   }
                                 },
                                 "consequent": {
@@ -21798,7 +21800,8 @@
                                                   "end": 19424,
                                                   "ctxt": 0
                                                 },
-                                                "value": 1.0
+                                                "value": 1.0,
+                                                "raw": "1"
                                               }
                                             }
                                           }

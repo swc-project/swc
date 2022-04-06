@@ -779,7 +779,7 @@ impl ObjectRest {
                             let value = value.clone();
                             (key, MemberProp::Ident(quote_ident!(span, value)))
                         }
-                        PropName::Num(Number { span, value }) => (
+                        PropName::Num(Number { span, value, .. }) => (
                             key,
                             MemberProp::Computed(ComputedPropName {
                                 span,
@@ -936,7 +936,7 @@ fn object_without_properties(
         .into_iter()
         .map(|v| {
             v.map(|v| match *v.expr {
-                Expr::Lit(Lit::Num(Number { span, value })) => ExprOrSpread {
+                Expr::Lit(Lit::Num(Number { span, value, .. })) => ExprOrSpread {
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span,
                         raw: None,
@@ -999,7 +999,7 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                 })
                 .as_arg(),
                 PropName::Str(s) => Lit::Str(s.clone()).as_arg(),
-                PropName::Num(Number { span, value }) => Lit::Str(Str {
+                PropName::Num(Number { span, value, .. }) => Lit::Str(Str {
                     span: *span,
                     raw: None,
                     value: format!("{}", value).into(),

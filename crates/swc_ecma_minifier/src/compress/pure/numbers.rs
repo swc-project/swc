@@ -10,7 +10,11 @@ impl Pure<'_> {
 
             self.changed = true;
             tracing::debug!("numbers: Converting a string literal to {:?}", value);
-            *e = Expr::Lit(Lit::Num(Number { span: *span, value }));
+            *e = Expr::Lit(Lit::Num(Number {
+                span: *span,
+                value,
+                raw: None,
+            }));
         }
     }
 
@@ -62,6 +66,7 @@ impl Pure<'_> {
                                 right: Box::new(Expr::Lit(Lit::Num(Number {
                                     span: *span,
                                     value: -*value,
+                                    raw: None,
                                 }))),
                             })),
                         });

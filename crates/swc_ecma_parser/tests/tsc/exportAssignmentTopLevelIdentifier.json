@@ -75,7 +75,8 @@
                       "end": 75,
                       "ctxt": 0
                     },
-                    "value": 42.0
+                    "value": 42.0,
+                    "raw": "42"
                   },
                   "definite": false
                 }
@@ -192,7 +193,8 @@
             "end": 170,
             "ctxt": 0
           },
-          "value": 42.0
+          "value": 42.0,
+          "raw": "42"
         }
       },
       "consequent": {

@@ -8,6 +8,9 @@
 - **(es/codegen)** Commit `;` before a template literal (#4252) ([8cd903b](https://github.com/swc-project/swc/commit/8cd903b3b006b823cc5d3a61d40a1311fc97276c))
 
 
+- **(es/codegen)** Handle comments on the argument of `throw` (#4254) ([ccd3188](https://github.com/swc-project/swc/commit/ccd3188c8bbf9d80efaa632e283941ed6e1fc59c))
+
+
 - **(es/minifier)** Remap variables on IIFE evaluation (#4230) ([55b98fc](https://github.com/swc-project/swc/commit/55b98fc87470cc5b2e2645ae8588c106c490fb3a))
 
 
@@ -29,6 +32,9 @@
 - **(es)** Support jsonc for `.swcrc` (#4236) ([8008b79](https://github.com/swc-project/swc/commit/8008b79f8c69f9abc1cdd7be299f5580be8c3c0f))
 
 
+- **(es/ast)** Add `raw` to `Num` (#4245) ([f39d3ac](https://github.com/swc-project/swc/commit/f39d3aca4db25db2880f447fe738375ad5307c86))
+
+
 - **(es/minifier)** Improve sequential inlining (#4231) ([fe358ad](https://github.com/swc-project/swc/commit/fe358ad0b93d6f3bd2150fc9ce888f798875beed))
 
 
@@ -36,6 +42,9 @@
 
 
 - **(html)** Initialize (#4240) ([3e7872c](https://github.com/swc-project/swc/commit/3e7872c8de05ac46ef6ffb99f778ef5b64e47f1b))
+
+
+- **(plugin/api)** Expose `swc_ecma_utils` (#4256) ([7bc04a6](https://github.com/swc-project/swc/commit/7bc04a67918374b1b2d02ed5034330cd6dd78d57))
 
 ### Miscellaneous Tasks
 
@@ -57,6 +66,9 @@
 
 
 - **(es)** Organize tests (#4251) ([c32f42b](https://github.com/swc-project/swc/commit/c32f42b374a4964e858d05106eaa1b8fcd446cad))
+
+
+- **(es/parser)** Add a test for a fixed issue (#4255) ([1f0039f](https://github.com/swc-project/swc/commit/1f0039f2c31778acf01a10807ca54be6d3ebac08))
 
 ## [1.2.163] - 2022-04-03
 

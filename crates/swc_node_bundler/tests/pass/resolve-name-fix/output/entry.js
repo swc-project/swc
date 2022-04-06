@@ -414,7 +414,7 @@ var load31 = __swcpack_require__.bind(void 0, function(module, exports) {
     var toInteger = load30();
     var min = Math.min;
     module.exports = function(it) {
-        return it > 0 ? min(toInteger(it), 9007199254740991) : 0; // pow(2, 53) - 1 == 9007199254740991
+        return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
     };
 });
 var load32 = __swcpack_require__.bind(void 0, function(module, exports) {
@@ -1401,7 +1401,7 @@ var load88 = __swcpack_require__.bind(void 0, function(module, exports) {
     var toInteger = load30();
     var aNumberValue = load86();
     var repeat = load87();
-    var $toFixed = 1..toFixed;
+    var $toFixed = 1.0.toFixed;
     var floor = Math.floor;
     var data = [
         0,
@@ -1418,8 +1418,8 @@ var load88 = __swcpack_require__.bind(void 0, function(module, exports) {
         var c2 = c;
         while(++i < 6){
             c2 += n * data[i];
-            data[i] = c2 % 10000000;
-            c2 = floor(c2 / 10000000);
+            data[i] = c2 % 1e7;
+            c2 = floor(c2 / 1e7);
         }
     };
     var divide = function(n) {
@@ -1428,7 +1428,7 @@ var load88 = __swcpack_require__.bind(void 0, function(module, exports) {
         while(--i >= 0){
             c += data[i];
             data[i] = floor(c / n);
-            c = c % n * 10000000;
+            c = c % n * 1e7;
         }
     };
     var numToString = function() {
@@ -1456,7 +1456,7 @@ var load88 = __swcpack_require__.bind(void 0, function(module, exports) {
         }
         return n;
     };
-    $export($export.P + $export.F * (!!$toFixed && (0.00008.toFixed(3) !== '0.000' || 0.9.toFixed(0) !== '1' || 1.255.toFixed(2) !== '1.25' || 1000000000000000100..toFixed(0) !== '1000000000000000128') || !load2()(function() {
+    $export($export.P + $export.F * (!!$toFixed && (0.00008.toFixed(3) !== '0.000' || 0.9.toFixed(0) !== '1' || 1.255.toFixed(2) !== '1.25' || 1000000000000000128.0.toFixed(0) !== '1000000000000000128') || !load2()(function() {
         // V8 ~ Android 4.3-
         $toFixed.call({});
     })), 'Number', {
@@ -1469,21 +1469,21 @@ var load88 = __swcpack_require__.bind(void 0, function(module, exports) {
             if (f < 0 || f > 20) throw RangeError(ERROR);
             // eslint-disable-next-line no-self-compare
             if (x != x) return 'NaN';
-            if (x <= -1000000000000000000000 || x >= 1000000000000000000000) return String(x);
+            if (x <= -1000000000000000000000 || x >= 1e21) return String(x);
             if (x < 0) {
                 s = '-';
                 x = -x;
             }
-            if (x > 0.000000000000000000001) {
+            if (x > 1e-21) {
                 e = log(x * pow(2, 69, 1)) - 69;
                 z = e < 0 ? x * pow(2, -e, 1) : x / pow(2, e, 1);
-                z *= 4503599627370496;
+                z *= 0x10000000000000;
                 e = 52 - e;
                 if (e > 0) {
                     multiply(0, z);
                     j = f;
                     while(j >= 7){
-                        multiply(10000000, 0);
+                        multiply(1e7, 0);
                         j -= 7;
                     }
                     multiply(pow(10, j, 1), 0);
@@ -1515,7 +1515,7 @@ var load89 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $export = load20();
     var $fails = load2();
     var aNumberValue = load86();
-    var $toPrecision = 1..toPrecision;
+    var $toPrecision = 1.0.toPrecision;
     $export($export.P + $export.F * ($fails(function() {
         // IE7-
         return $toPrecision.call(1, undefined) !== '1';
@@ -1578,7 +1578,7 @@ var load95 = __swcpack_require__.bind(void 0, function(module, exports) {
     var abs = Math.abs;
     $export($export.S, 'Number', {
         isSafeInteger: function isSafeInteger(number) {
-            return isInteger(number) && abs(number) <= 9007199254740991;
+            return isInteger(number) && abs(number) <= 0x1fffffffffffff;
         }
     });
 });
@@ -1586,7 +1586,7 @@ var load96 = __swcpack_require__.bind(void 0, function(module, exports) {
     // 20.1.2.6 Number.MAX_SAFE_INTEGER
     var $export = load20();
     $export($export.S, 'Number', {
-        MAX_SAFE_INTEGER: 9007199254740991
+        MAX_SAFE_INTEGER: 0x1fffffffffffff
     });
 });
 var load97 = __swcpack_require__.bind(void 0, function(module, exports) {
@@ -1615,7 +1615,7 @@ var load99 = __swcpack_require__.bind(void 0, function(module, exports) {
 var load100 = __swcpack_require__.bind(void 0, function(module, exports) {
     // 20.2.2.20 Math.log1p(x)
     module.exports = Math.log1p || function log1p(x) {
-        return (x = +x) > -0.00000001 && x < 0.00000001 ? x - x * x / 2 : Math.log(1 + x);
+        return (x = +x) > -0.00000001 && x < 1e-8 ? x - x * x / 2 : Math.log(1 + x);
     };
 });
 var load101 = __swcpack_require__.bind(void 0, function(module, exports) {
@@ -1692,8 +1692,8 @@ var load107 = __swcpack_require__.bind(void 0, function(module, exports) {
 var load108 = __swcpack_require__.bind(void 0, function(module, exports) {
     // 20.2.2.14 Math.expm1(x)
     var $expm1 = Math.expm1;
-    module.exports = !$expm1 || $expm1(10) > 22025.465794806718 || $expm1(10) < 22025.465794806718 || $expm1(-0.00000000000000002) != -0.00000000000000002 ? function expm1(x) {
-        return (x = +x) == 0 ? x : x > -0.000001 && x < 0.000001 ? x + x * x / 2 : Math.exp(x) - 1;
+    module.exports = !$expm1 || $expm1(10) > 22025.465794806719 || $expm1(10) < 22025.4657948067165168 || $expm1(-0.00000000000000002) != -0.00000000000000002 ? function expm1(x) {
+        return (x = +x) == 0 ? x : x > -0.000001 && x < 1e-6 ? x + x * x / 2 : Math.exp(x) - 1;
     } : $expm1;
 });
 var load109 = __swcpack_require__.bind(void 0, function(module, exports) {
@@ -1766,10 +1766,10 @@ var load113 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $imul = Math.imul;
     // some WebKit versions fails with big numbers, some has wrong arity
     $export($export.S + $export.F * load2()(function() {
-        return $imul(4294967295, 5) != -5 || $imul.length != 2;
+        return $imul(0xffffffff, 5) != -5 || $imul.length != 2;
     }), 'Math', {
         imul: function imul(x, y) {
-            var UINT16 = 65535;
+            var UINT16 = 0xffff;
             var xn = +x;
             var yn = +y;
             var xl = UINT16 & xn;
@@ -1861,8 +1861,8 @@ var load121 = __swcpack_require__.bind(void 0, function(module, exports) {
             var code;
             while(aLen > i){
                 code = +arguments[i++];
-                if (toAbsoluteIndex(code, 1114111) !== code) throw RangeError(code + ' is not a valid code point');
-                res.push(code < 65536 ? fromCharCode(code) : fromCharCode(((code -= 65536) >> 10) + 55296, code % 1024 + 56320));
+                if (toAbsoluteIndex(code, 0x10ffff) !== code) throw RangeError(code + ' is not a valid code point');
+                res.push(code < 0x10000 ? fromCharCode(code) : fromCharCode(((code -= 0x10000) >> 10) + 0xd800, code % 0x400 + 0xdc00));
             }
             return res.join('');
         }
@@ -1910,7 +1910,7 @@ var load124 = __swcpack_require__.bind(void 0, function(module, exports) {
             var a, b;
             if (i < 0 || i >= l) return TO_STRING ? '' : undefined;
             a = s.charCodeAt(i);
-            return a < 55296 || a > 56319 || i + 1 === l || (b = s.charCodeAt(i + 1)) < 56320 || b > 57343 ? TO_STRING ? s.charAt(i) : a : TO_STRING ? s.slice(i, i + 2) : (a - 55296 << 10) + (b - 56320) + 65536;
+            return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff ? TO_STRING ? s.charAt(i) : a : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
         };
     };
 });
@@ -3442,7 +3442,7 @@ var load207 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $SPLIT = 'split';
     var LENGTH = 'length';
     var LAST_INDEX = 'lastIndex';
-    var MAX_UINT32 = 4294967295;
+    var MAX_UINT32 = 0xffffffff;
     // babel-minify transpiles RegExp('x', 'y') -> /x/y and it causes SyntaxError
     var SUPPORTS_Y = !fails(function() {
         RegExp(MAX_UINT32, 'y');
@@ -4657,21 +4657,21 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
     }
     function packI8(it) {
         return [
-            it & 255
+            it & 0xff
         ];
     }
     function packI16(it) {
         return [
-            it & 255,
-            it >> 8 & 255
+            it & 0xff,
+            it >> 8 & 0xff
         ];
     }
     function packI32(it) {
         return [
-            it & 255,
-            it >> 8 & 255,
-            it >> 16 & 255,
-            it >> 24 & 255
+            it & 0xff,
+            it >> 8 & 0xff,
+            it >> 16 & 0xff,
+            it >> 24 & 0xff
         ];
     }
     function packF64(it) {
@@ -5179,7 +5179,7 @@ var load231 = __swcpack_require__.bind(void 0, function(module, exports) {
             };
             var setter = function(that, index, value) {
                 var data = that._d;
-                if (CLAMPED) value = (value = Math.round(value)) < 0 ? 0 : value > 255 ? 255 : value & 255;
+                if (CLAMPED) value = (value = Math.round(value)) < 0 ? 0 : value > 0xff ? 0xff : value & 0xff;
                 data.v[SETTER](index * BYTES + data.o, value, LITTLE_ENDIAN);
             };
             var addElement = function(that, index) {
@@ -5702,7 +5702,7 @@ var load257 = __swcpack_require__.bind(void 0, function(module, exports) {
                 }
                 if (spreadable && depth > 0) targetIndex = flattenIntoArray(target, original, element, toLength(element.length), targetIndex, depth - 1) - 1;
                 else {
-                    if (targetIndex >= 9007199254740991) throw TypeError();
+                    if (targetIndex >= 0x1fffffffffffff) throw TypeError();
                     target[targetIndex] = element;
                 }
                 targetIndex++;
@@ -6229,7 +6229,7 @@ var load302 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $export = load20();
     $export($export.S, 'Math', {
         imulh: function imulh(u, v) {
-            var UINT16 = 65535;
+            var UINT16 = 0xffff;
             var $u = +u;
             var $v = +v;
             var u0 = $u & UINT16;
@@ -6270,7 +6270,7 @@ var load306 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $export = load20();
     $export($export.S, 'Math', {
         umulh: function umulh(u, v) {
-            var UINT16 = 65535;
+            var UINT16 = 0xffff;
             var $u = +u;
             var $v = +v;
             var u0 = $u & UINT16;

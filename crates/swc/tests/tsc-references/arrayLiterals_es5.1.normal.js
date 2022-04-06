@@ -35,9 +35,9 @@ var stringArr = [
 ];
 var numberArr = [
     0,
-    0,
-    0,
-    10
+    0.0,
+    0x00,
+    1e1
 ];
 var boolArr = [
     false,

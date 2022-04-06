@@ -1536,7 +1536,7 @@
                 return _arr;
             }
             function _createRawReactElement(type, props, key, children) {
-                REACT_ELEMENT_TYPE || (REACT_ELEMENT_TYPE = "function" == typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103);
+                REACT_ELEMENT_TYPE || (REACT_ELEMENT_TYPE = "function" == typeof Symbol && Symbol.for && Symbol.for("react.element") || 0xeac7);
                 var defaultProps = type && type.defaultProps, childrenLength = arguments.length - 3;
                 if (props || 0 === childrenLength || (props = {
                     children: void 0
@@ -2612,7 +2612,7 @@
                     return str.trim ? str.trim() : str.replace(/^\s+|\s+$/g, '');
                 },
                 stripBOM: function(content) {
-                    return 65279 === content.charCodeAt(0) && (content = content.slice(1)), content;
+                    return 0xFEFF === content.charCodeAt(0) && (content = content.slice(1)), content;
                 }
             };
         },
@@ -2758,19 +2758,19 @@
             "use strict";
             var global = __webpack_require__(19514), DESCRIPTORS = __webpack_require__(87122), NATIVE_ARRAY_BUFFER = __webpack_require__(88692), FunctionName = __webpack_require__(25160), createNonEnumerableProperty = __webpack_require__(48181), redefineAll = __webpack_require__(59855), fails = __webpack_require__(60232), anInstance = __webpack_require__(51819), toInteger = __webpack_require__(86361), toLength = __webpack_require__(31998), toIndex = __webpack_require__(42026), IEEE754 = __webpack_require__(43571), getPrototypeOf = __webpack_require__(39311), setPrototypeOf = __webpack_require__(59057), getOwnPropertyNames = __webpack_require__(13463).f, defineProperty = __webpack_require__(94770).f, arrayFill = __webpack_require__(50270), setToStringTag = __webpack_require__(77875), InternalStateModule = __webpack_require__(44670), PROPER_FUNCTION_NAME = FunctionName.PROPER, CONFIGURABLE_FUNCTION_NAME = FunctionName.CONFIGURABLE, getInternalState = InternalStateModule.get, setInternalState = InternalStateModule.set, ARRAY_BUFFER = 'ArrayBuffer', DATA_VIEW = 'DataView', PROTOTYPE = 'prototype', WRONG_INDEX = 'Wrong index', NativeArrayBuffer = global[ARRAY_BUFFER], $ArrayBuffer = NativeArrayBuffer, $DataView = global[DATA_VIEW], $DataViewPrototype = $DataView && $DataView[PROTOTYPE], ObjectPrototype = Object.prototype, RangeError = global.RangeError, packIEEE754 = IEEE754.pack, unpackIEEE754 = IEEE754.unpack, packInt8 = function(number) {
                 return [
-                    255 & number
+                    0xFF & number
                 ];
             }, packInt16 = function(number) {
                 return [
-                    255 & number,
-                    number >> 8 & 255
+                    0xFF & number,
+                    number >> 8 & 0xFF
                 ];
             }, packInt32 = function(number) {
                 return [
-                    255 & number,
-                    number >> 8 & 255,
-                    number >> 16 & 255,
-                    number >> 24 & 255
+                    0xFF & number,
+                    number >> 8 & 0xFF,
+                    number >> 16 & 0xFF,
+                    number >> 24 & 0xFF
                 ];
             }, unpackInt32 = function(buffer) {
                 return buffer[3] << 24 | buffer[2] << 16 | buffer[1] << 8 | buffer[0];
@@ -3687,7 +3687,7 @@
                     if (sourceIndex in source) {
                         if (element = mapFn ? mapFn(source[sourceIndex], sourceIndex, original) : source[sourceIndex], depth > 0 && isArray(element)) targetIndex = flattenIntoArray(target, original, element, toLength(element.length), targetIndex, depth - 1) - 1;
                         else {
-                            if (targetIndex >= 9007199254740991) throw TypeError('Exceed the acceptable array length');
+                            if (targetIndex >= 0x1FFFFFFFFFFFFF) throw TypeError('Exceed the acceptable array length');
                             target[targetIndex] = element;
                         }
                         targetIndex++;
@@ -4145,8 +4145,8 @@
         },
         87482: function(module) {
             var $expm1 = Math.expm1, exp = Math.exp;
-            module.exports = !$expm1 || $expm1(10) > 22025.465794806718 || 22025.465794806718 > $expm1(10) || -0.00000000000000002 != $expm1(-0.00000000000000002) ? function(x) {
-                return 0 == (x = +x) ? x : x > -0.000001 && x < 0.000001 ? x + x * x / 2 : exp(x) - 1;
+            module.exports = !$expm1 || $expm1(10) > 22025.465794806719 || 22025.4657948067165168 > $expm1(10) || -0.00000000000000002 != $expm1(-0.00000000000000002) ? function(x) {
+                return 0 == (x = +x) ? x : x > -0.000001 && x < 1e-6 ? x + x * x / 2 : exp(x) - 1;
             } : $expm1;
         },
         45404: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -4159,7 +4159,7 @@
         41571: function(module) {
             var log = Math.log;
             module.exports = Math.log1p || function(x) {
-                return (x = +x) > -0.00000001 && x < 0.00000001 ? x - x * x / 2 : log(1 + x);
+                return (x = +x) > -0.00000001 && x < 1e-8 ? x - x * x / 2 : log(1 + x);
             };
         },
         62381: function(module) {
@@ -4650,7 +4650,7 @@
             var toInteger = __webpack_require__(86361), toString = __webpack_require__(72729), requireObjectCoercible = __webpack_require__(79602), createMethod = function(CONVERT_TO_STRING) {
                 return function($this, pos) {
                     var first, second, S = toString(requireObjectCoercible($this)), position = toInteger(pos), size = S.length;
-                    return position < 0 || position >= size ? CONVERT_TO_STRING ? '' : void 0 : (first = S.charCodeAt(position)) < 55296 || first > 56319 || position + 1 === size || (second = S.charCodeAt(position + 1)) < 56320 || second > 57343 ? CONVERT_TO_STRING ? S.charAt(position) : first : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 55296 << 10) + (second - 56320) + 65536;
+                    return position < 0 || position >= size ? CONVERT_TO_STRING ? '' : void 0 : (first = S.charCodeAt(position)) < 0xD800 || first > 0xDBFF || position + 1 === size || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF ? CONVERT_TO_STRING ? S.charAt(position) : first : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
                 };
             };
             module.exports = {
@@ -4679,9 +4679,9 @@
             var base = 36, tMin = 1, tMax = 26, regexNonASCII = /[^\0-\u007E]/, regexSeparators = /[.\u3002\uFF0E\uFF61]/g, OVERFLOW_ERROR = 'Overflow: input needs wider integers to process', baseMinusTMin = base - tMin, floor = Math.floor, stringFromCharCode = String.fromCharCode, ucs2decode = function(string) {
                 for(var output = [], counter = 0, length = string.length; counter < length;){
                     var value = string.charCodeAt(counter++);
-                    if (value >= 55296 && value <= 56319 && counter < length) {
+                    if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
                         var extra = string.charCodeAt(counter++);
-                        (64512 & extra) == 56320 ? output.push(((1023 & value) << 10) + (1023 & extra) + 65536) : (output.push(value), counter--);
+                        (0xFC00 & extra) == 0xDC00 ? output.push(((0x3FF & value) << 10) + (0x3FF & extra) + 0x10000) : (output.push(value), counter--);
                     } else output.push(value);
                 }
                 return output;
@@ -4693,7 +4693,7 @@
                 return floor(k + (baseMinusTMin + 1) * delta / (delta + 38));
             }, encode = function(input) {
                 var i, currentValue, output = [], inputLength = (input = ucs2decode(input)).length, n = 128, delta = 0, bias = 72;
-                for(i = 0; i < input.length; i++)(currentValue = input[i]) < 128 && output.push(stringFromCharCode(currentValue));
+                for(i = 0; i < input.length; i++)(currentValue = input[i]) < 0x80 && output.push(stringFromCharCode(currentValue));
                 var basicLength = output.length, handledCPCount = basicLength;
                 for(basicLength && output.push('-'); handledCPCount < inputLength;){
                     var m = 2147483647;
@@ -4795,7 +4795,7 @@
             };
         },
         44378: function(module) {
-            var valueOf = 1..valueOf;
+            var valueOf = 1.0.valueOf;
             module.exports = function(value) {
                 return valueOf.call(value);
             };
@@ -4831,7 +4831,7 @@
         31998: function(module, __unused_webpack_exports, __webpack_require__) {
             var toInteger = __webpack_require__(86361), min = Math.min;
             module.exports = function(argument) {
-                return argument > 0 ? min(toInteger(argument), 9007199254740991) : 0;
+                return argument > 0 ? min(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0;
             };
         },
         89343: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -4929,7 +4929,7 @@
                     return data.view[GETTER](index * BYTES + data.byteOffset, !0);
                 }, setter = function(that, index, value) {
                     var data = getInternalState(that);
-                    CLAMPED && (value = (value = round(value)) < 0 ? 0 : value > 255 ? 255 : 255 & value), data.view[SETTER](index * BYTES + data.byteOffset, value, !0);
+                    CLAMPED && (value = (value = round(value)) < 0 ? 0 : value > 0xFF ? 0xFF : 0xFF & value), data.view[SETTER](index * BYTES + data.byteOffset, value, !0);
                 }, addElement = function(that, index) {
                     nativeDefineProperty(that, index, {
                         get: function() {
@@ -5119,10 +5119,10 @@
                 concat: function(arg) {
                     var i, k, length, len, E, O = toObject(this), A = arraySpeciesCreate(O, 0), n = 0;
                     for(i = -1, length = arguments.length; i < length; i++)if (E = -1 === i ? O : arguments[i], isConcatSpreadable(E)) {
-                        if (n + (len = toLength(E.length)) > 9007199254740991) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+                        if (n + (len = toLength(E.length)) > 0x1FFFFFFFFFFFFF) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
                         for(k = 0; k < len; k++, n++)k in E && createProperty(A, n, E[k]);
                     } else {
-                        if (n >= 9007199254740991) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+                        if (n >= 0x1FFFFFFFFFFFFF) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
                         createProperty(A, n++, E);
                     }
                     return A.length = n, A;
@@ -5512,7 +5512,7 @@
             }, {
                 splice: function(start, deleteCount) {
                     var insertCount, actualDeleteCount, A, k, from, to, O = toObject(this), len = toLength(O.length), actualStart = toAbsoluteIndex(start, len), argumentsLength = arguments.length;
-                    if (0 === argumentsLength ? insertCount = actualDeleteCount = 0 : 1 === argumentsLength ? (insertCount = 0, actualDeleteCount = len - actualStart) : (insertCount = argumentsLength - 2, actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart)), len + insertCount - actualDeleteCount > 9007199254740991) throw TypeError('Maximum allowed length exceeded');
+                    if (0 === argumentsLength ? insertCount = actualDeleteCount = 0 : 1 === argumentsLength ? (insertCount = 0, actualDeleteCount = len - actualStart) : (insertCount = argumentsLength - 2, actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart)), len + insertCount - actualDeleteCount > 0x1FFFFFFFFFFFFF) throw TypeError('Maximum allowed length exceeded');
                     for(k = 0, A = arraySpeciesCreate(O, actualDeleteCount); k < actualDeleteCount; k++)(from = actualStart + k) in O && createProperty(A, k, O[from]);
                     if (A.length = actualDeleteCount, insertCount < actualDeleteCount) {
                         for(k = actualStart; k < len - actualDeleteCount; k++)from = k + actualDeleteCount, to = k + insertCount, from in O ? O[to] = O[from] : delete O[to];
@@ -5541,7 +5541,7 @@
         18100: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var $ = __webpack_require__(35437), fails = __webpack_require__(60232), FORCED = fails(function() {
-                return 120 !== new Date(1600000000000).getYear();
+                return 120 !== new Date(16e11).getYear();
             }), getFullYear = Date.prototype.getFullYear;
             $({
                 target: 'Date',
@@ -5820,7 +5820,7 @@
         },
         9054: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             var $ = __webpack_require__(35437), fails = __webpack_require__(60232), $imul = Math.imul, FORCED = fails(function() {
-                return -5 != $imul(4294967295, 5) || 2 != $imul.length;
+                return -5 != $imul(0xFFFFFFFF, 5) || 2 != $imul.length;
             });
             $({
                 target: 'Math',
@@ -5828,8 +5828,8 @@
                 forced: FORCED
             }, {
                 imul: function(x, y) {
-                    var xn = +x, yn = +y, xl = 65535 & xn, yl = 65535 & yn;
-                    return 0 | xl * yl + ((65535 & xn >>> 16) * yl + xl * (65535 & yn >>> 16) << 16 >>> 0);
+                    var xn = +x, yn = +y, xl = 0xFFFF & xn, yl = 0xFFFF & yn;
+                    return 0 | xl * yl + ((0xFFFF & xn >>> 16) * yl + xl * (0xFFFF & yn >>> 16) << 16 >>> 0);
                 }
             });
         },
@@ -5993,7 +5993,7 @@
                 stat: !0
             }, {
                 isSafeInteger: function(number) {
-                    return isInteger(number) && 9007199254740991 >= abs(number);
+                    return isInteger(number) && 0x1FFFFFFFFFFFFF >= abs(number);
                 }
             });
         },
@@ -6002,7 +6002,7 @@
                 target: 'Number',
                 stat: !0
             }, {
-                MAX_SAFE_INTEGER: 9007199254740991
+                MAX_SAFE_INTEGER: 0x1FFFFFFFFFFFFF
             });
         },
         33499: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
@@ -6035,16 +6035,16 @@
         },
         30744: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var $ = __webpack_require__(35437), toInteger = __webpack_require__(86361), thisNumberValue = __webpack_require__(44378), repeat = __webpack_require__(86974), fails = __webpack_require__(60232), nativeToFixed = 1..toFixed, floor = Math.floor, pow = function(x, n, acc) {
+            var $ = __webpack_require__(35437), toInteger = __webpack_require__(86361), thisNumberValue = __webpack_require__(44378), repeat = __webpack_require__(86974), fails = __webpack_require__(60232), nativeToFixed = 1.0.toFixed, floor = Math.floor, pow = function(x, n, acc) {
                 return 0 === n ? acc : n % 2 == 1 ? pow(x, n - 1, acc * x) : pow(x * x, n / 2, acc);
             }, log = function(x) {
                 for(var n = 0, x2 = x; x2 >= 4096;)n += 12, x2 /= 4096;
                 for(; x2 >= 2;)n += 1, x2 /= 2;
                 return n;
             }, multiply = function(data, n, c) {
-                for(var index = -1, c2 = c; ++index < 6;)c2 += n * data[index], data[index] = c2 % 10000000, c2 = floor(c2 / 10000000);
+                for(var index = -1, c2 = c; ++index < 6;)c2 += n * data[index], data[index] = c2 % 1e7, c2 = floor(c2 / 1e7);
             }, divide = function(data, n) {
-                for(var index = 6, c = 0; --index >= 0;)c += data[index], data[index] = floor(c / n), c = c % n * 10000000;
+                for(var index = 6, c = 0; --index >= 0;)c += data[index], data[index] = floor(c / n), c = c % n * 1e7;
             }, dataToString = function(data) {
                 for(var index = 6, s = ''; --index >= 0;)if ('' !== s || 0 === index || 0 !== data[index]) {
                     var t = String(data[index]);
@@ -6070,9 +6070,9 @@
                     ], sign = '', result = '0';
                     if (fractDigits < 0 || fractDigits > 20) throw RangeError('Incorrect fraction digits');
                     if (number != number) return 'NaN';
-                    if (number <= -1000000000000000000000 || number >= 1000000000000000000000) return String(number);
-                    if (number < 0 && (sign = '-', number = -number), number > 0.000000000000000000001) if (z = (e = log(number * pow(2, 69, 1)) - 69) < 0 ? number * pow(2, -e, 1) : number / pow(2, e, 1), z *= 4503599627370496, (e = 52 - e) > 0) {
-                        for(multiply(data, 0, z), j = fractDigits; j >= 7;)multiply(data, 10000000, 0), j -= 7;
+                    if (number <= -1000000000000000000000 || number >= 1e21) return String(number);
+                    if (number < 0 && (sign = '-', number = -number), number > 1e-21) if (z = (e = log(number * pow(2, 69, 1)) - 69) < 0 ? number * pow(2, -e, 1) : number / pow(2, e, 1), z *= 0x10000000000000, (e = 52 - e) > 0) {
+                        for(multiply(data, 0, z), j = fractDigits; j >= 7;)multiply(data, 1e7, 0), j -= 7;
                         for(multiply(data, pow(10, j, 1), 0), j = e - 1; j >= 23;)divide(data, 8388608), j -= 23;
                         divide(data, 1 << j), multiply(data, 1, 1), divide(data, 2), result = dataToString(data);
                     } else multiply(data, 0, z), multiply(data, 1 << -e, 0), result = dataToString(data) + repeat.call('0', fractDigits);
@@ -6082,7 +6082,7 @@
         },
         35346: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var $ = __webpack_require__(35437), fails = __webpack_require__(60232), thisNumberValue = __webpack_require__(44378), nativeToPrecision = 1..toPrecision, FORCED = fails(function() {
+            var $ = __webpack_require__(35437), fails = __webpack_require__(60232), thisNumberValue = __webpack_require__(44378), nativeToPrecision = 1.0.toPrecision, FORCED = fails(function() {
                 return '1' !== nativeToPrecision.call(1, void 0);
             }) || !fails(function() {
                 nativeToPrecision.call({});
@@ -7244,8 +7244,8 @@
             }, {
                 fromCodePoint: function(x) {
                     for(var code, elements = [], length = arguments.length, i = 0; length > i;){
-                        if (code = +arguments[i++], toAbsoluteIndex(code, 1114111) !== code) throw RangeError(code + ' is not a valid code point');
-                        elements.push(code < 65536 ? fromCharCode(code) : fromCharCode(((code -= 65536) >> 10) + 55296, code % 1024 + 56320));
+                        if (code = +arguments[i++], toAbsoluteIndex(code, 0x10FFFF) !== code) throw RangeError(code + ' is not a valid code point');
+                        elements.push(code < 0x10000 ? fromCharCode(code) : fromCharCode(((code -= 0x10000) >> 10) + 0xD800, code % 0x400 + 0xDC00));
                     }
                     return elements.join('');
                 }
@@ -7545,7 +7545,7 @@
             fixRegExpWellKnownSymbolLogic('split', function(SPLIT, nativeSplit, maybeCallNative) {
                 var internalSplit;
                 return internalSplit = 'c' == 'abbc'.split(/(b)*/)[1] || 4 != 'test'.split(/(?:)/, -1).length || 2 != 'ab'.split(/(?:ab)*/).length || 4 != '.'.split(/(.?)(.?)/).length || '.'.split(/()()/).length > 1 || ''.split(/.?/).length ? function(separator, limit) {
-                    var match, lastIndex, lastLength, string = toString(requireObjectCoercible(this)), lim = void 0 === limit ? 4294967295 : limit >>> 0;
+                    var match, lastIndex, lastLength, string = toString(requireObjectCoercible(this)), lim = void 0 === limit ? 0xFFFFFFFF : limit >>> 0;
                     if (0 === lim) return [];
                     if (void 0 === separator) return [
                         string
@@ -7563,7 +7563,7 @@
                     function(string, limit) {
                         var rx = anObject(this), S = toString(string), res = maybeCallNative(internalSplit, rx, S, limit, internalSplit !== nativeSplit);
                         if (res.done) return res.value;
-                        var C = speciesConstructor(rx, RegExp), unicodeMatching = rx.unicode, flags = (rx.ignoreCase ? 'i' : '') + (rx.multiline ? 'm' : '') + (rx.unicode ? 'u' : '') + (UNSUPPORTED_Y ? 'g' : 'y'), splitter = new C(UNSUPPORTED_Y ? '^(?:' + rx.source + ')' : rx, flags), lim = void 0 === limit ? 4294967295 : limit >>> 0;
+                        var C = speciesConstructor(rx, RegExp), unicodeMatching = rx.unicode, flags = (rx.ignoreCase ? 'i' : '') + (rx.multiline ? 'm' : '') + (rx.unicode ? 'u' : '') + (UNSUPPORTED_Y ? 'g' : 'y'), splitter = new C(UNSUPPORTED_Y ? '^(?:' + rx.source + ')' : rx, flags), lim = void 0 === limit ? 0xFFFFFFFF : limit >>> 0;
                         if (0 === lim) return [];
                         if (0 === S.length) return null === callRegExpExec(splitter, S) ? [
                             S
@@ -8690,7 +8690,7 @@
                 '|': 1
             }), percentEncode = function(chr, set) {
                 var code = codeAt(chr, 0);
-                return code > 32 && code < 127 && !has(set, chr) ? chr : encodeURIComponent(chr);
+                return code > 0x20 && code < 0x7F && !has(set, chr) ? chr : encodeURIComponent(chr);
             }, specialSchemes = {
                 ftp: 21,
                 file: null,
@@ -8833,7 +8833,7 @@
                                 if (!(chr == EOF || '/' == chr || '?' == chr || '#' == chr || '\\' == chr && isSpecial(url)) && !stateOverride) return INVALID_PORT;
                                 if ('' != buffer) {
                                     var port = parseInt(buffer, 10);
-                                    if (port > 65535) return INVALID_PORT;
+                                    if (port > 0xFFFF) return INVALID_PORT;
                                     url.port = isSpecial(url) && port === specialSchemes[url.scheme] ? null : port, buffer = '';
                                 }
                                 if (stateOverride) return;
@@ -12682,7 +12682,7 @@
                 if (!d) throw Error(y(169));
                 c ? (a = If(a, b, Df), d.__reactInternalMemoizedMergedChildContext = a, H(N), H(M), I(M, a)) : H(N), I(N, c);
             }
-            var Lf = null, Mf = null, Nf = r.unstable_runWithPriority, Of = r.unstable_scheduleCallback, Pf = r.unstable_cancelCallback, Qf = r.unstable_shouldYield, Rf = r.unstable_requestPaint, Sf = r.unstable_now, Tf = r.unstable_getCurrentPriorityLevel, Uf = r.unstable_ImmediatePriority, Vf = r.unstable_UserBlockingPriority, Wf = r.unstable_NormalPriority, Xf = r.unstable_LowPriority, Yf = r.unstable_IdlePriority, Zf = {}, $f = void 0 !== Rf ? Rf : function() {}, ag = null, bg = null, cg = !1, dg = Sf(), O = 10000 > dg ? Sf : function() {
+            var Lf = null, Mf = null, Nf = r.unstable_runWithPriority, Of = r.unstable_scheduleCallback, Pf = r.unstable_cancelCallback, Qf = r.unstable_shouldYield, Rf = r.unstable_requestPaint, Sf = r.unstable_now, Tf = r.unstable_getCurrentPriorityLevel, Uf = r.unstable_ImmediatePriority, Vf = r.unstable_UserBlockingPriority, Wf = r.unstable_NormalPriority, Xf = r.unstable_LowPriority, Yf = r.unstable_IdlePriority, Zf = {}, $f = void 0 !== Rf ? Rf : function() {}, ag = null, bg = null, cg = !1, dg = Sf(), O = 1E4 > dg ? Sf : function() {
                 return Sf() - dg;
             };
             function eg() {
@@ -14722,7 +14722,7 @@
                         if (0 == (k & d) || 0 != (k & e)) {
                             l = b, Rc(k);
                             var n = F;
-                            f[h] = 10 <= n ? l + 250 : 6 <= n ? l + 5000 : -1;
+                            f[h] = 10 <= n ? l + 250 : 6 <= n ? l + 5E3 : -1;
                         }
                     } else l <= b && (a20.expiredLanes |= k);
                     g &= ~k;
@@ -14807,7 +14807,7 @@
                                 var g = 31 - Vc(c);
                                 f = 1 << g, g = d[g], g > e && (e = g), c &= ~f;
                             }
-                            if (c = e, 10 < (c = (120 > (c = O() - c) ? 120 : 480 > c ? 480 : 1080 > c ? 1080 : 1920 > c ? 1920 : 3000 > c ? 3000 : 4320 > c ? 4320 : 1960 * nj(c / 1960)) - c)) {
+                            if (c = e, 10 < (c = (120 > (c = O() - c) ? 120 : 480 > c ? 480 : 1080 > c ? 1080 : 1920 > c ? 1920 : 3E3 > c ? 3E3 : 4320 > c ? 4320 : 1960 * nj(c / 1960)) - c)) {
                                 a.timeoutHandle = of(Uj.bind(null, a), c);
                                 break;
                             }
@@ -17134,7 +17134,7 @@
                 exports.unstable_shouldYield = function() {
                     return exports.unstable_now() >= E;
                 }, k = function() {}, exports.unstable_forceFrameRate = function(a) {
-                    0 > a || 125 < a ? console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported") : D = 0 < a ? Math.floor(1000 / a) : 5;
+                    0 > a || 125 < a ? console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported") : D = 0 < a ? Math.floor(1E3 / a) : 5;
                 };
                 var F = new MessageChannel, G = F.port2;
                 F.port1.onmessage = function() {
@@ -17286,10 +17286,10 @@
                         e = 1073741823;
                         break;
                     case 4:
-                        e = 10000;
+                        e = 1E4;
                         break;
                     default:
-                        e = 5000;
+                        e = 5E3;
                 }
                 return e = c + e, a = {
                     id: N++,

@@ -98,7 +98,8 @@
                               "end": 65,
                               "ctxt": 0
                             },
-                            "value": 0.0
+                            "value": 0.0,
+                            "raw": "0"
                           },
                           "delegate": false
                         }
@@ -126,7 +127,8 @@
                                 "end": 91,
                                 "ctxt": 0
                               },
-                              "value": 0.0
+                              "value": 0.0,
+                              "raw": "0"
                             }
                           }
                         ]

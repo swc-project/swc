@@ -338,7 +338,8 @@
                             "end": 160,
                             "ctxt": 0
                           },
-                          "value": 1.0
+                          "value": 1.0,
+                          "raw": "1"
                         },
                         "async": false,
                         "generator": false,
@@ -860,7 +861,8 @@
                             "end": 424,
                             "ctxt": 0
                           },
-                          "value": 1.0
+                          "value": 1.0,
+                          "raw": "1"
                         },
                         "async": false,
                         "generator": false,

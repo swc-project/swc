@@ -40,7 +40,8 @@
               "end": 191,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "value": null,
           "typeAnnotation": {
@@ -111,7 +112,8 @@
               "end": 215,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1."
           },
           "value": null,
           "typeAnnotation": {
@@ -309,7 +311,8 @@
                 "end": 264,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "computed": false,
             "optional": false,
@@ -421,7 +424,8 @@
                 "end": 307,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1.0"
             },
             "computed": false,
             "optional": false,
@@ -664,7 +668,8 @@
                         "end": 368,
                         "ctxt": 0
                       },
-                      "value": 1.0
+                      "value": 1.0,
+                      "raw": "1."
                     },
                     "computed": false,
                     "optional": false,
@@ -795,7 +800,8 @@
                         "end": 405,
                         "ctxt": 0
                       },
-                      "value": 1.0
+                      "value": 1.0,
+                      "raw": "1.0"
                     },
                     "computed": false,
                     "optional": false,
@@ -915,7 +921,8 @@
                     "end": 445,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1.0"
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -979,7 +986,8 @@
                     "end": 465,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 "value": {
                   "type": "StringLiteral",

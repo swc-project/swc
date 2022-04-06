@@ -407,7 +407,8 @@
                 "end": 619,
                 "ctxt": 0
               },
-              "value": 12.0
+              "value": 12.0,
+              "raw": "12"
             },
             "typeAnnotation": null,
             "isStatic": false,
@@ -849,7 +850,8 @@
                 "end": 1268,
                 "ctxt": 0
               },
-              "value": 12.0
+              "value": 12.0,
+              "raw": "12"
             },
             "typeAnnotation": null,
             "isStatic": true,
@@ -1792,7 +1794,8 @@
                         "end": 2058,
                         "ctxt": 0
                       },
-                      "value": 12.0
+                      "value": 12.0,
+                      "raw": "12"
                     }
                   }
                 },
@@ -2087,7 +2090,8 @@
                         "end": 2240,
                         "ctxt": 0
                       },
-                      "value": 12.0
+                      "value": 12.0,
+                      "raw": "12"
                     }
                   }
                 }

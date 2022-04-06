@@ -744,7 +744,8 @@
                 "end": 324,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "computed": false,
             "optional": false,
@@ -1455,7 +1456,8 @@
               "end": 651,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           },
           "value": null,
           "typeAnnotation": {

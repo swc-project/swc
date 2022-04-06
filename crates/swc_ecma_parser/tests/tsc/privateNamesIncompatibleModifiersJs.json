@@ -58,7 +58,8 @@
               "end": 192,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -101,7 +102,8 @@
               "end": 237,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -144,7 +146,8 @@
               "end": 284,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -210,7 +213,8 @@
                       "end": 343,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]
@@ -282,7 +286,8 @@
                       "end": 405,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]
@@ -354,7 +359,8 @@
                       "end": 469,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]
@@ -426,7 +432,8 @@
                       "end": 532,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]
@@ -573,7 +580,8 @@
                       "end": 653,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]
@@ -720,7 +728,8 @@
                       "end": 775,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               ]

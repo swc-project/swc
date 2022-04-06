@@ -692,7 +692,8 @@
                     "end": 356,
                     "ctxt": 0
                   },
-                  "value": 0.5
+                  "value": 0.5,
+                  "raw": "0.5"
                 }
               },
               "consequent": {
@@ -722,7 +723,8 @@
                   "end": 370,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               }
             },
             "definite": false

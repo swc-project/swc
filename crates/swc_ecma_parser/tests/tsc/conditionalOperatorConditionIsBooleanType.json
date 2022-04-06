@@ -1268,7 +1268,8 @@
               "end": 1023,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           },
           "right": {
             "type": "NumericLiteral",
@@ -1277,7 +1278,8 @@
               "end": 1027,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           }
         },
         "consequent": {
@@ -2620,7 +2622,8 @@
                   "end": 2232,
                   "ctxt": 0
                 },
-                "value": 2.0
+                "value": 2.0,
+                "raw": "2"
               },
               "right": {
                 "type": "NumericLiteral",
@@ -2629,7 +2632,8 @@
                   "end": 2236,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               }
             },
             "consequent": {
