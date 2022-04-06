@@ -29,6 +29,7 @@ where
                 .map(|v| {
                     !v.mutated
                         && v.mutation_by_call_count == 0
+                        && !v.used_as_arg
                         && !v.reassigned()
                         && !v.is_infected()
                 })
@@ -101,7 +102,7 @@ where
 
                         match &p.key {
                             PropName::Str(s) => {
-                                tracing::trace!(
+                                tracing::debug!(
                                     "hoist_props: Storing a variable (`{}`) to inline properties",
                                     name.id
                                 );
@@ -110,7 +111,7 @@ where
                                 self.mode.store(name.to_id(), n.init.as_deref().unwrap());
                             }
                             PropName::Ident(i) => {
-                                tracing::trace!(
+                                tracing::debug!(
                                     "hoist_props: Storing a variable(`{}`) to inline properties",
                                     name.id
                                 );
