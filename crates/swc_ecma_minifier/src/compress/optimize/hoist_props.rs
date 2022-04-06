@@ -30,6 +30,7 @@ where
                     !v.mutated
                         && v.mutation_by_call_count == 0
                         && !v.used_as_arg
+                        && !v.used_in_cond
                         && !v.reassigned()
                         && !v.is_infected()
                 })
@@ -137,6 +138,7 @@ where
                         && v.mutation_by_call_count == 0
                         && v.is_fn_local
                         && !v.executed_multiple_time
+                        && !v.used_as_arg
                         && !v.used_in_cond
                 })
                 .unwrap_or(false)
