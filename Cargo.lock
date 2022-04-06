@@ -3770,6 +3770,7 @@ version = "0.2.1"
 dependencies = [
  "bitflags",
  "lexical",
+ "once_cell",
  "serde",
  "serde_json",
  "swc_atoms",

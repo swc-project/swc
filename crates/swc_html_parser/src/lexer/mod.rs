@@ -1,7 +1,9 @@
 // TODO avoid using in future for better AST
 use std::char::REPLACEMENT_CHARACTER;
 
-use swc_common::{input::Input, BytePos, Span};
+use once_cell::sync::Lazy;
+use serde::{Deserialize, Serialize};
+use swc_common::{collections::AHashMap, input::Input, BytePos, Span};
 use swc_html_ast::{Attribute, Token, TokenAndSpan};
 
 use crate::{
@@ -56,6 +58,19 @@ where
         }
     }
 }
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Entity {
+    codepoints: Vec<u32>,
+    characters: String,
+}
+
+pub static HTML_ENTITIES: Lazy<AHashMap<String, Entity>> = Lazy::new(|| {
+    let entities: AHashMap<String, Entity> = serde_json::from_str(include_str!("./entities.json"))
+        .expect("failed to parse entities.json for html entities");
+
+    entities
+});
 
 #[derive(Clone)]
 #[allow(unused)]
@@ -276,6 +291,33 @@ where
         // TODO fix me
 
         false
+    }
+
+    fn flush_code_point_consumed_as_character_reference(&mut self, c: char) {
+        if self.is_consumed_as_part_of_an_attribute() {
+            if let Some(ref mut token) = self.cur_token {
+                match token {
+                    Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
+                        if let Some(attribute) = attributes.last_mut() {
+                            let mut new_value = String::new();
+
+                            match &attribute.value {
+                                Some(value) => {
+                                    new_value.push_str(value);
+                                    new_value.push(c);
+                                }
+                                None => {}
+                            }
+
+                            attribute.value = Some(new_value.into());
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        } else {
+            self.emit_token(Token::Character { value: c });
+        }
     }
 
     fn read_token_and_span(&mut self) -> LexResult<TokenAndSpan> {
@@ -4438,12 +4480,62 @@ where
                 }
                 // https://html.spec.whatwg.org/multipage/parsing.html#named-character-reference-state
                 State::NamedCharacterReference => {
-                    // TODO fix me
-                    let is_matched = true;
+                    // Consume the maximum number of characters possible, where the consumed
+                    // characters are one of the identifiers in the first column of the named
+                    // character references table. Append each character to the temporary buffer
+                    // when it's consumed.
+                    // The shortest entity - `&GT`
+                    // The longest entity - `&CounterClockwiseContourIntegral;`
+                    let mut entity: Option<&Entity> = None;
+                    let mut prev_entity: Option<&Entity> = None;
+                    let mut cur_pos: Option<BytePos> = None;
+
+                    // TODO fix me with surrogtais pairs
+                    while let Some(c) = &self.consume_next_char() {
+                        let next = self.next();
+
+                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
+                            temporary_buffer.push(*c);
+
+                            entity = HTML_ENTITIES.get(temporary_buffer);
+
+                            // Some entities can we written without `;`, i.e. `&amp` and `&amp;`, so
+                            // we should consume the maximum number of characters possible
+                            if entity.is_some() && next == Some(';') {
+                                prev_entity = entity;
+                                cur_pos = Some(self.input.cur_pos());
+
+                                continue;
+                            }
+
+                            if entity.is_none() && prev_entity.is_some() {
+                                entity = prev_entity;
+
+                                self.input.reset_to(cur_pos.unwrap());
+                            }
+
+                            // We stop when:
+                            // - no characters after `;`
+                            // - we found entity
+                            // - we consume more characters them the longest entity
+                            if *c == ';' || entity.is_some() || temporary_buffer.len() > 33 {
+                                break;
+                            }
+                        }
+                    }
+
+                    let is_last_semicolon =
+                        matches!(&self.temporary_buffer, Some(value) if value.ends_with(';'));
 
                     // If there is a match
-                    match is_matched {
-                        true => {
+                    match entity {
+                        Some(entity) => {
+                            let is_next_equals_sign_or_ascii_alphanumeric = match self.next() {
+                                Some('=') => true,
+                                Some(c) if c.is_ascii_alphanumeric() => true,
+                                _ => false,
+                            };
+
                             // If the character reference was consumed as part of an attribute, and
                             // the last character matched is not a
                             // U+003B SEMICOLON character (;), and the next input
@@ -4451,7 +4543,16 @@ where
                             // alphanumeric, then, for historical reasons, flush code points
                             // consumed as a character reference and
                             // switch to the return state.
-                            if self.is_consumed_as_part_of_an_attribute() {
+                            if self.is_consumed_as_part_of_an_attribute()
+                                && !is_last_semicolon
+                                && is_next_equals_sign_or_ascii_alphanumeric
+                            {
+                                if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                                    for c in temporary_buffer.drain(..) {
+                                        self.flush_code_point_consumed_as_character_reference(c);
+                                    }
+                                }
+
                                 self.state = self.return_state.clone();
                             }
                             // Otherwise:
@@ -4468,26 +4569,34 @@ where
                             // Flush code points consumed as a character reference. Switch to the
                             // return state.
                             else {
-                                // TODO fix me
-                                let is_last_semicolon = false;
-
                                 if is_last_semicolon {
                                     self.emit_error(
                                         ErrorKind::MissingSemicolonAfterCharacterReference,
                                     );
                                 }
 
-                                self.temporary_buffer = Some("".into());
+                                let mut temporary_buffer = String::new();
 
-                                // TODO fix me
+                                temporary_buffer.push_str(&entity.characters);
 
+                                for c in temporary_buffer.drain(..) {
+                                    self.flush_code_point_consumed_as_character_reference(c);
+                                }
+
+                                self.temporary_buffer = Some(temporary_buffer);
                                 self.state = self.return_state.clone();
                             }
                         }
                         // Otherwise
                         // Flush code points consumed as a character reference. Switch to the
                         // ambiguous ampersand state.
-                        false => {
+                        _ => {
+                            if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                                for c in temporary_buffer.drain(..) {
+                                    self.flush_code_point_consumed_as_character_reference(c);
+                                }
+                            }
+
                             self.state = State::AmbiguousAmpersand;
                         }
                     }
