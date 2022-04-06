@@ -11,14 +11,11 @@ pub mod comments {
     pub use swc_plugin_comments::PluginCommentsProxy;
 }
 
-pub mod util {
+pub mod utils {
     pub use swc_common::util::take;
     #[cfg(feature = "swc_ecma_quote")]
     #[cfg_attr(docsrs, doc(cfg(feature = "quote")))]
     pub use swc_ecma_quote::*;
-}
-
-pub mod utils {
     pub use swc_ecma_utils::*;
 }
 
