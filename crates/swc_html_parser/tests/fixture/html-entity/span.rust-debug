@@ -58,9 +58,13 @@
  55 | |   <div>&#36;</div>
  56 | |   <div>&dollar;</div>
  57 | |   
- 58 | |   </body>
- 59 | |   </html>
- 60 | `-> 
+ 58 | |   <div>&#z;</div>
+ 59 | |   <div>&#zz;</div>
+ 60 | |   <div>&#zzz;</div>
+ 61 | |   
+ 62 | |   </body>
+ 63 | |   </html>
+ 64 | `-> 
     `----
 
   x Doctype { name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
@@ -4734,36 +4738,189 @@
     ,-[$DIR/tests/fixture/html-entity/input.html:57:1]
  57 | 
     : ^
- 58 | </body>
+ 58 | <div>&#z;</div>
     `----
 
-  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:58:1]
- 58 | </body>
-    : ^^^^^^^
+ 58 | <div>&#z;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: '&' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:58:1]
+ 58 | <div>&#z;</div>
+    :      ^^^
+    `----
+
+  x Character { value: '#' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:58:1]
+ 58 | <div>&#z;</div>
+    :         ^
+    `----
+
+  x Character { value: 'z' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:58:1]
+ 58 | <div>&#z;</div>
+    :         ^
+    `----
+
+  x Character { value: ';' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:58:1]
+ 58 | <div>&#z;</div>
+    :         ^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:58:1]
+ 58 | <div>&#z;</div>
+    :          ^^^^^^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:58:1]
- 58 | </body>
-    :        ^
- 59 | </html>
+ 58 | <div>&#z;</div>
+    :                ^
+ 59 | <div>&#zz;</div>
     `----
 
-  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
- 59 | </html>
-    : ^^^^^^^
+ 59 | <div>&#zz;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: '&' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
+ 59 | <div>&#zz;</div>
+    :      ^^^
+    `----
+
+  x Character { value: '#' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
+ 59 | <div>&#zz;</div>
+    :         ^
+    `----
+
+  x Character { value: 'z' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
+ 59 | <div>&#zz;</div>
+    :         ^
+    `----
+
+  x Character { value: 'z' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
+ 59 | <div>&#zz;</div>
+    :         ^
+    `----
+
+  x Character { value: ';' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
+ 59 | <div>&#zz;</div>
+    :          ^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
+ 59 | <div>&#zz;</div>
+    :           ^^^^^^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
- 59 | </html>
-    :        ^
+ 59 | <div>&#zz;</div>
+    :                 ^
+ 60 | <div>&#zzz;</div>
+    `----
+
+  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
+ 60 | <div>&#zzz;</div>
+    : ^^^^^
+    `----
+
+  x Character { value: '&' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
+ 60 | <div>&#zzz;</div>
+    :      ^^^
+    `----
+
+  x Character { value: '#' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
+ 60 | <div>&#zzz;</div>
+    :         ^
+    `----
+
+  x Character { value: 'z' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
+ 60 | <div>&#zzz;</div>
+    :         ^
+    `----
+
+  x Character { value: 'z' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
+ 60 | <div>&#zzz;</div>
+    :         ^
+    `----
+
+  x Character { value: 'z' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
+ 60 | <div>&#zzz;</div>
+    :          ^
+    `----
+
+  x Character { value: ';' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
+ 60 | <div>&#zzz;</div>
+    :           ^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
+ 60 | <div>&#zzz;</div>
+    :            ^^^^^^
     `----
 
   x Character { value: '\n' }
     ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
- 60 | 
+ 60 | <div>&#zzz;</div>
+    :                  ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:61:1]
+ 61 | 
+    : ^
+ 62 | </body>
+    `----
+
+  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:62:1]
+ 62 | </body>
+    : ^^^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:62:1]
+ 62 | </body>
+    :        ^
+ 63 | </html>
+    `----
+
+  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/html-entity/input.html:63:1]
+ 63 | </html>
+    : ^^^^^^^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:63:1]
+ 63 | </html>
+    :        ^
+    `----
+
+  x Character { value: '\n' }
+    ,-[$DIR/tests/fixture/html-entity/input.html:64:1]
+ 64 | 
     : ^
     `----
