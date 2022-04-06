@@ -97,6 +97,10 @@ impl Pure<'_> {
 
     /// Evaluates `({ foo: 1 }}).foo` => `1`.
     pub(super) fn eval_member_of_object_lit(&mut self, e: &mut Expr) -> Option<()> {
+        if !self.options.hoist_props && !self.options.reduce_vars {
+            return None;
+        }
+
         let me = match e {
             Expr::Member(v) => v,
             _ => return None,
@@ -107,7 +111,7 @@ impl Pure<'_> {
             _ => return None,
         };
 
-        let prop = match &me.prop {
+        let key = match &me.prop {
             MemberProp::Ident(p) => p.sym.clone(),
             MemberProp::Computed(p) => match &*p.expr {
                 Expr::Lit(Lit::Str(s)) => s.value.clone(),
@@ -115,6 +119,41 @@ impl Pure<'_> {
             },
             _ => return None,
         };
+
+        if !obj.props.iter().all(|p| match p {
+            PropOrSpread::Prop(p) => match &**p {
+                Prop::Shorthand(..) => true,
+                Prop::KeyValue(p) => !p.key.is_computed(),
+                _ => false,
+            },
+            _ => false,
+        }) {
+            return None;
+        }
+
+        // TODO
+        // let mut effects = vec![];
+
+        for prop in obj.props.iter_mut() {
+            match prop {
+                PropOrSpread::Prop(p) => {
+                    if let Prop::KeyValue(p) = &mut **p {
+                        if let PropName::Ident(prop_key) = &p.key {
+                            //
+                            if prop_key.sym == key {
+                                *e = *p.value.take();
+                                self.changed = true;
+                                tracing::debug!(
+                                    "Evaluated member access expression of an object literal"
+                                );
+                                return None;
+                            }
+                        }
+                    }
+                }
+                PropOrSpread::Spread(..) => {}
+            }
+        }
 
         None
     }
