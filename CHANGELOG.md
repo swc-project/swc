@@ -29,6 +29,9 @@
 
 
 
+- **(css/parser)** Improve error recovery for unknown at-rules (#4257) ([8b6647c](https://github.com/swc-project/swc/commit/8b6647cf8571fabb820d0a5dae7a3b69e561202d))
+
+
 - **(es)** Support jsonc for `.swcrc` (#4236) ([8008b79](https://github.com/swc-project/swc/commit/8008b79f8c69f9abc1cdd7be299f5580be8c3c0f))
 
 
