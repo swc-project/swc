@@ -559,6 +559,9 @@ where
             for pid in param_ids {
                 if let Some(usage) = self.data.vars.get(&pid.to_id()) {
                     if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
+                        if cfg!(feature = "debug") {
+                            tracing::trace!("iife: [x] Cannot inline because of usage of {}", pid);
+                        }
                         return false;
                     }
                 }
@@ -571,6 +574,12 @@ where
 
                 for param in param_ids {
                     if captured.contains(&param.to_id()) {
+                        if cfg!(feature = "debug") {
+                            tracing::trace!(
+                                "iife: [x] Cannot inline because of the capture of {}",
+                                param
+                            );
+                        }
                         return false;
                     }
                 }
