@@ -408,7 +408,15 @@ where
                         Token::Function { value, .. }
                             if *value.to_ascii_lowercase() == *"layer" =>
                         {
-                            let name = ImportPreludeLayerName::Function(parser.parse()?);
+                            // TODO improve me
+                            let ctx = Ctx {
+                                block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                                ..parser.ctx
+                            };
+
+                            let name = ImportPreludeLayerName::Function(
+                                parser.with_ctx(ctx).parse_as::<Function>()?,
+                            );
 
                             parser.input.skip_ws()?;
 
@@ -679,7 +687,12 @@ where
                                 }
                             };
 
-                            let component_value = self.parse()?;
+                            let ctx = Ctx {
+                                block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                                ..self.ctx
+                            };
+                            let component_value =
+                                self.with_ctx(ctx).parse_as::<ComponentValue>()?;
 
                             list_of_component_value.children.push(component_value);
                             list_of_component_value.span = Span::new(
@@ -999,7 +1012,9 @@ where
                 Ok(SupportsFeature::Declaration(declaration))
             }
             Token::Function { value, .. } if &*value.to_lowercase() == "selector" => {
+                // TODO improve me
                 let ctx = Ctx {
+                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     in_supports_at_rule: true,
                     ..self.ctx
                 };
@@ -1064,7 +1079,15 @@ where
                 {
                     Ok(DocumentPreludeMatchingFunction::Url(self.parse()?))
                 } else {
-                    Ok(DocumentPreludeMatchingFunction::Function(self.parse()?))
+                    // TODO improve me
+                    let ctx = Ctx {
+                        block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                        ..self.ctx
+                    };
+
+                    let function = self.with_ctx(ctx).parse_as::<Function>()?;
+
+                    Ok(DocumentPreludeMatchingFunction::Function(function))
                 }
             }
             _ => {

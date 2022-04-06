@@ -3074,7 +3074,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.100.0"
+version = "0.100.1"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3846,12 +3846,13 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_quote",
+ "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_plugin_comments",
  "swc_plugin_macro",
