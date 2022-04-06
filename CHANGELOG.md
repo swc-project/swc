@@ -43,6 +43,9 @@
 
 - **(html)** Initialize (#4240) ([3e7872c](https://github.com/swc-project/swc/commit/3e7872c8de05ac46ef6ffb99f778ef5b64e47f1b))
 
+
+- **(plugin/api)** Expose `swc_ecma_utils` (#4256) ([7bc04a6](https://github.com/swc-project/swc/commit/7bc04a67918374b1b2d02ed5034330cd6dd78d57))
+
 ### Miscellaneous Tasks
 
 
