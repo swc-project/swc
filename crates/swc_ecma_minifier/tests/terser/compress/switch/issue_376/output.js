@@ -1,4 +1,1 @@
-switch (true) {
-    case boolCondition:
-        console.log(1);
-}
+if (true === boolCondition) console.log(1);

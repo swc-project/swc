@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, prepend, ExprExt, StmtExt, Type, Value::Known};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -329,10 +329,65 @@ where
         }
     }
 
-    pub(super) fn optimize_switches(&mut self, _s: &mut Stmt) {
-        if !self.options.switches || self.ctx.stmt_labelled {}
+    /// Try turn switch into if and remove empty switch
+    pub(super) fn optimize_switches(&mut self, s: &mut Stmt) {
+        if !self.options.switches {
+            return;
+        }
 
-        //
+        if let Stmt::Switch(sw) = s {
+            match &mut *sw.cases {
+                [] => {
+                    *s = Stmt::Expr(ExprStmt {
+                        span: sw.span,
+                        expr: sw.discriminant.take(),
+                    })
+                }
+                [case] => {
+                    let mut v = BreakFinder {
+                        found_unlabelled_break_for_stmt: false,
+                    };
+                    case.visit_with(&mut v);
+                    if v.found_unlabelled_break_for_stmt {
+                        return;
+                    }
+
+                    let case = case.take();
+                    let discriminant = sw.discriminant.take();
+
+                    if let Some(test) = case.test {
+                        let test = Box::new(Expr::Bin(BinExpr {
+                            left: discriminant,
+                            right: test,
+                            op: op!("==="),
+                            span: DUMMY_SP,
+                        }));
+
+                        *s = Stmt::If(IfStmt {
+                            span: sw.span,
+                            test,
+                            cons: Box::new(Stmt::Block(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: case.cons,
+                            })),
+                            alt: None,
+                        })
+                    } else {
+                        // is default
+                        let mut stmts = vec![Stmt::Expr(ExprStmt {
+                            span: discriminant.span(),
+                            expr: discriminant,
+                        })];
+                        stmts.extend(case.cons);
+                        *s = Stmt::Block(BlockStmt {
+                            span: sw.span,
+                            stmts,
+                        })
+                    }
+                }
+                _ => (),
+            }
+        }
     }
 }
 
@@ -350,22 +405,32 @@ impl Visit for BreakFinder {
         }
     }
 
-    /// We don't care about breaks in a lop[
+    /// We don't care about breaks in a loop
     fn visit_for_stmt(&mut self, _: &ForStmt) {}
 
-    /// We don't care about breaks in a lop[
+    /// We don't care about breaks in a loop
     fn visit_for_in_stmt(&mut self, _: &ForInStmt) {}
 
-    /// We don't care about breaks in a lop[
+    /// We don't care about breaks in a loop
     fn visit_for_of_stmt(&mut self, _: &ForOfStmt) {}
 
-    /// We don't care about breaks in a lop[
+    /// We don't care about breaks in a loop
     fn visit_do_while_stmt(&mut self, _: &DoWhileStmt) {}
 
-    /// We don't care about breaks in a lop[
+    /// We don't care about breaks in a loop
     fn visit_while_stmt(&mut self, _: &WhileStmt) {}
 
     fn visit_function(&mut self, _: &Function) {}
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_class(&mut self, _: &Class) {}
+}
+
+fn ends_with_break(stmts: &[Stmt]) -> bool {
+    if let Some(last) = stmts.last() {
+        last.is_break_stmt()
+    } else {
+        false
+    }
 }

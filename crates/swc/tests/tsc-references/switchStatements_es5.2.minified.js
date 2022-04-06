@@ -15,3 +15,12 @@ var M, C = function() {
     return D;
 }(C);
 new C(), new Object();
+switch(new C()){
+    case new D():
+    case {
+        id: 12,
+        name: ""
+    }:
+    case new C():
+}
+new Date(12), new Object();
