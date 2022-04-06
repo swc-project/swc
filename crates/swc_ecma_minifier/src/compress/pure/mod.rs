@@ -335,8 +335,6 @@ impl VisitMut for Pure<'_> {
 
         self.concat_str(e);
 
-        self.eval_member_of_object_lit(e);
-
         self.eval_array_method_call(e);
 
         self.eval_fn_method_call(e);
