@@ -50,6 +50,9 @@
 - **(es/minifier)** Exclude local bindings from aliases (#4261) ([ab1f440](https://github.com/swc-project/swc/commit/ab1f4401037803ae230148f9e189b1835b92dcd9))
 
 
+- **(es/minifier)** Implement more rules for `hoist_props` (#4262) ([1f5cac4](https://github.com/swc-project/swc/commit/1f5cac4d413bc8d035e137d74470469dfd886fa3))
+
+
 - **(html)** Initialize (#4240) ([3e7872c](https://github.com/swc-project/swc/commit/3e7872c8de05ac46ef6ffb99f778ef5b64e47f1b))
 
 
