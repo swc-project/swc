@@ -108,7 +108,11 @@ impl Pure<'_> {
         };
 
         let prop = match &me.prop {
-            MemberProp::Ident(v) => v.clone(),
+            MemberProp::Ident(p) => p.sym.clone(),
+            MemberProp::Computed(p) => match &*p.expr {
+                Expr::Lit(Lit::Str(s)) => s.value.clone(),
+                _ => return None,
+            },
             _ => return None,
         };
 
