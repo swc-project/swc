@@ -132,6 +132,8 @@ where
                 .map(|v| {
                     v.ref_count == 1
                         && v.has_property_access
+                        && !v.mutated
+                        && v.mutation_by_call_count == 0
                         && v.is_fn_local
                         && !v.executed_multiple_time
                         && !v.used_in_cond
