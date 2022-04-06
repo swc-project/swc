@@ -771,17 +771,15 @@ where
         }
 
         for (idx, param) in params.iter().enumerate() {
-            let arg = args
-                .get_mut(idx)
-                .map(|arg| arg.expr.take())
-                .unwrap_or_else(|| undefined(DUMMY_SP));
-
-            exprs.push(Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP.apply_mark(self.marks.non_top_level),
-                op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
-                right: arg,
-            })));
+            let arg = args.get_mut(idx).map(|arg| arg.expr.take());
+            if let Some(arg) = arg {
+                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
+                    right: arg,
+                })));
+            }
         }
 
         if args.len() > params.len() {
