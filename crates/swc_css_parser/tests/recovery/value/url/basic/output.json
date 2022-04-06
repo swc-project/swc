@@ -719,33 +719,54 @@
                 },
                 "value": [
                   {
-                    "type": "String",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 382,
                       "end": 387,
                       "ctxt": 0
                     },
-                    "value": "foo",
-                    "raw": "\"foo\""
+                    "token": {
+                      "String": {
+                        "value": "foo",
+                        "raw": "\"foo\""
+                      }
+                    }
                   },
                   {
-                    "type": "Delimiter",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 387,
                       "end": 388,
                       "ctxt": 0
                     },
-                    "value": ","
+                    "token": "Comma"
                   },
                   {
-                    "type": "String",
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 388,
+                      "end": 389,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
                     "span": {
                       "start": 389,
                       "end": 394,
                       "ctxt": 0
                     },
-                    "value": "bar",
-                    "raw": "\"bar\""
+                    "token": {
+                      "String": {
+                        "value": "bar",
+                        "raw": "\"bar\""
+                      }
+                    }
                   }
                 ]
               }

@@ -2318,22 +2318,34 @@ where
                 // anything else
                 // Reconsume the current input token. Consume a component value and append the
                 // returned value to the function’s value.
-                _ => {
-                    let state = self.input.state();
-                    let values = self.parse_function_values(function_name);
+                _ => match self.ctx.block_contents_grammar {
+                    BlockContentsGrammar::NoGrammar => {
+                        let ctx = Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        };
 
-                    match values {
-                        Ok(values) => {
-                            function.value.extend(values);
-                        }
-                        Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
+                        let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
 
-                            function.value.push(self.parse()?);
+                        function.value.push(component_value);
+                    }
+                    _ => {
+                        let state = self.input.state();
+                        let values = self.parse_function_values(function_name);
+
+                        match values {
+                            Ok(values) => {
+                                function.value.extend(values);
+                            }
+                            Err(err) => {
+                                self.errors.push(err);
+                                self.input.reset(&state);
+
+                                function.value.push(self.parse()?);
+                            }
                         }
                     }
-                }
+                },
             }
         }
 
