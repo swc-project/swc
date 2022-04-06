@@ -116,7 +116,7 @@ where
 
                 start_tag.push('>');
 
-                write_raw!(self, span, &start_tag);
+                write_str!(self, span, &start_tag);
             }
             Token::EndTag {
                 tag_name,
@@ -145,7 +145,7 @@ where
 
                 start_tag.push('>');
 
-                write_raw!(self, span, &start_tag);
+                write_str!(self, span, &start_tag);
             }
             Token::Comment { data } => {
                 let mut comment = String::new();

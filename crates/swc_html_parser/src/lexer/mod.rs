@@ -2007,7 +2007,29 @@ where
                     match self.consume_next_char() {
                         // U+0022 QUOTATION MARK (")
                         // Switch to the after attribute value (quoted) state.
+                        // We set value to support empty attributes (i.e. `attr=""`)
                         Some('"') => {
+                            if let Some(ref mut token) = self.cur_token {
+                                match token {
+                                    Token::StartTag { attributes, .. }
+                                    | Token::EndTag { attributes, .. } => {
+                                        if let Some(attribute) = attributes.last_mut() {
+                                            let mut new_value = String::new();
+
+                                            match &attribute.value {
+                                                Some(value) => {
+                                                    new_value.push_str(value);
+                                                }
+                                                None => {}
+                                            }
+
+                                            attribute.value = Some(new_value.into());
+                                        }
+                                    }
+                                    _ => {}
+                                }
+                            }
+
                             self.state = State::AfterAttributeValueQuoted;
                         }
                         // U+0026 AMPERSAND (&)
@@ -2086,7 +2108,29 @@ where
                     match self.consume_next_char() {
                         // U+0027 APOSTROPHE (')
                         // Switch to the after attribute value (quoted) state.
+                        // We set value to support empty attributes (i.e. `attr=''`)
                         Some('\'') => {
+                            if let Some(ref mut token) = self.cur_token {
+                                match token {
+                                    Token::StartTag { attributes, .. }
+                                    | Token::EndTag { attributes, .. } => {
+                                        if let Some(attribute) = attributes.last_mut() {
+                                            let mut new_value = String::new();
+
+                                            match &attribute.value {
+                                                Some(value) => {
+                                                    new_value.push_str(value);
+                                                }
+                                                None => {}
+                                            }
+
+                                            attribute.value = Some(new_value.into());
+                                        }
+                                    }
+                                    _ => {}
+                                }
+                            }
+
                             self.state = State::AfterAttributeValueQuoted;
                         }
                         // U+0026 AMPERSAND (&)
