@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::{contains_this_expr, ident::IdentLike};
 
 use super::Optimizer;
 use crate::mode::Mode;
@@ -52,7 +52,12 @@ where
 
                     if let Prop::KeyValue(p) = &**prop {
                         match &*p.value {
-                            Expr::Lit(..) => {}
+                            Expr::Lit(..) | Expr::Arrow(..) => {}
+                            Expr::Fn(f) => {
+                                if contains_this_expr(&f.function.body) {
+                                    continue;
+                                }
+                            }
                             _ => continue,
                         };
 
