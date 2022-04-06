@@ -1,3 +1,4 @@
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, ident::IdentLike};
 
@@ -98,6 +99,13 @@ where
                     if let Prop::KeyValue(p) = &**prop {
                         let value = match &*p.value {
                             Expr::Lit(..) => p.value.clone(),
+                            Expr::Fn(..) | Expr::Arrow(..) => {
+                                if self.options.hoist_props {
+                                    p.value.clone()
+                                } else {
+                                    continue;
+                                }
+                            }
                             _ => continue,
                         };
 
@@ -182,19 +190,27 @@ where
             _ => return,
         };
         if let Expr::Ident(obj) = &*member.obj {
+            if let MemberProp::Ident(prop) = &member.prop {
+                if let Some(mut value) = self
+                    .simple_props
+                    .get(&(obj.to_id(), prop.sym.clone()))
+                    .cloned()
+                {
+                    if let Expr::Fn(f) = &mut *value {
+                        f.function.span = DUMMY_SP;
+                    }
+
+                    tracing::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
+                    self.changed = true;
+                    *e = *value;
+                    return;
+                }
+            }
+
             if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
                 member.obj = value;
                 self.changed = true;
                 tracing::debug!("hoist_props: Inlined a property");
-                return;
-            }
-
-            if let MemberProp::Ident(prop) = &member.prop {
-                if let Some(value) = self.simple_props.get(&(obj.to_id(), prop.sym.clone())) {
-                    tracing::debug!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
-                    self.changed = true;
-                    *e = *value.clone()
-                }
             }
         }
     }
