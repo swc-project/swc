@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(plugin)** Align version of `swc_common` to include dummy comment api (#4270) ([fad652f](https://github.com/swc-project/swc/commit/fad652f879d12a1015b4500f0a512232c9433c2d))
+
+## [1.2.164] - 2022-04-07
+
 ### Bug Fixes
 
 
