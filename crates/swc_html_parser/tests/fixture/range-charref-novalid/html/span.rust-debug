@@ -1,0 +1,252 @@
+
+  x Document
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Doctype { name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x StartTag { tag_name: Atom('meta' type=static), self_closing: false, attributes: [Attribute { name: Atom('charset' type=inline), value: Some(Atom('utf-8' type=inline)) }] }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StartTag { tag_name: Atom('title' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                    ^^^^^^^
+   `----
+
+  x Character { value: '&' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                           ^^^^^
+   `----
+
+  x Character { value: '#' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                ^
+   `----
+
+  x Character { value: 'x' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                 ^
+   `----
+
+  x Character { value: '1' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                  ^
+   `----
+
+  x Character { value: '1' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                   ^
+   `----
+
+  x Character { value: '0' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                    ^
+   `----
+
+  x Character { value: '0' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                     ^
+   `----
+
+  x Character { value: '0' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                      ^
+   `----
+
+  x Character { value: '0' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                       ^
+   `----
+
+  x Character { value: ';' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                        ^
+   `----
+
+  x EndTag { tag_name: Atom('title' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                         ^^^^^^^^
+   `----
+
+  x StartTag { tag_name: Atom('p' type=inline), self_closing: false, attributes: [] }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                 ^^^
+   `----
+
+  x Character { value: 'T' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                    ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                     ^
+   `----
+
+  x Character { value: 'e' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                      ^
+   `----
+
+  x Character { value: 'r' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                       ^
+   `----
+
+  x Character { value: 'e' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                        ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                         ^
+   `----
+
+  x Character { value: 's' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                          ^
+   `----
+
+  x Character { value: 'h' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                           ^
+   `----
+
+  x Character { value: 'o' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                            ^
+   `----
+
+  x Character { value: 'u' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                             ^
+   `----
+
+  x Character { value: 'l' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                              ^
+   `----
+
+  x Character { value: 'd' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                               ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                ^
+   `----
+
+  x Character { value: 'b' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                 ^
+   `----
+
+  x Character { value: 'e' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                  ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                   ^
+   `----
+
+  x Character { value: 'a' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                    ^
+   `----
+
+  x Character { value: 'n' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                     ^
+   `----
+
+  x Character { value: ' ' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                      ^
+   `----
+
+  x Character { value: 'e' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                       ^
+   `----
+
+  x Character { value: 'r' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                        ^
+   `----
+
+  x Character { value: 'r' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                         ^
+   `----
+
+  x Character { value: 'o' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                          ^
+   `----
+
+  x Character { value: 'r' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                           ^
+   `----
+
+  x Character { value: '.' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                            ^
+   `----
+
+  x Character { value: '�' }
+   ,-[$DIR/tests/fixture/range-charref-novalid/html/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                                             ^^^^^^^^^^
+   `----
