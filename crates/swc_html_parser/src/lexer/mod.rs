@@ -5053,11 +5053,9 @@ where
     }
 }
 
+#[inline(always)]
 fn is_control(c: u32) -> bool {
-    match c {
-        c @ 0x7f..=0x9f if !matches!(c, 0x20 | 0x0a | 0x0d | 0x09 | 0x0c | 0x01 | 0x1f) => true,
-        _ => false,
-    }
+    matches!(c, c @ 0x7f..=0x9f if !matches!(c, 0x20 | 0x0a | 0x0d | 0x09 | 0x0c | 0x01 | 0x1f))
 }
 
 // A noncharacter is a code point that is in the range U+FDD0 to U+FDEF,
