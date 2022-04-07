@@ -4920,101 +4920,117 @@ where
                 State::NumericCharacterReferenceEnd => {
                     // Check the character reference code:
                     match self.character_reference_code {
-                        // If the number is 0x00, then this is a null-character-reference parse
-                        // error. Set the character reference code to 0xFFFD.
-                        Some(0) => {
-                            self.emit_error(ErrorKind::NullCharacterReference);
-
-                            self.character_reference_code = Some('\u{FFFD}' as u32);
-                        }
-                        // If the number is greater than 0x10FFFF, then this is a
-                        // character-reference-outside-unicode-range parse error. Set the character
-                        // reference code to 0xFFFD.
-                        Some(cr) if cr > '\u{10FFFF}' as u32 => {
-                            self.emit_error(ErrorKind::CharacterReferenceOutsideUnicodeRange);
-
-                            self.character_reference_code = Some('\u{FFFD}' as u32);
-                        }
-                        // TODO fix me
-                        // If the number is a surrogate, then this is a
-                        // surrogate-character-reference parse error. Set the character reference
-                        // code to 0xFFFD.
-                        // If the number is a noncharacter, then this is a
-                        // noncharacter-character-reference parse error.
-                        Some(cr) if is_noncharacter(cr) => {
-                            self.emit_error(ErrorKind::NoncharacterCharacterReference);
-                        }
-                        // TODO fix me
-                        // If the number is 0x0D, or a control that's not ASCII whitespace, then
-                        // this is a control-character-reference parse error. If the number is one
-                        // of the numbers in the first column of the following table, then find the
-                        // row with that number in the first column, and set the character reference
-                        // code to the number in the second column of that row.
-                        //
-                        // Set the temporary buffer to the empty string. Append a code point equal
-                        // to the character reference code to the temporary buffer. Flush code
-                        // points consumed as a character reference. Switch to the return state.
                         Some(cr) => {
-                            // TODO handle exception above
-
-                            let mut temporary_buffer = String::new();
                             let cr = match cr {
-                                // 0x80	0x20AC	EURO SIGN (€)
-                                0x80 => 0x20ac,
-                                // 0x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
-                                0x82 => 0x201a,
-                                // 0x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
-                                0x83 => 0x0192,
-                                // 0x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
-                                0x84 => 0x201e,
-                                // 0x85	0x2026	HORIZONTAL ELLIPSIS (…)
-                                0x85 => 0x2026,
-                                // 0x86	0x2020	DAGGER (†)
-                                0x86 => 0x2020,
-                                // 0x87	0x2021	DOUBLE DAGGER (‡)
-                                0x87 => 0x2021,
-                                // 0x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
-                                0x88 => 0x02c6,
-                                // 0x89	0x2030	PER MILLE SIGN (‰)
-                                0x89 => 0x2030,
-                                // 0x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
-                                0x8a => 0x0160,
-                                // 0x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
-                                0x8b => 0x2039,
-                                // 0x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
-                                0x8c => 0x0152,
-                                // 0x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
-                                0x8e => 0x017d,
-                                // 0x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
-                                0x91 => 0x2018,
-                                // 0x92	0x2018	RIGHT SINGLE QUOTATION MARK (’)
-                                0x92 => 0x2019,
-                                // 0x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
-                                0x93 => 0x201c,
-                                // 0x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
-                                0x94 => 0x201d,
-                                // 0x95	0x2022	BULLET (•)
-                                0x95 => 0x2022,
-                                // 0x96	0x2013	EN DASH (–)
-                                0x96 => 0x2013,
-                                // 0x97	0x2014	EM DASH (—)
-                                0x97 => 0x2014,
-                                // 0x98	0x02DC	SMALL TILDE (˜)
-                                0x98 => 0x02dc,
-                                // 0x99	0x2122	TRADE MARK SIGN (™)
-                                0x99 => 0x2122,
-                                // 0x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
-                                0x9a => 0x0161,
-                                // 0x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
-                                0x9b => 0x203a,
-                                // 0x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
-                                0x9c => 0x0153,
-                                // 0x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
-                                0x9e => 0x017e,
-                                // 0x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
-                                0x9f => 0x0178,
+                                // If the number is 0x00, then this is a null-character-reference
+                                // parse error. Set the character
+                                // reference code to 0xFFFD.
+                                0 => {
+                                    self.emit_error(ErrorKind::NullCharacterReference);
+
+                                    0xfffd
+                                }
+                                // If the number is greater than 0x10FFFF, then this is a
+                                // character-reference-outside-unicode-range parse error. Set the
+                                // character reference code to
+                                // 0xFFFD.
+                                cr if cr > 0x10ffff => {
+                                    self.emit_error(
+                                        ErrorKind::CharacterReferenceOutsideUnicodeRange,
+                                    );
+
+                                    0xfffd
+                                }
+                                // TODO fix me
+                                // If the number is a surrogate, then this is a
+                                // surrogate-character-reference parse error. Set the character
+                                // reference code to 0xFFFD.
+                                //
+                                // If the number is a noncharacter, then this is a
+                                // noncharacter-character-reference parse error.
+                                cr if is_noncharacter(cr) => {
+                                    self.emit_error(ErrorKind::NoncharacterCharacterReference);
+
+                                    cr
+                                }
+                                // If the number is 0x0D, or a control that's not ASCII whitespace,
+                                // then
+                                // this is a control-character-reference parse error. If the number
+                                // is one of the numbers in the
+                                // first column of the following table, then find the
+                                // row with that number in the first column, and set the character
+                                // reference code to the number in
+                                // the second column of that row.
+                                cr if cr == 0x0d || is_control(cr) => {
+                                    self.emit_error(ErrorKind::ControlCharacterReference);
+
+                                    match cr {
+                                        // 0x80	0x20AC	EURO SIGN (€)
+                                        0x80 => 0x20ac,
+                                        // 0x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+                                        0x82 => 0x201a,
+                                        // 0x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+                                        0x83 => 0x0192,
+                                        // 0x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+                                        0x84 => 0x201e,
+                                        // 0x85	0x2026	HORIZONTAL ELLIPSIS (…)
+                                        0x85 => 0x2026,
+                                        // 0x86	0x2020	DAGGER (†)
+                                        0x86 => 0x2020,
+                                        // 0x87	0x2021	DOUBLE DAGGER (‡)
+                                        0x87 => 0x2021,
+                                        // 0x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+                                        0x88 => 0x02c6,
+                                        // 0x89	0x2030	PER MILLE SIGN (‰)
+                                        0x89 => 0x2030,
+                                        // 0x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+                                        0x8a => 0x0160,
+                                        // 0x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+                                        0x8b => 0x2039,
+                                        // 0x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+                                        0x8c => 0x0152,
+                                        // 0x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+                                        0x8e => 0x017d,
+                                        // 0x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+                                        0x91 => 0x2018,
+                                        // 0x92	0x2018	RIGHT SINGLE QUOTATION MARK (’)
+                                        0x92 => 0x2019,
+                                        // 0x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+                                        0x93 => 0x201c,
+                                        // 0x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+                                        0x94 => 0x201d,
+                                        // 0x95	0x2022	BULLET (•)
+                                        0x95 => 0x2022,
+                                        // 0x96	0x2013	EN DASH (–)
+                                        0x96 => 0x2013,
+                                        // 0x97	0x2014	EM DASH (—)
+                                        0x97 => 0x2014,
+                                        // 0x98	0x02DC	SMALL TILDE (˜)
+                                        0x98 => 0x02dc,
+                                        // 0x99	0x2122	TRADE MARK SIGN (™)
+                                        0x99 => 0x2122,
+                                        // 0x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+                                        0x9a => 0x0161,
+                                        // 0x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+                                        0x9b => 0x203a,
+                                        // 0x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+                                        0x9c => 0x0153,
+                                        // 0x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+                                        0x9e => 0x017e,
+                                        // 0x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+                                        0x9f => 0x0178,
+                                        _ => cr,
+                                    }
+                                }
                                 _ => cr,
                             };
+
+                            // Set the temporary buffer to the empty string. Append a code point
+                            // equal to the character reference
+                            // code to the temporary buffer. Flush code
+                            // points consumed as a character reference. Switch to the return
+                            // state.
+                            let mut temporary_buffer = String::new();
 
                             let c = match char::from_u32(cr) {
                                 Some(c) => c,
@@ -5026,7 +5042,6 @@ where
                             temporary_buffer.push(c);
 
                             self.flush_code_point_consumed_as_character_reference(c);
-
                             self.temporary_buffer = Some(temporary_buffer);
                             self.state = self.return_state.clone();
                         }
@@ -5040,12 +5055,20 @@ where
     }
 }
 
+fn is_control(c: u32) -> bool {
+    match c {
+        c @ 0x7f..=0x9f if !matches!(c, 0x20 | 0x0a | 0x0d | 0x09 | 0x0c | 0x01 | 0x1f) => true,
+        _ => false,
+    }
+}
+
 // A noncharacter is a code point that is in the range U+FDD0 to U+FDEF,
 // inclusive, or U+FFFE, U+FFFF, U+1FFFE, U+1FFFF, U+2FFFE, U+2FFFF, U+3FFFE,
 // U+3FFFF, U+4FFFE, U+4FFFF, U+5FFFE, U+5FFFF, U+6FFFE, U+6FFFF, U+7FFFE,
 // U+7FFFF, U+8FFFE, U+8FFFF, U+9FFFE, U+9FFFF, U+AFFFE, U+AFFFF, U+BFFFE,
 // U+BFFFF, U+CFFFE, U+CFFFF, U+DFFFE, U+DFFFF, U+EFFFE, U+EFFFF, U+FFFFE,
 // U+FFFFF, U+10FFFE, or U+10FFFF.
+#[inline(always)]
 fn is_noncharacter(c: u32) -> bool {
     let c = char::from_u32(c);
 
