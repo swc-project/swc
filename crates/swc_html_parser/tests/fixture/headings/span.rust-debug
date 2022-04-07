@@ -22,7 +22,8 @@
    : ^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:1:1]
  1 | <!DOCTYPE html>
    :                ^
@@ -35,7 +36,8 @@
    : ^^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:2:1]
  2 | <html>
    :       ^
@@ -48,13 +50,15 @@
    : ^^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:3:1]
  3 | <body>
    :       ^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:4:1]
  4 | 
    : ^
@@ -67,103 +71,103 @@
    : ^^^^
    `----
 
-  x Character { value: 'T' }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :     ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :      ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :       ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :        ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :         ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :          ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :           ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :            ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :             ^
    `----
 
-  x Character { value: 'e' }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :              ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :               ^
    `----
 
-  x Character { value: 'd' }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :                ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :                 ^
    `----
 
-  x Character { value: 'n' }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :                  ^
    `----
 
-  x Character { value: 'g' }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :                   ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :                    ^
    `----
 
-  x Character { value: '1' }
+  x Character { value: '1', raw: Some(Atom('1' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :                     ^
@@ -175,7 +179,8 @@
    :                      ^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :                           ^
@@ -188,103 +193,103 @@
    : ^^^^
    `----
 
-  x Character { value: 'T' }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :     ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :      ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :       ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :        ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :         ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :          ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :           ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :            ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :             ^
    `----
 
-  x Character { value: 'e' }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :              ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :               ^
    `----
 
-  x Character { value: 'd' }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :                ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :                 ^
    `----
 
-  x Character { value: 'n' }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :                  ^
    `----
 
-  x Character { value: 'g' }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :                   ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :                    ^
    `----
 
-  x Character { value: '2' }
+  x Character { value: '2', raw: Some(Atom('2' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :                     ^
@@ -296,7 +301,8 @@
    :                      ^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :                           ^
@@ -309,103 +315,103 @@
    : ^^^^
    `----
 
-  x Character { value: 'T' }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :     ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :      ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :       ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :        ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :         ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :          ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :           ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :            ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :             ^
    `----
 
-  x Character { value: 'e' }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :              ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :               ^
    `----
 
-  x Character { value: 'd' }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :                ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :                 ^
    `----
 
-  x Character { value: 'n' }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :                  ^
    `----
 
-  x Character { value: 'g' }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :                   ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :                    ^
    `----
 
-  x Character { value: '3' }
+  x Character { value: '3', raw: Some(Atom('3' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :                     ^
@@ -417,7 +423,8 @@
    :                      ^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :                           ^
@@ -430,103 +437,103 @@
    : ^^^^
    `----
 
-  x Character { value: 'T' }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :     ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :      ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :       ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :        ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :         ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :          ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :           ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :            ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :             ^
    `----
 
-  x Character { value: 'e' }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :              ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :               ^
    `----
 
-  x Character { value: 'd' }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :                ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :                 ^
    `----
 
-  x Character { value: 'n' }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :                  ^
    `----
 
-  x Character { value: 'g' }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :                   ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :                    ^
    `----
 
-  x Character { value: '4' }
+  x Character { value: '4', raw: Some(Atom('4' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :                     ^
@@ -538,7 +545,8 @@
    :                      ^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :                           ^
@@ -551,103 +559,103 @@
    : ^^^^
    `----
 
-  x Character { value: 'T' }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :     ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :      ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :       ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :        ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :         ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :          ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :           ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :            ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :             ^
    `----
 
-  x Character { value: 'e' }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :              ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :               ^
    `----
 
-  x Character { value: 'd' }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :                ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :                 ^
    `----
 
-  x Character { value: 'n' }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :                  ^
    `----
 
-  x Character { value: 'g' }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :                   ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :                    ^
    `----
 
-  x Character { value: '5' }
+  x Character { value: '5', raw: Some(Atom('5' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :                     ^
@@ -659,7 +667,8 @@
    :                      ^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:9:1]
   9 | <h5>This is heading 5</h5>
     :                           ^
@@ -672,103 +681,103 @@
     : ^^^^
     `----
 
-  x Character { value: 'T' }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :     ^
     `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :      ^
     `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :       ^
     `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :        ^
     `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :         ^
     `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :          ^
     `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :           ^
     `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :            ^
     `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :             ^
     `----
 
-  x Character { value: 'e' }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :              ^
     `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :               ^
     `----
 
-  x Character { value: 'd' }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :                ^
     `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :                 ^
     `----
 
-  x Character { value: 'n' }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :                  ^
     `----
 
-  x Character { value: 'g' }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :                   ^
     `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :                    ^
     `----
 
-  x Character { value: '6' }
+  x Character { value: '6', raw: Some(Atom('6' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :                     ^
@@ -780,13 +789,15 @@
     :                      ^^^^^
     `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :                           ^
     `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:11:1]
  11 | 
     : ^
@@ -799,7 +810,8 @@
     : ^^^^^^^
     `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:12:1]
  12 | </body>
     :        ^
@@ -812,7 +824,8 @@
     : ^^^^^^^
     `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
     ,-[$DIR/tests/fixture/headings/input.html:13:1]
  13 | </html>
     :        ^

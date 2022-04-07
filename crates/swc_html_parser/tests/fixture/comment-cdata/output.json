@@ -28,7 +28,9 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n",
+          "recoverable": false
         }
       }
     },
@@ -56,7 +58,9 @@
       },
       "token": {
         "Character": {
-          "value": "t"
+          "value": "t",
+          "raw": "t",
+          "recoverable": false
         }
       }
     },
@@ -69,7 +73,9 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e",
+          "recoverable": false
         }
       }
     },
@@ -82,7 +88,9 @@
       },
       "token": {
         "Character": {
-          "value": "s"
+          "value": "s",
+          "raw": "s",
+          "recoverable": false
         }
       }
     },
@@ -95,7 +103,9 @@
       },
       "token": {
         "Character": {
-          "value": "t"
+          "value": "t",
+          "raw": "t",
+          "recoverable": false
         }
       }
     },
@@ -123,7 +133,9 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n",
+          "recoverable": false
         }
       }
     },

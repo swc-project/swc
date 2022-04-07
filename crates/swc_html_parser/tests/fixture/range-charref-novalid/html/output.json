@@ -66,7 +66,9 @@
       },
       "token": {
         "Character": {
-          "value": "&"
+          "value": "&",
+          "raw": "&",
+          "recoverable": false
         }
       }
     },
@@ -79,7 +81,9 @@
       },
       "token": {
         "Character": {
-          "value": "#"
+          "value": "#",
+          "raw": "#",
+          "recoverable": false
         }
       }
     },
@@ -92,7 +96,9 @@
       },
       "token": {
         "Character": {
-          "value": "x"
+          "value": "x",
+          "raw": "x",
+          "recoverable": false
         }
       }
     },
@@ -105,7 +111,9 @@
       },
       "token": {
         "Character": {
-          "value": "1"
+          "value": "1",
+          "raw": "1",
+          "recoverable": false
         }
       }
     },
@@ -118,7 +126,9 @@
       },
       "token": {
         "Character": {
-          "value": "1"
+          "value": "1",
+          "raw": "1",
+          "recoverable": false
         }
       }
     },
@@ -131,7 +141,9 @@
       },
       "token": {
         "Character": {
-          "value": "0"
+          "value": "0",
+          "raw": "0",
+          "recoverable": false
         }
       }
     },
@@ -144,7 +156,9 @@
       },
       "token": {
         "Character": {
-          "value": "0"
+          "value": "0",
+          "raw": "0",
+          "recoverable": false
         }
       }
     },
@@ -157,7 +171,9 @@
       },
       "token": {
         "Character": {
-          "value": "0"
+          "value": "0",
+          "raw": "0",
+          "recoverable": false
         }
       }
     },
@@ -170,7 +186,9 @@
       },
       "token": {
         "Character": {
-          "value": "0"
+          "value": "0",
+          "raw": "0",
+          "recoverable": false
         }
       }
     },
@@ -183,7 +201,9 @@
       },
       "token": {
         "Character": {
-          "value": ";"
+          "value": ";",
+          "raw": ";",
+          "recoverable": false
         }
       }
     },
@@ -226,7 +246,9 @@
       },
       "token": {
         "Character": {
-          "value": "T"
+          "value": "T",
+          "raw": "T",
+          "recoverable": false
         }
       }
     },
@@ -239,7 +261,9 @@
       },
       "token": {
         "Character": {
-          "value": "h"
+          "value": "h",
+          "raw": "h",
+          "recoverable": false
         }
       }
     },
@@ -252,7 +276,9 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e",
+          "recoverable": false
         }
       }
     },
@@ -265,7 +291,9 @@
       },
       "token": {
         "Character": {
-          "value": "r"
+          "value": "r",
+          "raw": "r",
+          "recoverable": false
         }
       }
     },
@@ -278,7 +306,9 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e",
+          "recoverable": false
         }
       }
     },
@@ -291,7 +321,9 @@
       },
       "token": {
         "Character": {
-          "value": " "
+          "value": " ",
+          "raw": " ",
+          "recoverable": false
         }
       }
     },
@@ -304,7 +336,9 @@
       },
       "token": {
         "Character": {
-          "value": "s"
+          "value": "s",
+          "raw": "s",
+          "recoverable": false
         }
       }
     },
@@ -317,7 +351,9 @@
       },
       "token": {
         "Character": {
-          "value": "h"
+          "value": "h",
+          "raw": "h",
+          "recoverable": false
         }
       }
     },
@@ -330,7 +366,9 @@
       },
       "token": {
         "Character": {
-          "value": "o"
+          "value": "o",
+          "raw": "o",
+          "recoverable": false
         }
       }
     },
@@ -343,7 +381,9 @@
       },
       "token": {
         "Character": {
-          "value": "u"
+          "value": "u",
+          "raw": "u",
+          "recoverable": false
         }
       }
     },
@@ -356,7 +396,9 @@
       },
       "token": {
         "Character": {
-          "value": "l"
+          "value": "l",
+          "raw": "l",
+          "recoverable": false
         }
       }
     },
@@ -369,7 +411,9 @@
       },
       "token": {
         "Character": {
-          "value": "d"
+          "value": "d",
+          "raw": "d",
+          "recoverable": false
         }
       }
     },
@@ -382,7 +426,9 @@
       },
       "token": {
         "Character": {
-          "value": " "
+          "value": " ",
+          "raw": " ",
+          "recoverable": false
         }
       }
     },
@@ -395,7 +441,9 @@
       },
       "token": {
         "Character": {
-          "value": "b"
+          "value": "b",
+          "raw": "b",
+          "recoverable": false
         }
       }
     },
@@ -408,7 +456,9 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e",
+          "recoverable": false
         }
       }
     },
@@ -421,7 +471,9 @@
       },
       "token": {
         "Character": {
-          "value": " "
+          "value": " ",
+          "raw": " ",
+          "recoverable": false
         }
       }
     },
@@ -434,7 +486,9 @@
       },
       "token": {
         "Character": {
-          "value": "a"
+          "value": "a",
+          "raw": "a",
+          "recoverable": false
         }
       }
     },
@@ -447,7 +501,9 @@
       },
       "token": {
         "Character": {
-          "value": "n"
+          "value": "n",
+          "raw": "n",
+          "recoverable": false
         }
       }
     },
@@ -460,7 +516,9 @@
       },
       "token": {
         "Character": {
-          "value": " "
+          "value": " ",
+          "raw": " ",
+          "recoverable": false
         }
       }
     },
@@ -473,7 +531,9 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e",
+          "recoverable": false
         }
       }
     },
@@ -486,7 +546,9 @@
       },
       "token": {
         "Character": {
-          "value": "r"
+          "value": "r",
+          "raw": "r",
+          "recoverable": false
         }
       }
     },
@@ -499,7 +561,9 @@
       },
       "token": {
         "Character": {
-          "value": "r"
+          "value": "r",
+          "raw": "r",
+          "recoverable": false
         }
       }
     },
@@ -512,7 +576,9 @@
       },
       "token": {
         "Character": {
-          "value": "o"
+          "value": "o",
+          "raw": "o",
+          "recoverable": false
         }
       }
     },
@@ -525,7 +591,9 @@
       },
       "token": {
         "Character": {
-          "value": "r"
+          "value": "r",
+          "raw": "r",
+          "recoverable": false
         }
       }
     },
@@ -538,7 +606,9 @@
       },
       "token": {
         "Character": {
-          "value": "."
+          "value": ".",
+          "raw": ".",
+          "recoverable": false
         }
       }
     },
@@ -551,7 +621,9 @@
       },
       "token": {
         "Character": {
-          "value": "�"
+          "value": "�",
+          "raw": "�",
+          "recoverable": false
         }
       }
     }

@@ -156,8 +156,16 @@ where
 
                 write_str!(self, span, &comment);
             }
-            Token::Character { value } => {
-                write_str!(self, span, &value.to_string());
+            Token::Character { value, .. } => {
+                let new_value = match value {
+                    '&' => String::from("&amp;"),
+                    '<' => String::from("&lt;"),
+                    '>' => String::from("&gt;"),
+                    '\u{00A0}' => String::from("&nbsp;"),
+                    _ => value.to_string(),
+                };
+
+                write_str!(self, span, &new_value);
             }
             Token::Eof => {}
         }

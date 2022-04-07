@@ -18,7 +18,8 @@
    : ^^^^^^^^^^^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:1:1]
  1 | <!DOCTYPE html>
    :                ^
@@ -31,7 +32,8 @@
    : ^^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:2:1]
  2 | <html>
    :       ^
@@ -44,13 +46,15 @@
    : ^^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:3:1]
  3 | <body>
    :       ^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:4:1]
  4 | 
    : ^
@@ -63,121 +67,121 @@
    : ^^^
    `----
 
-  x Character { value: 'T' }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :    ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :     ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :      ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :       ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :        ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :         ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :          ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :           ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :            ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :             ^
    `----
 
-  x Character { value: 'p' }
+  x Character { value: 'p', raw: Some(Atom('p' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :              ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :               ^
    `----
 
-  x Character { value: 'r' }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :                ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :                 ^
    `----
 
-  x Character { value: 'g' }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :                  ^
    `----
 
-  x Character { value: 'r' }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :                   ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :                    ^
    `----
 
-  x Character { value: 'p' }
+  x Character { value: 'p', raw: Some(Atom('p' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :                     ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :                      ^
    `----
 
-  x Character { value: '.' }
+  x Character { value: '.', raw: Some(Atom('.' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :                       ^
@@ -189,7 +193,8 @@
    :                        ^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :                            ^
@@ -202,157 +207,157 @@
    : ^^^
    `----
 
-  x Character { value: 'T' }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :    ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :     ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :      ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :       ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :        ^
    `----
 
-  x Character { value: 'i' }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :         ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :          ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :           ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :            ^
    `----
 
-  x Character { value: 'n' }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :             ^
    `----
 
-  x Character { value: 'o' }
+  x Character { value: 'o', raw: Some(Atom('o' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :              ^
    `----
 
-  x Character { value: 't' }
+  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :               ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                ^
    `----
 
-  x Character { value: 'e' }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                 ^
    `----
 
-  x Character { value: 'r' }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                  ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                   ^
    `----
 
-  x Character { value: 'p' }
+  x Character { value: 'p', raw: Some(Atom('p' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                    ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                     ^
    `----
 
-  x Character { value: 'r' }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                      ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                       ^
    `----
 
-  x Character { value: 'g' }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                        ^
    `----
 
-  x Character { value: 'r' }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                         ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                          ^
    `----
 
-  x Character { value: 'p' }
+  x Character { value: 'p', raw: Some(Atom('p' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                           ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                            ^
    `----
 
-  x Character { value: '.' }
+  x Character { value: '.', raw: Some(Atom('.' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                             ^
@@ -364,13 +369,15 @@
    :                              ^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                                  ^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:7:1]
  7 | 
    : ^
@@ -383,7 +390,8 @@
    : ^^^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:8:1]
  8 | </body>
    :        ^
@@ -396,7 +404,8 @@
    : ^^^^^^^
    `----
 
-  x Character { value: '\n' }
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/paragraphs/input.html:9:1]
  9 | </html>
    :        ^

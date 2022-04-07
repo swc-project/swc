@@ -292,7 +292,7 @@ where
         false
     }
 
-    fn flush_code_point_consumed_as_character_reference(&mut self, c: char) {
+    fn flush_code_point_consumed_as_character_reference(&mut self, c: char, raw: &str) {
         if self.is_consumed_as_part_of_an_attribute() {
             if let Some(ref mut token) = self.cur_token {
                 match token {
@@ -315,7 +315,11 @@ where
                 }
             }
         } else {
-            self.emit_token(Token::Character { value: c });
+            self.emit_token(Token::Character {
+                value: c,
+                raw: Some(raw.into()),
+                recoverable: false,
+            });
         }
     }
 
@@ -366,7 +370,11 @@ where
                         // character as a character token.
                         Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: true,
+                            });
                         }
                         // EOF
                         // Emit an end-of-file token.
@@ -378,7 +386,11 @@ where
                         // Anything else
                         // Emit the current input character as a character token.
                         Some(c) => {
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -401,10 +413,12 @@ where
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Emit a U+FFFD
                         // REPLACEMENT CHARACTER character token.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
+                                raw: Some(c.to_string().into()),
+                                recoverable: true,
                             });
                         }
                         // EOF
@@ -417,7 +431,11 @@ where
                         // Anything else
                         // Emit the current input character as a character token.
                         Some(c) => {
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -431,10 +449,12 @@ where
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Emit a U+FFFD
                         // REPLACEMENT CHARACTER character token.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
+                                raw: Some(c.to_string().into()),
+                                recoverable: true,
                             });
                         }
                         // EOF
@@ -447,7 +467,11 @@ where
                         // Anything else
                         // Emit the current input character as a character token.
                         Some(c) => {
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -461,10 +485,12 @@ where
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Emit a U+FFFD
                         // REPLACEMENT CHARACTER character token.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
+                                raw: Some(c.to_string().into()),
+                                recoverable: true,
                             });
                         }
                         // EOF
@@ -477,7 +503,11 @@ where
                         // Anything else
                         // Emit the current input character as a character token.
                         Some(c) => {
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -488,10 +518,12 @@ where
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Emit a U+FFFD
                         // REPLACEMENT CHARACTER character token.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
+                                raw: Some(c.to_string().into()),
+                                recoverable: true,
                             });
                         }
                         // EOF
@@ -504,7 +536,11 @@ where
                         // Anything else
                         // Emit the current input character as a character token.
                         Some(c) => {
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -551,7 +587,11 @@ where
                         // character token and an end-of-file token.
                         None => {
                             self.emit_error(ErrorKind::EofBeforeTagName);
-                            self.emit_token(Token::Character { value: '<' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.emit_token(Token::Eof);
 
                             return Ok(());
@@ -561,7 +601,11 @@ where
                         // LESS-THAN SIGN character token. Reconsume in the data state.
                         _ => {
                             self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                            self.emit_token(Token::Character { value: '<' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::Data;
                             self.reconsume();
                         }
@@ -596,8 +640,16 @@ where
                         // token.
                         None => {
                             self.emit_error(ErrorKind::EofBeforeTagName);
-                            self.emit_token(Token::Character { value: '<' });
-                            self.emit_token(Token::Character { value: '/' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.emit_token(Token::Eof);
 
                             return Ok(());
@@ -737,7 +789,11 @@ where
                         // Emit a U+003C LESS-THAN SIGN character token. Reconsume in the RCDATA
                         // state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -764,8 +820,16 @@ where
                         // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
                         // character token. Reconsume in the RCDATA state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
-                            self.emit_token(Token::Character { value: '/' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -873,8 +937,16 @@ where
                         // buffer (in the order they were added to the buffer). Reconsume in the
                         // RCDATA state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
-                            self.emit_token(Token::Character { value: '/' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::Rcdata;
                             self.reconsume();
                         }
@@ -895,7 +967,11 @@ where
                         // Emit a U+003C LESS-THAN SIGN character token. Reconsume in the RAWTEXT
                         // state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::Rawtext;
                             self.reconsume();
                         }
@@ -922,8 +998,16 @@ where
                         // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
                         // character token. Reconsume in the RAWTEXT state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
-                            self.emit_token(Token::Character { value: '/' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::Rawtext;
                             self.reconsume();
                         }
@@ -1031,8 +1115,16 @@ where
                         // buffer (in the order they were added to the buffer). Reconsume in the
                         // RAWTEXT state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
-                            self.emit_token(Token::Character { value: '/' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::Rawtext;
                             self.reconsume()
                         }
@@ -1054,14 +1146,26 @@ where
                         // SIGN character token and a U+0021 EXCLAMATION MARK character token.
                         Some('!') => {
                             self.state = State::ScriptDataEscapeStart;
-                            self.emit_token(Token::Character { value: '<' });
-                            self.emit_token(Token::Character { value: '!' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '!',
+                                raw: None,
+                                recoverable: true,
+                            });
                         }
                         // Anything else
                         // Emit a U+003C LESS-THAN SIGN character token. Reconsume in the script
                         // data state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::ScriptData;
                             self.reconsume();
                         }
@@ -1088,8 +1192,16 @@ where
                         // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
                         // character token. Reconsume in the script data state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
-                            self.emit_token(Token::Character { value: '/' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::ScriptData;
                             self.reconsume();
                         }
@@ -1197,8 +1309,16 @@ where
                         // buffer (in the order they were added to the buffer). Reconsume in the
                         // script data state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
-                            self.emit_token(Token::Character { value: '/' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::ScriptData;
                             self.reconsume()
                         }
@@ -1213,7 +1333,11 @@ where
                         // HYPHEN-MINUS character token.
                         Some(c @ '-') => {
                             self.state = State::ScriptDataEscapeStartDash;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // Anything else
                         // Reconsume in the script data state.
@@ -1232,7 +1356,11 @@ where
                         // HYPHEN-MINUS character token.
                         Some(c @ '-') => {
                             self.state = State::ScriptDataEscapedDashDash;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // Anything else
                         // Reconsume in the script data state.
@@ -1251,7 +1379,11 @@ where
                         // character token.
                         Some(c @ '-') => {
                             self.state = State::ScriptDataEscapedDash;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+003C LESS-THAN SIGN (<)
                         // Switch to the script data escaped less-than sign state.
@@ -1261,10 +1393,12 @@ where
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Emit a U+FFFD
                         // REPLACEMENT CHARACTER character token.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
+                                raw: Some(c.to_string().into()),
+                                recoverable: true,
                             });
                         }
                         // EOF
@@ -1279,7 +1413,11 @@ where
                         // Anything else
                         // Emit the current input character as a character token.
                         Some(c) => {
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -1292,7 +1430,11 @@ where
                         // HYPHEN-MINUS character token.
                         Some(c @ '-') => {
                             self.state = State::ScriptDataEscapedDashDash;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+003C LESS-THAN SIGN (<)
                         // Switch to the script data escaped less-than sign state.
@@ -1302,11 +1444,13 @@ where
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Switch to the script
                         // data escaped state. Emit a U+FFFD REPLACEMENT CHARACTER character token.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.state = State::ScriptDataEscaped;
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
+                                raw: Some(c.to_string().into()),
+                                recoverable: true,
                             });
                         }
                         // EOF
@@ -1323,7 +1467,11 @@ where
                         // as a character token.
                         Some(c) => {
                             self.state = State::ScriptDataEscaped;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -1334,7 +1482,11 @@ where
                         // U+002D HYPHEN-MINUS (-)
                         // Emit a U+002D HYPHEN-MINUS character token.
                         Some(c @ '-') => {
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+003C LESS-THAN SIGN (<)
                         // Switch to the script data escaped less-than sign state.
@@ -1346,16 +1498,22 @@ where
                         // character token.
                         Some(c @ '>') => {
                             self.state = State::ScriptData;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Switch to the script
                         // data escaped state. Emit a U+FFFD REPLACEMENT CHARACTER character token.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.state = State::ScriptDataEscaped;
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
+                                raw: Some(c.to_string().into()),
+                                recoverable: true,
                             });
                         }
                         // EOF
@@ -1372,7 +1530,11 @@ where
                         // as a character token.
                         Some(c) => {
                             self.state = State::ScriptDataEscaped;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -1393,7 +1555,11 @@ where
                         // state.
                         Some(c) if is_ascii_alpha(c) => {
                             self.temporary_buffer = Some("".into());
-                            self.emit_token(Token::Character { value: '<' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::ScriptDataDoubleEscapeStart;
                             self.reconsume();
                         }
@@ -1401,7 +1567,11 @@ where
                         // Emit a U+003C LESS-THAN SIGN character token. Reconsume in the script
                         // data escaped state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::ScriptDataEscaped;
                             self.reconsume();
                         }
@@ -1428,8 +1598,16 @@ where
                         // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
                         // character token. Reconsume in the script data escaped state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
-                            self.emit_token(Token::Character { value: '/' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::ScriptDataEscaped;
                             self.reconsume();
                         }
@@ -1537,8 +1715,16 @@ where
                         // buffer (in the order they were added to the buffer). Reconsume in the
                         // script data escaped state.
                         _ => {
-                            self.emit_token(Token::Character { value: '<' });
-                            self.emit_token(Token::Character { value: '/' });
+                            self.emit_token(Token::Character {
+                                value: '<',
+                                raw: None,
+                                recoverable: true,
+                            });
+                            self.emit_token(Token::Character {
+                                value: '/',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
                         }
@@ -1567,7 +1753,11 @@ where
                                 self.state = State::ScriptDataDoubleEscaped;
                             } else {
                                 self.state = State::ScriptDataEscaped;
-                                self.emit_token(Token::Character { value: c });
+                                self.emit_token(Token::Character {
+                                    value: c,
+                                    raw: Some(c.to_string().into()),
+                                    recoverable: false,
+                                });
                             }
                         }
                         // ASCII upper alpha
@@ -1579,7 +1769,11 @@ where
                                 temporary_buffer.push(c.to_ascii_lowercase());
                             }
 
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // ASCII lower alpha
                         // Append the current input character to the temporary buffer. Emit the
@@ -1589,7 +1783,11 @@ where
                                 temporary_buffer.push(c);
                             }
 
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // Anything else
                         // Reconsume in the script data escaped state.
@@ -1608,22 +1806,32 @@ where
                         // HYPHEN-MINUS character token.
                         Some(c @ '-') => {
                             self.state = State::ScriptDataDoubleEscapedDash;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+003C LESS-THAN SIGN (<)
                         // Switch to the script data double escaped less-than sign state. Emit a
                         // U+003C LESS-THAN SIGN character token.
                         Some(c @ '<') => {
                             self.state = State::ScriptDataEscapedLessThanSign;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Emit a U+FFFD
                         // REPLACEMENT CHARACTER character token.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
+                                raw: Some(c.to_string().into()),
+                                recoverable: true,
                             });
                         }
                         // EOF
@@ -1637,7 +1845,11 @@ where
                         // end-of-file token. Anything else
                         // Emit the current input character as a character token.
                         Some(c) => {
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -1650,24 +1862,34 @@ where
                         // HYPHEN-MINUS character token.
                         Some(c @ '-') => {
                             self.state = State::ScriptDataDoubleEscapedDashDash;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+003C LESS-THAN SIGN (<)
                         // Switch to the script data double escaped less-than sign state. Emit a
                         // U+003C LESS-THAN SIGN character token.
                         Some(c @ '<') => {
                             self.state = State::ScriptDataDoubleEscapedLessThanSign;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Switch to the script
                         // data double escaped state. Emit a U+FFFD REPLACEMENT CHARACTER character
                         // token.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.state = State::ScriptDataDoubleEscaped;
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
+                                raw: Some(c.to_string().into()),
+                                recoverable: true,
                             });
                         }
                         // EOF
@@ -1684,7 +1906,11 @@ where
                         // character as a character token.
                         Some(c) => {
                             self.state = State::ScriptDataDoubleEscaped;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -1695,31 +1921,45 @@ where
                         // U+002D HYPHEN-MINUS (-)
                         // Emit a U+002D HYPHEN-MINUS character token.
                         Some(c @ '-') => {
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+003C LESS-THAN SIGN (<)
                         // Switch to the script data double escaped less-than sign state. Emit a
                         // U+003C LESS-THAN SIGN character token.
                         Some(c @ '<') => {
                             self.state = State::ScriptDataDoubleEscapedLessThanSign;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+003E GREATER-THAN SIGN (>)
                         // Switch to the script data state. Emit a U+003E GREATER-THAN SIGN
                         // character token.
                         Some(c @ '>') => {
                             self.state = State::ScriptData;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Switch to the script
                         // data double escaped state. Emit a U+FFFD REPLACEMENT CHARACTER character
                         // token.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.state = State::ScriptDataDoubleEscaped;
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
+                                raw: Some(c.to_string().into()),
+                                recoverable: true,
                             });
                         }
                         // EOF
@@ -1736,7 +1976,11 @@ where
                         // character as a character token.
                         Some(c) => {
                             self.state = State::ScriptDataDoubleEscaped;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -1750,7 +1994,11 @@ where
                         Some(c @ '/') => {
                             self.temporary_buffer = Some("".into());
                             self.state = State::ScriptDataDoubleEscapeEnd;
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // Anything else
                         // Reconsume in the script data double escaped state.
@@ -1783,7 +2031,11 @@ where
                                 self.state = State::ScriptDataEscaped;
                             } else {
                                 self.state = State::ScriptDataDoubleEscaped;
-                                self.emit_token(Token::Character { value: c });
+                                self.emit_token(Token::Character {
+                                    value: c,
+                                    raw: Some(c.to_string().into()),
+                                    recoverable: false,
+                                });
                             }
                         }
                         // ASCII upper alpha
@@ -1795,7 +2047,11 @@ where
                                 temporary_buffer.push(c.to_ascii_lowercase());
                             }
 
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // ASCII lower alpha
                         // Append the current input character to the temporary buffer. Emit the
@@ -1805,7 +2061,11 @@ where
                                 temporary_buffer.push(c);
                             }
 
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // Anything else
                         // Reconsume in the script data double escaped state.
@@ -4494,7 +4754,11 @@ where
                         // Anything else
                         // Emit the current input character as a character token.
                         Some(c) => {
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                     }
                 }
@@ -4511,7 +4775,11 @@ where
                         // Emit a U+005D RIGHT SQUARE BRACKET character token. Reconsume in the
                         // CDATA section state.
                         _ => {
-                            self.emit_token(Token::Character { value: ']' });
+                            self.emit_token(Token::Character {
+                                value: ']',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::CdataSection;
                             self.reconsume();
                         }
@@ -4524,7 +4792,11 @@ where
                         // U+005D RIGHT SQUARE BRACKET (])
                         // Emit a U+005D RIGHT SQUARE BRACKET character token.
                         Some(c @ ']') => {
-                            self.emit_token(Token::Character { value: c });
+                            self.emit_token(Token::Character {
+                                value: c,
+                                raw: Some(c.to_string().into()),
+                                recoverable: false,
+                            });
                         }
                         // U+003E GREATER-THAN SIGN character
                         // Switch to the data state.
@@ -4535,7 +4807,11 @@ where
                         // Emit two U+005D RIGHT SQUARE BRACKET character tokens. Reconsume in the
                         // CDATA section state.
                         _ => {
-                            self.emit_token(Token::Character { value: ']' });
+                            self.emit_token(Token::Character {
+                                value: ']',
+                                raw: None,
+                                recoverable: true,
+                            });
                             self.state = State::CdataSection;
                             self.reconsume();
                         }
@@ -4571,7 +4847,10 @@ where
                         _ => {
                             if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
                                 for c in temporary_buffer.drain(..) {
-                                    self.flush_code_point_consumed_as_character_reference(c);
+                                    self.flush_code_point_consumed_as_character_reference(
+                                        c,
+                                        &c.to_string(),
+                                    );
                                 }
                             }
 
@@ -4642,7 +4921,10 @@ where
                             {
                                 if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
                                     for c in temporary_buffer.drain(..) {
-                                        self.flush_code_point_consumed_as_character_reference(c);
+                                        self.flush_code_point_consumed_as_character_reference(
+                                            c,
+                                            &c.to_string(),
+                                        );
                                     }
                                 }
 
@@ -4673,7 +4955,10 @@ where
                                 temporary_buffer.push_str(&entity.characters);
 
                                 for c in temporary_buffer.drain(..) {
-                                    self.flush_code_point_consumed_as_character_reference(c);
+                                    self.flush_code_point_consumed_as_character_reference(
+                                        c,
+                                        &c.to_string(),
+                                    );
                                 }
 
                                 self.temporary_buffer = Some(temporary_buffer);
@@ -4686,7 +4971,10 @@ where
                         _ => {
                             if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
                                 for c in temporary_buffer.drain(..) {
-                                    self.flush_code_point_consumed_as_character_reference(c);
+                                    self.flush_code_point_consumed_as_character_reference(
+                                        c,
+                                        &c.to_string(),
+                                    );
                                 }
                             }
 
@@ -4727,7 +5015,11 @@ where
                                     }
                                 }
                             } else {
-                                self.emit_token(Token::Character { value: c });
+                                self.emit_token(Token::Character {
+                                    value: c,
+                                    raw: Some(c.to_string().into()),
+                                    recoverable: false,
+                                });
                             }
                         }
                         // U+003B SEMICOLON (;)
@@ -4790,7 +5082,10 @@ where
 
                             if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
                                 for c in temporary_buffer.drain(..) {
-                                    self.flush_code_point_consumed_as_character_reference(c);
+                                    self.flush_code_point_consumed_as_character_reference(
+                                        c,
+                                        &c.to_string(),
+                                    );
                                 }
                             }
 
@@ -4818,7 +5113,10 @@ where
 
                             if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
                                 for c in temporary_buffer.drain(..) {
-                                    self.flush_code_point_consumed_as_character_reference(c);
+                                    self.flush_code_point_consumed_as_character_reference(
+                                        c,
+                                        &c.to_string(),
+                                    );
                                 }
                             }
 
@@ -5039,7 +5337,10 @@ where
 
                             temporary_buffer.push(c);
 
-                            self.flush_code_point_consumed_as_character_reference(c);
+                            self.flush_code_point_consumed_as_character_reference(
+                                c,
+                                &c.to_string(),
+                            );
                             self.temporary_buffer = Some(temporary_buffer);
                             self.state = self.return_state.clone();
                         }

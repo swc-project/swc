@@ -23,49 +23,49 @@
    :                                    ^^^^^^^
    `----
 
-  x Character { value: '&' }
+  x Character { value: '&', raw: Some(Atom('&' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                           ^^^^^
    `----
 
-  x Character { value: '#' }
+  x Character { value: '#', raw: Some(Atom('#' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                ^
    `----
 
-  x Character { value: 'x' }
+  x Character { value: 'x', raw: Some(Atom('x' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                 ^
    `----
 
-  x Character { value: 'f' }
+  x Character { value: 'f', raw: Some(Atom('f' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                  ^
    `----
 
-  x Character { value: 'd' }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                   ^
    `----
 
-  x Character { value: 'd' }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                    ^
    `----
 
-  x Character { value: '0' }
+  x Character { value: '0', raw: Some(Atom('0' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                     ^
    `----
 
-  x Character { value: ';' }
+  x Character { value: ';', raw: Some(Atom(';' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                      ^
@@ -83,157 +83,157 @@
    :                                                               ^^^
    `----
 
-  x Character { value: 'T' }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                  ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                   ^
    `----
 
-  x Character { value: 'e' }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                    ^
    `----
 
-  x Character { value: 'r' }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                     ^
    `----
 
-  x Character { value: 'e' }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                      ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                       ^
    `----
 
-  x Character { value: 's' }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                        ^
    `----
 
-  x Character { value: 'h' }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                         ^
    `----
 
-  x Character { value: 'o' }
+  x Character { value: 'o', raw: Some(Atom('o' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                          ^
    `----
 
-  x Character { value: 'u' }
+  x Character { value: 'u', raw: Some(Atom('u' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                           ^
    `----
 
-  x Character { value: 'l' }
+  x Character { value: 'l', raw: Some(Atom('l' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                            ^
    `----
 
-  x Character { value: 'd' }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                             ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                              ^
    `----
 
-  x Character { value: 'b' }
+  x Character { value: 'b', raw: Some(Atom('b' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                               ^
    `----
 
-  x Character { value: 'e' }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                 ^
    `----
 
-  x Character { value: 'a' }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                  ^
    `----
 
-  x Character { value: 'n' }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                   ^
    `----
 
-  x Character { value: ' ' }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                    ^
    `----
 
-  x Character { value: 'e' }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                     ^
    `----
 
-  x Character { value: 'r' }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                      ^
    `----
 
-  x Character { value: 'r' }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                       ^
    `----
 
-  x Character { value: 'o' }
+  x Character { value: 'o', raw: Some(Atom('o' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                        ^
    `----
 
-  x Character { value: 'r' }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                         ^
    `----
 
-  x Character { value: '.' }
+  x Character { value: '.', raw: Some(Atom('.' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                          ^
    `----
 
-  x Character { value: '\u{fdd0}' }
+  x Character { value: '\u{fdd0}', raw: Some(Atom('﷐' type=inline)), recoverable: false }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                                                                           ^^^^^^^^
