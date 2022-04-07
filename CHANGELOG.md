@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(plugin)** Align version of `swc_common` to include dummy comment api (#4270) ([fad652f](https://github.com/swc-project/swc/commit/fad652f879d12a1015b4500f0a512232c9433c2d))
+
+## [1.2.164] - 2022-04-07
+
 ### Bug Fixes
 
 
@@ -66,6 +74,9 @@
 
 
 - **(html)** Support boolean attributes (#4258) ([8640c8b](https://github.com/swc-project/swc/commit/8640c8bd43a164eb185733b5294342ff01c858f6))
+
+
+- **(plugin)** Implement proxy for `dummy_with_cmt` (#4268) ([b15e984](https://github.com/swc-project/swc/commit/b15e984317ae6eb03597e9236f637fee205dd8a5))
 
 
 - **(plugin/api)** Expose `swc_ecma_utils` (#4256) ([7bc04a6](https://github.com/swc-project/swc/commit/7bc04a67918374b1b2d02ed5034330cd6dd78d57))

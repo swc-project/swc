@@ -57,6 +57,7 @@ use crate::{
             take_leading_comments_proxy, take_trailing_comments_proxy, CommentHostEnvironment,
         },
         set_transform_result::{set_transform_result, TransformResultHostEnvironment},
+        span::span_dummy_with_cmt_proxy,
     },
 };
 
@@ -64,6 +65,7 @@ mod comments;
 mod handler;
 mod hygiene;
 mod set_transform_result;
+mod span;
 
 use handler::*;
 use hygiene::*;
@@ -113,6 +115,9 @@ pub(crate) fn build_import_object(
     );
     let syntax_context_outer_fn_decl =
         Function::new_native(wasmer_store, syntax_context_outer_proxy);
+
+    // Span
+    let span_dummy_with_cmt_fn_decl = Function::new_native(wasmer_store, span_dummy_with_cmt_proxy);
 
     // comments
     let comment_buffer = Arc::new(Mutex::new(vec![]));
@@ -209,6 +214,8 @@ pub(crate) fn build_import_object(
             "__syntax_context_apply_mark_proxy" => syntax_context_apply_mark_fn_decl,
             "__syntax_context_remove_mark_proxy" => syntax_context_remove_mark_fn_decl,
             "__syntax_context_outer_proxy" => syntax_context_outer_fn_decl,
+            // span
+            "__span_dummy_with_cmt_proxy" => span_dummy_with_cmt_fn_decl,
             // comments
             "__copy_comment_to_host_env" => copy_comment_to_host_env_fn_decl,
             "__add_leading_comment_proxy" => add_leading_comment_fn_decl,
