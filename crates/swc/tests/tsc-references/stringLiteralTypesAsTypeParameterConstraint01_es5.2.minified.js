@@ -1,9 +1,10 @@
-function foo(f) {
+(function(f) {
     return f;
-}
-foo(function(x) {
+})(function(x) {
     return x;
-})("foo"), foo(function(x) {
+})("foo"), (function(f) {
+    return f;
+})(function(x) {
     return x;
 })("foo");
 var h = function(f) {

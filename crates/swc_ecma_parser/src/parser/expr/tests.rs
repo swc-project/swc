@@ -335,7 +335,8 @@ fn max_integer() {
         expr("1.7976931348623157e+308"),
         Box::new(Expr::Lit(Lit::Num(Number {
             span,
-            value: 1.797_693_134_862_315_7e308
+            value: 1.797_693_134_862_315_7e308,
+            raw: Some("1.7976931348623157e+308".into()),
         })))
     )
 }
@@ -482,7 +483,8 @@ fn super_expr_computed() {
             }))),
             right: Box::new(Expr::Lit(Lit::Num(Number {
                 span,
-                value: 123f64
+                value: 123f64,
+                raw: Some("123".into()),
             })))
         }))
     );

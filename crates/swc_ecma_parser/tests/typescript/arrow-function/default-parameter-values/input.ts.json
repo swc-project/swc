@@ -62,7 +62,8 @@
                 "end": 14,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "typeAnnotation": null
           }
@@ -74,7 +75,8 @@
             "end": 20,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         },
         "async": false,
         "generator": false,

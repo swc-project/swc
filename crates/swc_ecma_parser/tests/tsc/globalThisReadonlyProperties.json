@@ -63,7 +63,8 @@
               "end": 25,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
@@ -112,7 +113,8 @@
               "end": 58,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "definite": false
         }
@@ -153,7 +155,8 @@
               "end": 70,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           },
           "definite": false
         }
@@ -209,7 +212,8 @@
             "end": 87,
             "ctxt": 0
           },
-          "value": 3.0
+          "value": 3.0,
+          "raw": "3"
         }
       }
     },
@@ -263,7 +267,8 @@
             "end": 104,
             "ctxt": 0
           },
-          "value": 4.0
+          "value": 4.0,
+          "raw": "4"
         }
       }
     }

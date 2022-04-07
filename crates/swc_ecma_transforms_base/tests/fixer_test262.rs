@@ -336,8 +336,16 @@ impl Fold for Normalizer {
     fn fold_str(&mut self, s: Str) -> Str {
         Str {
             span: s.span,
-            raw: None,
             value: s.value,
+            raw: None,
+        }
+    }
+
+    fn fold_number(&mut self, n: Number) -> Number {
+        Number {
+            span: n.span,
+            value: n.value,
+            raw: None,
         }
     }
 }

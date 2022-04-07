@@ -11,6 +11,4 @@ var MyClass = function() {
     }
     return MyClass.prototype.fn = function() {}, MyClass;
 }();
-(function() {
-    return 0;
-})().toExponential();
+0..toExponential();

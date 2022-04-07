@@ -353,7 +353,8 @@
                 "end": 145,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           },
           {
@@ -365,7 +366,8 @@
                 "end": 148,
                 "ctxt": 0
               },
-              "value": 2.0
+              "value": 2.0,
+              "raw": "2"
             }
           },
           {
@@ -377,7 +379,8 @@
                 "end": 151,
                 "ctxt": 0
               },
-              "value": 3.0
+              "value": 3.0,
+              "raw": "3"
             }
           },
           {
@@ -389,7 +392,8 @@
                 "end": 154,
                 "ctxt": 0
               },
-              "value": 4.0
+              "value": 4.0,
+              "raw": "4"
             }
           },
           {
@@ -401,7 +405,8 @@
                 "end": 157,
                 "ctxt": 0
               },
-              "value": 5.0
+              "value": 5.0,
+              "raw": "5"
             }
           }
         ]
@@ -1010,7 +1015,8 @@
             "end": 371,
             "ctxt": 0
           },
-          "value": 42.0
+          "value": 42.0,
+          "raw": "42"
         },
         "consequent": {
           "type": "Identifier",
@@ -1185,7 +1191,8 @@
             "end": 431,
             "ctxt": 0
           },
-          "value": 42.0
+          "value": 42.0,
+          "raw": "42"
         },
         "consequent": {
           "type": "MemberExpression",
@@ -3033,7 +3040,8 @@
               "end": 1221,
               "ctxt": 0
             },
-            "value": 42.0
+            "value": 42.0,
+            "raw": "42"
           }
         }
       },

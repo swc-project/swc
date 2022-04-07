@@ -180,7 +180,8 @@
                   "end": 59,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               },
               "value": {
                 "type": "StringLiteral",
@@ -202,7 +203,8 @@
                   "end": 66,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "value": {
                 "type": "BooleanLiteral",

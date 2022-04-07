@@ -150,7 +150,8 @@
                                 "end": 90,
                                 "ctxt": 0
                               },
-                              "value": 10.0
+                              "value": 10.0,
+                              "raw": "10"
                             }
                           }
                         }
@@ -350,7 +351,8 @@
               "end": 176,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -637,7 +639,8 @@
                                 "end": 334,
                                 "ctxt": 0
                               },
-                              "value": 1.0
+                              "value": 1.0,
+                              "raw": "1"
                             }
                           },
                           {
@@ -649,7 +652,8 @@
                                 "end": 337,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             }
                           }
                         ]
@@ -716,7 +720,8 @@
                             "end": 367,
                             "ctxt": 0
                           },
-                          "value": 0.0
+                          "value": 0.0,
+                          "raw": "0"
                         }
                       },
                       {
@@ -745,7 +750,8 @@
                             "end": 378,
                             "ctxt": 0
                           },
-                          "value": 3.0
+                          "value": 3.0,
+                          "raw": "3"
                         }
                       }
                     ],
@@ -831,7 +837,8 @@
                                 "end": 421,
                                 "ctxt": 0
                               },
-                              "value": 0.0
+                              "value": 0.0,
+                              "raw": "0"
                             }
                           },
                           {
@@ -860,7 +867,8 @@
                                 "end": 432,
                                 "ctxt": 0
                               },
-                              "value": 3.0
+                              "value": 3.0,
+                              "raw": "3"
                             }
                           }
                         ],
@@ -955,7 +963,8 @@
                                 "end": 479,
                                 "ctxt": 0
                               },
-                              "value": 1.0
+                              "value": 1.0,
+                              "raw": "1"
                             },
                             {
                               "type": "NumericLiteral",
@@ -964,7 +973,8 @@
                                 "end": 489,
                                 "ctxt": 0
                               },
-                              "value": 2.0
+                              "value": 2.0,
+                              "raw": "2"
                             }
                           ],
                           "quasis": [
@@ -1100,7 +1110,8 @@
                             "end": 540,
                             "ctxt": 0
                           },
-                          "value": 1.0
+                          "value": 1.0,
+                          "raw": "1"
                         },
                         {
                           "type": "NumericLiteral",
@@ -1109,7 +1120,8 @@
                             "end": 547,
                             "ctxt": 0
                           },
-                          "value": 2.0
+                          "value": 2.0,
+                          "raw": "2"
                         }
                       ],
                       "quasis": [

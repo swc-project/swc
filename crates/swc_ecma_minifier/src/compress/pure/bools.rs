@@ -48,7 +48,6 @@ impl Pure<'_> {
                         return;
                     }
                     tracing::debug!("bools: Optimizing `!(a && b)` as `!a || !b`");
-                    self.changed = true;
                     self.negate(arg, false, false);
                     *e = *arg.take();
                 }
@@ -330,6 +329,7 @@ impl Pure<'_> {
                     *n = Expr::Lit(Lit::Num(Number {
                         span: *span,
                         value: if *value == 0.0 { 1.0 } else { 0.0 },
+                        raw: None,
                     }))
                 }
 
@@ -356,6 +356,7 @@ impl Pure<'_> {
                         *n = Expr::Lit(Lit::Num(Number {
                             span: *span,
                             value: 1.0,
+                            raw: None,
                         }))
                     }
                     _ => {
@@ -363,6 +364,7 @@ impl Pure<'_> {
                         let true_expr = Box::new(Expr::Lit(Lit::Num(Number {
                             span: *span,
                             value: 1.0,
+                            raw: None,
                         })));
                         *n = Expr::Seq(SeqExpr {
                             span: *span,
@@ -379,6 +381,7 @@ impl Pure<'_> {
                     *n = Expr::Lit(Lit::Num(Number {
                         span: s.span,
                         value: if s.value.is_empty() { 0.0 } else { 1.0 },
+                        raw: None,
                     }));
                 }
             }
@@ -393,6 +396,7 @@ impl Pure<'_> {
                     *n = Expr::Lit(Lit::Num(Number {
                         span: num.span,
                         value: if num.value == 0.0 { 0.0 } else { 1.0 },
+                        raw: None,
                     }));
                 }
             }

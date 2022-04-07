@@ -18,12 +18,7 @@ var b, d1, d2, i, Base = function() {
         return swcHelpers.classCallCheck(this, Derived2), _super.apply(this, arguments);
     }
     return Derived2;
-}(Derived);
-function foo(t) {
-    return t;
-}
-foo(b), foo(d1);
-var C = function() {
+}(Derived), C = function() {
     "use strict";
     function C(t, u) {
         swcHelpers.classCallCheck(this, C), this.t = t, this.u = u;

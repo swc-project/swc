@@ -56,7 +56,8 @@
                   "end": 79,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "ObjectExpression",

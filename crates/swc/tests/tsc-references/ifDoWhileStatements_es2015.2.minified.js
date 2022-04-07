@@ -19,7 +19,7 @@ while (null)
 do ;
 while (void 0)
 do ;
-while (0)
+while (0.0)
 for(;;);
 for(;;);
 do ;
@@ -54,7 +54,7 @@ for(var M, N, c = void 0; c;);
 do ;
 while (c)
 do ;
-while (0)
+while (0.0)
 for(var e = 'a string'; e;);
 do ;
 while (e)
@@ -85,9 +85,8 @@ while (k)
 function fn(x) {
     return null;
 }
-for(fn(); fn(););
 do ;
-while (fn())
+while (null)
 for(; fn;);
 do ;
 while (fn)

@@ -5,10 +5,19 @@
 
 
 
+- **(es/codegen)** Commit `;` before a template literal (#4252) ([8cd903b](https://github.com/swc-project/swc/commit/8cd903b3b006b823cc5d3a61d40a1311fc97276c))
+
+
+- **(es/codegen)** Handle comments on the argument of `throw` (#4254) ([ccd3188](https://github.com/swc-project/swc/commit/ccd3188c8bbf9d80efaa632e283941ed6e1fc59c))
+
+
 - **(es/minifier)** Remap variables on IIFE evaluation (#4230) ([55b98fc](https://github.com/swc-project/swc/commit/55b98fc87470cc5b2e2645ae8588c106c490fb3a))
 
 
 - **(es/minifier)** Handle empty RegExp (#4235) ([6a51d04](https://github.com/swc-project/swc/commit/6a51d0471a53cfdd48c8426c9cdc5bfddf200b35))
+
+
+- **(es/minifier)** Fix infinite loops (#4250) ([350a195](https://github.com/swc-project/swc/commit/350a19587e2220a134d9049b7afb19e35da236f0))
 
 
 - **(es/optimizer/simplifier)** Collect idents in init first (#4239) ([b1645f6](https://github.com/swc-project/swc/commit/b1645f606d1334eadb7ebf912c847bb5bdff6b96))
@@ -16,17 +25,44 @@
 
 - **(es/parser)** Support error reporting for TS1274 (#4232) ([6d380ea](https://github.com/swc-project/swc/commit/6d380ea6faf1bde18c6f92c87ed0395c674a1ead))
 
+
+- **(es/parser)** Adjust context in a function block (#4264) ([b89937c](https://github.com/swc-project/swc/commit/b89937c3c081132e3cf126467476080f29272cdd))
+
+
+- **(html/parser)** Support cdata (#4259) ([3f6037b](https://github.com/swc-project/swc/commit/3f6037b467a378357051a7de6002e34d36b640d4))
+
 ### Features
 
+
+
+- **(css/parser)** Improve error recovery for unknown at-rules (#4257) ([8b6647c](https://github.com/swc-project/swc/commit/8b6647cf8571fabb820d0a5dae7a3b69e561202d))
 
 
 - **(es)** Support jsonc for `.swcrc` (#4236) ([8008b79](https://github.com/swc-project/swc/commit/8008b79f8c69f9abc1cdd7be299f5580be8c3c0f))
 
 
+- **(es/ast)** Add `raw` to `Num` (#4245) ([f39d3ac](https://github.com/swc-project/swc/commit/f39d3aca4db25db2880f447fe738375ad5307c86))
+
+
 - **(es/minifier)** Improve sequential inlining (#4231) ([fe358ad](https://github.com/swc-project/swc/commit/fe358ad0b93d6f3bd2150fc9ce888f798875beed))
 
 
+- **(es/minifier)** Improve inliner and evaluator (#4216) ([4701da5](https://github.com/swc-project/swc/commit/4701da576f0b12b656cf1baa57174a787b590742))
+
+
+- **(es/minifier)** Exclude local bindings from aliases (#4261) ([ab1f440](https://github.com/swc-project/swc/commit/ab1f4401037803ae230148f9e189b1835b92dcd9))
+
+
+- **(es/minifier)** Implement more rules for `hoist_props` (#4262) ([1f5cac4](https://github.com/swc-project/swc/commit/1f5cac4d413bc8d035e137d74470469dfd886fa3))
+
+
 - **(html)** Initialize (#4240) ([3e7872c](https://github.com/swc-project/swc/commit/3e7872c8de05ac46ef6ffb99f778ef5b64e47f1b))
+
+
+- **(html)** Support boolean attributes (#4258) ([8640c8b](https://github.com/swc-project/swc/commit/8640c8bd43a164eb185733b5294342ff01c858f6))
+
+
+- **(plugin/api)** Expose `swc_ecma_utils` (#4256) ([7bc04a6](https://github.com/swc-project/swc/commit/7bc04a67918374b1b2d02ed5034330cd6dd78d57))
 
 ### Miscellaneous Tasks
 
@@ -35,7 +71,22 @@
 - **(bench)** Migrate to criterion (#4237) ([06d0891](https://github.com/swc-project/swc/commit/06d0891e7cae751dfc62ac4607675e872ac12304))
 
 
+- **(build)** Dedup `swc_common` (#4247) ([4093814](https://github.com/swc-project/swc/commit/4093814895a4c473d13852d2edeee17d06d7421f))
+
+
 - **(ci)** Fix benchmark action (#4242) ([1f466e1](https://github.com/swc-project/swc/commit/1f466e1d2f10193b45c09ced2b6384d85ea8f333))
+
+
+- **(es/preset-env)** Typo (#4243) ([06020bb](https://github.com/swc-project/swc/commit/06020bb76d5009f693cc702a70ac3add1ef0fe4a))
+
+### Testing
+
+
+
+- **(es)** Organize tests (#4251) ([c32f42b](https://github.com/swc-project/swc/commit/c32f42b374a4964e858d05106eaa1b8fcd446cad))
+
+
+- **(es/parser)** Add a test for a fixed issue (#4255) ([1f0039f](https://github.com/swc-project/swc/commit/1f0039f2c31778acf01a10807ca54be6d3ebac08))
 
 ## [1.2.163] - 2022-04-03
 

@@ -14,9 +14,9 @@ class Foo {
 var a;
 // error
 var b = {
-    1: new A(),
-    2: new B(),
+    1.0: new A(),
+    2.0: new B(),
     "2.5": new B(),
-    3: 1,
+    3.0: 1,
     "4.0": ''
 };

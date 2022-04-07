@@ -144,7 +144,8 @@
                         "end": 240,
                         "ctxt": 0
                       },
-                      "value": 12.0
+                      "value": 12.0,
+                      "raw": "12"
                     },
                     "right": {
                       "type": "Identifier",
@@ -333,7 +334,8 @@
                             "end": 323,
                             "ctxt": 0
                           },
-                          "value": 10.0
+                          "value": 10.0,
+                          "raw": "10"
                         }
                       }
                     ],

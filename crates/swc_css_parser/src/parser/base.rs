@@ -499,7 +499,33 @@ where
 {
     fn parse(&mut self) -> PResult<ComponentValue> {
         match self.ctx.block_contents_grammar {
-            BlockContentsGrammar::DeclarationValue => {
+            BlockContentsGrammar::NoGrammar => {
+                // Consume the next input token.
+                match cur!(self) {
+                    // If the current input token is a <{-token>, <[-token>, or <(-token>, consume a
+                    // simple block and return it.
+                    tok!("[") | tok!("(") | tok!("{") => {
+                        let block = self.parse()?;
+
+                        Ok(ComponentValue::SimpleBlock(block))
+                    }
+                    // Otherwise, if the current input token is a <function-token>, consume a
+                    // function and return it.
+                    tok!("function") => Ok(ComponentValue::Function(self.parse()?)),
+                    // Otherwise, return the current input token.
+                    _ => {
+                        let token = self.input.bump()?;
+
+                        match token {
+                            Some(t) => Ok(ComponentValue::PreservedToken(t)),
+                            _ => {
+                                unreachable!();
+                            }
+                        }
+                    }
+                }
+            }
+            _ => {
                 // TODO refactor me
                 self.input.skip_ws()?;
 
@@ -575,36 +601,6 @@ where
                 }
 
                 Err(Error::new(span, ErrorKind::Expected("Declaration value")))
-            }
-            _ => {
-                // Consume the next input token.
-                match cur!(self) {
-                    // If the current input token is a <{-token>, <[-token>, or <(-token>, consume a
-                    // simple block and return it.
-                    tok!("[") | tok!("(") | tok!("{") => {
-                        let ctx = Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        };
-                        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-                        Ok(ComponentValue::SimpleBlock(block))
-                    }
-                    // Otherwise, if the current input token is a <function-token>, consume a
-                    // function and return it.
-                    tok!("function") => Ok(ComponentValue::Function(self.parse()?)),
-                    // Otherwise, return the current input token.
-                    _ => {
-                        let token = self.input.bump()?;
-
-                        match token {
-                            Some(t) => Ok(ComponentValue::PreservedToken(t)),
-                            _ => {
-                                unreachable!();
-                            }
-                        }
-                    }
-                }
             }
         }
     }

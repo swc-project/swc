@@ -256,7 +256,8 @@
                 "end": 101,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           }
         }
@@ -478,7 +479,8 @@
               "end": 200,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           }
         },
         {
@@ -513,7 +515,8 @@
                 "end": 211,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "right": {
               "type": "NumericLiteral",
@@ -522,7 +525,8 @@
                 "end": 215,
                 "ctxt": 0
               },
-              "value": 2.0
+              "value": 2.0,
+              "raw": "2"
             }
           }
         }

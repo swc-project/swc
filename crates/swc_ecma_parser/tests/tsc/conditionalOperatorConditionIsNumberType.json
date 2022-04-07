@@ -862,7 +862,8 @@
             "end": 674,
             "ctxt": 0
           },
-          "value": 1.0
+          "value": 1.0,
+          "raw": "1"
         },
         "consequent": {
           "type": "Identifier",
@@ -907,7 +908,8 @@
             "end": 699,
             "ctxt": 0
           },
-          "value": 0.0
+          "value": 0.0,
+          "raw": "0"
         },
         "consequent": {
           "type": "Identifier",
@@ -952,7 +954,8 @@
             "end": 742,
             "ctxt": 0
           },
-          "value": 0.123456789
+          "value": 0.123456789,
+          "raw": "0.123456789"
         },
         "consequent": {
           "type": "Identifier",
@@ -1005,7 +1008,8 @@
               "end": 788,
               "ctxt": 0
             },
-            "value": 10000000000000.0
+            "value": 10000000000000.0,
+            "raw": "10000000000000"
           }
         },
         "consequent": {
@@ -1051,7 +1055,8 @@
             "end": 831,
             "ctxt": 0
           },
-          "value": 1000000000000.0
+          "value": 1000000000000.0,
+          "raw": "1000000000000"
         },
         "consequent": {
           "type": "Identifier",
@@ -1096,7 +1101,8 @@
             "end": 870,
             "ctxt": 0
           },
-          "value": 10000.0
+          "value": 10000.0,
+          "raw": "10000"
         },
         "consequent": {
           "type": "Identifier",
@@ -1162,7 +1168,8 @@
                 "end": 971,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             }
           }
         ]
@@ -1225,7 +1232,8 @@
                     "end": 989,
                     "ctxt": 0
                   },
-                  "value": 1.0
+                  "value": 1.0,
+                  "raw": "1"
                 }
               },
               {
@@ -1237,7 +1245,8 @@
                     "end": 992,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 }
               },
               {
@@ -1249,7 +1258,8 @@
                     "end": 995,
                     "ctxt": 0
                   },
-                  "value": 3.0
+                  "value": 3.0,
+                  "raw": "3"
                 }
               }
             ]
@@ -1287,7 +1297,8 @@
               "end": 1000,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "right": {
             "type": "NumericLiteral",
@@ -1296,7 +1307,8 @@
               "end": 1004,
               "ctxt": 0
             },
-            "value": 0.0
+            "value": 0.0,
+            "raw": "0"
           }
         },
         "consequent": {
@@ -1350,7 +1362,8 @@
               "end": 1029,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "right": {
             "type": "NumericLiteral",
@@ -1359,7 +1372,8 @@
               "end": 1033,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           }
         },
         "consequent": {
@@ -1577,7 +1591,8 @@
                   "end": 1160,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               }
             }
           }
@@ -2122,7 +2137,8 @@
                 "end": 1694,
                 "ctxt": 0
               },
-              "value": 1.0
+              "value": 1.0,
+              "raw": "1"
             },
             "consequent": {
               "type": "Identifier",
@@ -2191,7 +2207,8 @@
                 "end": 1742,
                 "ctxt": 0
               },
-              "value": 0.0
+              "value": 0.0,
+              "raw": "0"
             },
             "consequent": {
               "type": "Identifier",
@@ -2260,7 +2277,8 @@
                 "end": 1807,
                 "ctxt": 0
               },
-              "value": 0.123456789
+              "value": 0.123456789,
+              "raw": "0.123456789"
             },
             "consequent": {
               "type": "Identifier",
@@ -2337,7 +2355,8 @@
                   "end": 1875,
                   "ctxt": 0
                 },
-                "value": 10000000000000.0
+                "value": 10000000000000.0,
+                "raw": "10000000000000"
               }
             },
             "consequent": {
@@ -2407,7 +2426,8 @@
                 "end": 1940,
                 "ctxt": 0
               },
-              "value": 1000000000000.0
+              "value": 1000000000000.0,
+              "raw": "1000000000000"
             },
             "consequent": {
               "type": "Identifier",
@@ -2476,7 +2496,8 @@
                 "end": 2010,
                 "ctxt": 0
               },
-              "value": 10000.0
+              "value": 10000.0,
+              "raw": "10000"
             },
             "consequent": {
               "type": "Identifier",
@@ -2553,7 +2574,8 @@
                   "end": 2071,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "NumericLiteral",
@@ -2562,7 +2584,8 @@
                   "end": 2075,
                   "ctxt": 0
                 },
-                "value": 0.0
+                "value": 0.0,
+                "raw": "0"
               }
             },
             "consequent": {
@@ -2640,7 +2663,8 @@
                   "end": 2123,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               },
               "right": {
                 "type": "NumericLiteral",
@@ -2649,7 +2673,8 @@
                   "end": 2127,
                   "ctxt": 0
                 },
-                "value": 1.0
+                "value": 1.0,
+                "raw": "1"
               }
             },
             "consequent": {
@@ -2939,7 +2964,8 @@
                       "end": 2320,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               }
@@ -3063,7 +3089,8 @@
                       "end": 2401,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   }
                 }
               }

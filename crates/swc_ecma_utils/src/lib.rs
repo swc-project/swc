@@ -1733,7 +1733,12 @@ pub fn undefined(span: Span) -> Box<Expr> {
     Expr::Unary(UnaryExpr {
         span,
         op: op!("void"),
-        arg: Expr::Lit(Lit::Num(Number { value: 0.0, span })).into(),
+        arg: Expr::Lit(Lit::Num(Number {
+            span,
+            value: 0.0,
+            raw: None,
+        }))
+        .into(),
     })
     .into()
 }

@@ -5,6 +5,7 @@ class C {
         swcHelpers.classPrivateMethodInit(this, _method);
     }
 }
-C.s = swcHelpers.classPrivateMethodGet(_ref = new C(), _method, function() {
+function method() {
     return 42;
-}).call(_ref), console.log(C.s);
+}
+C.s = swcHelpers.classPrivateMethodGet(_ref = new C(), _method, method).call(_ref), console.log(C.s);

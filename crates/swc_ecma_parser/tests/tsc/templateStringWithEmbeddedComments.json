@@ -28,7 +28,8 @@
               "end": 33,
               "ctxt": 0
             },
-            "value": 10.0
+            "value": 10.0,
+            "raw": "10"
           },
           {
             "type": "NumericLiteral",
@@ -37,7 +38,8 @@
               "end": 81,
               "ctxt": 0
             },
-            "value": 20.0
+            "value": 20.0,
+            "raw": "20"
           }
         ],
         "quasis": [

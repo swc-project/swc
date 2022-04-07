@@ -125,7 +125,7 @@ class Shard extends _utils.Emitter {
             swcHelpers.classPrivateFieldSet(this, _seq, -1);
             this.session.reset();
         }
-        swcHelpers.classPrivateFieldSet(this, _bucket, new _utils.Bucket(120, 60000));
+        swcHelpers.classPrivateFieldSet(this, _bucket, new _utils.Bucket(120, 6e4));
     }
     connect() {
         /* Step 0 - Check if a connection already exists. If so identify the session. */ if (this.connected) {
@@ -258,7 +258,7 @@ class Shard extends _utils.Emitter {
             this.status = _utils.Status.READY;
             delete this._readyTimeout;
             this.emit(_utils.ShardEvent.FULL_READY, this.expectedGuilds);
-        }, 15000);
+        }, 15e3);
     }
     /**
      * Called whenever the websocket opens.
@@ -400,10 +400,10 @@ class Shard extends _utils.Emitter {
         swcHelpers.classPrivateFieldSet(this, _seq, -1);
         swcHelpers.classPrivateFieldSet(this, _closingSeq, 0);
         swcHelpers.classPrivateFieldSet(this, _queue, []);
-        swcHelpers.classPrivateFieldSet(this, _bucket, new _utils.Bucket(120, 60000, {
+        swcHelpers.classPrivateFieldSet(this, _bucket, new _utils.Bucket(120, 6e4, {
             reservedTokens: 5
         }));
-        swcHelpers.classPrivateFieldSet(this, _presenceBucket, new _utils.Bucket(5, 60000));
+        swcHelpers.classPrivateFieldSet(this, _presenceBucket, new _utils.Bucket(5, 6e4));
     }
 } /**
  * @typedef {Object} DiscordPacket

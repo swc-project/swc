@@ -5,13 +5,15 @@ class A1 {
     }
 }
 var _prop = {
-    get: function() {
-        return "";
-    },
+    get: get_prop,
     set: function(param) {}
 }, _roProp = {
-    get: function() {
-        return "";
-    },
+    get: get_roProp,
     set: void 0
 };
+function get_prop() {
+    return "";
+}
+function get_roProp() {
+    return "";
+}

@@ -677,7 +677,8 @@
                     "end": 319,
                     "ctxt": 0
                   },
-                  "value": 0.0
+                  "value": 0.0,
+                  "raw": "0"
                 },
                 "value": {
                   "type": "StringLiteral",

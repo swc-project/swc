@@ -2270,7 +2270,8 @@
                         "end": 1787,
                         "ctxt": 0
                       },
-                      "value": 0.0
+                      "value": 0.0,
+                      "raw": "0"
                     }
                   },
                   "typeAnnotation": {
@@ -2648,7 +2649,8 @@
                         "end": 1949,
                         "ctxt": 0
                       },
-                      "value": 0.0
+                      "value": 0.0,
+                      "raw": "0"
                     }
                   },
                   "typeAnnotation": {

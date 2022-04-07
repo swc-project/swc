@@ -65,7 +65,8 @@
                       "end": 15,
                       "ctxt": 0
                     },
-                    "value": 0.0
+                    "value": 0.0,
+                    "raw": "0"
                   }
                 ],
                 "quasis": [
@@ -177,7 +178,8 @@
                           "end": 59,
                           "ctxt": 0
                         },
-                        "value": 0.0
+                        "value": 0.0,
+                        "raw": "0"
                       }
                     ],
                     "quasis": [
@@ -229,7 +231,8 @@
                           "end": 83,
                           "ctxt": 0
                         },
-                        "value": 0.0
+                        "value": 0.0,
+                        "raw": "0"
                       }
                     ],
                     "quasis": [
@@ -302,7 +305,8 @@
                         "end": 134,
                         "ctxt": 0
                       },
-                      "value": 0.0
+                      "value": 0.0,
+                      "raw": "0"
                     }
                   ],
                   "quasis": [

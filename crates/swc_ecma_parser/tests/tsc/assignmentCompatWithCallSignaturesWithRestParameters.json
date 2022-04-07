@@ -766,7 +766,8 @@
               "end": 430,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -866,7 +867,8 @@
               "end": 502,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -966,7 +968,8 @@
               "end": 574,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -1044,7 +1047,8 @@
               "end": 625,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -1176,7 +1180,8 @@
               "end": 714,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -1254,7 +1259,8 @@
               "end": 778,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -1332,7 +1338,8 @@
               "end": 864,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -1526,7 +1533,8 @@
               "end": 959,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -1626,7 +1634,8 @@
               "end": 1023,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -1704,7 +1713,8 @@
               "end": 1080,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -1782,7 +1792,8 @@
               "end": 1136,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -1909,7 +1920,8 @@
               "end": 1220,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -2036,7 +2048,8 @@
               "end": 1304,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -2141,7 +2154,8 @@
               "end": 1375,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -2246,7 +2260,8 @@
               "end": 1473,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -2467,7 +2482,8 @@
               "end": 1589,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -2545,7 +2561,8 @@
               "end": 1646,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -2623,7 +2640,8 @@
               "end": 1702,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -2728,7 +2746,8 @@
               "end": 1778,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -2860,7 +2879,8 @@
               "end": 1862,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -2987,7 +3007,8 @@
               "end": 1915,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -3119,7 +3140,8 @@
               "end": 1976,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -3340,7 +3362,8 @@
               "end": 2065,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -3445,7 +3468,8 @@
               "end": 2134,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -3523,7 +3547,8 @@
               "end": 2185,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -3628,7 +3653,8 @@
               "end": 2256,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -3733,7 +3759,8 @@
               "end": 2338,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,
@@ -3860,7 +3887,8 @@
               "end": 2443,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "async": false,
           "generator": false,

@@ -50,7 +50,8 @@
               "end": 77,
               "ctxt": 0
             },
-            "value": 1.0
+            "value": 1.0,
+            "raw": "1"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -87,7 +88,8 @@
               "end": 107,
               "ctxt": 0
             },
-            "value": 2.0
+            "value": 2.0,
+            "raw": "2"
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -151,7 +153,8 @@
               "end": 155,
               "ctxt": 0
             },
-            "value": 42.0
+            "value": 42.0,
+            "raw": "42"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -188,7 +191,8 @@
               "end": 180,
               "ctxt": 0
             },
-            "value": 42.0
+            "value": 42.0,
+            "raw": "42"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -261,7 +265,8 @@
               "end": 242,
               "ctxt": 0
             },
-            "value": 42.0
+            "value": 42.0,
+            "raw": "42"
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -298,7 +303,8 @@
               "end": 274,
               "ctxt": 0
             },
-            "value": 42.0
+            "value": 42.0,
+            "raw": "42"
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -406,7 +412,8 @@
               "end": 368,
               "ctxt": 0
             },
-            "value": 42.0
+            "value": 42.0,
+            "raw": "42"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -443,7 +450,8 @@
               "end": 393,
               "ctxt": 0
             },
-            "value": 42.0
+            "value": 42.0,
+            "raw": "42"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -516,7 +524,8 @@
               "end": 465,
               "ctxt": 0
             },
-            "value": 42.0
+            "value": 42.0,
+            "raw": "42"
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -553,7 +562,8 @@
               "end": 497,
               "ctxt": 0
             },
-            "value": 42.0
+            "value": 42.0,
+            "raw": "42"
           },
           "typeAnnotation": null,
           "isStatic": true,

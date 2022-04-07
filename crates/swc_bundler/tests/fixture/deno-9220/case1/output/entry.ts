@@ -147,7 +147,7 @@ const JpegImage = function jpegImage() {
                 return bitsData >> bitsCount & 1;
             }
             bitsData = data[offset++];
-            if (bitsData === 255) {
+            if (bitsData === 0xFF) {
                 const nextByte = data[offset++];
                 if (nextByte) {
                     throw new Error("unexpected marker: " + (bitsData << 8 | nextByte).toString(16));
@@ -368,10 +368,10 @@ const JpegImage = function jpegImage() {
             }
             bitsCount = 0;
             marker = data[offset] << 8 | data[offset + 1];
-            if (marker < 65280) {
+            if (marker < 0xFF00) {
                 throw new Error("marker was not found");
             }
-            if (marker >= 65488 && marker <= 65495) {
+            if (marker >= 0xFFD0 && marker <= 0xFFD7) {
                 offset += 2;
             } else {
                 break;
@@ -505,7 +505,7 @@ const JpegImage = function jpegImage() {
             }
             for(i = 0; i < 64; ++i){
                 const sample = 128 + (p[i] + 8 >> 4);
-                dataOut[i] = sample < 0 ? 0 : sample > 255 ? 255 : sample;
+                dataOut[i] = sample < 0 ? 0 : sample > 0xFF ? 0xFF : sample;
             }
         }
         let i1, j;
@@ -592,35 +592,35 @@ const JpegImage = function jpegImage() {
             const quantizationTables = [], frames = [];
             const huffmanTablesAC = [], huffmanTablesDC = [];
             let fileMarker = readUint16();
-            if (fileMarker != 65496) {
+            if (fileMarker != 0xFFD8) {
                 throw new Error("SOI not found");
             }
             fileMarker = readUint16();
-            while(fileMarker != 65497){
+            while(fileMarker != 0xFFD9){
                 let i, j;
                 switch(fileMarker){
-                    case 65280:
+                    case 0xFF00:
                         break;
-                    case 65504:
-                    case 65505:
-                    case 65506:
-                    case 65507:
-                    case 65508:
-                    case 65509:
-                    case 65510:
-                    case 65511:
-                    case 65512:
-                    case 65513:
-                    case 65514:
-                    case 65515:
-                    case 65516:
-                    case 65517:
-                    case 65518:
-                    case 65519:
-                    case 65534:
+                    case 0xFFE0:
+                    case 0xFFE1:
+                    case 0xFFE2:
+                    case 0xFFE3:
+                    case 0xFFE4:
+                    case 0xFFE5:
+                    case 0xFFE6:
+                    case 0xFFE7:
+                    case 0xFFE8:
+                    case 0xFFE9:
+                    case 0xFFEA:
+                    case 0xFFEB:
+                    case 0xFFEC:
+                    case 0xFFED:
+                    case 0xFFEE:
+                    case 0xFFEF:
+                    case 0xFFFE:
                         const appData = readDataBlock();
-                        if (fileMarker === 65504) {
-                            if (appData[0] === 74 && appData[1] === 70 && appData[2] === 73 && appData[3] === 70 && appData[4] === 0) {
+                        if (fileMarker === 0xFFE0) {
+                            if (appData[0] === 0x4A && appData[1] === 0x46 && appData[2] === 0x49 && appData[3] === 0x46 && appData[4] === 0) {
                                 jfif = {
                                     version: {
                                         major: appData[5],
@@ -635,8 +635,8 @@ const JpegImage = function jpegImage() {
                                 };
                             }
                         }
-                        if (fileMarker === 65518) {
-                            if (appData[0] === 65 && appData[1] === 100 && appData[2] === 111 && appData[3] === 98 && appData[4] === 101 && appData[5] === 0) {
+                        if (fileMarker === 0xFFEE) {
+                            if (appData[0] === 0x41 && appData[1] === 0x64 && appData[2] === 0x6F && appData[3] === 0x62 && appData[4] === 0x65 && appData[5] === 0) {
                                 adobe = {
                                     version: appData[6],
                                     flags0: appData[7] << 8 | appData[8],
@@ -646,7 +646,7 @@ const JpegImage = function jpegImage() {
                             }
                         }
                         break;
-                    case 65499:
+                    case 0xFFDB:
                         const quantizationTablesLength = readUint16();
                         const quantizationTablesEnd = quantizationTablesLength + offset - 2;
                         while(offset < quantizationTablesEnd){
@@ -668,13 +668,13 @@ const JpegImage = function jpegImage() {
                             quantizationTables[quantizationTableSpec & 15] = tableData;
                         }
                         break;
-                    case 65472:
-                    case 65473:
-                    case 65474:
+                    case 0xFFC0:
+                    case 0xFFC1:
+                    case 0xFFC2:
                         readUint16();
                         frame1 = {};
-                        frame1.extended = fileMarker === 65473;
-                        frame1.progressive = fileMarker === 65474;
+                        frame1.extended = fileMarker === 0xFFC1;
+                        frame1.progressive = fileMarker === 0xFFC2;
                         frame1.precision = data[offset++];
                         frame1.scanLines = readUint16();
                         frame1.samplesPerLine = readUint16();
@@ -697,7 +697,7 @@ const JpegImage = function jpegImage() {
                         prepareComponents(frame1);
                         frames.push(frame1);
                         break;
-                    case 65476:
+                    case 0xFFC4:
                         const huffmanLength = readUint16();
                         for(i = 2; i < huffmanLength;){
                             const huffmanTableSpec = data[offset++];
@@ -714,11 +714,11 @@ const JpegImage = function jpegImage() {
                             (huffmanTableSpec >> 4 === 0 ? huffmanTablesDC : huffmanTablesAC)[huffmanTableSpec & 15] = buildHuffmanTable(codeLengths, huffmanValues);
                         }
                         break;
-                    case 65501:
+                    case 0xFFDD:
                         readUint16();
                         resetInterval = readUint16();
                         break;
-                    case 65498:
+                    case 0xFFDA:
                         readUint16();
                         const selectorsCount = data[offset++];
                         let components = [], component;
@@ -735,13 +735,13 @@ const JpegImage = function jpegImage() {
                         const processed = decodeScan(data, offset, frame1, components, resetInterval, spectralStart, spectralEnd, successiveApproximation >> 4, successiveApproximation & 15);
                         offset += processed;
                         break;
-                    case 65535:
-                        if (data[offset] !== 255) {
+                    case 0xFFFF:
+                        if (data[offset] !== 0xFF) {
                             offset--;
                         }
                         break;
                     default:
-                        if (data[offset - 3] == 255 && data[offset - 2] >= 192 && data[offset - 2] <= 254) {
+                        if (data[offset - 3] == 0xFF && data[offset - 2] >= 0xC0 && data[offset - 2] <= 0xFE) {
                             offset -= 3;
                             break;
                         }

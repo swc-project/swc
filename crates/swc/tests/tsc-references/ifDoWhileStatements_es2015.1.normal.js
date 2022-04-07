@@ -40,9 +40,9 @@ do {}while (null)
 if (undefined) {}
 while(undefined){}
 do {}while (undefined)
-if (0) {}
-while(0){}
-do {}while (0)
+if (0.0) {}
+while(0.0){}
+do {}while (0.0)
 if ('a string') {}
 while('a string'){}
 do {}while ('a string')
@@ -107,7 +107,7 @@ var c = undefined;
 if (c) {}
 while(c){}
 do {}while (c)
-var d = 0;
+var d = 0.0;
 if (d) {}
 while(d){}
 do {}while (d)

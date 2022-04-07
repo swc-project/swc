@@ -119,7 +119,10 @@ pub enum Token {
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     #[kind(starts_expr)]
-    Num(f64),
+    Num {
+        value: f64,
+        raw: JsWord,
+    },
 
     #[kind(starts_expr)]
     BigInt {
@@ -611,10 +614,10 @@ impl Debug for Token {
             PlusPlus => write!(f, "++")?,
             MinusMinus => write!(f, "--")?,
             Tilde => write!(f, "~")?,
-            Str { value, .. } => write!(f, "string literal ({})", value)?,
+            Str { value, raw } => write!(f, "string literal ({}, {})", value, raw)?,
             Regex(exp, flags) => write!(f, "regexp literal ({}, {})", exp, flags)?,
-            Num(..) => write!(f, "numeric literal")?,
-            BigInt { .. } => write!(f, "bigint literal")?,
+            Num { value, raw, .. } => write!(f, "numeric literal ({}, {})", value, raw)?,
+            BigInt { value, raw } => write!(f, "bigint literal ({}, {})", value, raw)?,
             JSXName { name } => write!(f, "jsx name ({})", name)?,
             JSXText { raw } => write!(f, "jsx text ({})", raw)?,
             JSXTagStart => write!(f, "< (jsx tag start)")?,

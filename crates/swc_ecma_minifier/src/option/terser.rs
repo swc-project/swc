@@ -501,6 +501,7 @@ fn value_to_expr(v: Value) -> Box<Expr> {
             Box::new(Expr::Lit(Lit::Num(Number {
                 span: DUMMY_SP,
                 value: v.as_f64().unwrap(),
+                raw: None,
             })))
         }
         Value::String(v) => {

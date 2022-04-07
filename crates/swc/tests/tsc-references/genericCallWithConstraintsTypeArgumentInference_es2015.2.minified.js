@@ -1,7 +1,3 @@
-function foo(t) {
-    return t;
-}
-foo(b), foo(d1);
 var b, d1, d2, i, c = new class {
     foo(t, u) {
         return t;

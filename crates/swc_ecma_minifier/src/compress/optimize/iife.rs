@@ -259,10 +259,12 @@ where
             tracing::trace!("inline: inline_vars_in_node");
         }
 
-        n.visit_mut_with(&mut MultiReplacer {
-            vars: &mut vars,
-            changed: false,
-        });
+        n.visit_mut_with(&mut MultiReplacer::new(
+            &mut vars,
+            false,
+            false,
+            &mut self.changed,
+        ));
     }
 
     /// Fully inlines iife.
@@ -435,10 +437,18 @@ where
                                 exprs.push(arg.expr.take());
                             }
                         }
-                        body.visit_mut_with(&mut MultiReplacer {
-                            vars: &mut self.vars_for_inlining,
-                            changed: false,
-                        });
+                        body.visit_mut_with(&mut MultiReplacer::new(
+                            &mut self.simple_functions,
+                            true,
+                            true,
+                            &mut self.changed,
+                        ));
+                        body.visit_mut_with(&mut MultiReplacer::new(
+                            &mut self.vars_for_inlining,
+                            false,
+                            false,
+                            &mut self.changed,
+                        ));
                         body.visit_mut_with(&mut Remapper { vars: remap });
                         exprs.push(body.take());
 
@@ -543,12 +553,45 @@ where
         self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
     }
 
+    fn is_return_arg_simple_enough_for_iife_eval(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Lit(..) | Expr::Ident(..) => true,
+
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||") | op!("??"),
+                ..
+            }) => false,
+
+            Expr::Bin(e) => {
+                self.is_return_arg_simple_enough_for_iife_eval(&e.left)
+                    && self.is_return_arg_simple_enough_for_iife_eval(&e.right)
+            }
+
+            _ => false,
+        }
+    }
+
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
+        if contains_this_expr(body) || contains_arguments(body) {
+            return false;
+        }
+
+        if body.stmts.len() == 1 {
+            if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) = &body.stmts[0] {
+                if self.is_return_arg_simple_enough_for_iife_eval(arg) {
+                    return true;
+                }
+            }
+        }
+
         // Don't create top-level variables.
         if !param_ids.is_empty() && self.ctx.in_top_level() {
             for pid in param_ids {
                 if let Some(usage) = self.data.vars.get(&pid.to_id()) {
                     if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
+                        if cfg!(feature = "debug") {
+                            tracing::trace!("iife: [x] Cannot inline because of usage of {}", pid);
+                        }
                         return false;
                     }
                 }
@@ -561,6 +604,12 @@ where
 
                 for param in param_ids {
                     if captured.contains(&param.to_id()) {
+                        if cfg!(feature = "debug") {
+                            tracing::trace!(
+                                "iife: [x] Cannot inline because of the capture of {}",
+                                param
+                            );
+                        }
                         return false;
                     }
                 }
@@ -629,10 +678,6 @@ where
             return false;
         }
 
-        if contains_this_expr(body) || contains_arguments(body) {
-            return false;
-        }
-
         true
     }
 
@@ -684,10 +729,18 @@ where
             }
         }
 
-        body.visit_mut_with(&mut MultiReplacer {
-            vars: &mut self.vars_for_inlining,
-            changed: false,
-        });
+        body.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.simple_functions,
+            true,
+            true,
+            &mut self.changed,
+        ));
+        body.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.vars_for_inlining,
+            false,
+            false,
+            &mut self.changed,
+        ));
         body.visit_mut_with(&mut Remapper { vars: remap });
 
         {
@@ -718,12 +771,13 @@ where
         }
 
         for (idx, param) in params.iter().enumerate() {
-            if let Some(arg) = args.get_mut(idx) {
+            let arg = args.get_mut(idx).map(|arg| arg.expr.take());
+            if let Some(arg) = arg {
                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                     op: op!("="),
                     left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
-                    right: arg.expr.take(),
+                    right: arg,
                 })));
             }
         }

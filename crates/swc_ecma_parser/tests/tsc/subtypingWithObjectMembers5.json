@@ -424,7 +424,8 @@
                       "end": 433,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "computed": false,
                   "optional": false,
@@ -496,7 +497,8 @@
                     "end": 486,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1004,7 +1006,8 @@
                       "end": 837,
                       "ctxt": 0
                     },
-                    "value": 1.0
+                    "value": 1.0,
+                    "raw": "1"
                   },
                   "computed": false,
                   "optional": true,
@@ -1076,7 +1079,8 @@
                     "end": 891,
                     "ctxt": 0
                   },
-                  "value": 2.0
+                  "value": 2.0,
+                  "raw": "2"
                 },
                 "value": null,
                 "typeAnnotation": {

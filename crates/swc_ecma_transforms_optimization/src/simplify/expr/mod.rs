@@ -122,6 +122,7 @@ impl SimplifyExpr {
                     *expr = Expr::Lit(Lit::Num(Number {
                         value: value.chars().count() as f64,
                         span: *span,
+                        raw: None,
                     }));
                 }
 
@@ -167,6 +168,7 @@ impl SimplifyExpr {
                     *expr = Expr::Lit(Lit::Num(Number {
                         value: elems.len() as _,
                         span: *span,
+                        raw: None,
                     }));
                 } else if matches!(op, KnownOp::Index(..)) {
                     self.changed = true;
@@ -337,6 +339,7 @@ impl SimplifyExpr {
                             Expr::Lit(Lit::Num(Number {
                                 value: v,
                                 span: *span,
+                                raw: None,
                             })),
                             { iter::once(left.take()).chain(iter::once(right.take())) },
                         );
@@ -404,7 +407,11 @@ impl SimplifyExpr {
                                     let span = *span;
                                     *expr = preserve_effects(
                                         span,
-                                        Expr::Lit(Lit::Num(Number { value: v, span })),
+                                        Expr::Lit(Lit::Num(Number {
+                                            value: v,
+                                            span,
+                                            raw: None,
+                                        })),
                                         iter::once(left.take()).chain(iter::once(right.take())),
                                     );
                                 }
@@ -605,7 +612,11 @@ impl SimplifyExpr {
                         if let Known(value) = self.perform_arithmetic_op(*op, left_rhs, right) {
                             self.changed = true;
                             *left = left_lhs.take();
-                            *right = Box::new(Expr::Lit(Lit::Num(Number { value, span: *span })))
+                            *right = Box::new(Expr::Lit(Lit::Num(Number {
+                                value,
+                                span: *span,
+                                raw: None,
+                            })))
                         }
                     }
                 }
@@ -719,6 +730,7 @@ impl SimplifyExpr {
                         Expr::Lit(Lit::Num(Number {
                             value: v,
                             span: *span,
+                            raw: None,
                         })),
                         iter::once(arg.take()),
                     );
@@ -742,6 +754,7 @@ impl SimplifyExpr {
                     *expr = Expr::Lit(Lit::Num(Number {
                         value: -f,
                         span: *span,
+                        raw: None,
                     }));
                 }
                 _ => {
@@ -760,6 +773,7 @@ impl SimplifyExpr {
                 *arg = Box::new(Expr::Lit(Lit::Num(Number {
                     value: 0.0,
                     span: arg.span(),
+                    raw: None,
                 })));
             }
 
@@ -774,6 +788,7 @@ impl SimplifyExpr {
                             } else {
                                 !(value as u32) as i32 as f64
                             },
+                            raw: None,
                         }));
                     }
                     // TODO: Report error
@@ -994,7 +1009,11 @@ impl SimplifyExpr {
                 self.perform_abstract_eq_cmp(
                     span,
                     left,
-                    &Expr::Lit(Lit::Num(Number { value: rv, span })),
+                    &Expr::Lit(Lit::Num(Number {
+                        value: rv,
+                        span,
+                        raw: None,
+                    })),
                 )
             }
 
@@ -1002,7 +1021,11 @@ impl SimplifyExpr {
                 let lv = try_val!(left.as_number());
                 self.perform_abstract_eq_cmp(
                     span,
-                    &Expr::Lit(Lit::Num(Number { value: lv, span })),
+                    &Expr::Lit(Lit::Num(Number {
+                        value: lv,
+                        span,
+                        raw: None,
+                    })),
                     right,
                 )
             }

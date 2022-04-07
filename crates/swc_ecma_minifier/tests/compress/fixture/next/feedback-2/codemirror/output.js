@@ -188,7 +188,7 @@
     }
     var bidiOrdering = function() {
         function charType(code) {
-            return code <= 247 ? "bbbbbbbbbtstwsbbbbbbbbbbbbbbssstwNN%%%NNNNNN,N,N1111111111NNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNbbbbbbsbbbbbbbbbbbbbbbbbbbbbbbbbb,N%%%%NNNNLNNNNN%%11NLNNN1LNNNNNLLLLLLLLLLLLLLLLLLLLLLLNLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLN".charAt(code) : 1424 <= code && code <= 1524 ? "R" : 1536 <= code && code <= 1785 ? "nnnnnnNNr%%r,rNNmmmmmmmmmmmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmmmmmmmmmmmmmmmnnnnnnnnnn%nnrrrmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmnNmmmmmmrrmmNmmmmrr1111111111".charAt(code - 1536) : 1774 <= code && code <= 2220 ? "r" : 8192 <= code && code <= 8203 ? "w" : 8204 == code ? "b" : "L";
+            return code <= 0xf7 ? "bbbbbbbbbtstwsbbbbbbbbbbbbbbssstwNN%%%NNNNNN,N,N1111111111NNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNNNLLLLLLLLLLLLLLLLLLLLLLLLLLNNNNbbbbbbsbbbbbbbbbbbbbbbbbbbbbbbbbb,N%%%%NNNNLNNNNN%%11NLNNN1LNNNNNLLLLLLLLLLLLLLLLLLLLLLLNLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLN".charAt(code) : 0x590 <= code && code <= 0x5f4 ? "R" : 0x600 <= code && code <= 0x6f9 ? "nnnnnnNNr%%r,rNNmmmmmmmmmmmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmmmmmmmmmmmmmmmnnnnnnnnnn%nnrrrmrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrmmmmmmmnNmmmmmmrrmmNmmmmrr1111111111".charAt(code - 0x600) : 0x6ee <= code && code <= 0x8ac ? "r" : 0x2000 <= code && code <= 0x200b ? "w" : 0x200c == code ? "b" : "L";
         }
         var bidiRE = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/, isNeutral = /[stwN]/, isStrong = /[LRr]/, countsAsLeft = /[Lb1n]/, countsAsNum = /[1n]/;
         function BidiSpan(level, from, to) {
@@ -1468,7 +1468,7 @@
         for(var part = null, closestDist = null, i = 0; i < order.length; i++){
             var p = order[i];
             if (!(p.from >= end) && !(p.to <= begin)) {
-                var endX = measureCharPrepared(cm, preparedMeasure, 1 != p.level ? Math.min(end, p.to) - 1 : Math.max(begin, p.from)).right, dist = endX < x ? x - endX + 1000000000 : endX - x;
+                var endX = measureCharPrepared(cm, preparedMeasure, 1 != p.level ? Math.min(end, p.to) - 1 : Math.max(begin, p.from)).right, dist = endX < x ? x - endX + 1e9 : endX - x;
                 (!part || closestDist > dist) && (part = p, closestDist = dist);
             }
         }
@@ -1646,7 +1646,7 @@
         }
         if (pos.other) {
             var otherCursor = output.appendChild(elt1("div", "\u00a0", "CodeMirror-cursor CodeMirror-secondarycursor"));
-            otherCursor.style.display = "", otherCursor.style.left = pos.other.left + "px", otherCursor.style.top = pos.other.top + "px", otherCursor.style.height = (pos.other.bottom - pos.other.top) * 0.85 + "px";
+            otherCursor.style.display = "", otherCursor.style.left = pos.other.left + "px", otherCursor.style.top = pos.other.top + "px", otherCursor.style.height = (pos.other.bottom - pos.other.top) * .85 + "px";
         }
     }
     function cmpCoords(a, b) {
@@ -1734,7 +1734,7 @@
                     height = box.bottom - box.top, !wrapping && cur.text.firstChild && (width = cur.text.firstChild.getBoundingClientRect().right - box.left - 1);
                 }
                 var diff = cur.line.height - height;
-                if ((diff > 0.005 || diff < -0.005) && (oldHeight < viewTop && (mustScroll -= diff), updateLineHeight(cur.line, height), updateWidgetHeight(cur.line), cur.rest)) for(var j = 0; j < cur.rest.length; j++)updateWidgetHeight(cur.rest[j]);
+                if ((diff > .005 || diff < -0.005) && (oldHeight < viewTop && (mustScroll -= diff), updateLineHeight(cur.line, height), updateWidgetHeight(cur.line), cur.rest)) for(var j = 0; j < cur.rest.length; j++)updateWidgetHeight(cur.rest[j]);
                 if (width > cm.display.sizerWidth) {
                     var chWidth = Math.ceil(width / charWidth(cm.display));
                     chWidth > cm.display.maxLineLength && (cm.display.maxLineLength = chWidth, cm.display.maxLine = cur.line, cm.display.maxLineChanged = !0);
@@ -4520,9 +4520,6 @@
         return initHooks.push(f);
     };
     var lastCopied = null;
-    function setLastCopied(newLastCopied) {
-        lastCopied = newLastCopied;
-    }
     function applyTextInput(cm, inserted, deleted, sel, origin) {
         var doc = cm.doc;
         cm.display.shift = !1, sel || (sel = doc.sel);
@@ -4600,7 +4597,7 @@
                 var next, l, ch = lineObj.text.charCodeAt(pos2.ch + (dir1 > 0 ? 0 : -1));
                 if (isNaN(ch)) next = null;
                 else {
-                    var astral = dir1 > 0 ? ch >= 55296 && ch < 56320 : ch >= 56320 && ch < 57343;
+                    var astral = dir1 > 0 ? ch >= 0xD800 && ch < 0xDC00 : ch >= 0xDC00 && ch < 0xDFFF;
                     next = new Pos(pos2.line, Math.max(0, Math.min(lineObj.text.length, pos2.ch + dir1 * (astral ? 2 : 1))), -dir1);
                 }
             } else next = visually ? function(cm, line, start, dir2) {
@@ -4659,7 +4656,7 @@
     function findPosV(cm, pos, dir, unit) {
         var target, y, doc = cm.doc, x = pos.left;
         if ("page" == unit) {
-            var pageSize = Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight), moveAmount = Math.max(pageSize - 0.5 * textHeight(cm.display), 3);
+            var pageSize = Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight), moveAmount = Math.max(pageSize - .5 * textHeight(cm.display), 3);
             y = (dir > 0 ? pos.bottom : pos.top) + dir * moveAmount;
         } else "line" == unit && (y = dir > 0 ? pos.bottom + 3 : pos.top - 3);
         for(; (target = coordsChar(cm, x, y)).outside;){
@@ -4776,17 +4773,17 @@
         }
         function onCopyCut(e) {
             if (!(!belongsToInput(e) || signalDOMEvent(cm, e))) {
-                if (cm.somethingSelected()) setLastCopied({
+                if (cm.somethingSelected()) lastCopied = {
                     lineWise: !1,
                     text: cm.getSelections()
-                }), "cut" == e.type && cm.replaceSelection("", null, "cut");
+                }, "cut" == e.type && cm.replaceSelection("", null, "cut");
                 else {
                     if (!cm.options.lineWiseCopyCut) return;
                     var ranges = copyableRanges(cm);
-                    setLastCopied({
+                    lastCopied = {
                         lineWise: !0,
                         text: ranges.text
-                    }), "cut" == e.type && cm.operation(function() {
+                    }, "cut" == e.type && cm.operation(function() {
                         cm.setSelections(ranges.ranges, 0, sel_dontScroll), cm.replaceSelection("", null, "cut");
                     });
                 }
@@ -4977,17 +4974,17 @@
         var te = this.textarea;
         function prepareCopyCut(e) {
             if (!signalDOMEvent(cm, e)) {
-                if (cm.somethingSelected()) setLastCopied({
+                if (cm.somethingSelected()) lastCopied = {
                     lineWise: !1,
                     text: cm.getSelections()
-                });
+                };
                 else {
                     if (!cm.options.lineWiseCopyCut) return;
                     var ranges = copyableRanges(cm);
-                    setLastCopied({
+                    lastCopied = {
                         lineWise: !0,
                         text: ranges.text
-                    }), "cut" == e.type ? cm.setSelections(ranges.ranges, null, sel_dontScroll) : (input.prevInput = "", te.value = ranges.text.join("\n"), selectInput(te));
+                    }, "cut" == e.type ? cm.setSelections(ranges.ranges, null, sel_dontScroll) : (input.prevInput = "", te.value = ranges.text.join("\n"), selectInput(te));
                 }
                 "cut" == e.type && (cm.state.cutIncoming = +new Date);
             }
@@ -5074,7 +5071,7 @@
         if (ie && ie_version >= 9 && this.hasSelection === text || mac && /[\uf700-\uf7ff]/.test(text)) return cm.display.input.reset(), !1;
         if (cm.doc.sel == cm.display.selForContextMenu) {
             var first = text.charCodeAt(0);
-            if (8203 != first || prevInput || (prevInput = "\u200b"), 8666 == first) return this.reset(), this.cm.execCommand("undo");
+            if (0x200b != first || prevInput || (prevInput = "\u200b"), 0x21da == first) return this.reset(), this.cm.execCommand("undo");
         }
         for(var same = 0, l = Math.min(prevInput.length, text.length); same < l && prevInput.charCodeAt(same) == text.charCodeAt(same);)++same;
         return runInOp(cm, function() {
@@ -5488,7 +5485,7 @@
         },
         refresh: methodOp(function() {
             var oldHeight = this.display.cachedTextHeight;
-            regChange(this), this.curOp.forceUpdate = !0, clearCaches(this), scrollToCoords(this, this.doc.scrollLeft, this.doc.scrollTop), updateGutterSpace(this.display), (null == oldHeight || Math.abs(oldHeight - textHeight(this.display)) > 0.5 || this.options.lineWrapping) && estimateLineHeights(this), signal(this, "refresh", this);
+            regChange(this), this.curOp.forceUpdate = !0, clearCaches(this), scrollToCoords(this, this.doc.scrollLeft, this.doc.scrollTop), updateGutterSpace(this.display), (null == oldHeight || Math.abs(oldHeight - textHeight(this.display)) > .5 || this.options.lineWrapping) && estimateLineHeights(this), signal(this, "refresh", this);
         }),
         swapDoc: methodOp(function(doc) {
             var old = this.doc;

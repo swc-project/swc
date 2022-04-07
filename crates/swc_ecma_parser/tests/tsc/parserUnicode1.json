@@ -56,7 +56,8 @@
                     "end": 23,
                     "ctxt": 0
                   },
-                  "value": 6.0
+                  "value": 6.0,
+                  "raw": "6"
                 },
                 "definite": false
               }
@@ -94,7 +95,8 @@
                   "end": 40,
                   "ctxt": 0
                 },
-                "value": 6.0
+                "value": 6.0,
+                "raw": "6"
               }
             },
             "consequent": {

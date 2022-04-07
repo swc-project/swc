@@ -103,7 +103,8 @@ fn issue_584() {
                         span,
                         expr: JSXExpr::Expr(Box::new(Expr::Lit(Lit::Num(Number {
                             span,
-                            value: 4.0
+                            value: 4.0,
+                            raw: Some("4".into())
                         }))))
                     })),
                 })],
