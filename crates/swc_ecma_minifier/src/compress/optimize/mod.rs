@@ -192,16 +192,7 @@ struct Optimizer<'a, M> {
     /// Statements appended to the current statement.
     append_stmts: SynthesizedStmts,
 
-    /// Cheap to clone.
-    ///
-    /// Used for inlining.
-    lits: AHashMap<Id, Box<Expr>>,
-
-    /// Used for copying functions.
-    ///
-    /// We use this to distinguish [Callee::Expr] from other [Expr]s.
-    simple_functions: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    vars: Vars,
 
     /// Used for `hoist_props`.
     vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
@@ -226,6 +217,20 @@ struct Optimizer<'a, M> {
     debug_infinite_loop: bool,
 
     functions: FxHashMap<Id, FnMetadata>,
+}
+
+#[derive(Default)]
+struct Vars {
+    /// Cheap to clone.
+    ///
+    /// Used for inlining.
+    lits: AHashMap<Id, Box<Expr>>,
+
+    /// Used for copying functions.
+    ///
+    /// We use this to distinguish [Callee::Expr] from other [Expr]s.
+    simple_functions: FxHashMap<Id, Box<Expr>>,
+    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
 }
 
 impl<M> Repeated for Optimizer<'_, M> {
