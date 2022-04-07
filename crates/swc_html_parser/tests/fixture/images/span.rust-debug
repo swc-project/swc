@@ -28,7 +28,7 @@
  2 | <html>
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/images/input.html:2:1]
  2 | <html>
    : ^^^^^^
@@ -42,7 +42,7 @@
  3 | <body>
    `----
 
-  x StartTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/images/input.html:3:1]
  3 | <body>
    : ^^^^^^
@@ -63,7 +63,7 @@
  5 | <h2>HTML Images</h2>
    `----
 
-  x StartTag { tag_name: Atom('h2' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('h2' type=inline), raw_tag_name: Some(Atom('h2' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    : ^^^^
@@ -135,7 +135,7 @@
    :               ^
    `----
 
-  x EndTag { tag_name: Atom('h2' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('h2' type=inline), raw_tag_name: Some(Atom('h2' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :                ^^^^^
@@ -149,7 +149,7 @@
  6 | <p>HTML images are defined with the img tag:</p>
    `----
 
-  x StartTag { tag_name: Atom('p' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    : ^^^
@@ -401,7 +401,7 @@
    :                                            ^
    `----
 
-  x EndTag { tag_name: Atom('p' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                             ^^^^
@@ -422,9 +422,9 @@
  8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
    `----
 
-  x StartTag { tag_name: Atom('img' type=inline), self_closing: false, attributes: [Attribute { name: Atom('src' type=inline), value: Some(Atom('w3schools.jpg' type=dynamic)) }, Attribute { name:
-  | Atom('alt' type=inline), value: Some(Atom('W3Schools.com' type=dynamic)) }, Attribute { name: Atom('width' type=inline), value: Some(Atom('104' type=inline)) }, Attribute { name: Atom('height'
-  | type=inline), value: Some(Atom('142' type=inline)) }] }
+  x StartTag { tag_name: Atom('img' type=inline), raw_tag_name: Some(Atom('img' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('src' type=inline), value:
+  | Some(Atom('w3schools.jpg' type=dynamic)) }, Attribute { name: Atom('alt' type=inline), value: Some(Atom('W3Schools.com' type=dynamic)) }, Attribute { name: Atom('width' type=inline), value:
+  | Some(Atom('104' type=inline)) }, Attribute { name: Atom('height' type=inline), value: Some(Atom('142' type=inline)) }] }
    ,-[$DIR/tests/fixture/images/input.html:8:1]
  8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -445,7 +445,7 @@
  10 | </body>
     `----
 
-  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/images/input.html:10:1]
  10 | </body>
     : ^^^^^^^
@@ -459,7 +459,7 @@
  11 | </html>
     `----
 
-  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/images/input.html:11:1]
  11 | </html>
     : ^^^^^^^

@@ -16,6 +16,7 @@
       "token": {
         "StartTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": [
             {
@@ -176,6 +177,7 @@
       "token": {
         "EndTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": []
         }
@@ -206,6 +208,7 @@
       "token": {
         "StartTag": {
           "tag_name": "p",
+          "raw_tag_name": "p",
           "self_closing": false,
           "attributes": [
             {
@@ -241,6 +244,7 @@
       "token": {
         "EndTag": {
           "tag_name": "p",
+          "raw_tag_name": "p",
           "self_closing": false,
           "attributes": []
         }
@@ -271,6 +275,7 @@
       "token": {
         "StartTag": {
           "tag_name": "p",
+          "raw_tag_name": "p",
           "self_closing": false,
           "attributes": [
             {
@@ -306,6 +311,7 @@
       "token": {
         "EndTag": {
           "tag_name": "p",
+          "raw_tag_name": "p",
           "self_closing": false,
           "attributes": []
         }
@@ -336,6 +342,7 @@
       "token": {
         "StartTag": {
           "tag_name": "tag",
+          "raw_tag_name": "tag",
           "self_closing": false,
           "attributes": [
             {
@@ -360,6 +367,7 @@
       "token": {
         "EndTag": {
           "tag_name": "tag",
+          "raw_tag_name": "tag",
           "self_closing": false,
           "attributes": []
         }
@@ -390,6 +398,7 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": false,
           "attributes": [
             {
@@ -433,6 +442,7 @@
       "token": {
         "StartTag": {
           "tag_name": "img",
+          "raw_tag_name": "img",
           "self_closing": true,
           "attributes": [
             {

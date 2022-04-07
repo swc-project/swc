@@ -29,13 +29,13 @@
  26 | `-> >
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:1:1]
  1 | <div></div>
    : ^^^^^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:1:1]
  1 | <div></div>
    :      ^^^^^^
@@ -49,25 +49,25 @@
  2 | <div><div></div></div>
    `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:2:1]
  2 | <div><div></div></div>
    : ^^^^^
    `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:2:1]
  2 | <div><div></div></div>
    :      ^^^^^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:2:1]
  2 | <div><div></div></div>
    :           ^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:2:1]
  2 | <div><div></div></div>
    :                 ^^^^^^
@@ -81,25 +81,25 @@
  3 | <div></div><div></div>
    `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:3:1]
  3 | <div></div><div></div>
    : ^^^^^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:3:1]
  3 | <div></div><div></div>
    :      ^^^^^^
    `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:3:1]
  3 | <div></div><div></div>
    :            ^^^^^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:3:1]
  3 | <div></div><div></div>
    :                 ^^^^^^
@@ -113,7 +113,7 @@
  4 | <br>
    `----
 
-  x StartTag { tag_name: Atom('br' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('br' type=inline), raw_tag_name: Some(Atom('br' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:4:1]
  4 | <br>
    : ^^^^
@@ -127,7 +127,7 @@
  5 | <br />
    `----
 
-  x StartTag { tag_name: Atom('br' type=inline), self_closing: true, attributes: [] }
+  x StartTag { tag_name: Atom('br' type=inline), raw_tag_name: Some(Atom('br' type=inline)), self_closing: true, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:5:1]
  5 | <br />
    : ^^^^^^
@@ -141,13 +141,13 @@
  6 | <h:ællæ></h:ællæ>
    `----
 
-  x StartTag { tag_name: Atom('h:ællæ' type=dynamic), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('h:ællæ' type=dynamic), raw_tag_name: Some(Atom('h:ællæ' type=dynamic)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:6:1]
  6 | <h:ællæ></h:ællæ>
    : ^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('h:ællæ' type=dynamic), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('h:ællæ' type=dynamic), raw_tag_name: Some(Atom('h:ællæ' type=dynamic)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:6:1]
  6 | <h:ællæ></h:ællæ>
    :           ^^^^^^^^^^^
@@ -161,13 +161,13 @@
  7 | <html ⚡></html>
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [Attribute { name: Atom('⚡' type=inline), value: None }] }
+  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('⚡' type=inline), value: None }] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:7:1]
  7 | <html ⚡></html>
    : ^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:7:1]
  7 | <html ⚡></html>
    :           ^^^^^^^
@@ -181,25 +181,25 @@
  8 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
    `----
 
-  x StartTag { tag_name: Atom('some-tag-1' type=dynamic), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('some-tag-1' type=dynamic), raw_tag_name: Some(Atom('some-tag-1' type=dynamic)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:8:1]
  8 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
    : ^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('some-tag-1' type=dynamic), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('some-tag-1' type=dynamic), raw_tag_name: Some(Atom('some-tag-1' type=dynamic)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:8:1]
  8 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
    :             ^^^^^^^^^^^^^
    `----
 
-  x StartTag { tag_name: Atom('some-tag-2' type=dynamic), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('some-tag-2' type=dynamic), raw_tag_name: Some(Atom('some-tag-2' type=dynamic)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:8:1]
  8 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
    :                          ^^^^^^^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('some-tag-2' type=dynamic), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('some-tag-2' type=dynamic), raw_tag_name: Some(Atom('some-tag-2' type=dynamic)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:8:1]
  8 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
    :                                      ^^^^^^^^^^^^^
@@ -213,13 +213,14 @@
  9 | <a href="test.html"><div>hey</div></a>
    `----
 
-  x StartTag { tag_name: Atom('a' type=inline), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), value: Some(Atom('test.html' type=dynamic)) }] }
+  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), value: Some(Atom('test.html'
+  | type=dynamic)) }] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:9:1]
  9 | <a href="test.html"><div>hey</div></a>
    : ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:9:1]
  9 | <a href="test.html"><div>hey</div></a>
    :                     ^^^^^
@@ -243,13 +244,13 @@
    :                            ^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:9:1]
  9 | <a href="test.html"><div>hey</div></a>
    :                             ^^^^^^
    `----
 
-  x EndTag { tag_name: Atom('a' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/basic/input.html:9:1]
  9 | <a href="test.html"><div>hey</div></a>
    :                                   ^^^^
@@ -263,19 +264,19 @@
  10 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
     `----
 
-  x StartTag { tag_name: Atom('custom-tag' type=dynamic), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('custom-tag' type=dynamic), raw_tag_name: Some(Atom('CUSTOM-TAG' type=dynamic)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:10:1]
  10 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
     : ^^^^^^^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('custom-tag' type=dynamic), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('custom-tag' type=dynamic), raw_tag_name: Some(Atom('CUSTOM-TAG' type=dynamic)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:10:1]
  10 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
     :             ^^^^^^^^^^^^^
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:10:1]
  10 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
     :                          ^^^^^
@@ -329,7 +330,7 @@
     :                                      ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:10:1]
  10 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
     :                                       ^^^^^^
@@ -343,7 +344,7 @@
  11 | <div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:11:1]
  11 | <div>
     : ^^^^^
@@ -403,7 +404,7 @@
  15 | </div>
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:15:1]
  15 | </div>
     : ^^^^^^
@@ -424,13 +425,14 @@
  17 | <div></div test="a">
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:17:1]
  17 | <div></div test="a">
     : ^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [Attribute { name: Atom('test' type=inline), value: Some(Atom('a' type=inline)) }] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('test' type=inline), value: Some(Atom('a'
+  | type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:17:1]
  17 | <div></div test="a">
     :      ^^^^^^^^^^^^^^^
@@ -444,13 +446,15 @@
  18 | <div data-test="a"></div data-test="a">
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [Attribute { name: Atom('data-test' type=dynamic), value: Some(Atom('a' type=inline)) }] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('data-test' type=dynamic), value:
+  | Some(Atom('a' type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:18:1]
  18 | <div data-test="a"></div data-test="a">
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [Attribute { name: Atom('data-test' type=dynamic), value: Some(Atom('a' type=inline)) }] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('data-test' type=dynamic), value: Some(Atom('a'
+  | type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:18:1]
  18 | <div data-test="a"></div data-test="a">
     :                    ^^^^^^^^^^^^^^^^^^^^
@@ -464,7 +468,8 @@
  19 | <br data-test="a" />
     `----
 
-  x StartTag { tag_name: Atom('br' type=inline), self_closing: true, attributes: [Attribute { name: Atom('data-test' type=dynamic), value: Some(Atom('a' type=inline)) }] }
+  x StartTag { tag_name: Atom('br' type=inline), raw_tag_name: Some(Atom('br' type=inline)), self_closing: true, attributes: [Attribute { name: Atom('data-test' type=dynamic), value: Some(Atom('a'
+  | type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:19:1]
  19 | <br data-test="a" />
     : ^^^^^^^^^^^^^^^^^^^^
@@ -478,7 +483,8 @@
  20 | <br data-test="a" >
     `----
 
-  x StartTag { tag_name: Atom('br' type=inline), self_closing: false, attributes: [Attribute { name: Atom('data-test' type=dynamic), value: Some(Atom('a' type=inline)) }] }
+  x StartTag { tag_name: Atom('br' type=inline), raw_tag_name: Some(Atom('br' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('data-test' type=dynamic), value: Some(Atom('a'
+  | type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:20:1]
  20 | <br data-test="a" >
     : ^^^^^^^^^^^^^^^^^^^
@@ -492,7 +498,8 @@
  21 | <br data-test="a">
     `----
 
-  x StartTag { tag_name: Atom('br' type=inline), self_closing: false, attributes: [Attribute { name: Atom('data-test' type=dynamic), value: Some(Atom('a' type=inline)) }] }
+  x StartTag { tag_name: Atom('br' type=inline), raw_tag_name: Some(Atom('br' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('data-test' type=dynamic), value: Some(Atom('a'
+  | type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:21:1]
  21 | <br data-test="a">
     : ^^^^^^^^^^^^^^^^^^
@@ -506,7 +513,7 @@
  22 | <div
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:22:1]
  22 | ,-> <div
  23 | `-> >
@@ -552,7 +559,7 @@
  25 | </div
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/basic/input.html:25:1]
  25 | ,-> </div
  26 | `-> >

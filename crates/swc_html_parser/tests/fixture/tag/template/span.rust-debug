@@ -30,7 +30,8 @@
  27 | `-> </template>
     `----
 
-  x StartTag { tag_name: Atom('template' type=dynamic), self_closing: false, attributes: [Attribute { name: Atom('id' type=inline), value: Some(Atom('element-details-template' type=dynamic)) }] }
+  x StartTag { tag_name: Atom('template' type=dynamic), raw_tag_name: Some(Atom('template' type=dynamic)), self_closing: false, attributes: [Attribute { name: Atom('id' type=inline), value:
+  | Some(Atom('element-details-template' type=dynamic)) }] }
    ,-[$DIR/tests/fixture/tag/template/input.html:1:1]
  1 | <template id="element-details-template">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -68,7 +69,7 @@
    : ^
    `----
 
-  x StartTag { tag_name: Atom('style' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('style' type=inline), raw_tag_name: Some(Atom('style' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/tag/template/input.html:2:5]
  2 | <style>
    : ^^^^^^^
@@ -3058,7 +3059,7 @@
     : ^
     `----
 
-  x EndTag { tag_name: Atom('style' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('style' type=inline), raw_tag_name: Some(Atom('style' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:15:5]
  15 | </style>
     : ^^^^^^^^
@@ -3096,7 +3097,7 @@
     : ^
     `----
 
-  x StartTag { tag_name: Atom('details' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('details' type=inline), raw_tag_name: Some(Atom('details' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:16:5]
  16 | <details>
     : ^^^^^^^^^
@@ -3158,7 +3159,7 @@
     : ^
     `----
 
-  x StartTag { tag_name: Atom('summary' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('summary' type=inline), raw_tag_name: Some(Atom('summary' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:17:9]
  17 | <summary>
     : ^^^^^^^^^
@@ -3244,7 +3245,8 @@
     : ^
     `----
 
-  x StartTag { tag_name: Atom('code' type=inline), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), value: Some(Atom('name' type=inline)) }] }
+  x StartTag { tag_name: Atom('code' type=inline), raw_tag_name: Some(Atom('code' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), value:
+  | Some(Atom('name' type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
  18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     : ^^^^^^^^^^^^^^^^^^^
@@ -3256,7 +3258,8 @@
     :                    ^^^^
     `----
 
-  x StartTag { tag_name: Atom('slot' type=inline), self_closing: false, attributes: [Attribute { name: Atom('name' type=inline), value: Some(Atom('element-name' type=dynamic)) }] }
+  x StartTag { tag_name: Atom('slot' type=inline), raw_tag_name: Some(Atom('slot' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('name' type=inline), value:
+  | Some(Atom('element-name' type=dynamic)) }] }
     ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
  18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -3316,7 +3319,7 @@
     :                                                          ^
     `----
 
-  x EndTag { tag_name: Atom('slot' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('slot' type=inline), raw_tag_name: Some(Atom('slot' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
  18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                                           ^^^^^^^
@@ -3328,7 +3331,7 @@
     :                                                                  ^^^^
     `----
 
-  x EndTag { tag_name: Atom('code' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('code' type=inline), raw_tag_name: Some(Atom('code' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:18:13]
  18 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                                                      ^^^^^^^
@@ -3414,13 +3417,15 @@
     : ^
     `----
 
-  x StartTag { tag_name: Atom('i' type=inline), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), value: Some(Atom('desc' type=inline)) }] }
+  x StartTag { tag_name: Atom('i' type=inline), raw_tag_name: Some(Atom('i' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), value: Some(Atom('desc'
+  | type=inline)) }] }
     ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
  19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     : ^^^^^^^^^^^^^^^^
     `----
 
-  x StartTag { tag_name: Atom('slot' type=inline), self_closing: false, attributes: [Attribute { name: Atom('name' type=inline), value: Some(Atom('description' type=dynamic)) }] }
+  x StartTag { tag_name: Atom('slot' type=inline), raw_tag_name: Some(Atom('slot' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('name' type=inline), value:
+  | Some(Atom('description' type=dynamic)) }] }
     ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
  19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -3522,13 +3527,13 @@
     :                                                         ^
     `----
 
-  x EndTag { tag_name: Atom('slot' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('slot' type=inline), raw_tag_name: Some(Atom('slot' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
  19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                                                          ^^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('i' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('i' type=inline), raw_tag_name: Some(Atom('i' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:19:13]
  19 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                                                                 ^^^^
@@ -3590,7 +3595,7 @@
     : ^
     `----
 
-  x EndTag { tag_name: Atom('summary' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('summary' type=inline), raw_tag_name: Some(Atom('summary' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:20:9]
  20 | </summary>
     : ^^^^^^^^^^
@@ -3652,7 +3657,8 @@
     : ^
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), value: Some(Atom('attributes' type=dynamic)) }] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('class' type=static), value:
+  | Some(Atom('attributes' type=dynamic)) }] }
     ,-[$DIR/tests/fixture/tag/template/input.html:21:9]
  21 | <div class="attributes">
     : ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -3738,7 +3744,7 @@
     : ^
     `----
 
-  x StartTag { tag_name: Atom('h4' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('h4' type=inline), raw_tag_name: Some(Atom('h4' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
  22 | <h4>Attributes</h4>
     : ^^^^
@@ -3804,7 +3810,7 @@
     :              ^
     `----
 
-  x EndTag { tag_name: Atom('h4' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('h4' type=inline), raw_tag_name: Some(Atom('h4' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:22:13]
  22 | <h4>Attributes</h4>
     :               ^^^^^
@@ -3890,13 +3896,14 @@
     : ^
     `----
 
-  x StartTag { tag_name: Atom('slot' type=inline), self_closing: false, attributes: [Attribute { name: Atom('name' type=inline), value: Some(Atom('attributes' type=dynamic)) }] }
+  x StartTag { tag_name: Atom('slot' type=inline), raw_tag_name: Some(Atom('slot' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('name' type=inline), value:
+  | Some(Atom('attributes' type=dynamic)) }] }
     ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
  23 | <slot name="attributes"><p>None</p></slot>
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x StartTag { tag_name: Atom('p' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
  23 | <slot name="attributes"><p>None</p></slot>
     :                         ^^^
@@ -3926,13 +3933,13 @@
     :                               ^
     `----
 
-  x EndTag { tag_name: Atom('p' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
  23 | <slot name="attributes"><p>None</p></slot>
     :                                ^^^^
     `----
 
-  x EndTag { tag_name: Atom('slot' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('slot' type=inline), raw_tag_name: Some(Atom('slot' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:23:13]
  23 | <slot name="attributes"><p>None</p></slot>
     :                                    ^^^^^^^
@@ -3994,7 +4001,7 @@
     : ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:24:9]
  24 | </div>
     : ^^^^^^
@@ -4032,7 +4039,7 @@
     : ^
     `----
 
-  x EndTag { tag_name: Atom('details' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('details' type=inline), raw_tag_name: Some(Atom('details' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:25:5]
  25 | </details>
     : ^^^^^^^^^^
@@ -4070,7 +4077,7 @@
     : ^
     `----
 
-  x StartTag { tag_name: Atom('hr' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('hr' type=inline), raw_tag_name: Some(Atom('hr' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:26:5]
  26 | <hr>
     : ^^^^
@@ -4084,7 +4091,7 @@
  27 | </template>
     `----
 
-  x EndTag { tag_name: Atom('template' type=dynamic), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('template' type=dynamic), raw_tag_name: Some(Atom('template' type=dynamic)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/tag/template/input.html:27:1]
  27 | </template>
     : ^^^^^^^^^^^

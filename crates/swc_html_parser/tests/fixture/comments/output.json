@@ -72,6 +72,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -132,6 +133,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -175,6 +177,7 @@
       "token": {
         "StartTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
@@ -203,6 +206,7 @@
       "token": {
         "EndTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
@@ -233,6 +237,7 @@
       "token": {
         "StartTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
@@ -396,6 +401,7 @@
       "token": {
         "EndTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
@@ -426,6 +432,7 @@
       "token": {
         "StartTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
@@ -621,6 +628,7 @@
       "token": {
         "EndTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }

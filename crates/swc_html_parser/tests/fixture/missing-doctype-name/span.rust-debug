@@ -25,7 +25,7 @@
  2 | <html>
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:2:1]
  2 | <html>
    : ^^^^^^
@@ -39,7 +39,7 @@
  3 | <body>
    `----
 
-  x StartTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:3:1]
  3 | <body>
    : ^^^^^^
@@ -60,7 +60,8 @@
  5 | <a href=https://www.w3schools.com>This is a link</a>
    `----
 
-  x StartTag { tag_name: Atom('a' type=inline), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), value: Some(Atom('https://www.w3schools.com' type=dynamic)) }] }
+  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), value: Some(Atom('https://
+  | www.w3schools.com' type=dynamic)) }] }
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
  5 | <a href=https://www.w3schools.com>This is a link</a>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -150,7 +151,7 @@
    :                                                ^
    `----
 
-  x EndTag { tag_name: Atom('a' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:5:1]
  5 | <a href=https://www.w3schools.com>This is a link</a>
    :                                                 ^^^^
@@ -171,7 +172,7 @@
  7 | </body>
    `----
 
-  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:7:1]
  7 | </body>
    : ^^^^^^^
@@ -185,7 +186,7 @@
  8 | </html>
    `----
 
-  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:8:1]
  8 | </html>
    : ^^^^^^^

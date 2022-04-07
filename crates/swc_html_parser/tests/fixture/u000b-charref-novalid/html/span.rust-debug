@@ -11,13 +11,14 @@
    : ^^^^^^^^^^^^^^^
    `----
 
-  x StartTag { tag_name: Atom('meta' type=static), self_closing: false, attributes: [Attribute { name: Atom('charset' type=inline), value: Some(Atom('utf-8' type=inline)) }] }
+  x StartTag { tag_name: Atom('meta' type=static), raw_tag_name: Some(Atom('meta' type=static)), self_closing: false, attributes: [Attribute { name: Atom('charset' type=inline), value:
+  | Some(Atom('utf-8' type=inline)) }] }
    ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
    :                ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x StartTag { tag_name: Atom('title' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('title' type=inline), raw_tag_name: Some(Atom('title' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
    :                                    ^^^^^^^
@@ -71,13 +72,13 @@
    :                                                      ^
    `----
 
-  x EndTag { tag_name: Atom('title' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('title' type=inline), raw_tag_name: Some(Atom('title' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
    :                                                       ^^^^^^^^
    `----
 
-  x StartTag { tag_name: Atom('p' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/u000b-charref-novalid/html/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
    :                                                               ^^^

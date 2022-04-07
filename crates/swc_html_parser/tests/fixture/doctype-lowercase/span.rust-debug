@@ -28,7 +28,7 @@
  2 | <html>
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/doctype-lowercase/input.html:2:1]
  2 | <html>
    : ^^^^^^
@@ -42,7 +42,7 @@
  3 | <head>
    `----
 
-  x StartTag { tag_name: Atom('head' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('head' type=inline), raw_tag_name: Some(Atom('head' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/doctype-lowercase/input.html:3:1]
  3 | <head>
    : ^^^^^^
@@ -80,7 +80,7 @@
    : ^
    `----
 
-  x StartTag { tag_name: Atom('title' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('title' type=inline), raw_tag_name: Some(Atom('title' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/doctype-lowercase/input.html:4:5]
  4 | <title>Title of the document</title>
    : ^^^^^^^
@@ -212,7 +212,7 @@
    :                            ^
    `----
 
-  x EndTag { tag_name: Atom('title' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('title' type=inline), raw_tag_name: Some(Atom('title' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/doctype-lowercase/input.html:4:5]
  4 | <title>Title of the document</title>
    :                             ^^^^^^^^
@@ -226,7 +226,7 @@
  5 | </head>
    `----
 
-  x EndTag { tag_name: Atom('head' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('head' type=inline), raw_tag_name: Some(Atom('head' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/doctype-lowercase/input.html:5:1]
  5 | </head>
    : ^^^^^^^
@@ -247,7 +247,7 @@
  7 | <body>
    `----
 
-  x StartTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/doctype-lowercase/input.html:7:1]
  7 | <body>
    : ^^^^^^
@@ -467,7 +467,7 @@
  9 | </body>
    `----
 
-  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/doctype-lowercase/input.html:9:1]
  9 | </body>
    : ^^^^^^^
@@ -488,7 +488,7 @@
  11 | </html>
     `----
 
-  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/doctype-lowercase/input.html:11:1]
  11 | </html>
     : ^^^^^^^

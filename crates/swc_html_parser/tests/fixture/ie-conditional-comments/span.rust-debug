@@ -29,7 +29,7 @@
  2 | <html>
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:2:1]
  2 | <html>
    : ^^^^^^
@@ -43,7 +43,7 @@
  3 | <body>
    `----
 
-  x StartTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:3:1]
  3 | <body>
    : ^^^^^^
@@ -141,7 +141,7 @@
  11 | </body>
     `----
 
-  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:11:1]
  11 | </body>
     : ^^^^^^^
@@ -155,7 +155,7 @@
  12 | </html>
     `----
 
-  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/ie-conditional-comments/input.html:12:1]
  12 | </html>
     : ^^^^^^^

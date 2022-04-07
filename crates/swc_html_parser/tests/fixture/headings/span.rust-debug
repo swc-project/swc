@@ -30,7 +30,7 @@
  2 | <html>
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:2:1]
  2 | <html>
    : ^^^^^^
@@ -44,7 +44,7 @@
  3 | <body>
    `----
 
-  x StartTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:3:1]
  3 | <body>
    : ^^^^^^
@@ -65,7 +65,7 @@
  5 | <h1>This is heading 1</h1>
    `----
 
-  x StartTag { tag_name: Atom('h1' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('h1' type=inline), raw_tag_name: Some(Atom('h1' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    : ^^^^
@@ -173,7 +173,7 @@
    :                     ^
    `----
 
-  x EndTag { tag_name: Atom('h1' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('h1' type=inline), raw_tag_name: Some(Atom('h1' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:5:1]
  5 | <h1>This is heading 1</h1>
    :                      ^^^^^
@@ -187,7 +187,7 @@
  6 | <h2>This is heading 2</h2>
    `----
 
-  x StartTag { tag_name: Atom('h2' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('h2' type=inline), raw_tag_name: Some(Atom('h2' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    : ^^^^
@@ -295,7 +295,7 @@
    :                     ^
    `----
 
-  x EndTag { tag_name: Atom('h2' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('h2' type=inline), raw_tag_name: Some(Atom('h2' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:6:1]
  6 | <h2>This is heading 2</h2>
    :                      ^^^^^
@@ -309,7 +309,7 @@
  7 | <h3>This is heading 3</h3>
    `----
 
-  x StartTag { tag_name: Atom('h3' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('h3' type=inline), raw_tag_name: Some(Atom('h3' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    : ^^^^
@@ -417,7 +417,7 @@
    :                     ^
    `----
 
-  x EndTag { tag_name: Atom('h3' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('h3' type=inline), raw_tag_name: Some(Atom('h3' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:7:1]
  7 | <h3>This is heading 3</h3>
    :                      ^^^^^
@@ -431,7 +431,7 @@
  8 | <h4>This is heading 4</h4>
    `----
 
-  x StartTag { tag_name: Atom('h4' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('h4' type=inline), raw_tag_name: Some(Atom('h4' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    : ^^^^
@@ -539,7 +539,7 @@
    :                     ^
    `----
 
-  x EndTag { tag_name: Atom('h4' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('h4' type=inline), raw_tag_name: Some(Atom('h4' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:8:1]
  8 | <h4>This is heading 4</h4>
    :                      ^^^^^
@@ -553,7 +553,7 @@
  9 | <h5>This is heading 5</h5>
    `----
 
-  x StartTag { tag_name: Atom('h5' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('h5' type=inline), raw_tag_name: Some(Atom('h5' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    : ^^^^
@@ -661,7 +661,7 @@
    :                     ^
    `----
 
-  x EndTag { tag_name: Atom('h5' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('h5' type=inline), raw_tag_name: Some(Atom('h5' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/headings/input.html:9:1]
  9 | <h5>This is heading 5</h5>
    :                      ^^^^^
@@ -675,7 +675,7 @@
  10 | <h6>This is heading 6</h6>
     `----
 
-  x StartTag { tag_name: Atom('h6' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('h6' type=inline), raw_tag_name: Some(Atom('h6' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     : ^^^^
@@ -783,7 +783,7 @@
     :                     ^
     `----
 
-  x EndTag { tag_name: Atom('h6' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('h6' type=inline), raw_tag_name: Some(Atom('h6' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/headings/input.html:10:1]
  10 | <h6>This is heading 6</h6>
     :                      ^^^^^
@@ -804,7 +804,7 @@
  12 | </body>
     `----
 
-  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/headings/input.html:12:1]
  12 | </body>
     : ^^^^^^^
@@ -818,7 +818,7 @@
  13 | </html>
     `----
 
-  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/headings/input.html:13:1]
  13 | </html>
     : ^^^^^^^

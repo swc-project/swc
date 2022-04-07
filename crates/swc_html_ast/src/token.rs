@@ -24,11 +24,13 @@ pub enum Token {
     },
     StartTag {
         tag_name: JsWord,
+        raw_tag_name: Option<JsWord>,
         self_closing: bool,
         attributes: Vec<Attribute>,
     },
     EndTag {
         tag_name: JsWord,
+        raw_tag_name: Option<JsWord>,
         self_closing: bool,
         attributes: Vec<Attribute>,
     },

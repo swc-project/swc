@@ -47,7 +47,7 @@
  9 | <div>test</div>
    `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
  9 | <div>test</div>
    : ^^^^^
@@ -77,7 +77,7 @@
    :         ^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
  9 | <div>test</div>
    :          ^^^^^^

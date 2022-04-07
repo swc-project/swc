@@ -32,6 +32,7 @@
       "token": {
         "StartTag": {
           "tag_name": "meta",
+          "raw_tag_name": "meta",
           "self_closing": false,
           "attributes": [
             {
@@ -52,6 +53,7 @@
       "token": {
         "StartTag": {
           "tag_name": "title",
+          "raw_tag_name": "title",
           "self_closing": false,
           "attributes": []
         }
@@ -157,6 +159,7 @@
       "token": {
         "EndTag": {
           "tag_name": "title",
+          "raw_tag_name": "title",
           "self_closing": false,
           "attributes": []
         }
@@ -172,6 +175,7 @@
       "token": {
         "StartTag": {
           "tag_name": "p",
+          "raw_tag_name": "p",
           "self_closing": false,
           "attributes": []
         }

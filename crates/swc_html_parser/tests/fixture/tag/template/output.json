@@ -16,6 +16,7 @@
       "token": {
         "StartTag": {
           "tag_name": "template",
+          "raw_tag_name": "template",
           "self_closing": false,
           "attributes": [
             {
@@ -111,6 +112,7 @@
       "token": {
         "StartTag": {
           "tag_name": "style",
+          "raw_tag_name": "style",
           "self_closing": false,
           "attributes": []
         }
@@ -7521,6 +7523,7 @@
       "token": {
         "EndTag": {
           "tag_name": "style",
+          "raw_tag_name": "style",
           "self_closing": false,
           "attributes": []
         }
@@ -7611,6 +7614,7 @@
       "token": {
         "StartTag": {
           "tag_name": "details",
+          "raw_tag_name": "details",
           "self_closing": false,
           "attributes": []
         }
@@ -7761,6 +7765,7 @@
       "token": {
         "StartTag": {
           "tag_name": "summary",
+          "raw_tag_name": "summary",
           "self_closing": false,
           "attributes": []
         }
@@ -7971,6 +7976,7 @@
       "token": {
         "StartTag": {
           "tag_name": "code",
+          "raw_tag_name": "code",
           "self_closing": false,
           "attributes": [
             {
@@ -8006,6 +8012,7 @@
       "token": {
         "StartTag": {
           "tag_name": "slot",
+          "raw_tag_name": "slot",
           "self_closing": false,
           "attributes": [
             {
@@ -8161,6 +8168,7 @@
       "token": {
         "EndTag": {
           "tag_name": "slot",
+          "raw_tag_name": "slot",
           "self_closing": false,
           "attributes": []
         }
@@ -8191,6 +8199,7 @@
       "token": {
         "EndTag": {
           "tag_name": "code",
+          "raw_tag_name": "code",
           "self_closing": false,
           "attributes": []
         }
@@ -8401,6 +8410,7 @@
       "token": {
         "StartTag": {
           "tag_name": "i",
+          "raw_tag_name": "i",
           "self_closing": false,
           "attributes": [
             {
@@ -8421,6 +8431,7 @@
       "token": {
         "StartTag": {
           "tag_name": "slot",
+          "raw_tag_name": "slot",
           "self_closing": false,
           "attributes": [
             {
@@ -8681,6 +8692,7 @@
       "token": {
         "EndTag": {
           "tag_name": "slot",
+          "raw_tag_name": "slot",
           "self_closing": false,
           "attributes": []
         }
@@ -8696,6 +8708,7 @@
       "token": {
         "EndTag": {
           "tag_name": "i",
+          "raw_tag_name": "i",
           "self_closing": false,
           "attributes": []
         }
@@ -8846,6 +8859,7 @@
       "token": {
         "EndTag": {
           "tag_name": "summary",
+          "raw_tag_name": "summary",
           "self_closing": false,
           "attributes": []
         }
@@ -8996,6 +9010,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": [
             {
@@ -9211,6 +9226,7 @@
       "token": {
         "StartTag": {
           "tag_name": "h4",
+          "raw_tag_name": "h4",
           "self_closing": false,
           "attributes": []
         }
@@ -9376,6 +9392,7 @@
       "token": {
         "EndTag": {
           "tag_name": "h4",
+          "raw_tag_name": "h4",
           "self_closing": false,
           "attributes": []
         }
@@ -9586,6 +9603,7 @@
       "token": {
         "StartTag": {
           "tag_name": "slot",
+          "raw_tag_name": "slot",
           "self_closing": false,
           "attributes": [
             {
@@ -9606,6 +9624,7 @@
       "token": {
         "StartTag": {
           "tag_name": "p",
+          "raw_tag_name": "p",
           "self_closing": false,
           "attributes": []
         }
@@ -9681,6 +9700,7 @@
       "token": {
         "EndTag": {
           "tag_name": "p",
+          "raw_tag_name": "p",
           "self_closing": false,
           "attributes": []
         }
@@ -9696,6 +9716,7 @@
       "token": {
         "EndTag": {
           "tag_name": "slot",
+          "raw_tag_name": "slot",
           "self_closing": false,
           "attributes": []
         }
@@ -9846,6 +9867,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -9936,6 +9958,7 @@
       "token": {
         "EndTag": {
           "tag_name": "details",
+          "raw_tag_name": "details",
           "self_closing": false,
           "attributes": []
         }
@@ -10026,6 +10049,7 @@
       "token": {
         "StartTag": {
           "tag_name": "hr",
+          "raw_tag_name": "hr",
           "self_closing": false,
           "attributes": []
         }
@@ -10056,6 +10080,7 @@
       "token": {
         "EndTag": {
           "tag_name": "template",
+          "raw_tag_name": "template",
           "self_closing": false,
           "attributes": []
         }

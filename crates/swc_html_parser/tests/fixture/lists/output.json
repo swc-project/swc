@@ -47,6 +47,7 @@
       "token": {
         "StartTag": {
           "tag_name": "html",
+          "raw_tag_name": "html",
           "self_closing": false,
           "attributes": []
         }
@@ -77,6 +78,7 @@
       "token": {
         "StartTag": {
           "tag_name": "body",
+          "raw_tag_name": "body",
           "self_closing": false,
           "attributes": []
         }
@@ -122,6 +124,7 @@
       "token": {
         "StartTag": {
           "tag_name": "h2",
+          "raw_tag_name": "h2",
           "self_closing": false,
           "attributes": []
         }
@@ -467,6 +470,7 @@
       "token": {
         "EndTag": {
           "tag_name": "h2",
+          "raw_tag_name": "h2",
           "self_closing": false,
           "attributes": []
         }
@@ -512,6 +516,7 @@
       "token": {
         "StartTag": {
           "tag_name": "ul",
+          "raw_tag_name": "ul",
           "self_closing": false,
           "attributes": []
         }
@@ -602,6 +607,7 @@
       "token": {
         "StartTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -707,6 +713,7 @@
       "token": {
         "EndTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -797,6 +804,7 @@
       "token": {
         "StartTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -857,6 +865,7 @@
       "token": {
         "EndTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -947,6 +956,7 @@
       "token": {
         "StartTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -1022,6 +1032,7 @@
       "token": {
         "EndTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -1052,6 +1063,7 @@
       "token": {
         "EndTag": {
           "tag_name": "ul",
+          "raw_tag_name": "ul",
           "self_closing": false,
           "attributes": []
         }
@@ -1097,6 +1109,7 @@
       "token": {
         "StartTag": {
           "tag_name": "h2",
+          "raw_tag_name": "h2",
           "self_closing": false,
           "attributes": []
         }
@@ -1412,6 +1425,7 @@
       "token": {
         "EndTag": {
           "tag_name": "h2",
+          "raw_tag_name": "h2",
           "self_closing": false,
           "attributes": []
         }
@@ -1457,6 +1471,7 @@
       "token": {
         "StartTag": {
           "tag_name": "ol",
+          "raw_tag_name": "ol",
           "self_closing": false,
           "attributes": []
         }
@@ -1547,6 +1562,7 @@
       "token": {
         "StartTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -1652,6 +1668,7 @@
       "token": {
         "EndTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -1742,6 +1759,7 @@
       "token": {
         "StartTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -1802,6 +1820,7 @@
       "token": {
         "EndTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -1892,6 +1911,7 @@
       "token": {
         "StartTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -1967,6 +1987,7 @@
       "token": {
         "EndTag": {
           "tag_name": "li",
+          "raw_tag_name": "li",
           "self_closing": false,
           "attributes": []
         }
@@ -1997,6 +2018,7 @@
       "token": {
         "EndTag": {
           "tag_name": "ol",
+          "raw_tag_name": "ol",
           "self_closing": false,
           "attributes": []
         }
@@ -2042,6 +2064,7 @@
       "token": {
         "EndTag": {
           "tag_name": "body",
+          "raw_tag_name": "body",
           "self_closing": false,
           "attributes": []
         }
@@ -2072,6 +2095,7 @@
       "token": {
         "EndTag": {
           "tag_name": "html",
+          "raw_tag_name": "html",
           "self_closing": false,
           "attributes": []
         }

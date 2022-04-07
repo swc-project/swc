@@ -26,7 +26,7 @@
  2 | <html>
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/paragraphs/input.html:2:1]
  2 | <html>
    : ^^^^^^
@@ -40,7 +40,7 @@
  3 | <body>
    `----
 
-  x StartTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/paragraphs/input.html:3:1]
  3 | <body>
    : ^^^^^^
@@ -61,7 +61,7 @@
  5 | <p>This is a paragraph.</p>
    `----
 
-  x StartTag { tag_name: Atom('p' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    : ^^^
@@ -187,7 +187,7 @@
    :                       ^
    `----
 
-  x EndTag { tag_name: Atom('p' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/paragraphs/input.html:5:1]
  5 | <p>This is a paragraph.</p>
    :                        ^^^^
@@ -201,7 +201,7 @@
  6 | <p>This is another paragraph.</p>
    `----
 
-  x StartTag { tag_name: Atom('p' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    : ^^^
@@ -363,7 +363,7 @@
    :                             ^
    `----
 
-  x EndTag { tag_name: Atom('p' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('p' type=inline), raw_tag_name: Some(Atom('p' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/paragraphs/input.html:6:1]
  6 | <p>This is another paragraph.</p>
    :                              ^^^^
@@ -384,7 +384,7 @@
  8 | </body>
    `----
 
-  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/paragraphs/input.html:8:1]
  8 | </body>
    : ^^^^^^^
@@ -398,7 +398,7 @@
  9 | </html>
    `----
 
-  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/paragraphs/input.html:9:1]
  9 | </html>
    : ^^^^^^^

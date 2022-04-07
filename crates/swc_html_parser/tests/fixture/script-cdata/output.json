@@ -16,6 +16,7 @@
       "token": {
         "StartTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": [
             {
@@ -109,6 +110,7 @@
       "token": {
         "EndTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }

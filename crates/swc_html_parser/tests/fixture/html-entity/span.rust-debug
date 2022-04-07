@@ -122,7 +122,7 @@
  2 | <html>
    `----
 
-  x StartTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/html-entity/input.html:2:1]
  2 | <html>
    : ^^^^^^
@@ -136,7 +136,7 @@
  3 | <body>
    `----
 
-  x StartTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/html-entity/input.html:3:1]
  3 | <body>
    : ^^^^^^
@@ -157,7 +157,7 @@
  5 | <h1>HTML Entity Example</h1>
    `----
 
-  x StartTag { tag_name: Atom('h1' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('h1' type=inline), raw_tag_name: Some(Atom('h1' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/html-entity/input.html:5:1]
  5 | <h1>HTML Entity Example</h1>
    : ^^^^
@@ -277,7 +277,7 @@
    :                       ^
    `----
 
-  x EndTag { tag_name: Atom('h1' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('h1' type=inline), raw_tag_name: Some(Atom('h1' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/html-entity/input.html:5:1]
  5 | <h1>HTML Entity Example</h1>
    :                        ^^^^^
@@ -298,7 +298,7 @@
  7 | <div>A space character: &AMP;</div>
    `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/html-entity/input.html:7:1]
  7 | <div>A space character: &AMP;</div>
    : ^^^^^
@@ -424,7 +424,7 @@
    :                         ^^^^^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/html-entity/input.html:7:1]
  7 | <div>A space character: &AMP;</div>
    :                              ^^^^^^
@@ -438,7 +438,7 @@
  8 | <div>A space character: &amp;</div>
    `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/html-entity/input.html:8:1]
  8 | <div>A space character: &amp;</div>
    : ^^^^^
@@ -564,7 +564,7 @@
    :                         ^^^^^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/html-entity/input.html:8:1]
  8 | <div>A space character: &amp;</div>
    :                              ^^^^^^
@@ -578,7 +578,7 @@
  9 | <div>A space character: &amp;;</div>
    `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/html-entity/input.html:9:1]
  9 | <div>A space character: &amp;;</div>
    : ^^^^^
@@ -710,7 +710,7 @@
    :                              ^
    `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
    ,-[$DIR/tests/fixture/html-entity/input.html:9:1]
  9 | <div>A space character: &amp;;</div>
    :                               ^^^^^^
@@ -731,7 +731,7 @@
  11 | <div>A space character: &nbsp;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:11:1]
  11 | <div>A space character: &nbsp;</div>
     : ^^^^^
@@ -857,7 +857,7 @@
     :                         ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:11:1]
  11 | <div>A space character: &nbsp;</div>
     :                               ^^^^^^
@@ -871,7 +871,7 @@
  12 | <div>The less-than sign: &lt;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:12:1]
  12 | <div>The less-than sign: &lt;</div>
     : ^^^^^
@@ -1003,7 +1003,7 @@
     :                          ^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:12:1]
  12 | <div>The less-than sign: &lt;</div>
     :                              ^^^^^^
@@ -1017,7 +1017,7 @@
  13 | <div>The greater-than sign: &gt;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:13:1]
  13 | <div>The greater-than sign: &gt;</div>
     : ^^^^^
@@ -1167,7 +1167,7 @@
     :                             ^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:13:1]
  13 | <div>The greater-than sign: &gt;</div>
     :                                 ^^^^^^
@@ -1181,7 +1181,7 @@
  14 | <div>The double quote sign: &quot;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:14:1]
  14 | <div>The double quote sign: &quot;</div>
     : ^^^^^
@@ -1331,7 +1331,7 @@
     :                             ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:14:1]
  14 | <div>The double quote sign: &quot;</div>
     :                                   ^^^^^^
@@ -1345,7 +1345,7 @@
  15 | <div>The single quote sign: &apos;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:15:1]
  15 | <div>The single quote sign: &apos;</div>
     : ^^^^^
@@ -1495,7 +1495,7 @@
     :                             ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:15:1]
  15 | <div>The single quote sign: &apos;</div>
     :                                   ^^^^^^
@@ -1509,7 +1509,7 @@
  16 | <div>The cent sign: &cent;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:16:1]
  16 | <div>The cent sign: &cent;</div>
     : ^^^^^
@@ -1611,7 +1611,7 @@
     :                     ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:16:1]
  16 | <div>The cent sign: &cent;</div>
     :                           ^^^^^^
@@ -1625,7 +1625,7 @@
  17 | <div>The pound sign: &pound;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:17:1]
  17 | <div>The pound sign: &pound;</div>
     : ^^^^^
@@ -1733,7 +1733,7 @@
     :                      ^^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:17:1]
  17 | <div>The pound sign: &pound;</div>
     :                             ^^^^^^
@@ -1747,7 +1747,7 @@
  18 | <div>The yen sign: &yen;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:18:1]
  18 | <div>The yen sign: &yen;</div>
     : ^^^^^
@@ -1843,7 +1843,7 @@
     :                    ^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:18:1]
  18 | <div>The yen sign: &yen;</div>
     :                         ^^^^^^
@@ -1857,7 +1857,7 @@
  19 | <div>The euro sign: &euro;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:19:1]
  19 | <div>The euro sign: &euro;</div>
     : ^^^^^
@@ -1959,7 +1959,7 @@
     :                     ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:19:1]
  19 | <div>The euro sign: &euro;</div>
     :                           ^^^^^^
@@ -1973,7 +1973,7 @@
  20 | <div>The copyright sign: &copy;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:20:1]
  20 | <div>The copyright sign: &copy;</div>
     : ^^^^^
@@ -2105,7 +2105,7 @@
     :                          ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:20:1]
  20 | <div>The copyright sign: &copy;</div>
     :                                ^^^^^^
@@ -2119,7 +2119,7 @@
  21 | <div>The registered trade mark sign: &reg;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:21:1]
  21 | <div>The registered trade mark sign: &reg;</div>
     : ^^^^^
@@ -2323,7 +2323,7 @@
     :                                      ^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:21:1]
  21 | <div>The registered trade mark sign: &reg;</div>
     :                                           ^^^^^^
@@ -2344,7 +2344,7 @@
  23 | <div>&reg;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:23:1]
  23 | <div>&reg;</div>
     : ^^^^^
@@ -2356,7 +2356,7 @@
     :      ^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:23:1]
  23 | <div>&reg;</div>
     :           ^^^^^^
@@ -2370,7 +2370,7 @@
  24 | <div>&REG;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:24:1]
  24 | <div>&REG;</div>
     : ^^^^^
@@ -2382,7 +2382,7 @@
     :      ^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:24:1]
  24 | <div>&REG;</div>
     :           ^^^^^^
@@ -2396,7 +2396,7 @@
  25 | <div>&reg;;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:25:1]
  25 | <div>&reg;;</div>
     : ^^^^^
@@ -2414,7 +2414,7 @@
     :           ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:25:1]
  25 | <div>&reg;;</div>
     :            ^^^^^^
@@ -2428,7 +2428,7 @@
  26 | <div>&reg</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:26:1]
  26 | <div>&reg</div>
     : ^^^^^
@@ -2440,7 +2440,7 @@
     :      ^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:26:1]
  26 | <div>&reg</div>
     :          ^^^^^^
@@ -2454,7 +2454,7 @@
  27 | <div>reg</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:27:1]
  27 | <div>reg</div>
     : ^^^^^
@@ -2478,7 +2478,7 @@
     :        ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:27:1]
  27 | <div>reg</div>
     :         ^^^^^^
@@ -2499,7 +2499,7 @@
  29 | <div>&CounterClockwiseContourIntegral;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:29:1]
  29 | <div>&CounterClockwiseContourIntegral;</div>
     : ^^^^^
@@ -2511,7 +2511,7 @@
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:29:1]
  29 | <div>&CounterClockwiseContourIntegral;</div>
     :                                       ^^^^^^
@@ -2525,7 +2525,7 @@
  30 | <div>&&reg;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:30:1]
  30 | <div>&&reg;</div>
     : ^^^^^
@@ -2543,7 +2543,7 @@
     :        ^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:30:1]
  30 | <div>&&reg;</div>
     :            ^^^^^^
@@ -2564,7 +2564,7 @@
  32 | <div>An a with a grave accent: a&#768;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
  32 | <div>An a with a grave accent: a&#768;</div>
     : ^^^^^
@@ -2738,7 +2738,7 @@
     :                                 ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:32:1]
  32 | <div>An a with a grave accent: a&#768;</div>
     :                                       ^^^^^^
@@ -2752,7 +2752,7 @@
  33 | <div>An a with an acute accent: a&#769;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
  33 | <div>An a with an acute accent: a&#769;</div>
     : ^^^^^
@@ -2932,7 +2932,7 @@
     :                                  ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:33:1]
  33 | <div>An a with an acute accent: a&#769;</div>
     :                                        ^^^^^^
@@ -2946,7 +2946,7 @@
  34 | <div>An a with a circumflex accent: a&#770;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
  34 | <div>An a with a circumflex accent: a&#770;</div>
     : ^^^^^
@@ -3150,7 +3150,7 @@
     :                                      ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:34:1]
  34 | <div>An a with a circumflex accent: a&#770;</div>
     :                                            ^^^^^^
@@ -3164,7 +3164,7 @@
  35 | <div>An a with a tilde: a&#771;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
  35 | <div>An a with a tilde: a&#771;</div>
     : ^^^^^
@@ -3296,7 +3296,7 @@
     :                          ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:35:1]
  35 | <div>An a with a tilde: a&#771;</div>
     :                                ^^^^^^
@@ -3310,7 +3310,7 @@
  36 | <div>An o with a grave accent: o&#768;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
  36 | <div>An o with a grave accent: o&#768;</div>
     : ^^^^^
@@ -3484,7 +3484,7 @@
     :                                 ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:36:1]
  36 | <div>An o with a grave accent: o&#768;</div>
     :                                       ^^^^^^
@@ -3498,7 +3498,7 @@
  37 | <div>An o with an acute accent: o&#769;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
  37 | <div>An o with an acute accent: o&#769;</div>
     : ^^^^^
@@ -3678,7 +3678,7 @@
     :                                  ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:37:1]
  37 | <div>An o with an acute accent: o&#769;</div>
     :                                        ^^^^^^
@@ -3692,7 +3692,7 @@
  38 | <div>An o with a circumflex accent: o&#770;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
  38 | <div>An o with a circumflex accent: o&#770;</div>
     : ^^^^^
@@ -3896,7 +3896,7 @@
     :                                      ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:38:1]
  38 | <div>An o with a circumflex accent: o&#770;</div>
     :                                            ^^^^^^
@@ -3910,7 +3910,7 @@
  39 | <div>An o with a tilde: o&#771;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
  39 | <div>An o with a tilde: o&#771;</div>
     : ^^^^^
@@ -4042,7 +4042,7 @@
     :                          ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:39:1]
  39 | <div>An o with a tilde: o&#771;</div>
     :                                ^^^^^^
@@ -4063,7 +4063,7 @@
  41 | <div>A space character: &&</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
  41 | <div>A space character: &&</div>
     : ^^^^^
@@ -4195,7 +4195,7 @@
     :                           ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:41:1]
  41 | <div>A space character: &&</div>
     :                            ^^^^^
@@ -4209,7 +4209,7 @@
  42 | <div>I'm &notin; I tell you</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
  42 | <div>I'm &notin; I tell you</div>
     : ^^^^^
@@ -4311,7 +4311,7 @@
     :                           ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:42:1]
  42 | <div>I'm &notin; I tell you</div>
     :                            ^^^^^^
@@ -4325,7 +4325,7 @@
  43 | <div>I'm &not; I tell you</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
  43 | <div>I'm &not; I tell you</div>
     : ^^^^^
@@ -4427,7 +4427,7 @@
     :                         ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:43:1]
  43 | <div>I'm &not; I tell you</div>
     :                          ^^^^^^
@@ -4448,8 +4448,8 @@
  45 | <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
     `----
 
-  x StartTag { tag_name: Atom('a' type=inline), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), value: Some(Atom('http://lmgtfy.com/?l=1&q=rick+roll'
-  | type=dynamic)) }] }
+  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), value: Some(Atom('http://
+  | lmgtfy.com/?l=1&q=rick+roll' type=dynamic)) }] }
     ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
  45 | <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -4515,7 +4515,7 @@
     :                                                           ^
     `----
 
-  x EndTag { tag_name: Atom('a' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
  45 | <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
     :                                                            ^^^^
@@ -4529,8 +4529,8 @@
  46 | <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
     `----
 
-  x StartTag { tag_name: Atom('a' type=inline), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), value: Some(Atom('#' type=inline)) }, Attribute { name: Atom('onclick'
-  | type=inline), value: Some(Atom('window.location='?l=1&q=rick+roll';return false' type=dynamic)) }] }
+  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), value: Some(Atom('#'
+  | type=inline)) }, Attribute { name: Atom('onclick' type=inline), value: Some(Atom('window.location='?l=1&q=rick+roll';return false' type=dynamic)) }] }
     ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
  46 | <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -4630,7 +4630,7 @@
  48 | </a>
     `----
 
-  x EndTag { tag_name: Atom('a' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:48:1]
  48 | </a>
     : ^^^^
@@ -4651,7 +4651,7 @@
  50 | <div>&#x2715;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:50:1]
  50 | <div>&#x2715;</div>
     : ^^^^^
@@ -4663,7 +4663,7 @@
     :      ^^^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:50:1]
  50 | <div>&#x2715;</div>
     :              ^^^^^^
@@ -4677,7 +4677,7 @@
  51 | <div>&#10005;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:51:1]
  51 | <div>&#10005;</div>
     : ^^^^^
@@ -4689,7 +4689,7 @@
     :      ^^^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:51:1]
  51 | <div>&#10005;</div>
     :              ^^^^^^
@@ -4703,7 +4703,7 @@
  52 | <div>✕</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:52:1]
  52 | <div>✕</div>
     : ^^^^^
@@ -4715,7 +4715,7 @@
     :      ^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:52:1]
  52 | <div>✕</div>
     :         ^^^^^^
@@ -4736,7 +4736,7 @@
  54 | <div>&#x24;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:54:1]
  54 | <div>&#x24;</div>
     : ^^^^^
@@ -4748,7 +4748,7 @@
     :      ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:54:1]
  54 | <div>&#x24;</div>
     :            ^^^^^^
@@ -4762,7 +4762,7 @@
  55 | <div>&#36;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:55:1]
  55 | <div>&#36;</div>
     : ^^^^^
@@ -4774,7 +4774,7 @@
     :      ^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:55:1]
  55 | <div>&#36;</div>
     :           ^^^^^^
@@ -4788,7 +4788,7 @@
  56 | <div>&dollar;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:56:1]
  56 | <div>&dollar;</div>
     : ^^^^^
@@ -4800,7 +4800,7 @@
     :      ^^^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:56:1]
  56 | <div>&dollar;</div>
     :              ^^^^^^
@@ -4821,7 +4821,7 @@
  58 | <div>&#q;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:58:1]
  58 | <div>&#q;</div>
     : ^^^^^
@@ -4851,7 +4851,7 @@
     :         ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:58:1]
  58 | <div>&#q;</div>
     :          ^^^^^^
@@ -4865,7 +4865,7 @@
  59 | <div>&#qq;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
  59 | <div>&#qq;</div>
     : ^^^^^
@@ -4901,7 +4901,7 @@
     :          ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:59:1]
  59 | <div>&#qq;</div>
     :           ^^^^^^
@@ -4915,7 +4915,7 @@
  60 | <div>&#qqq;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
  60 | <div>&#qqq;</div>
     : ^^^^^
@@ -4957,7 +4957,7 @@
     :           ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:60:1]
  60 | <div>&#qqq;</div>
     :            ^^^^^^
@@ -4978,7 +4978,7 @@
  62 | <div>&#x24;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:62:1]
  62 | <div>&#x24;</div>
     : ^^^^^
@@ -4990,7 +4990,7 @@
     :      ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:62:1]
  62 | <div>&#x24;</div>
     :            ^^^^^^
@@ -5004,7 +5004,7 @@
  63 | <div>&#X24;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:63:1]
  63 | <div>&#X24;</div>
     : ^^^^^
@@ -5016,7 +5016,7 @@
     :      ^^^^^^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:63:1]
  63 | <div>&#X24;</div>
     :            ^^^^^^
@@ -5037,7 +5037,7 @@
  65 | <div>&#xq;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:65:1]
  65 | <div>&#xq;</div>
     : ^^^^^
@@ -5073,7 +5073,7 @@
     :          ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:65:1]
  65 | <div>&#xq;</div>
     :           ^^^^^^
@@ -5087,7 +5087,7 @@
  66 | <div>&#xqq;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:66:1]
  66 | <div>&#xqq;</div>
     : ^^^^^
@@ -5129,7 +5129,7 @@
     :           ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:66:1]
  66 | <div>&#xqq;</div>
     :            ^^^^^^
@@ -5143,7 +5143,7 @@
  67 | <div>&#xqqq;</div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:67:1]
  67 | <div>&#xqqq;</div>
     : ^^^^^
@@ -5191,7 +5191,7 @@
     :            ^
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:67:1]
  67 | <div>&#xqqq;</div>
     :             ^^^^^^
@@ -5219,7 +5219,7 @@
  70 | <div>
     `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:70:1]
  70 | <div>
     : ^^^^^
@@ -11311,7 +11311,7 @@
  98 | </div>
     `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
     ,-[$DIR/tests/fixture/html-entity/input.html:98:1]
  98 | </div>
     : ^^^^^^
@@ -11332,7 +11332,7 @@
  100 | <div>I'm &notin; I tell you</div>
      `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
      ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
  100 | <div>I'm &notin; I tell you</div>
      : ^^^^^
@@ -11434,7 +11434,7 @@
      :                           ^
      `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
      ,-[$DIR/tests/fixture/html-entity/input.html:100:1]
  100 | <div>I'm &notin; I tell you</div>
      :                            ^^^^^^
@@ -11448,7 +11448,7 @@
  101 | <div>I'm &notit; I tell you</div>
      `----
 
-  x StartTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
      ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
  101 | <div>I'm &notit; I tell you</div>
      : ^^^^^
@@ -11568,7 +11568,7 @@
      :                           ^
      `----
 
-  x EndTag { tag_name: Atom('div' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
      ,-[$DIR/tests/fixture/html-entity/input.html:101:1]
  101 | <div>I'm &notit; I tell you</div>
      :                            ^^^^^^
@@ -11589,7 +11589,7 @@
  103 | </body>
      `----
 
-  x EndTag { tag_name: Atom('body' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('body' type=inline), raw_tag_name: Some(Atom('body' type=inline)), self_closing: false, attributes: [] }
      ,-[$DIR/tests/fixture/html-entity/input.html:103:1]
  103 | </body>
      : ^^^^^^^
@@ -11603,7 +11603,7 @@
  104 | </html>
      `----
 
-  x EndTag { tag_name: Atom('html' type=inline), self_closing: false, attributes: [] }
+  x EndTag { tag_name: Atom('html' type=inline), raw_tag_name: Some(Atom('html' type=inline)), self_closing: false, attributes: [] }
      ,-[$DIR/tests/fixture/html-entity/input.html:104:1]
  104 | </html>
      : ^^^^^^^

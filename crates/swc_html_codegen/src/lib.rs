@@ -87,13 +87,22 @@ where
             }
             Token::StartTag {
                 tag_name,
+                raw_tag_name,
                 attributes,
                 self_closing,
             } => {
                 let mut start_tag = String::new();
 
                 start_tag.push('<');
-                start_tag.push_str(tag_name);
+
+                match raw_tag_name {
+                    Some(raw_tag_name) => {
+                        start_tag.push_str(raw_tag_name);
+                    }
+                    _ => {
+                        start_tag.push_str(tag_name);
+                    }
+                }
 
                 for attribute in attributes {
                     start_tag.push(' ');
@@ -120,13 +129,22 @@ where
             }
             Token::EndTag {
                 tag_name,
+                raw_tag_name,
                 attributes,
                 ..
             } => {
                 let mut start_tag = String::new();
 
                 start_tag.push_str("</");
-                start_tag.push_str(tag_name);
+
+                match raw_tag_name {
+                    Some(raw_tag_name) => {
+                        start_tag.push_str(raw_tag_name);
+                    }
+                    _ => {
+                        start_tag.push_str(tag_name);
+                    }
+                }
 
                 for attribute in attributes {
                     start_tag.push(' ');

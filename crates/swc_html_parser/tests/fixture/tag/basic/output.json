@@ -16,6 +16,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -31,6 +32,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -61,6 +63,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -76,6 +79,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -91,6 +95,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -106,6 +111,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -136,6 +142,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -151,6 +158,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -166,6 +174,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -181,6 +190,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -211,6 +221,7 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": false,
           "attributes": []
         }
@@ -241,6 +252,7 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": true,
           "attributes": []
         }
@@ -271,6 +283,7 @@
       "token": {
         "StartTag": {
           "tag_name": "h:ællæ",
+          "raw_tag_name": "h:ællæ",
           "self_closing": false,
           "attributes": []
         }
@@ -286,6 +299,7 @@
       "token": {
         "EndTag": {
           "tag_name": "h:ællæ",
+          "raw_tag_name": "h:ællæ",
           "self_closing": false,
           "attributes": []
         }
@@ -316,6 +330,7 @@
       "token": {
         "StartTag": {
           "tag_name": "html",
+          "raw_tag_name": "html",
           "self_closing": false,
           "attributes": [
             {
@@ -336,6 +351,7 @@
       "token": {
         "EndTag": {
           "tag_name": "html",
+          "raw_tag_name": "html",
           "self_closing": false,
           "attributes": []
         }
@@ -366,6 +382,7 @@
       "token": {
         "StartTag": {
           "tag_name": "some-tag-1",
+          "raw_tag_name": "some-tag-1",
           "self_closing": false,
           "attributes": []
         }
@@ -381,6 +398,7 @@
       "token": {
         "EndTag": {
           "tag_name": "some-tag-1",
+          "raw_tag_name": "some-tag-1",
           "self_closing": false,
           "attributes": []
         }
@@ -396,6 +414,7 @@
       "token": {
         "StartTag": {
           "tag_name": "some-tag-2",
+          "raw_tag_name": "some-tag-2",
           "self_closing": false,
           "attributes": []
         }
@@ -411,6 +430,7 @@
       "token": {
         "EndTag": {
           "tag_name": "some-tag-2",
+          "raw_tag_name": "some-tag-2",
           "self_closing": false,
           "attributes": []
         }
@@ -441,6 +461,7 @@
       "token": {
         "StartTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": [
             {
@@ -461,6 +482,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -521,6 +543,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -536,6 +559,7 @@
       "token": {
         "EndTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": []
         }
@@ -566,6 +590,7 @@
       "token": {
         "StartTag": {
           "tag_name": "custom-tag",
+          "raw_tag_name": "CUSTOM-TAG",
           "self_closing": false,
           "attributes": []
         }
@@ -581,6 +606,7 @@
       "token": {
         "EndTag": {
           "tag_name": "custom-tag",
+          "raw_tag_name": "CUSTOM-TAG",
           "self_closing": false,
           "attributes": []
         }
@@ -596,6 +622,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -731,6 +758,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -761,6 +789,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -896,6 +925,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -941,6 +971,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -956,6 +987,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": [
             {
@@ -991,6 +1023,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": [
             {
@@ -1011,6 +1044,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": [
             {
@@ -1046,6 +1080,7 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": true,
           "attributes": [
             {
@@ -1081,6 +1116,7 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": false,
           "attributes": [
             {
@@ -1116,6 +1152,7 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": false,
           "attributes": [
             {
@@ -1151,6 +1188,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -1256,6 +1294,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
