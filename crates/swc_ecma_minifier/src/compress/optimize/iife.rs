@@ -716,7 +716,9 @@ where
             }
         }
 
-        self.vars.inline_with_multi_replacer(body);
+        if self.vars.inline_with_multi_replacer(body) {
+            self.changed = true;
+        }
         body.visit_mut_with(&mut Remapper { vars: remap });
 
         {

@@ -2260,7 +2260,9 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        self.vars.inline_with_multi_replacer(stmts);
+        if self.vars.inline_with_multi_replacer(stmts) {
+            self.changed = true;
+        }
 
         drop_invalid_stmts(stmts);
     }
