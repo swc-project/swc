@@ -6,7 +6,7 @@ use std::{
     hash::{Hash, Hasher},
     ops::{Add, Sub},
     path::PathBuf,
-    sync::atomic::{AtomicU32, Ordering},
+    sync::atomic::AtomicU32,
 };
 
 #[cfg(feature = "parking_lot")]
@@ -68,6 +68,7 @@ pub const DUMMY_SP: Span = Span {
 #[derive(Default)]
 pub struct Globals {
     hygiene_data: Mutex<hygiene::HygieneData>,
+    #[allow(unused)]
     dummy_cnt: AtomicU32,
 }
 
@@ -197,6 +198,10 @@ impl FileName {
 pub struct MultiSpan {
     primary_spans: Vec<Span>,
     span_labels: Vec<(Span, String)>,
+}
+
+extern "C" {
+    fn __span_dummy_with_cmt_proxy() -> u32;
 }
 
 impl Span {
@@ -438,14 +443,30 @@ impl Span {
     /// Dummy span, both position are extremely large numbers so they would be
     /// ignore by sourcemap, but can still have comments
     pub fn dummy_with_cmt() -> Self {
-        GLOBALS.with(|globals| {
-            let lo = BytePos(globals.dummy_cnt.fetch_add(1, Ordering::SeqCst));
+        #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
+        {
+            let lo = BytePos(unsafe { __span_dummy_with_cmt_proxy() });
+
+            return Span {
+                lo,
+                hi: lo,
+                ctxt: SyntaxContext::empty(),
+            };
+        }
+
+        #[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
+        return GLOBALS.with(|globals| {
+            let lo = BytePos(
+                globals
+                    .dummy_cnt
+                    .fetch_add(1, std::sync::atomic::Ordering::SeqCst),
+            );
             Span {
                 lo,
                 hi: lo,
                 ctxt: SyntaxContext::empty(),
             }
-        })
+        });
     }
 }
 
