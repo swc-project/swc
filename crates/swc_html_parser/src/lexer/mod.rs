@@ -1,4 +1,3 @@
-// TODO avoid using in future for better AST
 use std::char::REPLACEMENT_CHARACTER;
 
 use once_cell::sync::Lazy;
@@ -4592,7 +4591,7 @@ where
                     let mut entity: Option<&Entity> = None;
                     let mut cur_pos: Option<BytePos> = None;
 
-                    // TODO fix me with surrogate pairs
+                    // TODO fix me with surrogate pairs and in `NumericCharacterReferenceEnd` too
                     while let Some(c) = &self.consume_next_char() {
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(*c);
@@ -4941,7 +4940,6 @@ where
 
                                     0xfffd
                                 }
-                                // TODO fix me
                                 // If the number is a surrogate, then this is a
                                 // surrogate-character-reference parse error. Set the character
                                 // reference code to 0xFFFD.
