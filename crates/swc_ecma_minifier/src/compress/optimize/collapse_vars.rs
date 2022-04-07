@@ -68,7 +68,7 @@ where
                 left.id.span.ctxt
             );
 
-            self.lits.insert(left.to_id(), value);
+            self.vars.lits.insert(left.to_id(), value);
         }
     }
 }

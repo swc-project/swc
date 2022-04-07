@@ -21,6 +21,10 @@ where
         }
 
         if let Pat::Ident(name) = &mut n.name {
+            if self.options.top_retain.contains(&name.id.sym) {
+                return;
+            }
+
             // If a variable is initialized multiple time, we currently don't do anything
             // smart.
             if !self

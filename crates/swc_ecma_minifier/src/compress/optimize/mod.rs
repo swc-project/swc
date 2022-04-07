@@ -18,7 +18,10 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
 use Value::Known;
 
-use self::{unused::PropertyAccessOpts, util::MultiReplacer};
+use self::{
+    unused::PropertyAccessOpts,
+    util::{MultiReplacer, MultiReplacerMode},
+};
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
@@ -71,9 +74,7 @@ where
         options,
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
-        lits: Default::default(),
-        simple_functions: Default::default(),
-        vars_for_inlining: Default::default(),
+        vars: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
@@ -192,16 +193,7 @@ struct Optimizer<'a, M> {
     /// Statements appended to the current statement.
     append_stmts: SynthesizedStmts,
 
-    /// Cheap to clone.
-    ///
-    /// Used for inlining.
-    lits: AHashMap<Id, Box<Expr>>,
-
-    /// Used for copying functions.
-    ///
-    /// We use this to distinguish [Callee::Expr] from other [Expr]s.
-    simple_functions: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    vars: Vars,
 
     /// Used for `hoist_props`.
     vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
@@ -226,6 +218,48 @@ struct Optimizer<'a, M> {
     debug_infinite_loop: bool,
 
     functions: FxHashMap<Id, FnMetadata>,
+}
+
+#[derive(Default)]
+struct Vars {
+    /// Cheap to clone.
+    ///
+    /// Used for inlining.
+    lits: AHashMap<Id, Box<Expr>>,
+
+    /// Used for copying functions.
+    ///
+    /// We use this to distinguish [Callee::Expr] from other [Expr]s.
+    simple_functions: FxHashMap<Id, Box<Expr>>,
+    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+}
+
+impl Vars {
+    fn has_pending_inline_for(&self, id: &Id) -> bool {
+        self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
+    }
+
+    /// Returns true if something is changed.
+    fn inline_with_multi_replacer<N>(&mut self, n: &mut N) -> bool
+    where
+        N: for<'aa> VisitMutWith<MultiReplacer<'aa>>,
+    {
+        let mut changed = false;
+        n.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.simple_functions,
+            true,
+            MultiReplacerMode::OnlyCallee,
+            &mut changed,
+        ));
+        n.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.vars_for_inlining,
+            false,
+            MultiReplacerMode::Normal,
+            &mut changed,
+        ));
+
+        changed
+    }
 }
 
 impl<M> Repeated for Optimizer<'_, M> {
@@ -1935,8 +1969,8 @@ where
         if !self.options.negate_iife {
             // I(kdy1) don't know why this check if required, but there are two test cases
             // with `options.expressions` as only difference.
-            if !self.options.expr {
-                need_ignore_return_value |= self.negate_iife_in_cond(&mut n.expr);
+            if !self.options.expr && self.negate_iife_in_cond(&mut n.expr) {
+                need_ignore_return_value = true
             }
         }
 
@@ -2229,18 +2263,9 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        stmts.visit_mut_with(&mut MultiReplacer::new(
-            &mut self.simple_functions,
-            true,
-            true,
-            &mut self.changed,
-        ));
-        stmts.visit_mut_with(&mut MultiReplacer::new(
-            &mut self.vars_for_inlining,
-            false,
-            false,
-            &mut self.changed,
-        ));
+        if self.vars.inline_with_multi_replacer(stmts) {
+            self.changed = true;
+        }
 
         drop_invalid_stmts(stmts);
     }
@@ -2313,8 +2338,7 @@ where
         n.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = n {
-            if self.lits.contains_key(&i.to_id()) || self.vars_for_inlining.contains_key(&i.to_id())
-            {
+            if self.vars.has_pending_inline_for(&i.to_id()) {
                 let mut e = Box::new(Expr::Ident(i.clone()));
                 e.visit_mut_with(self);
 

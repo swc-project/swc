@@ -629,6 +629,7 @@ hoist_props/issue_2377_3/input.js
 hoist_props/issue_2462/input.js
 hoist_props/issue_2473_1/input.js
 hoist_props/issue_2473_2/input.js
+hoist_props/issue_2473_3/input.js
 hoist_props/issue_2508_3/input.js
 hoist_props/issue_2508_4/input.js
 hoist_props/issue_3071_1/input.js

@@ -190,8 +190,16 @@ pub(crate) struct MultiReplacer<'a> {
     vars: &'a mut FxHashMap<Id, Box<Expr>>,
     changed: bool,
     clone: bool,
-    only_callee: bool,
+    mode: MultiReplacerMode,
     worked: &'a mut bool,
+}
+
+#[repr(u8)]
+#[derive(Debug, Clone, Copy)]
+
+pub enum MultiReplacerMode {
+    Normal,
+    OnlyCallee,
 }
 
 impl<'a> MultiReplacer<'a> {
@@ -199,14 +207,14 @@ impl<'a> MultiReplacer<'a> {
     pub fn new(
         vars: &'a mut FxHashMap<Id, Box<Expr>>,
         clone: bool,
-        only_callee: bool,
+        mode: MultiReplacerMode,
         worked: &'a mut bool,
     ) -> Self {
         MultiReplacer {
             vars,
             changed: false,
             clone,
-            only_callee,
+            mode,
             worked,
         }
     }
@@ -226,7 +234,7 @@ impl VisitMut for MultiReplacer<'_> {
     fn visit_mut_callee(&mut self, e: &mut Callee) {
         e.visit_mut_children_with(self);
 
-        if self.only_callee {
+        if matches!(self.mode, MultiReplacerMode::OnlyCallee) {
             if let Callee::Expr(e) = e {
                 if let Expr::Ident(i) = &**e {
                     if let Some(new) = self.var(&i.to_id()) {
@@ -244,7 +252,7 @@ impl VisitMut for MultiReplacer<'_> {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        if !self.only_callee {
+        if matches!(self.mode, MultiReplacerMode::Normal) {
             if let Expr::Ident(i) = e {
                 if let Some(new) = self.var(&i.to_id()) {
                     debug!("multi-replacer: Replaced `{}`", i);
