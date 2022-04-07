@@ -437,18 +437,9 @@ where
                                 exprs.push(arg.expr.take());
                             }
                         }
-                        body.visit_mut_with(&mut MultiReplacer::new(
-                            &mut self.simple_functions,
-                            true,
-                            true,
-                            &mut self.changed,
-                        ));
-                        body.visit_mut_with(&mut MultiReplacer::new(
-                            &mut self.vars_for_inlining,
-                            false,
-                            false,
-                            &mut self.changed,
-                        ));
+                        if self.vars.inline_with_multi_replacer(body) {
+                            self.changed = true;
+                        }
                         body.visit_mut_with(&mut Remapper { vars: remap });
                         exprs.push(body.take());
 
@@ -549,10 +540,6 @@ where
         }
     }
 
-    fn has_pending_inline_for(&self, id: &Id) -> bool {
-        self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
-    }
-
     fn is_return_arg_simple_enough_for_iife_eval(&self, e: &Expr) -> bool {
         match e {
             Expr::Lit(..) | Expr::Ident(..) => true,
@@ -632,7 +619,7 @@ where
                         ..
                     }) => true,
                     Pat::Ident(id) => {
-                        if self.has_pending_inline_for(&id.to_id()) {
+                        if self.vars.has_pending_inline_for(&id.to_id()) {
                             return true;
                         }
 
@@ -729,18 +716,7 @@ where
             }
         }
 
-        body.visit_mut_with(&mut MultiReplacer::new(
-            &mut self.simple_functions,
-            true,
-            true,
-            &mut self.changed,
-        ));
-        body.visit_mut_with(&mut MultiReplacer::new(
-            &mut self.vars_for_inlining,
-            false,
-            false,
-            &mut self.changed,
-        ));
+        self.vars.inline_with_multi_replacer(body);
         body.visit_mut_with(&mut Remapper { vars: remap });
 
         {

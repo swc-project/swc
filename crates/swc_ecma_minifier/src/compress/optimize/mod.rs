@@ -71,9 +71,7 @@ where
         options,
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
-        lits: Default::default(),
-        simple_functions: Default::default(),
-        vars_for_inlining: Default::default(),
+        vars: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
@@ -231,6 +229,34 @@ struct Vars {
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
     simple_functions: FxHashMap<Id, Box<Expr>>,
     vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+}
+
+impl Vars {
+    fn has_pending_inline_for(&self, id: &Id) -> bool {
+        self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
+    }
+
+    /// Returns true if something is changed.
+    fn inline_with_multi_replacer<N>(&mut self, n: &mut N) -> bool
+    where
+        N: for<'aa> VisitMutWith<MultiReplacer<'aa>>,
+    {
+        let mut changed = false;
+        n.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.simple_functions,
+            true,
+            true,
+            &mut changed,
+        ));
+        n.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.vars_for_inlining,
+            false,
+            false,
+            &mut changed,
+        ));
+
+        changed
+    }
 }
 
 impl<M> Repeated for Optimizer<'_, M> {
@@ -1940,8 +1966,8 @@ where
         if !self.options.negate_iife {
             // I(kdy1) don't know why this check if required, but there are two test cases
             // with `options.expressions` as only difference.
-            if !self.options.expr {
-                need_ignore_return_value |= self.negate_iife_in_cond(&mut n.expr);
+            if !self.options.expr && self.negate_iife_in_cond(&mut n.expr) {
+                need_ignore_return_value = true
             }
         }
 
@@ -2234,18 +2260,7 @@ where
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
-        stmts.visit_mut_with(&mut MultiReplacer::new(
-            &mut self.simple_functions,
-            true,
-            true,
-            &mut self.changed,
-        ));
-        stmts.visit_mut_with(&mut MultiReplacer::new(
-            &mut self.vars_for_inlining,
-            false,
-            false,
-            &mut self.changed,
-        ));
+        self.vars.inline_with_multi_replacer(stmts);
 
         drop_invalid_stmts(stmts);
     }
@@ -2318,8 +2333,7 @@ where
         n.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = n {
-            if self.lits.contains_key(&i.to_id()) || self.vars_for_inlining.contains_key(&i.to_id())
-            {
+            if self.vars.has_pending_inline_for(&i.to_id()) {
                 let mut e = Box::new(Expr::Ident(i.clone()));
                 e.visit_mut_with(self);
 
