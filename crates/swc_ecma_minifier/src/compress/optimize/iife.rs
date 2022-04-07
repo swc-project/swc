@@ -9,7 +9,10 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::VisitMutWith;
 
-use super::{util::MultiReplacer, Optimizer};
+use super::{
+    util::{MultiReplacer, MultiReplacerMode},
+    Optimizer,
+};
 use crate::{
     compress::optimize::{util::Remapper, Ctx},
     debug::dump,
@@ -262,7 +265,7 @@ where
         n.visit_mut_with(&mut MultiReplacer::new(
             &mut vars,
             false,
-            false,
+            MultiReplacerMode::Normal,
             &mut self.changed,
         ));
     }

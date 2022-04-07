@@ -18,7 +18,10 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{span, Level};
 use Value::Known;
 
-use self::{unused::PropertyAccessOpts, util::MultiReplacer};
+use self::{
+    unused::PropertyAccessOpts,
+    util::{MultiReplacer, MultiReplacerMode},
+};
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 use crate::{
     analyzer::{ProgramData, UsageAnalyzer},
@@ -245,13 +248,13 @@ impl Vars {
         n.visit_mut_with(&mut MultiReplacer::new(
             &mut self.simple_functions,
             true,
-            true,
+            MultiReplacerMode::OnlyCallee,
             &mut changed,
         ));
         n.visit_mut_with(&mut MultiReplacer::new(
             &mut self.vars_for_inlining,
             false,
-            false,
+            MultiReplacerMode::Normal,
             &mut changed,
         ));
 
