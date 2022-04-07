@@ -56,6 +56,9 @@
 - **(es/minifier)** Implement more rules for `hoist_props` (#4262) ([1f5cac4](https://github.com/swc-project/swc/commit/1f5cac4d413bc8d035e137d74470469dfd886fa3))
 
 
+- **(es/parser)** Report more errors (#4244) ([674275c](https://github.com/swc-project/swc/commit/674275c8242df111bb9391da13b9869d7e6b6405))
+
+
 - **(html)** Initialize (#4240) ([3e7872c](https://github.com/swc-project/swc/commit/3e7872c8de05ac46ef6ffb99f778ef5b64e47f1b))
 
 
