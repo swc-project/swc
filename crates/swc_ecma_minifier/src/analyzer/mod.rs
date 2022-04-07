@@ -430,8 +430,10 @@ where
         }
 
         for arg in &n.args {
-            if let Expr::Ident(arg) = &*arg.expr {
-                self.data.var_or_default(arg.to_id()).mark_used_as_arg();
+            if arg.spread.is_none() {
+                if let Expr::Ident(arg) = &*arg.expr {
+                    self.data.var_or_default(arg.to_id()).mark_used_as_arg();
+                }
             }
         }
 
