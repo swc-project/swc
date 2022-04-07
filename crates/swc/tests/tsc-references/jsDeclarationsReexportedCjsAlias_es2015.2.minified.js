@@ -1,12 +1,13 @@
+function bar(a) {
+    return a + a;
+}
 class SomeClass {
     a() {
         return 1;
     }
 }
 module.exports = {
-    bar: function(a) {
-        return a + a;
-    },
+    bar,
     SomeClass
 };
 const { SomeClass , SomeClass: Another  } = require('./lib');
