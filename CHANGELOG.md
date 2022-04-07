@@ -7,6 +7,12 @@
 
 - **(plugin)** Align version of `swc_common` to include dummy comment api (#4270) ([fad652f](https://github.com/swc-project/swc/commit/fad652f879d12a1015b4500f0a512232c9433c2d))
 
+### Refactor
+
+
+
+- **(es/minifier)** Merge code for multi-replacer (#4269) ([434dcf4](https://github.com/swc-project/swc/commit/434dcf4af786a7d31827f7b078dea40efc35b64f))
+
 ## [1.2.164] - 2022-04-07
 
 ### Bug Fixes
