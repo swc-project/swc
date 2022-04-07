@@ -5,7 +5,7 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Doctype { name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
+  x Doctype { name: Some(Atom('html' type=inline)), raw_name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    : ^^^^^^^^^^^^^^^

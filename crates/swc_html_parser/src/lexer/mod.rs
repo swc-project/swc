@@ -3408,6 +3408,7 @@ where
                             self.emit_error(ErrorKind::EofInDoctype);
                             self.cur_token = Some(Token::Doctype {
                                 name: None,
+                                raw_name: None,
                                 force_quirks: true,
                                 public_id: None,
                                 system_id: None,
@@ -3444,6 +3445,7 @@ where
                         Some(c) if is_ascii_upper_alpha(c) => {
                             self.cur_token = Some(Token::Doctype {
                                 name: Some(c.to_ascii_lowercase().to_string().into()),
+                                raw_name: Some(c.to_string().into()),
                                 force_quirks: false,
                                 public_id: None,
                                 system_id: None,
@@ -3458,6 +3460,7 @@ where
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.cur_token = Some(Token::Doctype {
                                 name: Some(REPLACEMENT_CHARACTER.to_string().into()),
+                                raw_name: None,
                                 force_quirks: true,
                                 public_id: None,
                                 system_id: None,
@@ -3472,6 +3475,7 @@ where
                             self.emit_error(ErrorKind::MissingDoctypeName);
                             self.cur_token = Some(Token::Doctype {
                                 name: Some(REPLACEMENT_CHARACTER.to_string().into()),
+                                raw_name: None,
                                 force_quirks: true,
                                 public_id: None,
                                 system_id: None,
@@ -3487,6 +3491,7 @@ where
                             self.emit_error(ErrorKind::EofInDoctype);
                             self.cur_token = Some(Token::Doctype {
                                 name: Some(REPLACEMENT_CHARACTER.to_string().into()),
+                                raw_name: None,
                                 force_quirks: true,
                                 public_id: None,
                                 system_id: None,
@@ -3502,6 +3507,7 @@ where
                         Some(c) => {
                             self.cur_token = Some(Token::Doctype {
                                 name: Some(c.to_string().into()),
+                                raw_name: Some(c.to_string().into()),
                                 force_quirks: false,
                                 public_id: None,
                                 system_id: None,
@@ -3533,14 +3539,20 @@ where
                         // to the character's code point) to the current DOCTYPE token's name.
                         Some(c) if is_ascii_upper_alpha(c) => match &mut self.cur_token {
                             Some(Token::Doctype {
-                                name: Some(name), ..
+                                name: Some(name),
+                                raw_name: Some(raw_name),
+                                ..
                             }) => {
                                 let mut new_name = String::new();
+                                let mut new_raw_name = String::new();
 
                                 new_name.push_str(name);
+                                new_raw_name.push_str(raw_name);
                                 new_name.push(c.to_ascii_lowercase());
+                                new_raw_name.push(c);
 
                                 *name = new_name.into();
+                                *raw_name = new_raw_name.into();
                             }
                             _ => {
                                 unreachable!();
@@ -3549,19 +3561,25 @@ where
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Append a U+FFFD
                         // REPLACEMENT CHARACTER character to the current DOCTYPE token's name.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
 
                             match &mut self.cur_token {
                                 Some(Token::Doctype {
-                                    name: Some(name), ..
+                                    name: Some(name),
+                                    raw_name: Some(raw_name),
+                                    ..
                                 }) => {
                                     let mut new_name = String::new();
+                                    let mut new_raw_name = String::new();
 
                                     new_name.push_str(name);
+                                    new_raw_name.push_str(raw_name);
                                     new_name.push(REPLACEMENT_CHARACTER);
+                                    new_raw_name.push(c);
 
                                     *name = new_name.into();
+                                    *raw_name = new_raw_name.into();
                                 }
                                 _ => {
                                     unreachable!();
@@ -3593,14 +3611,20 @@ where
                         // Append the current input character to the current DOCTYPE token's name.
                         Some(c) => match &mut self.cur_token {
                             Some(Token::Doctype {
-                                name: Some(name), ..
+                                name: Some(name),
+                                raw_name: Some(raw_name),
+                                ..
                             }) => {
                                 let mut new_name = String::new();
+                                let mut new_raw_name = String::new();
 
                                 new_name.push_str(name);
+                                new_raw_name.push_str(raw_name);
                                 new_name.push(c);
+                                new_raw_name.push(c);
 
                                 *name = new_name.into();
+                                *raw_name = new_raw_name.into();
                             }
                             _ => {
                                 unreachable!();

@@ -16,6 +16,7 @@
       "token": {
         "Doctype": {
           "name": "html",
+          "raw_name": "html",
           "force_quirks": true,
           "public_id": null,
           "system_id": null

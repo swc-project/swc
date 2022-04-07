@@ -12,7 +12,7 @@
  9 | `-> </html>
    `----
 
-  x Doctype { name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
+  x Doctype { name: Some(Atom('html' type=inline)), raw_name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
    ,-[$DIR/tests/fixture/paragraphs/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^

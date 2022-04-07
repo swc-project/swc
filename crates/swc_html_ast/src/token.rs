@@ -18,10 +18,12 @@ pub struct Attribute {
 pub enum Token {
     Doctype {
         name: Option<JsWord>,
+        raw_name: Option<JsWord>,
         force_quirks: bool,
         public_id: Option<JsWord>,
         system_id: Option<JsWord>,
     },
+    // TODO raw `name` and `value` (with quotes) for attribute
     StartTag {
         tag_name: JsWord,
         raw_tag_name: Option<JsWord>,
