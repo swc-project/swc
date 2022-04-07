@@ -47,7 +47,7 @@ where
 
         // We will inline if possible.
         if let Pat::Ident(i) = &var.name {
-            if i.id.sym == *"arguments" {
+            if i.id.sym == js_word!("arguments") {
                 return;
             }
             if self.options.top_retain.contains(&i.id.sym) {
