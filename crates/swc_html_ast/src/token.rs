@@ -35,6 +35,7 @@ pub enum Token {
     Comment {
         data: JsWord,
     },
+    // TODO add `raw` to get real character from code
     Character {
         value: char,
     },

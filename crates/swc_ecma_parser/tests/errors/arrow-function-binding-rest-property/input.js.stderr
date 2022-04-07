@@ -1,0 +1,36 @@
+
+  x `...` must be followed by an identifier in declaration contexts
+   ,-[$DIR/tests/errors/arrow-function-binding-rest-property/input.js:1:1]
+ 1 | ({...a.b})=>{};
+   :   ^^^^^^
+   `----
+
+  x `...` must be followed by an identifier in declaration contexts
+   ,-[$DIR/tests/errors/arrow-function-binding-rest-property/input.js:2:1]
+ 2 | (a, {...b.c})=>{};
+   :      ^^^^^^
+   `----
+
+  x `...` must be followed by an identifier in declaration contexts
+   ,-[$DIR/tests/errors/arrow-function-binding-rest-property/input.js:4:1]
+ 4 | (...{...{}})=>{};
+   :      ^^^^^
+   `----
+
+  x `...` must be followed by an identifier in declaration contexts
+   ,-[$DIR/tests/errors/arrow-function-binding-rest-property/input.js:5:1]
+ 5 | (a, ...{...{}})=>{};
+   :         ^^^^^
+   `----
+
+  x `...` must be followed by an identifier in declaration contexts
+   ,-[$DIR/tests/errors/arrow-function-binding-rest-property/input.js:7:1]
+ 7 | ([...{...[]}])=>{};
+   :       ^^^^^
+   `----
+
+  x `...` must be followed by an identifier in declaration contexts
+   ,-[$DIR/tests/errors/arrow-function-binding-rest-property/input.js:8:1]
+ 8 | (a, [...{...[]}])=>{};
+   :          ^^^^^
+   `----

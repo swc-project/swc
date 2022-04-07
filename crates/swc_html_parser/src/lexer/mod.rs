@@ -1,7 +1,8 @@
-// TODO avoid using in future for better AST
 use std::char::REPLACEMENT_CHARACTER;
 
-use swc_common::{input::Input, BytePos, Span};
+use once_cell::sync::Lazy;
+use serde::{Deserialize, Serialize};
+use swc_common::{collections::AHashMap, input::Input, BytePos, Span};
 use swc_html_ast::{Attribute, Token, TokenAndSpan};
 
 use crate::{
@@ -57,7 +58,20 @@ where
     }
 }
 
-#[derive(Clone)]
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Entity {
+    codepoints: Vec<u32>,
+    characters: String,
+}
+
+pub static HTML_ENTITIES: Lazy<AHashMap<String, Entity>> = Lazy::new(|| {
+    let entities: AHashMap<String, Entity> = serde_json::from_str(include_str!("./entities.json"))
+        .expect("failed to parse entities.json for html entities");
+
+    entities
+});
+
+#[derive(Debug, Clone)]
 #[allow(unused)]
 enum State {
     Data,
@@ -278,6 +292,33 @@ where
         false
     }
 
+    fn flush_code_point_consumed_as_character_reference(&mut self, c: char) {
+        if self.is_consumed_as_part_of_an_attribute() {
+            if let Some(ref mut token) = self.cur_token {
+                match token {
+                    Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
+                        if let Some(attribute) = attributes.last_mut() {
+                            let mut new_value = String::new();
+
+                            match &attribute.value {
+                                Some(value) => {
+                                    new_value.push_str(value);
+                                    new_value.push(c);
+                                }
+                                None => {}
+                            }
+
+                            attribute.value = Some(new_value.into());
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        } else {
+            self.emit_token(Token::Character { value: c });
+        }
+    }
+
     fn read_token_and_span(&mut self) -> LexResult<TokenAndSpan> {
         loop {
             if !self.pending_tokens.is_empty() {
@@ -291,8 +332,18 @@ where
                         return Ok(token_and_span);
                     }
                 }
-            }
+            } else {
+                if self.input.cur().is_none() {
+                    return Err(ErrorKind::Eof);
+                }
 
+                self.run()?;
+            }
+        }
+    }
+
+    fn run(&mut self) -> LexResult<()> {
+        loop {
             match self.state {
                 // https://html.spec.whatwg.org/multipage/parsing.html#data-state
                 State::Data => {
@@ -321,6 +372,8 @@ where
                         // Emit an end-of-file token.
                         None => {
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -358,6 +411,8 @@ where
                         // Emit an end-of-file token.
                         None => {
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -386,6 +441,8 @@ where
                         // Emit an end-of-file token.
                         None => {
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -414,6 +471,8 @@ where
                         // Emit an end-of-file token.
                         None => {
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -439,6 +498,8 @@ where
                         // Emit an end-of-file token.
                         None => {
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -492,6 +553,8 @@ where
                             self.emit_error(ErrorKind::EofBeforeTagName);
                             self.emit_token(Token::Character { value: '<' });
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is an invalid-first-character-of-tag-name parse error. Emit a U+003C
@@ -536,6 +599,8 @@ where
                             self.emit_token(Token::Character { value: '<' });
                             self.emit_token(Token::Character { value: '/' });
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is an invalid-first-character-of-tag-name parse error. Create a
@@ -629,6 +694,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current tag token's tag name.
@@ -849,6 +916,7 @@ where
                             });
 
                             self.state = State::RawtextEndTagName;
+                            self.reconsume();
                         }
                         // Anything else
                         // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
@@ -1205,6 +1273,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -1245,6 +1315,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Switch to the script data escaped state. Emit the current input character
@@ -1292,6 +1364,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Switch to the script data escaped state. Emit the current input character
@@ -1557,6 +1631,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // end-of-file token. Anything else
                         // Emit the current input character as a character token.
@@ -1600,6 +1676,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Switch to the script data double escaped state. Emit the current input
@@ -1650,6 +1728,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInScriptHtmlCommentLikeText);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Switch to the script data double escaped state. Emit the current input
@@ -1942,6 +2022,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Start a new attribute in the current tag token. Set that attribute name
@@ -2007,7 +2089,29 @@ where
                     match self.consume_next_char() {
                         // U+0022 QUOTATION MARK (")
                         // Switch to the after attribute value (quoted) state.
+                        // We set value to support empty attributes (i.e. `attr=""`)
                         Some('"') => {
+                            if let Some(ref mut token) = self.cur_token {
+                                match token {
+                                    Token::StartTag { attributes, .. }
+                                    | Token::EndTag { attributes, .. } => {
+                                        if let Some(attribute) = attributes.last_mut() {
+                                            let mut new_value = String::new();
+
+                                            match &attribute.value {
+                                                Some(value) => {
+                                                    new_value.push_str(value);
+                                                }
+                                                None => {}
+                                            }
+
+                                            attribute.value = Some(new_value.into());
+                                        }
+                                    }
+                                    _ => {}
+                                }
+                            }
+
                             self.state = State::AfterAttributeValueQuoted;
                         }
                         // U+0026 AMPERSAND (&)
@@ -2051,6 +2155,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current attribute's value.
@@ -2086,7 +2192,29 @@ where
                     match self.consume_next_char() {
                         // U+0027 APOSTROPHE (')
                         // Switch to the after attribute value (quoted) state.
+                        // We set value to support empty attributes (i.e. `attr=''`)
                         Some('\'') => {
+                            if let Some(ref mut token) = self.cur_token {
+                                match token {
+                                    Token::StartTag { attributes, .. }
+                                    | Token::EndTag { attributes, .. } => {
+                                        if let Some(attribute) = attributes.last_mut() {
+                                            let mut new_value = String::new();
+
+                                            match &attribute.value {
+                                                Some(value) => {
+                                                    new_value.push_str(value);
+                                                }
+                                                None => {}
+                                            }
+
+                                            attribute.value = Some(new_value.into());
+                                        }
+                                    }
+                                    _ => {}
+                                }
+                            }
+
                             self.state = State::AfterAttributeValueQuoted;
                         }
                         // U+0026 AMPERSAND (&)
@@ -2130,6 +2258,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current attribute's value.
@@ -2228,6 +2358,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current attribute's value.
@@ -2285,6 +2417,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is a missing-whitespace-between-attributes parse error. Reconsume in
@@ -2324,6 +2458,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInTag);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is an unexpected-solidus-in-tag parse error. Reconsume in the before
@@ -2350,6 +2486,8 @@ where
                         None => {
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Append a U+FFFD
@@ -2568,6 +2706,8 @@ where
                             self.emit_error(ErrorKind::EofInComment);
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
@@ -2648,6 +2788,8 @@ where
                             self.emit_error(ErrorKind::EofInComment);
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append the current input character to the comment token's data.
@@ -2747,6 +2889,7 @@ where
                         // Reconsume in the comment end dash state.
                         _ => {
                             self.state = State::CommentEndDash;
+                            self.reconsume()
                         }
                     }
                 }
@@ -2786,6 +2929,8 @@ where
                             self.emit_error(ErrorKind::EofInComment);
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
@@ -2847,6 +2992,8 @@ where
                             self.emit_error(ErrorKind::EofInComment);
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append two U+002D HYPHEN-MINUS characters (-) to the comment token's
@@ -2912,6 +3059,8 @@ where
                             self.emit_error(ErrorKind::EofInComment);
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION
@@ -2970,6 +3119,8 @@ where
                             });
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is a missing-whitespace-before-doctype-name parse error. Reconsume
@@ -3047,6 +3198,8 @@ where
                             });
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Create a new DOCTYPE token. Set the token's name to the current input
@@ -3138,6 +3291,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current DOCTYPE token's name.
@@ -3192,6 +3347,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // If the six characters starting from the current input character are an
@@ -3340,6 +3497,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-public-identifier parse error. Set
@@ -3442,6 +3601,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-public-identifier parse error. Set
@@ -3534,6 +3695,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current DOCTYPE token's public
@@ -3626,6 +3789,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current DOCTYPE token's public
@@ -3722,6 +3887,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-system-identifier parse error. Set
@@ -3810,6 +3977,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-system-identifier parse error. Set
@@ -3919,6 +4088,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-system-identifier parse error. Set
@@ -4012,6 +4183,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is a missing-quote-before-doctype-system-identifier parse error. Set
@@ -4104,6 +4277,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current DOCTYPE token's system
@@ -4196,6 +4371,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Append the current input character to the current DOCTYPE token's system
@@ -4252,6 +4429,8 @@ where
 
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // This is an unexpected-character-after-doctype-system-identifier parse
@@ -4287,6 +4466,8 @@ where
                         None => {
                             self.emit_cur_token();
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Ignore the character.
@@ -4307,6 +4488,8 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInCdata);
                             self.emit_token(Token::Eof);
+
+                            return Ok(());
                         }
                         // Anything else
                         // Emit the current input character as a character token.
@@ -4386,20 +4569,66 @@ where
                         // Flush code points consumed as a character reference. Reconsume in the
                         // return state.
                         _ => {
-                            // TODO fix me
+                            if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                                for c in temporary_buffer.drain(..) {
+                                    self.flush_code_point_consumed_as_character_reference(c);
+                                }
+                            }
 
                             self.state = self.return_state.clone();
+                            self.reconsume();
                         }
                     }
                 }
                 // https://html.spec.whatwg.org/multipage/parsing.html#named-character-reference-state
                 State::NamedCharacterReference => {
-                    // TODO fix me
-                    let is_matched = true;
+                    // Consume the maximum number of characters possible, where the consumed
+                    // characters are one of the identifiers in the first column of the named
+                    // character references table. Append each character to the temporary buffer
+                    // when it's consumed.
+                    // The shortest entity - `&GT`
+                    // The longest entity - `&CounterClockwiseContourIntegral;`
+                    let mut entity: Option<&Entity> = None;
+                    let mut cur_pos: Option<BytePos> = None;
+
+                    // TODO fix me with surrogate pairs and in `NumericCharacterReferenceEnd` too
+                    while let Some(c) = &self.consume_next_char() {
+                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
+                            temporary_buffer.push(*c);
+
+                            let found_entity = HTML_ENTITIES.get(temporary_buffer);
+
+                            if let Some(found_entity) = found_entity {
+                                cur_pos = Some(self.input.cur_pos());
+
+                                entity = Some(found_entity);
+                            }
+
+                            // We stop when:
+                            // - not ascii alphabetic
+                            // - we consume more characters them the longest entity
+                            if !c.is_ascii_alphabetic() || temporary_buffer.len() > 33 {
+                                if let Some(cur_pos) = cur_pos {
+                                    self.input.reset_to(cur_pos);
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    let is_last_semicolon =
+                        matches!(&self.temporary_buffer, Some(value) if value.ends_with(';'));
 
                     // If there is a match
-                    match is_matched {
-                        true => {
+                    match entity {
+                        Some(entity) => {
+                            let is_next_equals_sign_or_ascii_alphanumeric = match self.next() {
+                                Some('=') => true,
+                                Some(c) if c.is_ascii_alphanumeric() => true,
+                                _ => false,
+                            };
+
                             // If the character reference was consumed as part of an attribute, and
                             // the last character matched is not a
                             // U+003B SEMICOLON character (;), and the next input
@@ -4407,7 +4636,16 @@ where
                             // alphanumeric, then, for historical reasons, flush code points
                             // consumed as a character reference and
                             // switch to the return state.
-                            if self.is_consumed_as_part_of_an_attribute() {
+                            if self.is_consumed_as_part_of_an_attribute()
+                                && !is_last_semicolon
+                                && is_next_equals_sign_or_ascii_alphanumeric
+                            {
+                                if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                                    for c in temporary_buffer.drain(..) {
+                                        self.flush_code_point_consumed_as_character_reference(c);
+                                    }
+                                }
+
                                 self.state = self.return_state.clone();
                             }
                             // Otherwise:
@@ -4424,26 +4662,34 @@ where
                             // Flush code points consumed as a character reference. Switch to the
                             // return state.
                             else {
-                                // TODO fix me
-                                let is_last_semicolon = false;
-
                                 if is_last_semicolon {
                                     self.emit_error(
                                         ErrorKind::MissingSemicolonAfterCharacterReference,
                                     );
                                 }
 
-                                self.temporary_buffer = Some("".into());
+                                let mut temporary_buffer = String::new();
 
-                                // TODO fix me
+                                temporary_buffer.push_str(&entity.characters);
 
+                                for c in temporary_buffer.drain(..) {
+                                    self.flush_code_point_consumed_as_character_reference(c);
+                                }
+
+                                self.temporary_buffer = Some(temporary_buffer);
                                 self.state = self.return_state.clone();
                             }
                         }
                         // Otherwise
                         // Flush code points consumed as a character reference. Switch to the
                         // ambiguous ampersand state.
-                        false => {
+                        _ => {
+                            if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                                for c in temporary_buffer.drain(..) {
+                                    self.flush_code_point_consumed_as_character_reference(c);
+                                }
+                            }
+
                             self.state = State::AmbiguousAmpersand;
                         }
                     }
@@ -4542,7 +4788,11 @@ where
                         _ => {
                             self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
 
-                            // TODO fix me
+                            if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                                for c in temporary_buffer.drain(..) {
+                                    self.flush_code_point_consumed_as_character_reference(c);
+                                }
+                            }
 
                             self.state = self.return_state.clone();
                             self.reconsume();
@@ -4566,7 +4816,11 @@ where
                         _ => {
                             self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
 
-                            // TODO fix me
+                            if let Some(mut temporary_buffer) = self.temporary_buffer.clone() {
+                                for c in temporary_buffer.drain(..) {
+                                    self.flush_code_point_consumed_as_character_reference(c);
+                                }
+                            }
 
                             self.state = self.return_state.clone();
                             self.reconsume();
@@ -4665,42 +4919,143 @@ where
                 State::NumericCharacterReferenceEnd => {
                     // Check the character reference code:
                     match self.character_reference_code {
-                        // If the number is 0x00, then this is a null-character-reference parse
-                        // error. Set the character reference code to 0xFFFD.
-                        Some(0) => {
-                            self.emit_error(ErrorKind::NullCharacterReference);
+                        Some(cr) => {
+                            let cr = match cr {
+                                // If the number is 0x00, then this is a null-character-reference
+                                // parse error. Set the character
+                                // reference code to 0xFFFD.
+                                0 => {
+                                    self.emit_error(ErrorKind::NullCharacterReference);
 
-                            self.character_reference_code = Some('\u{FFFD}' as u32);
-                        }
-                        // If the number is greater than 0x10FFFF, then this is a
-                        // character-reference-outside-unicode-range parse error. Set the character
-                        // reference code to 0xFFFD.
-                        Some(c) if c > '\u{10FFFF}' as u32 => {
-                            self.emit_error(ErrorKind::CharacterReferenceOutsideUnicodeRange);
+                                    0xfffd
+                                }
+                                // If the number is greater than 0x10FFFF, then this is a
+                                // character-reference-outside-unicode-range parse error. Set the
+                                // character reference code to
+                                // 0xFFFD.
+                                cr if cr > 0x10ffff => {
+                                    self.emit_error(
+                                        ErrorKind::CharacterReferenceOutsideUnicodeRange,
+                                    );
 
-                            self.character_reference_code = Some('\u{FFFD}' as u32);
+                                    0xfffd
+                                }
+                                // If the number is a surrogate, then this is a
+                                // surrogate-character-reference parse error. Set the character
+                                // reference code to 0xFFFD.
+                                //
+                                // If the number is a noncharacter, then this is a
+                                // noncharacter-character-reference parse error.
+                                cr if is_noncharacter(cr) => {
+                                    self.emit_error(ErrorKind::NoncharacterCharacterReference);
+
+                                    cr
+                                }
+                                // If the number is 0x0D, or a control that's not ASCII whitespace,
+                                // then
+                                // this is a control-character-reference parse error. If the number
+                                // is one of the numbers in the
+                                // first column of the following table, then find the
+                                // row with that number in the first column, and set the character
+                                // reference code to the number in
+                                // the second column of that row.
+                                cr if cr == 0x0d || is_control(cr) => {
+                                    self.emit_error(ErrorKind::ControlCharacterReference);
+
+                                    match cr {
+                                        // 0x80	0x20AC	EURO SIGN (€)
+                                        0x80 => 0x20ac,
+                                        // 0x82	0x201A	SINGLE LOW-9 QUOTATION MARK (‚)
+                                        0x82 => 0x201a,
+                                        // 0x83	0x0192	LATIN SMALL LETTER F WITH HOOK (ƒ)
+                                        0x83 => 0x0192,
+                                        // 0x84	0x201E	DOUBLE LOW-9 QUOTATION MARK („)
+                                        0x84 => 0x201e,
+                                        // 0x85	0x2026	HORIZONTAL ELLIPSIS (…)
+                                        0x85 => 0x2026,
+                                        // 0x86	0x2020	DAGGER (†)
+                                        0x86 => 0x2020,
+                                        // 0x87	0x2021	DOUBLE DAGGER (‡)
+                                        0x87 => 0x2021,
+                                        // 0x88	0x02C6	MODIFIER LETTER CIRCUMFLEX ACCENT (ˆ)
+                                        0x88 => 0x02c6,
+                                        // 0x89	0x2030	PER MILLE SIGN (‰)
+                                        0x89 => 0x2030,
+                                        // 0x8A	0x0160	LATIN CAPITAL LETTER S WITH CARON (Š)
+                                        0x8a => 0x0160,
+                                        // 0x8B	0x2039	SINGLE LEFT-POINTING ANGLE QUOTATION MARK (‹)
+                                        0x8b => 0x2039,
+                                        // 0x8C	0x0152	LATIN CAPITAL LIGATURE OE (Œ)
+                                        0x8c => 0x0152,
+                                        // 0x8E	0x017D	LATIN CAPITAL LETTER Z WITH CARON (Ž)
+                                        0x8e => 0x017d,
+                                        // 0x91	0x2018	LEFT SINGLE QUOTATION MARK (‘)
+                                        0x91 => 0x2018,
+                                        // 0x92	0x2018	RIGHT SINGLE QUOTATION MARK (’)
+                                        0x92 => 0x2019,
+                                        // 0x93	0x201C	LEFT DOUBLE QUOTATION MARK (“)
+                                        0x93 => 0x201c,
+                                        // 0x94	0x201D	RIGHT DOUBLE QUOTATION MARK (”)
+                                        0x94 => 0x201d,
+                                        // 0x95	0x2022	BULLET (•)
+                                        0x95 => 0x2022,
+                                        // 0x96	0x2013	EN DASH (–)
+                                        0x96 => 0x2013,
+                                        // 0x97	0x2014	EM DASH (—)
+                                        0x97 => 0x2014,
+                                        // 0x98	0x02DC	SMALL TILDE (˜)
+                                        0x98 => 0x02dc,
+                                        // 0x99	0x2122	TRADE MARK SIGN (™)
+                                        0x99 => 0x2122,
+                                        // 0x9A	0x0161	LATIN SMALL LETTER S WITH CARON (š)
+                                        0x9a => 0x0161,
+                                        // 0x9B	0x203A	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (›)
+                                        0x9b => 0x203a,
+                                        // 0x9C	0x0153	LATIN SMALL LIGATURE OE (œ)
+                                        0x9c => 0x0153,
+                                        // 0x9E	0x017E	LATIN SMALL LETTER Z WITH CARON (ž)
+                                        0x9e => 0x017e,
+                                        // 0x9F	0x0178	LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
+                                        0x9f => 0x0178,
+                                        _ => cr,
+                                    }
+                                }
+                                _ => cr,
+                            };
+
+                            // Set the temporary buffer to the empty string. Append a code point
+                            // equal to the character reference
+                            // code to the temporary buffer. Flush code
+                            // points consumed as a character reference. Switch to the return
+                            // state.
+                            let mut temporary_buffer = String::new();
+
+                            let c = match char::from_u32(cr) {
+                                Some(c) => c,
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
+
+                            temporary_buffer.push(c);
+
+                            self.flush_code_point_consumed_as_character_reference(c);
+                            self.temporary_buffer = Some(temporary_buffer);
+                            self.state = self.return_state.clone();
                         }
-                        // TODO fix me
-                        // If the number is a surrogate, then this is a
-                        // surrogate-character-reference parse error. Set the character reference
-                        // code to 0xFFFD.
-                        // If the number is a noncharacter, then this is a
-                        // noncharacter-character-reference parse error.
-                        Some(c) if is_noncharacter(c) => {
-                            self.emit_error(ErrorKind::NoncharacterCharacterReference);
+                        None => {
+                            unreachable!();
                         }
-                        // TODO fix me
-                        // If the number is 0x0D, or a control that's not ASCII whitespace, then
-                        // this is a control-character-reference parse error. If the number is one
-                        // of the numbers in the first column of the following table, then find the
-                        // row with that number in the first column, and set the character reference
-                        // code to the number in the second column of that row.
-                        _ => {}
                     }
                 }
             }
         }
     }
+}
+
+#[inline(always)]
+fn is_control(c: u32) -> bool {
+    matches!(c, c @ 0x7f..=0x9f if !matches!(c, 0x20 | 0x0a | 0x0d | 0x09 | 0x0c | 0x01 | 0x1f))
 }
 
 // A noncharacter is a code point that is in the range U+FDD0 to U+FDEF,
@@ -4709,6 +5064,7 @@ where
 // U+7FFFF, U+8FFFE, U+8FFFF, U+9FFFE, U+9FFFF, U+AFFFE, U+AFFFF, U+BFFFE,
 // U+BFFFF, U+CFFFE, U+CFFFF, U+DFFFE, U+DFFFF, U+EFFFE, U+EFFFF, U+FFFFE,
 // U+FFFFF, U+10FFFE, or U+10FFFF.
+#[inline(always)]
 fn is_noncharacter(c: u32) -> bool {
     let c = char::from_u32(c);
 

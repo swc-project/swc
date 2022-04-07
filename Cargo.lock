@@ -3273,7 +3273,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.100.1"
+version = "0.100.2"
 dependencies = [
  "criterion",
  "either",
@@ -3766,10 +3766,11 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "bitflags",
  "lexical",
+ "once_cell",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -3791,7 +3792,7 @@ dependencies = [
 
 [[package]]
 name = "swc_macros_common"
-version = "0.3.3"
+version = "0.3.4"
 dependencies = [
  "pmutil",
  "proc-macro2",
@@ -3846,7 +3847,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.44.1"
+version = "0.45.0"
 dependencies = [
  "swc_atoms",
  "swc_common",

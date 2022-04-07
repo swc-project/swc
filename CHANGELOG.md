@@ -31,6 +31,9 @@
 
 - **(html/parser)** Support cdata (#4259) ([3f6037b](https://github.com/swc-project/swc/commit/3f6037b467a378357051a7de6002e34d36b640d4))
 
+
+- **(html/parser)** Fix bugs (#4265) ([105a0cc](https://github.com/swc-project/swc/commit/105a0cccf7dec630824e2e0f8ee77bf31645aa28))
+
 ### Features
 
 
@@ -56,6 +59,9 @@
 - **(es/minifier)** Implement more rules for `hoist_props` (#4262) ([1f5cac4](https://github.com/swc-project/swc/commit/1f5cac4d413bc8d035e137d74470469dfd886fa3))
 
 
+- **(es/parser)** Report more errors (#4244) ([674275c](https://github.com/swc-project/swc/commit/674275c8242df111bb9391da13b9869d7e6b6405))
+
+
 - **(html)** Initialize (#4240) ([3e7872c](https://github.com/swc-project/swc/commit/3e7872c8de05ac46ef6ffb99f778ef5b64e47f1b))
 
 
@@ -78,6 +84,12 @@
 
 
 - **(es/preset-env)** Typo (#4243) ([06020bb](https://github.com/swc-project/swc/commit/06020bb76d5009f693cc702a70ac3add1ef0fe4a))
+
+### Refactor
+
+
+
+- **(plugin)** Consolidate exported namespaces (#4263) ([8706c17](https://github.com/swc-project/swc/commit/8706c17c4f20fb508e685cb81945cd51672eaba5))
 
 ### Testing
 
