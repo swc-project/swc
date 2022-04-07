@@ -233,6 +233,8 @@ struct Vars {
     simple_functions: FxHashMap<Id, Box<Expr>>,
     vars_for_inlining: FxHashMap<Id, Box<Expr>>,
 
+    /// We only store deterministic arrays literals, which does not have a side
+    /// effect nor a reference to a variable.
     simple_arrays: FxHashMap<Id, Box<Expr>>,
 }
 
@@ -251,6 +253,12 @@ impl Vars {
             &mut self.simple_functions,
             true,
             MultiReplacerMode::OnlyCallee,
+            &mut changed,
+        ));
+        n.visit_mut_with(&mut MultiReplacer::new(
+            &mut self.simple_arrays,
+            true,
+            MultiReplacerMode::OnlySpreadLike,
             &mut changed,
         ));
         n.visit_mut_with(&mut MultiReplacer::new(

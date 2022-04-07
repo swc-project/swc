@@ -200,6 +200,7 @@ pub(crate) struct MultiReplacer<'a> {
 pub enum MultiReplacerMode {
     Normal,
     OnlyCallee,
+    OnlySpreadLike,
 }
 
 impl<'a> MultiReplacer<'a> {
@@ -226,6 +227,18 @@ impl<'a> MultiReplacer<'a> {
             self.vars.remove(i)
         }
     }
+
+    fn try_replace(&mut self, e: &mut Expr) {
+        if let Expr::Ident(i) = e {
+            if let Some(new) = self.var(&i.to_id()) {
+                debug!("multi-replacer: Replaced `{}`", i);
+                *self.worked = true;
+                self.changed = true;
+
+                *e = *new;
+            }
+        }
+    }
 }
 
 impl VisitMut for MultiReplacer<'_> {
@@ -236,15 +249,7 @@ impl VisitMut for MultiReplacer<'_> {
 
         if matches!(self.mode, MultiReplacerMode::OnlyCallee) {
             if let Callee::Expr(e) = e {
-                if let Expr::Ident(i) = &**e {
-                    if let Some(new) = self.var(&i.to_id()) {
-                        debug!("multi-replacer: Replaced `{}`", i);
-                        *self.worked = true;
-                        self.changed = true;
-
-                        **e = *new;
-                    }
-                }
+                self.try_replace(e);
             }
         }
     }
@@ -253,15 +258,15 @@ impl VisitMut for MultiReplacer<'_> {
         e.visit_mut_children_with(self);
 
         if matches!(self.mode, MultiReplacerMode::Normal) {
-            if let Expr::Ident(i) = e {
-                if let Some(new) = self.var(&i.to_id()) {
-                    debug!("multi-replacer: Replaced `{}`", i);
-                    *self.worked = true;
-                    self.changed = true;
+            self.try_replace(e);
+        }
+    }
 
-                    *e = *new;
-                }
-            }
+    fn visit_mut_expr_or_spread(&mut self, n: &mut ExprOrSpread) {
+        n.visit_mut_children_with(self);
+
+        if matches!(self.mode, MultiReplacerMode::OnlySpreadLike) {
+            self.try_replace(&mut n.expr);
         }
     }
 
@@ -286,19 +291,21 @@ impl VisitMut for MultiReplacer<'_> {
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);
 
-        if let Prop::Shorthand(i) = p {
-            if let Some(value) = self.var(&i.to_id()) {
-                debug!("multi-replacer: Replaced `{}` as shorthand", i);
-                *self.worked = true;
-                self.changed = true;
+        if matches!(self.mode, MultiReplacerMode::Normal) {
+            if let Prop::Shorthand(i) = p {
+                if let Some(value) = self.var(&i.to_id()) {
+                    debug!("multi-replacer: Replaced `{}` as shorthand", i);
+                    *self.worked = true;
+                    self.changed = true;
 
-                *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(Ident::new(
-                        i.sym.clone(),
-                        i.span.with_ctxt(Default::default()),
-                    )),
-                    value,
-                });
+                    *p = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident::new(
+                            i.sym.clone(),
+                            i.span.with_ctxt(Default::default()),
+                        )),
+                        value,
+                    });
+                }
             }
         }
     }
