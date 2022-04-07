@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 0,
-    "end": 406,
+    "end": 452,
     "ctxt": 0
   },
   "children": [
@@ -1296,6 +1296,240 @@
           "tag_name": "div",
           "raw_tag_name": "div",
           "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 406,
+        "end": 407,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n",
+          "raw": "\n",
+          "recoverable": false
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 407,
+        "end": 408,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n",
+          "raw": "\n",
+          "recoverable": false
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 408,
+        "end": 413,
+        "ctxt": 0
+      },
+      "token": {
+        "StartTag": {
+          "tag_name": "div",
+          "raw_tag_name": "div",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 413,
+        "end": 414,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "t",
+          "raw": "t",
+          "recoverable": false
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 414,
+        "end": 415,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "e",
+          "raw": "e",
+          "recoverable": false
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 415,
+        "end": 416,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "s",
+          "raw": "s",
+          "recoverable": false
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 416,
+        "end": 417,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "t",
+          "raw": "t",
+          "recoverable": false
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 417,
+        "end": 435,
+        "ctxt": 0
+      },
+      "token": {
+        "EndTag": {
+          "tag_name": "div",
+          "raw_tag_name": "div",
+          "self_closing": true,
+          "attributes": [
+            {
+              "name": "foo",
+              "value": "bar"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 435,
+        "end": 436,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "\n",
+          "raw": "\n",
+          "recoverable": false
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 436,
+        "end": 441,
+        "ctxt": 0
+      },
+      "token": {
+        "StartTag": {
+          "tag_name": "div",
+          "raw_tag_name": "div",
+          "self_closing": false,
+          "attributes": []
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 441,
+        "end": 442,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "t",
+          "raw": "t",
+          "recoverable": false
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 442,
+        "end": 443,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "e",
+          "raw": "e",
+          "recoverable": false
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 443,
+        "end": 444,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "s",
+          "raw": "s",
+          "recoverable": false
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 444,
+        "end": 445,
+        "ctxt": 0
+      },
+      "token": {
+        "Character": {
+          "value": "t",
+          "raw": "t",
+          "recoverable": false
+        }
+      }
+    },
+    {
+      "type": "TokenAndSpan",
+      "span": {
+        "start": 445,
+        "end": 452,
+        "ctxt": 0
+      },
+      "token": {
+        "EndTag": {
+          "tag_name": "div",
+          "raw_tag_name": "div",
+          "self_closing": true,
           "attributes": []
         }
       }

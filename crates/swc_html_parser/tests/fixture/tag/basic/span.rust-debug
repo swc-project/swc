@@ -26,7 +26,10 @@
  23 | |   >
  24 | |   Test
  25 | |   </div
- 26 | `-> >
+ 26 | |   >
+ 27 | |   
+ 28 | |   <div>test</div foo="bar" />
+ 29 | `-> <div>test</div/>
     `----
 
   x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
@@ -563,4 +566,100 @@
     ,-[$DIR/tests/fixture/tag/basic/input.html:25:1]
  25 | ,-> </div
  26 | `-> >
+    `----
+
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:26:1]
+ 26 | >
+    :  ^
+    `----
+
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:27:1]
+ 27 | 
+    : ^
+ 28 | <div>test</div foo="bar" />
+    `----
+
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
+ 28 | <div>test</div foo="bar" />
+    : ^^^^^
+    `----
+
+  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
+ 28 | <div>test</div foo="bar" />
+    :      ^
+    `----
+
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
+ 28 | <div>test</div foo="bar" />
+    :       ^
+    `----
+
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
+ 28 | <div>test</div foo="bar" />
+    :        ^
+    `----
+
+  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
+ 28 | <div>test</div foo="bar" />
+    :         ^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: true, attributes: [Attribute { name: Atom('foo' type=inline), value: Some(Atom('bar'
+  | type=inline)) }] }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
+ 28 | <div>test</div foo="bar" />
+    :          ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Character { value: '\n', raw: Some(Atom('
+  | ' type=inline)), recoverable: false }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:28:1]
+ 28 | <div>test</div foo="bar" />
+    :                            ^
+ 29 | <div>test</div/>
+    `----
+
+  x StartTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: false, attributes: [] }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:29:1]
+ 29 | <div>test</div/>
+    : ^^^^^
+    `----
+
+  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:29:1]
+ 29 | <div>test</div/>
+    :      ^
+    `----
+
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:29:1]
+ 29 | <div>test</div/>
+    :       ^
+    `----
+
+  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:29:1]
+ 29 | <div>test</div/>
+    :        ^
+    `----
+
+  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:29:1]
+ 29 | <div>test</div/>
+    :         ^
+    `----
+
+  x EndTag { tag_name: Atom('div' type=inline), raw_tag_name: Some(Atom('div' type=inline)), self_closing: true, attributes: [] }
+    ,-[$DIR/tests/fixture/tag/basic/input.html:29:1]
+ 29 | <div>test</div/>
+    :          ^^^^^^^
     `----
