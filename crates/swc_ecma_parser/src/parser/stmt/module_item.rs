@@ -42,6 +42,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         expect!(self, "import");
 
+        #[cfg(feature = "typescript")]
         if self.input.syntax().typescript() && is!(self, IdentRef) && peeked_is!(self, '=') {
             return self
                 .parse_ts_import_equals_decl(
@@ -85,10 +86,14 @@ impl<'a, I: Tokens> Parser<I> {
             .map(ModuleItem::from);
         }
 
+        #[cfg(not(feature = "typescript"))]
+        let type_only = false;
+        #[cfg(feature = "typescript")]
         let type_only = self.input.syntax().typescript()
             && is!(self, "type")
             && (peeked_is!(self, '{') || !peeked_is!(self, "from") && !peeked_is!(self, ','));
 
+        #[cfg(feature = "typescript")]
         if type_only {
             assert_and_bump!(self, "type");
 
@@ -341,36 +346,38 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         assert_and_bump!(self, "export");
         let _ = cur!(self, true);
-        let after_export_start = cur_pos!(self);
 
-        // "export declare" is equivalent to just "export".
-        let declare = self.input.syntax().typescript() && eat!(self, "declare");
-
-        if declare {
-            // TODO: Remove
-            if let Some(decl) = self.try_parse_ts_declare(after_export_start, decorators.clone())? {
-                return Ok(ModuleDecl::ExportDecl(ExportDecl {
-                    span: span!(self, start),
-                    decl,
-                }));
-            }
-        }
-
-        if self.input.syntax().typescript() && is!(self, IdentName) {
-            let sym = match *cur!(self, true)? {
-                Token::Word(ref w) => w.clone().into(),
-                _ => unreachable!(),
-            };
-            // TODO: remove clone
-            if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
-                return Ok(ModuleDecl::ExportDecl(ExportDecl {
-                    span: span!(self, start),
-                    decl,
-                }));
-            }
-        }
-
+        #[cfg(feature = "typescript")]
         if self.input.syntax().typescript() {
+            let after_export_start = cur_pos!(self);
+
+            // "export declare" is equivalent to just "export".
+            if eat!(self, "declare") {
+                // TODO: Remove
+                if let Some(decl) =
+                    self.try_parse_ts_declare(after_export_start, decorators.clone())?
+                {
+                    return Ok(ModuleDecl::ExportDecl(ExportDecl {
+                        span: span!(self, start),
+                        decl,
+                    }));
+                }
+            }
+
+            if is!(self, IdentName) {
+                let sym = match *cur!(self, true)? {
+                    Token::Word(ref w) => w.clone().into(),
+                    _ => unreachable!(),
+                };
+                // TODO: remove clone
+                if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
+                    return Ok(ModuleDecl::ExportDecl(ExportDecl {
+                        span: span!(self, start),
+                        decl,
+                    }));
+                }
+            }
+
             if eat!(self, "import") {
                 // export import A = B
                 return self
@@ -442,6 +449,7 @@ impl<'a, I: Tokens> Parser<I> {
         let mut export_default = None;
 
         if !type_only && export_ns.is_none() && eat!(self, "default") {
+            #[cfg(feature = "typescript")]
             if self.input.syntax().typescript() {
                 if is!(self, "abstract")
                     && peeked_is!(self, "class")
@@ -501,18 +509,8 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        let decl = if !type_only && is!(self, "class") {
-            let class_start = cur_pos!(self);
-            self.parse_class_decl(start, class_start, decorators, false)?
-        } else if !type_only
-            && is!(self, "async")
-            && peeked_is!(self, "function")
-            && !self.input.has_linebreak_between_cur_and_peeked()
-        {
-            self.parse_async_fn_decl(decorators)?
-        } else if !type_only && is!(self, "function") {
-            self.parse_fn_decl(decorators)?
-        } else if !type_only
+        #[cfg(feature = "typescript")]
+        if !type_only
             && self.input.syntax().typescript()
             && is!(self, "const")
             && peeked_is!(self, "enum")
@@ -530,6 +528,19 @@ impl<'a, I: Tokens> Parser<I> {
                         decl,
                     })
                 });
+        };
+
+        let decl = if !type_only && is!(self, "class") {
+            let class_start = cur_pos!(self);
+            self.parse_class_decl(start, class_start, decorators, false)?
+        } else if !type_only
+            && is!(self, "async")
+            && peeked_is!(self, "function")
+            && !self.input.has_linebreak_between_cur_and_peeked()
+        {
+            self.parse_async_fn_decl(decorators)?
+        } else if !type_only && is!(self, "function") {
+            self.parse_fn_decl(decorators)?
         } else if !type_only
             && (is!(self, "var")
                 || is!(self, "const")

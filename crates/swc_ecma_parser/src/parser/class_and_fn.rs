@@ -3,7 +3,9 @@ use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
 use super::*;
-use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
+#[cfg(feature = "typescript")]
+use crate::lexer::TokenContext;
+use crate::{error::SyntaxError, parser::stmt::IsDirective, Tokens};
 
 /// Parser for function expression and function declaration.
 impl<'a, I: Tokens> Parser<I> {
@@ -86,18 +88,32 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(p, "class");
 
             let ident = p.parse_maybe_opt_binding_ident(is_ident_required)?;
+
+            #[cfg(feature = "typescript")]
             if p.input.syntax().typescript() {
                 if let Some(span) = ident.invalid_class_name() {
                     p.emit_err(span, SyntaxError::TS2414);
                 }
             }
 
+            #[cfg(not(feature = "typescript"))]
+            let type_params = None;
+            #[cfg(feature = "typescript")]
             let type_params = if p.input.syntax().typescript() {
                 p.try_parse_ts_type_params(true)?
             } else {
                 None
             };
 
+            #[cfg(not(feature = "typescript"))]
+            let (super_class, super_type_params) = if eat!(p, "extends") {
+                let (super_class, super_type_params) = p.parse_super_class()?;
+
+                (Some(super_class), super_type_params)
+            } else {
+                (None, None)
+            };
+            #[cfg(feature = "typescript")]
             let (mut super_class, mut super_type_params) = if eat!(p, "extends") {
                 let (super_class, super_type_params) = p.parse_super_class()?;
 
@@ -115,20 +131,25 @@ impl<'a, I: Tokens> Parser<I> {
             };
 
             // Handle TS1172
+            #[cfg(feature = "typescript")]
             if eat!(p, "extends") {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1172);
 
                 p.parse_super_class()?;
             };
 
+            #[cfg(not(feature = "typescript"))]
+            let implements = vec![];
+            #[cfg(feature = "typescript")]
             let implements = if p.input.syntax().typescript() && eat!(p, "implements") {
                 p.parse_ts_heritage_clause()?
             } else {
                 vec![]
             };
 
+            // Handle TS1175
+            #[cfg(feature = "typescript")]
             {
-                // Handle TS1175
                 if p.input.syntax().typescript() && eat!(p, "implements") {
                     p.emit_err(p.input.prev_span(), SyntaxError::TS1175);
 
@@ -137,6 +158,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             // Handle TS1173
+            #[cfg(feature = "typescript")]
             if p.input.syntax().typescript() && eat!(p, "extends") {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1173);
 
@@ -153,6 +175,7 @@ impl<'a, I: Tokens> Parser<I> {
             expect!(p, '{');
             let body = p
                 .with_ctx(Context {
+                    #[cfg(feature = "typescript")]
                     has_super_class: super_class.is_some(),
                     ..p.ctx()
                 })
@@ -235,11 +258,12 @@ impl<'a, I: Tokens> Parser<I> {
                 // because in some cases "super class" returned by `parse_lhs_expr`
                 // may not include `TsExprWithTypeArgs`
                 // but it's a super class with type params, for example, in JSX.
+                #[cfg(feature = "typescript")]
                 if self.syntax().typescript() && is!(self, '<') {
-                    Ok((super_class, self.parse_ts_type_args().map(Some)?))
-                } else {
-                    Ok((super_class, None))
+                    return Ok((super_class, self.parse_ts_type_args().map(Some)?));
                 }
+
+                Ok((super_class, None))
             }
         }
     }
@@ -304,6 +328,9 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
+        #[cfg(not(feature = "typescript"))]
+        let type_args: Option<()> = None;
+        #[cfg(feature = "typescript")]
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             Some(self.parse_ts_type_args()?)
         } else {
@@ -358,6 +385,7 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(elems)
     }
 
+    #[cfg(feature = "typescript")]
     pub(super) fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
         Ok(self
             .parse_ts_modifier(&["public", "protected", "private", "in", "out"], false)?
@@ -377,13 +405,23 @@ impl<'a, I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
         let decorators = self.parse_decorators(false)?;
+
+        #[cfg(not(feature = "typescript"))]
+        let declare = false;
+        #[cfg(feature = "typescript")]
         let declare = self.syntax().typescript() && eat!(self, "declare");
+
+        #[cfg(not(feature = "typescript"))]
+        let accessibility = None;
+        #[cfg(feature = "typescript")]
         let accessibility = if self.input.syntax().typescript() {
             self.parse_access_modifier()?
         } else {
             None
         };
+
         // Allow `private declare`.
+        #[cfg(feature = "typescript")]
         let declare = declare || self.syntax().typescript() && eat!(self, "declare");
 
         let declare_token = if declare {
@@ -530,13 +568,34 @@ impl<'a, I: Tokens> Parser<I> {
         static_token: Option<Span>,
         decorators: Vec<Decorator>,
     ) -> PResult<ClassMember> {
+        #[cfg(not(feature = "typescript"))]
+        let is_static = static_token.is_some();
+        #[cfg(feature = "typescript")]
         let mut is_static = static_token.is_some();
 
+        #[cfg(not(feature = "typescript"))]
+        let is_abstract = false;
+        #[cfg(feature = "typescript")]
         let mut is_abstract = false;
+
+        #[cfg(not(feature = "typescript"))]
+        let is_override = false;
+        #[cfg(feature = "typescript")]
         let mut is_override = false;
+
+        #[cfg(not(feature = "typescript"))]
+        let readonly = None;
+        #[cfg(feature = "typescript")]
         let mut readonly = None;
+
+        #[cfg(not(feature = "typescript"))]
+        let modifier_span = None;
+        #[cfg(feature = "typescript")]
         let mut modifier_span = None;
+
         let declare = declare_token.is_some();
+
+        #[cfg(feature = "typescript")]
         while let Some(modifier) =
             self.parse_ts_modifier(&["abstract", "readonly", "override", "static"], true)?
         {
@@ -624,6 +683,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        #[cfg(feature = "typescript")]
         if self.input.syntax().typescript()
             && !is_abstract
             && !is_override
@@ -683,6 +743,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             trace_cur!(self, parse_class_member_with_is_static__normal_class_method);
 
+            #[cfg(feature = "typescript")]
             if let Some(token) = declare_token {
                 self.emit_err(token, SyntaxError::TS1031)
             }
@@ -693,6 +754,7 @@ impl<'a, I: Tokens> Parser<I> {
             let is_constructor = is_constructor(&key);
 
             if is_constructor {
+                #[cfg(feature = "typescript")]
                 if self.syntax().typescript() && is_override {
                     self.emit_err(
                         span!(self, start),
@@ -700,6 +762,7 @@ impl<'a, I: Tokens> Parser<I> {
                     );
                 }
 
+                #[cfg(feature = "typescript")]
                 if self.syntax().typescript() && is!(self, '<') {
                     let start = cur_pos!(self);
                     if peeked_is!(self, '>') {
@@ -724,6 +787,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let params = self.parse_constructor_params()?;
                 expect!(self, ')');
 
+                #[cfg(feature = "typescript")]
                 if self.syntax().typescript() && is!(self, ':') {
                     let start = cur_pos!(self);
                     let type_ann = self.parse_ts_type_ann(true, start)?;
@@ -734,6 +798,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let body: Option<_> =
                     self.parse_fn_body(false, false, false, params.is_simple_parameter_list())?;
 
+                #[cfg(feature = "typescript")]
                 if body.is_none() {
                     for param in params.iter() {
                         if param.is_ts_param_prop() {
@@ -742,6 +807,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
+                #[cfg(feature = "typescript")]
                 if self.syntax().typescript() && body.is_none() {
                     // Declare constructors cannot have assignment pattern in parameters
                     for p in &params {
@@ -765,10 +831,12 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
+                #[cfg(feature = "typescript")]
                 if let Some(static_token) = static_token {
                     self.emit_err(static_token, SyntaxError::TS1089(js_word!("static")))
                 }
 
+                #[cfg(feature = "typescript")]
                 if let Some(span) = modifier_span {
                     if is_abstract {
                         self.emit_err(span, SyntaxError::TS1242);
@@ -841,6 +909,7 @@ impl<'a, I: Tokens> Parser<I> {
         {
             // handle async foo(){}
 
+            #[cfg(feature = "typescript")]
             if self.parse_ts_modifier(&["override"], false)?.is_some() {
                 is_override = true;
                 self.emit_err(
@@ -980,8 +1049,15 @@ impl<'a, I: Tokens> Parser<I> {
                 )
             }
         }
+
+        #[cfg(not(feature = "typescript"))]
+        let definite = false;
+        #[cfg(feature = "typescript")]
         let definite = self.input.syntax().typescript() && !is_optional && eat!(self, '!');
 
+        #[cfg(not(feature = "typescript"))]
+        let type_ann = None;
+        #[cfg(feature = "typescript")]
         let type_ann = self.try_parse_ts_type_ann()?;
 
         let ctx = Context {
@@ -1169,6 +1245,9 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         self.with_ctx(ctx).parse_with(|p| {
+            #[cfg(not(feature = "typescript"))]
+            let type_params = None;
+            #[cfg(feature = "typescript")]
             let type_params = if p.syntax().typescript() {
                 p.in_type().parse_with(|p| {
                     trace_cur!(p, parse_fn_args_body__type_params);
@@ -1207,7 +1286,9 @@ impl<'a, I: Tokens> Parser<I> {
 
             expect!(p, ')');
 
-            // typescript extension
+            #[cfg(not(feature = "typescript"))]
+            let return_type = None;
+            #[cfg(feature = "typescript")]
             let return_type = if p.syntax().typescript() && is!(p, ':') {
                 p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
                     .map(Some)?
@@ -1222,6 +1303,7 @@ impl<'a, I: Tokens> Parser<I> {
                 params.is_simple_parameter_list(),
             )?;
 
+            #[cfg(feature = "typescript")]
             if p.syntax().typescript() && body.is_none() {
                 // Declare functions cannot have assignment pattern in parameters
                 for param in &params {
@@ -1259,6 +1341,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
+    #[allow(unused_variables)]
     pub(super) fn parse_fn_body<T>(
         &mut self,
         is_async: bool,
@@ -1280,6 +1363,7 @@ impl<'a, I: Tokens> Parser<I> {
         let ctx = Context {
             in_async: is_async,
             in_generator: is_generator,
+            #[cfg(feature = "typescript")]
             in_arrow_function: is_arrow_function,
             in_function: true,
             is_break_allowed: false,
@@ -1525,6 +1609,7 @@ impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
         } else {
             let cur_ctx = self.ctx();
             let ctx = Context {
+                #[cfg(feature = "typescript")]
                 is_direct_child_of_braceless_arrow_function: cur_ctx.in_arrow_function,
                 ..cur_ctx
             };

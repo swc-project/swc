@@ -279,6 +279,7 @@ impl<I: Tokens> Buffer<I> {
         }
     }
 
+    #[cfg(feature = "typescript")]
     pub fn store(&mut self, token: Token) {
         debug_assert!(self.next.is_none());
         debug_assert!(self.cur.is_none());
@@ -390,6 +391,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
+    #[cfg(feature = "typescript")]
     pub fn is(&mut self, expected: &Token) -> bool {
         match self.cur() {
             Some(t) => *expected == *t,
@@ -397,6 +399,7 @@ impl<I: Tokens> Buffer<I> {
         }
     }
 
+    #[cfg(feature = "typescript")]
     #[inline]
     pub fn eat(&mut self, expected: &Token) -> bool {
         let v = self.is(expected);
@@ -463,21 +466,25 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
+    #[cfg(feature = "typescript")]
     pub(crate) fn set_expr_allowed(&mut self, allow: bool) {
         self.iter.set_expr_allowed(allow)
     }
 
     #[inline]
+    #[cfg(feature = "typescript")]
     pub(crate) fn token_context(&self) -> &lexer::TokenContexts {
         self.iter.token_context()
     }
 
     #[inline]
+    #[cfg(feature = "typescript")]
     pub(crate) fn token_context_mut(&mut self) -> &mut lexer::TokenContexts {
         self.iter.token_context_mut()
     }
 
     #[inline]
+    #[cfg(feature = "typescript")]
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
         self.iter.set_token_context(c)
     }

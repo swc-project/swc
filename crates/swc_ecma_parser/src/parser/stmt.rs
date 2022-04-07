@@ -95,6 +95,7 @@ impl<'a, I: Tokens> Parser<I> {
         let _tracing = debug_tracing!(self, "parse_stmt_like");
 
         let start = cur_pos!(self);
+
         let decorators = self.parse_decorators(true)?;
 
         if is_one_of!(self, "import", "export") {
@@ -134,8 +135,10 @@ impl<'a, I: Tokens> Parser<I> {
             return Ok(Stmt::Expr(ExprStmt { span, expr }));
         }
 
+        #[cfg(feature = "typescript")]
         let is_typescript = self.input.syntax().typescript();
 
+        #[cfg(feature = "typescript")]
         if is_typescript && is!(self, "const") && peeked_is!(self, "enum") {
             assert_and_bump!(self, "const");
             assert_and_bump!(self, "enum");
@@ -294,6 +297,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("interface") => {
+                #[cfg(feature = "typescript")]
                 if is_typescript
                     && peeked_is!(self, IdentName)
                     && !self.input.has_linebreak_between_cur_and_peeked()
@@ -307,6 +311,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("enum") => {
+                #[cfg(feature = "typescript")]
                 if is_typescript
                     && peeked_is!(self, IdentName)
                     && !self.input.has_linebreak_between_cur_and_peeked()
@@ -368,6 +373,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }));
             }
 
+            #[cfg(feature = "typescript")]
             if self.input.syntax().typescript() {
                 if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
                     return Ok(Stmt::Decl(decl));
@@ -384,6 +390,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        #[cfg(feature = "typescript")]
         if self.syntax().typescript() {
             if let Expr::Ident(ref i) = *expr {
                 match i.sym {
@@ -591,6 +598,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let case_start = cur_pos!(p);
                 bump!(p);
                 let ctx = Context {
+                    #[cfg(feature = "typescript")]
                     dont_parse_colon_as_type_ann: true,
                     ..p.ctx()
                 };
@@ -705,32 +713,38 @@ impl<'a, I: Tokens> Parser<I> {
     /// It's optional since es2019
     fn parse_catch_param(&mut self) -> PResult<Option<Pat>> {
         if eat!(self, '(') {
+            #[cfg(not(feature = "typescript"))]
+            let pat = self.parse_binding_pat_or_ident()?;
+            #[cfg(feature = "typescript")]
             let mut pat = self.parse_binding_pat_or_ident()?;
 
-            let type_ann_start = cur_pos!(self);
+            #[cfg(feature = "typescript")]
+            {
+                let type_ann_start = cur_pos!(self);
 
-            if self.syntax().typescript() && eat!(self, ':') {
-                let ctx = Context {
-                    in_type: true,
-                    ..self.ctx()
-                };
+                if self.syntax().typescript() && eat!(self, ':') {
+                    let ctx = Context {
+                        in_type: true,
+                        ..self.ctx()
+                    };
 
-                let ty = self.with_ctx(ctx).parse_with(|p| p.parse_ts_type())?;
-                // self.emit_err(ty.span(), SyntaxError::TS1196);
+                    let ty = self.with_ctx(ctx).parse_with(|p| p.parse_ts_type())?;
+                    // self.emit_err(ty.span(), SyntaxError::TS1196);
 
-                match &mut pat {
-                    Pat::Ident(BindingIdent { type_ann, .. })
-                    | Pat::Array(ArrayPat { type_ann, .. })
-                    | Pat::Rest(RestPat { type_ann, .. })
-                    | Pat::Object(ObjectPat { type_ann, .. })
-                    | Pat::Assign(AssignPat { type_ann, .. }) => {
-                        *type_ann = Some(TsTypeAnn {
-                            span: span!(self, type_ann_start),
-                            type_ann: ty,
-                        });
+                    match &mut pat {
+                        Pat::Ident(BindingIdent { type_ann, .. })
+                        | Pat::Array(ArrayPat { type_ann, .. })
+                        | Pat::Rest(RestPat { type_ann, .. })
+                        | Pat::Object(ObjectPat { type_ann, .. })
+                        | Pat::Assign(AssignPat { type_ann, .. }) => {
+                            *type_ann = Some(TsTypeAnn {
+                                span: span!(self, type_ann_start),
+                                type_ann: ty,
+                            });
+                        }
+                        Pat::Invalid(_) => {}
+                        Pat::Expr(_) => {}
                     }
-                    Pat::Invalid(_) => {}
-                    Pat::Expr(_) => {}
                 }
             }
             expect!(self, ')');
@@ -751,6 +765,7 @@ impl<'a, I: Tokens> Parser<I> {
         let var_span = span!(self, start);
         let should_include_in = kind != VarDeclKind::Var || !for_loop;
 
+        #[cfg(feature = "typescript")]
         if self.syntax().typescript() && for_loop {
             let res = if is_one_of!(self, "in", "of") {
                 self.ts_look_ahead(|p| {
@@ -820,6 +835,7 @@ impl<'a, I: Tokens> Parser<I> {
             decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop, kind)?);
         }
 
+        #[cfg(feature = "typescript")]
         if !for_loop && !eat!(self, ';') {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
@@ -845,8 +861,14 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<VarDeclarator> {
         let start = cur_pos!(self);
 
+        #[cfg(not(feature = "typescript"))]
+        let name = self.parse_binding_pat_or_ident()?;
+        #[cfg(feature = "typescript")]
         let mut name = self.parse_binding_pat_or_ident()?;
 
+        #[cfg(not(feature = "typescript"))]
+        let definite = false;
+        #[cfg(feature = "typescript")]
         let definite = if self.input.syntax().typescript() {
             match name {
                 Pat::Ident(..) => eat!(self, '!'),
@@ -857,6 +879,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         // Typescript extension
+        #[cfg(feature = "typescript")]
         if self.input.syntax().typescript() && is!(self, ':') {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
@@ -967,6 +990,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_with_stmt(&mut self) -> PResult<Stmt> {
+        #[cfg(feature = "typescript")]
         if self.syntax().typescript() {
             let span = self.input.cur_span();
             self.emit_err(span, SyntaxError::TS2410);
@@ -1134,6 +1158,7 @@ impl<'a, I: Tokens> Parser<I> {
                         );
                     }
 
+                    #[cfg(feature = "typescript")]
                     if self.syntax().typescript() {
                         let type_ann = match decl.decls[0].name {
                             Pat::Ident(ref v) => Some(&v.type_ann),
@@ -1167,12 +1192,11 @@ impl<'a, I: Tokens> Parser<I> {
 
         // for (a of b)
         if is_one_of!(self, "of", "in") {
-            let is_in = is!(self, "in");
-
             let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
 
             // for ({} in foo) is invalid
-            if self.input.syntax().typescript() && is_in {
+            #[cfg(feature = "typescript")]
+            if self.input.syntax().typescript() && is!(self, "in") {
                 match pat {
                     Pat::Ident(..) => {}
                     Pat::Expr(..) => {}
@@ -1321,11 +1345,15 @@ impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{comments::SingleThreadedComments, DUMMY_SP as span};
+    #[cfg(feature = "typescript")]
+    use swc_common::comments::SingleThreadedComments;
+    use swc_common::DUMMY_SP as span;
     use swc_ecma_visit::assert_eq_ignore_span;
 
     use super::*;
-    use crate::{EsConfig, TsConfig};
+    use crate::EsConfig;
+    #[cfg(feature = "typescript")]
+    use crate::TsConfig;
 
     fn stmt(s: &'static str) -> Stmt {
         test_parser(s, Syntax::default(), |p| p.parse_stmt(true))
@@ -1769,6 +1797,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    #[cfg(feature = "typescript")]
     fn issue_856() {
         let c = SingleThreadedComments::default();
         let s = "class Foo {
@@ -1793,6 +1822,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    #[cfg(feature = "typescript")]
     fn issue_856_2() {
         let c = SingleThreadedComments::default();
         let s = "type ConsoleExamineFunc = (
@@ -1818,6 +1848,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    #[cfg(feature = "typescript")]
     fn issue_856_3() {
         let c = SingleThreadedComments::default();
         let s = "type RequireWrapper = (
@@ -1845,6 +1876,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    #[cfg(feature = "typescript")]
     fn issue_856_4() {
         let c = SingleThreadedComments::default();
         let s = "const _extensions: {
@@ -2208,6 +2240,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    #[cfg(feature = "typescript")]
     fn class_static_blocks_in_ts() {
         let src = "class Foo { static { 1 + 1 }; }";
         test_parser(src, Syntax::Typescript(Default::default()), |p| {
@@ -2216,6 +2249,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    #[cfg(feature = "typescript")]
     fn class_static_blocks_with_line_breaks_in_ts_01() {
         let src = "class Foo {
             static
@@ -2229,6 +2263,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    #[cfg(feature = "typescript")]
     fn class_static_blocks_with_line_breaks_in_ts_02() {
         let src = "class Foo {
             static
@@ -2241,6 +2276,7 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     #[should_panic(expected = "Modifiers cannot appear here")]
+    #[cfg(feature = "typescript")]
     fn class_static_blocks_in_ts_with_invalid_modifier_01() {
         let src = "class Foo { abstract static { 1 + 1 }; }";
         test_parser(src, Syntax::Typescript(Default::default()), |p| {
@@ -2250,6 +2286,7 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     #[should_panic(expected = "Modifiers cannot appear here")]
+    #[cfg(feature = "typescript")]
     fn class_static_blocks_in_ts_with_invalid_modifier_02() {
         let src = "class Foo { static static { 1 + 1 }; }";
         test_parser(src, Syntax::Typescript(Default::default()), |p| {
@@ -2259,6 +2296,7 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     #[should_panic(expected = "Modifiers cannot appear here")]
+    #[cfg(feature = "typescript")]
     fn class_static_blocks_in_ts_with_invalid_modifier_03() {
         let src = "class Foo { declare static { 1 + 1 }; }";
         test_parser(src, Syntax::Typescript(Default::default()), |p| {
@@ -2268,6 +2306,7 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     #[should_panic(expected = "Modifiers cannot appear here")]
+    #[cfg(feature = "typescript")]
     fn class_static_blocks_in_ts_with_invalid_modifier_04() {
         let src = "class Foo { private static { 1 + 1 }; }";
         test_parser(src, Syntax::Typescript(Default::default()), |p| {
@@ -2297,6 +2336,7 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     #[should_panic(expected = "Only named exports may use 'export type'.")]
+    #[cfg(feature = "typescript")]
     fn error_for_type_only_star_exports_with_name() {
         let src = "export type * as bar from 'mod'";
         test_parser(src, Syntax::Typescript(Default::default()), |p| {
@@ -2306,6 +2346,7 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     #[should_panic(expected = "Only named exports may use 'export type'.")]
+    #[cfg(feature = "typescript")]
     fn error_for_type_only_star_exports_without_name() {
         let src = "export type * from 'mod'";
         test_parser(src, Syntax::Typescript(Default::default()), |p| {
@@ -2331,6 +2372,7 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     #[should_panic(expected = "'const' declarations must be initialized")]
+    #[cfg(feature = "typescript")]
     fn ts_error_for_const_declaration_not_initialized() {
         let src = r#"
 "use strict";

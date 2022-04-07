@@ -209,6 +209,9 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<JSXOpeningElement> {
         debug_assert!(self.input.syntax().jsx());
 
+        #[cfg(not(feature = "typescript"))]
+        let type_args = None;
+        #[cfg(feature = "typescript")]
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             self.try_parse_ts(|p| p.parse_ts_type_args().map(Some))
         } else {

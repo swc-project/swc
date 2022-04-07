@@ -158,6 +158,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Original context is restored when returned guard is dropped.
+    #[cfg(feature = "typescript")]
     pub(super) fn in_type(&mut self) -> WithCtx<I> {
         let ctx = Context {
             in_type: true,

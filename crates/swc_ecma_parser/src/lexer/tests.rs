@@ -1570,6 +1570,7 @@ fn lex_colors_js(b: &mut Bencher) {
 }
 
 #[bench]
+#[cfg(feature = "typescript")]
 fn lex_colors_ts(b: &mut Bencher) {
     b.bytes = include_str!("../../colors.js").len() as _;
 
@@ -1732,6 +1733,7 @@ fn lex_semicolons(b: &mut Bencher) {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_1272_1_ts() {
     let (tokens, errors) = lex_errors(crate::Syntax::Typescript(Default::default()), "\\u{16}");
     assert_eq!(tokens.len(), 1);
@@ -1746,6 +1748,7 @@ fn issue_1272_1_js() {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_1272_2_ts() {
     // Not recoverable yet
     let (tokens, errors) = lex_errors(crate::Syntax::Typescript(Default::default()), "\u{16}");
@@ -1781,6 +1784,7 @@ fn issue_2853_1_js() {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_2853_2_ts() {
     let (tokens, errors) = lex_errors(
         crate::Syntax::Typescript(Default::default()),
@@ -1825,6 +1829,7 @@ fn issue_2853_3_js() {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_2853_4_ts() {
     let (tokens, errors) = lex_errors(
         crate::Syntax::Typescript(Default::default()),
@@ -1872,6 +1877,7 @@ fn issue_2853_5_jsx() {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_2853_6_tsx() {
     let (tokens, errors) = lex_errors(
         crate::Syntax::Typescript(crate::TsConfig {
@@ -1922,6 +1928,7 @@ fn issue_2853_7_jsx() {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_2853_8_tsx() {
     let (tokens, errors) = lex_errors(
         crate::Syntax::Typescript(crate::TsConfig {

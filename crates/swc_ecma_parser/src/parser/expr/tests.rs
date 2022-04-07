@@ -491,6 +491,7 @@ fn super_expr_computed() {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_3672_1() {
     test_parser(
         "report({
@@ -502,6 +503,7 @@ fn issue_3672_1() {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_3672_2() {
     test_parser(
         "f(a ? (): void => { } : (): void => { })",
@@ -511,6 +513,7 @@ fn issue_3672_2() {
 }
 
 #[bench]
+#[cfg(feature = "typescript")]
 fn bench_new_expr_ts(b: &mut Bencher) {
     bench_parser(
         b,
@@ -532,6 +535,7 @@ fn bench_new_expr_es(b: &mut Bencher) {
 }
 
 #[bench]
+#[cfg(feature = "typescript")]
 fn bench_member_expr_ts(b: &mut Bencher) {
     bench_parser(
         b,

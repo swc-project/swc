@@ -7,11 +7,13 @@ use swc_ecma_ast::*;
 
 pub use self::input::{Capturing, Tokens, TokensInput};
 use self::{input::Buffer, util::ParseObject};
+#[cfg(feature = "typescript")]
+use crate::TsConfig;
 use crate::{
     error::SyntaxError,
     lexer::Lexer,
     token::{Token, Word},
-    Context, EsVersion, Syntax, TsConfig,
+    Context, EsVersion, Syntax,
 };
 #[cfg(test)]
 extern crate test;
@@ -32,6 +34,7 @@ mod pat;
 mod stmt;
 #[cfg(test)]
 mod tests;
+#[cfg(feature = "typescript")]
 mod typescript;
 mod util;
 
@@ -62,6 +65,9 @@ impl<'a, I: Input> Parser<Lexer<'a, I>> {
 
 impl<I: Tokens> Parser<I> {
     pub fn new_from(mut input: I) -> Self {
+        #[cfg(not(feature = "typescript"))]
+        let in_declare = false;
+        #[cfg(feature = "typescript")]
         let in_declare = matches!(
             input.syntax(),
             Syntax::Typescript(TsConfig { dts: true, .. })

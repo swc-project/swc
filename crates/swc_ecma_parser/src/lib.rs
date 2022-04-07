@@ -169,10 +169,23 @@ impl Syntax {
             Syntax::Es(EsConfig {
                 import_assertions, ..
             }) => import_assertions,
+            #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
         }
     }
 
+    #[cfg(not(feature = "typescript"))]
+    pub fn static_blocks(self) -> bool {
+        matches!(
+            self,
+            Syntax::Es(EsConfig {
+                static_blocks: true,
+                ..
+            })
+        )
+    }
+
+    #[cfg(feature = "typescript")]
     pub fn static_blocks(self) -> bool {
         matches!(
             self,
@@ -184,6 +197,13 @@ impl Syntax {
     }
 
     /// Should we parse jsx?
+    #[cfg(not(feature = "typescript"))]
+    pub fn jsx(self) -> bool {
+        matches!(self, Syntax::Es(EsConfig { jsx: true, .. }))
+    }
+
+    /// Should we parse jsx?
+    #[cfg(feature = "typescript")]
     pub fn jsx(self) -> bool {
         matches!(
             self,
@@ -203,6 +223,18 @@ impl Syntax {
         matches!(self, Syntax::Es(EsConfig { fn_bind: true, .. }))
     }
 
+    #[cfg(not(feature = "typescript"))]
+    pub fn decorators(self) -> bool {
+        matches!(
+            self,
+            Syntax::Es(EsConfig {
+                decorators: true,
+                ..
+            })
+        )
+    }
+
+    #[cfg(feature = "typescript")]
     pub fn decorators(self) -> bool {
         matches!(
             self,
@@ -216,6 +248,18 @@ impl Syntax {
         )
     }
 
+    #[cfg(not(feature = "typescript"))]
+    pub fn decorators_before_export(self) -> bool {
+        matches!(
+            self,
+            Syntax::Es(EsConfig {
+                decorators_before_export: true,
+                ..
+            })
+        )
+    }
+
+    #[cfg(feature = "typescript")]
     pub fn decorators_before_export(self) -> bool {
         matches!(
             self,
@@ -248,10 +292,16 @@ impl Syntax {
         )
     }
 
+    #[cfg(not(feature = "typescript"))]
+    pub fn dts(self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "typescript")]
     pub fn dts(self) -> bool {
         match self {
+            Syntax::Es(..) => false,
             Syntax::Typescript(t) => t.dts,
-            _ => false,
         }
     }
 
@@ -260,6 +310,7 @@ impl Syntax {
             Syntax::Es(EsConfig {
                 private_in_object, ..
             }) => private_in_object,
+            #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
         }
     }
@@ -270,14 +321,21 @@ impl Syntax {
                 allow_super_outside_method,
                 ..
             }) => allow_super_outside_method,
+            #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
         }
     }
 
+    #[cfg(not(feature = "typescript"))]
+    pub(crate) fn early_errors(self) -> bool {
+        true
+    }
+
+    #[cfg(feature = "typescript")]
     pub(crate) fn early_errors(self) -> bool {
         match self {
-            Syntax::Typescript(t) => !t.no_early_errors,
             Syntax::Es(..) => true,
+            Syntax::Typescript(t) => !t.no_early_errors,
         }
     }
 }
@@ -364,16 +422,23 @@ pub struct Context {
     in_declare: bool,
 
     /// If true, `:` should not be treated as a type annotation.
+    #[cfg(feature = "typescript")]
     in_cond_expr: bool,
+
+    #[cfg(feature = "typescript")]
     is_direct_child_of_cond: bool,
 
     in_function: bool,
 
+    #[cfg(feature = "typescript")]
     in_arrow_function: bool,
+
+    #[cfg(feature = "typescript")]
     is_direct_child_of_braceless_arrow_function: bool,
 
     in_parameters: bool,
 
+    #[cfg(feature = "typescript")]
     has_super_class: bool,
 
     in_property_name: bool,
@@ -381,6 +446,7 @@ pub struct Context {
     in_forced_jsx_context: bool,
 
     /// If true, `:` should not be treated as a type annotation.
+    #[cfg(feature = "typescript")]
     dont_parse_colon_as_type_ann: bool,
 
     // If true, allow super.x and super[x]

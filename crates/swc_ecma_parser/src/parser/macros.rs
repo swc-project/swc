@@ -217,6 +217,7 @@ macro_rules! expect_exact {
     }};
 }
 
+#[cfg(feature = "typescript")]
 macro_rules! store {
     ($p:expr, $t:tt) => {{
         const TOKEN: Token = token_including_semi!($t);

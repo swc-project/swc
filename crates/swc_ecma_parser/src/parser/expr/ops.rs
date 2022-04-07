@@ -86,8 +86,10 @@ impl<'a, I: Tokens> Parser<I> {
         left: Box<Expr>,
         min_prec: u8,
     ) -> PResult<(Box<Expr>, Option<u8>)> {
+        #[cfg(feature = "typescript")]
         const PREC_OF_IN: u8 = 7;
 
+        #[cfg(feature = "typescript")]
         if self.input.syntax().typescript()
             && PREC_OF_IN > min_prec
             && !self.input.had_line_break_before_cur()
@@ -228,6 +230,7 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_unary_expr);
         let start = cur_pos!(self);
 
+        #[cfg(feature = "typescript")]
         if !self.input.syntax().jsx() && self.input.syntax().typescript() && eat!(self, '<') {
             if eat!(self, "const") {
                 expect!(self, '>');

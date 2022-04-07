@@ -1,11 +1,13 @@
 use either::Either;
 use swc_atoms::js_word;
-use swc_common::{ast_node, util::take::Take, Spanned};
+#[cfg(feature = "typescript")]
+use swc_common::util::take::Take;
+use swc_common::{ast_node, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
-use crate::{
-    lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList, token::AssignOpToken,
-};
+#[cfg(feature = "typescript")]
+use crate::lexer::TokenContext;
+use crate::{parser::class_and_fn::IsSimpleParameterList, token::AssignOpToken};
 
 mod ops;
 #[cfg(test)]
@@ -40,6 +42,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
+        #[cfg(feature = "typescript")]
         if self.input.syntax().typescript() && self.input.syntax().jsx() {
             // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
             // syntax.
@@ -81,6 +84,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr_base);
 
+        #[cfg(feature = "typescript")]
         if self.input.syntax().typescript()
             && (is_one_of!(self, '<', JSXTagStart))
             && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
@@ -204,7 +208,9 @@ impl<'a, I: Tokens> Parser<I> {
 
         if eat!(self, '?') {
             let ctx = Context {
+                #[cfg(feature = "typescript")]
                 in_cond_expr: true,
+                #[cfg(feature = "typescript")]
                 is_direct_child_of_cond: true,
                 include_in_expr: true,
                 ..self.ctx()
@@ -212,7 +218,9 @@ impl<'a, I: Tokens> Parser<I> {
             let cons = self.with_ctx(ctx).parse_assignment_expr()?;
             expect!(self, ':');
             let ctx = Context {
+                #[cfg(feature = "typescript")]
                 in_cond_expr: true,
+                #[cfg(feature = "typescript")]
                 is_direct_child_of_cond: true,
                 ..self.ctx()
             };
@@ -276,6 +284,7 @@ impl<'a, I: Tokens> Parser<I> {
                         return self.parse_async_fn_expr();
                     }
 
+                    #[cfg(feature = "typescript")]
                     if can_be_arrow && self.input.syntax().typescript() && peeked_is!(self, '<') {
                         // try parsing `async<T>() => {}`
                         if let Some(res) = self.try_parse_ts(|p| {
@@ -296,7 +305,9 @@ impl<'a, I: Tokens> Parser<I> {
 
                 tok!('[') => {
                     let ctx = Context {
+                        #[cfg(feature = "typescript")]
                         is_direct_child_of_cond: false,
+                        #[cfg(feature = "typescript")]
                         dont_parse_colon_as_type_ann: false,
                         ..self.ctx()
                     };
@@ -367,6 +378,8 @@ impl<'a, I: Tokens> Parser<I> {
 
             if can_be_arrow && id.sym == js_word!("async") && is!(self, BindingIdent) {
                 let ident = self.parse_binding_ident()?;
+
+                #[cfg(feature = "typescript")]
                 if self.input.syntax().typescript()
                     && ident.id.sym == js_word!("as")
                     && !is!(self, "=>")
@@ -506,6 +519,9 @@ impl<'a, I: Tokens> Parser<I> {
             let callee = self.parse_member_expr_or_new_expr(is_new_expr)?;
             return_if_arrow!(self, callee);
 
+            #[cfg(not(feature = "typescript"))]
+            let type_args = None;
+            #[cfg(feature = "typescript")]
             let type_args = if self.input.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts(|p| {
                     let args = p.parse_ts_type_args()?;
@@ -560,11 +576,14 @@ impl<'a, I: Tokens> Parser<I> {
         let obj = self.parse_primary_expr()?;
         return_if_arrow!(self, obj);
 
+        #[cfg(feature = "typescript")]
         let type_args = if self.syntax().typescript() && is!(self, '<') {
             self.try_parse_ts_type_args()
         } else {
             None
         };
+
+        #[cfg(feature = "typescript")]
         let obj = if let Some(type_args) = type_args {
             Box::new(Expr::TsInstantiation(TsInstantiation {
                 expr: obj,
@@ -591,6 +610,7 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_args);
 
         let ctx = Context {
+            #[cfg(feature = "typescript")]
             is_direct_child_of_cond: false,
             ..self.ctx()
         };
@@ -663,6 +683,7 @@ impl<'a, I: Tokens> Parser<I> {
         // expressions, we can parse both as expression.
 
         let ctx = Context {
+            #[cfg(feature = "typescript")]
             is_direct_child_of_cond: false,
             ..self.ctx()
         };
@@ -676,8 +697,11 @@ impl<'a, I: Tokens> Parser<I> {
             .iter()
             .any(|item| matches!(item, PatOrExprOrSpread::Pat(..)));
 
+        #[cfg(feature = "typescript")]
         let is_direct_child_of_cond = self.ctx().is_direct_child_of_cond;
+
         // This is slow path. We handle arrow in conditional expression.
+        #[cfg(feature = "typescript")]
         if self.syntax().typescript()
             && self.ctx().in_cond_expr
             && !self.ctx().is_direct_child_of_braceless_arrow_function
@@ -721,6 +745,9 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        #[cfg(not(feature = "typescript"))]
+        let return_type = None;
+        #[cfg(feature = "typescript")]
         let return_type = if !(self.ctx().in_cond_expr && self.ctx().is_direct_child_of_cond)
             && self.input.syntax().typescript()
             && is!(self, ':')
@@ -989,12 +1016,14 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_subscript(
         &mut self,
         start: BytePos,
-        mut obj: Callee,
+        #[cfg(not(feature = "typescript"))] obj: Callee,
+        #[cfg(feature = "typescript")] mut obj: Callee,
         no_call: bool,
         no_computed_member: bool,
     ) -> PResult<(Box<Expr>, bool)> {
         let _ = cur!(self, false);
 
+        #[cfg(feature = "typescript")]
         if self.input.syntax().typescript() {
             if !self.input.had_line_break_before_cur() && is!(self, '!') {
                 self.input.set_expr_allowed(false);
@@ -1092,6 +1121,9 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
+        #[cfg(not(feature = "typescript"))]
+        let type_args = None;
+        #[cfg(feature = "typescript")]
         let type_args = if self.syntax().typescript() && is!(self, '<') {
             self.try_parse_ts_type_args()
         } else {
@@ -1126,6 +1158,9 @@ impl<'a, I: Tokens> Parser<I> {
                 expr: prop,
             };
 
+            #[cfg(not(feature = "typescript"))]
+            let type_args = None;
+            #[cfg(feature = "typescript")]
             let type_args = if self.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts_type_args()
             } else {
@@ -1194,6 +1229,9 @@ impl<'a, I: Tokens> Parser<I> {
             && eat!(self, '.'))
             || (!no_call && (is!(self, '(')))
         {
+            #[cfg(not(feature = "typescript"))]
+            let type_args = None;
+            #[cfg(feature = "typescript")]
             let type_args = if self.syntax().typescript() && is!(self, '<') {
                 self.parse_ts_type_args().map(Some)?
             } else {
@@ -1245,6 +1283,9 @@ impl<'a, I: Tokens> Parser<I> {
             debug_assert_eq!(obj.span().lo(), span.lo());
             debug_assert_eq!(prop.span().hi(), span.hi());
 
+            #[cfg(not(feature = "typescript"))]
+            let type_args = None;
+            #[cfg(feature = "typescript")]
             let type_args = if self.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts_type_args()
             } else {
@@ -1415,6 +1456,9 @@ impl<'a, I: Tokens> Parser<I> {
         let callee = self.parse_new_expr()?;
         return_if_arrow!(self, callee);
 
+        #[cfg(not(feature = "typescript"))]
+        let type_args = None;
+        #[cfg(feature = "typescript")]
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             self.try_parse_ts(|p| {
                 let type_args = p.parse_ts_type_args()?;
@@ -1504,7 +1548,11 @@ impl<'a, I: Tokens> Parser<I> {
             self.state.potential_arrow_start = Some(start);
             let modifier_start = start;
 
+            #[cfg(not(feature = "typescript"))]
+            let has_modifier = false;
+            #[cfg(feature = "typescript")]
             let has_modifier = self.eat_any_ts_modifier()?;
+
             let pat_start = cur_pos!(self);
 
             let mut arg = {
@@ -1564,7 +1612,9 @@ impl<'a, I: Tokens> Parser<I> {
                         expect!(self, '?');
                         let test = arg.expr;
                         let ctx = Context {
+                            #[cfg(feature = "typescript")]
                             in_cond_expr: true,
+                            #[cfg(feature = "typescript")]
                             is_direct_child_of_cond: true,
                             include_in_expr: true,
                             ..self.ctx()
@@ -1572,7 +1622,9 @@ impl<'a, I: Tokens> Parser<I> {
                         let cons = self.with_ctx(ctx).parse_assignment_expr()?;
                         expect!(self, ':');
                         let ctx = Context {
+                            #[cfg(feature = "typescript")]
                             in_cond_expr: true,
+                            #[cfg(feature = "typescript")]
                             is_direct_child_of_cond: true,
                             ..self.ctx()
                         };
@@ -1630,6 +1682,7 @@ impl<'a, I: Tokens> Parser<I> {
                     });
                 }
                 match pat {
+                    #[cfg(feature = "typescript")]
                     Pat::Ident(BindingIdent {
                         id: Ident { ref mut span, .. },
                         ref mut type_ann,
@@ -1671,6 +1724,8 @@ impl<'a, I: Tokens> Parser<I> {
                         // creating `Invalid`, we don't have to emit a new
                         // error.
                     }
+                    #[cfg(not(feature = "typescript"))]
+                    _ => (),
                 }
 
                 if eat!(self, '=') {
@@ -1789,6 +1844,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
+    #[cfg(feature = "typescript")]
     fn at_possible_async(&mut self, expr: &Expr) -> PResult<bool> {
         // TODO(kdy1): !this.state.containsEsc &&
 

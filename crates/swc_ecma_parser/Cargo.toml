@@ -52,6 +52,15 @@ name = "lexer"
 
 [[example]]
 name = "typescript"
+required-features = ["typescript"]
+
+[[example]]
+name = "perf"
+required-features = ["typescript"]
+
+[[test]]
+name = "typescript"
+required-features = ["typescript"]
 
 [[bench]]
 harness = false

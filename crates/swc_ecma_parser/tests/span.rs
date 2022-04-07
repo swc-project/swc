@@ -2,9 +2,57 @@ use std::path::PathBuf;
 
 use swc_common::{comments::SingleThreadedComments, errors::Handler, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
+#[cfg(feature = "typescript")]
+use swc_ecma_parser::TsConfig;
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
 
+#[cfg(not(feature = "typescript"))]
+#[testing::fixture("tests/span/**/*.js")]
+fn span(entry: PathBuf) {
+    let dir = entry.parent().unwrap().to_path_buf();
+    let file_name = entry
+        .file_name()
+        .unwrap()
+        .to_str()
+        .expect("to_str() failed")
+        .to_string();
+
+    let content = ::testing::run_test(false, |cm, handler| -> Result<(), _> {
+        let src = cm.load_file(&entry).expect("failed to load file");
+
+        let comments = SingleThreadedComments::default();
+        let lexer = Lexer::new(
+            Syntax::Es(EsConfig {
+                jsx: true,
+                decorators: true,
+                static_blocks: true,
+                ..Default::default()
+            }),
+            Default::default(),
+            (&*src).into(),
+            Some(&comments),
+        );
+        let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
+
+        {
+            let module = parser
+                .parse_module()
+                .map_err(|e| e.into_diagnostic(handler).emit())?;
+
+            Shower { handler }.visit_module(&module);
+        }
+
+        Err(())
+    })
+    .expect_err("failed to run test");
+
+    let ref_file = format!("{}.spans", dir.join(&file_name).display());
+
+    content.compare_to_file(&ref_file).unwrap();
+}
+
+#[cfg(feature = "typescript")]
 #[testing::fixture("tests/span/**/*.js")]
 #[testing::fixture("tests/span/**/*.ts")]
 fn span(entry: PathBuf) {
@@ -29,6 +77,7 @@ fn span(entry: PathBuf) {
                     ..Default::default()
                 })
             } else {
+                #[cfg(feature = "typescript")]
                 Syntax::Typescript(TsConfig {
                     tsx: true,
                     decorators: true,

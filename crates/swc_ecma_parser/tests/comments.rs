@@ -7,7 +7,9 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
+#[cfg(feature = "typescript")]
+use swc_ecma_parser::TsConfig;
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
 use testing::{fixture, Tester};
 
@@ -33,6 +35,7 @@ fn test(input: PathBuf) {
                     static_blocks: true,
                     ..Default::default()
                 }),
+                #[cfg(feature = "typescript")]
                 "ts" | "tsx" => Syntax::Typescript(TsConfig {
                     tsx: ext == "tsx",
                     decorators: true,

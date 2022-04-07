@@ -1,7 +1,9 @@
 use swc_common::{comments::SingleThreadedComments, BytePos};
 
 use super::*;
-use crate::{test_parser, EsConfig, TsConfig};
+#[cfg(feature = "typescript")]
+use crate::TsConfig;
+use crate::{test_parser, EsConfig};
 
 fn program(src: &'static str) -> Program {
     test_parser(src, Default::default(), |p| p.parse_program())
@@ -137,6 +139,7 @@ fn parse_module_export_default_class_span() {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_1878() {
     // file with only comments should have the comments
     // in the leading map instead of the trailing
@@ -184,6 +187,7 @@ fn issue_1878() {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_2264_1() {
     let c = SingleThreadedComments::default();
     let s = "
@@ -232,6 +236,7 @@ fn issue_2264_2() {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_2264_3() {
     let c = SingleThreadedComments::default();
     let s = "const foo = <h1>/* no */{/* 1 */ bar /* 2 */}/* no */</h1>;";
@@ -253,6 +258,7 @@ fn issue_2264_3() {
 }
 
 #[test]
+#[cfg(feature = "typescript")]
 fn issue_2339_1() {
     let c = SingleThreadedComments::default();
     let s = "

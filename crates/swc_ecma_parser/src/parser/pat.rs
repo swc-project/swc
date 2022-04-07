@@ -140,6 +140,7 @@ impl<'a, I: Tokens> Parser<I> {
         }))
     }
 
+    #[cfg(feature = "typescript")]
     pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
         let has_modifier = self.syntax().typescript()
             && matches!(
@@ -165,12 +166,23 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_formal_param_pat(&mut self) -> PResult<Pat> {
         let start = cur_pos!(self);
 
+        #[cfg(feature = "typescript")]
         let has_modifier = self.eat_any_ts_modifier()?;
 
+        #[cfg(feature = "typescript")]
         let pat_start = cur_pos!(self);
+
+        #[cfg(not(feature = "typescript"))]
+        let pat = self.parse_binding_element()?;
+        #[cfg(feature = "typescript")]
         let mut pat = self.parse_binding_element()?;
+
+        #[cfg(not(feature = "typescript"))]
+        let opt = false;
+        #[cfg(feature = "typescript")]
         let mut opt = false;
 
+        #[cfg(feature = "typescript")]
         if self.input.syntax().typescript() {
             if eat!(self, '?') {
                 match pat {
@@ -260,6 +272,7 @@ impl<'a, I: Tokens> Parser<I> {
             pat
         };
 
+        #[cfg(feature = "typescript")]
         if has_modifier {
             self.emit_err(span!(self, start), SyntaxError::TS2369);
             return Ok(pat);
@@ -284,13 +297,19 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             let param_start = cur_pos!(self);
+
             let decorators = self.parse_decorators(false)?;
+
             let pat_start = cur_pos!(self);
 
             if eat!(self, "...") {
                 let dot3_token = span!(self, pat_start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
+
+                #[cfg(not(feature = "typescript"))]
+                let type_ann = None;
+                #[cfg(feature = "typescript")]
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
                     Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
@@ -323,16 +342,23 @@ impl<'a, I: Tokens> Parser<I> {
         param_start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<ParamOrTsParamProp> {
-        let (accessibility, is_override, readonly) = if self.input.syntax().typescript() {
-            let accessibility = self.parse_access_modifier()?;
-            (
-                accessibility,
-                self.parse_ts_modifier(&["override"], false)?.is_some(),
-                self.parse_ts_modifier(&["readonly"], false)?.is_some(),
-            )
-        } else {
-            (None, false, false)
+        #[cfg(not(feature = "typescript"))]
+        let (accessibility, is_override, readonly) = (None, false, false);
+
+        #[cfg(feature = "typescript")]
+        let (accessibility, is_override, readonly) = {
+            if self.input.syntax().typescript() {
+                let accessibility = self.parse_access_modifier()?;
+                (
+                    accessibility,
+                    self.parse_ts_modifier(&["override"], false)?.is_some(),
+                    self.parse_ts_modifier(&["readonly"], false)?.is_some(),
+                )
+            } else {
+                (None, false, false)
+            }
         };
+
         if accessibility == None && !is_override && !readonly {
             let pat = self.parse_formal_param_pat()?;
             Ok(ParamOrTsParamProp::Param(Param {
@@ -409,6 +435,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             let decorators = self.parse_decorators(false)?;
+
             let pat_start = cur_pos!(self);
 
             let pat = if eat!(self, "...") {
@@ -428,6 +455,9 @@ impl<'a, I: Tokens> Parser<I> {
                     .into();
                 }
 
+                #[cfg(not(feature = "typescript"))]
+                let type_ann = None;
+                #[cfg(feature = "typescript")]
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
                     let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
@@ -443,8 +473,11 @@ impl<'a, I: Tokens> Parser<I> {
                     type_ann,
                 });
 
-                if self.syntax().typescript() && eat!(self, '?') {
-                    self.emit_err(self.input.prev_span(), SyntaxError::TS1047);
+                #[cfg(feature = "typescript")]
+                if self.syntax().typescript() {
+                    if eat!(self, '?') {
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1047);
+                    }
                     //
                 }
 

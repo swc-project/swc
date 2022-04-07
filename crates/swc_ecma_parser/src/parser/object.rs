@@ -13,7 +13,9 @@ impl<'a, I: Tokens> Parser<I> {
         Self: ParseObject<T>,
     {
         let ctx = Context {
+            #[cfg(feature = "typescript")]
             is_direct_child_of_cond: false,
+            #[cfg(feature = "typescript")]
             dont_parse_colon_as_type_ann: false,
             ..self.ctx()
         };
@@ -166,11 +168,15 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                 });
         }
 
+        #[cfg(feature = "typescript")]
         let has_modifiers = self.eat_any_ts_modifier()?;
+
+        #[cfg(feature = "typescript")]
         let modifiers_span = self.input.prev_span();
 
         let key = self.parse_prop_name()?;
 
+        #[cfg(feature = "typescript")]
         if self.input.syntax().typescript()
             && !is_one_of!(self, '(', '[', ':', ',', '?', '=', '*', IdentName, Str, Num)
             && !(self.input.syntax().typescript() && is!(self, '<'))
@@ -255,6 +261,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
             js_word!("get") | js_word!("set") | js_word!("async") => {
                 trace_cur!(self, parse_object_prop__after_accessor);
 
+                #[cfg(feature = "typescript")]
                 if has_modifiers {
                     self.emit_err(modifiers_span, SyntaxError::TS1042);
                 }
