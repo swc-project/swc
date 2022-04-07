@@ -95,8 +95,13 @@ impl<'a, I: Tokens> Parser<I> {
 
         let mut elems = vec![];
         let mut comma = 0;
+        let mut rest_span = Span::default();
 
         while !eof!(self) && !is!(self, ']') {
+            if !rest_span.is_dummy() {
+                self.emit_err(rest_span, SyntaxError::NonLastRestParam);
+            }
+
             if eat!(self, ',') {
                 comma += 1;
                 continue;
@@ -107,25 +112,29 @@ impl<'a, I: Tokens> Parser<I> {
             }
             let start = cur_pos!(self);
 
+            let mut is_rest = false;
             if eat!(self, "...") {
+                is_rest = true;
                 let dot3_token = span!(self, start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
+                rest_span = span!(self, start);
                 let pat = Pat::Rest(RestPat {
-                    span: span!(self, start),
+                    span: rest_span,
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann: None,
                 });
                 elems.push(Some(pat));
-                // Trailing comma isn't allowed
-                break;
             } else {
                 elems.push(self.parse_binding_element().map(Some)?);
             }
 
             if !is!(self, ']') {
                 expect!(self, ',');
+                if is_rest && is!(self, ']') {
+                    self.emit_err(self.input.prev_span(), SyntaxError::CommaAfterRestElement);
+                }
             }
         }
 
@@ -269,25 +278,21 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_constructor_params(&mut self) -> PResult<Vec<ParamOrTsParamProp>> {
-        let mut first = true;
         let mut params = vec![];
+        let mut rest_span = Span::default();
 
         while !eof!(self) && !is!(self, ')') {
-            if first {
-                first = false;
-            } else {
-                expect!(self, ',');
-                // Handle trailing comma.
-                if is!(self, ')') {
-                    break;
-                }
+            if !rest_span.is_dummy() {
+                self.emit_err(rest_span, SyntaxError::TS1014);
             }
 
             let param_start = cur_pos!(self);
             let decorators = self.parse_decorators(false)?;
             let pat_start = cur_pos!(self);
 
+            let mut is_rest = false;
             if eat!(self, "...") {
+                is_rest = true;
                 let dot3_token = span!(self, pat_start);
 
                 let pat = self.parse_binding_pat_or_ident()?;
@@ -298,8 +303,9 @@ impl<'a, I: Tokens> Parser<I> {
                     None
                 };
 
+                rest_span = span!(self, pat_start);
                 let pat = Pat::Rest(RestPat {
-                    span: span!(self, pat_start),
+                    span: rest_span,
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann,
@@ -309,9 +315,15 @@ impl<'a, I: Tokens> Parser<I> {
                     decorators,
                     pat,
                 }));
-                break;
             } else {
                 params.push(self.parse_constructor_param(param_start, decorators)?);
+            }
+
+            if !is!(self, ')') {
+                expect!(self, ',');
+                if is!(self, ')') && is_rest {
+                    self.emit_err(self.input.prev_span(), SyntaxError::CommaAfterRestElement);
+                }
             }
         }
 
@@ -380,39 +392,20 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_formal_params(&mut self) -> PResult<Vec<Param>> {
-        let mut first = true;
         let mut params = vec![];
-        let mut dot3_token = Span::default();
+        let mut rest_span = Span::default();
 
         while !eof!(self) && !is!(self, ')') {
-            if first {
-                first = false;
-            } else {
-                if dot3_token.is_dummy() {
-                    expect!(self, ',');
-                } else {
-                    // We are handling error.
-
-                    eat!(self, ',');
-                }
-
-                // Handle trailing comma.
-                if is!(self, ')') {
-                    break;
-                }
+            if !rest_span.is_dummy() {
+                self.emit_err(rest_span, SyntaxError::TS1014);
             }
 
             let param_start = cur_pos!(self);
-
-            if !dot3_token.is_dummy() {
-                self.emit_err(dot3_token, SyntaxError::TS1014);
-            }
-
             let decorators = self.parse_decorators(false)?;
             let pat_start = cur_pos!(self);
 
             let pat = if eat!(self, "...") {
-                dot3_token = span!(self, pat_start);
+                let dot3_token = span!(self, pat_start);
 
                 let mut pat = self.parse_binding_pat_or_ident()?;
 
@@ -436,8 +429,9 @@ impl<'a, I: Tokens> Parser<I> {
                     None
                 };
 
+                rest_span = span!(self, pat_start);
                 let pat = Pat::Rest(RestPat {
-                    span: span!(self, pat_start),
+                    span: rest_span,
                     dot3_token,
                     arg: Box::new(pat),
                     type_ann,
@@ -452,12 +446,20 @@ impl<'a, I: Tokens> Parser<I> {
             } else {
                 self.parse_formal_param_pat()?
             };
+            let is_rest = matches!(pat, Pat::Rest(_));
 
             params.push(Param {
                 span: span!(self, param_start),
                 decorators,
                 pat,
             });
+
+            if !is!(self, ')') {
+                expect!(self, ',');
+                if is_rest && is!(self, ')') {
+                    self.emit_err(self.input.prev_span(), SyntaxError::CommaAfterRestElement);
+                }
+            }
         }
 
         Ok(params)
@@ -607,11 +609,14 @@ impl<'a, I: Tokens> Parser<I> {
                     type_ann: None,
                 }))
             }
-            Expr::Object(ObjectLit { span, props }) => {
+            Expr::Object(ObjectLit {
+                span: object_span,
+                props,
+            }) => {
                 // {}
                 let len = props.len();
                 Ok(Pat::Object(ObjectPat {
-                    span,
+                    span: object_span,
                     props: props
                         .into_iter()
                         .enumerate()
@@ -648,6 +653,13 @@ impl<'a, I: Tokens> Parser<I> {
                                 PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
                                     if idx != len - 1 {
                                         self.emit_err(span, SyntaxError::NonLastRestParam)
+                                    } else if let Some(trailing_comma) =
+                                        self.state.trailing_commas.get(&object_span.lo)
+                                    {
+                                        self.emit_err(
+                                            *trailing_comma,
+                                            SyntaxError::CommaAfterRestElement,
+                                        );
                                     };
 
                                     let element_pat_ty = pat_ty.element();
@@ -714,11 +726,7 @@ impl<'a, I: Tokens> Parser<I> {
                             expr @ ExprOrSpread {
                                 spread: Some(..), ..
                             },
-                        ) => {
-                            if self.syntax().early_errors() {
-                                syntax_error!(self, expr.span(), SyntaxError::NonLastRestParam)
-                            }
-                        }
+                        ) => self.emit_err(expr.span(), SyntaxError::NonLastRestParam),
                         Some(ExprOrSpread { expr, .. }) => {
                             params.push(self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?)
                         }
@@ -737,8 +745,11 @@ impl<'a, I: Tokens> Parser<I> {
                         }) => {
                             // TODO: is BindingPat correct?
                             if let Expr::Assign(_) = *expr {
-                                self.emit_err(outer_expr_span, SyntaxError::TS1048)
+                                self.emit_err(outer_expr_span, SyntaxError::TS1048);
                             };
+                            if let Some(trailing_comma) = self.state.trailing_commas.get(&span.lo) {
+                                self.emit_err(*trailing_comma, SyntaxError::CommaAfterRestElement);
+                            }
                             let expr_span = expr.span();
                             self.reparse_expr_as_pat(pat_ty.element(), expr)
                                 .map(|pat| {
@@ -791,6 +802,7 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_paren_items_as_params(
         &mut self,
         mut exprs: Vec<PatOrExprOrSpread>,
+        trailing_comma: Option<Span>,
     ) -> PResult<Vec<Pat>> {
         let pat_ty = PatType::BindingPat;
 
@@ -807,9 +819,7 @@ impl<'a, I: Tokens> Parser<I> {
                     spread: Some(..), ..
                 })
                 | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
-                    if self.syntax().early_errors() {
-                        syntax_error!(self, expr.span(), SyntaxError::NonLastRestParam)
-                    }
+                    self.emit_err(expr.span(), SyntaxError::TS1014)
                 }
                 PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
                     spread: None, expr, ..
@@ -830,6 +840,9 @@ impl<'a, I: Tokens> Parser<I> {
                 if let Expr::Assign(_) = *expr {
                     self.emit_err(outer_expr_span, SyntaxError::TS1048)
                 };
+                if let Some(trailing_comma) = trailing_comma {
+                    self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
+                }
                 let expr_span = expr.span();
                 self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
                     Pat::Rest(RestPat {
@@ -843,7 +856,14 @@ impl<'a, I: Tokens> Parser<I> {
             PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
                 self.reparse_expr_as_pat(pat_ty, expr)?
             }
-            PatOrExprOrSpread::Pat(pat) => pat,
+            PatOrExprOrSpread::Pat(pat) => {
+                if let Some(trailing_comma) = trailing_comma {
+                    if let Pat::Rest(..) = pat {
+                        self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
+                    }
+                }
+                pat
+            }
         };
         params.push(last);
 

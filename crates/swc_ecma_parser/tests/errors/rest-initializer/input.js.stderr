@@ -1,0 +1,60 @@
+
+  x A rest parameter cannot have an initializer
+   ,-[$DIR/tests/errors/rest-initializer/input.js:1:1]
+ 1 | [...a=1]=[];
+   :  ^^^^^^
+   `----
+
+  x A rest parameter cannot have an initializer
+   ,-[$DIR/tests/errors/rest-initializer/input.js:2:1]
+ 2 | [a,...b=1]=[];
+   :    ^^^^^^
+   `----
+
+  x A rest parameter cannot have an initializer
+   ,-[$DIR/tests/errors/rest-initializer/input.js:4:1]
+ 4 | ([...a=1])=>{};
+   :   ^^^^^^
+   `----
+
+  x A rest parameter cannot have an initializer
+   ,-[$DIR/tests/errors/rest-initializer/input.js:5:1]
+ 5 | ([a,...b=1])=>{};
+   :     ^^^^^^
+   `----
+
+  x A rest parameter cannot have an initializer
+   ,-[$DIR/tests/errors/rest-initializer/input.js:7:1]
+ 7 | ({...a=1}={});
+   :   ^^^^^^
+   `----
+
+  x A rest parameter cannot have an initializer
+   ,-[$DIR/tests/errors/rest-initializer/input.js:8:1]
+ 8 | ({a,...b=1}={});
+   :     ^^^^^^
+   `----
+
+  x `...` must be followed by an identifier in declaration contexts
+    ,-[$DIR/tests/errors/rest-initializer/input.js:10:1]
+ 10 | ({...a=1})=>{};
+    :   ^^^^^^
+    `----
+
+  x `...` must be followed by an identifier in declaration contexts
+    ,-[$DIR/tests/errors/rest-initializer/input.js:11:1]
+ 11 | ({a,...b=1})=>{};
+    :     ^^^^^^
+    `----
+
+  x A rest parameter cannot have an initializer
+    ,-[$DIR/tests/errors/rest-initializer/input.js:13:1]
+ 13 | (...a=1)=>{};
+    :  ^^^^^^
+    `----
+
+  x A rest parameter cannot have an initializer
+    ,-[$DIR/tests/errors/rest-initializer/input.js:14:1]
+ 14 | (a,...b=1)=>{};
+    :    ^^^^^^
+    `----
