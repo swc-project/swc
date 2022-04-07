@@ -70,6 +70,14 @@ where
                             dump(&var.name, false)
                         );
                     }
+
+                    if self.options.props && !usage.mutated {
+                        if let Expr::Array(arr) = &**init {
+                            if arr.elems.iter().flatten().all(|e| e.expr.is_lit()) {
+                                self.vars.simple_arrays.insert(i.to_id(), init.clone());
+                            }
+                        }
+                    }
                     return;
                 }
 
@@ -78,6 +86,14 @@ where
                         tracing::trace!("inline: [x] It's cond init or used before decl",);
                     }
                     return;
+                }
+
+                if self.options.props && !usage.mutated {
+                    if let Expr::Array(arr) = &**init {
+                        if arr.elems.iter().flatten().all(|e| e.expr.is_lit()) {
+                            self.vars.simple_arrays.insert(i.to_id(), init.clone());
+                        }
+                    }
                 }
 
                 if !usage.is_fn_local {
