@@ -31,6 +31,9 @@
 
 - **(html/parser)** Support cdata (#4259) ([3f6037b](https://github.com/swc-project/swc/commit/3f6037b467a378357051a7de6002e34d36b640d4))
 
+
+- **(html/parser)** Fix bugs (#4265) ([105a0cc](https://github.com/swc-project/swc/commit/105a0cccf7dec630824e2e0f8ee77bf31645aa28))
+
 ### Features
 
 
