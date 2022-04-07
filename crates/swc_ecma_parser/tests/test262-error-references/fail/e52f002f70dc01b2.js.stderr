@@ -1,5 +1,5 @@
 
-  x Rest element must be final element
+  x A rest parameter must be last in a parameter list
    ,-[$DIR/tests/test262-parser/fail/e52f002f70dc01b2.js:1:1]
  1 | (...a, b) => {}
    :  ^^^^

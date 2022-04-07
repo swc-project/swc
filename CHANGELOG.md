@@ -26,6 +26,9 @@
 - **(es/parser)** Support error reporting for TS1274 (#4232) ([6d380ea](https://github.com/swc-project/swc/commit/6d380ea6faf1bde18c6f92c87ed0395c674a1ead))
 
 
+- **(es/parser)** Adjust context in a function block (#4264) ([b89937c](https://github.com/swc-project/swc/commit/b89937c3c081132e3cf126467476080f29272cdd))
+
+
 - **(html/parser)** Support cdata (#4259) ([3f6037b](https://github.com/swc-project/swc/commit/3f6037b467a378357051a7de6002e34d36b640d4))
 
 ### Features
@@ -51,6 +54,9 @@
 
 
 - **(es/minifier)** Implement more rules for `hoist_props` (#4262) ([1f5cac4](https://github.com/swc-project/swc/commit/1f5cac4d413bc8d035e137d74470469dfd886fa3))
+
+
+- **(es/parser)** Report more errors (#4244) ([674275c](https://github.com/swc-project/swc/commit/674275c8242df111bb9391da13b9869d7e6b6405))
 
 
 - **(html)** Initialize (#4240) ([3e7872c](https://github.com/swc-project/swc/commit/3e7872c8de05ac46ef6ffb99f778ef5b64e47f1b))

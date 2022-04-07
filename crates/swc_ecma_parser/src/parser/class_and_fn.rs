@@ -1514,7 +1514,13 @@ fn has_use_strict(block: &BlockStmt) -> Option<Span> {
 impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
     fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<BlockStmtOrExpr> {
         if is!(self, '{') {
-            self.parse_block(false).map(|block_stmt| {
+            let cur_ctx = self.ctx();
+            let ctx = Context {
+                is_direct_child_of_braceless_arrow_function: false,
+                ..cur_ctx
+            };
+            let result = self.with_ctx(ctx).parse_block(false);
+            result.map(|block_stmt| {
                 if !self.input.syntax().typescript() && !is_simple_parameter_list {
                     if let Some(span) = has_use_strict(&block_stmt) {
                         self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);

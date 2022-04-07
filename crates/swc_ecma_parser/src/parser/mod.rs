@@ -2,7 +2,7 @@
 use std::ops::{Deref, DerefMut};
 
 use swc_atoms::JsWord;
-use swc_common::{comments::Comments, input::Input, BytePos, Span};
+use swc_common::{collections::AHashMap, comments::Comments, input::Input, BytePos, Span};
 use swc_ecma_ast::*;
 
 pub use self::input::{Capturing, Tokens, TokensInput};
@@ -52,6 +52,8 @@ struct State {
     potential_arrow_start: Option<BytePos>,
 
     found_module_item: bool,
+    /// Start position of an AST node and the span of its trailing comma.
+    trailing_commas: AHashMap<BytePos, Span>,
 }
 
 impl<'a, I: Input> Parser<Lexer<'a, I>> {

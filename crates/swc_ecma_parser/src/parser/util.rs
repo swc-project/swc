@@ -190,7 +190,12 @@ impl<'a, I: Tokens> Parser<I> {
 }
 pub trait ParseObject<Obj> {
     type Prop;
-    fn make_object(&mut self, span: Span, props: Vec<Self::Prop>) -> PResult<Obj>;
+    fn make_object(
+        &mut self,
+        span: Span,
+        props: Vec<Self::Prop>,
+        trailing_comma: Option<Span>,
+    ) -> PResult<Obj>;
     fn parse_object_prop(&mut self) -> PResult<Self::Prop>;
 }
 
