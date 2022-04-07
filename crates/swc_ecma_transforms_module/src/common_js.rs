@@ -1062,13 +1062,55 @@ impl ModulePass for CommonJs {
 /// ```
 pub(super) fn handle_dynamic_import(
     span: Span,
-    args: Vec<ExprOrSpread>,
+    mut args: Vec<ExprOrSpread>,
     es_module_interop: bool,
 ) -> Expr {
+    // there's a evalution order problem here
+    let (resolve_arg, then_arg, require_arg) = if let Expr::Lit(Lit::Str(_)) = &*args[0].expr {
+        (Vec::new(), Vec::new(), args)
+    } else {
+        let arg = private_ident!("s");
+        let rest = args.split_off(1);
+        let import = args.into_iter().next().unwrap();
+        (
+            vec![ExprOrSpread {
+                spread: None,
+                expr: if import.expr.is_tpl() {
+                    import.expr
+                } else {
+                    Box::new(Expr::Tpl(Tpl {
+                        span: DUMMY_SP,
+                        exprs: vec![import.expr],
+                        quasis: vec![
+                            TplElement {
+                                span: DUMMY_SP,
+                                tail: true,
+                                cooked: None,
+                                raw: "".into(),
+                            },
+                            TplElement {
+                                span: DUMMY_SP,
+                                tail: true,
+                                cooked: None,
+                                raw: "".into(),
+                            },
+                        ],
+                    }))
+                },
+            }],
+            vec![arg.clone().into()],
+            {
+                let mut require_arg = vec![arg.as_arg()];
+                require_arg.extend(rest);
+                require_arg
+            },
+        )
+    };
+
     let resolve_call = CallExpr {
         span: DUMMY_SP,
         callee: member_expr!(DUMMY_SP, Promise.resolve).as_callee(),
-        args: Default::default(),
+        args: resolve_arg,
         type_args: Default::default(),
     };
     // Promise.resolve().then
@@ -1083,7 +1125,7 @@ pub(super) fn handle_dynamic_import(
                 ident: None,
                 function: Function {
                     span: DUMMY_SP,
-                    params: vec![],
+                    params: then_arg,
                     is_generator: false,
                     is_async: false,
                     type_params: Default::default(),
@@ -1097,7 +1139,7 @@ pub(super) fn handle_dynamic_import(
                                 let mut expr = Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     callee: quote_ident!("require").as_callee(),
-                                    args,
+                                    args: require_arg,
                                     type_args: Default::default(),
                                 }));
 
