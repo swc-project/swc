@@ -3600,7 +3600,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.79.0"
+version = "0.79.1"
 dependencies = [
  "indexmap",
  "once_cell",
