@@ -21,6 +21,7 @@
           "attributes": [
             {
               "name": "id",
+              "raw_name": "id",
               "value": "element-details-template"
             }
           ]
@@ -7981,6 +7982,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "name"
             }
           ]
@@ -8017,6 +8019,7 @@
           "attributes": [
             {
               "name": "name",
+              "raw_name": "name",
               "value": "element-name"
             }
           ]
@@ -8415,6 +8418,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "desc"
             }
           ]
@@ -8436,6 +8440,7 @@
           "attributes": [
             {
               "name": "name",
+              "raw_name": "name",
               "value": "description"
             }
           ]
@@ -9015,6 +9020,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "attributes"
             }
           ]
@@ -9608,6 +9614,7 @@
           "attributes": [
             {
               "name": "name",
+              "raw_name": "name",
               "value": "attributes"
             }
           ]

@@ -21,6 +21,7 @@
           "attributes": [
             {
               "name": "type",
+              "raw_name": "type",
               "value": "text/javascript"
             }
           ]

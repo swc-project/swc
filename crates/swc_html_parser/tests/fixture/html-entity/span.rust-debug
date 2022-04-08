@@ -4449,8 +4449,8 @@
  45 | <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
     `----
 
-  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), value: Some(Atom('http://
-  | lmgtfy.com/?l=1&q=rick+roll' type=dynamic)) }] }
+  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), raw_name: Some(Atom('href'
+  | type=inline)), value: Some(Atom('http://lmgtfy.com/?l=1&q=rick+roll' type=dynamic)) }] }
     ,-[$DIR/tests/fixture/html-entity/input.html:45:1]
  45 | <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -4530,8 +4530,9 @@
  46 | <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
     `----
 
-  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), value: Some(Atom('#'
-  | type=inline)) }, Attribute { name: Atom('onclick' type=inline), value: Some(Atom('window.location='?l=1&q=rick+roll';return false' type=dynamic)) }] }
+  x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), raw_name: Some(Atom('href'
+  | type=inline)), value: Some(Atom('#' type=inline)) }, Attribute { name: Atom('onclick' type=inline), raw_name: Some(Atom('onclick' type=inline)), value: Some(Atom('window.location='?
+  | l=1&q=rick+roll';return false' type=dynamic)) }] }
     ,-[$DIR/tests/fixture/html-entity/input.html:46:1]
  46 | <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

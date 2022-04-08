@@ -21,6 +21,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"
             }
           ]
@@ -73,6 +74,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "add sort keys createSorter"
             }
           ]
@@ -125,6 +127,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "sprite sprite-{{sprite}}"
             }
           ]
@@ -177,6 +180,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "{{sprite}}-sprite sprite"
             }
           ]
@@ -229,6 +233,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "sprite-{{sprite}}-sprite"
             }
           ]
@@ -281,6 +286,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "{{sprite}}"
             }
           ]
@@ -333,6 +339,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "{{sprite}}"
             }
           ]
@@ -385,6 +392,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": null
             }
           ]
@@ -437,6 +445,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"
             }
           ]
@@ -489,6 +498,7 @@
           "attributes": [
             {
               "name": "class",
+              "raw_name": "class",
               "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"
             }
           ]

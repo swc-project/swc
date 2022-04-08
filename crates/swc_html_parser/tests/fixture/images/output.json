@@ -1024,18 +1024,22 @@
           "attributes": [
             {
               "name": "src",
+              "raw_name": "src",
               "value": "w3schools.jpg"
             },
             {
               "name": "alt",
+              "raw_name": "alt",
               "value": "W3Schools.com"
             },
             {
               "name": "width",
+              "raw_name": "width",
               "value": "104"
             },
             {
               "name": "height",
+              "raw_name": "height",
               "value": "142"
             }
           ]

@@ -21,10 +21,12 @@
           "attributes": [
             {
               "name": "img",
+              "raw_name": "img",
               "value": "img/alt.png"
             },
             {
               "name": "data-text",
+              "raw_name": "data-text",
               "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card."
             }
           ]
@@ -92,10 +94,12 @@
           "attributes": [
             {
               "name": "l",
+              "raw_name": "l",
               "value": "100"
             },
             {
               "name": "c",
+              "raw_name": "c",
               "value": "red"
             }
           ]
@@ -163,10 +167,12 @@
           "attributes": [
             {
               "name": "open",
+              "raw_name": "open",
               "value": null
             },
             {
               "name": "disabled",
+              "raw_name": "disabled",
               "value": null
             }
           ]
@@ -325,6 +331,7 @@
           "attributes": [
             {
               "name": "type",
+              "raw_name": "type",
               "value": "twitter"
             }
           ]
@@ -346,6 +353,7 @@
           "attributes": [
             {
               "name": "href",
+              "raw_name": "href",
               "value": "..."
             }
           ]
@@ -579,6 +587,7 @@
           "attributes": [
             {
               "name": "type",
+              "raw_name": "type",
               "value": "fb"
             }
           ]
@@ -600,6 +609,7 @@
           "attributes": [
             {
               "name": "href",
+              "raw_name": "href",
               "value": "..."
             }
           ]
@@ -848,6 +858,7 @@
           "attributes": [
             {
               "name": "type",
+              "raw_name": "type",
               "value": "plus"
             }
           ]
@@ -869,6 +880,7 @@
           "attributes": [
             {
               "name": "href",
+              "raw_name": "href",
               "value": "..."
             }
           ]
@@ -1572,6 +1584,7 @@
           "attributes": [
             {
               "name": "id",
+              "raw_name": "id",
               "value": "x-foo-from-template"
             }
           ]

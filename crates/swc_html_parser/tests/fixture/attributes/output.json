@@ -21,146 +21,182 @@
           "attributes": [
             {
               "name": "0",
+              "raw_name": "0",
               "value": null
             },
             {
               "name": "1",
+              "raw_name": "1",
               "value": null
             },
             {
               "name": "2",
+              "raw_name": "2",
               "value": null
             },
             {
               "name": "3",
+              "raw_name": "3",
               "value": null
             },
             {
               "name": "4",
+              "raw_name": "4",
               "value": null
             },
             {
               "name": "5",
+              "raw_name": "5",
               "value": null
             },
             {
               "name": "6",
+              "raw_name": "6",
               "value": null
             },
             {
               "name": "7",
+              "raw_name": "7",
               "value": null
             },
             {
               "name": "8",
+              "raw_name": "8",
               "value": null
             },
             {
               "name": "9",
+              "raw_name": "9",
               "value": null
             },
             {
               "name": "a",
+              "raw_name": "a",
               "value": null
             },
             {
               "name": "b",
+              "raw_name": "b",
               "value": null
             },
             {
               "name": "c",
+              "raw_name": "c",
               "value": null
             },
             {
               "name": "d",
+              "raw_name": "d",
               "value": null
             },
             {
               "name": "e",
+              "raw_name": "e",
               "value": null
             },
             {
               "name": "f",
+              "raw_name": "f",
               "value": null
             },
             {
               "name": "g",
+              "raw_name": "g",
               "value": null
             },
             {
               "name": "h",
+              "raw_name": "h",
               "value": null
             },
             {
               "name": "i",
+              "raw_name": "i",
               "value": null
             },
             {
               "name": "j",
+              "raw_name": "j",
               "value": null
             },
             {
               "name": "k",
+              "raw_name": "k",
               "value": null
             },
             {
               "name": "l",
+              "raw_name": "l",
               "value": null
             },
             {
               "name": "m",
+              "raw_name": "m",
               "value": null
             },
             {
               "name": "n",
+              "raw_name": "n",
               "value": null
             },
             {
               "name": "o",
+              "raw_name": "o",
               "value": null
             },
             {
               "name": "p",
+              "raw_name": "p",
               "value": null
             },
             {
               "name": "q",
+              "raw_name": "q",
               "value": null
             },
             {
               "name": "r",
+              "raw_name": "r",
               "value": null
             },
             {
               "name": "s",
+              "raw_name": "s",
               "value": null
             },
             {
               "name": "t",
+              "raw_name": "t",
               "value": null
             },
             {
               "name": "u",
+              "raw_name": "u",
               "value": null
             },
             {
               "name": "v",
+              "raw_name": "v",
               "value": null
             },
             {
               "name": "w",
+              "raw_name": "w",
               "value": null
             },
             {
               "name": "x",
+              "raw_name": "x",
               "value": null
             },
             {
               "name": "y",
+              "raw_name": "y",
               "value": null
             },
             {
               "name": "z",
+              "raw_name": "z",
               "value": null
             }
           ]
@@ -213,6 +249,7 @@
           "attributes": [
             {
               "name": "title",
+              "raw_name": "title",
               "value": " <![CDATA[ \\n\\n foobar baz ]]> "
             }
           ]
@@ -280,6 +317,7 @@
           "attributes": [
             {
               "name": "title",
+              "raw_name": "title",
               "value": " <!-- hello world --> "
             }
           ]
@@ -347,10 +385,12 @@
           "attributes": [
             {
               "name": "v-ref:vm_pv",
+              "raw_name": "v-ref:vm_pv",
               "value": null
             },
             {
               "name": ":imgs",
+              "raw_name": ":imgs",
               "value": " objpicsurl_ "
             }
           ]
@@ -403,14 +443,17 @@
           "attributes": [
             {
               "name": "a",
+              "raw_name": "a",
               "value": "\\u00A0"
             },
             {
               "name": "b",
+              "raw_name": "b",
               "value": ""
             },
             {
               "name": "c",
+              "raw_name": "c",
               "value": "\\u00A0"
             }
           ]
@@ -447,6 +490,7 @@
           "attributes": [
             {
               "name": "src",
+              "raw_name": "src",
               "value": "test"
             }
           ]

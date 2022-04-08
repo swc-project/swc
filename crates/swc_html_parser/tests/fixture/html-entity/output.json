@@ -10746,6 +10746,7 @@
           "attributes": [
             {
               "name": "href",
+              "raw_name": "href",
               "value": "http://lmgtfy.com/?l=1&q=rick+roll"
             }
           ]
@@ -10948,10 +10949,12 @@
           "attributes": [
             {
               "name": "href",
+              "raw_name": "href",
               "value": "#"
             },
             {
               "name": "onclick",
+              "raw_name": "onclick",
               "value": "window.location='?l=1&q=rick+roll';return false"
             }
           ]

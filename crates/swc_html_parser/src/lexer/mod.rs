@@ -2143,23 +2143,21 @@ where
                         // We set `None` for `value` to support boolean attributes in AST
                         Some(c @ '=') => {
                             self.emit_error(ErrorKind::UnexpectedEqualsSignBeforeAttributeName);
+
                             if let Some(ref mut token) = self.cur_token {
                                 match token {
-                                    Token::StartTag { attributes, .. } => {
+                                    Token::StartTag { attributes, .. }
+                                    | Token::EndTag { attributes, .. } => {
                                         attributes.push(Attribute {
                                             name: c.to_string().into(),
-                                            value: None,
-                                        });
-                                    }
-                                    Token::EndTag { attributes, .. } => {
-                                        attributes.push(Attribute {
-                                            name: c.to_string().into(),
+                                            raw_name: Some(c.to_string().into()),
                                             value: None,
                                         });
                                     }
                                     _ => {}
                                 }
                             }
+
                             self.state = State::AttributeName;
                         }
                         // Anything else
@@ -2169,15 +2167,11 @@ where
                         _ => {
                             if let Some(ref mut token) = self.cur_token {
                                 match token {
-                                    Token::StartTag { attributes, .. } => {
+                                    Token::StartTag { attributes, .. }
+                                    | Token::EndTag { attributes, .. } => {
                                         attributes.push(Attribute {
                                             name: "".into(),
-                                            value: None,
-                                        });
-                                    }
-                                    Token::EndTag { attributes, .. } => {
-                                        attributes.push(Attribute {
-                                            name: "".into(),
+                                            raw_name: Some("".into()),
                                             value: None,
                                         });
                                     }
@@ -2221,11 +2215,16 @@ where
                                     | Token::EndTag { attributes, .. } => {
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_name = String::new();
+                                            let mut raw_new_name = String::new();
 
                                             new_name.push_str(&attribute.name);
+                                            raw_new_name
+                                                .push_str(&attribute.raw_name.as_ref().unwrap());
                                             new_name.push(c.to_ascii_lowercase());
+                                            raw_new_name.push(c);
 
                                             attribute.name = new_name.into();
+                                            attribute.raw_name = Some(raw_new_name.into());
                                         }
                                     }
                                     _ => {}
@@ -2235,7 +2234,7 @@ where
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Append a U+FFFD
                         // REPLACEMENT CHARACTER character to the current attribute's name.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
 
                             if let Some(ref mut token) = self.cur_token {
@@ -2244,11 +2243,16 @@ where
                                     | Token::EndTag { attributes, .. } => {
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_name = String::new();
+                                            let mut raw_new_name = String::new();
 
                                             new_name.push_str(&attribute.name);
+                                            raw_new_name
+                                                .push_str(&attribute.raw_name.as_ref().unwrap());
                                             new_name.push(REPLACEMENT_CHARACTER);
+                                            raw_new_name.push(c);
 
                                             attribute.name = new_name.into();
+                                            attribute.raw_name = Some(raw_new_name.into());
                                         }
                                     }
                                     _ => {}
@@ -2272,11 +2276,16 @@ where
                                     | Token::EndTag { attributes, .. } => {
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_name = String::new();
+                                            let mut raw_new_name = String::new();
 
                                             new_name.push_str(&attribute.name);
+                                            raw_new_name
+                                                .push_str(&attribute.raw_name.as_ref().unwrap());
                                             new_name.push(c);
+                                            raw_new_name.push(c);
 
                                             attribute.name = new_name.into();
+                                            attribute.raw_name = Some(raw_new_name.into());
                                         }
                                     }
                                     _ => {}
@@ -2338,6 +2347,7 @@ where
                                     | Token::EndTag { attributes, .. } => {
                                         attributes.push(Attribute {
                                             name: "".into(),
+                                            raw_name: Some("".into()),
                                             value: None,
                                         });
                                     }

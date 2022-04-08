@@ -196,7 +196,15 @@ where
 
                 for attribute in attributes {
                     start_tag.push(' ');
-                    start_tag.push_str(&attribute.name);
+
+                    match &attribute.raw_name {
+                        Some(raw_name) => {
+                            start_tag.push_str(raw_name);
+                        }
+                        _ => {
+                            start_tag.push_str(&attribute.name);
+                        }
+                    }
 
                     if let Some(value) = &attribute.value {
                         start_tag.push('=');
@@ -238,7 +246,15 @@ where
 
                 for attribute in attributes {
                     start_tag.push(' ');
-                    start_tag.push_str(&attribute.name);
+
+                    match &attribute.raw_name {
+                        Some(raw_name) => {
+                            start_tag.push_str(raw_name);
+                        }
+                        _ => {
+                            start_tag.push_str(&attribute.name);
+                        }
+                    }
 
                     if let Some(value) = &attribute.value {
                         start_tag.push('=');

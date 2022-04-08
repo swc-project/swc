@@ -11,11 +11,13 @@ pub struct TokenAndSpan {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Attribute {
     pub name: JsWord,
+    pub raw_name: Option<JsWord>,
     pub value: Option<JsWord>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Token {
+    // TODO raw for bogus doctype
     Doctype {
         // DOCTYPE keyword
         raw_keyword: Option<JsWord>,
@@ -41,7 +43,7 @@ pub enum Token {
         // System identifier
         system_id: Option<JsWord>,
     },
-    // TODO raw `name` and `value` (with quotes) for attribute
+    // TODO raw `value` (with quotes) for attribute
     StartTag {
         tag_name: JsWord,
         raw_tag_name: Option<JsWord>,

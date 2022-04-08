@@ -335,6 +335,7 @@
           "attributes": [
             {
               "name": "⚡",
+              "raw_name": "⚡",
               "value": null
             }
           ]
@@ -466,6 +467,7 @@
           "attributes": [
             {
               "name": "href",
+              "raw_name": "href",
               "value": "test.html"
             }
           ]
@@ -992,6 +994,7 @@
           "attributes": [
             {
               "name": "test",
+              "raw_name": "test",
               "value": "a"
             }
           ]
@@ -1028,6 +1031,7 @@
           "attributes": [
             {
               "name": "data-test",
+              "raw_name": "data-test",
               "value": "a"
             }
           ]
@@ -1049,6 +1053,7 @@
           "attributes": [
             {
               "name": "data-test",
+              "raw_name": "data-test",
               "value": "a"
             }
           ]
@@ -1085,6 +1090,7 @@
           "attributes": [
             {
               "name": "data-test",
+              "raw_name": "data-test",
               "value": "a"
             }
           ]
@@ -1121,6 +1127,7 @@
           "attributes": [
             {
               "name": "data-test",
+              "raw_name": "data-test",
               "value": "a"
             }
           ]
@@ -1157,6 +1164,7 @@
           "attributes": [
             {
               "name": "data-test",
+              "raw_name": "data-test",
               "value": "a"
             }
           ]
@@ -1421,6 +1429,7 @@
           "attributes": [
             {
               "name": "foo",
+              "raw_name": "foo",
               "value": "bar"
             }
           ]

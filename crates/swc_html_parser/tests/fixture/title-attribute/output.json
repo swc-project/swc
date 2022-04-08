@@ -135,6 +135,7 @@
           "attributes": [
             {
               "name": "title",
+              "raw_name": "title",
               "value": "I'm a header"
             }
           ]
@@ -487,6 +488,7 @@
           "attributes": [
             {
               "name": "title",
+              "raw_name": "title",
               "value": "I'm a tooltip"
             }
           ]
