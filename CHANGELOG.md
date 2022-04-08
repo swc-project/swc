@@ -17,6 +17,9 @@
 
 
 
+- **(html)** Add raw fields (#4281) ([ee108af](https://github.com/swc-project/swc/commit/ee108af3d0bf81cfa101d8b52ee4d072705b04f4))
+
+
 - **(plugin)** Implement `Copy` and `Clone` for the comment proxy (#4280) ([3c4e520](https://github.com/swc-project/swc/commit/3c4e5204ecb51dd67c73ae5556c886b303891a23))
 
 
