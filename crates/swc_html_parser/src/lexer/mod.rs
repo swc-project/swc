@@ -2158,7 +2158,7 @@ where
 
                                             new_name.push_str(&attribute.name);
                                             raw_new_name
-                                                .push_str(&attribute.raw_name.as_ref().unwrap());
+                                                .push_str(attribute.raw_name.as_ref().unwrap());
                                             new_name.push(c.to_ascii_lowercase());
                                             raw_new_name.push(c);
 
@@ -2186,7 +2186,7 @@ where
 
                                             new_name.push_str(&attribute.name);
                                             raw_new_name
-                                                .push_str(&attribute.raw_name.as_ref().unwrap());
+                                                .push_str(attribute.raw_name.as_ref().unwrap());
                                             new_name.push(REPLACEMENT_CHARACTER);
                                             raw_new_name.push(c);
 
@@ -2219,7 +2219,7 @@ where
 
                                             new_name.push_str(&attribute.name);
                                             raw_new_name
-                                                .push_str(&attribute.raw_name.as_ref().unwrap());
+                                                .push_str(attribute.raw_name.as_ref().unwrap());
                                             new_name.push(c);
                                             raw_new_name.push(c);
 
