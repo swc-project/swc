@@ -13,6 +13,9 @@
 
 - **(es/module)** Support top-level await in dynamic imports (#4277) ([720244f](https://github.com/swc-project/swc/commit/720244fff9f3fcf5cb0ed4bcfc6e2a5795ad3be1))
 
+
+- **(es/optimization)** Don't create invalid sequence expressions (#4285) ([4868c73](https://github.com/swc-project/swc/commit/4868c73d5bc5eb3ffbbc2fd31c485e3e22795550))
+
 ### Features
 
 
