@@ -1,10 +1,14 @@
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_atoms::JsWord;
+use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_utils::UsageFinder;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
-use super::{analyzer::Analyzer, preserver::idents_to_preserve};
+use super::{
+    analyzer::Analyzer,
+    preserver::{idents_to_preserve, Preserver},
+};
 use crate::{marks::Marks, option::MangleOptions};
 
 pub(crate) fn name_mangler(
@@ -35,6 +39,22 @@ impl Mangler {
             node,
         )
     }
+
+    fn get_map<N>(&self, node: &N) -> AHashMap<Id, JsWord>
+    where
+        N: VisitWith<Preserver>,
+        N: VisitWith<Analyzer>,
+    {
+        let preserved = idents_to_preserve(self.options.clone(), &*node);
+
+        let mut analyzer = Analyzer {
+            scope: Default::default(),
+            is_pat_decl: Default::default(),
+        };
+        node.visit_with(&mut analyzer);
+
+        analyzer.into_rename_map(&preserved)
+    }
 }
 
 impl VisitMut for Mangler {
@@ -45,17 +65,7 @@ impl VisitMut for Mangler {
             return;
         }
 
-        let preserved = idents_to_preserve(self.options.clone(), &*m);
-
-        let map = {
-            let mut analyzer = Analyzer {
-                scope: Default::default(),
-                is_pat_decl: Default::default(),
-            };
-            m.visit_with(&mut analyzer);
-
-            analyzer.into_rename_map(&preserved)
-        };
+        let map = self.get_map(m);
 
         m.visit_mut_with(&mut rename(&map));
     }
@@ -65,17 +75,7 @@ impl VisitMut for Mangler {
             return;
         }
 
-        let preserved = idents_to_preserve(self.options.clone(), &*s);
-
-        let map = {
-            let mut analyzer = Analyzer {
-                scope: Default::default(),
-                is_pat_decl: Default::default(),
-            };
-            s.visit_with(&mut analyzer);
-
-            analyzer.into_rename_map(&preserved)
-        };
+        let map = self.get_map(s);
 
         s.visit_mut_with(&mut rename(&map));
     }
