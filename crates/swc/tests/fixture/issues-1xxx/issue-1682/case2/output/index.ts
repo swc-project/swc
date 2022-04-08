@@ -6,8 +6,8 @@ exports.getPackage = getPackage;
 var swcHelpers = require("@swc/helpers");
 var _path = require("path");
 async function getPackage() {
-    const pkg = await Promise.resolve().then(function() {
-        return swcHelpers.interopRequireWildcard(require((0, _path).join(process.cwd(), 'package.json')));
+    const pkg = await Promise.resolve(`${(0, _path).join(process.cwd(), 'package.json')}`).then(function(s) {
+        return swcHelpers.interopRequireWildcard(require(s));
     });
     return pkg.default || pkg;
 }
