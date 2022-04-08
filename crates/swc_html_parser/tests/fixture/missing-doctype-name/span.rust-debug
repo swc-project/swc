@@ -11,7 +11,8 @@
  8 | `-> </html>
    `----
 
-  x Doctype { raw_keyword: Some(Atom('DOCTYPE' type=inline)), name: Some(Atom('�' type=inline)), raw_name: None, force_quirks: true, public_id: None, system_id: None }
+  x Doctype { raw_keyword: Some(Atom('DOCTYPE' type=inline)), name: Some(Atom('�' type=inline)), raw_name: None, force_quirks: true, raw_public_keyword: None, public_id: None, raw_system_keyword:
+  | None, system_id: None }
    ,-[$DIR/tests/fixture/missing-doctype-name/input.html:1:1]
  1 | <!DOCTYPE>
    : ^^^^^^^^^^

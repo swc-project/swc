@@ -19,7 +19,9 @@
           "name": "html",
           "raw_name": "html",
           "force_quirks": false,
+          "raw_public_keyword": null,
           "public_id": null,
+          "raw_system_keyword": null,
           "system_id": null
         }
       }

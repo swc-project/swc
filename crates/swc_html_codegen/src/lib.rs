@@ -52,7 +52,9 @@ where
                 raw_keyword,
                 name,
                 raw_name,
+                raw_public_keyword,
                 public_id,
+                raw_system_keyword,
                 system_id,
                 ..
             } => {
@@ -77,15 +79,42 @@ where
 
                 if let Some(public_id) = &public_id {
                     doctype.push(' ');
-                    doctype.push_str("PUBLIC");
-                    doctype.push(' ');
+
+                    match raw_public_keyword {
+                        Some(raw_public_keyword) => {
+                            doctype.push_str(raw_public_keyword);
+                            doctype.push(' ');
+                        }
+                        _ => {
+                            doctype.push_str("PUBLIC");
+                            doctype.push(' ');
+                        }
+                    }
+
                     doctype.push('"');
                     doctype.push_str(public_id);
                     doctype.push('"');
-                }
 
-                if let Some(system_id) = &system_id {
+                    if let Some(system_id) = &system_id {
+                        doctype.push(' ');
+                        doctype.push('"');
+                        doctype.push_str(system_id);
+                        doctype.push('"');
+                    }
+                } else if let Some(system_id) = &system_id {
                     doctype.push(' ');
+
+                    match raw_system_keyword {
+                        Some(raw_system_keyword) => {
+                            doctype.push_str(raw_system_keyword);
+                            doctype.push(' ');
+                        }
+                        _ => {
+                            doctype.push_str("SYSTEM");
+                            doctype.push(' ');
+                        }
+                    }
+
                     doctype.push('"');
                     doctype.push_str(system_id);
                     doctype.push('"');

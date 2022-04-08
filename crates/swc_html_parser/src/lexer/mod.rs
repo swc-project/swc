@@ -3428,7 +3428,9 @@ where
                                 name: None,
                                 raw_name: None,
                                 force_quirks: true,
+                                raw_public_keyword: None,
                                 public_id: None,
+                                raw_system_keyword: None,
                                 system_id: None,
                             });
                             self.emit_cur_token();
@@ -3466,7 +3468,9 @@ where
                                 name: Some(c.to_ascii_lowercase().to_string().into()),
                                 raw_name: Some(c.to_string().into()),
                                 force_quirks: false,
+                                raw_public_keyword: None,
                                 public_id: None,
+                                raw_system_keyword: None,
                                 system_id: None,
                             });
                             self.state = State::DoctypeName;
@@ -3482,7 +3486,9 @@ where
                                 name: Some(REPLACEMENT_CHARACTER.to_string().into()),
                                 raw_name: None,
                                 force_quirks: true,
+                                raw_public_keyword: None,
                                 public_id: None,
+                                raw_system_keyword: None,
                                 system_id: None,
                             });
                             self.state = State::DoctypeName;
@@ -3498,7 +3504,9 @@ where
                                 name: Some(REPLACEMENT_CHARACTER.to_string().into()),
                                 raw_name: None,
                                 force_quirks: true,
+                                raw_public_keyword: None,
                                 public_id: None,
+                                raw_system_keyword: None,
                                 system_id: None,
                             });
                             self.state = State::Data;
@@ -3515,7 +3523,9 @@ where
                                 name: Some(REPLACEMENT_CHARACTER.to_string().into()),
                                 raw_name: None,
                                 force_quirks: true,
+                                raw_public_keyword: None,
                                 public_id: None,
+                                raw_system_keyword: None,
                                 system_id: None,
                             });
                             self.emit_cur_token();
@@ -3532,7 +3542,9 @@ where
                                 name: Some(c.to_string().into()),
                                 raw_name: Some(c.to_string().into()),
                                 force_quirks: false,
+                                raw_public_keyword: None,
                                 public_id: None,
+                                raw_system_keyword: None,
                                 system_id: None,
                             });
                             self.state = State::DoctypeName;
@@ -3725,9 +3737,31 @@ where
                             match &*first_six_chars.to_lowercase() {
                                 "public" => {
                                     self.state = State::AfterDoctypePublicKeyword;
+
+                                    match &mut self.cur_token {
+                                        Some(Token::Doctype {
+                                            raw_public_keyword, ..
+                                        }) => {
+                                            *raw_public_keyword = Some(first_six_chars.into());
+                                        }
+                                        _ => {
+                                            unreachable!();
+                                        }
+                                    }
                                 }
                                 "system" => {
                                     self.state = State::AfterDoctypeSystemKeyword;
+
+                                    match &mut self.cur_token {
+                                        Some(Token::Doctype {
+                                            raw_system_keyword, ..
+                                        }) => {
+                                            *raw_system_keyword = Some(first_six_chars.into());
+                                        }
+                                        _ => {
+                                            unreachable!();
+                                        }
+                                    }
                                 }
                                 _ => {
                                     self.input.reset_to(cur_pos);

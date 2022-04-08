@@ -21,7 +21,9 @@ pub enum Token {
         name: Option<JsWord>,
         raw_name: Option<JsWord>,
         force_quirks: bool,
+        raw_public_keyword: Option<JsWord>,
         public_id: Option<JsWord>,
+        raw_system_keyword: Option<JsWord>,
         system_id: Option<JsWord>,
     },
     // TODO raw `name` and `value` (with quotes) for attribute
