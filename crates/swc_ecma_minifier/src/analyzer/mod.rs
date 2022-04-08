@@ -235,9 +235,10 @@ where
         {
             let child_scope = child.data.scope(child_ctxt);
 
-            child_scope.merge(child.scope, false);
+            child_scope.merge(child.scope.clone(), false);
         }
 
+        self.scope.merge(child.scope, true);
         self.data.merge(kind, child.data);
 
         ret
