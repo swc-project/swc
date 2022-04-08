@@ -1,6 +1,21 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(css/prefixer)** FIx a bug related to `writing-mode` (#4278) ([7f38e06](https://github.com/swc-project/swc/commit/7f38e06e0209216200182555c7c7ddb11499e45d))
+
+
+- **(es/module)** Support top-level await in dynamic imports (#4277) ([720244f](https://github.com/swc-project/swc/commit/720244fff9f3fcf5cb0ed4bcfc6e2a5795ad3be1))
+
+### Features
+
+
+
+- **(plugin/runner)** Allow fs access from wasi plugin (#4279) ([fc3a2d0](https://github.com/swc-project/swc/commit/fc3a2d0cf9a4767076dda3fac929b24a50144730))
+
 ### Miscellaneous Tasks
 
 

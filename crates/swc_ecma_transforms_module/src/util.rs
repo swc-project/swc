@@ -571,8 +571,8 @@ impl Scope {
                 // TODO: import assertion
                 && args.len() == 1 =>
             {
-                let expr = args.pop().unwrap().expr.fold_with(folder);
-                let expr = match &*expr {
+                let mut expr = args.pop().unwrap().expr.fold_with(folder);
+                let expr = match &mut *expr {
                     Expr::Lit(Lit::Str(s)) => {
                         let src = folder.resolver().resolve(s.value.clone());
 
@@ -582,15 +582,11 @@ impl Scope {
                             ..s.clone()
                         })))
                     }
-                    _ => expr,
-                };
-
-                let expr = match *expr {
-                    Expr::Ident(ident) => match Self::fold_ident(folder, ident) {
+                    Expr::Ident(ident) => Box::new(match Self::fold_ident(folder, ident.take()) {
                         Ok(expr) => expr,
                         Err(ident) => Expr::Ident(ident),
-                    },
-                    expr => expr,
+                    }),
+                    _ => expr,
                 };
 
                 folder.make_dynamic_import(span, vec![expr.as_arg()])

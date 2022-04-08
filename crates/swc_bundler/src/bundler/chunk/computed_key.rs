@@ -4,8 +4,8 @@ use anyhow::{bail, Error};
 use swc_atoms::js_word;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, Visit};
+use swc_ecma_utils::{contains_top_level_await, find_ids, private_ident, ExprFactory};
+use swc_ecma_visit::{noop_fold_type, Fold};
 
 use crate::{bundler::chunk::merge::Ctx, modules::Modules, Bundler, Load, ModuleId, Resolve};
 
@@ -43,11 +43,7 @@ where
         };
         let injected_ctxt = self.injected_ctxt;
 
-        let is_async = {
-            let mut v = TopLevelAwaitFinder { found: false };
-            module.visit_with(&mut v);
-            v.found
-        };
+        let is_async = module.iter().any(|m| contains_top_level_await(m.1));
 
         let mut additional_items = vec![];
 
@@ -179,24 +175,6 @@ where
         // );
 
         Ok(module)
-    }
-}
-
-struct TopLevelAwaitFinder {
-    found: bool,
-}
-
-impl Visit for TopLevelAwaitFinder {
-    noop_visit_type!();
-
-    fn visit_function(&mut self, _: &Function) {}
-
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
-
-    fn visit_class_member(&mut self, _: &ClassMember) {}
-
-    fn visit_await_expr(&mut self, _: &AwaitExpr) {
-        self.found = true;
     }
 }
 
