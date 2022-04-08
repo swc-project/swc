@@ -301,7 +301,8 @@ impl NodeModulesResolver {
                 let path = node_modules.join(target);
                 if let Some(result) = self
                     .resolve_as_file(&path)
-                    .or_else(|_| self.resolve_as_directory(&path))?
+                    .ok()
+                    .or_else(|| self.resolve_as_directory(&path).ok())
                 {
                     return Ok(Some(result));
                 }
