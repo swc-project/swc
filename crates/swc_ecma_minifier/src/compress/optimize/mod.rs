@@ -2841,107 +2841,111 @@ where
             true
         });
 
-        for v in vars.iter_mut() {
-            if v.init
-                .as_deref()
-                .map(|e| !e.is_ident() && !e.may_have_side_effects())
-                .unwrap_or(true)
-            {
-                self.drop_unused_var_declarator(v, &mut None);
-            }
-        }
+        let uses_eval = self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call;
 
-        let mut can_prepend = true;
-        let mut side_effects = vec![];
-
-        for v in vars.iter_mut() {
-            let mut storage = None;
-            self.drop_unused_var_declarator(v, &mut storage);
-            side_effects.extend(storage);
-
-            // Dropped. Side effects of the initializer is stored in `side_effects`.
-            if v.name.is_invalid() {
-                continue;
+        if !uses_eval {
+            for v in vars.iter_mut() {
+                if v.init
+                    .as_deref()
+                    .map(|e| !e.is_ident() && !e.may_have_side_effects())
+                    .unwrap_or(true)
+                {
+                    self.drop_unused_var_declarator(v, &mut None);
+                }
             }
 
-            // If initializer is none, we can check next item without thinking about side
-            // effects.
-            if v.init.is_none() {
-                continue;
+            let mut can_prepend = true;
+            let mut side_effects = vec![];
+
+            for v in vars.iter_mut() {
+                let mut storage = None;
+                self.drop_unused_var_declarator(v, &mut storage);
+                side_effects.extend(storage);
+
+                // Dropped. Side effects of the initializer is stored in `side_effects`.
+                if v.name.is_invalid() {
+                    continue;
+                }
+
+                // If initializer is none, we can check next item without thinking about side
+                // effects.
+                if v.init.is_none() {
+                    continue;
+                }
+
+                // We can drop the next variable, as we don't have to worry about the side
+                // effect.
+                if side_effects.is_empty() {
+                    can_prepend = false;
+                    continue;
+                }
+
+                // We now have to handle side effects.
+
+                if can_prepend {
+                    can_prepend = false;
+
+                    self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: if side_effects.len() == 1 {
+                            side_effects.remove(0)
+                        } else {
+                            Box::new(Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: side_effects.take(),
+                            }))
+                        },
+                    }));
+                } else {
+                    // We prepend side effects to the initializer.
+
+                    let seq = v.init.as_mut().unwrap().force_seq();
+                    seq.exprs = side_effects
+                        .drain(..)
+                        .into_iter()
+                        .chain(seq.exprs.take())
+                        .filter(|e| !e.is_invalid())
+                        .collect();
+                }
             }
 
-            // We can drop the next variable, as we don't have to worry about the side
-            // effect.
-            if side_effects.is_empty() {
-                can_prepend = false;
-                continue;
-            }
-
-            // We now have to handle side effects.
-
-            if can_prepend {
-                can_prepend = false;
-
-                self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+            // We append side effects.
+            if !side_effects.is_empty() {
+                self.append_stmts.push(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr: if side_effects.len() == 1 {
                         side_effects.remove(0)
                     } else {
                         Box::new(Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
-                            exprs: side_effects.take(),
+                            exprs: side_effects,
                         }))
                     },
                 }));
-            } else {
-                // We prepend side effects to the initializer.
-
-                let seq = v.init.as_mut().unwrap().force_seq();
-                seq.exprs = side_effects
-                    .drain(..)
-                    .into_iter()
-                    .chain(seq.exprs.take())
-                    .filter(|e| !e.is_invalid())
-                    .collect();
-            }
-        }
-
-        // We append side effects.
-        if !side_effects.is_empty() {
-            self.append_stmts.push(Stmt::Expr(ExprStmt {
-                span: DUMMY_SP,
-                expr: if side_effects.len() == 1 {
-                    side_effects.remove(0)
-                } else {
-                    Box::new(Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs: side_effects,
-                    }))
-                },
-            }));
-        }
-
-        vars.retain_mut(|var| {
-            if var.name.is_invalid() {
-                self.changed = true;
-                return false;
             }
 
-            if let Some(Expr::Invalid(..)) = var.init.as_deref() {
-                if let Pat::Ident(i) = &var.name {
-                    if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
-                        if usage.declared_as_catch_param {
-                            var.init = None;
-                            return true;
-                        }
-                    }
+            vars.retain_mut(|var| {
+                if var.name.is_invalid() {
+                    self.changed = true;
+                    return false;
                 }
 
-                return false;
-            }
+                if let Some(Expr::Invalid(..)) = var.init.as_deref() {
+                    if let Pat::Ident(i) = &var.name {
+                        if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
+                            if usage.declared_as_catch_param {
+                                var.init = None;
+                                return true;
+                            }
+                        }
+                    }
 
-            true
-        });
+                    return false;
+                }
+
+                true
+            });
+        }
     }
 
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
