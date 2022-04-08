@@ -4502,26 +4502,34 @@ where
                         // Set the current DOCTYPE token's system identifier to the empty string
                         // (not missing), then switch to the DOCTYPE system identifier
                         // (double-quoted) state.
-                        Some('"') => match &mut self.cur_token {
-                            Some(Token::Doctype { system_id, .. }) => {
-                                *system_id = Some("".into());
+                        Some('"') => {
+                            match &mut self.cur_token {
+                                Some(Token::Doctype { system_id, .. }) => {
+                                    *system_id = Some("".into());
+                                }
+                                _ => {
+                                    unreachable!();
+                                }
                             }
-                            _ => {
-                                unreachable!();
-                            }
-                        },
+
+                            self.state = State::DoctypeSystemIdentifierDoubleQuoted;
+                        }
                         // U+0027 APOSTROPHE (')
                         // Set the current DOCTYPE token's system identifier to the empty string
                         // (not missing), then switch to the DOCTYPE system identifier
                         // (single-quoted) state.
-                        Some('\'') => match &mut self.cur_token {
-                            Some(Token::Doctype { system_id, .. }) => {
-                                *system_id = Some("".into());
+                        Some('\'') => {
+                            match &mut self.cur_token {
+                                Some(Token::Doctype { system_id, .. }) => {
+                                    *system_id = Some("".into());
+                                }
+                                _ => {
+                                    unreachable!();
+                                }
                             }
-                            _ => {
-                                unreachable!();
-                            }
-                        },
+
+                            self.state = State::DoctypeSystemIdentifierSingleQuoted;
+                        }
                         // U+003E GREATER-THAN SIGN (>)
                         // This is a missing-doctype-system-identifier parse error. Set the current
                         // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
