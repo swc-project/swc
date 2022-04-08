@@ -11,7 +11,7 @@
  8 | `-> </html>
    `----
 
-  x Doctype { name: Some(Atom('html' type=inline)), raw_name: Some(Atom('html' type=inline)), force_quirks: true, public_id: None, system_id: None }
+  x Doctype { raw_keyword: Some(Atom('DOCTYPE' type=inline)), name: Some(Atom('html' type=inline)), raw_name: Some(Atom('html' type=inline)), force_quirks: true, public_id: None, system_id: None }
    ,-[$DIR/tests/fixture/broken-doctype/input.html:1:1]
  1 | <!DOCTYPE html broken>
    : ^^^^^^^^^^^^^^^^^^^^^^

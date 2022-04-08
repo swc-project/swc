@@ -15,6 +15,7 @@
       },
       "token": {
         "Doctype": {
+          "raw_keyword": "DOCTYPE",
           "name": "�",
           "raw_name": null,
           "force_quirks": true,

@@ -14,7 +14,7 @@
  11 | `-> </html>
     `----
 
-  x Doctype { name: Some(Atom('html' type=inline)), raw_name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
+  x Doctype { raw_keyword: Some(Atom('doctype' type=inline)), name: Some(Atom('html' type=inline)), raw_name: Some(Atom('html' type=inline)), force_quirks: false, public_id: None, system_id: None }
    ,-[$DIR/tests/fixture/doctype-lowercase/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^

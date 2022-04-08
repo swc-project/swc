@@ -49,6 +49,7 @@ where
 
         match &n.token {
             Token::Doctype {
+                raw_keyword,
                 name,
                 raw_name,
                 public_id,
@@ -59,7 +60,12 @@ where
 
                 doctype.push('<');
                 doctype.push('!');
-                doctype.push_str("DOCTYPE");
+
+                if let Some(raw_keyword) = &raw_keyword {
+                    doctype.push_str(raw_keyword);
+                } else {
+                    doctype.push_str("DOCTYPE");
+                }
 
                 if let Some(raw_name) = &raw_name {
                     doctype.push(' ');

@@ -2,6 +2,7 @@ use std::char::REPLACEMENT_CHARACTER;
 
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
+use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, input::Input, BytePos, Span};
 use swc_html_ast::{Attribute, Token, TokenAndSpan};
 
@@ -31,6 +32,7 @@ where
     cur_token: Option<Token>,
     character_reference_code: Option<u32>,
     temporary_buffer: Option<String>,
+    doctype_keyword: Option<String>,
 }
 
 impl<I> Lexer<I>
@@ -54,6 +56,7 @@ where
             cur_token: None,
             character_reference_code: None,
             temporary_buffer: None,
+            doctype_keyword: None,
         }
     }
 }
@@ -2848,19 +2851,33 @@ where
                         },
                         // ASCII case-insensitive match for the word "DOCTYPE"
                         // Consume those characters and switch to the DOCTYPE state.
-                        Some('d' | 'D') => match self.consume_next_char() {
-                            Some('o' | 'O') => match self.consume_next_char() {
-                                Some('c' | 'C') => match self.consume_next_char() {
-                                    Some('t' | 'T') => match self.consume_next_char() {
-                                        Some('y' | 'Y') => match self.consume_next_char() {
-                                            Some('p' | 'P') => match self.consume_next_char() {
-                                                Some('e' | 'E') => {
-                                                    self.state = State::Doctype;
+                        Some(d @ 'd' | d @ 'D') => match self.consume_next_char() {
+                            Some(o @ 'o' | o @ 'O') => match self.consume_next_char() {
+                                Some(c @ 'c' | c @ 'C') => match self.consume_next_char() {
+                                    Some(t @ 't' | t @ 'T') => match self.consume_next_char() {
+                                        Some(y @ 'y' | y @ 'Y') => match self.consume_next_char() {
+                                            Some(p @ 'p' | p @ 'P') => {
+                                                match self.consume_next_char() {
+                                                    Some(e @ 'e' | e @ 'E') => {
+                                                        self.state = State::Doctype;
+
+                                                        let mut raw_keyword = String::new();
+
+                                                        raw_keyword.push(d);
+                                                        raw_keyword.push(o);
+                                                        raw_keyword.push(c);
+                                                        raw_keyword.push(t);
+                                                        raw_keyword.push(y);
+                                                        raw_keyword.push(p);
+                                                        raw_keyword.push(e);
+
+                                                        self.doctype_keyword = Some(raw_keyword);
+                                                    }
+                                                    _ => {
+                                                        anything_else(self);
+                                                    }
                                                 }
-                                                _ => {
-                                                    anything_else(self);
-                                                }
-                                            },
+                                            }
                                             _ => {
                                                 anything_else(self);
                                             }
@@ -3407,6 +3424,7 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInDoctype);
                             self.cur_token = Some(Token::Doctype {
+                                raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
                                 name: None,
                                 raw_name: None,
                                 force_quirks: true,
@@ -3444,6 +3462,7 @@ where
                         // point). Switch to the DOCTYPE name state.
                         Some(c) if is_ascii_upper_alpha(c) => {
                             self.cur_token = Some(Token::Doctype {
+                                raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
                                 name: Some(c.to_ascii_lowercase().to_string().into()),
                                 raw_name: Some(c.to_string().into()),
                                 force_quirks: false,
@@ -3459,6 +3478,7 @@ where
                         Some('\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
                             self.cur_token = Some(Token::Doctype {
+                                raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
                                 name: Some(REPLACEMENT_CHARACTER.to_string().into()),
                                 raw_name: None,
                                 force_quirks: true,
@@ -3474,6 +3494,7 @@ where
                         Some('>') => {
                             self.emit_error(ErrorKind::MissingDoctypeName);
                             self.cur_token = Some(Token::Doctype {
+                                raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
                                 name: Some(REPLACEMENT_CHARACTER.to_string().into()),
                                 raw_name: None,
                                 force_quirks: true,
@@ -3490,6 +3511,7 @@ where
                         None => {
                             self.emit_error(ErrorKind::EofInDoctype);
                             self.cur_token = Some(Token::Doctype {
+                                raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
                                 name: Some(REPLACEMENT_CHARACTER.to_string().into()),
                                 raw_name: None,
                                 force_quirks: true,
@@ -3506,6 +3528,7 @@ where
                         // character. Switch to the DOCTYPE name state.
                         Some(c) => {
                             self.cur_token = Some(Token::Doctype {
+                                raw_keyword: self.doctype_keyword.clone().map(JsWord::from),
                                 name: Some(c.to_string().into()),
                                 raw_name: Some(c.to_string().into()),
                                 force_quirks: false,

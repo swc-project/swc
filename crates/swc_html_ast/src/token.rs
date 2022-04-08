@@ -17,6 +17,7 @@ pub struct Attribute {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Token {
     Doctype {
+        raw_keyword: Option<JsWord>,
         name: Option<JsWord>,
         raw_name: Option<JsWord>,
         force_quirks: bool,
