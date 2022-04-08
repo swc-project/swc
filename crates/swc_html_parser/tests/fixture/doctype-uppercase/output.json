@@ -20,8 +20,10 @@
           "raw_name": "html",
           "force_quirks": false,
           "raw_public_keyword": null,
+          "public_quote": null,
           "public_id": null,
           "raw_system_keyword": null,
+          "system_quote": null,
           "system_id": null
         }
       }

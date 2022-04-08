@@ -6,7 +6,7 @@
    `----
 
   x Doctype { raw_keyword: Some(Atom('doctype' type=inline)), name: Some(Atom('html' type=inline)), raw_name: Some(Atom('html' type=inline)), force_quirks: false, raw_public_keyword: None,
-  | public_id: None, raw_system_keyword: None, system_id: None }
+  | public_quote: None, public_id: None, raw_system_keyword: None, system_quote: None, system_id: None }
    ,-[$DIR/tests/fixture/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    : ^^^^^^^^^^^^^^^
