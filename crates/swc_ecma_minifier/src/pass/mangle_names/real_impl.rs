@@ -42,7 +42,7 @@ impl Mangler {
         v.found
     }
 
-    fn contains_indirect_eval<N>(&self, node: &N) -> bool
+    fn contains_eval<N>(&self, node: &N) -> bool
     where
         N: for<'aa> VisitWith<UsageFinder<'aa>>,
     {
@@ -71,28 +71,19 @@ impl VisitMut for Mangler {
 
     /// Only called if `eval` exists
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        if self.contains_direct_eval(n) {
-            return;
-        }
-
-        if self.contains_indirect_eval(n) {
+        if self.contains_eval(n) {
             n.visit_mut_children_with(self);
-            return;
+        } else {
+            let map = self.get_map(n);
+
+            n.visit_mut_with(&mut rename(&map));
         }
-
-        let map = self.get_map(n);
-
-        n.visit_mut_with(&mut rename(&map));
     }
 
     fn visit_mut_module(&mut self, m: &mut Module) {
-        if self.contains_direct_eval(m) {
-            return;
-        }
-
         self.preserved = idents_to_preserve(self.options.clone(), &*m);
 
-        if self.contains_indirect_eval(m) {
+        if self.contains_eval(m) {
             m.visit_mut_children_with(self);
             return;
         }
@@ -109,7 +100,7 @@ impl VisitMut for Mangler {
 
         self.preserved = idents_to_preserve(self.options.clone(), &*s);
 
-        if self.contains_indirect_eval(s) {
+        if self.contains_eval(s) {
             s.visit_mut_children_with(self);
             return;
         }
