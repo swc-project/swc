@@ -642,7 +642,10 @@ test!(
     }
     ",
     "
-    
+    function oe() {
+        var e, t;
+        return e = t;
+    }
     "
 );
 
