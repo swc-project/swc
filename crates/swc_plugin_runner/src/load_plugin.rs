@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{env, sync::Arc};
 
 use anyhow::{Context, Error};
 use parking_lot::Mutex;
@@ -30,8 +30,24 @@ pub fn load_plugin(
                         .file_name()
                         .and_then(|f| f.to_str())
                         .expect("Plugin path missing file name"),
-                )
-                .finalize()?;
+                );
+
+                // Implicitly enable filesystem access for the wasi plugin to cwd.
+                //
+                // This allows wasi plugin can read arbitary data (i.e node_modules) or produce
+                // output for post process (i.e .lcov coverage data) directly.
+                //
+                // TODO: this is not finalized decision
+                // - should we support this?
+                // - can we limit to allowlisted input / output only?
+                // - should there be a top-level config from .swcrc to manually override this?
+                let wasi_env = if let Ok(cwd) = env::current_dir() {
+                    wasi_env.map_dir("/cwd", cwd)?
+                } else {
+                    &mut wasi_env
+                };
+
+                let mut wasi_env = wasi_env.finalize()?;
 
                 // Generate an `ImportObject` from wasi_env, overwrite into imported_object
                 let wasi_env_import_object = wasi_env.import_object(&module)?;
