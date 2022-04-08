@@ -28,7 +28,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -41,7 +42,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -68,6 +70,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -82,7 +85,8 @@
       },
       "token": {
         "Character": {
-          "value": "b"
+          "value": "b",
+          "raw": "b"
         }
       }
     },
@@ -95,7 +99,8 @@
       },
       "token": {
         "Character": {
-          "value": "a"
+          "value": "a",
+          "raw": "a"
         }
       }
     },
@@ -108,7 +113,8 @@
       },
       "token": {
         "Character": {
-          "value": "z"
+          "value": "z",
+          "raw": "z"
         }
       }
     },
@@ -122,6 +128,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -149,7 +156,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -163,6 +171,7 @@
       "token": {
         "StartTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
@@ -191,6 +200,7 @@
       "token": {
         "EndTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
@@ -205,7 +215,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -219,6 +230,7 @@
       "token": {
         "StartTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
@@ -233,7 +245,8 @@
       },
       "token": {
         "Character": {
-          "value": "a"
+          "value": "a",
+          "raw": "a"
         }
       }
     },
@@ -246,7 +259,8 @@
       },
       "token": {
         "Character": {
-          "value": "l"
+          "value": "l",
+          "raw": "l"
         }
       }
     },
@@ -259,7 +273,8 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e"
         }
       }
     },
@@ -272,7 +287,8 @@
       },
       "token": {
         "Character": {
-          "value": "r"
+          "value": "r",
+          "raw": "r"
         }
       }
     },
@@ -285,7 +301,8 @@
       },
       "token": {
         "Character": {
-          "value": "t"
+          "value": "t",
+          "raw": "t"
         }
       }
     },
@@ -298,7 +315,8 @@
       },
       "token": {
         "Character": {
-          "value": "("
+          "value": "(",
+          "raw": "("
         }
       }
     },
@@ -311,7 +329,8 @@
       },
       "token": {
         "Character": {
-          "value": "'"
+          "value": "'",
+          "raw": "'"
         }
       }
     },
@@ -337,7 +356,8 @@
       },
       "token": {
         "Character": {
-          "value": "'"
+          "value": "'",
+          "raw": "'"
         }
       }
     },
@@ -350,7 +370,8 @@
       },
       "token": {
         "Character": {
-          "value": ")"
+          "value": ")",
+          "raw": ")"
         }
       }
     },
@@ -364,6 +385,7 @@
       "token": {
         "EndTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
@@ -378,7 +400,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -392,6 +415,7 @@
       "token": {
         "StartTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
@@ -406,7 +430,8 @@
       },
       "token": {
         "Character": {
-          "value": "a"
+          "value": "a",
+          "raw": "a"
         }
       }
     },
@@ -419,7 +444,8 @@
       },
       "token": {
         "Character": {
-          "value": "l"
+          "value": "l",
+          "raw": "l"
         }
       }
     },
@@ -432,7 +458,8 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e"
         }
       }
     },
@@ -445,7 +472,8 @@
       },
       "token": {
         "Character": {
-          "value": "r"
+          "value": "r",
+          "raw": "r"
         }
       }
     },
@@ -458,7 +486,8 @@
       },
       "token": {
         "Character": {
-          "value": "t"
+          "value": "t",
+          "raw": "t"
         }
       }
     },
@@ -471,7 +500,8 @@
       },
       "token": {
         "Character": {
-          "value": "("
+          "value": "(",
+          "raw": "("
         }
       }
     },
@@ -484,7 +514,8 @@
       },
       "token": {
         "Character": {
-          "value": "'"
+          "value": "'",
+          "raw": "'"
         }
       }
     },
@@ -497,7 +528,8 @@
       },
       "token": {
         "Character": {
-          "value": "-"
+          "value": "-",
+          "raw": "-"
         }
       }
     },
@@ -510,7 +542,8 @@
       },
       "token": {
         "Character": {
-          "value": "-"
+          "value": "-",
+          "raw": "-"
         }
       }
     },
@@ -523,7 +556,8 @@
       },
       "token": {
         "Character": {
-          "value": ">"
+          "value": ">",
+          "raw": ">"
         }
       }
     },
@@ -536,7 +570,8 @@
       },
       "token": {
         "Character": {
-          "value": "'"
+          "value": "'",
+          "raw": "'"
         }
       }
     },
@@ -549,7 +584,8 @@
       },
       "token": {
         "Character": {
-          "value": ")"
+          "value": ")",
+          "raw": ")"
         }
       }
     },
@@ -563,6 +599,7 @@
       "token": {
         "EndTag": {
           "tag_name": "script",
+          "raw_tag_name": "script",
           "self_closing": false,
           "attributes": []
         }
