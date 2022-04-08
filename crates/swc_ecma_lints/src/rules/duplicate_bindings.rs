@@ -79,6 +79,19 @@ impl DuplicateBindings {
             Some(VarDeclKind::Const) | Some(VarDeclKind::Let)
         )
     }
+
+    fn visit_with_kind<V: VisitWith<Self>>(&mut self, e: &V, kind: Option<VarDeclKind>) {
+        let old_var_decl_kind = self.var_decl_kind.take();
+        let old_is_pat_decl = self.is_pat_decl;
+
+        self.var_decl_kind = kind;
+        self.is_pat_decl = true;
+
+        e.visit_children_with(self);
+
+        self.is_pat_decl = old_is_pat_decl;
+        self.var_decl_kind = old_var_decl_kind;
+    }
 }
 
 impl Visit for DuplicateBindings {
@@ -93,16 +106,7 @@ impl Visit for DuplicateBindings {
     }
 
     fn visit_catch_clause(&mut self, c: &CatchClause) {
-        let old_var_decl_kind = self.var_decl_kind.take();
-        let old_is_pat_decl = self.is_pat_decl;
-
-        self.var_decl_kind = Some(VarDeclKind::Var);
-        self.is_pat_decl = true;
-
-        c.visit_children_with(self);
-
-        self.is_pat_decl = old_is_pat_decl;
-        self.var_decl_kind = old_var_decl_kind;
+        self.visit_with_kind(c, Some(VarDeclKind::Var))
     }
 
     fn visit_class_decl(&mut self, d: &ClassDecl) {
@@ -192,16 +196,11 @@ impl Visit for DuplicateBindings {
     }
 
     fn visit_var_decl(&mut self, d: &VarDecl) {
-        let old_var_decl_kind = self.var_decl_kind.take();
-        let old_is_pat_decl = self.is_pat_decl;
+        self.visit_with_kind(d, Some(d.kind))
+    }
 
-        self.var_decl_kind = Some(d.kind);
-        self.is_pat_decl = true;
-
-        d.visit_children_with(self);
-
-        self.is_pat_decl = old_is_pat_decl;
-        self.var_decl_kind = old_var_decl_kind;
+    fn visit_param(&mut self, p: &Param) {
+        self.visit_with_kind(p, Some(VarDeclKind::Var))
     }
 }
 
