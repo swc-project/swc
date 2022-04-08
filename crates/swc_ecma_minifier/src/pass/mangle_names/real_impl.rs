@@ -1,11 +1,11 @@
 use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
+use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
-use swc_ecma_utils::UsageFinder;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_obj_and_computed, Visit, VisitMut, VisitMutWith,
+    VisitWith,
 };
 
 use super::{analyzer::Analyzer, preserver::idents_to_preserve};
@@ -14,11 +14,10 @@ use crate::{marks::Marks, option::MangleOptions};
 pub(crate) fn name_mangler(
     options: MangleOptions,
     _marks: Marks,
-    top_level_ctxt: SyntaxContext,
+    _top_level_ctxt: SyntaxContext,
 ) -> impl VisitMut {
     Mangler {
         options,
-        top_level_ctxt,
         preserved: Default::default(),
     }
 }
@@ -26,30 +25,17 @@ pub(crate) fn name_mangler(
 struct Mangler {
     options: MangleOptions,
 
-    /// Used to check `eval`.
-    top_level_ctxt: SyntaxContext,
-
     preserved: FxHashSet<Id>,
 }
 
 impl Mangler {
-    fn contains_direct_eval<N>(&self, node: &N) -> bool
-    where
-        N: VisitWith<DirectEvalFinder>,
-    {
-        let mut v = DirectEvalFinder { found: false };
-        node.visit_with(&mut v);
-        v.found
-    }
-
     fn contains_eval<N>(&self, node: &N) -> bool
     where
-        N: for<'aa> VisitWith<UsageFinder<'aa>>,
+        N: VisitWith<EvalFinder>,
     {
-        UsageFinder::find(
-            &Ident::new("eval".into(), DUMMY_SP.with_ctxt(self.top_level_ctxt)),
-            node,
-        )
+        let mut v = EvalFinder { found: false };
+        node.visit_with(&mut v);
+        v.found
     }
 
     fn get_map<N>(&self, node: &N) -> AHashMap<Id, JsWord>
@@ -94,7 +80,7 @@ impl VisitMut for Mangler {
     }
 
     fn visit_mut_script(&mut self, s: &mut Script) {
-        if self.contains_direct_eval(s) {
+        if self.contains_eval(s) {
             return;
         }
 
@@ -111,20 +97,18 @@ impl VisitMut for Mangler {
     }
 }
 
-struct DirectEvalFinder {
+struct EvalFinder {
     found: bool,
 }
 
-impl Visit for DirectEvalFinder {
+impl Visit for EvalFinder {
     noop_visit_type!();
 
-    fn visit_callee(&mut self, callee: &Callee) {
-        callee.visit_children_with(self);
+    visit_obj_and_computed!();
 
-        if let Some(Expr::Ident(ref i)) = callee.as_expr().map(|v| &**v) {
-            if i.sym == js_word!("eval") {
-                self.found = true;
-            }
+    fn visit_ident(&mut self, i: &Ident) {
+        if i.sym == js_word!("eval") {
+            self.found = true;
         }
     }
 }
