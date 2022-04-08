@@ -33,7 +33,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:1:1]
  1 | <!DOCTYPE html>
    :                ^
@@ -47,7 +47,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:2:1]
  2 | <html>
    :       ^
@@ -61,14 +61,14 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:3:1]
  3 | <body>
    :       ^
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:4:1]
  4 | 
    : ^
@@ -81,133 +81,133 @@
    : ^^^^
    `----
 
-  x Character { value: 'A', raw: Some(Atom('A' type=inline)), recoverable: false }
+  x Character { value: 'A', raw: Some(Atom('A' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :     ^
    `----
 
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :      ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :       ^
    `----
 
-  x Character { value: 'U', raw: Some(Atom('U' type=inline)), recoverable: false }
+  x Character { value: 'U', raw: Some(Atom('U' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :        ^
    `----
 
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :         ^
    `----
 
-  x Character { value: 'o', raw: Some(Atom('o' type=inline)), recoverable: false }
+  x Character { value: 'o', raw: Some(Atom('o' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :          ^
    `----
 
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :           ^
    `----
 
-  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :            ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :             ^
    `----
 
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :              ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :               ^
    `----
 
-  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                 ^
    `----
 
-  x Character { value: 'H', raw: Some(Atom('H' type=inline)), recoverable: false }
+  x Character { value: 'H', raw: Some(Atom('H' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                  ^
    `----
 
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                   ^
    `----
 
-  x Character { value: 'M', raw: Some(Atom('M' type=inline)), recoverable: false }
+  x Character { value: 'M', raw: Some(Atom('M' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                    ^
    `----
 
-  x Character { value: 'L', raw: Some(Atom('L' type=inline)), recoverable: false }
+  x Character { value: 'L', raw: Some(Atom('L' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                     ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                      ^
    `----
 
-  x Character { value: 'L', raw: Some(Atom('L' type=inline)), recoverable: false }
+  x Character { value: 'L', raw: Some(Atom('L' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                       ^
    `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                        ^
    `----
 
-  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                         ^
    `----
 
-  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                          ^
@@ -220,14 +220,14 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:5:1]
  5 | <h2>An Unordered HTML List</h2>
    :                                ^
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:6:1]
  6 | 
    : ^
@@ -241,32 +241,32 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:7:1]
  7 | <ul>
    :     ^
  8 |     <li>Coffee</li>
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:8:1]
  8 |     <li>Coffee</li>
    : ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:8:2]
  8 |    <li>Coffee</li>
    : ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:8:3]
  8 |   <li>Coffee</li>
    : ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:8:4]
  8 |  <li>Coffee</li>
    : ^
@@ -278,37 +278,37 @@
    : ^^^^
    `----
 
-  x Character { value: 'C', raw: Some(Atom('C' type=inline)), recoverable: false }
+  x Character { value: 'C', raw: Some(Atom('C' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:8:5]
  8 | <li>Coffee</li>
    :     ^
    `----
 
-  x Character { value: 'o', raw: Some(Atom('o' type=inline)), recoverable: false }
+  x Character { value: 'o', raw: Some(Atom('o' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:8:5]
  8 | <li>Coffee</li>
    :      ^
    `----
 
-  x Character { value: 'f', raw: Some(Atom('f' type=inline)), recoverable: false }
+  x Character { value: 'f', raw: Some(Atom('f' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:8:5]
  8 | <li>Coffee</li>
    :       ^
    `----
 
-  x Character { value: 'f', raw: Some(Atom('f' type=inline)), recoverable: false }
+  x Character { value: 'f', raw: Some(Atom('f' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:8:5]
  8 | <li>Coffee</li>
    :        ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:8:5]
  8 | <li>Coffee</li>
    :         ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:8:5]
  8 | <li>Coffee</li>
    :          ^
@@ -321,32 +321,32 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:8:5]
  8 | <li>Coffee</li>
    :                ^
  9 |     <li>Tea</li>
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:9:1]
  9 |     <li>Tea</li>
    : ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:9:2]
  9 |    <li>Tea</li>
    : ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:9:3]
  9 |   <li>Tea</li>
    : ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:9:4]
  9 |  <li>Tea</li>
    : ^
@@ -358,19 +358,19 @@
    : ^^^^
    `----
 
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:9:5]
  9 | <li>Tea</li>
    :     ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:9:5]
  9 | <li>Tea</li>
    :      ^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/lists/input.html:9:5]
  9 | <li>Tea</li>
    :       ^
@@ -383,32 +383,32 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:9:5]
   9 | <li>Tea</li>
     :             ^
  10 |     <li>Milk</li>
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:10:1]
  10 |     <li>Milk</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:10:2]
  10 |    <li>Milk</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:10:3]
  10 |   <li>Milk</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:10:4]
  10 |  <li>Milk</li>
     : ^
@@ -420,25 +420,25 @@
     : ^^^^
     `----
 
-  x Character { value: 'M', raw: Some(Atom('M' type=inline)), recoverable: false }
+  x Character { value: 'M', raw: Some(Atom('M' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:10:5]
  10 | <li>Milk</li>
     :     ^
     `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:10:5]
  10 | <li>Milk</li>
     :      ^
     `----
 
-  x Character { value: 'l', raw: Some(Atom('l' type=inline)), recoverable: false }
+  x Character { value: 'l', raw: Some(Atom('l' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:10:5]
  10 | <li>Milk</li>
     :       ^
     `----
 
-  x Character { value: 'k', raw: Some(Atom('k' type=inline)), recoverable: false }
+  x Character { value: 'k', raw: Some(Atom('k' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:10:5]
  10 | <li>Milk</li>
     :        ^
@@ -451,7 +451,7 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:10:5]
  10 | <li>Milk</li>
     :              ^
@@ -465,14 +465,14 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:11:1]
  11 | </ul>
     :      ^
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:12:1]
  12 | 
     : ^
@@ -485,121 +485,121 @@
     : ^^^^
     `----
 
-  x Character { value: 'A', raw: Some(Atom('A' type=inline)), recoverable: false }
+  x Character { value: 'A', raw: Some(Atom('A' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :     ^
     `----
 
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :      ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :       ^
     `----
 
-  x Character { value: 'O', raw: Some(Atom('O' type=inline)), recoverable: false }
+  x Character { value: 'O', raw: Some(Atom('O' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :        ^
     `----
 
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :         ^
     `----
 
-  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :          ^
     `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :           ^
     `----
 
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :            ^
     `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :             ^
     `----
 
-  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :              ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :               ^
     `----
 
-  x Character { value: 'H', raw: Some(Atom('H' type=inline)), recoverable: false }
+  x Character { value: 'H', raw: Some(Atom('H' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :                ^
     `----
 
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :                 ^
     `----
 
-  x Character { value: 'M', raw: Some(Atom('M' type=inline)), recoverable: false }
+  x Character { value: 'M', raw: Some(Atom('M' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :                  ^
     `----
 
-  x Character { value: 'L', raw: Some(Atom('L' type=inline)), recoverable: false }
+  x Character { value: 'L', raw: Some(Atom('L' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :                   ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :                    ^
     `----
 
-  x Character { value: 'L', raw: Some(Atom('L' type=inline)), recoverable: false }
+  x Character { value: 'L', raw: Some(Atom('L' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :                     ^
     `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :                      ^
     `----
 
-  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :                       ^
     `----
 
-  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :                        ^
@@ -612,14 +612,14 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
     :                              ^
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:14:1]
  14 | 
     : ^
@@ -633,32 +633,32 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:15:1]
  15 | <ol>
     :     ^
  16 |     <li>Coffee</li>
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:16:1]
  16 |     <li>Coffee</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:16:2]
  16 |    <li>Coffee</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:16:3]
  16 |   <li>Coffee</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:16:4]
  16 |  <li>Coffee</li>
     : ^
@@ -670,37 +670,37 @@
     : ^^^^
     `----
 
-  x Character { value: 'C', raw: Some(Atom('C' type=inline)), recoverable: false }
+  x Character { value: 'C', raw: Some(Atom('C' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:16:5]
  16 | <li>Coffee</li>
     :     ^
     `----
 
-  x Character { value: 'o', raw: Some(Atom('o' type=inline)), recoverable: false }
+  x Character { value: 'o', raw: Some(Atom('o' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:16:5]
  16 | <li>Coffee</li>
     :      ^
     `----
 
-  x Character { value: 'f', raw: Some(Atom('f' type=inline)), recoverable: false }
+  x Character { value: 'f', raw: Some(Atom('f' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:16:5]
  16 | <li>Coffee</li>
     :       ^
     `----
 
-  x Character { value: 'f', raw: Some(Atom('f' type=inline)), recoverable: false }
+  x Character { value: 'f', raw: Some(Atom('f' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:16:5]
  16 | <li>Coffee</li>
     :        ^
     `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:16:5]
  16 | <li>Coffee</li>
     :         ^
     `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:16:5]
  16 | <li>Coffee</li>
     :          ^
@@ -713,32 +713,32 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:16:5]
  16 | <li>Coffee</li>
     :                ^
  17 |     <li>Tea</li>
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:17:1]
  17 |     <li>Tea</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:17:2]
  17 |    <li>Tea</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:17:3]
  17 |   <li>Tea</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:17:4]
  17 |  <li>Tea</li>
     : ^
@@ -750,19 +750,19 @@
     : ^^^^
     `----
 
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:17:5]
  17 | <li>Tea</li>
     :     ^
     `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:17:5]
  17 | <li>Tea</li>
     :      ^
     `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:17:5]
  17 | <li>Tea</li>
     :       ^
@@ -775,32 +775,32 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:17:5]
  17 | <li>Tea</li>
     :             ^
  18 |     <li>Milk</li>
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:18:1]
  18 |     <li>Milk</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:18:2]
  18 |    <li>Milk</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:18:3]
  18 |   <li>Milk</li>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:18:4]
  18 |  <li>Milk</li>
     : ^
@@ -812,25 +812,25 @@
     : ^^^^
     `----
 
-  x Character { value: 'M', raw: Some(Atom('M' type=inline)), recoverable: false }
+  x Character { value: 'M', raw: Some(Atom('M' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:18:5]
  18 | <li>Milk</li>
     :     ^
     `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:18:5]
  18 | <li>Milk</li>
     :      ^
     `----
 
-  x Character { value: 'l', raw: Some(Atom('l' type=inline)), recoverable: false }
+  x Character { value: 'l', raw: Some(Atom('l' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:18:5]
  18 | <li>Milk</li>
     :       ^
     `----
 
-  x Character { value: 'k', raw: Some(Atom('k' type=inline)), recoverable: false }
+  x Character { value: 'k', raw: Some(Atom('k' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:18:5]
  18 | <li>Milk</li>
     :        ^
@@ -843,7 +843,7 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:18:5]
  18 | <li>Milk</li>
     :              ^
@@ -857,14 +857,14 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:19:1]
  19 | </ol>
     :      ^
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:20:1]
  20 | 
     : ^
@@ -878,7 +878,7 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:21:1]
  21 | </body>
     :        ^
@@ -892,7 +892,7 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/lists/input.html:22:1]
  22 | </html>
     :        ^

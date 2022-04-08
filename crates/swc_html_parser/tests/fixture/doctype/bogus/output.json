@@ -38,8 +38,7 @@
       "token": {
         "Character": {
           "value": "\n",
-          "raw": "\n",
-          "recoverable": false
+          "raw": "\n"
         }
       }
     }

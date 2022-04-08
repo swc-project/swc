@@ -321,7 +321,6 @@ where
             self.emit_token(Token::Character {
                 value: c,
                 raw: Some(raw.into()),
-                recoverable: false,
             });
         }
     }
@@ -376,7 +375,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: true,
                             });
                         }
                         // EOF
@@ -392,7 +390,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -421,7 +418,6 @@ where
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
                                 raw: Some(c.to_string().into()),
-                                recoverable: true,
                             });
                         }
                         // EOF
@@ -437,7 +433,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -457,7 +452,6 @@ where
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
                                 raw: Some(c.to_string().into()),
-                                recoverable: true,
                             });
                         }
                         // EOF
@@ -473,7 +467,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -493,7 +486,6 @@ where
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
                                 raw: Some(c.to_string().into()),
-                                recoverable: true,
                             });
                         }
                         // EOF
@@ -509,7 +501,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -526,7 +517,6 @@ where
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
                                 raw: Some(c.to_string().into()),
-                                recoverable: true,
                             });
                         }
                         // EOF
@@ -542,7 +532,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -594,7 +583,6 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Eof);
 
@@ -608,7 +596,6 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::Data;
                             self.reconsume();
@@ -648,12 +635,10 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Character {
                                 value: '/',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Eof);
 
@@ -806,7 +791,6 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::Rcdata;
                             self.reconsume();
@@ -838,12 +822,10 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Character {
                                 value: '/',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::Rcdata;
                             self.reconsume();
@@ -961,12 +943,10 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Character {
                                 value: '/',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::Rcdata;
                             self.reconsume();
@@ -991,7 +971,6 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::Rawtext;
                             self.reconsume();
@@ -1023,12 +1002,10 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Character {
                                 value: '/',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::Rawtext;
                             self.reconsume();
@@ -1146,12 +1123,10 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Character {
                                 value: '/',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::Rawtext;
                             self.reconsume()
@@ -1177,12 +1152,10 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Character {
                                 value: '!',
                                 raw: None,
-                                recoverable: true,
                             });
                         }
                         // Anything else
@@ -1192,7 +1165,6 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::ScriptData;
                             self.reconsume();
@@ -1224,12 +1196,10 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Character {
                                 value: '/',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::ScriptData;
                             self.reconsume();
@@ -1347,12 +1317,10 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Character {
                                 value: '/',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::ScriptData;
                             self.reconsume()
@@ -1371,7 +1339,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // Anything else
@@ -1394,7 +1361,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // Anything else
@@ -1417,7 +1383,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+003C LESS-THAN SIGN (<)
@@ -1433,7 +1398,6 @@ where
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
                                 raw: Some(c.to_string().into()),
-                                recoverable: true,
                             });
                         }
                         // EOF
@@ -1451,7 +1415,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -1468,7 +1431,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+003C LESS-THAN SIGN (<)
@@ -1485,7 +1447,6 @@ where
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
                                 raw: Some(c.to_string().into()),
-                                recoverable: true,
                             });
                         }
                         // EOF
@@ -1505,7 +1466,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -1520,7 +1480,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+003C LESS-THAN SIGN (<)
@@ -1536,7 +1495,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+0000 NULL
@@ -1548,7 +1506,6 @@ where
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
                                 raw: Some(c.to_string().into()),
-                                recoverable: true,
                             });
                         }
                         // EOF
@@ -1568,7 +1525,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -1593,7 +1549,6 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::ScriptDataDoubleEscapeStart;
                             self.reconsume();
@@ -1605,7 +1560,6 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::ScriptDataEscaped;
                             self.reconsume();
@@ -1637,12 +1591,10 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Character {
                                 value: '/',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::ScriptDataEscaped;
                             self.reconsume();
@@ -1760,12 +1712,10 @@ where
                             self.emit_token(Token::Character {
                                 value: '<',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.emit_token(Token::Character {
                                 value: '/',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::ScriptDataEscaped;
                             self.reconsume()
@@ -1798,7 +1748,6 @@ where
                                 self.emit_token(Token::Character {
                                     value: c,
                                     raw: Some(c.to_string().into()),
-                                    recoverable: false,
                                 });
                             }
                         }
@@ -1814,7 +1763,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // ASCII lower alpha
@@ -1828,7 +1776,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // Anything else
@@ -1851,7 +1798,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+003C LESS-THAN SIGN (<)
@@ -1862,7 +1808,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+0000 NULL
@@ -1873,7 +1818,6 @@ where
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
                                 raw: Some(c.to_string().into()),
-                                recoverable: true,
                             });
                         }
                         // EOF
@@ -1890,7 +1834,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -1907,7 +1850,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+003C LESS-THAN SIGN (<)
@@ -1918,7 +1860,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+0000 NULL
@@ -1931,7 +1872,6 @@ where
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
                                 raw: Some(c.to_string().into()),
-                                recoverable: true,
                             });
                         }
                         // EOF
@@ -1951,7 +1891,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -1966,7 +1905,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+003C LESS-THAN SIGN (<)
@@ -1977,7 +1915,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+003E GREATER-THAN SIGN (>)
@@ -1988,7 +1925,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+0000 NULL
@@ -2001,7 +1937,6 @@ where
                             self.emit_token(Token::Character {
                                 value: REPLACEMENT_CHARACTER,
                                 raw: Some(c.to_string().into()),
-                                recoverable: true,
                             });
                         }
                         // EOF
@@ -2021,7 +1956,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -2039,7 +1973,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // Anything else
@@ -2076,7 +2009,6 @@ where
                                 self.emit_token(Token::Character {
                                     value: c,
                                     raw: Some(c.to_string().into()),
-                                    recoverable: false,
                                 });
                             }
                         }
@@ -2092,7 +2024,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // ASCII lower alpha
@@ -2106,7 +2037,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // Anything else
@@ -4676,7 +4606,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                     }
@@ -4697,7 +4626,6 @@ where
                             self.emit_token(Token::Character {
                                 value: ']',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::CdataSection;
                             self.reconsume();
@@ -4714,7 +4642,6 @@ where
                             self.emit_token(Token::Character {
                                 value: c,
                                 raw: Some(c.to_string().into()),
-                                recoverable: false,
                             });
                         }
                         // U+003E GREATER-THAN SIGN character
@@ -4729,7 +4656,6 @@ where
                             self.emit_token(Token::Character {
                                 value: ']',
                                 raw: None,
-                                recoverable: true,
                             });
                             self.state = State::CdataSection;
                             self.reconsume();
@@ -4937,7 +4863,6 @@ where
                                 self.emit_token(Token::Character {
                                     value: c,
                                     raw: Some(c.to_string().into()),
-                                    recoverable: false,
                                 });
                             }
                         }

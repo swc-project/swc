@@ -29,8 +29,7 @@
       "token": {
         "Character": {
           "value": "\n",
-          "raw": "\n",
-          "recoverable": false
+          "raw": "\n"
         }
       }
     },
@@ -60,8 +59,7 @@
       "token": {
         "Character": {
           "value": "t",
-          "raw": "t",
-          "recoverable": false
+          "raw": "t"
         }
       }
     },
@@ -75,8 +73,7 @@
       "token": {
         "Character": {
           "value": "e",
-          "raw": "e",
-          "recoverable": false
+          "raw": "e"
         }
       }
     },
@@ -90,8 +87,7 @@
       "token": {
         "Character": {
           "value": "s",
-          "raw": "s",
-          "recoverable": false
+          "raw": "s"
         }
       }
     },
@@ -105,8 +101,7 @@
       "token": {
         "Character": {
           "value": "t",
-          "raw": "t",
-          "recoverable": false
+          "raw": "t"
         }
       }
     },
@@ -136,8 +131,7 @@
       "token": {
         "Character": {
           "value": "\n",
-          "raw": "\n",
-          "recoverable": false
+          "raw": "\n"
         }
       }
     },

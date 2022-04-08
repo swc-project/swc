@@ -19,14 +19,14 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:1:1]
  1 | <!-- test -->
    :              ^
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:2:1]
  2 | 
    : ^
@@ -45,19 +45,19 @@
    :             ^^^^^
    `----
 
-  x Character { value: 'b', raw: Some(Atom('b' type=inline)), recoverable: false }
+  x Character { value: 'b', raw: Some(Atom('b' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:3:1]
  3 | <!-- foo --><div>baz</div><!-- bar
    :                  ^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:3:1]
  3 | <!-- foo --><div>baz</div><!-- bar
    :                   ^
    `----
 
-  x Character { value: 'z', raw: Some(Atom('z' type=inline)), recoverable: false }
+  x Character { value: 'z', raw: Some(Atom('z' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:3:1]
  3 | <!-- foo --><div>baz</div><!-- bar
    :                    ^
@@ -79,7 +79,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:5:1]
  5 | moo -->
    :        ^
@@ -105,7 +105,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:6:1]
  6 | <script><!-- alert(1) --></script>
    :                                   ^
@@ -118,43 +118,43 @@
    : ^^^^^^^^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:7:1]
  7 | <script>alert('<!--')</script>
    :         ^
    `----
 
-  x Character { value: 'l', raw: Some(Atom('l' type=inline)), recoverable: false }
+  x Character { value: 'l', raw: Some(Atom('l' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:7:1]
  7 | <script>alert('<!--')</script>
    :          ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:7:1]
  7 | <script>alert('<!--')</script>
    :           ^
    `----
 
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:7:1]
  7 | <script>alert('<!--')</script>
    :            ^
    `----
 
-  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:7:1]
  7 | <script>alert('<!--')</script>
    :             ^
    `----
 
-  x Character { value: '(', raw: Some(Atom('(' type=inline)), recoverable: false }
+  x Character { value: '(', raw: Some(Atom('(' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:7:1]
  7 | <script>alert('<!--')</script>
    :              ^
    `----
 
-  x Character { value: '\'', raw: Some(Atom(''' type=inline)), recoverable: false }
+  x Character { value: '\'', raw: Some(Atom(''' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:7:1]
  7 | <script>alert('<!--')</script>
    :               ^
@@ -167,13 +167,13 @@
  8 | `-> <script>alert('<!-- foo -->')</script>
    `----
 
-  x Character { value: '\'', raw: Some(Atom(''' type=inline)), recoverable: false }
+  x Character { value: '\'', raw: Some(Atom(''' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:8:1]
  8 | <script>alert('<!-- foo -->')</script>
    :                            ^
    `----
 
-  x Character { value: ')', raw: Some(Atom(')' type=inline)), recoverable: false }
+  x Character { value: ')', raw: Some(Atom(')' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:8:1]
  8 | <script>alert('<!-- foo -->')</script>
    :                             ^
@@ -186,7 +186,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:8:1]
  8 | <script>alert('<!-- foo -->')</script>
    :                                       ^
@@ -199,73 +199,73 @@
    : ^^^^^^^^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :         ^
    `----
 
-  x Character { value: 'l', raw: Some(Atom('l' type=inline)), recoverable: false }
+  x Character { value: 'l', raw: Some(Atom('l' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :          ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :           ^
    `----
 
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :            ^
    `----
 
-  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :             ^
    `----
 
-  x Character { value: '(', raw: Some(Atom('(' type=inline)), recoverable: false }
+  x Character { value: '(', raw: Some(Atom('(' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :              ^
    `----
 
-  x Character { value: '\'', raw: Some(Atom(''' type=inline)), recoverable: false }
+  x Character { value: '\'', raw: Some(Atom(''' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :               ^
    `----
 
-  x Character { value: '-', raw: Some(Atom('-' type=inline)), recoverable: false }
+  x Character { value: '-', raw: Some(Atom('-' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :                ^
    `----
 
-  x Character { value: '-', raw: Some(Atom('-' type=inline)), recoverable: false }
+  x Character { value: '-', raw: Some(Atom('-' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :                 ^
    `----
 
-  x Character { value: '>', raw: Some(Atom('>' type=inline)), recoverable: false }
+  x Character { value: '>', raw: Some(Atom('>' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :                  ^
    `----
 
-  x Character { value: '\'', raw: Some(Atom(''' type=inline)), recoverable: false }
+  x Character { value: '\'', raw: Some(Atom(''' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :                   ^
    `----
 
-  x Character { value: ')', raw: Some(Atom(')' type=inline)), recoverable: false }
+  x Character { value: ')', raw: Some(Atom(')' type=inline)) }
    ,-[$DIR/tests/fixture/comments/input.html:9:1]
  9 | <script>alert('-->')</script>
    :                    ^

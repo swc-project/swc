@@ -22,7 +22,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:1:1]
  1 | <!DOCTYPE html>
    :                ^
@@ -36,7 +36,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:2:1]
  2 | <html>
    :       ^
@@ -50,14 +50,14 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:3:1]
  3 | <body>
    :       ^
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:4:1]
  4 | 
    : ^
@@ -70,67 +70,67 @@
    : ^^^^
    `----
 
-  x Character { value: 'H', raw: Some(Atom('H' type=inline)), recoverable: false }
+  x Character { value: 'H', raw: Some(Atom('H' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :     ^
    `----
 
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :      ^
    `----
 
-  x Character { value: 'M', raw: Some(Atom('M' type=inline)), recoverable: false }
+  x Character { value: 'M', raw: Some(Atom('M' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :       ^
    `----
 
-  x Character { value: 'L', raw: Some(Atom('L' type=inline)), recoverable: false }
+  x Character { value: 'L', raw: Some(Atom('L' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :        ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :         ^
    `----
 
-  x Character { value: 'I', raw: Some(Atom('I' type=inline)), recoverable: false }
+  x Character { value: 'I', raw: Some(Atom('I' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :          ^
    `----
 
-  x Character { value: 'm', raw: Some(Atom('m' type=inline)), recoverable: false }
+  x Character { value: 'm', raw: Some(Atom('m' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :           ^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :            ^
    `----
 
-  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :             ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :              ^
    `----
 
-  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :               ^
@@ -143,7 +143,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :                     ^
@@ -156,247 +156,247 @@
    : ^^^
    `----
 
-  x Character { value: 'H', raw: Some(Atom('H' type=inline)), recoverable: false }
+  x Character { value: 'H', raw: Some(Atom('H' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :    ^
    `----
 
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :     ^
    `----
 
-  x Character { value: 'M', raw: Some(Atom('M' type=inline)), recoverable: false }
+  x Character { value: 'M', raw: Some(Atom('M' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :      ^
    `----
 
-  x Character { value: 'L', raw: Some(Atom('L' type=inline)), recoverable: false }
+  x Character { value: 'L', raw: Some(Atom('L' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :       ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :        ^
    `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :         ^
    `----
 
-  x Character { value: 'm', raw: Some(Atom('m' type=inline)), recoverable: false }
+  x Character { value: 'm', raw: Some(Atom('m' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :          ^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :           ^
    `----
 
-  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :            ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :             ^
    `----
 
-  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :              ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :               ^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                ^
    `----
 
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                 ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                  ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                   ^
    `----
 
-  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                    ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                     ^
    `----
 
-  x Character { value: 'f', raw: Some(Atom('f' type=inline)), recoverable: false }
+  x Character { value: 'f', raw: Some(Atom('f' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                      ^
    `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                       ^
    `----
 
-  x Character { value: 'n', raw: Some(Atom('n' type=inline)), recoverable: false }
+  x Character { value: 'n', raw: Some(Atom('n' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                        ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                         ^
    `----
 
-  x Character { value: 'd', raw: Some(Atom('d' type=inline)), recoverable: false }
+  x Character { value: 'd', raw: Some(Atom('d' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                          ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                           ^
    `----
 
-  x Character { value: 'w', raw: Some(Atom('w' type=inline)), recoverable: false }
+  x Character { value: 'w', raw: Some(Atom('w' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                            ^
    `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                             ^
    `----
 
-  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                              ^
    `----
 
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                               ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                ^
    `----
 
-  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                 ^
    `----
 
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                  ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                   ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                    ^
    `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                     ^
    `----
 
-  x Character { value: 'm', raw: Some(Atom('m' type=inline)), recoverable: false }
+  x Character { value: 'm', raw: Some(Atom('m' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                      ^
    `----
 
-  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                       ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                        ^
    `----
 
-  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                         ^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                          ^
    `----
 
-  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                           ^
    `----
 
-  x Character { value: ':', raw: Some(Atom(':' type=inline)), recoverable: false }
+  x Character { value: ':', raw: Some(Atom(':' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                            ^
@@ -409,14 +409,14 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
    :                                                 ^
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:7:1]
  7 | 
    : ^
@@ -433,14 +433,14 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/images/input.html:8:1]
  8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
    :                                                                       ^
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/images/input.html:9:1]
   9 | 
     : ^
@@ -454,7 +454,7 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/images/input.html:10:1]
  10 | </body>
     :        ^
@@ -468,7 +468,7 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/images/input.html:11:1]
  11 | </html>
     :        ^

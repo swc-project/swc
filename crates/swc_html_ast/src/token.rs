@@ -13,6 +13,7 @@ pub struct Attribute {
     pub name: JsWord,
     pub raw_name: Option<JsWord>,
     pub value: Option<JsWord>,
+    // pub raw_value: Option<JsWord>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -26,7 +27,7 @@ pub enum Token {
         name: Option<JsWord>,
         raw_name: Option<JsWord>,
 
-        // Is recoverable?
+        // Is force quirks?
         force_quirks: bool,
 
         // PUBLIC keyword
@@ -43,7 +44,6 @@ pub enum Token {
         // System identifier
         system_id: Option<JsWord>,
     },
-    // TODO raw `value` (with quotes) for attribute
     StartTag {
         tag_name: JsWord,
         raw_tag_name: Option<JsWord>,
@@ -61,8 +61,8 @@ pub enum Token {
     },
     Character {
         value: char,
+        // TODO improve me for html entity
         raw: Option<JsWord>,
-        recoverable: bool,
     },
     Eof,
 }

@@ -38,8 +38,7 @@
       "token": {
         "Character": {
           "value": "\n",
-          "raw": "\n",
-          "recoverable": false
+          "raw": "\n"
         }
       }
     },
@@ -53,8 +52,7 @@
       "token": {
         "Character": {
           "value": "/",
-          "raw": "/",
-          "recoverable": false
+          "raw": "/"
         }
       }
     },
@@ -68,8 +66,7 @@
       "token": {
         "Character": {
           "value": "/",
-          "raw": "/",
-          "recoverable": false
+          "raw": "/"
         }
       }
     },
@@ -96,8 +93,7 @@
       "token": {
         "Character": {
           "value": "\n",
-          "raw": "\n",
-          "recoverable": false
+          "raw": "\n"
         }
       }
     },
@@ -127,8 +123,7 @@
       "token": {
         "Character": {
           "value": "\n",
-          "raw": "\n",
-          "recoverable": false
+          "raw": "\n"
         }
       }
     }

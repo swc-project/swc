@@ -40,7 +40,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/comment-cdata/input.html:8:1]
  8 | ]]>
    :    ^
@@ -53,25 +53,25 @@
    : ^^^^^
    `----
 
-  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
    ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
  9 | <div>test</div>
    :      ^
    `----
 
-  x Character { value: 'e', raw: Some(Atom('e' type=inline)), recoverable: false }
+  x Character { value: 'e', raw: Some(Atom('e' type=inline)) }
    ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
  9 | <div>test</div>
    :       ^
    `----
 
-  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
    ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
  9 | <div>test</div>
    :        ^
    `----
 
-  x Character { value: 't', raw: Some(Atom('t' type=inline)), recoverable: false }
+  x Character { value: 't', raw: Some(Atom('t' type=inline)) }
    ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
  9 | <div>test</div>
    :         ^
@@ -84,7 +84,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/comment-cdata/input.html:9:1]
   9 | <div>test</div>
     :                ^

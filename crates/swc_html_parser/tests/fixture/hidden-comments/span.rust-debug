@@ -24,7 +24,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:1:1]
  1 | <!DOCTYPE html>
    :                ^
@@ -38,7 +38,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:2:1]
  2 | <html>
    :       ^
@@ -52,14 +52,14 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:3:1]
  3 | <body>
    :       ^
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:4:1]
  4 | 
    : ^
@@ -73,7 +73,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:5:1]
  5 | <!--This is a comment-->
    :                         ^
@@ -87,7 +87,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:6:1]
  6 | <!-- This is a comment -->
    :                           ^
@@ -100,121 +100,121 @@
    : ^^^
    `----
 
-  x Character { value: 'T', raw: Some(Atom('T' type=inline)), recoverable: false }
+  x Character { value: 'T', raw: Some(Atom('T' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :    ^
    `----
 
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :     ^
    `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :      ^
    `----
 
-  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :       ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :        ^
    `----
 
-  x Character { value: 'i', raw: Some(Atom('i' type=inline)), recoverable: false }
+  x Character { value: 'i', raw: Some(Atom('i' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :         ^
    `----
 
-  x Character { value: 's', raw: Some(Atom('s' type=inline)), recoverable: false }
+  x Character { value: 's', raw: Some(Atom('s' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :          ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :           ^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :            ^
    `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :             ^
    `----
 
-  x Character { value: 'p', raw: Some(Atom('p' type=inline)), recoverable: false }
+  x Character { value: 'p', raw: Some(Atom('p' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :              ^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :               ^
    `----
 
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :                ^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :                 ^
    `----
 
-  x Character { value: 'g', raw: Some(Atom('g' type=inline)), recoverable: false }
+  x Character { value: 'g', raw: Some(Atom('g' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :                  ^
    `----
 
-  x Character { value: 'r', raw: Some(Atom('r' type=inline)), recoverable: false }
+  x Character { value: 'r', raw: Some(Atom('r' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :                   ^
    `----
 
-  x Character { value: 'a', raw: Some(Atom('a' type=inline)), recoverable: false }
+  x Character { value: 'a', raw: Some(Atom('a' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :                    ^
    `----
 
-  x Character { value: 'p', raw: Some(Atom('p' type=inline)), recoverable: false }
+  x Character { value: 'p', raw: Some(Atom('p' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :                     ^
    `----
 
-  x Character { value: 'h', raw: Some(Atom('h' type=inline)), recoverable: false }
+  x Character { value: 'h', raw: Some(Atom('h' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :                      ^
    `----
 
-  x Character { value: '.', raw: Some(Atom('.' type=inline)), recoverable: false }
+  x Character { value: '.', raw: Some(Atom('.' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :                       ^
@@ -227,7 +227,7 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:7:1]
  7 | <p>This is a paragraph.</p>
    :                            ^
@@ -241,14 +241,14 @@
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
    ,-[$DIR/tests/fixture/hidden-comments/input.html:8:1]
  8 | <!-- Comments are not displayed in the browser -->
    :                                                   ^
    `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/hidden-comments/input.html:9:1]
   9 | 
     : ^
@@ -262,20 +262,20 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/hidden-comments/input.html:10:1]
  10 | </body>
     :        ^
  11 |   </html>
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/hidden-comments/input.html:11:1]
  11 |   </html>
     : ^
     `----
 
-  x Character { value: ' ', raw: Some(Atom(' ' type=inline)), recoverable: false }
+  x Character { value: ' ', raw: Some(Atom(' ' type=inline)) }
     ,-[$DIR/tests/fixture/hidden-comments/input.html:11:2]
  11 |  </html>
     : ^
@@ -288,21 +288,21 @@
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/hidden-comments/input.html:11:3]
  11 | </html>
     :        ^
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/hidden-comments/input.html:12:1]
  12 | 
     : ^
     `----
 
   x Character { value: '\n', raw: Some(Atom('
-  | ' type=inline)), recoverable: false }
+  | ' type=inline)) }
     ,-[$DIR/tests/fixture/hidden-comments/input.html:13:1]
  13 | 
     : ^
