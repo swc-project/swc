@@ -1502,6 +1502,10 @@ fn ignore_result(e: Expr) -> Option<Expr> {
 
             exprs.extend(last);
 
+            if exprs.is_empty() {
+                return None;
+            }
+
             Some(Expr::Seq(SeqExpr { span, exprs }))
         }
 
