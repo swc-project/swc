@@ -9642,3 +9642,42 @@ fn direct_eval_1() {
 
     run_exec_test(src, config, false);
 }
+
+#[test]
+fn indirect_eval_1() {
+    let src = r###"
+    const obj = {
+        1: function () {
+            const foo = 1;
+            return {
+                test: function (s) {
+                    const e = eval;
+                    return e(s)
+                }
+            }
+        },
+        2: function foo(mod1) {
+            let success = false;
+            try {
+                mod1.test('foo')
+            } catch (e) {
+                success = true;
+                console.log('PASS');
+            }
+            if (!success) {
+                throw new Error('indirect eval should not be direct eval');
+            }
+        }
+    };
+    
+    
+    obj[2](obj[1]());
+    "###;
+
+    let config = r###"{
+        "defaults": true,
+        "toplevel": true
+    }"###;
+
+    run_exec_test(src, config, false);
+}
