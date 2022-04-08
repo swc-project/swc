@@ -1,6 +1,6 @@
 .one {
   -webkit-writing-mode: horizontal-tb;
-  -ms-writing-mode: lr;
+  -ms-writing-mode: lr-tb;
   writing-mode: horizontal-tb;
 }
 .two {
@@ -10,30 +10,30 @@
 }
 .three {
   -webkit-writing-mode: vertical-lr;
-  -ms-writing-mode: tb;
+  -ms-writing-mode: tb-lr;
   writing-mode: vertical-lr;
 }
 .rtl-vertical-rl {
   -webkit-writing-mode: vertical-rl;
-  -ms-writing-mode: tb-rl;
+  -ms-writing-mode: bt-rl;
   writing-mode: vertical-rl;
   direction: rtl;
 }
 .rtl-vertical-lr {
   -webkit-writing-mode: vertical-lr;
-  -ms-writing-mode: tb;
+  -ms-writing-mode: bt-lr;
   writing-mode: vertical-lr;
   direction: rtl;
 }
 .rtl-horizontal-tb {
   -webkit-writing-mode: horizontal-tb;
-  -ms-writing-mode: lr;
+  -ms-writing-mode: rl-tb;
   writing-mode: horizontal-tb;
   direction: rtl;
 }
 .rtl-horizontal-tb-override-direction {
   -webkit-writing-mode: horizontal-tb;
-  -ms-writing-mode: lr;
+  -ms-writing-mode: lr-tb;
   writing-mode: horizontal-tb;
   direction: rtl;
   direction: ltr;
@@ -45,7 +45,7 @@
 }
 .class {
   -webkit-writing-mode: vertical-lr;
-  -ms-writing-mode: tb;
+  -ms-writing-mode: tb-lr;
   writing-mode: vertical-lr;
 }
 .class {
@@ -55,16 +55,28 @@
 }
 .class {
   -webkit-writing-mode: horizontal-tb;
-  -ms-writing-mode: lr;
+  -ms-writing-mode: lr-tb;
   writing-mode: horizontal-tb;
 }
 .class {
   -webkit-writing-mode: sideways-rl;
-  -ms-writing-mode: tb-rl;
   writing-mode: sideways-rl;
 }
 .class {
   -webkit-writing-mode: sideways-lr;
-  -ms-writing-mode: tb;
   writing-mode: sideways-lr;
+}
+@viewport{
+  -webkit-writing-mode: horizontal-tb;
+  -ms-writing-mode: rl-tb;
+  writing-mode: horizontal-tb;
+  direction: rtl;
+}
+@keyframes test {
+  100% {
+    -webkit-writing-mode: horizontal-tb;
+    -ms-writing-mode: rl-tb;
+    writing-mode: horizontal-tb;
+    direction: rtl;
+  }
 }

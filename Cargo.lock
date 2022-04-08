@@ -3089,7 +3089,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.100.0"
+version = "0.100.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3237,7 +3237,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.100.3"
+version = "0.100.4"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3600,7 +3600,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.79.0"
+version = "0.79.1"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -3719,7 +3719,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3729,7 +3729,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3740,7 +3740,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3766,7 +3766,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.2.2"
+version = "0.3.0"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3782,7 +3782,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3861,7 +3861,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_comments"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -3879,7 +3879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.50.1"
+version = "0.50.2"
 dependencies = [
  "anyhow",
  "once_cell",

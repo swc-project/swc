@@ -16,11 +16,14 @@
       "token": {
         "StartTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": [
             {
               "name": "class",
-              "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"
+              "raw_name": "class",
+              "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z",
+              "raw_value": "\"0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z\""
             }
           ]
         }
@@ -36,6 +39,7 @@
       "token": {
         "EndTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": []
         }
@@ -50,7 +54,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -64,11 +69,14 @@
       "token": {
         "StartTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": [
             {
               "name": "class",
-              "value": "add sort keys createSorter"
+              "raw_name": "class",
+              "value": "add sort keys createSorter",
+              "raw_value": "\"add sort keys createSorter\""
             }
           ]
         }
@@ -84,6 +92,7 @@
       "token": {
         "EndTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": []
         }
@@ -98,7 +107,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -112,11 +122,14 @@
       "token": {
         "StartTag": {
           "tag_name": "span",
+          "raw_tag_name": "span",
           "self_closing": false,
           "attributes": [
             {
               "name": "class",
-              "value": "sprite sprite-{{sprite}}"
+              "raw_name": "class",
+              "value": "sprite sprite-{{sprite}}",
+              "raw_value": "\"sprite sprite-{{sprite}}\""
             }
           ]
         }
@@ -132,6 +145,7 @@
       "token": {
         "EndTag": {
           "tag_name": "span",
+          "raw_tag_name": "span",
           "self_closing": false,
           "attributes": []
         }
@@ -146,7 +160,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -160,11 +175,14 @@
       "token": {
         "StartTag": {
           "tag_name": "span",
+          "raw_tag_name": "span",
           "self_closing": false,
           "attributes": [
             {
               "name": "class",
-              "value": "{{sprite}}-sprite sprite"
+              "raw_name": "class",
+              "value": "{{sprite}}-sprite sprite",
+              "raw_value": "\"{{sprite}}-sprite sprite\""
             }
           ]
         }
@@ -180,6 +198,7 @@
       "token": {
         "EndTag": {
           "tag_name": "span",
+          "raw_tag_name": "span",
           "self_closing": false,
           "attributes": []
         }
@@ -194,7 +213,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -208,11 +228,14 @@
       "token": {
         "StartTag": {
           "tag_name": "span",
+          "raw_tag_name": "span",
           "self_closing": false,
           "attributes": [
             {
               "name": "class",
-              "value": "sprite-{{sprite}}-sprite"
+              "raw_name": "class",
+              "value": "sprite-{{sprite}}-sprite",
+              "raw_value": "\"sprite-{{sprite}}-sprite\""
             }
           ]
         }
@@ -228,6 +251,7 @@
       "token": {
         "EndTag": {
           "tag_name": "span",
+          "raw_tag_name": "span",
           "self_closing": false,
           "attributes": []
         }
@@ -242,7 +266,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -256,11 +281,14 @@
       "token": {
         "StartTag": {
           "tag_name": "span",
+          "raw_tag_name": "span",
           "self_closing": false,
           "attributes": [
             {
               "name": "class",
-              "value": "{{sprite}}"
+              "raw_name": "class",
+              "value": "{{sprite}}",
+              "raw_value": "\"{{sprite}}\""
             }
           ]
         }
@@ -276,6 +304,7 @@
       "token": {
         "EndTag": {
           "tag_name": "span",
+          "raw_tag_name": "span",
           "self_closing": false,
           "attributes": []
         }
@@ -290,7 +319,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -304,11 +334,14 @@
       "token": {
         "StartTag": {
           "tag_name": "span",
+          "raw_tag_name": "span",
           "self_closing": false,
           "attributes": [
             {
               "name": "class",
-              "value": "{{sprite}}"
+              "raw_name": "class",
+              "value": "{{sprite}}",
+              "raw_value": "{{sprite}}"
             }
           ]
         }
@@ -324,6 +357,7 @@
       "token": {
         "EndTag": {
           "tag_name": "span",
+          "raw_tag_name": "span",
           "self_closing": false,
           "attributes": []
         }
@@ -338,7 +372,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -352,11 +387,14 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": [
             {
               "name": "class",
-              "value": null
+              "raw_name": "class",
+              "value": null,
+              "raw_value": null
             }
           ]
         }
@@ -372,6 +410,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -386,7 +425,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -400,11 +440,14 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": [
             {
               "name": "class",
-              "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"
+              "raw_name": "class",
+              "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar",
+              "raw_value": "\"nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar\""
             }
           ]
         }
@@ -420,6 +463,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -434,7 +478,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -448,11 +493,14 @@
       "token": {
         "StartTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": [
             {
               "name": "class",
-              "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"
+              "raw_name": "class",
+              "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz",
+              "raw_value": "\"moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz\""
             }
           ]
         }
@@ -468,6 +516,7 @@
       "token": {
         "EndTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": []
         }

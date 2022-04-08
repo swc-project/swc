@@ -28,7 +28,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -42,6 +43,7 @@
       "token": {
         "StartTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -56,7 +58,8 @@
       },
       "token": {
         "Character": {
-          "value": "t"
+          "value": "t",
+          "raw": "t"
         }
       }
     },
@@ -69,7 +72,8 @@
       },
       "token": {
         "Character": {
-          "value": "e"
+          "value": "e",
+          "raw": "e"
         }
       }
     },
@@ -82,7 +86,8 @@
       },
       "token": {
         "Character": {
-          "value": "s"
+          "value": "s",
+          "raw": "s"
         }
       }
     },
@@ -95,7 +100,8 @@
       },
       "token": {
         "Character": {
-          "value": "t"
+          "value": "t",
+          "raw": "t"
         }
       }
     },
@@ -109,6 +115,7 @@
       "token": {
         "EndTag": {
           "tag_name": "div",
+          "raw_tag_name": "div",
           "self_closing": false,
           "attributes": []
         }
@@ -123,7 +130,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
