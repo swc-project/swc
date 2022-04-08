@@ -1,3 +1,4 @@
+use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -7,10 +8,7 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
-use super::{
-    analyzer::Analyzer,
-    preserver::{idents_to_preserve, Preserver},
-};
+use super::{analyzer::Analyzer, preserver::idents_to_preserve};
 use crate::{marks::Marks, option::MangleOptions};
 
 pub(crate) fn name_mangler(
@@ -21,6 +19,7 @@ pub(crate) fn name_mangler(
     Mangler {
         options,
         top_level_ctxt,
+        preserved: Default::default(),
     }
 }
 
@@ -29,6 +28,8 @@ struct Mangler {
 
     /// Used to check `eval`.
     top_level_ctxt: SyntaxContext,
+
+    preserved: FxHashSet<Id>,
 }
 
 impl Mangler {
@@ -53,28 +54,43 @@ impl Mangler {
 
     fn get_map<N>(&self, node: &N) -> AHashMap<Id, JsWord>
     where
-        N: VisitWith<Preserver>,
         N: VisitWith<Analyzer>,
     {
-        let preserved = idents_to_preserve(self.options.clone(), &*node);
-
         let mut analyzer = Analyzer {
             scope: Default::default(),
             is_pat_decl: Default::default(),
         };
         node.visit_with(&mut analyzer);
 
-        analyzer.into_rename_map(&preserved)
+        analyzer.into_rename_map(&self.preserved)
     }
 }
 
 impl VisitMut for Mangler {
     noop_visit_mut_type!();
 
+    /// Only called if `eval` exists
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        if self.contains_direct_eval(n) {
+            return;
+        }
+
+        if self.contains_indirect_eval(n) {
+            n.visit_mut_children_with(self);
+            return;
+        }
+
+        let map = self.get_map(n);
+
+        n.visit_mut_with(&mut rename(&map));
+    }
+
     fn visit_mut_module(&mut self, m: &mut Module) {
         if self.contains_direct_eval(m) {
             return;
         }
+
+        self.preserved = idents_to_preserve(self.options.clone(), &*m);
 
         if self.contains_indirect_eval(m) {
             m.visit_mut_children_with(self);
@@ -90,6 +106,8 @@ impl VisitMut for Mangler {
         if self.contains_direct_eval(s) {
             return;
         }
+
+        self.preserved = idents_to_preserve(self.options.clone(), &*s);
 
         if self.contains_indirect_eval(s) {
             s.visit_mut_children_with(self);
