@@ -1,9 +1,11 @@
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_utils::UsageFinder;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use super::{
     analyzer::Analyzer,
@@ -30,7 +32,14 @@ struct Mangler {
 }
 
 impl Mangler {
-    fn contains_direct_eval<N>(&self, node: &N) -> bool {}
+    fn contains_direct_eval<N>(&self, node: &N) -> bool
+    where
+        N: VisitWith<DirectEvalFinder>,
+    {
+        let mut v = DirectEvalFinder { found: false };
+        node.visit_with(&mut v);
+        v.found
+    }
 
     fn contains_indirect_eval<N>(&self, node: &N) -> bool
     where
@@ -90,5 +99,23 @@ impl VisitMut for Mangler {
         let map = self.get_map(s);
 
         s.visit_mut_with(&mut rename(&map));
+    }
+}
+
+struct DirectEvalFinder {
+    found: bool,
+}
+
+impl Visit for DirectEvalFinder {
+    noop_visit_type!();
+
+    fn visit_callee(&mut self, callee: &Callee) {
+        callee.visit_children_with(self);
+
+        if let Some(Expr::Ident(ref i)) = callee.as_expr().map(|v| &**v) {
+            if i.sym == js_word!("eval") {
+                self.found = true;
+            }
+        }
     }
 }
