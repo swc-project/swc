@@ -30,7 +30,9 @@ struct Mangler {
 }
 
 impl Mangler {
-    fn contains_eval<N>(&self, node: &N) -> bool
+    fn contains_direct_eval<N>(&self, node: &N) -> bool {}
+
+    fn contains_indirect_eval<N>(&self, node: &N) -> bool
     where
         N: for<'aa> VisitWith<UsageFinder<'aa>>,
     {
@@ -61,7 +63,12 @@ impl VisitMut for Mangler {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, m: &mut Module) {
-        if self.contains_eval(m) {
+        if self.contains_direct_eval(m) {
+            return;
+        }
+
+        if self.contains_indirect_eval(m) {
+            m.visit_mut_children_with(self);
             return;
         }
 
@@ -71,7 +78,12 @@ impl VisitMut for Mangler {
     }
 
     fn visit_mut_script(&mut self, s: &mut Script) {
-        if self.contains_eval(s) {
+        if self.contains_direct_eval(s) {
+            return;
+        }
+
+        if self.contains_indirect_eval(s) {
+            s.visit_mut_children_with(self);
             return;
         }
 
