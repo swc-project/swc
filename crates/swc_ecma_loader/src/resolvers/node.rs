@@ -303,6 +303,7 @@ impl NodeModulesResolver {
                     .resolve_as_file(&path)
                     .ok()
                     .or_else(|| self.resolve_as_directory(&path).ok())
+                    .flatten()
                 {
                     return Ok(Some(result));
                 }
