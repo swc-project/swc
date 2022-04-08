@@ -10106,7 +10106,8 @@
             {
               "name": "href",
               "raw_name": "href",
-              "value": "http://lmgtfy.com/?l=1&q=rick+roll"
+              "value": "http://lmgtfy.com/?l=1&q=rick+roll",
+              "raw_value": "\"http://lmgtfy.com/?l=1&q=rick+roll\""
             }
           ]
         }
@@ -10298,12 +10299,14 @@
             {
               "name": "href",
               "raw_name": "href",
-              "value": "#"
+              "value": "#",
+              "raw_value": "\"#\""
             },
             {
               "name": "onclick",
               "raw_name": "onclick",
-              "value": "window.location='?l=1&q=rick+roll';return false"
+              "value": "window.location='?l=1&q=rick+roll';return false",
+              "raw_value": "\"window.location='?l=1&q=rick+roll';return false\""
             }
           ]
         }

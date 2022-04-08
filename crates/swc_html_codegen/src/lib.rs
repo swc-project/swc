@@ -205,8 +205,11 @@ where
                             start_tag.push_str(&attribute.name);
                         }
                     }
+                    if let Some(raw_value) = &attribute.raw_value {
+                        start_tag.push('=');
 
-                    if let Some(value) = &attribute.value {
+                        start_tag.push_str(raw_value);
+                    } else if let Some(value) = &attribute.value {
                         start_tag.push('=');
 
                         let quote = if value.contains('"') { '\'' } else { '"' };
@@ -256,7 +259,11 @@ where
                         }
                     }
 
-                    if let Some(value) = &attribute.value {
+                    if let Some(raw_value) = &attribute.raw_value {
+                        start_tag.push('=');
+
+                        start_tag.push_str(raw_value);
+                    } else if let Some(value) = &attribute.value {
                         start_tag.push('=');
 
                         let quote = if value.contains('"') { '\'' } else { '"' };

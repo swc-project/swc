@@ -13,7 +13,8 @@ pub struct Attribute {
     pub name: JsWord,
     pub raw_name: Option<JsWord>,
     pub value: Option<JsWord>,
-    // pub raw_value: Option<JsWord>,
+    // TODO improve me for html entity
+    pub raw_value: Option<JsWord>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

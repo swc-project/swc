@@ -22,182 +22,218 @@
             {
               "name": "0",
               "raw_name": "0",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "1",
               "raw_name": "1",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "2",
               "raw_name": "2",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "3",
               "raw_name": "3",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "4",
               "raw_name": "4",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "5",
               "raw_name": "5",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "6",
               "raw_name": "6",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "7",
               "raw_name": "7",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "8",
               "raw_name": "8",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "9",
               "raw_name": "9",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "a",
               "raw_name": "a",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "b",
               "raw_name": "b",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "c",
               "raw_name": "c",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "d",
               "raw_name": "d",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "e",
               "raw_name": "e",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "f",
               "raw_name": "f",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "g",
               "raw_name": "g",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "h",
               "raw_name": "h",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "i",
               "raw_name": "i",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "j",
               "raw_name": "j",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "k",
               "raw_name": "k",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "l",
               "raw_name": "l",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "m",
               "raw_name": "m",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "n",
               "raw_name": "n",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "o",
               "raw_name": "o",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "p",
               "raw_name": "p",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "q",
               "raw_name": "q",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "r",
               "raw_name": "r",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "s",
               "raw_name": "s",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "t",
               "raw_name": "t",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "u",
               "raw_name": "u",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "v",
               "raw_name": "v",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "w",
               "raw_name": "w",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "x",
               "raw_name": "x",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "y",
               "raw_name": "y",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "z",
               "raw_name": "z",
-              "value": null
+              "value": null,
+              "raw_value": null
             }
           ]
         }
@@ -249,7 +285,8 @@
             {
               "name": "title",
               "raw_name": "title",
-              "value": " <![CDATA[ \\n\\n foobar baz ]]> "
+              "value": " <![CDATA[ \\n\\n foobar baz ]]> ",
+              "raw_value": "\" <![CDATA[ \\n\\n foobar baz ]]> \""
             }
           ]
         }
@@ -315,7 +352,8 @@
             {
               "name": "title",
               "raw_name": "title",
-              "value": " <!-- hello world --> "
+              "value": " <!-- hello world --> ",
+              "raw_value": "\" <!-- hello world --> \""
             }
           ]
         }
@@ -381,12 +419,14 @@
             {
               "name": "v-ref:vm_pv",
               "raw_name": "v-ref:vm_pv",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": ":imgs",
               "raw_name": ":imgs",
-              "value": " objpicsurl_ "
+              "value": " objpicsurl_ ",
+              "raw_value": "\" objpicsurl_ \""
             }
           ]
         }
@@ -438,17 +478,20 @@
             {
               "name": "a",
               "raw_name": "a",
-              "value": "\\u00A0"
+              "value": "\\u00A0",
+              "raw_value": "\\u00A0"
             },
             {
               "name": "b",
               "raw_name": "b",
-              "value": ""
+              "value": " ",
+              "raw_value": "\" \""
             },
             {
               "name": "c",
               "raw_name": "c",
-              "value": "\\u00A0"
+              "value": "\\u00A0",
+              "raw_value": "\"\\u00A0\""
             }
           ]
         }
@@ -484,7 +527,8 @@
             {
               "name": "src",
               "raw_name": "src",
-              "value": "test"
+              "value": "test",
+              "raw_value": "\"test\""
             }
           ]
         }

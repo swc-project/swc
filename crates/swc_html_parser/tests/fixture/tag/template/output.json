@@ -22,7 +22,8 @@
             {
               "name": "id",
               "raw_name": "id",
-              "value": "element-details-template"
+              "value": "element-details-template",
+              "raw_value": "\"element-details-template\""
             }
           ]
         }
@@ -7458,7 +7459,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "name"
+              "value": "name",
+              "raw_value": "\"name\""
             }
           ]
         }
@@ -7494,7 +7496,8 @@
             {
               "name": "name",
               "raw_name": "name",
-              "value": "element-name"
+              "value": "element-name",
+              "raw_value": "\"element-name\""
             }
           ]
         }
@@ -7870,7 +7873,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "desc"
+              "value": "desc",
+              "raw_value": "\"desc\""
             }
           ]
         }
@@ -7892,7 +7896,8 @@
             {
               "name": "name",
               "raw_name": "name",
-              "value": "description"
+              "value": "description",
+              "raw_value": "\"description\""
             }
           ]
         }
@@ -8438,7 +8443,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "attributes"
+              "value": "attributes",
+              "raw_value": "\"attributes\""
             }
           ]
         }
@@ -8996,7 +9002,8 @@
             {
               "name": "name",
               "raw_name": "name",
-              "value": "attributes"
+              "value": "attributes",
+              "raw_value": "\"attributes\""
             }
           ]
         }

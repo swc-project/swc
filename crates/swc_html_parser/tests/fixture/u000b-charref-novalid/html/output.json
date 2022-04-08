@@ -44,7 +44,8 @@
             {
               "name": "charset",
               "raw_name": "charset",
-              "value": "utf-8"
+              "value": "utf-8",
+              "raw_value": "utf-8"
             }
           ]
         }

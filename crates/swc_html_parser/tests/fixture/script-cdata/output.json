@@ -22,7 +22,8 @@
             {
               "name": "type",
               "raw_name": "type",
-              "value": "text/javascript"
+              "value": "text/javascript",
+              "raw_value": "\"text/javascript\""
             }
           ]
         }

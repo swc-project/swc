@@ -62,7 +62,7 @@
    `----
 
   x StartTag { tag_name: Atom('a' type=inline), raw_tag_name: Some(Atom('a' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('href' type=inline), raw_name: Some(Atom('href'
-  | type=inline)), value: Some(Atom('https://www.w3schools.com' type=dynamic)) }] }
+  | type=inline)), value: Some(Atom('https://www.w3schools.com' type=dynamic)), raw_value: Some(Atom('https://www.w3schools.com' type=dynamic)) }] }
    ,-[$DIR/tests/fixture/broken-doctype/input.html:5:1]
  5 | <a href=https://www.w3schools.com>This is a link</a>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

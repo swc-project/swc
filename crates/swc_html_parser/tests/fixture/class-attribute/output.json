@@ -22,7 +22,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"
+              "value": "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z",
+              "raw_value": "\"0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z\""
             }
           ]
         }
@@ -74,7 +75,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "add sort keys createSorter"
+              "value": "add sort keys createSorter",
+              "raw_value": "\"add sort keys createSorter\""
             }
           ]
         }
@@ -126,7 +128,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "sprite sprite-{{sprite}}"
+              "value": "sprite sprite-{{sprite}}",
+              "raw_value": "\"sprite sprite-{{sprite}}\""
             }
           ]
         }
@@ -178,7 +181,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "{{sprite}}-sprite sprite"
+              "value": "{{sprite}}-sprite sprite",
+              "raw_value": "\"{{sprite}}-sprite sprite\""
             }
           ]
         }
@@ -230,7 +234,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "sprite-{{sprite}}-sprite"
+              "value": "sprite-{{sprite}}-sprite",
+              "raw_value": "\"sprite-{{sprite}}-sprite\""
             }
           ]
         }
@@ -282,7 +287,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "{{sprite}}"
+              "value": "{{sprite}}",
+              "raw_value": "\"{{sprite}}\""
             }
           ]
         }
@@ -334,7 +340,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "{{sprite}}"
+              "value": "{{sprite}}",
+              "raw_value": "{{sprite}}"
             }
           ]
         }
@@ -386,7 +393,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": null
+              "value": null,
+              "raw_value": null
             }
           ]
         }
@@ -438,7 +446,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"
+              "value": "nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar",
+              "raw_value": "\"nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar\""
             }
           ]
         }
@@ -490,7 +499,8 @@
             {
               "name": "class",
               "raw_name": "class",
-              "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"
+              "value": "moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz",
+              "raw_value": "\"moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz\""
             }
           ]
         }

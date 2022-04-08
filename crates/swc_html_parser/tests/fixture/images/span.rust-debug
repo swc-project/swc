@@ -424,9 +424,10 @@
    `----
 
   x StartTag { tag_name: Atom('img' type=inline), raw_tag_name: Some(Atom('img' type=inline)), self_closing: false, attributes: [Attribute { name: Atom('src' type=inline), raw_name: Some(Atom('src'
-  | type=inline)), value: Some(Atom('w3schools.jpg' type=dynamic)) }, Attribute { name: Atom('alt' type=inline), raw_name: Some(Atom('alt' type=inline)), value: Some(Atom('W3Schools.com'
-  | type=dynamic)) }, Attribute { name: Atom('width' type=inline), raw_name: Some(Atom('width' type=inline)), value: Some(Atom('104' type=inline)) }, Attribute { name: Atom('height' type=inline),
-  | raw_name: Some(Atom('height' type=inline)), value: Some(Atom('142' type=inline)) }] }
+  | type=inline)), value: Some(Atom('w3schools.jpg' type=dynamic)), raw_value: Some(Atom('"w3schools.jpg"' type=dynamic)) }, Attribute { name: Atom('alt' type=inline), raw_name: Some(Atom('alt'
+  | type=inline)), value: Some(Atom('W3Schools.com' type=dynamic)), raw_value: Some(Atom('"W3Schools.com"' type=dynamic)) }, Attribute { name: Atom('width' type=inline), raw_name: Some(Atom('width'
+  | type=inline)), value: Some(Atom('104' type=inline)), raw_value: Some(Atom('"104"' type=inline)) }, Attribute { name: Atom('height' type=inline), raw_name: Some(Atom('height' type=inline)),
+  | value: Some(Atom('142' type=inline)), raw_value: Some(Atom('"142"' type=inline)) }] }
    ,-[$DIR/tests/fixture/images/input.html:8:1]
  8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

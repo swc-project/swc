@@ -966,22 +966,26 @@
             {
               "name": "src",
               "raw_name": "src",
-              "value": "w3schools.jpg"
+              "value": "w3schools.jpg",
+              "raw_value": "\"w3schools.jpg\""
             },
             {
               "name": "alt",
               "raw_name": "alt",
-              "value": "W3Schools.com"
+              "value": "W3Schools.com",
+              "raw_value": "\"W3Schools.com\""
             },
             {
               "name": "width",
               "raw_name": "width",
-              "value": "104"
+              "value": "104",
+              "raw_value": "\"104\""
             },
             {
               "name": "height",
               "raw_name": "height",
-              "value": "142"
+              "value": "142",
+              "raw_value": "\"142\""
             }
           ]
         }

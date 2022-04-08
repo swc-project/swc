@@ -303,15 +303,22 @@ where
                         if let Some(attribute) = attributes.last_mut() {
                             let mut new_value = String::new();
 
-                            match &attribute.value {
-                                Some(value) => {
-                                    new_value.push_str(value);
-                                    new_value.push(c);
-                                }
-                                None => {}
+                            if let Some(value) = &attribute.value {
+                                new_value.push_str(value);
                             }
 
+                            new_value.push(c);
+
+                            let mut raw_new_value = String::new();
+
+                            if let Some(raw_value) = &attribute.raw_value {
+                                raw_new_value.push_str(raw_value);
+                            }
+
+                            raw_new_value.push(c);
+
                             attribute.value = Some(new_value.into());
+                            attribute.raw_value = Some(raw_new_value.into());
                         }
                     }
                     _ => {}
@@ -2082,6 +2089,7 @@ where
                                             name: c.to_string().into(),
                                             raw_name: Some(c.to_string().into()),
                                             value: None,
+                                            raw_value: None,
                                         });
                                     }
                                     _ => {}
@@ -2103,6 +2111,7 @@ where
                                             name: "".into(),
                                             raw_name: Some("".into()),
                                             value: None,
+                                            raw_value: None,
                                         });
                                     }
                                     _ => {}
@@ -2279,6 +2288,7 @@ where
                                             name: "".into(),
                                             raw_name: Some("".into()),
                                             value: None,
+                                            raw_value: None,
                                         });
                                     }
                                     _ => {}
@@ -2327,12 +2337,14 @@ where
                 }
                 // https://html.spec.whatwg.org/multipage/parsing.html#attribute-value-(double-quoted)-state
                 State::AttributeValueDoubleQuoted => {
+                    let mut is_before_value = true;
+
                     // Consume the next input character:
                     match self.consume_next_char() {
                         // U+0022 QUOTATION MARK (")
                         // Switch to the after attribute value (quoted) state.
                         // We set value to support empty attributes (i.e. `attr=""`)
-                        Some('"') => {
+                        Some(c @ '"') => {
                             if let Some(ref mut token) = self.cur_token {
                                 match token {
                                     Token::StartTag { attributes, .. }
@@ -2340,14 +2352,28 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            match &attribute.value {
-                                                Some(value) => {
-                                                    new_value.push_str(value);
-                                                }
-                                                None => {}
+                                            if let Some(value) = &attribute.value {
+                                                new_value.push_str(value);
+                                            }
+
+                                            let mut raw_new_value = String::new();
+
+                                            if is_before_value {
+                                                raw_new_value.push(c);
+
+                                                is_before_value = false;
+                                            }
+
+                                            if let Some(raw_value) = &attribute.raw_value {
+                                                raw_new_value.push_str(raw_value);
+                                            }
+
+                                            if !is_before_value {
+                                                raw_new_value.push(c);
                                             }
 
                                             attribute.value = Some(new_value.into());
+                                            attribute.raw_value = Some(raw_new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2366,7 +2392,7 @@ where
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Append a U+FFFD
                         // REPLACEMENT CHARACTER character to the current attribute's value.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
 
                             if let Some(ref mut token) = self.cur_token {
@@ -2376,16 +2402,22 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            match &attribute.value {
-                                                Some(value) => {
-                                                    new_value.push_str(value);
-                                                }
-                                                None => {}
+                                            if let Some(value) = &attribute.value {
+                                                new_value.push_str(value);
                                             }
 
                                             new_value.push(REPLACEMENT_CHARACTER);
 
+                                            let mut raw_new_value = String::new();
+
+                                            if let Some(raw_value) = &attribute.raw_value {
+                                                raw_new_value.push_str(raw_value);
+                                            }
+
+                                            raw_new_value.push(c);
+
                                             attribute.value = Some(new_value.into());
+                                            attribute.raw_value = Some(raw_new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2410,16 +2442,22 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            match &attribute.value {
-                                                Some(value) => {
-                                                    new_value.push_str(value);
-                                                }
-                                                None => {}
+                                            if let Some(value) = &attribute.value {
+                                                new_value.push_str(value);
                                             }
 
                                             new_value.push(c);
 
+                                            let mut raw_new_value = String::new();
+
+                                            if let Some(raw_value) = &attribute.raw_value {
+                                                raw_new_value.push_str(raw_value);
+                                            }
+
+                                            raw_new_value.push(c);
+
                                             attribute.value = Some(new_value.into());
+                                            attribute.raw_value = Some(raw_new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2430,12 +2468,14 @@ where
                 }
                 // https://html.spec.whatwg.org/multipage/parsing.html#attribute-value-(single-quoted)-state
                 State::AttributeValueSingleQuoted => {
+                    let mut is_before_value = true;
+
                     // Consume the next input character:
                     match self.consume_next_char() {
                         // U+0027 APOSTROPHE (')
                         // Switch to the after attribute value (quoted) state.
                         // We set value to support empty attributes (i.e. `attr=''`)
-                        Some('\'') => {
+                        Some(c @ '\'') => {
                             if let Some(ref mut token) = self.cur_token {
                                 match token {
                                     Token::StartTag { attributes, .. }
@@ -2443,14 +2483,28 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            match &attribute.value {
-                                                Some(value) => {
-                                                    new_value.push_str(value);
-                                                }
-                                                None => {}
+                                            if let Some(value) = &attribute.value {
+                                                new_value.push_str(value);
+                                            }
+
+                                            let mut raw_new_value = String::new();
+
+                                            if is_before_value {
+                                                raw_new_value.push(c);
+
+                                                is_before_value = false;
+                                            }
+
+                                            if let Some(raw_value) = &attribute.raw_value {
+                                                raw_new_value.push_str(raw_value);
+                                            }
+
+                                            if !is_before_value {
+                                                raw_new_value.push(c);
                                             }
 
                                             attribute.value = Some(new_value.into());
+                                            attribute.raw_value = Some(raw_new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2469,7 +2523,7 @@ where
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Append a U+FFFD
                         // REPLACEMENT CHARACTER character to the current attribute's value.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
 
                             if let Some(ref mut token) = self.cur_token {
@@ -2479,16 +2533,22 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            match &attribute.value {
-                                                Some(value) => {
-                                                    new_value.push_str(value);
-                                                }
-                                                None => {}
+                                            if let Some(value) = &attribute.value {
+                                                new_value.push_str(value);
                                             }
 
                                             new_value.push(REPLACEMENT_CHARACTER);
 
+                                            let mut raw_new_value = String::new();
+
+                                            if let Some(raw_value) = &attribute.raw_value {
+                                                raw_new_value.push_str(raw_value);
+                                            }
+
+                                            raw_new_value.push(c);
+
                                             attribute.value = Some(new_value.into());
+                                            attribute.raw_value = Some(raw_new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2513,16 +2573,22 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            match &attribute.value {
-                                                Some(value) => {
-                                                    new_value.push_str(value);
-                                                }
-                                                None => {}
+                                            if let Some(value) = &attribute.value {
+                                                new_value.push_str(value);
                                             }
 
                                             new_value.push(c);
 
+                                            let mut raw_new_value = String::new();
+
+                                            if let Some(raw_value) = &attribute.raw_value {
+                                                raw_new_value.push_str(raw_value);
+                                            }
+
+                                            raw_new_value.push(c);
+
                                             attribute.value = Some(new_value.into());
+                                            attribute.raw_value = Some(raw_new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2559,7 +2625,7 @@ where
                         // U+0000 NULL
                         // This is an unexpected-null-character parse error. Append a U+FFFD
                         // REPLACEMENT CHARACTER character to the current attribute's value.
-                        Some('\x00') => {
+                        Some(c @ '\x00') => {
                             self.emit_error(ErrorKind::UnexpectedNullCharacter);
 
                             if let Some(ref mut token) = self.cur_token {
@@ -2569,16 +2635,22 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            match &attribute.value {
-                                                Some(value) => {
-                                                    new_value.push_str(value);
-                                                }
-                                                None => {}
+                                            if let Some(value) = &attribute.value {
+                                                new_value.push_str(value);
                                             }
 
                                             new_value.push(REPLACEMENT_CHARACTER);
 
+                                            let mut raw_new_value = String::new();
+
+                                            if let Some(raw_value) = &attribute.raw_value {
+                                                raw_new_value.push_str(raw_value);
+                                            }
+
+                                            raw_new_value.push(c);
+
                                             attribute.value = Some(new_value.into());
+                                            attribute.raw_value = Some(raw_new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -2613,16 +2685,22 @@ where
                                         if let Some(attribute) = attributes.last_mut() {
                                             let mut new_value = String::new();
 
-                                            match &attribute.value {
-                                                Some(value) => {
-                                                    new_value.push_str(value);
-                                                }
-                                                None => {}
+                                            if let Some(value) = &attribute.value {
+                                                new_value.push_str(value);
                                             }
 
                                             new_value.push(c);
 
+                                            let mut raw_new_value = String::new();
+
+                                            if let Some(raw_value) = &attribute.raw_value {
+                                                raw_new_value.push_str(raw_value);
+                                            }
+
+                                            raw_new_value.push(c);
+
                                             attribute.value = Some(new_value.into());
+                                            attribute.raw_value = Some(raw_new_value.into());
                                         }
                                     }
                                     _ => {}
@@ -4844,16 +4922,22 @@ where
                                             if let Some(attribute) = attributes.last_mut() {
                                                 let mut new_value = String::new();
 
-                                                match &attribute.value {
-                                                    Some(value) => {
-                                                        new_value.push_str(value);
-                                                    }
-                                                    None => {}
+                                                if let Some(value) = &attribute.value {
+                                                    new_value.push_str(value);
                                                 }
 
                                                 new_value.push(c);
 
+                                                let mut raw_new_value = String::new();
+
+                                                if let Some(raw_value) = &attribute.raw_value {
+                                                    raw_new_value.push_str(raw_value);
+                                                }
+
+                                                raw_new_value.push(c);
+
                                                 attribute.value = Some(new_value.into());
+                                                attribute.raw_value = Some(raw_new_value.into());
                                             }
                                         }
                                         _ => {}

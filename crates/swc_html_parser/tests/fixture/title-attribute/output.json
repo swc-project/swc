@@ -132,7 +132,8 @@
             {
               "name": "title",
               "raw_name": "title",
-              "value": "I'm a header"
+              "value": "I'm a header",
+              "raw_value": "\"I'm a header\""
             }
           ]
         }
@@ -464,7 +465,8 @@
             {
               "name": "title",
               "raw_name": "title",
-              "value": "I'm a tooltip"
+              "value": "I'm a tooltip",
+              "raw_value": "\"I'm a tooltip\""
             }
           ]
         }

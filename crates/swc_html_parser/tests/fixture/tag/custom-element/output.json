@@ -22,12 +22,14 @@
             {
               "name": "img",
               "raw_name": "img",
-              "value": "img/alt.png"
+              "value": "img/alt.png",
+              "raw_value": "\"img/alt.png\""
             },
             {
               "name": "data-text",
               "raw_name": "data-text",
-              "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card."
+              "value": "Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card.",
+              "raw_value": "\"Your card validation code (CVC)\n  is an extra security feature — it is the last 3 or 4 numbers on the\n  back of your card.\""
             }
           ]
         }
@@ -93,12 +95,14 @@
             {
               "name": "l",
               "raw_name": "l",
-              "value": "100"
+              "value": "100",
+              "raw_value": "\"100\""
             },
             {
               "name": "c",
               "raw_name": "c",
-              "value": "red"
+              "value": "red",
+              "raw_value": "\"red\""
             }
           ]
         }
@@ -164,12 +168,14 @@
             {
               "name": "open",
               "raw_name": "open",
-              "value": null
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "disabled",
               "raw_name": "disabled",
-              "value": null
+              "value": null,
+              "raw_value": null
             }
           ]
         }
@@ -321,7 +327,8 @@
             {
               "name": "type",
               "raw_name": "type",
-              "value": "twitter"
+              "value": "twitter",
+              "raw_value": "\"twitter\""
             }
           ]
         }
@@ -343,7 +350,8 @@
             {
               "name": "href",
               "raw_name": "href",
-              "value": "..."
+              "value": "...",
+              "raw_value": "\"...\""
             }
           ]
         }
@@ -565,7 +573,8 @@
             {
               "name": "type",
               "raw_name": "type",
-              "value": "fb"
+              "value": "fb",
+              "raw_value": "\"fb\""
             }
           ]
         }
@@ -587,7 +596,8 @@
             {
               "name": "href",
               "raw_name": "href",
-              "value": "..."
+              "value": "...",
+              "raw_value": "\"...\""
             }
           ]
         }
@@ -823,7 +833,8 @@
             {
               "name": "type",
               "raw_name": "type",
-              "value": "plus"
+              "value": "plus",
+              "raw_value": "\"plus\""
             }
           ]
         }
@@ -845,7 +856,8 @@
             {
               "name": "href",
               "raw_name": "href",
-              "value": "..."
+              "value": "...",
+              "raw_value": "\"...\""
             }
           ]
         }
@@ -1511,7 +1523,8 @@
             {
               "name": "id",
               "raw_name": "id",
-              "value": "x-foo-from-template"
+              "value": "x-foo-from-template",
+              "raw_value": "\"x-foo-from-template\""
             }
           ]
         }
