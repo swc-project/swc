@@ -17,13 +17,28 @@ pub struct Attribute {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Token {
     Doctype {
+        // DOCTYPE keyword
         raw_keyword: Option<JsWord>,
+
+        // Name
         name: Option<JsWord>,
         raw_name: Option<JsWord>,
+
+        // Is recoverable?
         force_quirks: bool,
+
+        // PUBLIC keyword
         raw_public_keyword: Option<JsWord>,
+        // Quotes around public identifier
+        public_quote: Option<char>,
+        // Public identifier
         public_id: Option<JsWord>,
+
+        // SYSTEM keyword
         raw_system_keyword: Option<JsWord>,
+        // Quotes around system identifier
+        system_quote: Option<char>,
+        // System identifier
         system_id: Option<JsWord>,
     },
     // TODO raw `name` and `value` (with quotes) for attribute

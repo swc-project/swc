@@ -3428,8 +3428,10 @@ where
                                 name: None,
                                 raw_name: None,
                                 force_quirks: true,
+                                public_quote: None,
                                 raw_public_keyword: None,
                                 public_id: None,
+                                system_quote: None,
                                 raw_system_keyword: None,
                                 system_id: None,
                             });
@@ -3469,8 +3471,10 @@ where
                                 raw_name: Some(c.to_string().into()),
                                 force_quirks: false,
                                 raw_public_keyword: None,
+                                public_quote: None,
                                 public_id: None,
                                 raw_system_keyword: None,
+                                system_quote: None,
                                 system_id: None,
                             });
                             self.state = State::DoctypeName;
@@ -3487,8 +3491,10 @@ where
                                 raw_name: None,
                                 force_quirks: true,
                                 raw_public_keyword: None,
+                                public_quote: None,
                                 public_id: None,
                                 raw_system_keyword: None,
+                                system_quote: None,
                                 system_id: None,
                             });
                             self.state = State::DoctypeName;
@@ -3505,8 +3511,10 @@ where
                                 raw_name: None,
                                 force_quirks: true,
                                 raw_public_keyword: None,
+                                public_quote: None,
                                 public_id: None,
                                 raw_system_keyword: None,
+                                system_quote: None,
                                 system_id: None,
                             });
                             self.state = State::Data;
@@ -3524,8 +3532,10 @@ where
                                 raw_name: None,
                                 force_quirks: true,
                                 raw_public_keyword: None,
+                                public_quote: None,
                                 public_id: None,
                                 raw_system_keyword: None,
+                                system_quote: None,
                                 system_id: None,
                             });
                             self.emit_cur_token();
@@ -3543,8 +3553,10 @@ where
                                 raw_name: Some(c.to_string().into()),
                                 force_quirks: false,
                                 raw_public_keyword: None,
+                                public_quote: None,
                                 public_id: None,
                                 raw_system_keyword: None,
+                                system_quote: None,
                                 system_id: None,
                             });
                             self.state = State::DoctypeName;
@@ -3807,8 +3819,13 @@ where
                             self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword);
 
                             match &mut self.cur_token {
-                                Some(Token::Doctype { public_id, .. }) => {
+                                Some(Token::Doctype {
+                                    public_id,
+                                    public_quote,
+                                    ..
+                                }) => {
                                     *public_id = Some("".into());
+                                    *public_quote = Some('"');
                                 }
                                 _ => {
                                     unreachable!();
@@ -3826,8 +3843,13 @@ where
                             self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword);
 
                             match &mut self.cur_token {
-                                Some(Token::Doctype { public_id, .. }) => {
+                                Some(Token::Doctype {
+                                    public_id,
+                                    public_quote,
+                                    ..
+                                }) => {
                                     *public_id = Some("".into());
+                                    *public_quote = Some('\'');
                                 }
                                 _ => {
                                     unreachable!();
@@ -3913,8 +3935,13 @@ where
                         // (double-quoted) state.
                         Some('"') => {
                             match &mut self.cur_token {
-                                Some(Token::Doctype { public_id, .. }) => {
+                                Some(Token::Doctype {
+                                    public_id,
+                                    public_quote,
+                                    ..
+                                }) => {
                                     *public_id = Some("".into());
+                                    *public_quote = Some('"');
                                 }
                                 _ => {
                                     unreachable!();
@@ -3929,8 +3956,13 @@ where
                         // (single-quoted) state.
                         Some('\'') => {
                             match &mut self.cur_token {
-                                Some(Token::Doctype { public_id, .. }) => {
+                                Some(Token::Doctype {
+                                    public_id,
+                                    public_quote,
+                                    ..
+                                }) => {
                                     *public_id = Some("".into());
+                                    *public_quote = Some('\'');
                                 }
                                 _ => {
                                     unreachable!();
@@ -4216,8 +4248,13 @@ where
                             self.emit_error(ErrorKind::MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers);
 
                             match &mut self.cur_token {
-                                Some(Token::Doctype { system_id, .. }) => {
+                                Some(Token::Doctype {
+                                    system_id,
+                                    system_quote,
+                                    ..
+                                }) => {
                                     *system_id = Some("".into());
+                                    *system_quote = Some('"');
                                 }
                                 _ => {
                                     unreachable!();
@@ -4235,8 +4272,13 @@ where
                             self.emit_error(ErrorKind::MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers);
 
                             match &mut self.cur_token {
-                                Some(Token::Doctype { system_id, .. }) => {
+                                Some(Token::Doctype {
+                                    system_id,
+                                    system_quote,
+                                    ..
+                                }) => {
                                     *system_id = Some("".into());
+                                    *system_quote = Some('\'');
                                 }
                                 _ => {
                                     unreachable!();
@@ -4309,8 +4351,13 @@ where
                         // (double-quoted) state.
                         Some('"') => {
                             match &mut self.cur_token {
-                                Some(Token::Doctype { system_id, .. }) => {
+                                Some(Token::Doctype {
+                                    system_id,
+                                    system_quote,
+                                    ..
+                                }) => {
                                     *system_id = Some("".into());
+                                    *system_quote = Some('"');
                                 }
                                 _ => {
                                     unreachable!();
@@ -4325,8 +4372,13 @@ where
                         // (single-quoted) state.
                         Some('\'') => {
                             match &mut self.cur_token {
-                                Some(Token::Doctype { system_id, .. }) => {
+                                Some(Token::Doctype {
+                                    system_id,
+                                    system_quote,
+                                    ..
+                                }) => {
                                     *system_id = Some("".into());
+                                    *system_quote = Some('\'');
                                 }
                                 _ => {
                                     unreachable!();
@@ -4398,8 +4450,13 @@ where
                             self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypeSystemKeyword);
 
                             match &mut self.cur_token {
-                                Some(Token::Doctype { system_id, .. }) => {
+                                Some(Token::Doctype {
+                                    system_id,
+                                    system_quote,
+                                    ..
+                                }) => {
                                     *system_id = Some("".into());
+                                    *system_quote = Some('"');
                                 }
                                 _ => {
                                     unreachable!();
@@ -4417,8 +4474,13 @@ where
                             self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypeSystemKeyword);
 
                             match &mut self.cur_token {
-                                Some(Token::Doctype { system_id, .. }) => {
+                                Some(Token::Doctype {
+                                    system_id,
+                                    system_quote,
+                                    ..
+                                }) => {
                                     *system_id = Some("".into());
+                                    *system_quote = Some('\'');
                                 }
                                 _ => {
                                     unreachable!();
@@ -4504,8 +4566,13 @@ where
                         // (double-quoted) state.
                         Some('"') => {
                             match &mut self.cur_token {
-                                Some(Token::Doctype { system_id, .. }) => {
+                                Some(Token::Doctype {
+                                    system_id,
+                                    system_quote,
+                                    ..
+                                }) => {
                                     *system_id = Some("".into());
+                                    *system_quote = Some('"');
                                 }
                                 _ => {
                                     unreachable!();
@@ -4520,8 +4587,13 @@ where
                         // (single-quoted) state.
                         Some('\'') => {
                             match &mut self.cur_token {
-                                Some(Token::Doctype { system_id, .. }) => {
+                                Some(Token::Doctype {
+                                    system_id,
+                                    system_quote,
+                                    ..
+                                }) => {
                                     *system_id = Some("".into());
+                                    *system_quote = Some('\'');
                                 }
                                 _ => {
                                     unreachable!();

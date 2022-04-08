@@ -52,9 +52,11 @@ where
                 raw_keyword,
                 name,
                 raw_name,
+                public_quote,
                 raw_public_keyword,
                 public_id,
                 raw_system_keyword,
+                system_quote,
                 system_id,
                 ..
             } => {
@@ -91,15 +93,48 @@ where
                         }
                     }
 
-                    doctype.push('"');
+                    match public_quote {
+                        Some(public_quote) => {
+                            doctype.push(*public_quote);
+                        }
+                        _ => {
+                            doctype.push('"');
+                        }
+                    }
+
                     doctype.push_str(public_id);
-                    doctype.push('"');
+
+                    match public_quote {
+                        Some(public_quote) => {
+                            doctype.push(*public_quote);
+                        }
+                        _ => {
+                            doctype.push('"');
+                        }
+                    }
 
                     if let Some(system_id) = &system_id {
                         doctype.push(' ');
-                        doctype.push('"');
+
+                        match system_quote {
+                            Some(system_quote) => {
+                                doctype.push(*system_quote);
+                            }
+                            _ => {
+                                doctype.push('"');
+                            }
+                        }
+
                         doctype.push_str(system_id);
-                        doctype.push('"');
+
+                        match system_quote {
+                            Some(system_quote) => {
+                                doctype.push(*system_quote);
+                            }
+                            _ => {
+                                doctype.push('"');
+                            }
+                        }
                     }
                 } else if let Some(system_id) = &system_id {
                     doctype.push(' ');
@@ -115,9 +150,25 @@ where
                         }
                     }
 
-                    doctype.push('"');
+                    match system_quote {
+                        Some(system_quote) => {
+                            doctype.push(*system_quote);
+                        }
+                        _ => {
+                            doctype.push('"');
+                        }
+                    }
+
                     doctype.push_str(system_id);
-                    doctype.push('"');
+
+                    match system_quote {
+                        Some(system_quote) => {
+                            doctype.push(*system_quote);
+                        }
+                        _ => {
+                            doctype.push('"');
+                        }
+                    }
                 }
 
                 doctype.push('>');
