@@ -8,6 +8,9 @@
 - **(css/prefixer)** FIx a bug related to `writing-mode` (#4278) ([7f38e06](https://github.com/swc-project/swc/commit/7f38e06e0209216200182555c7c7ddb11499e45d))
 
 
+- **(es/minifier)** Fix handling of `eval` (#4273) ([c961371](https://github.com/swc-project/swc/commit/c961371c312f85553ab17eb1b67f0721861bcbf5))
+
+
 - **(es/module)** Support top-level await in dynamic imports (#4277) ([720244f](https://github.com/swc-project/swc/commit/720244fff9f3fcf5cb0ed4bcfc6e2a5795ad3be1))
 
 ### Features
