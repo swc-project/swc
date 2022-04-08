@@ -16,151 +16,224 @@
       "token": {
         "StartTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": [
             {
               "name": "0",
-              "value": null
+              "raw_name": "0",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "1",
-              "value": null
+              "raw_name": "1",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "2",
-              "value": null
+              "raw_name": "2",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "3",
-              "value": null
+              "raw_name": "3",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "4",
-              "value": null
+              "raw_name": "4",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "5",
-              "value": null
+              "raw_name": "5",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "6",
-              "value": null
+              "raw_name": "6",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "7",
-              "value": null
+              "raw_name": "7",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "8",
-              "value": null
+              "raw_name": "8",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "9",
-              "value": null
+              "raw_name": "9",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "a",
-              "value": null
+              "raw_name": "a",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "b",
-              "value": null
+              "raw_name": "b",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "c",
-              "value": null
+              "raw_name": "c",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "d",
-              "value": null
+              "raw_name": "d",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "e",
-              "value": null
+              "raw_name": "e",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "f",
-              "value": null
+              "raw_name": "f",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "g",
-              "value": null
+              "raw_name": "g",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "h",
-              "value": null
+              "raw_name": "h",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "i",
-              "value": null
+              "raw_name": "i",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "j",
-              "value": null
+              "raw_name": "j",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "k",
-              "value": null
+              "raw_name": "k",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "l",
-              "value": null
+              "raw_name": "l",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "m",
-              "value": null
+              "raw_name": "m",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "n",
-              "value": null
+              "raw_name": "n",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "o",
-              "value": null
+              "raw_name": "o",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "p",
-              "value": null
+              "raw_name": "p",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "q",
-              "value": null
+              "raw_name": "q",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "r",
-              "value": null
+              "raw_name": "r",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "s",
-              "value": null
+              "raw_name": "s",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "t",
-              "value": null
+              "raw_name": "t",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "u",
-              "value": null
+              "raw_name": "u",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "v",
-              "value": null
+              "raw_name": "v",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "w",
-              "value": null
+              "raw_name": "w",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "x",
-              "value": null
+              "raw_name": "x",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "y",
-              "value": null
+              "raw_name": "y",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": "z",
-              "value": null
+              "raw_name": "z",
+              "value": null,
+              "raw_value": null
             }
           ]
         }
@@ -176,6 +249,7 @@
       "token": {
         "EndTag": {
           "tag_name": "a",
+          "raw_tag_name": "a",
           "self_closing": false,
           "attributes": []
         }
@@ -190,7 +264,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -204,11 +279,14 @@
       "token": {
         "StartTag": {
           "tag_name": "p",
+          "raw_tag_name": "p",
           "self_closing": false,
           "attributes": [
             {
               "name": "title",
-              "value": " <![CDATA[ \\n\\n foobar baz ]]> "
+              "raw_name": "title",
+              "value": " <![CDATA[ \\n\\n foobar baz ]]> ",
+              "raw_value": "\" <![CDATA[ \\n\\n foobar baz ]]> \""
             }
           ]
         }
@@ -223,7 +301,8 @@
       },
       "token": {
         "Character": {
-          "value": "x"
+          "value": "x",
+          "raw": "x"
         }
       }
     },
@@ -237,6 +316,7 @@
       "token": {
         "EndTag": {
           "tag_name": "p",
+          "raw_tag_name": "p",
           "self_closing": false,
           "attributes": []
         }
@@ -251,7 +331,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -265,11 +346,14 @@
       "token": {
         "StartTag": {
           "tag_name": "p",
+          "raw_tag_name": "p",
           "self_closing": false,
           "attributes": [
             {
               "name": "title",
-              "value": " <!-- hello world --> "
+              "raw_name": "title",
+              "value": " <!-- hello world --> ",
+              "raw_value": "\" <!-- hello world --> \""
             }
           ]
         }
@@ -284,7 +368,8 @@
       },
       "token": {
         "Character": {
-          "value": "x"
+          "value": "x",
+          "raw": "x"
         }
       }
     },
@@ -298,6 +383,7 @@
       "token": {
         "EndTag": {
           "tag_name": "p",
+          "raw_tag_name": "p",
           "self_closing": false,
           "attributes": []
         }
@@ -312,7 +398,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -326,15 +413,20 @@
       "token": {
         "StartTag": {
           "tag_name": "tag",
+          "raw_tag_name": "tag",
           "self_closing": false,
           "attributes": [
             {
               "name": "v-ref:vm_pv",
-              "value": null
+              "raw_name": "v-ref:vm_pv",
+              "value": null,
+              "raw_value": null
             },
             {
               "name": ":imgs",
-              "value": " objpicsurl_ "
+              "raw_name": ":imgs",
+              "value": " objpicsurl_ ",
+              "raw_value": "\" objpicsurl_ \""
             }
           ]
         }
@@ -350,6 +442,7 @@
       "token": {
         "EndTag": {
           "tag_name": "tag",
+          "raw_tag_name": "tag",
           "self_closing": false,
           "attributes": []
         }
@@ -364,7 +457,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -378,19 +472,26 @@
       "token": {
         "StartTag": {
           "tag_name": "br",
+          "raw_tag_name": "br",
           "self_closing": false,
           "attributes": [
             {
               "name": "a",
-              "value": "\\u00A0"
+              "raw_name": "a",
+              "value": "\\u00A0",
+              "raw_value": "\\u00A0"
             },
             {
               "name": "b",
-              "value": ""
+              "raw_name": "b",
+              "value": " ",
+              "raw_value": "\" \""
             },
             {
               "name": "c",
-              "value": "\\u00A0"
+              "raw_name": "c",
+              "value": "\\u00A0",
+              "raw_value": "\"\\u00A0\""
             }
           ]
         }
@@ -405,7 +506,8 @@
       },
       "token": {
         "Character": {
-          "value": "\n"
+          "value": "\n",
+          "raw": "\n"
         }
       }
     },
@@ -419,11 +521,14 @@
       "token": {
         "StartTag": {
           "tag_name": "img",
+          "raw_tag_name": "img",
           "self_closing": true,
           "attributes": [
             {
               "name": "src",
-              "value": "test"
+              "raw_name": "src",
+              "value": "test",
+              "raw_value": "\"test\""
             }
           ]
         }

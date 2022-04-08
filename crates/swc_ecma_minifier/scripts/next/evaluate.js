@@ -8,9 +8,12 @@ const rl = readline.createInterface({
     terminal: false
 });
 
+function looseJsonParse(obj) {
+    return Function('"use strict";return (' + obj + ')')();
+}
 rl.on('line', async (data) => {
     try {
-        const { name, source } = eval(`(${data})`)
+        const { name, source } = looseJsonParse(`(${data})`)
         const targetPath = path.join(__dirname, '..', '..', 'tests', 'compress', 'fixture', 'next', 'raw', name.replace('.js', ''), 'input.js');
 
 
