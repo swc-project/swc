@@ -9642,21 +9642,3 @@ fn direct_eval_1() {
 
     run_exec_test(src, config, false);
 }
-
-#[test]
-fn eval_1() {
-    let src = r###"
-    {
-        const foo = 1;
-        const e = eval;
-        e('foo');
-    }
-    "###;
-
-    let config = r###"{
-        "defaults": true,
-        "toplevel": true
-    }"###;
-
-    run_exec_test(src, config, false);
-}
