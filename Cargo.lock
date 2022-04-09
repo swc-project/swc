@@ -3479,7 +3479,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.112.0"
+version = "0.112.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3879,7 +3879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.50.2"
+version = "0.50.3"
 dependencies = [
  "anyhow",
  "once_cell",
@@ -4450,7 +4450,7 @@ checksum = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
 
 [[package]]
 name = "wasm"
-version = "1.2.164"
+version = "1.2.165"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
