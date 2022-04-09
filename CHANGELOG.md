@@ -26,6 +26,9 @@
 - **(plugin)** Implement `Copy` and `Clone` for the comment proxy (#4280) ([3c4e520](https://github.com/swc-project/swc/commit/3c4e5204ecb51dd67c73ae5556c886b303891a23))
 
 
+- **(plugin)** Make more types serializable (#4289) ([281db2c](https://github.com/swc-project/swc/commit/281db2cc4f9af29577095038b37af5855a1e5aa5))
+
+
 - **(plugin/runner)** Allow fs access from wasi plugin (#4279) ([fc3a2d0](https://github.com/swc-project/swc/commit/fc3a2d0cf9a4767076dda3fac929b24a50144730))
 
 ### Miscellaneous Tasks
@@ -39,6 +42,9 @@
 
 
 - **(es/minifier)** Merge code for multi-replacer (#4269) ([434dcf4](https://github.com/swc-project/swc/commit/434dcf4af786a7d31827f7b078dea40efc35b64f))
+
+
+- **(plugin/api)** Expand the proxy crate (#4290) ([cf7ca50](https://github.com/swc-project/swc/commit/cf7ca5076a7f0b33f3587fb34f2eddcb2d316e5d))
 
 ## [1.2.164] - 2022-04-07
 
