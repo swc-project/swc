@@ -1,9 +1,9 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>", "OJ Kwon <kwon.ohjoong@gmail.com>"]
-description = "Internal sharable storage for the comments between host to the plugin"
+description = "Proxy structs to the hosts original structs for the plugin"
 edition = "2021"
 license = "Apache-2.0"
-name = "swc_plugin_comments"
+name = "swc_plugin_proxy"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.1.2"
 

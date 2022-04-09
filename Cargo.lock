@@ -2857,7 +2857,7 @@ dependencies = [
  "swc_error_reporters",
  "swc_node_base",
  "swc_node_comments",
- "swc_plugin_comments",
+ "swc_plugin_proxy",
  "swc_plugin_runner",
  "swc_visit",
  "testing",
@@ -3855,17 +3855,8 @@ dependencies = [
  "swc_ecma_quote",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_plugin_comments",
  "swc_plugin_macro",
-]
-
-[[package]]
-name = "swc_plugin_comments"
-version = "0.1.2"
-dependencies = [
- "better_scoped_tls",
- "rkyv",
- "swc_common",
+ "swc_plugin_proxy",
 ]
 
 [[package]]
@@ -3875,6 +3866,15 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "swc_plugin_proxy"
+version = "0.1.2"
+dependencies = [
+ "better_scoped_tls",
+ "rkyv",
+ "swc_common",
 ]
 
 [[package]]
@@ -3892,7 +3892,7 @@ dependencies = [
  "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_ecma_visit",
- "swc_plugin_comments",
+ "swc_plugin_proxy",
  "testing",
  "tracing",
  "wasmer",
