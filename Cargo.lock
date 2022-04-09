@@ -2959,7 +2959,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.17.20"
+version = "0.17.21"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3847,7 +3847,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.45.1"
+version = "0.45.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3879,7 +3879,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.50.3"
+version = "0.50.4"
 dependencies = [
  "anyhow",
  "once_cell",
