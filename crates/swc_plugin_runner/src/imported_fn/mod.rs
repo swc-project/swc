@@ -65,6 +65,7 @@ mod comments;
 mod handler;
 mod hygiene;
 mod set_transform_result;
+mod source_map;
 mod span;
 
 use handler::*;

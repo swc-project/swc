@@ -102,11 +102,14 @@ better_scoped_tls::scoped_tls!(
     pub static GLOBALS: Globals
 );
 
-/// Differentiates between real files and common virtual files.
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 #[derive(Debug, Eq, PartialEq, Clone, Ord, PartialOrd, Hash)]
 pub enum FileName {
-    Real(PathBuf),
-    /// A macro.  This includes the full name of the macro, so that there are no
+    Real(#[cfg_attr(feature = "rkyv", with(crate::source_map::EncodePathBuf))] PathBuf),
+    /// A macro. This includes the full name of the macro, so that there are no
     /// clashes.
     Macros(String),
     /// call to `quote!`
@@ -116,10 +119,111 @@ pub enum FileName {
     /// Hack in src/libsyntax/parse.rs
     MacroExpansion,
     ProcMacroSourceCode,
-    Url(Url),
+    Url(#[cfg_attr(feature = "rkyv", with(crate::source_map::EncodeUrl))] Url),
     Internal(String),
     /// Custom sources for explicit parser calls from plugins and drivers
     Custom(String),
+}
+
+/// A wrapper that attempts to convert a type to and from UTF-8.
+///
+/// Types like `OsString` and `PathBuf` aren't guaranteed to be encoded as
+/// UTF-8, but they usually are anyway. Using this wrapper will archive them as
+/// if they were regular `String`s.
+///
+/// There is built-in `AsString` supports PathBuf but it requires custom
+/// serializer wrapper to handle conversion errors. This wrapper is simplified
+/// version accepts errors
+#[cfg(feature = "rkyv")]
+#[derive(Debug, Clone, Copy)]
+pub struct EncodePathBuf;
+
+#[cfg(feature = "rkyv")]
+impl rkyv::with::ArchiveWith<PathBuf> for EncodePathBuf {
+    type Archived = rkyv::string::ArchivedString;
+    type Resolver = rkyv::string::StringResolver;
+
+    #[inline]
+    unsafe fn resolve_with(
+        field: &PathBuf,
+        pos: usize,
+        resolver: Self::Resolver,
+        out: *mut Self::Archived,
+    ) {
+        // It's safe to unwrap here because if the OsString wasn't valid UTF-8 it would
+        // have failed to serialize
+        rkyv::string::ArchivedString::resolve_from_str(field.to_str().unwrap(), pos, resolver, out);
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<S> rkyv::with::SerializeWith<PathBuf, S> for EncodePathBuf
+where
+    S: ?Sized + rkyv::ser::Serializer,
+{
+    #[inline]
+    fn serialize_with(field: &PathBuf, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+        let s = field.to_str().unwrap_or_default();
+        rkyv::string::ArchivedString::serialize_from_str(s, serializer)
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<D> rkyv::with::DeserializeWith<rkyv::string::ArchivedString, PathBuf, D> for EncodePathBuf
+where
+    D: ?Sized + rkyv::Fallible,
+{
+    #[inline]
+    fn deserialize_with(
+        field: &rkyv::string::ArchivedString,
+        _: &mut D,
+    ) -> Result<PathBuf, D::Error> {
+        Ok(<PathBuf as std::str::FromStr>::from_str(field.as_str()).unwrap())
+    }
+}
+
+/// A wrapper that attempts to convert a Url to and from String.
+#[cfg(feature = "rkyv")]
+#[derive(Debug, Clone, Copy)]
+pub struct EncodeUrl;
+
+#[cfg(feature = "rkyv")]
+impl rkyv::with::ArchiveWith<Url> for EncodeUrl {
+    type Archived = rkyv::string::ArchivedString;
+    type Resolver = rkyv::string::StringResolver;
+
+    #[inline]
+    unsafe fn resolve_with(
+        field: &Url,
+        pos: usize,
+        resolver: Self::Resolver,
+        out: *mut Self::Archived,
+    ) {
+        rkyv::string::ArchivedString::resolve_from_str(field.as_str(), pos, resolver, out);
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<S> rkyv::with::SerializeWith<Url, S> for EncodeUrl
+where
+    S: ?Sized + rkyv::ser::Serializer,
+{
+    #[inline]
+    fn serialize_with(field: &Url, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+        let field = field.as_str();
+        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
+    }
+}
+
+#[cfg(feature = "rkyv")]
+impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Url, D> for EncodeUrl
+where
+    D: ?Sized + rkyv::Fallible,
+{
+    #[inline]
+    fn deserialize_with(field: &rkyv::string::ArchivedString, _: &mut D) -> Result<Url, D::Error> {
+        Ok(Url::parse(field.as_str()).unwrap())
+    }
 }
 
 impl std::fmt::Display for FileName {
@@ -602,6 +706,10 @@ impl From<Vec<Span>> for MultiSpan {
 pub const NO_EXPANSION: SyntaxContext = SyntaxContext::empty();
 
 /// Identifies an offset of a multi-byte character in a SourceFile
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub struct MultiByteChar {
     /// The absolute offset of the character in the SourceMap
@@ -611,6 +719,10 @@ pub struct MultiByteChar {
 }
 
 /// Identifies an offset of a non-narrow character in a SourceFile
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum NonNarrowChar {
     /// Represents a zero-width character
@@ -674,6 +786,10 @@ impl Sub<BytePos> for NonNarrowChar {
 }
 
 /// A single source in the SourceMap.
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 #[derive(Clone)]
 pub struct SourceFile {
     /// The name of the file that the source came from. Source that doesn't
@@ -878,6 +994,10 @@ impl BytePos {
 /// A character offset. Because of multibyte utf8 characters, a byte offset
 /// is not equivalent to a character offset. The SourceMap will convert BytePos
 /// values to CharPos values as necessary.
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 #[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
 pub struct CharPos(pub usize);
 
@@ -969,6 +1089,10 @@ impl Sub for CharPos {
 //
 
 /// A source code location used for error reporting
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 #[derive(Debug, Clone)]
 pub struct Loc {
     /// Information about the original source
