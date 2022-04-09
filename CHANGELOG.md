@@ -5,6 +5,14 @@
 
 
 
+- **(es/lints)** Check parameters in the duplicate binding rule (#4288) ([e4a565c](https://github.com/swc-project/swc/commit/e4a565c2d4c90dc23267b44e8f4aee2e0cc79c23))
+
+## [1.2.165] - 2022-04-09
+
+### Bug Fixes
+
+
+
 - **(css/prefixer)** FIx a bug related to `writing-mode` (#4278) ([7f38e06](https://github.com/swc-project/swc/commit/7f38e06e0209216200182555c7c7ddb11499e45d))
 
 
