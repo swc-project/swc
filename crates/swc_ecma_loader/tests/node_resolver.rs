@@ -4,52 +4,63 @@ use std::{
     collections::HashMap,
     env::{current_dir, set_current_dir},
     path::PathBuf,
+    sync::{Arc, Mutex},
 };
 
 use anyhow::{anyhow, Error};
+use lazy_static::lazy_static;
 use swc_common::{collections::AHashMap, FileName};
 extern crate swc_ecma_loader;
 use swc_ecma_loader::{resolve::Resolve, resolvers::node::NodeModulesResolver, TargetEnv};
 
-fn set_test_directory(dir: &str) {
-    if let Ok(current_directory) = current_dir() {
-        let path = format!("{}{}", current_directory.display(), dir);
-        set_current_dir(path);
+fn inside_directory(dir: &str, callback: fn()) {
+    lazy_static! {
+        static ref UPDATE_DIR_MUTEX: Arc<Mutex<()>> = Arc::new(Mutex::new(()));
     }
+
+    let _change_dir_mutex = UPDATE_DIR_MUTEX.lock().unwrap();
+    let initial_current_dir = current_dir().unwrap();
+    let new_current_dir = format!("{}{}", initial_current_dir.display(), dir);
+
+    set_current_dir(new_current_dir).unwrap();
+    callback();
+    set_current_dir(initial_current_dir).unwrap();
 }
 
 #[test]
 fn basic_import() {
-    // Given
-    set_test_directory("/tests/basic_import");
-    let node_resolver = NodeModulesResolver::new(TargetEnv::Node, Default::default(), true);
+    inside_directory("/tests/basic_import", || {
+        // Given
+        let node_resolver = NodeModulesResolver::new(TargetEnv::Node, Default::default(), true);
 
-    // When
-    let resolved = node_resolver
-        .resolve(&FileName::Real(PathBuf::from(&"jquery")), &"jquery")
-        .expect("should resolve");
+        // When
+        let resolved = node_resolver
+            .resolve(&FileName::Real(PathBuf::from(&"jquery")), &"jquery")
+            .expect("should resolve");
 
-    // Expect
-    assert_eq!(
-        resolved,
-        FileName::Real(PathBuf::from("node_modules/jquery/index.js"))
-    );
+        // Expect
+        assert_eq!(
+            resolved,
+            FileName::Real(PathBuf::from("node_modules/jquery/index.js"))
+        );
+    });
 }
 
 #[test]
 fn hoisting() {
-    // Given
-    set_test_directory("/tests/hoisting/packages/app");
-    let node_resolver = NodeModulesResolver::new(TargetEnv::Node, Default::default(), true);
+    inside_directory("/tests/hoisting/packages/app", || {
+        // Given
+        let node_resolver = NodeModulesResolver::new(TargetEnv::Node, Default::default(), true);
 
-    // When
-    let resolved = node_resolver
-        .resolve(&FileName::Real(PathBuf::from(&"jquery")), &"jquery")
-        .expect("should resolve");
+        // When
+        let resolved = node_resolver
+            .resolve(&FileName::Real(PathBuf::from(&"jquery")), &"jquery")
+            .expect("should resolve");
 
-    // Expect
-    assert_eq!(
-        resolved,
-        FileName::Real(PathBuf::from("../../node_modules/jquery/index.js"))
-    );
+        // Expect
+        assert_eq!(
+            resolved,
+            FileName::Real(PathBuf::from("../../node_modules/jquery/index.js"))
+        );
+    });
 }
